@@ -1,6 +1,7 @@
 // @ts-check
 
 import mdx from '@astrojs/mdx';
+import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import { defineConfig, fontProviders } from 'astro/config';
@@ -9,7 +10,7 @@ import { locales } from './locales.mjs';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://cerberusk9.eu',
-	integrations: [mdx(), sitemap(), tailwind()],
+	integrations: [mdx(), sitemap(), tailwind(), react()],
 	i18n: {
 		locales: [...locales],
 		defaultLocale: 'pl',
