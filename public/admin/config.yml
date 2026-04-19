@@ -1,0 +1,232 @@
+# Decap CMS — CERBERUS K9
+# Replace [YOUR_GITHUB_USERNAME] in `repo` with your GitHub org or username (remove brackets).
+# Netlify: enable Git Gateway / OAuth and point the site at this repo.
+
+backend:
+  name: github
+  repo: '[YOUR_GITHUB_USERNAME]/cerberus-k9-website'
+  branch: main
+  base_url: https://api.netlify.com
+
+# Media uploaded from the CMS lands in the repo under public/uploads
+media_folder: public/uploads
+public_folder: /uploads
+
+locale: pl
+
+collections:
+  # --- 1. Aktualności (blog posts) ---
+  - name: aktualnosci
+    label: Aktualności
+    label_singular: Wpis
+    folder: src/content/aktualnosci
+    create: true
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: Tytuł, name: title, widget: string, required: true }
+      - { label: Data publikacji, name: date, widget: datetime, required: true, date_format: YYYY-MM-DD, time_format: HH:mm }
+      - label: Kategoria
+        name: category
+        widget: select
+        required: true
+        options:
+          - Aktualności
+          - Instruktorzy
+          - Partnerzy
+          - Rejestracja
+          - Media
+          - HARDEST HIT
+      - label: Lead
+        name: lead
+        widget: text
+        required: true
+        hint: 'Maksymalnie 160 znaków (krótki lead pod tytułem).'
+        pattern:
+          - '^.{1,160}$'
+          - 'Maksymalnie 160 znaków.'
+      - { label: Treść, name: body, widget: markdown, required: true }
+      - { label: Obraz wyróżniający, name: image, widget: image, required: false, choose_url: true }
+      - { label: Opis obrazu (alt), name: image_alt, widget: string, required: false }
+
+  # --- 2. Instruktorzy ---
+  - name: instruktorzy
+    label: Instruktorzy
+    label_singular: Instruktor
+    folder: src/content/instruktorzy
+    create: true
+    slug: '{{slug}}'
+    identifier_field: name
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: Imię i nazwisko, name: name, widget: string, required: true }
+      - { label: Kraj, name: country, widget: string, required: true }
+      - label: Kod kraju (flaga)
+        name: country_flag
+        widget: string
+        required: false
+        hint: 'Opcjonalnie: dwuliterowy kod ISO 3166-1 alpha-2, np. PL, DE.'
+      - label: Specjalizacje
+        name: specializations
+        widget: select
+        multiple: true
+        required: true
+        options:
+          - K9-Gryzienie
+          - K9-Detekcja
+          - K9-Tropienie-SAR
+          - Pozorant
+          - TCCC
+          - TCCC-K9
+          - Pierwsza-Pomoc
+          - Behawiorysta
+          - Konferencja
+      - label: Bio krótkie
+        name: bio_short
+        widget: text
+        required: true
+        hint: 'Maksymalnie 200 znaków.'
+        pattern:
+          - '^.{1,200}$'
+          - 'Maksymalnie 200 znaków.'
+      - { label: Bio pełne, name: bio_full, widget: markdown, required: true }
+      - { label: Zdjęcie, name: photo, widget: image, required: true, choose_url: true }
+      - { label: Kolejność sortowania, name: order, widget: number, value_type: int, min: 0, step: 1, default: 0 }
+
+  # --- 3. Partnerzy ---
+  - name: partnerzy
+    label: Partnerzy
+    label_singular: Partner
+    folder: src/content/partnerzy
+    create: true
+    slug: '{{slug}}'
+    identifier_field: name
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: Nazwa, name: name, widget: string, required: false }
+      - label: Typ
+        name: type
+        widget: select
+        required: false
+        options:
+          - Strategiczny
+          - Sponsor
+          - Patron-Medialny
+          - Technologiczny
+      - { label: Logo, name: logo, widget: image, required: false, choose_url: true }
+      - { label: Strona WWW, name: website, widget: string, required: false }
+      - { label: Opis, name: description, widget: text, required: false }
+      - { label: Kolejność sortowania, name: order, widget: number, value_type: int, min: 0, step: 1, default: 0 }
+
+  # --- 4. Galeria ---
+  - name: galeria
+    label: Galeria
+    label_singular: Zdjęcie
+    folder: src/content/galeria
+    create: true
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: Tytuł, name: title, widget: string, required: false }
+      - { label: Data, name: date, widget: date, required: false, format: YYYY-MM-DD }
+      - label: Kategoria
+        name: category
+        widget: select
+        required: false
+        options:
+          - HARDEST HIT
+          - Szkolenia K9
+          - TCCC
+          - Konferencja
+          - Drony
+      - label: Lokalizacja
+        name: location
+        widget: select
+        required: false
+        options:
+          - Terminal LPG
+          - Muzeum Gryf
+          - Stena Line
+          - 3MK Arena
+          - Szkoła Mundurowa
+          - Stadion Miejski
+      - label: Edycja
+        name: edition
+        widget: select
+        required: false
+        options:
+          - '2025'
+          - '2026'
+      - { label: Zdjęcie, name: photo, widget: image, required: true, choose_url: true }
+      - { label: Opis alternatywny (alt), name: alt, widget: string, required: false }
+      - label: Tagi
+        name: tags
+        widget: list
+        required: false
+        summary: '{{fields.tag}}'
+        field:
+          label: Tag
+          name: tag
+          widget: string
+
+  # --- 5. Program (agenda) ---
+  - name: program
+    label: Program
+    label_singular: Punkt programu
+    folder: src/content/program
+    create: true
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    extension: md
+    format: frontmatter
+    fields:
+      - label: Dzień
+        name: day
+        widget: select
+        required: false
+        options:
+          - Dzień 1
+          - Dzień 2
+      - { label: Godzina rozpoczęcia, name: time_start, widget: string, required: false, hint: 'np. 09:00' }
+      - { label: Godzina zakończenia, name: time_end, widget: string, required: false, hint: 'np. 10:30' }
+      - { label: Tytuł, name: title, widget: string, required: false }
+      - { label: Opis, name: description, widget: text, required: false }
+      - label: Lokalizacja
+        name: location
+        widget: select
+        required: false
+        options:
+          - 3MK Arena
+          - Szkoła Mundurowa
+          - Stadion Miejski
+          - Orlen
+      - label: Kategoria
+        name: category
+        widget: select
+        required: false
+        options:
+          - K9
+          - TCCC
+          - Drony
+          - Konferencja
+          - Ceremonia
+      - { label: Instruktor / prowadzący, name: instructor, widget: string, required: false }
+
+  # --- 6. Ustawienia globalne (jeden plik) ---
+  - name: ustawienia
+    label: Ustawienia
+    files:
+      - label: Ustawienia globalne
+        name: global
+        file: src/content/ustawienia.yml
+        format: yaml
+        fields:
+          - { label: Data wydarzenia, name: event_date, widget: datetime, required: false, date_format: YYYY-MM-DD, time_format: HH:mm }
+          - { label: Liczba uczestników (tekst), name: participants_count, widget: string, required: false }
+          - { label: Liczba krajów (tekst), name: countries_count, widget: string, required: false }
+          - { label: Liczba psów (tekst), name: dogs_count, widget: string, required: false }
+          - { label: Link Pretix, name: pretix_url, widget: string, required: false }
+          - { label: URL wideo hero, name: hero_video_url, widget: string, required: false }

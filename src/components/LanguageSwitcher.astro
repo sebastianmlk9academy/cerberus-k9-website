@@ -1,0 +1,111 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { locales } from '../../locales.mjs';
+
+interface Props {
+	lang: string;
+	localizedPath?: string;
+}
+
+const { lang, localizedPath = '' } = Astro.props;
+
+const flags: Record<string, string> = {
+	pl: '🇵🇱',
+	en: '🇬🇧',
+	de: '🇩🇪',
+	fr: '🇫🇷',
+	hr: '🇭🇷',
+	cs: '🇨🇿',
+	lt: '🇱🇹',
+	lv: '🇱🇻',
+	sk: '🇸🇰',
+	sl: '🇸🇮',
+	hu: '🇭🇺',
+	no: '🇳🇴',
+	sv: '🇸🇪',
+	nl: '🇳🇱',
+	es: '🇪🇸',
+	pt: '🇵🇹',
+	ro: '🇷🇴',
+	it: '🇮🇹',
+	ko: '🇰🇷',
+};
+
+const nativeNames: Record<string, string> = {
+	pl: 'Polski',
+	en: 'English',
+	de: 'Deutsch',
+	fr: 'Français',
+	hr: 'Hrvatski',
+	cs: 'Čeština',
+	lt: 'Lietuvių',
+	lv: 'Latviešu',
+	sk: 'Slovenčina',
+	sl: 'Slovenščina',
+	hu: 'Magyar',
+	no: 'Norsk',
+	sv: 'Svenska',
+	nl: 'Nederlands',
+	es: 'Español',
+	pt: 'Português',
+	ro: 'Română',
+	it: 'Italiano',
+	ko: '한국어',
+};
+
+const currentLabel = `${flags[lang] ?? '🌐'} ${nativeNames[lang] ?? lang}`;
+---
+
+<div class="relative text-sm">
+	<details
+		class="group rounded-md border border-border bg-navy text-bone shadow-md open:shadow-lg [&_summary::-webkit-details-marker]:hidden"
+		aria-label="Language"
+	>
+		<summary
+			class="flex cursor-pointer list-none items-center gap-2 px-3 py-2 font-medium outline-none ring-gold transition hover:bg-navyDeep focus-visible:ring-2"
+		>
+			<span aria-hidden="true">{currentLabel}</span>
+			<svg
+				class="h-4 w-4 shrink-0 text-muted transition group-open:rotate-180"
+				viewBox="0 0 20 20"
+				fill="currentColor"
+				aria-hidden="true"
+			>
+				<path
+					fill-rule="evenodd"
+					d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.24 4.5a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z"
+					clip-rule="evenodd"></path>
+			</svg>
+		</summary>
+		<div
+			class="absolute right-0 z-50 mt-1 max-h-72 min-w-[12rem] overflow-auto rounded-md border border-border bg-navyDeep py-1 shadow-xl"
+		>
+			<ul class="py-1">
+				{
+					locales.map((locale) => {
+						const href = getRelativeLocaleUrl(locale, localizedPath);
+						const active = locale === lang;
+						return (
+							<li>
+								<a
+									href={href}
+									hreflang={locale}
+									class:list={[
+										'flex items-center gap-2 px-3 py-2 text-left no-underline transition',
+										active ? 'bg-gold/20 text-gold' : 'text-bone hover:bg-navy hover:text-white',
+									]}
+									aria-current={active ? 'true' : undefined}
+								>
+									<span class="text-lg leading-none" aria-hidden="true">
+										{flags[locale]}
+									</span>
+									<span class="text-sm font-medium">{nativeNames[locale]}</span>
+								</a>
+							</li>
+						);
+					})
+				}
+			</ul>
+		</div>
+	</details>
+</div>

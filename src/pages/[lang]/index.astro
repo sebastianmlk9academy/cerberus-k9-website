@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LanguageSwitcher from '../../components/LanguageSwitcher.astro';
+import { getStaticPaths as buildLocaleStaticPaths, useTranslations, isLang } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+
+export const prerender = true;
+
+export const getStaticPaths = buildLocaleStaticPaths;
+
+const param = Astro.params.lang ?? '';
+const lang: Lang = isLang(param) ? param : 'pl';
+const t = useTranslations(lang);
+---
+
+<BaseLayout lang={lang} title={t('metaTitle')} description={t('metaDescription')} localizedPath="">
+	<header slot="header" class="border-b border-border bg-navy/95 backdrop-blur">
+		<div class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-4">
+			<a href={Astro.url.pathname} class="text-lg font-bold tracking-wide text-bone no-underline">
+				<span class="text-gold">CERBERUS</span> K9
+			</a>
+			<LanguageSwitcher lang={lang} localizedPath="" />
+		</div>
+	</header>
+
+	<main class="mx-auto max-w-3xl px-4 py-12">
+		<p class="text-sm uppercase tracking-widest text-muted">Fundacja PACTA K9 · Poland</p>
+		<h1 class="mt-2 text-4xl font-bold text-bone">{t('metaTitle')}</h1>
+		<p class="mt-6 text-lg leading-relaxed text-muted">{t('metaDescription')}</p>
+
+		<nav class="mt-10 flex flex-col gap-2 border-t border-border pt-8 text-sm font-semibold uppercase tracking-wide text-bone">
+			<span class="text-gold">{t('navAbout')}</span>
+			<span>{t('navInstructors')}</span>
+			<span>{t('navRegistration')}</span>
+			<span>{t('navFoundation')}</span>
+			<span>{t('navPartners')}</span>
+			<span>{t('navMedia')}</span>
+			<span>{t('navNews')}</span>
+			<span>{t('navGallery')}</span>
+			<span>{t('navContact')}</span>
+		</nav>
+
+		<div class="mt-10 flex flex-wrap gap-3">
+			<button
+				type="button"
+				class="rounded-md bg-gold px-4 py-2 text-sm font-semibold text-navyDeep shadow hover:opacity-90"
+			>
+				{t('btnRegister')}
+			</button>
+			<button
+				type="button"
+				class="rounded-md border border-border bg-transparent px-4 py-2 text-sm font-semibold text-bone hover:bg-navy"
+			>
+				{t('btnDownloadProgram')}
+			</button>
+		</div>
+
+		<p class="mt-8 text-xs text-muted">
+			{t('labelDay')} · {t('labelHour')} · {t('labelMinute')} · {t('labelSecond')} · {t('readMore')} · {t('back')} ·
+			{t('filters')} · {t('all')} · {t('search')}
+		</p>
+	</main>
+</BaseLayout>

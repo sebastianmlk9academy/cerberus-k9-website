@@ -1,0 +1,38 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import type { ImageMetadata } from 'astro';
+import FallbackImage from '../assets/blog-placeholder-1.jpg';
+import { getAbsoluteLocaleUrlList } from 'astro:i18n';
+import { locales } from '../../locales.mjs';
+
+interface Props {
+	lang: string;
+	title: string;
+	description: string;
+	localizedPath?: string;
+	image?: ImageMetadata;
+}
+
+const { lang, title, description, localizedPath = '', image } = Astro.props;
+const alternates = getAbsoluteLocaleUrlList(localizedPath);
+const plIndex = locales.indexOf('pl');
+const xDefaultHref = alternates[plIndex >= 0 ? plIndex : 0];
+---
+
+<!doctype html>
+<html lang={lang}>
+	<head>
+		<BaseHead title={title} description={description} image={image ?? FallbackImage} />
+		{
+			locales.map((locale, i) => (
+				<link rel="alternate" hreflang={locale} href={alternates[i]} />
+			))
+		}
+		<link rel="alternate" hreflang="x-default" href={xDefaultHref} />
+	</head>
+	<body class="min-h-screen bg-navyDeep font-sans text-bone antialiased">
+		<slot name="header" />
+		<slot />
+		<slot name="footer" />
+	</body>
+</html>
