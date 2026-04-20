@@ -1,9 +1,5 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { locales } from '../../i18n/utils';
-import { isLang } from '../../i18n/utils';
-import type { Lang } from '../../i18n/ui';
-import { HOME_OG_IMAGE, homeSeoByLang } from '../../i18n/homeSeo';
 import { NavBar } from '../../components/NavBar';
 import { HeroSection } from '../../components/HeroSection';
 import { StatsBar } from '../../components/StatsBar';
@@ -13,14 +9,11 @@ import { VideoSection } from '../../components/VideoSection';
 import { PartnersStrip } from '../../components/PartnersStrip';
 import LatestNews from '../../components/LatestNews';
 import { Footer } from '../../components/Footer';
+import { HOME_OG_IMAGE, homeSeoByLang } from '../../i18n/homeSeo';
 
 export const prerender = true;
 
-export const getStaticPaths = () =>
-	locales.filter((locale) => locale !== 'pl').map((lang) => ({ params: { lang } }));
-
-const param = Astro.params.lang ?? '';
-const lang: Lang = isLang(param) ? param : 'en';
+const lang = 'pl';
 const seo = homeSeoByLang[lang];
 
 const eventSchema = {
