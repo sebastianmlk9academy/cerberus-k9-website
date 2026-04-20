@@ -1,6 +1,4 @@
 ---
-import '@fontsource/bebas-neue';
-import '@fontsource/rajdhani/700.css';
 import BaseHead from '../components/BaseHead.astro';
 import type { ImageMetadata } from 'astro';
 import FallbackImage from '../assets/blog-placeholder-1.jpg';
@@ -32,6 +30,12 @@ const xDefaultHref = alternates[plIndex >= 0 ? plIndex : 0];
 			image={image ?? FallbackImage}
 			ogImage={ogImage}
 			ogType={ogType}
+		/>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Libre+Baskerville:wght@400;700&family=Rajdhani:wght@400;500;600;700&display=swap"
 		/>
 		{
 			locales.map((locale, i) => (
