@@ -43,21 +43,21 @@ const newsData: NewsCard[] = [
     title: "Potwierdzony udział US Police K9 SWAT na CERBERUS K9 2026",
     date: "15.04.2026",
     lead: "Oficjalnie potwierdzamy udział przewodnika K9 SWAT z USA wraz z pozorantem szkolącym jednostki specjalne.",
-    image: "/images/news-swat-k9.jpg",
+    image: "/images/news-swat-k9.webp",
   },
   {
     category: "REJESTRACJA",
     title: "Rejestracja otwarta — 250 miejsc, wstęp bezpłatny",
     date: "01.04.2026",
     lead: "Rejestracja na CERBERUS K9 2026 jest już dostępna. Liczba miejsc ograniczona. Wejście bezpłatne dla wszystkich uczestników.",
-    image: "/images/news-registration.jpg",
+    image: "/images/news-registration.webp",
   },
   {
     category: "PARTNERZY",
     title: "Marynarka Wojenna Portugalii dołącza do CERBERUS K9 2026",
     date: "20.03.2026",
     lead: "Jednostka K9 Marinha Portuguesa potwierdza udział — dwa zespoły z psami bojowymi z Lizbony.",
-    image: "/images/news-portugal-navy.jpg",
+    image: "/images/news-portugal-navy.webp",
   },
 ];
 
