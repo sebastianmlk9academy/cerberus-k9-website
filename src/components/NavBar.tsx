@@ -55,7 +55,7 @@ export function NavBar({ activeLink }: NavBarProps) {
     <nav
       className="sticky top-0 z-50 border-b"
       style={{
-        backgroundColor: '#0F1720',
+        backgroundColor: '#0C1018',
         borderBottomColor: '#253344',
       }}
     >
@@ -63,13 +63,9 @@ export function NavBar({ activeLink }: NavBarProps) {
         {/* LEFT SIDE — LOGO AREA */}
         <a href="#" className="flex items-center gap-2 md:gap-3 shrink-0">
           <img
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Cerberus%20K9%20logo-GcaIBCSVKfJV86cXL2hrCxpOWmWbtH.png"
+            src="/images/cerberus-k9-logo.png"
             alt="CERBERUS K9"
             className="h-10 md:h-12 object-contain"
-            style={{
-              filter:
-                'drop-shadow(0 0 1px #C4922A) drop-shadow(0 0 1px #C4922A) drop-shadow(0 0 0.5px #C4922A)',
-            }}
           />
           <div className="hidden sm:flex flex-col leading-none">
             <span
