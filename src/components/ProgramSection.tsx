@@ -85,6 +85,7 @@ export function ProgramSection() {
             {/* Description */}
             <p 
               className="h-[110px] font-[family-name:var(--font-libre-baskerville)] text-[13px] text-[#5A6A7A] leading-[1.65]"
+              style={{ marginTop: "50px" }}
             >
               {card.description}
             </p>

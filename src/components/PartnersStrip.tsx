@@ -220,6 +220,8 @@ function SectionHeader({ children, accent = false }: { children: React.ReactNode
 }
 
 export function PartnersStrip() {
+  const [isPartnerCtaHovered, setIsPartnerCtaHovered] = useState(false)
+
   return (
     <section className="w-full bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28] py-12 sm:py-16 md:py-20 px-4 sm:px-6 md:px-8">
       <div className="max-w-6xl mx-auto">
@@ -255,24 +257,22 @@ export function PartnersStrip() {
           <div className="mt-8 sm:mt-10 md:mt-12 flex justify-center">
             <a
               href="#"
-              className="
-                group inline-flex items-center gap-2
-                px-5 py-2.5 sm:px-6 sm:py-3
-                border border-[#C4922A]/30
-                rounded-full
-                font-rajdhani font-bold
-                text-[10px] sm:text-xs
-                tracking-[2px] sm:tracking-[3px]
-                text-[#C4922A]
-                transition-all duration-300
-                hover:border-[#C4922A]
-                hover:bg-[#C4922A]/10
-                hover:shadow-[0_0_20px_rgba(196,146,42,0.2)]
-              "
+              className="font-[family-name:var(--font-rajdhani)] uppercase transition-all duration-300"
+              style={{
+                fontSize: "11px",
+                letterSpacing: "2px",
+                color: isPartnerCtaHovered ? "#151E28" : "#E4DDD0",
+                border: "1px solid #C4922A",
+                padding: "14px 32px",
+                backgroundColor: isPartnerCtaHovered ? "#C4922A" : "transparent",
+                cursor: "pointer",
+              }}
+              onMouseEnter={() => setIsPartnerCtaHovered(true)}
+              onMouseLeave={() => setIsPartnerCtaHovered(false)}
             >
               <span>ZOSTAŃ PARTNEREM</span>
               <svg 
-                className="w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-1" 
+                className="w-3 h-3 sm:w-4 sm:h-4" 
                 fill="none" 
                 viewBox="0 0 24 24" 
                 stroke="currentColor"
