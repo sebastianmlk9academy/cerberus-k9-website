@@ -158,8 +158,11 @@ export function VideoSection() {
               </div>
               {/* Overlay Badge */}
               <div
-                className="absolute bottom-3 left-3 transition-colors duration-200 bg-[rgba(15,23,32,0.9)] text-[#C4922A] group-hover:bg-[#C42B2B] group-hover:text-white text-[8px] tracking-[2px] font-bold px-2.5 py-1"
-                style={{ fontFamily: "'Rajdhani', Trebuchet MS, sans-serif" }}
+                className="absolute bottom-3 left-3 bg-[rgba(15,23,32,0.9)] text-[#C4922A] group-hover:bg-[rgba(196,146,42,0.9)] group-hover:text-[#0F1720] text-[8px] tracking-[2px] font-bold px-2.5 py-1"
+                style={{
+                  fontFamily: "'Rajdhani', Trebuchet MS, sans-serif",
+                  transition: "background 0.2s ease, color 0.2s ease",
+                }}
               >
                 POLSKA ZBROJNA · PATRON MEDIALNY
               </div>

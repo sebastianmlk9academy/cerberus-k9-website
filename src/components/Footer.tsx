@@ -265,7 +265,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={social.label}
-                className="social-icon"
+                className="social-icon hover:text-[#C4922A] hover:scale-[1.2]"
                 style={{
                   width: "32px",
                   height: "32px",
@@ -274,7 +274,7 @@ export function Footer() {
                   justifyContent: "center",
                   color: "#FFFFFF",
                   textDecoration: "none",
-                  transition: "color 0.2s ease, opacity 0.2s ease",
+                  transition: "color 0.2s ease, transform 0.2s ease",
                   opacity: 0.7,
                 }}
               >
