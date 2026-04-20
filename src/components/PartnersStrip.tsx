@@ -106,9 +106,19 @@ function MediaPatronCard({ partner }: { partner: Partner }) {
       `} />
 
       {/* Logo */}
-      <div className="relative w-full h-16 sm:h-20 md:h-24 mb-3 sm:mb-4">
+      <div className="relative flex-1 w-full flex items-center justify-center p-2 mb-3 sm:mb-4 min-h-16 sm:min-h-20 md:min-h-24">
         {partner.logo && !imageError ? (
-          <img src={partner.logo} alt={partner.name} style={{ height: '20px', width: 'auto', objectFit: 'contain', marginRight: '8px', opacity: 0.7 }} onError={(e) => { e.currentTarget.style.display = 'none' }} />
+          <div className="flex items-center justify-center w-full h-full">
+            <img
+              src={partner.logo}
+              alt={partner.name}
+              className={`
+                w-full h-full object-contain transition-all duration-300
+                ${isHovered ? "opacity-100 scale-[1.05]" : "opacity-90 scale-100"}
+              `}
+              onError={() => setImageError(true)}
+            />
+          </div>
         ) : (
           <div className="w-full h-full flex items-center justify-center">
             <span className="text-[#C4922A] text-2xl font-bold">{partner.name[0]}</span>
@@ -119,7 +129,8 @@ function MediaPatronCard({ partner }: { partner: Partner }) {
       {/* Name */}
       <span className={`
         font-rajdhani font-bold
-        text-[10px] sm:text-xs
+        text-[10px]
+        mt-2
         tracking-[2px] sm:tracking-[3px]
         text-center
         transition-colors duration-300
@@ -153,9 +164,19 @@ function PartnerCard({ partner }: { partner: Partner }) {
       `}
     >
       {/* Logo */}
-      <div className="relative w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 mb-2 sm:mb-3">
+      <div className="relative flex-1 w-full flex items-center justify-center p-2 mb-2 sm:mb-3 min-h-12 sm:min-h-14 md:min-h-16">
         {partner.logo && !imageError ? (
-          <img src={partner.logo} alt={partner.name} style={{ height: '20px', width: 'auto', objectFit: 'contain', marginRight: '8px', opacity: 0.7 }} onError={(e) => { e.currentTarget.style.display = 'none' }} />
+          <div className="flex items-center justify-center w-full h-full">
+            <img
+              src={partner.logo}
+              alt={partner.name}
+              className={`
+                w-full h-full object-contain transition-all duration-300
+                ${isHovered ? "opacity-100 scale-[1.05]" : "opacity-90 scale-100"}
+              `}
+              onError={() => setImageError(true)}
+            />
+          </div>
         ) : (
           <div className="w-full h-full flex items-center justify-center rounded-full bg-[#253344]">
             <span className="text-[#5A6A7A] text-sm font-bold">{partner.name[0]}</span>
@@ -166,7 +187,8 @@ function PartnerCard({ partner }: { partner: Partner }) {
       {/* Name */}
       <span className={`
         font-rajdhani font-bold
-        text-[8px] sm:text-[9px] md:text-[10px]
+        text-[10px]
+        mt-2
         tracking-[1px] sm:tracking-[2px]
         text-center
         leading-tight
