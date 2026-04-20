@@ -265,7 +265,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={social.label}
-                className="social-icon hover:text-[#C4922A] hover:scale-[1.2]"
+                className="social-icon hover:!text-[#C4922A] hover:scale-[1.2]"
                 style={{
                   width: "32px",
                   height: "32px",
