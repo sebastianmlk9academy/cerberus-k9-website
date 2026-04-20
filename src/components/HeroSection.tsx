@@ -64,7 +64,7 @@ export function HeroSection() {
           backgroundSize: "100% 100%",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          opacity: 0.6,
+          opacity: 0.40,
         }}
       />
       {/* Dark overlay for text readability */}
