@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 :root {
+	--font-bebas-neue: 'Bebas Neue', Impact, sans-serif;
+	--font-bebas: 'Bebas Neue', Impact, sans-serif;
+	--font-rajdhani: 'Rajdhani', 'Trebuchet MS', sans-serif;
+	--font-libre: 'Libre Baskerville', Georgia, serif;
+	--font-libre-baskerville: 'Libre Baskerville', Georgia, serif;
+
 	--accent: #2337ff;
 	--accent-dark: #000d8a;
 	--black: 15, 18, 25;
