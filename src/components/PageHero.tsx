@@ -1,18 +1,32 @@
+import { Bebas_Neue, Rajdhani } from "next/font/google"
+
+const bebasNeue = Bebas_Neue({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-bebas-neue",
+})
+
+const rajdhani = Rajdhani({
+  weight: ["400", "500", "600"],
+  subsets: ["latin"],
+  variable: "--font-rajdhani",
+})
+
 interface PageHeroProps {
-  category: string
-  title: string
+  pageName: string
   subtitle: string
 }
 
-export function PageHero({ category, title, subtitle }: PageHeroProps) {
+export function PageHero({ pageName, subtitle }: PageHeroProps) {
   return (
     <section
-      className="relative w-full min-h-[200px] md:min-h-[280px] flex items-center justify-center border-b overflow-hidden px-4 py-8"
+      className={`${bebasNeue.variable} ${rajdhani.variable} relative w-full min-h-[200px] md:min-h-[280px] flex items-center justify-center border-b overflow-hidden px-4 py-8`}
       style={{
         backgroundColor: "#151E28",
         borderBottomColor: "#253344",
       }}
     >
+      {/* Subtle diagonal lines background */}
       <div
         className="absolute inset-0 opacity-30 pointer-events-none"
         style={{
@@ -25,7 +39,9 @@ export function PageHero({ category, title, subtitle }: PageHeroProps) {
         }}
       />
 
+      {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center text-center w-full max-w-4xl">
+        {/* Page Name */}
         <p
           className="mb-10 uppercase font-semibold"
           style={{
@@ -35,23 +51,25 @@ export function PageHero({ category, title, subtitle }: PageHeroProps) {
             color: "#FFFFFF",
           }}
         >
-          {category}
+          {pageName}
         </p>
 
+        {/* Title */}
         <h1
-          className="text-[32px] xs:text-[40px] sm:text-[52px] md:text-[64px] leading-none uppercase"
+          className="text-[32px] xs:text-[40px] sm:text-[52px] md:text-[64px] leading-none"
           style={{
             fontFamily: "var(--font-bebas-neue), sans-serif",
             letterSpacing: "2px",
-            lineHeight: "0.95",
-            color: "#E4DDD0",
+            lineHeight: "0.9",
           }}
         >
-          {title}
+          <span style={{ color: "#E4DDD0" }}>CERBERUS </span>
+          <span style={{ color: "#C42B2B" }}>K9</span>
         </h1>
 
+        {/* Subtitle */}
         <p
-          className="mt-3 uppercase text-[9px] xs:text-[10px] sm:text-[11px] max-w-2xl"
+          className="mt-3 uppercase text-[9px] xs:text-[10px] sm:text-[11px]"
           style={{
             fontFamily: "var(--font-rajdhani), sans-serif",
             letterSpacing: "3px",
