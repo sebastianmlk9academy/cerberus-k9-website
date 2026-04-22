@@ -86,26 +86,26 @@ export function VideoSection() {
 
   return (
     <section
-      className="w-full"
-      style={{ backgroundColor: "#0F1720", padding: "80px 5%" }}
+      className="w-full bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28]"
+      style={{ padding: "80px 5%" }}
     >
       {/* Header */}
-      <div className="flex items-center mb-8">
-        <div
-          style={{
-            width: "3px",
-            height: "24px",
-            backgroundColor: "#C42B2B",
-            display: "inline-block",
-          }}
-        />
+      <div className="mb-8 text-center">
+        <div className="flex items-center justify-center gap-4 mb-4">
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
+          <span 
+            className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]"
+          >
+            MEDIA I PRASA
+          </span>
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
+        </div>
         <h2
+          className="mt-3 font-[family-name:var(--font-rajdhani)] uppercase text-2xl sm:text-3xl lg:text-[32px]"
           style={{
-            fontFamily: "'Bebas Neue', Impact, sans-serif",
-            fontSize: "36px",
+            fontWeight: 700,
             color: "#E4DDD0",
             letterSpacing: "2px",
-            marginLeft: "14px",
           }}
         >
           RELACJA 2025
@@ -295,7 +295,7 @@ export function VideoSection() {
           fontFamily: "'Rajdhani', Trebuchet MS, sans-serif",
           fontSize: "15px",
           letterSpacing: "4px",
-          color: "#3A4A5A",
+          color: "#4A5A6A",
           marginTop: "32px",
         }}
       >

@@ -7,22 +7,26 @@ interface ButtonProps {
 }
 
 function CTAButton({ children }: ButtonProps) {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
     <button
-      className="font-[family-name:var(--font-rajdhani)] uppercase transition-all duration-300"
+      className="cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-6 sm:py-3.5"
       style={{
-        fontSize: "11px",
-        letterSpacing: "2px",
-        color: isHovered ? "#151E28" : "#E4DDD0",
+        backgroundColor: "transparent",
+        color: "#C4922A",
+        fontFamily: "var(--font-rajdhani), sans-serif",
+        letterSpacing: "3px",
+        fontWeight: 700,
+        borderRadius: 0,
         border: "1px solid #C4922A",
-        padding: "14px 32px",
-        backgroundColor: isHovered ? "#C4922A" : "transparent",
-        cursor: "pointer",
       }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.backgroundColor = "#C4922A";
+        e.currentTarget.style.color = "#1E2B38";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.backgroundColor = "transparent";
+        e.currentTarget.style.color = "#C4922A";
+      }}
     >
       {children}
     </button>
@@ -183,26 +187,19 @@ function NewsCardComponent({ card }: { card: NewsCard }) {
 
 export default function LatestNews() {
   return (
-    <section
-      className="px-4 sm:px-6 lg:px-[5%] py-12 sm:py-16 lg:py-20"
-      style={{
-        backgroundColor: "#151E28",
-      }}
-    >
+    <section className="bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28] px-4 sm:px-6 lg:px-[5%] py-12 sm:py-16 lg:py-20">
       {/* Section Header */}
       <div className="text-center mb-8 sm:mb-12">
         {/* Tag */}
-        <span
-          className="inline-block font-[family-name:var(--font-rajdhani)] uppercase mb-3 sm:mb-4 text-[9px] sm:text-[10px]"
-          style={{
-            letterSpacing: "3px",
-            color: "#C4922A",
-            border: "1px solid #253344",
-            padding: "6px 12px",
-          }}
-        >
-          AKTUALNOŚCI CERBERUS K9 2026
-        </span>
+        <div className="flex items-center justify-center gap-4 mb-4">
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
+          <span 
+            className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]"
+          >
+            AKTUALNOŚCI
+          </span>
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
+        </div>
 
         {/* Title */}
         <h2

@@ -10,7 +10,7 @@ interface ProgramCard {
 const programCards: ProgramCard[] = [
   {
     category: "◈ SZKOLENIA K9",
-    title: "PSY GRYZĄCE · DETEKCJA · TROPIENIE & SAR",
+    title: "PSY GRYZĄCE · DETEKCJA · TROPIENIE · SAR",
     description: "Służby i cywile w parach pies + przewodnik. Instruktorzy to emerytowani operatorzy JWK, OSŻW, policjanci. Do Waszej dyspozycji 8 topowych pozorantów z całej Europy i USA.",
     badge: "SŁUŻBY + CYWILE"
   },
@@ -22,7 +22,7 @@ const programCards: ProgramCard[] = [
   },
   {
     category: "◈ DRONY",
-    title: "OBRONA POWSZECHNA I ZARZĄDZANIE KRYZYSOWE",
+    title: "PILOTAŻ I TAKTYKA W DZIAŁANIU",
     description: "Praktyczny kurs pilotażu bezzałogowych statków powietrznych, mający zastosowanie w operacjach SAR, bezpieczeństwie publicznym i zarządzaniu kryzysowym.",
     badge: "GRUPY SAR + SŁUŻBY + ORGANIZACJE PROOBRONNE + CYWILE"
   },
@@ -36,23 +36,28 @@ const programCards: ProgramCard[] = [
 
 export function ProgramSection() {
   return (
-    <section className="bg-[#1E2B38] py-20 px-[5%]">
+    <section className="bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28] py-20 px-[5%]">
       {/* Section Header */}
-      <div className="mb-12">
+      <div className="mb-12 text-center">
         {/* Section Tag */}
         <div className="flex items-center justify-center gap-4 mb-4">
-          <div className="flex-1 h-px bg-[#253344]" />
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
           <span 
-            className="font-[family-name:var(--font-rajdhani)] text-[8px] font-medium tracking-[5px] text-[#C42B2B]"
+            className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]"
           >
-            PROGRAM GŁÓWNY · CERBERUS K9
+            PROGRAM GŁÓWNY
           </span>
-          <div className="flex-1 h-px bg-[#253344]" />
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
         </div>
         
         {/* Section Title */}
-        <h2 
-          className="font-[family-name:var(--font-bebas-neue)] text-[42px] text-[#E4DDD0] text-center tracking-[2px]"
+        <h2
+          className="font-[family-name:var(--font-rajdhani)] uppercase text-2xl sm:text-3xl lg:text-[32px]"
+          style={{
+            fontWeight: 700,
+            color: "#E4DDD0",
+            letterSpacing: "2px",
+          }}
         >
           CO CIĘ CZEKA
         </h2>

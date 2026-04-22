@@ -77,18 +77,25 @@ function LocationBlock({
 
 export function LocationsSection() {
   return (
-    <section style={{ backgroundColor: "#151E28" }} className="w-full">
+    <section className="w-full bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28]">
       {/* Section Header */}
       <div className="px-4 py-12 text-center sm:px-6 md:py-16">
-        <span
-          className="block text-[10px] font-semibold uppercase tracking-[3px] sm:text-[11px] md:text-[12px]"
-          style={{ color: "#5A6A7A" }}
-        >
-          MIEJSCA CERBERUS K9 · OSTRÓW WIELKOPOLSKI
-        </span>
+        <div className="flex items-center justify-center gap-4 mb-4">
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
+          <span 
+            className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]"
+          >
+            LOKALIZACJE
+          </span>
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
+        </div>
         <h2
-          className="mt-3 font-bebas text-[32px] uppercase tracking-wider sm:text-[40px] md:text-[48px]"
-          style={{ color: "#E4DDD0" }}
+          className="mt-3 font-[family-name:var(--font-rajdhani)] uppercase text-2xl sm:text-3xl lg:text-[32px]"
+          style={{
+            fontWeight: 700,
+            color: "#E4DDD0",
+            letterSpacing: "2px",
+          }}
         >
           INFRASTRUKTURA EVENTU
         </h2>

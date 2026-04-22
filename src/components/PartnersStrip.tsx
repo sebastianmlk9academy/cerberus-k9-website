@@ -205,7 +205,7 @@ function PartnerCard({ partner }: { partner: Partner }) {
 function SectionHeader({ children, accent = false }: { children: React.ReactNode; accent?: boolean }) {
   return (
     <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
-      <div className={`h-px flex-1 ${accent ? 'bg-gradient-to-r from-transparent via-[#C4922A]/40 to-transparent' : 'bg-gradient-to-r from-transparent via-[#3A4A5A]/40 to-transparent'}`} />
+      <div className={`h-px flex-1 bg-[length:50%_100%] bg-no-repeat bg-right ${accent ? 'bg-gradient-to-r from-transparent via-[#C4922A]/40 to-transparent' : 'bg-gradient-to-r from-transparent via-[#3A4A5A]/40 to-transparent'}`} />
       <h3 className={`
         font-rajdhani font-bold
         text-[10px] sm:text-xs md:text-sm
@@ -214,17 +214,39 @@ function SectionHeader({ children, accent = false }: { children: React.ReactNode
       `}>
         {children}
       </h3>
-      <div className={`h-px flex-1 ${accent ? 'bg-gradient-to-r from-transparent via-[#C4922A]/40 to-transparent' : 'bg-gradient-to-r from-transparent via-[#3A4A5A]/40 to-transparent'}`} />
+      <div className={`h-px flex-1 bg-[length:50%_100%] bg-no-repeat bg-left ${accent ? 'bg-gradient-to-r from-transparent via-[#C4922A]/40 to-transparent' : 'bg-gradient-to-r from-transparent via-[#3A4A5A]/40 to-transparent'}`} />
     </div>
   )
 }
 
 export function PartnersStrip() {
-  const [isPartnerCtaHovered, setIsPartnerCtaHovered] = useState(false)
-
   return (
     <section className="w-full bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28] py-12 sm:py-16 md:py-20 px-4 sm:px-6 md:px-8">
       <div className="max-w-6xl mx-auto">
+
+        {/* Section Header */}
+        <div className="text-center mb-8 sm:mb-12">
+          {/* Tag */}
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
+            <span
+              className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]"
+            >
+              PATRONATY I PARTNERSTWA
+            </span>
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
+          </div>
+          <h2
+            className="mt-3 font-[family-name:var(--font-rajdhani)] uppercase text-2xl sm:text-3xl lg:text-[32px]"
+            style={{
+              fontWeight: 700,
+              color: "#E4DDD0",
+              letterSpacing: "2px",
+            }}
+          >
+            PATRONATY
+          </h2>
+        </div>
 
         {/* Media Patronage Section */}
         <div className="mb-12 sm:mb-16 md:mb-20">
@@ -237,15 +259,20 @@ export function PartnersStrip() {
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="relative h-px w-full mb-12 sm:mb-16 md:mb-20">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#253344] to-transparent" />
-          <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rotate-45 bg-[#253344] border border-[#3A4A5A]" />
-        </div>
-
         {/* Partners Section */}
         <div>
-          <SectionHeader>PARTNERZY</SectionHeader>
+          <div className="text-center mb-6 sm:mb-8">
+            <h2
+              className="mt-3 font-[family-name:var(--font-rajdhani)] uppercase text-2xl sm:text-3xl lg:text-[32px]"
+              style={{
+                fontWeight: 700,
+                color: "#E4DDD0",
+                letterSpacing: "2px",
+              }}
+            >
+              PARTNERZY
+            </h2>
+          </div>
           
           <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 sm:gap-4 md:gap-5">
             {partners.map((partner) => (
@@ -257,20 +284,26 @@ export function PartnersStrip() {
           <div className="mt-8 sm:mt-10 md:mt-12 flex justify-center">
             <a
               href="#"
-              className="font-[family-name:var(--font-rajdhani)] uppercase transition-all duration-300"
+              className="flex items-center justify-center cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-6 sm:py-3.5"
               style={{
-                fontSize: "11px",
-                letterSpacing: "2px",
-                color: isPartnerCtaHovered ? "#151E28" : "#E4DDD0",
+                backgroundColor: "transparent",
+                color: "#C4922A",
+                fontFamily: "var(--font-rajdhani), sans-serif",
+                letterSpacing: "3px",
+                fontWeight: 700,
+                borderRadius: 0,
                 border: "1px solid #C4922A",
-                padding: "14px 32px",
-                backgroundColor: isPartnerCtaHovered ? "#C4922A" : "transparent",
-                cursor: "pointer",
               }}
-              onMouseEnter={() => setIsPartnerCtaHovered(true)}
-              onMouseLeave={() => setIsPartnerCtaHovered(false)}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = "#C4922A";
+                e.currentTarget.style.color = "#1E2B38";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "transparent";
+                e.currentTarget.style.color = "#C4922A";
+              }}
             >
-              <span>ZOSTAŃ PARTNEREM</span>
+              ZOSTAŃ PARTNEREM
             </a>
           </div>
         </div>
