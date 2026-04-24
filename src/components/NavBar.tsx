@@ -140,7 +140,7 @@ export function NavBar({ activeLink }: NavBarProps) {
             <button
               type="button"
               onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-              className="flex items-center gap-1.5 pb-1 transition-colors duration-150"
+              className="flex items-center gap-1.5 transition-colors duration-150"
               aria-label={`Current language: ${currentLang.name}. Click to change.`}
               style={{
                 fontFamily: "'Rajdhani', sans-serif",
@@ -148,7 +148,6 @@ export function NavBar({ activeLink }: NavBarProps) {
                 letterSpacing: '2px',
                 fontWeight: 700,
                 color: langDropdownOpen ? '#C4922A' : '#4A5A6A',
-                borderBottom: langDropdownOpen ? '2px solid #C4922A' : '2px solid transparent',
               }}
               onMouseEnter={(e: MouseEvent<HTMLButtonElement>) => {
                 e.currentTarget.style.color = '#C4922A';
@@ -233,15 +232,13 @@ export function NavBar({ activeLink }: NavBarProps) {
             href="#rejestracja"
             className="block transition-colors duration-150 shrink-0"
             style={{
-              alignSelf: 'center',
-              margin: '0',
               backgroundColor: '#C42B2B',
               color: 'white',
               fontFamily: "'Rajdhani', sans-serif",
               fontSize: 'clamp(8px, 2vw, 10px)',
               letterSpacing: 'clamp(1px, 0.5vw, 2px)',
               fontWeight: 700,
-              padding: '6px 10px',
+              padding: '8px 14px',
             }}
             onMouseEnter={(e: MouseEvent<HTMLAnchorElement>) => {
               e.currentTarget.style.backgroundColor = '#A82424';
