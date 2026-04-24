@@ -184,13 +184,26 @@ const legalRows: { label: string; value: string }[] = [
 		margin: 0 auto;
 	}
 	.fundacja-legal__heading {
-		font-family: 'Bebas Neue', sans-serif;
-		font-size: clamp(1.75rem, 4vw, 2.5rem);
-		letter-spacing: 0.08em;
+		font-family: var(--font-rajdhani), 'Rajdhani', sans-serif;
+		font-size: 1.5rem;
+		line-height: 2rem;
+		font-weight: 700;
+		letter-spacing: 2px;
 		color: #e4ddd0;
+		text-transform: uppercase;
 		margin: 0 0 2rem;
-		line-height: 1.1;
 		text-align: center;
+	}
+	@media (min-width: 640px) {
+		.fundacja-legal__heading {
+			font-size: 1.875rem;
+			line-height: 2.25rem;
+		}
+	}
+	@media (min-width: 1024px) {
+		.fundacja-legal__heading {
+			font-size: 32px;
+		}
 	}
 	.fundacja-legal__table {
 		display: flex;
