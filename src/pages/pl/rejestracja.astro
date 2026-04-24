@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { NavBar } from '../../components/NavBar';
+import { PageHero } from '../../components/PageHero';
+import RegistrationEmbed from '../../components/RegistrationEmbed';
+import { Footer } from '../../components/Footer';
+
+export const prerender = true;
+
+const lang = 'pl';
+const title = 'Rejestracja — CERBERUS K9 2026 | Bezpłatna rejestracja online';
+const description =
+	'Zarejestruj się bezpłatnie na CERBERUS K9 2026. 13-14 czerwca, Ostrów Wielkopolski. 250+ uczestników z 15+ krajów NATO.';
+---
+
+<BaseLayout lang={lang} title={title} description={description} localizedPath="rejestracja" ogType="website">
+	<script
+		slot="head"
+		type="text/javascript"
+		src="https://pretix.eu/widget/v1.en.js"
+		async
+		is:inline
+	></script>
+	<link
+		slot="head"
+		rel="stylesheet"
+		type="text/css"
+		href="https://pretix.eu/widget/v1.css"
+	/>
+	<NavBar client:load />
+	<PageHero
+		category="DOŁĄCZ DO NAS"
+		title="REJESTRACJA"
+		subtitle="WSTĘP BEZPŁATNY · WYMAGANA REJESTRACJA · 13–14 CZERWCA 2026"
+	/>
+	<RegistrationEmbed client:only="react" />
+	<Footer client:load />
+</BaseLayout>
