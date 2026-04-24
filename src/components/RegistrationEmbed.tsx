@@ -206,7 +206,7 @@ export function RegistrationIntro() {
         </a>
       </div>
 
-      {/* PretixWidget is rendered below via PretixWidgetEmbed.astro (outside React to avoid custom-element timing vs hydration). */}
+      {/* PretixWidget is rendered below via Astro component */}
     </>
   );
 }

@@ -5,7 +5,7 @@ import { isLang } from '../../i18n/utils';
 import type { Lang } from '../../i18n/ui';
 import { NavBar } from '../../components/NavBar';
 import { PageHero } from '../../components/PageHero';
-import RegistrationEmbed from '../../components/RegistrationEmbed';
+import RegistrationSection from '../../components/RegistrationSection.astro';
 import { Footer } from '../../components/Footer';
 
 export const prerender = true;
@@ -39,6 +39,6 @@ const canonicalHref = '/pl/rejestracja/';
 		title="REJESTRACJA"
 		subtitle="WSTĘP BEZPŁATNY · WYMAGANA REJESTRACJA · 13–14 CZERWCA 2026"
 	/>
-	<RegistrationEmbed client:only="react" />
+	<RegistrationSection />
 	<Footer client:load />
 </BaseLayout>

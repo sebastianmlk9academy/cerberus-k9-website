@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { NavBar } from '../../components/NavBar';
 import { PageHero } from '../../components/PageHero';
-import RegistrationEmbed from '../../components/RegistrationEmbed';
+import RegistrationSection from '../../components/RegistrationSection.astro';
 import { Footer } from '../../components/Footer';
 
 export const prerender = true;
@@ -20,6 +20,6 @@ const description =
 		title="REJESTRACJA"
 		subtitle="WSTĘP BEZPŁATNY · WYMAGANA REJESTRACJA · 13–14 CZERWCA 2026"
 	/>
-	<RegistrationEmbed client:only="react" />
+	<RegistrationSection />
 	<Footer client:load />
 </BaseLayout>

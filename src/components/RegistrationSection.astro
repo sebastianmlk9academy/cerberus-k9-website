@@ -1,0 +1,17 @@
+---
+import PretixWidgetEmbed from './PretixWidgetEmbed.astro';
+import { RegistrationAside, RegistrationIntro, RegistrationTip } from './RegistrationEmbed';
+---
+
+<section id="rejestracja" class="w-full" style="background-color: #1E2B38; padding: 80px 5%;">
+	<div class="mx-auto max-w-7xl">
+		<div class="grid grid-cols-1 gap-10 lg:grid-cols-[65%_35%] lg:gap-8">
+			<div>
+				<RegistrationIntro client:only="react" />
+				<PretixWidgetEmbed />
+				<RegistrationTip client:only="react" />
+			</div>
+			<RegistrationAside client:only="react" />
+		</div>
+	</div>
+</section>
