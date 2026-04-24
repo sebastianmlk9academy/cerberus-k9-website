@@ -1,0 +1,281 @@
+---
+/**
+ * Hosting: configure OVH MultiSite so the domain pactak9.org serves this site and maps the host
+ * to the `/fundacja` path (path-based multisite / subdirectory on the same hosting).
+ * Primary event site can remain on cerberusk9.org; the foundation microsite uses this page.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { NavBar } from '../../components/NavBar';
+import { PageHero } from '../../components/PageHero';
+import TeamSection from '../../components/TeamSection';
+import { Footer } from '../../components/Footer';
+
+export const prerender = true;
+
+const lang = 'pl';
+const title = 'Fundacja PACTA K9 — KRS 0001219121 | Misja, Wizja, Zarząd';
+const description =
+	'Fundacja PACTA K9: misja i wizja, zarząd, dane rejestrowe (KRS, NIP, REGON), cele statutowe wg §5 oraz odnośniki do statutu i KRS.';
+
+/** Cele szczegółowe wg §5 Statutu — treść zgodna z publikacją zarządu Fundacji (Facebook, styczeń 2025). */
+const statutoryGoals: string[] = [
+	'Edukacja dzieci, młodzieży i dorosłych w zakresie bezpieczeństwa publicznego, reagowania kryzysowego oraz odpowiedzialnej pracy z psem.',
+	'Organizowanie i prowadzenie szkoleń z zakresu szkolenia psów, pracy z psami oraz przygotowania opiekunów i przyszłych instruktorów.',
+	'Organizowanie szkoleń, seminariów i warsztatów dla osób pracujących z psami.',
+	'Organizowanie zawodów, imprez sportowych i wydarzeń, których motywem przewodnim jest pies, obronność i bezpieczeństwo.',
+	'Organizowanie campów, obozów szkoleniowych, spotkań integracyjnych i wydarzeń rodzinnych dla ludzi z psami.',
+	'Prowadzenie działań na rzecz osób z niepełnosprawnościami, z udziałem psów lub bez ich udziału, w szczególności poprzez szkolenia, zajęcia, pokazy, eventy oraz działania aktywizacyjne i rehabilitacyjne.',
+	'Tworzenie, prowadzenie i rozwijanie infrastruktury sportowej, rekreacyjnej i szkoleniowej dostępnej dla osób z niepełnosprawnościami, w tym torów sportowych, obiektów treningowych i terenów rekreacyjnych.',
+	'Prowadzenie działań na rzecz schronisk dla zwierząt oraz psów bezdomnych, w szczególności w zakresie ich szkolenia, socjalizacji, rehabilitacji oraz przygotowania do adopcji.',
+	'Promowanie humanitarnego traktowania zwierząt oraz odpowiedzialnej adopcji.',
+	'Wspieranie weteranów, instruktorów i osób działających na rzecz bezpieczeństwa publicznego.',
+	'Wspieranie współpracy krajowej i międzynarodowej środowisk K9.',
+];
+
+const legalRows: { label: string; value: string }[] = [
+	{ label: 'KRS', value: '0001219121' },
+	{ label: 'NIP', value: '6222869581' },
+	{ label: 'REGON', value: '543799847' },
+	{ label: 'Adres', value: 'ul. Odolanowska 17, 63-400 Topola Mała, woj. wielkopolskie' },
+	{
+		label: 'Prezes',
+		value: 'Mariusz Lis (jedyny upoważniony do składania oświadczeń woli)',
+	},
+	{ label: 'Wiceprezes', value: 'Sebastian Bożek' },
+	{ label: 'Status', value: 'Fundacja, osobowość prawna' },
+	{ label: 'Działalność', value: 'Non-profit, art. 3 ustawy o fundacjach' },
+];
+---
+
+<BaseLayout
+	lang={lang}
+	title={title}
+	description={description}
+	canonicalHref="/pl/fundacja"
+	omitLocaleAlternates
+	ogType="website"
+>
+	<NavBar client:load />
+	<PageHero
+		category="O NAS"
+		title="FUNDACJA PACTA K9"
+		subtitle="KRS: 0001219121 · TOPOLA MAŁA · WIELKOPOLSKA"
+	/>
+
+	<section class="fundacja-mission" aria-labelledby="fundacja-misja-heading">
+		<div class="fundacja-mission__inner">
+			<div class="fundacja-mission__col">
+				<h2 id="fundacja-misja-heading" class="fundacja-mission__title fundacja-mission__title--gold">
+					MISJA
+				</h2>
+				<p class="fundacja-mission__body">
+					Działalność na rzecz bezpieczeństwa publicznego, edukacji społecznej, ochrony zwierząt oraz poprawy
+					jakości życia ludzi, realizowana poprzez działania szkoleniowe, sportowe, edukacyjne i integracyjne z
+					udziałem psów.
+				</p>
+			</div>
+			<div class="fundacja-mission__col">
+				<h2 class="fundacja-mission__title fundacja-mission__title--red">WIZJA</h2>
+				<p class="fundacja-mission__body">
+					Budowanie największej w Polsce i jednej z największych w NATO platformy K9 łączącej profesjonalne
+					służby z cywilami, promującej obronność i bezpieczeństwo społeczeństwa.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<TeamSection client:load />
+
+	<section class="fundacja-legal" aria-labelledby="fundacja-legal-heading">
+		<div class="fundacja-legal__inner">
+			<h2 id="fundacja-legal-heading" class="fundacja-legal__heading">DANE REJESTROWE I FORMALNE</h2>
+
+			<dl class="fundacja-legal__table">
+				{
+					legalRows.map((row) => (
+						<div class="fundacja-legal__pair">
+							<dt>{row.label}</dt>
+							<dd>{row.value}</dd>
+						</div>
+					))
+				}
+			</dl>
+
+			<div class="fundacja-legal__cta-row">
+				<a class="fundacja-legal__cta fundacja-legal__cta--gold" href="/statut-pacta-k9.pdf">
+					Pobierz Statut Fundacji
+				</a>
+				<a
+					class="fundacja-legal__cta fundacja-legal__cta--outline"
+					href="https://ekrs.ms.gov.pl"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					Sprawdź w KRS ↗
+				</a>
+			</div>
+
+			<div class="fundacja-statute" aria-labelledby="fundacja-statute-heading">
+				<h3 id="fundacja-statute-heading" class="fundacja-statute__heading">Cele statutowe — §5 Statutu</h3>
+				<p class="fundacja-statute__intro">Celami szczegółowymi Fundacji są w szczególności:</p>
+				<ol class="fundacja-statute__list">
+					{statutoryGoals.map((text) => <li>{text}</li>)}
+				</ol>
+			</div>
+		</div>
+	</section>
+
+	<Footer client:load />
+</BaseLayout>
+
+<style>
+	.fundacja-mission {
+		background-color: #1e2b38;
+		padding: 64px 5%;
+	}
+	.fundacja-mission__inner {
+		max-width: 72rem;
+		margin: 0 auto;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 3rem;
+	}
+	@media (min-width: 768px) {
+		.fundacja-mission__inner {
+			grid-template-columns: 1fr 1fr;
+			gap: 4rem;
+		}
+	}
+	.fundacja-mission__title {
+		font-family: 'Bebas Neue', sans-serif;
+		font-size: clamp(2rem, 4vw, 2.75rem);
+		letter-spacing: 0.12em;
+		color: #e4ddd0;
+		margin: 0 0 1.25rem;
+		padding-bottom: 0.75rem;
+		border-bottom: 3px solid transparent;
+		line-height: 1.1;
+	}
+	.fundacja-mission__title--gold {
+		border-bottom-color: #c4922a;
+	}
+	.fundacja-mission__title--red {
+		border-bottom-color: #c42b2b;
+	}
+	.fundacja-mission__body {
+		font-family: 'Libre Baskerville', serif;
+		font-size: 0.95rem;
+		line-height: 1.75;
+		color: #7a8a96;
+		margin: 0;
+	}
+
+	.fundacja-legal {
+		background-color: #0f1720;
+		padding: 48px 5%;
+	}
+	.fundacja-legal__inner {
+		max-width: 48rem;
+		margin: 0 auto;
+	}
+	.fundacja-legal__heading {
+		font-family: 'Bebas Neue', sans-serif;
+		font-size: clamp(1.75rem, 4vw, 2.5rem);
+		letter-spacing: 0.08em;
+		color: #e4ddd0;
+		margin: 0 0 2rem;
+		line-height: 1.1;
+		text-align: center;
+	}
+	.fundacja-legal__table {
+		display: flex;
+		flex-direction: column;
+		gap: 0.65rem;
+		margin: 0 0 2rem;
+		font-family: 'Rajdhani', sans-serif;
+		font-size: 0.9375rem;
+		line-height: 1.45;
+	}
+	.fundacja-legal__pair {
+		display: grid;
+		grid-template-columns: minmax(6.5rem, 28%) 1fr;
+		gap: 0 1.25rem;
+		align-items: start;
+	}
+	.fundacja-legal__table dt {
+		margin: 0;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		color: #c4922a;
+		text-transform: uppercase;
+		font-size: 0.75rem;
+	}
+	.fundacja-legal__table dd {
+		margin: 0;
+		color: #b8c4ce;
+		font-weight: 500;
+	}
+	.fundacja-legal__cta-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+		justify-content: center;
+		margin-bottom: 3rem;
+	}
+	.fundacja-legal__cta {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.75rem 1.5rem;
+		font-family: 'Rajdhani', sans-serif;
+		font-weight: 700;
+		font-size: 0.7rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		text-decoration: none;
+		transition: opacity 0.15s ease;
+	}
+	.fundacja-legal__cta:hover {
+		opacity: 0.88;
+	}
+	.fundacja-legal__cta--gold {
+		background-color: #c4922a;
+		color: #0f1720;
+		border: 1px solid #c4922a;
+	}
+	.fundacja-legal__cta--outline {
+		background: transparent;
+		color: #e4ddd0;
+		border: 1px solid #253344;
+	}
+	.fundacja-statute__heading {
+		font-family: 'Bebas Neue', sans-serif;
+		font-size: 1.5rem;
+		letter-spacing: 0.1em;
+		color: #e4ddd0;
+		margin: 0 0 0.75rem;
+	}
+	.fundacja-statute__intro {
+		font-family: 'Rajdhani', sans-serif;
+		font-size: 0.8125rem;
+		color: #7a8a96;
+		margin: 0 0 1.25rem;
+		letter-spacing: 0.04em;
+	}
+	.fundacja-statute__list {
+		margin: 0;
+		padding-left: 1.25rem;
+		font-family: 'Libre Baskerville', serif;
+		font-size: 0.875rem;
+		line-height: 1.65;
+		color: #5a6a7a;
+	}
+	.fundacja-statute__list li {
+		margin-bottom: 0.65rem;
+		padding-left: 0.35rem;
+	}
+	.fundacja-statute__list li::marker {
+		color: #c42b2b;
+		font-weight: 700;
+	}
+</style>

@@ -15,12 +15,30 @@ interface Props {
 	ogType?: string;
 	canonicalHref?: string;
 	robots?: string;
+	/** When true, emit only pl + x-default alternates (use with canonicalHref for PL-only routes). */
+	omitLocaleAlternates?: boolean;
 }
 
-const { lang, title, description, localizedPath = '', image, ogImage, ogType, canonicalHref, robots } = Astro.props;
-const alternates = getAbsoluteLocaleUrlList(localizedPath);
+const {
+	lang,
+	title,
+	description,
+	localizedPath = '',
+	image,
+	ogImage,
+	ogType,
+	canonicalHref,
+	robots,
+	omitLocaleAlternates = false,
+} = Astro.props;
+const alternates = omitLocaleAlternates ? [] : getAbsoluteLocaleUrlList(localizedPath);
 const plIndex = locales.indexOf('pl');
 const xDefaultHref = alternates[plIndex >= 0 ? plIndex : 0];
+const canonicalAlternateHref = (
+	canonicalHref && canonicalHref.length > 0
+		? new URL(canonicalHref, Astro.site)
+		: new URL(Astro.url.pathname, Astro.site)
+).href;
 ---
 
 <!doctype html>
@@ -43,11 +61,20 @@ const xDefaultHref = alternates[plIndex >= 0 ? plIndex : 0];
 			href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Libre+Baskerville:wght@400;700&family=Rajdhani:wght@400;500;600;700&display=swap"
 		/>
 		{
-			locales.map((locale, i) => (
-				<link rel="alternate" hreflang={locale} href={alternates[i]} />
-			))
+			omitLocaleAlternates ? (
+				<>
+					<link rel="alternate" hreflang="pl" href={canonicalAlternateHref} />
+					<link rel="alternate" hreflang="x-default" href={canonicalAlternateHref} />
+				</>
+			) : (
+				<>
+					{locales.map((locale, i) => (
+						<link rel="alternate" hreflang={locale} href={alternates[i]} />
+					))}
+					<link rel="alternate" hreflang="x-default" href={xDefaultHref} />
+				</>
+			)
 		}
-		<link rel="alternate" hreflang="x-default" href={xDefaultHref} />
 	</head>
 	<body class="min-h-screen bg-navyDeep font-sans text-bone antialiased">
 		<slot name="header" />
