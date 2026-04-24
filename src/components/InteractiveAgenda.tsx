@@ -531,7 +531,7 @@ export default function InteractiveAgenda() {
               color: "#E4DDD0",
             }}
           >
-            CERBERUS K9 <span style={{ color: "#C4922A" }}>2026</span>
+            <span>CERBERUS </span><span style={{ color: "#C42B2B" }}>K9</span>
           </h1>
           <p
             style={{
@@ -880,23 +880,9 @@ export default function InteractiveAgenda() {
           style={{
             marginTop: 40,
             padding: "32px 20px",
-            borderTop: "1px solid #253344",
             textAlign: "center",
           }}
         >
-          <p
-            style={{
-              fontFamily: "'Rajdhani', sans-serif",
-              fontSize: 11,
-              letterSpacing: 3,
-              color: "#3A4A5A",
-              marginTop: 0,
-              marginBottom: 14,
-              fontWeight: 700,
-            }}
-          >
-            CAŁE WYDARZENIE — OD CEREMONII OTWARCIA DO ZAMKNIĘCIA
-          </p>
           <div
             style={{
               display: "inline-flex",
