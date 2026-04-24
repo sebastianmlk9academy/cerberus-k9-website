@@ -59,7 +59,10 @@ export function NavBar({ activeLink }: NavBarProps) {
         borderBottomColor: '#253344',
       }}
     >
-      <div className="h-14 md:h-16 max-w-7xl mx-auto px-3 md:px-4 flex items-center justify-between">
+      <div
+        className="h-14 md:h-16 max-w-7xl mx-auto px-3 md:px-4 flex items-center justify-between"
+        style={{ display: 'flex', alignItems: 'center' }}
+      >
         {/* LEFT SIDE — LOGO AREA */}
         <a href="#" className="flex items-center gap-2 md:gap-3 shrink-0">
           <img
