@@ -70,7 +70,15 @@ export default function InstructorCard({
       </div>
 
       {/* Content area */}
-      <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+      <div
+        style={{
+          padding: '20px',
+          display: 'grid',
+          gridTemplateRows: 'auto auto 80px 96px auto',
+          gap: '0px',
+          alignItems: 'start',
+        }}
+      >
         {/* Name */}
         <h3
           style={{
@@ -113,7 +121,10 @@ export default function InstructorCard({
         </p>
 
         {/* Specialization tags */}
-        <div className="flex flex-wrap" style={{ gap: '6px', marginBottom: '14px', flexShrink: 0 }}>
+        <div
+          className="flex flex-wrap"
+          style={{ gap: '6px', marginBottom: '14px', flexShrink: 0, height: '80px', overflow: 'hidden' }}
+        >
           {specializations.map((spec) => {
             const style = TAG_STYLES[spec] ?? DEFAULT_TAG;
             return (
@@ -141,11 +152,11 @@ export default function InstructorCard({
         {/* Short bio — hidden when expanded */}
         <div
           style={{
-            flex: 1,
-            maxHeight: expanded ? '0px' : '200px',
+            height: expanded ? '0px' : '96px',
             overflow: 'hidden',
+            alignSelf: 'start',
             opacity: expanded ? 0 : 1,
-            transition: 'max-height 300ms ease, opacity 200ms ease',
+            transition: 'height 300ms ease, opacity 200ms ease',
           }}
         >
           <p
@@ -165,55 +176,56 @@ export default function InstructorCard({
           </p>
         </div>
 
-        {/* Expand/collapse button */}
-        <button
-          onClick={() => setExpanded(!expanded)}
-          className="flex items-center gap-1 bg-transparent border-none"
-          style={{
-            flexShrink: 0,
-            marginTop: 'auto',
-            fontFamily: 'Rajdhani, sans-serif',
-            fontSize: '9px',
-            letterSpacing: '2px',
-            color: '#C4922A',
-            fontWeight: 700,
-            cursor: 'pointer',
-            padding: 0,
-          }}
-        >
-          {expanded ? 'ZWIŃ BIO' : 'ROZWIŃ BIO'}
-          <ChevronDown
-            size={12}
+        <div style={{ marginTop: '0px', alignSelf: 'start' }}>
+          {/* Expand/collapse button */}
+          <button
+            onClick={() => setExpanded(!expanded)}
+            className="flex items-center gap-1 bg-transparent border-none"
             style={{
-              transition: 'transform 300ms ease',
-              transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
-            }}
-          />
-        </button>
-
-        {/* Expanded bio */}
-        <div
-          style={{
-            flexShrink: 0,
-            maxHeight: expanded ? '500px' : '0px',
-            overflow: 'hidden',
-            transition: 'max-height 300ms ease',
-            borderTop: expanded ? '1px solid #253344' : '1px solid transparent',
-            marginTop: '12px',
-            paddingTop: expanded ? '12px' : '0px',
-          }}
-        >
-          <p
-            style={{
-              fontFamily: "'Libre Baskerville', serif",
-              fontSize: '13px',
-              color: '#7A8A96',
-              lineHeight: 1.75,
-              margin: 0,
+              flexShrink: 0,
+              fontFamily: 'Rajdhani, sans-serif',
+              fontSize: '9px',
+              letterSpacing: '2px',
+              color: '#C4922A',
+              fontWeight: 700,
+              cursor: 'pointer',
+              padding: 0,
             }}
           >
-            {bioFull}
-          </p>
+            {expanded ? 'ZWIŃ BIO' : 'ROZWIŃ BIO'}
+            <ChevronDown
+              size={12}
+              style={{
+                transition: 'transform 300ms ease',
+                transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+              }}
+            />
+          </button>
+
+          {/* Expanded bio */}
+          <div
+            style={{
+              flexShrink: 0,
+              maxHeight: expanded ? '500px' : '0px',
+              overflow: 'hidden',
+              transition: 'max-height 300ms ease',
+              borderTop: expanded ? '1px solid #253344' : '1px solid transparent',
+              marginTop: '12px',
+              paddingTop: expanded ? '12px' : '0px',
+            }}
+          >
+            <p
+              style={{
+                fontFamily: "'Libre Baskerville', serif",
+                fontSize: '13px',
+                color: '#7A8A96',
+                lineHeight: 1.75,
+                margin: 0,
+              }}
+            >
+              {bioFull}
+            </p>
+          </div>
         </div>
       </div>
     </div>
