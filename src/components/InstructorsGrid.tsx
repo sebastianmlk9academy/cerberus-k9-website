@@ -204,7 +204,7 @@ export default function InstructorsGrid({ instructors }: InstructorsGridProps) {
             className="instructors-grid-layout"
             style={{
               display: 'grid',
-              gap: '5px',
+              gap: '10px',
               padding: '5px',
             }}
           >
