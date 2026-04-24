@@ -1,9 +1,10 @@
 interface PageHeroProps {
   pageName: string
   subtitle: string
+  pageLabel?: string
 }
 
-export function PageHero({ pageName, subtitle }: PageHeroProps) {
+export function PageHero({ pageName, subtitle, pageLabel }: PageHeroProps) {
   return (
     <section
       className="relative w-full min-h-[200px] md:min-h-[280px] flex items-center justify-center border-b overflow-hidden px-4 py-8"
@@ -39,6 +40,23 @@ export function PageHero({ pageName, subtitle }: PageHeroProps) {
         >
           {pageName}
         </p>
+
+        {pageLabel && (
+          <span
+            style={{
+              fontFamily: "'Rajdhani', sans-serif",
+              fontSize: "9px",
+              fontWeight: 700,
+              letterSpacing: "5px",
+              color: "#C4922A",
+              textTransform: "uppercase",
+              display: "block",
+              marginBottom: "12px",
+            }}
+          >
+            {pageLabel}
+          </span>
+        )}
 
         {/* Title */}
         <h1
