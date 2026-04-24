@@ -123,7 +123,7 @@ export default function InstructorCard({
         {/* Specialization tags */}
         <div
           className="flex flex-wrap"
-          style={{ gap: '6px', marginBottom: '14px', flexShrink: 0, height: '80px', overflow: 'hidden' }}
+          style={{ gap: '6px', marginBottom: '14px', flexShrink: 0, height: '80px', overflow: 'hidden', alignContent: 'start', alignItems: 'start', alignSelf: 'start' }}
         >
           {specializations.map((spec) => {
             const style = TAG_STYLES[spec] ?? DEFAULT_TAG;
