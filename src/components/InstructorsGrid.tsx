@@ -75,6 +75,32 @@ const FALLBACK: Instructor[] = [
 
 const FILTERS = ['WSZYSCY', 'K9', 'TCCC', 'DRONY', 'KONFERENCJA', 'POZORANT'];
 
+const partnerButtonStyle: React.CSSProperties = {
+  backgroundColor: 'transparent',
+  color: '#C4922A',
+  fontFamily: 'var(--font-rajdhani), sans-serif',
+  letterSpacing: '3px',
+  fontWeight: 700,
+  borderRadius: 0,
+  border: '1px solid #C4922A',
+  transition: 'background-color 150ms ease, color 150ms ease',
+  cursor: 'pointer',
+};
+
+const handlePartnerButtonMouseEnter = (
+  e: React.MouseEvent<HTMLButtonElement>,
+) => {
+  e.currentTarget.style.backgroundColor = '#C4922A';
+  e.currentTarget.style.color = '#1E2B38';
+};
+
+const handlePartnerButtonMouseLeave = (
+  e: React.MouseEvent<HTMLButtonElement>,
+) => {
+  e.currentTarget.style.backgroundColor = 'transparent';
+  e.currentTarget.style.color = '#C4922A';
+};
+
 export default function InstructorsGrid({ instructors }: InstructorsGridProps) {
   const [activeFilter, setActiveFilter] = useState('WSZYSCY');
   const data = (instructors && instructors.length > 0) ? instructors : FALLBACK;
@@ -115,29 +141,16 @@ export default function InstructorsGrid({ instructors }: InstructorsGridProps) {
             key={f}
             onClick={() => setActiveFilter(f)}
             style={{
-              fontFamily: 'Rajdhani, sans-serif',
-              fontSize: '9px',
-              letterSpacing: '2px',
-              fontWeight: 700,
-              padding: '6px 16px',
-              cursor: 'pointer',
-              border: '1px solid',
-              borderColor: activeFilter === f ? '#C4922A' : '#253344',
-              background: activeFilter === f ? '#C4922A' : 'transparent',
-              color: activeFilter === f ? '#0F1720' : '#4A5A6A',
-              transition: 'all 150ms ease',
+              ...partnerButtonStyle,
+              backgroundColor: activeFilter === f ? '#C4922A' : 'transparent',
+              color: activeFilter === f ? '#1E2B38' : '#C4922A',
+              padding: '8px 14px',
+              fontSize: 11,
             }}
-            onMouseEnter={e => {
-              if (activeFilter !== f) {
-                e.currentTarget.style.borderColor = '#C4922A';
-                e.currentTarget.style.color = '#C4922A';
-              }
-            }}
+            onMouseEnter={handlePartnerButtonMouseEnter}
             onMouseLeave={e => {
-              if (activeFilter !== f) {
-                e.currentTarget.style.borderColor = '#253344';
-                e.currentTarget.style.color = '#4A5A6A';
-              }
+              if (activeFilter === f) return;
+              handlePartnerButtonMouseLeave(e);
             }}
           >
             {f}
