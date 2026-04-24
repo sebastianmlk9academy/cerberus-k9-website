@@ -1,4 +1,5 @@
 "use client"
+import type { MouseEvent } from "react"
 
 const eventLinks = [
   { label: "O Wydarzeniu", href: "#o-wydarzeniu" },
@@ -166,6 +167,12 @@ export function Footer() {
                   textDecoration: "none",
                   transition: "color 0.2s ease",
                 }}
+                onMouseEnter={(e: MouseEvent<HTMLAnchorElement>) => {
+                  e.currentTarget.style.color = "#C4922A"
+                }}
+                onMouseLeave={(e: MouseEvent<HTMLAnchorElement>) => {
+                  e.currentTarget.style.color = "#FFFFFF"
+                }}
               >
                 {link.label}
               </a>
@@ -201,6 +208,12 @@ export function Footer() {
                   color: "#FFFFFF",
                   textDecoration: "none",
                   transition: "color 0.2s ease",
+                }}
+                onMouseEnter={(e: MouseEvent<HTMLAnchorElement>) => {
+                  e.currentTarget.style.color = "#C4922A"
+                }}
+                onMouseLeave={(e: MouseEvent<HTMLAnchorElement>) => {
+                  e.currentTarget.style.color = "#FFFFFF"
                 }}
               >
                 {link.label}
@@ -250,6 +263,12 @@ export function Footer() {
                   textDecoration: "none",
                   transition: "color 0.2s ease",
                 }}
+                onMouseEnter={(e: MouseEvent<HTMLAnchorElement>) => {
+                  e.currentTarget.style.color = "#C4922A"
+                }}
+                onMouseLeave={(e: MouseEvent<HTMLAnchorElement>) => {
+                  e.currentTarget.style.color = "#FFFFFF"
+                }}
               >
                 kontakt@pactak9.org
               </a>
@@ -276,6 +295,12 @@ export function Footer() {
                   textDecoration: "none",
                   transition: "color 0.2s ease, transform 0.2s ease",
                   opacity: 0.7,
+                }}
+                onMouseEnter={(e: MouseEvent<HTMLAnchorElement>) => {
+                  e.currentTarget.style.color = "#C4922A"
+                }}
+                onMouseLeave={(e: MouseEvent<HTMLAnchorElement>) => {
+                  e.currentTarget.style.color = "#FFFFFF"
                 }}
               >
                 {social.icon}
