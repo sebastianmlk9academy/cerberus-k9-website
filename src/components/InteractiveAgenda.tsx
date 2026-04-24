@@ -517,7 +517,7 @@ export default function InteractiveAgenda() {
         color: "#E4DDD0",
         minHeight: "100vh",
         paddingTop: "80px",
-        paddingBottom: "80px",
+        paddingBottom: "0px",
         paddingLeft: "16px",
         paddingRight: "16px",
         fontFamily: "'Libre Baskerville', Georgia, serif",
