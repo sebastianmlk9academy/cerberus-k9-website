@@ -697,9 +697,15 @@ export default function PartnersPage({ partners: partnersProp, embedded = false 
                   letterSpacing: '1.5px',
                   color: '#5A6A7A',
                   textDecoration: 'none',
-                  transition: 'color 0.2s',
+                  transition: 'color 0.2s ease',
                 }}
                 className="mailto-link"
+                onMouseEnter={(e: MouseEvent<HTMLAnchorElement>) => {
+                  e.currentTarget.style.color = '#C4922A';
+                }}
+                onMouseLeave={(e: MouseEvent<HTMLAnchorElement>) => {
+                  e.currentTarget.style.color = '#5A6A7A';
+                }}
               >
                 <Mail size={11} />
                 Lub napisz: sebastian@pactak9.org
