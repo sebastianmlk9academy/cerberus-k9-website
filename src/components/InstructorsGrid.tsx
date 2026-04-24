@@ -181,7 +181,7 @@ export default function InstructorsGrid({ instructors }: InstructorsGridProps) {
               {...({
                 key: instructor.name + i,
                 name: instructor.name,
-                country: instructor.country,
+                country: `${instructor.countryCode} - ${instructor.country}`,
                 countryCode: instructor.countryCode,
                 specializations: instructor.specializations,
                 bioShort: instructor.bioShort,
