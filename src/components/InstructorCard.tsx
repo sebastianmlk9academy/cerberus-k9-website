@@ -15,34 +15,6 @@ const TAG_STYLES: Record<string, { bg: string; border: string; color: string }> 
 
 const DEFAULT_TAG = { bg: 'rgba(196,146,42,0.15)', border: 'rgba(196,146,42,0.4)', color: '#C4922A' };
 
-const COUNTRY_FLAGS: Record<string, string> = {
-  PL: '\u{1F1F5}\u{1F1F1}',
-  US: '\u{1F1FA}\u{1F1F8}',
-  PT: '\u{1F1F5}\u{1F1F9}',
-  DE: '\u{1F1E9}\u{1F1EA}',
-  NL: '\u{1F1F3}\u{1F1F1}',
-  GB: '\u{1F1EC}\u{1F1E7}',
-  FR: '\u{1F1EB}\u{1F1F7}',
-  ES: '\u{1F1EA}\u{1F1F8}',
-  IT: '\u{1F1EE}\u{1F1F9}',
-  CZ: '\u{1F1E8}\u{1F1FF}',
-  SK: '\u{1F1F8}\u{1F1F0}',
-  UA: '\u{1F1FA}\u{1F1E6}',
-  NO: '\u{1F1F3}\u{1F1F4}',
-  SE: '\u{1F1F8}\u{1F1EA}',
-  FI: '\u{1F1EB}\u{1F1EE}',
-  BE: '\u{1F1E7}\u{1F1EA}',
-  AT: '\u{1F1E6}\u{1F1F9}',
-  CH: '\u{1F1E8}\u{1F1ED}',
-  BR: '\u{1F1E7}\u{1F1F7}',
-  CA: '\u{1F1E8}\u{1F1E6}',
-  AU: '\u{1F1E6}\u{1F1FA}',
-  HR: '\u{1F1ED}\u{1F1F7}',
-  RO: '\u{1F1F7}\u{1F1F4}',
-  HU: '\u{1F1ED}\u{1F1FA}',
-  DK: '\u{1F1E9}\u{1F1F0}',
-  IL: '\u{1F1EE}\u{1F1F1}',
-};
 
 interface InstructorCardProps {
   name: string;
@@ -66,7 +38,7 @@ export default function InstructorCard({
 }: InstructorCardProps) {
   const [expanded, setExpanded] = useState(false);
 
-  const flag = COUNTRY_FLAGS[countryCode] ?? '';
+  const flagUrl = `https://flagcdn.com/w40/${countryCode.toLowerCase()}.png`;
 
   return (
     <div
@@ -107,7 +79,13 @@ export default function InstructorCard({
             letterSpacing: '1px',
           }}
         >
-          {flag}
+          <img
+            src={flagUrl}
+            alt={`${countryCode} flag`}
+            loading="lazy"
+            width={20}
+            height={15}
+          />
         </div>
       </div>
 
@@ -138,7 +116,7 @@ export default function InstructorCard({
             textTransform: 'uppercase',
           }}
         >
-          {flag} {country}
+          {country}
         </p>
 
         {/* Specialization tags */}
