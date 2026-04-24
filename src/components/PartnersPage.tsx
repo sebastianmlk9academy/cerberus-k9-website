@@ -21,6 +21,7 @@ const defaultPartners: Partner[] = [
     description: 'Miesięcznik Wojska Polskiego. Patron medialny CERBERUS K9 od edycji 2025.',
     website: 'https://polska-zbrojna.pl',
     websiteLabel: 'polska-zbrojna.pl',
+    logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Polska%20Zbrojna-khEyAPmGAkhHX4IAVuiDjYLAqdTuoA.webp',
   },
   {
     id: 2,
@@ -29,6 +30,7 @@ const defaultPartners: Partner[] = [
     description: 'Kwartalnik Defence24 o tematyce jednostek specjalnych, wojska i służb mundurowych. Patron medialny CERBERUS K9 od edycji 2025.',
     website: 'https://www.special-ops.pl',
     websiteLabel: 'special-ops.pl',
+    logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/special-ops-logo-1-aKqs9eqCEBoNfiGfXd2COdP8qMZtns.webp',
   },
   {
     id: 3,
@@ -37,6 +39,7 @@ const defaultPartners: Partner[] = [
     description: 'Katedra Mechaniki, Inżynierii Materiałowej i Biomedycznej. Partner R&D.',
     website: 'https://pwr.edu.pl',
     websiteLabel: 'pwr.edu.pl',
+    logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Politechnika%20Wroc%C5%82awska-bMf1AU1ZOaGoG2raCdKyyGazQpQI6u.webp',
   },
   {
     id: 4,
@@ -45,6 +48,7 @@ const defaultPartners: Partner[] = [
     description: 'Zaawansowana ochrona balistyczna i pancerze osobiste.',
     website: 'https://astriva.pl',
     websiteLabel: 'astriva.pl',
+    logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/astriva-logo-0p88smYLLCJekxGZrKcWgVzM5HJCj8.webp',
   },
   {
     id: 5,
@@ -53,6 +57,7 @@ const defaultPartners: Partner[] = [
     description: 'Wodne Ochotnicze Pogotowie Ratunkowe. Pierwsza pomoc na CERBERUS K9.',
     website: 'https://facebook.com/profile.php?id=100064367904632',
     websiteLabel: 'Facebook',
+    logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/wopr-I5BCl7zZm2JTLmXzWMKw3AChpkC4Zg.webp',
   },
   {
     id: 6,
@@ -61,6 +66,7 @@ const defaultPartners: Partner[] = [
     description: 'Szkolenia TCCC. Partnerzy modułu TCCC CERBERUS K9.',
     website: 'https://rescueteamseal.pl',
     websiteLabel: 'rescueteamseal.pl',
+    logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Rescue%20Team%20SE.AL.-mSxq32Jr7TWiiO7jVs0TZzHRjUJWlG.webp',
   },
   {
     id: 7,
@@ -69,6 +75,7 @@ const defaultPartners: Partner[] = [
     description: 'Sprzęt szkoleniowy dla zespołów K9 i służb mundurowych.',
     website: 'https://smart-target.pl',
     websiteLabel: 'smart-target.pl',
+    logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Smart%20Target-GqsRtYarx3io0nrWEQCWoTOjpm1mLv.webp',
   },
   {
     id: 8,
@@ -77,6 +84,7 @@ const defaultPartners: Partner[] = [
     description: 'Organizacja proobronna.',
     website: 'https://www.jsgryf.pl',
     websiteLabel: 'jsgryf.pl',
+    logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Jednostka%20Strzelecka%203102%20GRYF-IifeMDJr6xPU7yqVkJgy5UKaSjDerI.webp',
   },
   {
     id: 9,
@@ -85,6 +93,7 @@ const defaultPartners: Partner[] = [
     description: 'Portal wiedzy o obronie powszechnej.',
     website: 'https://obronap.org',
     websiteLabel: 'obronap.org',
+    logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Obrona%20Powszechna-dmnnCmzvoiFfBRngRmbYdqfeDRa2d7.webp',
   },
   {
     id: 10,
@@ -93,6 +102,7 @@ const defaultPartners: Partner[] = [
     description: 'Polski Związek Strzelectwa Obronnego.',
     website: 'https://pzso.org.pl',
     websiteLabel: 'pzso.org.pl',
+    logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/PZSO-yZgAaGjcQBuj54Ax83d0qlCz4fL46X.webp',
   },
   {
     id: 11,
@@ -101,6 +111,7 @@ const defaultPartners: Partner[] = [
     description: 'Szkolenia K9. Partner modułu K9 CERBERUS K9.',
     website: 'https://www.facebook.com/p/SOF-K9-Lubliniec-100088222903375/',
     websiteLabel: 'Facebook',
+    logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/K9%20SOF%20Lubliniec-artpTknhksLDSxkhJyjN82TuLV4172.webp',
   },
   {
     id: 12,
@@ -109,6 +120,7 @@ const defaultPartners: Partner[] = [
     description: 'Szkolenia K9. Partner modułu K9 CERBERUS K9.',
     website: 'https://etok9.pl',
     websiteLabel: 'etok9.pl',
+    logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/K9%20ETO-cykwJh43PrBIrkyYV0bJOC4AXZRKQV.webp',
   },
   {
     id: 13,
@@ -117,6 +129,7 @@ const defaultPartners: Partner[] = [
     description: 'Szkolenia K9. Partner modułu K9 CERBERUS K9.',
     website: 'https://www.facebook.com/GrupaKMSK9profesjonalneszkoleniepsow/',
     websiteLabel: 'Facebook',
+    logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Grupa%20KMS-uQtZha8d8KN8g4Agiz8VbSKYlEyFJ1.webp',
   },
   {
     id: 14,
@@ -125,6 +138,7 @@ const defaultPartners: Partner[] = [
     description: 'Szkolenia K9. Partner modułu K9 CERBERUS K9.',
     website: 'https://valhallk9.com',
     websiteLabel: 'valhallk9.com',
+    logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Valhall%20K9-qobBFVbFLarEmNDPb2waxfUzwFEiOC.webp',
   },
 ];
 
