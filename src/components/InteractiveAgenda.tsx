@@ -589,6 +589,7 @@ export default function InteractiveAgenda() {
             gap: 8,
             padding: "20px 0",
             marginTop: 16,
+            justifyContent: "center",
           }}
         >
           {FILTERS.map((f) => {
