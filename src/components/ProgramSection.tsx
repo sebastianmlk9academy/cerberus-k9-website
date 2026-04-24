@@ -36,7 +36,10 @@ const programCards: ProgramCard[] = [
 
 export function ProgramSection() {
   return (
-    <section className="bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28] py-[80px] px-[5%]">
+    <section
+      className="bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28] px-[5%]"
+      style={{ paddingTop: "80px", paddingBottom: "80px" }}
+    >
       {/* Section Header */}
       <div className="mb-12 text-center">
         {/* Section Tag */}
