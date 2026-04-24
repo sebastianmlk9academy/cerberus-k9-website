@@ -424,27 +424,6 @@ export default function PartnersPage({ partners: partnersProp, embedded = false 
           background: #C4922A;
           color: #1E2B38;
         }
-        .cta-btn-red {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          background: #B03020;
-          color: #F0E8D8;
-          font-family: 'Rajdhani', sans-serif;
-          font-weight: 700;
-          font-size: 11px;
-          letter-spacing: 2.5px;
-          padding: 14px 24px;
-          border: none;
-          cursor: pointer;
-          transition: background 0.2s, transform 0.15s;
-          text-transform: uppercase;
-          text-decoration: none;
-        }
-        .cta-btn-red:hover {
-          background: #C83828;
-          transform: translateY(-1px);
-        }
         @media (max-width: 900px) {
           .partners-grid {
             grid-template-columns: repeat(2, 1fr) !important;
@@ -683,7 +662,25 @@ export default function PartnersPage({ partners: partnersProp, embedded = false 
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'flex-start' }}>
-              <a href="mailto:sebastian@pactak9.org" className="cta-btn-red">
+              <a
+                href="mailto:sebastian@pactak9.org"
+                className="cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-8 sm:py-3.5 inline-flex items-center gap-2 no-underline"
+                style={{
+                  backgroundColor: '#C42B2B',
+                  color: 'white',
+                  fontFamily: 'var(--font-rajdhani), sans-serif',
+                  letterSpacing: '3px',
+                  fontWeight: 700,
+                  borderRadius: 0,
+                  border: 'none',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#9E1F1F';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#C42B2B';
+                }}
+              >
                 <Download size={13} />
                 POBIERZ OFERTĘ SPONSORSKĄ
               </a>
