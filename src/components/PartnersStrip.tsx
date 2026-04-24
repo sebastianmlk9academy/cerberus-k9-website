@@ -221,7 +221,7 @@ function SectionHeader({ children, accent = false }: { children: React.ReactNode
 
 export function PartnersStrip() {
   return (
-    <section className="w-full bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28] py-12 sm:py-16 md:py-20 px-4 sm:px-6 md:px-8">
+    <section className="w-full bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28] py-[80px] px-4 sm:px-6 md:px-8">
       <div className="max-w-6xl mx-auto">
 
         {/* Section Header */}
