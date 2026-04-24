@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import InstructorCard from './InstructorCard';
 
 interface Instructor {
@@ -103,6 +103,8 @@ const handlePartnerButtonMouseLeave = (
 
 export default function InstructorsGrid({ instructors }: InstructorsGridProps) {
   const [activeFilter, setActiveFilter] = useState('WSZYSCY');
+  const [visibleCount, setVisibleCount] = useState(4);
+  const loaderRef = useRef<HTMLDivElement>(null);
   const data = (instructors && instructors.length > 0) ? instructors : FALLBACK;
 
   const filtered = activeFilter === 'WSZYSCY'
@@ -113,11 +115,31 @@ export default function InstructorsGrid({ instructors }: InstructorsGridProps) {
         ) || (activeFilter === 'POZORANT' && i.type === 'Pozorant')
       );
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setVisibleCount(prev => Math.min(prev + 4, filtered.length));
+        }
+      },
+      { threshold: 0.1 }
+    );
+    if (loaderRef.current) observer.observe(loaderRef.current);
+    return () => observer.disconnect();
+  }, [filtered.length]);
+
+  // Reset visible count when filter changes
+  useEffect(() => {
+    setVisibleCount(4);
+  }, [activeFilter]);
+
+  const visibleCards = filtered.slice(0, visibleCount);
+  const hasMore = visibleCount < filtered.length;
+
   return (
     <section
       id="instructors-grid"
       style={{
-        backgroundColor: '#151E28',
         paddingTop: '0px',
         paddingBottom: '10px',
         paddingLeft: '5%',
@@ -177,37 +199,42 @@ export default function InstructorsGrid({ instructors }: InstructorsGridProps) {
           BRAK INSTRUKTORÓW DLA WYBRANEGO FILTRA
         </p>
       ) : (
-        <div
-          className="instructors-grid-layout"
-          style={{
-            display: 'grid',
-            gap: '5px',
-            padding: '5px',
-            background: '#1A2230',
-          }}
-        >
-          {filtered.map((instructor, i) => (
-            <InstructorCard
-              {...({
-                key: instructor.name + i,
-                name: instructor.name,
-                country: `${instructor.countryCode} - ${instructor.country}`,
-                countryCode: instructor.countryCode,
-                specializations: instructor.specializations,
-                bioShort: instructor.bioShort,
-                bioFull: instructor.bioFull,
-                photo: instructor.photo,
-                order: instructor.order,
-                type: instructor.type,
-                module: instructor.module,
-                schedule: instructor.schedule,
-                languages: instructor.languages,
-                linkedinUrl: instructor.linkedinUrl,
-                unit: instructor.unit,
-              } as any)}
-            />
-          ))}
-        </div>
+        <>
+          <div
+            className="instructors-grid-layout"
+            style={{
+              display: 'grid',
+              gap: '5px',
+              padding: '5px',
+            }}
+          >
+            {visibleCards.map((instructor, i) => (
+              <InstructorCard key={instructor.name + i} {...instructor as any} />
+            ))}
+          </div>
+          {hasMore && (
+            <div
+              ref={loaderRef}
+              style={{
+                width: '100%',
+                height: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginTop: '16px',
+              }}
+            >
+              <span style={{
+                fontFamily: 'Rajdhani, sans-serif',
+                fontSize: '9px',
+                letterSpacing: '3px',
+                color: '#4A5A6A',
+              }}>
+                ŁADOWANIE...
+              </span>
+            </div>
+          )}
+        </>
       )}
       <style>{`
         .instructors-grid-layout {
