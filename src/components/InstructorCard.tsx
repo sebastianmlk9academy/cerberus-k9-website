@@ -38,12 +38,13 @@ export default function InstructorCard({
 }: InstructorCardProps) {
   const [expanded, setExpanded] = useState(false);
 
-  const flagUrl = `https://flagcdn.com/w40/${countryCode.toLowerCase()}.png`;
-
   return (
     <div
       className="group overflow-hidden cursor-pointer"
       style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
         background: '#1E2B38',
         border: '1px solid #253344',
         transition: 'border-color 200ms ease',
@@ -52,7 +53,7 @@ export default function InstructorCard({
       onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#253344')}
     >
       {/* Photo area */}
-      <div className="relative w-full" style={{ aspectRatio: '1/1', background: '#151E28' }}>
+      <div className="relative w-full" style={{ aspectRatio: '1/1', flexShrink: 0, background: '#151E28' }}>
         <img
           src={photo}
           alt={name}
@@ -66,34 +67,14 @@ export default function InstructorCard({
             background: 'linear-gradient(to top, #1E2B38, transparent)',
           }}
         />
-        {/* Country flag badge */}
-        <div
-          className="absolute top-0 right-0"
-          style={{
-            background: 'rgba(15,23,32,0.85)',
-            padding: '4px 8px',
-            fontFamily: 'Rajdhani, sans-serif',
-            fontSize: '12px',
-            fontWeight: 600,
-            color: '#E4DDD0',
-            letterSpacing: '1px',
-          }}
-        >
-          <img
-            src={flagUrl}
-            alt={`${countryCode} flag`}
-            loading="lazy"
-            width={20}
-            height={15}
-          />
-        </div>
       </div>
 
       {/* Content area */}
-      <div style={{ padding: '20px' }}>
+      <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
         {/* Name */}
         <h3
           style={{
+            flexShrink: 0,
             fontFamily: "'Bebas Neue', sans-serif",
             fontSize: '22px',
             color: '#E4DDD0',
@@ -108,6 +89,10 @@ export default function InstructorCard({
         {/* Country name with flag */}
         <p
           style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            flexShrink: 0,
             fontFamily: 'Rajdhani, sans-serif',
             fontSize: '10px',
             letterSpacing: '3px',
@@ -116,11 +101,19 @@ export default function InstructorCard({
             textTransform: 'uppercase',
           }}
         >
+          <img
+            src={'https://flagcdn.com/24x18/' + countryCode.toLowerCase() + '.png'}
+            srcSet={'https://flagcdn.com/48x36/' + countryCode.toLowerCase() + '.png 2x'}
+            width="24"
+            height="18"
+            alt={country}
+            style={{ display: 'inline-block', verticalAlign: 'middle' }}
+          />
           {country}
         </p>
 
         {/* Specialization tags */}
-        <div className="flex flex-wrap" style={{ gap: '6px', marginBottom: '14px' }}>
+        <div className="flex flex-wrap" style={{ gap: '6px', marginBottom: '14px', flexShrink: 0 }}>
           {specializations.map((spec) => {
             const style = TAG_STYLES[spec] ?? DEFAULT_TAG;
             return (
@@ -148,6 +141,7 @@ export default function InstructorCard({
         {/* Short bio — hidden when expanded */}
         <div
           style={{
+            flex: 1,
             maxHeight: expanded ? '0px' : '200px',
             overflow: 'hidden',
             opacity: expanded ? 0 : 1,
@@ -176,12 +170,13 @@ export default function InstructorCard({
           onClick={() => setExpanded(!expanded)}
           className="flex items-center gap-1 bg-transparent border-none"
           style={{
+            flexShrink: 0,
+            marginTop: 'auto',
             fontFamily: 'Rajdhani, sans-serif',
             fontSize: '9px',
             letterSpacing: '2px',
             color: '#C4922A',
             fontWeight: 700,
-            marginTop: '12px',
             cursor: 'pointer',
             padding: 0,
           }}
@@ -199,6 +194,7 @@ export default function InstructorCard({
         {/* Expanded bio */}
         <div
           style={{
+            flexShrink: 0,
             maxHeight: expanded ? '500px' : '0px',
             overflow: 'hidden',
             transition: 'max-height 300ms ease',

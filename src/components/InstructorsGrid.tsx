@@ -118,12 +118,19 @@ export default function InstructorsGrid({ instructors }: InstructorsGridProps) {
       id="instructors-grid"
       style={{
         backgroundColor: '#151E28',
-        paddingTop: '80px',
+        paddingTop: '0px',
         paddingBottom: '10px',
         paddingLeft: '5%',
         paddingRight: '5%',
       }}
     >
+      <div className="flex items-center justify-center gap-4 mb-4">
+        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
+        <span className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]">
+          TEAM LEADERZY · INSTRUKTORZY · POZORANCI · PRELEGENCI
+        </span>
+        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
+      </div>
       {/* Filter bar */}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '48px', alignItems: 'center', justifyContent: 'center' }}>
         <span style={{
@@ -174,7 +181,8 @@ export default function InstructorsGrid({ instructors }: InstructorsGridProps) {
           className="instructors-grid-layout"
           style={{
             display: 'grid',
-            gap: '2px',
+            gap: '5px',
+            padding: '5px',
             background: '#1A2230',
           }}
         >
