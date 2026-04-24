@@ -165,17 +165,12 @@ interface TeamMember {
       <section style={{ backgroundColor: "#0F1720", padding: "80px 24px" }}>
         <div className="mx-auto max-w-6xl">
           <div className="mb-12 text-center">
-            <div
-              style={{
-                fontFamily: "'Rajdhani', sans-serif",
-                fontSize: "10px",
-                letterSpacing: "5px",
-                color: "#C42B2B",
-                fontWeight: 700,
-                marginBottom: "12px",
-              }}
-            >
-              ZARZĄD FUNDACJI
+            <div className="flex items-center justify-center gap-4 mb-4">
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
+              <span className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]">
+                ZARZĄD FUNDACJI
+              </span>
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
             </div>
             <h2
               style={{
