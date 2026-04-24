@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type MouseEvent } from "react";
 import { Calendar, MapPin, Ticket, AlertCircle, Mail, Phone, ExternalLink, ChevronDown } from "lucide-react";
 
 const PretixWidget = "pretix-widget" as unknown as React.ComponentType<{
@@ -6,6 +6,29 @@ const PretixWidget = "pretix-widget" as unknown as React.ComponentType<{
   "skip-ssl-check"?: string;
   "single-item-select"?: string;
 }>;
+
+const partnerCtaBase = {
+  border: "1px solid #C4922A",
+  background: "transparent",
+  color: "#C4922A",
+  fontFamily: "'Rajdhani', sans-serif",
+  fontSize: "11px",
+  letterSpacing: "3px",
+  fontWeight: 700,
+  padding: "12px 24px",
+  cursor: "pointer",
+  transition: "all 200ms ease",
+} as const;
+
+function setPartnerCtaHover(e: MouseEvent<HTMLAnchorElement>) {
+  e.currentTarget.style.background = "#C4922A";
+  e.currentTarget.style.color = "#0F1720";
+}
+
+function setPartnerCtaLeave(e: MouseEvent<HTMLAnchorElement>) {
+  e.currentTarget.style.background = "transparent";
+  e.currentTarget.style.color = "#C4922A";
+}
 
 export default function RegistrationEmbed() {
   const [showInstructions, setShowInstructions] = useState(false);
@@ -21,16 +44,40 @@ export default function RegistrationEmbed() {
           {/* LEFT — Pretix iframe */}
           <div>
             <div className="mb-6">
-              <h2 className="font-display text-3xl font-bold uppercase tracking-tight text-white sm:text-4xl">
+              <h2
+                style={{
+                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontSize: "44px",
+                  color: "#E4DDD0",
+                  letterSpacing: "1px",
+                  margin: 0,
+                }}
+              >
                 Rejestracja na Cerberus K9 2026
               </h2>
-              <p className="mt-2 text-sm font-semibold uppercase tracking-[0.2em] text-cerberus-gold">
+              <p
+                style={{
+                  fontFamily: "'Rajdhani', sans-serif",
+                  fontSize: "9px",
+                  letterSpacing: "5px",
+                  color: "#C4922A",
+                  fontWeight: 700,
+                  marginTop: "8px",
+                }}
+              >
                 Wstęp bezpłatny · Wymagana rejestracja
               </p>
             </div>
 
             {/* Step-by-step notice */}
-            <div className="mb-3 rounded-lg border border-cerberus-gold/40 bg-white/5 p-3 backdrop-blur-sm sm:mb-4 sm:p-5">
+            <div
+              className="mb-3 sm:mb-4"
+              style={{
+                border: "1px solid rgba(196,146,42,0.4)",
+                background: "#1A2430",
+                padding: "20px",
+              }}
+            >
               <button
                 type="button"
                 onClick={() => setShowInstructions((v) => !v)}
@@ -38,13 +85,22 @@ export default function RegistrationEmbed() {
                 aria-controls="registration-steps"
                 className="flex w-full items-center justify-between gap-2 text-left sm:pointer-events-none sm:cursor-default"
               >
-                <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-cerberus-gold sm:text-xs sm:tracking-[0.2em]">
+                <span
+                  style={{
+                    fontFamily: "'Rajdhani', sans-serif",
+                    fontSize: "9px",
+                    letterSpacing: "4px",
+                    color: "#C4922A",
+                    fontWeight: 700,
+                  }}
+                >
                   Jak się zarejestrować — 3 kroki
                 </span>
                 <ChevronDown
-                  className={`h-4 w-4 shrink-0 text-cerberus-gold transition-transform sm:hidden ${
+                  className={`h-4 w-4 shrink-0 transition-transform sm:hidden ${
                     showInstructions ? "rotate-180" : ""
                   }`}
+                  style={{ color: "#C4922A" }}
                   aria-hidden="true"
                 />
               </button>
@@ -52,42 +108,96 @@ export default function RegistrationEmbed() {
                 id="registration-steps"
                 className={`${
                   showInstructions ? "mt-2 block" : "hidden"
-                } space-y-1.5 text-[13px] leading-snug text-white/90 sm:mt-3 sm:block sm:space-y-2 sm:text-sm sm:leading-normal`}
+                } space-y-1.5 sm:mt-3 sm:block sm:space-y-2`}
               >
                 <li className="flex gap-2 sm:gap-3">
                   <span
-                    className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-cerberus-gold text-[11px] font-bold sm:h-6 sm:w-6 sm:text-xs"
-                    style={{ color: "#1E2B38" }}
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                      background: "#C4922A",
+                      color: "#0F1720",
+                      fontFamily: "'Rajdhani', sans-serif",
+                      fontSize: "11px",
+                      fontWeight: 700,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                    }}
                   >
                     1
                   </span>
-                  <span>
+                  <span
+                    style={{
+                      fontFamily: "'Libre Baskerville', serif",
+                      fontSize: "14px",
+                      lineHeight: 1.45,
+                      color: "rgba(228,221,208,0.92)",
+                    }}
+                  >
                     Wybierz bilet i kliknij{" "}
                     <strong>„Zarejestruj"</strong> / <strong>„Dalej"</strong>.
                   </span>
                 </li>
                 <li className="flex gap-2 sm:gap-3">
                   <span
-                    className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-cerberus-gold text-[11px] font-bold sm:h-6 sm:w-6 sm:text-xs"
-                    style={{ color: "#1E2B38" }}
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                      background: "#C4922A",
+                      color: "#0F1720",
+                      fontFamily: "'Rajdhani', sans-serif",
+                      fontSize: "11px",
+                      fontWeight: 700,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                    }}
                   >
                     2
                   </span>
-                  <span>
+                  <span
+                    style={{
+                      fontFamily: "'Libre Baskerville', serif",
+                      fontSize: "14px",
+                      lineHeight: 1.45,
+                      color: "rgba(228,221,208,0.92)",
+                    }}
+                  >
                     Finalizacja otworzy się w nowym oknie Pretix — zezwól na
                     wyskakujące okna.
                   </span>
                 </li>
                 <li className="flex gap-2 sm:gap-3">
                   <span
-                    className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-cerberus-gold text-[11px] font-bold sm:h-6 sm:w-6 sm:text-xs"
-                    style={{ color: "#1E2B38" }}
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                      background: "#C4922A",
+                      color: "#0F1720",
+                      fontFamily: "'Rajdhani', sans-serif",
+                      fontSize: "11px",
+                      fontWeight: 700,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                    }}
                   >
                     3
                   </span>
-                  <span>
+                  <span
+                    style={{
+                      fontFamily: "'Libre Baskerville', serif",
+                      fontSize: "14px",
+                      lineHeight: 1.45,
+                      color: "rgba(228,221,208,0.92)",
+                    }}
+                  >
                     Jeśli przyciski nie reagują, użyj linku{" "}
-                    <strong className="text-cerberus-gold">
+                    <strong style={{ color: "#C4922A" }}>
                       „Otwórz pełny formularz"
                     </strong>{" "}
                     pod widgetem.
@@ -99,8 +209,10 @@ export default function RegistrationEmbed() {
                 href="https://pretix.eu/MLK9-LLK9/CERBERUS/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-3 inline-flex items-center gap-2 rounded-md bg-cerberus-gold px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors hover:bg-cerberus-gold/90 sm:mt-4 sm:text-[13px]"
-                style={{ color: "#1E2B38" }}
+                className="mt-3 inline-flex items-center gap-2 sm:mt-4"
+                style={partnerCtaBase}
+                onMouseEnter={setPartnerCtaHover}
+                onMouseLeave={setPartnerCtaLeave}
               >
                 Otwórz pełny formularz rejestracji
                 <ExternalLink className="h-3.5 w-3.5" />
@@ -108,24 +220,42 @@ export default function RegistrationEmbed() {
             </div>
 
             <div
-              className="rounded-lg bg-white p-4 sm:p-6"
-              style={{ minHeight: 600 }}
+              style={{
+                background: "#0F1720",
+                padding: "4px",
+                minHeight: "600px",
+              }}
             >
               <PretixWidget event="https://pretix.eu/MLK9-LLK9/CERBERUS/" />
               <noscript>
                 Rejestruj się na:{" "}
                 <a
                   href="https://pretix.eu/MLK9-LLK9/CERBERUS/"
-                  className="text-cerberus-gold underline"
+                  style={{ color: "#C4922A", textDecoration: "underline" }}
                 >
                   https://pretix.eu/MLK9-LLK9/CERBERUS/
                 </a>
               </noscript>
             </div>
 
-            <div className="mt-4 rounded-lg border border-cerberus-gold/40 bg-cerberus-gold/10 p-4">
-              <p className="mb-3 text-sm text-white/90">
-                <strong className="text-cerberus-gold">Wskazówka:</strong> Po
+            <div
+              className="mt-4"
+              style={{
+                border: "1px solid rgba(196,146,42,0.3)",
+                background: "rgba(196,146,42,0.08)",
+                padding: "20px",
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: "'Libre Baskerville', serif",
+                  fontSize: "14px",
+                  lineHeight: 1.55,
+                  color: "rgba(228,221,208,0.92)",
+                  margin: "0 0 12px 0",
+                }}
+              >
+                <strong style={{ color: "#C4922A" }}>Wskazówka:</strong> Po
                 wybraniu biletu, finalizacja zamówienia (dane osobowe,
                 potwierdzenie) odbywa się na stronie Pretix. Jeśli przycisk
                 „Dalej / Kontynuuj" nie działa w osadzonym formularzu, otwórz
@@ -135,8 +265,10 @@ export default function RegistrationEmbed() {
                 href="https://pretix.eu/MLK9-LLK9/CERBERUS/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-md bg-cerberus-gold px-5 py-3 text-sm font-bold uppercase tracking-wider text-cerberus-dark transition-colors hover:bg-cerberus-gold/90"
-                style={{ color: "#1E2B38" }}
+                className="inline-flex items-center gap-2"
+                style={partnerCtaBase}
+                onMouseEnter={setPartnerCtaHover}
+                onMouseLeave={setPartnerCtaLeave}
               >
                 Otwórz pełny formularz rejestracji
                 <ExternalLink className="h-4 w-4" />
@@ -147,88 +279,286 @@ export default function RegistrationEmbed() {
           {/* RIGHT — Info sidebar */}
           <aside className="flex flex-col gap-4">
             {/* Card 1 — TERMIN */}
-            <div className="rounded-lg border-l-4 border-cerberus-gold bg-white/5 p-5 backdrop-blur-sm">
-              <div className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-cerberus-gold">
-                <Calendar className="h-4 w-4" />
+            <div
+              style={{
+                borderLeft: "3px solid #C4922A",
+                background: "#1A2430",
+                padding: "20px",
+              }}
+            >
+              <div
+                className="mb-2 flex items-center gap-2"
+                style={{
+                  fontFamily: "'Rajdhani', sans-serif",
+                  fontSize: "9px",
+                  letterSpacing: "4px",
+                  color: "#C4922A",
+                  fontWeight: 700,
+                }}
+              >
+                <Calendar className="h-4 w-4 shrink-0" />
                 Termin
               </div>
-              <p className="font-display text-2xl font-bold text-white">
+              <p
+                style={{
+                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontSize: "28px",
+                  color: "#E4DDD0",
+                  margin: 0,
+                  lineHeight: 1.1,
+                }}
+              >
                 13–14 czerwca 2026
               </p>
-              <p className="mt-1 text-sm text-white/70">
+              <p
+                className="mt-1"
+                style={{
+                  fontFamily: "'Libre Baskerville', serif",
+                  fontSize: "14px",
+                  color: "rgba(228,221,208,0.7)",
+                  margin: 0,
+                  marginTop: "4px",
+                }}
+              >
                 Dzień przygotowawczy: 12 czerwca
               </p>
             </div>
 
             {/* Card 2 — MIEJSCE */}
-            <div className="rounded-lg bg-white/5 p-5 backdrop-blur-sm">
-              <div className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-white/60">
-                <MapPin className="h-4 w-4" />
+            <div
+              style={{
+                borderLeft: "3px solid #253344",
+                background: "#1A2430",
+                padding: "20px",
+              }}
+            >
+              <div
+                className="mb-2 flex items-center gap-2"
+                style={{
+                  fontFamily: "'Rajdhani', sans-serif",
+                  fontSize: "9px",
+                  letterSpacing: "4px",
+                  color: "#7A8A96",
+                  fontWeight: 700,
+                }}
+              >
+                <MapPin className="h-4 w-4 shrink-0" />
                 Miejsce
               </div>
-              <p className="text-base font-semibold leading-relaxed text-white">
+              <p
+                style={{
+                  fontFamily: "'Libre Baskerville', serif",
+                  fontSize: "16px",
+                  fontWeight: 600,
+                  lineHeight: 1.5,
+                  color: "#E4DDD0",
+                  margin: 0,
+                }}
+              >
                 3MK Arena, Szkoła Mundurowa, Stadion Miejski
               </p>
-              <p className="mt-1 text-sm text-white/70">Ostrów Wielkopolski</p>
+              <p
+                className="mt-1"
+                style={{
+                  fontFamily: "'Libre Baskerville', serif",
+                  fontSize: "14px",
+                  color: "rgba(228,221,208,0.7)",
+                  margin: 0,
+                  marginTop: "4px",
+                }}
+              >
+                Ostrów Wielkopolski
+              </p>
             </div>
 
             {/* Card 3 — WSTĘP */}
-            <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-5">
-              <div className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-emerald-300">
-                <Ticket className="h-4 w-4" />
+            <div
+              style={{
+                border: "1px solid rgba(42,122,58,0.4)",
+                background: "rgba(42,122,58,0.1)",
+                padding: "20px",
+              }}
+            >
+              <div
+                className="mb-2 flex items-center gap-2"
+                style={{
+                  fontFamily: "'Rajdhani', sans-serif",
+                  fontSize: "9px",
+                  letterSpacing: "4px",
+                  color: "#3A8A4A",
+                  fontWeight: 700,
+                }}
+              >
+                <Ticket className="h-4 w-4 shrink-0" />
                 Wstęp
               </div>
-              <p className="font-display text-3xl font-bold uppercase text-cerberus-gold">
+              <p
+                style={{
+                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontSize: "36px",
+                  color: "#C4922A",
+                  margin: 0,
+                  lineHeight: 1,
+                }}
+              >
                 Bezpłatny
               </p>
-              <p className="mt-2 text-xs leading-relaxed text-white/70">
+              <p
+                className="mt-2"
+                style={{
+                  fontFamily: "'Libre Baskerville', serif",
+                  fontSize: "12px",
+                  lineHeight: 1.5,
+                  color: "rgba(228,221,208,0.7)",
+                  margin: 0,
+                  marginTop: "8px",
+                }}
+              >
                 Finansowany z dotacji samorządowych art. 19a UPPP
               </p>
             </div>
 
             {/* Card 4 — DEADLINE */}
-            <div className="rounded-lg border border-red-500/40 bg-red-500/10 p-5">
-              <div className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-red-300">
-                <AlertCircle className="h-4 w-4" />
+            <div
+              style={{
+                border: "1px solid rgba(196,43,43,0.4)",
+                background: "rgba(196,43,43,0.1)",
+                padding: "20px",
+              }}
+            >
+              <div
+                className="mb-2 flex items-center gap-2"
+                style={{
+                  fontFamily: "'Rajdhani', sans-serif",
+                  fontSize: "9px",
+                  letterSpacing: "4px",
+                  color: "#C42B2B",
+                  fontWeight: 700,
+                }}
+              >
+                <AlertCircle className="h-4 w-4 shrink-0" />
                 Uwaga
               </div>
-              <p className="font-display text-lg font-bold uppercase text-white">
+              <p
+                style={{
+                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontSize: "22px",
+                  color: "#E4DDD0",
+                  margin: 0,
+                  lineHeight: 1.15,
+                }}
+              >
                 Liczba miejsc ograniczona
               </p>
-              <p className="mt-1 text-sm text-white/80">Zarejestruj się teraz</p>
+              <p
+                className="mt-1"
+                style={{
+                  fontFamily: "'Libre Baskerville', serif",
+                  fontSize: "14px",
+                  color: "rgba(228,221,208,0.8)",
+                  margin: 0,
+                  marginTop: "4px",
+                }}
+              >
+                Zarejestruj się teraz
+              </p>
             </div>
 
             {/* Card 5 — KONTAKT */}
-            <div className="rounded-lg bg-white/5 p-5 backdrop-blur-sm">
-              <div className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-white/60">
+            <div style={{ background: "#1A2430", padding: "20px" }}>
+              <div
+                className="mb-3"
+                style={{
+                  fontFamily: "'Rajdhani', sans-serif",
+                  fontSize: "9px",
+                  letterSpacing: "4px",
+                  color: "#7A8A96",
+                  fontWeight: 700,
+                }}
+              >
                 Kontakt — rejestracja
               </div>
               <div className="space-y-2">
                 <a
                   href="mailto:rejestracja@cerberusk9.pl"
-                  className="flex items-center gap-2 text-sm text-white transition-colors hover:text-cerberus-gold"
+                  className="flex items-center gap-2 transition-colors duration-200"
+                  style={{
+                    fontFamily: "'Rajdhani', sans-serif",
+                    fontSize: "11px",
+                    color: "#E4DDD0",
+                    textDecoration: "none",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = "#C4922A";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = "#E4DDD0";
+                  }}
                 >
-                  <Mail className="h-4 w-4 text-cerberus-gold" />
+                  <Mail className="h-4 w-4 shrink-0" style={{ color: "#C4922A" }} />
                   rejestracja@cerberusk9.pl
                 </a>
                 <a
                   href="tel:+48000000000"
-                  className="flex items-center gap-2 text-sm text-white transition-colors hover:text-cerberus-gold"
+                  className="flex items-center gap-2 transition-colors duration-200"
+                  style={{
+                    fontFamily: "'Rajdhani', sans-serif",
+                    fontSize: "11px",
+                    color: "#E4DDD0",
+                    textDecoration: "none",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = "#C4922A";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = "#E4DDD0";
+                  }}
                 >
-                  <Phone className="h-4 w-4 text-cerberus-gold" />
+                  <Phone className="h-4 w-4 shrink-0" style={{ color: "#C4922A" }} />
                   +48 000 000 000
                 </a>
               </div>
             </div>
 
             {/* Below sidebar */}
-            <div className="mt-2 rounded-lg border border-white/10 p-5 text-center">
-              <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-white/60">
+            <div
+              className="mt-2 text-center"
+              style={{
+                background: "#1A2430",
+                padding: "20px",
+                border: "1px solid rgba(37,51,68,0.9)",
+              }}
+            >
+              <p
+                className="mb-2"
+                style={{
+                  fontFamily: "'Rajdhani', sans-serif",
+                  fontSize: "9px",
+                  letterSpacing: "4px",
+                  color: "#7A8A96",
+                  fontWeight: 700,
+                  margin: 0,
+                  marginBottom: "8px",
+                }}
+              >
                 Masz pytania o rejestrację?
               </p>
               <a
                 href="/kontakt"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-cerberus-gold transition-colors hover:text-cerberus-gold/80"
+                className="inline-flex items-center gap-2 transition-colors duration-200"
+                style={{
+                  fontFamily: "'Rajdhani', sans-serif",
+                  fontSize: "11px",
+                  fontWeight: 600,
+                  color: "#C4922A",
+                  textDecoration: "none",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = "rgba(196,146,42,0.85)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = "#C4922A";
+                }}
               >
                 Skontaktuj się z nami
                 <ExternalLink className="h-4 w-4" />
