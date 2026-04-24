@@ -40,7 +40,7 @@ export const aboutEventPageByLang: Record<Lang, AboutEventPageCopy> = {
 			{ value: '250+', label: 'PLANOWANYCH UCZESTNIKÓW', accent: 'gold' },
 			{ value: '15+', label: 'KRAJÓW NATO I UE', accent: 'red' },
 			{ value: '8', label: 'MODUŁÓW SZKOLENIOWYCH', accent: 'gold' },
-			{ value: '1', label: 'PIERWSZE TAKIE WYDARZENIE W POLSCE', accent: 'red' },
+			{ value: '1', label: 'PIERWSZE TAKIE WYDARZENIE W EUROPIE', accent: 'red' },
 		],
 	},
 	en: {
