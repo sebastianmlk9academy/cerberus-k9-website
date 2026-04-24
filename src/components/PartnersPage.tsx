@@ -361,7 +361,7 @@ export default function PartnersPage({ partners: partnersProp, embedded = false 
     <div
       style={{
         minHeight: '100vh',
-        background: '#0D1520',
+        background: 'linear-gradient(to bottom, #161F28, #1A2530, #161F28)',
         color: '#E4DDD0',
         fontFamily: "'Rajdhani', sans-serif",
       }}
@@ -551,7 +551,7 @@ export default function PartnersPage({ partners: partnersProp, embedded = false 
                 gridColumn: '1 / -1',
                 padding: '64px',
                 textAlign: 'center',
-                background: '#1E2B38',
+                background: 'transparent',
                 color: '#3A4A5A',
                 fontFamily: "'Rajdhani', sans-serif",
                 fontSize: '13px',

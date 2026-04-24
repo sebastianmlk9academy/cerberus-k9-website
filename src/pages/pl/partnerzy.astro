@@ -66,6 +66,9 @@ const partners: Partner[] = sorted.map((entry, i) => {
 	omitLocaleAlternates
 	ogType="website"
 >
+	<div
+		style="background: linear-gradient(to bottom, #161F28, #1A2530, #161F28); min-height: 100vh;"
+	>
 	<NavBar client:load />
 	<PageHero
 		category="WSPÓŁPRACA"
@@ -74,4 +77,5 @@ const partners: Partner[] = sorted.map((entry, i) => {
 	/>
 	<PartnersPage client:load partners={partners} embedded />
 	<Footer client:load />
+	</div>
 </BaseLayout>
