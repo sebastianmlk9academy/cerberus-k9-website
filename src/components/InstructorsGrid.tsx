@@ -166,21 +166,23 @@ export default function InstructorsGrid({ instructors }: InstructorsGridProps) {
         }}>
           {filtered.map((instructor, i) => (
             <InstructorCard
-              key={instructor.name + i}
-              name={instructor.name}
-              country={instructor.country}
-              countryCode={instructor.countryCode}
-              specializations={instructor.specializations}
-              bioShort={instructor.bioShort}
-              bioFull={instructor.bioFull}
-              photo={instructor.photo}
-              order={instructor.order}
-              type={instructor.type as any}
-              module={instructor.module}
-              schedule={instructor.schedule}
-              languages={instructor.languages}
-              linkedinUrl={instructor.linkedinUrl}
-              unit={instructor.unit}
+              {...({
+                key: instructor.name + i,
+                name: instructor.name,
+                country: instructor.country,
+                countryCode: instructor.countryCode,
+                specializations: instructor.specializations,
+                bioShort: instructor.bioShort,
+                bioFull: instructor.bioFull,
+                photo: instructor.photo,
+                order: instructor.order,
+                type: instructor.type,
+                module: instructor.module,
+                schedule: instructor.schedule,
+                languages: instructor.languages,
+                linkedinUrl: instructor.linkedinUrl,
+                unit: instructor.unit,
+              } as any)}
             />
           ))}
         </div>
