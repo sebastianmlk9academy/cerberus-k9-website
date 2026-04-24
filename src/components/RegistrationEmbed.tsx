@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Calendar, MapPin, Ticket, AlertCircle, Mail, Phone, ExternalLink, ChevronDown } from "lucide-react";
 
 const PretixWidget = "pretix-widget" as unknown as React.ComponentType<{
@@ -9,19 +9,6 @@ const PretixWidget = "pretix-widget" as unknown as React.ComponentType<{
 
 export default function RegistrationEmbed() {
   const [showInstructions, setShowInstructions] = useState(false);
-
-  useEffect(() => {
-    const existing = document.querySelector<HTMLScriptElement>(
-      'script[src="https://pretix.eu/widget/v1.en.js"]',
-    );
-    if (existing) return;
-
-    const script = document.createElement("script");
-    script.src = "https://pretix.eu/widget/v1.en.js";
-    script.async = true;
-    script.type = "text/javascript";
-    document.head.appendChild(script);
-  }, []);
 
   return (
     <section
