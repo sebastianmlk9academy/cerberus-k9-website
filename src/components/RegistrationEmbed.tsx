@@ -10,7 +10,7 @@ declare module "react" {
   }
 }
 
-import { useState, type MouseEvent } from "react";
+import { useState, useEffect, type MouseEvent } from "react";
 import { Calendar, MapPin, Ticket, AlertCircle, Mail, Phone, ExternalLink, ChevronDown } from "lucide-react";
 
 const partnerCtaBase = {
@@ -38,6 +38,21 @@ function setPartnerCtaLeave(e: MouseEvent<HTMLAnchorElement>) {
 
 export default function RegistrationEmbed() {
   const [showInstructions, setShowInstructions] = useState(false);
+
+  useEffect(() => {
+    // Load Pretix script dynamically if not already loaded
+    if (!document.querySelector('script[src*="pretixwidget"]')) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://pretix.eu/static/pretixwidget/widget.css';
+      document.head.appendChild(link);
+
+      const script = document.createElement('script');
+      script.src = 'https://pretix.eu/static/pretixwidget/widget.js';
+      script.async = true;
+      document.head.appendChild(script);
+    }
+  }, []);
 
   return (
     <section
