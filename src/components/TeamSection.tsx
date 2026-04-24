@@ -166,6 +166,8 @@ interface TeamMember {
               color: "#C4922A",
               marginTop: "8px",
               marginBottom: "12px",
+              minHeight: "48px",
+              overflow: "hidden",
             }}
           >
             {member.military}
