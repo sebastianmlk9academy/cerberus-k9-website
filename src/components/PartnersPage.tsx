@@ -540,17 +540,6 @@ export default function PartnersPage({ partners: partnersProp, embedded = false 
               alignItems: 'center',
             }}
           >
-            <span
-              style={{
-                fontFamily: "'Rajdhani', sans-serif",
-                fontSize: 11,
-                letterSpacing: 2,
-                color: '#C4922A',
-                fontWeight: 700,
-              }}
-            >
-              FILTRUJ:
-            </span>
             {filterTabs.map((tab) => {
               const isActive = activeFilter === tab;
               return (
