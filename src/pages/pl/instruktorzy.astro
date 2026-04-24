@@ -12,12 +12,34 @@ export const prerender = true;
 const lang = 'pl';
 const seo = instructorsSeoByLang[lang];
 
-const instructors = (await getCollection('instruktorzy'))
-	.map((entry) => ({ ...entry.data }))
-	.sort((a, b) => a.order - b.order);
+let visibleInstructors = [];
+try {
+	const all = await getCollection('instruktorzy');
+	visibleInstructors = all
+		.filter(i => i.data.showOnHomepage !== false)
+		.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
+		.map(i => ({
+			name: i.data.name,
+			country: i.data.country,
+			countryCode: i.data.countryCode,
+			specializations: i.data.specializations ?? [],
+			bioShort: i.data.bioShort ?? '',
+			bioFull: i.data.bioFull ?? '',
+			photo: i.data.photo ?? '',
+			order: i.data.order ?? 99,
+			type: i.data.type ?? 'Instruktor',
+			module: i.data.module ?? '',
+			schedule: i.data.schedule ?? '',
+			languages: i.data.languages ?? 'Polski',
+			linkedinUrl: i.data.linkedinUrl ?? '',
+			unit: i.data.unit ?? '',
+		}));
+} catch (e) {
+	console.warn('instruktorzy collection error:', e.message);
+}
 
-const instructorsCount = instructors.length;
-const countriesCount = new Set(instructors.map((instructor) => instructor.countryCode)).size;
+const instructorsCount = visibleInstructors.length;
+const countriesCount = new Set(visibleInstructors.map((instructor) => instructor.countryCode)).size;
 ---
 
 <BaseLayout
@@ -46,7 +68,7 @@ const countriesCount = new Set(instructors.map((instructor) => instructor.countr
 		<p>{instructorsCount} INSTRUKTORÓW Z {countriesCount} KRAJÓW</p>
 	</section>
 
-	<InstructorsGrid instructors={instructors} client:load />
+	<InstructorsGrid client:load instructors={visibleInstructors} />
 	<Footer client:load />
 </BaseLayout>
 
