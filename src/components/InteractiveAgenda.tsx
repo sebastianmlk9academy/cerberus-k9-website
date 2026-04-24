@@ -522,17 +522,13 @@ export default function InteractiveAgenda() {
     >
       <div style={{ maxWidth: 960, margin: "0 auto" }}>
         <header style={{ marginBottom: 32, textAlign: "center" }}>
-          <p
-            style={{
-              fontFamily: "'Rajdhani', sans-serif",
-              fontSize: 12,
-              letterSpacing: 3,
-              color: "#3A4A5A",
-              marginTop: 8,
-            }}
-          >
-            AGENDA WYDARZENIA — 13–14 CZERWCA 2026
-          </p>
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
+            <span className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]">
+              AGENDA WYDARZENIA — 13–14 CZERWCA 2026
+            </span>
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
+          </div>
           <h1
             style={{
               fontFamily: "'Bebas Neue', Impact, sans-serif",
