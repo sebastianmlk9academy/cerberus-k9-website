@@ -107,7 +107,7 @@ export default function InstructorCard({
             letterSpacing: '1px',
           }}
         >
-          {flag} {countryCode}
+          {flag}
         </div>
       </div>
 
