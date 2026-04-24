@@ -128,7 +128,7 @@ export function NavBar({ activeLink }: NavBarProps) {
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="flex items-center gap-2 md:gap-4">
+        <div className="flex items-center gap-2 md:gap-4" style={{ alignItems: 'center' }}>
           {/* Language Switcher - Dropdown */}
           <div className="relative">
             <button
@@ -227,6 +227,7 @@ export function NavBar({ activeLink }: NavBarProps) {
             href="#rejestracja"
             className="block transition-colors duration-150 shrink-0"
             style={{
+              alignSelf: 'center',
               backgroundColor: '#C42B2B',
               color: 'white',
               fontFamily: "'Rajdhani', sans-serif",
