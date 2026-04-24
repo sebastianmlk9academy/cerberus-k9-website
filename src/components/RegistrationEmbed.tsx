@@ -1,3 +1,15 @@
+declare module "react" {
+  namespace JSX {
+    interface IntrinsicElements {
+      "pretix-widget": {
+        event: string;
+        "single-item-select"?: string;
+        "skip-ssl-check"?: string;
+      };
+    }
+  }
+}
+
 import { useState, type MouseEvent } from "react";
 import { Calendar, MapPin, Ticket, AlertCircle, Mail, Phone, ExternalLink, ChevronDown } from "lucide-react";
 
@@ -214,18 +226,35 @@ export default function RegistrationEmbed() {
               </a>
             </div>
 
-            <div style={{ background: "#FFFFFF", minHeight: "600px", width: "100%" }}>
-              <iframe
-                src="https://pretix.eu/MLK9-LLK9/CERBERUS/"
-                style={{
-                  width: "100%",
-                  height: "700px",
-                  border: "none",
-                  display: "block",
-                }}
-                title="Rejestracja CERBERUS K9 2026"
-                loading="lazy"
+            <div
+              style={{
+                background: "#FFFFFF",
+                minHeight: "400px",
+                width: "100%",
+                padding: "8px",
+              }}
+            >
+              <pretix-widget
+                event="https://pretix.eu/MLK9-LLK9/CERBERUS/"
+                single-item-select="button"
               />
+              <noscript>
+                <p
+                  style={{
+                    fontFamily: "Rajdhani, sans-serif",
+                    padding: "20px",
+                    color: "#333",
+                  }}
+                >
+                  Rejestruj się na:{" "}
+                  <a
+                    href="https://pretix.eu/MLK9-LLK9/CERBERUS/"
+                    style={{ color: "#C4922A" }}
+                  >
+                    pretix.eu/MLK9-LLK9/CERBERUS
+                  </a>
+                </p>
+              </noscript>
             </div>
 
             <div

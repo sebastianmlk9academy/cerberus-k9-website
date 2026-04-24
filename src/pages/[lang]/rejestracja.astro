@@ -33,19 +33,16 @@ const canonicalHref = '/pl/rejestracja/';
 	canonicalHref={canonicalHref}
 	robots="noindex, follow"
 >
-	<script
-		slot="head"
-		type="text/javascript"
-		src="https://pretix.eu/widget/v1.en.js"
-		async
-		is:inline
-	></script>
 	<link
 		slot="head"
 		rel="stylesheet"
-		type="text/css"
-		href="https://pretix.eu/widget/v1.css"
+		href="https://pretix.eu/static/pretixwidget/widget.css"
 	/>
+	<script
+		slot="head"
+		src="https://pretix.eu/static/pretixwidget/widget.js"
+		async
+	></script>
 	<NavBar client:load />
 	<PageHero
 		category="DOŁĄCZ DO NAS"
