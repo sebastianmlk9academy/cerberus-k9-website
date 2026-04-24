@@ -88,7 +88,7 @@ export function Footer() {
               fontFamily: "var(--font-bebas-neue), 'Bebas Neue', sans-serif",
               fontSize: "22px",
               letterSpacing: "3px",
-              color: "#E4DDD0",
+              color: "#FFFFFF",
               margin: 0,
             }}
           >
@@ -118,7 +118,7 @@ export function Footer() {
             style={{
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
               fontSize: "11px",
-              color: "#5A6A7A",
+              color: "#FFFFFF",
               margin: 0,
             }}
           >
@@ -128,7 +128,7 @@ export function Footer() {
             style={{
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
               fontSize: "10px",
-              color: "#3A4A5A",
+              color: "#FFFFFF",
               margin: 0,
               marginTop: "4px",
             }}
@@ -144,7 +144,7 @@ export function Footer() {
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
               fontSize: "9px",
               letterSpacing: "3px",
-              color: "#C4922A",
+              color: "#FFFFFF",
               fontWeight: 700,
               marginBottom: "16px",
               textTransform: "uppercase",
@@ -162,7 +162,7 @@ export function Footer() {
                   fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
                   fontSize: "10px",
                   letterSpacing: "1px",
-                  color: "#3A4A5A",
+                  color: "#FFFFFF",
                   textDecoration: "none",
                   transition: "color 0.2s ease",
                 }}
@@ -180,7 +180,7 @@ export function Footer() {
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
               fontSize: "9px",
               letterSpacing: "3px",
-              color: "#C4922A",
+              color: "#FFFFFF",
               fontWeight: 700,
               marginBottom: "16px",
               textTransform: "uppercase",
@@ -198,7 +198,7 @@ export function Footer() {
                   fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
                   fontSize: "10px",
                   letterSpacing: "1px",
-                  color: "#3A4A5A",
+                  color: "#FFFFFF",
                   textDecoration: "none",
                   transition: "color 0.2s ease",
                 }}
@@ -216,7 +216,7 @@ export function Footer() {
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
               fontSize: "9px",
               letterSpacing: "3px",
-              color: "#C4922A",
+              color: "#FFFFFF",
               fontWeight: 700,
               marginBottom: "16px",
               textTransform: "uppercase",
@@ -229,24 +229,24 @@ export function Footer() {
             style={{
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
               fontSize: "10px",
-              color: "#3A4A5A",
+              color: "#FFFFFF",
             }}
           >
             <p style={{ margin: 0 }}>
-              <span style={{ color: "#4A5A6A" }}>KRS:</span> 0001219121
+              <span style={{ color: "#FFFFFF" }}>KRS:</span> 0001219121
             </p>
             <p style={{ margin: 0 }}>
-              <span style={{ color: "#4A5A6A" }}>NIP:</span> 6222869581
+              <span style={{ color: "#FFFFFF" }}>NIP:</span> 6222869581
             </p>
             <p style={{ margin: 0 }}>
-              <span style={{ color: "#4A5A6A" }}>REGON:</span> 543799847
+              <span style={{ color: "#FFFFFF" }}>REGON:</span> 543799847
             </p>
             <p style={{ margin: 0, marginTop: "8px" }}>
               <a
                 href="mailto:kontakt@pactak9.org"
                 className="footer-link"
                 style={{
-                  color: "#3A4A5A",
+                  color: "#FFFFFF",
                   textDecoration: "none",
                   transition: "color 0.2s ease",
                 }}
@@ -299,7 +299,7 @@ export function Footer() {
             style={{
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
               fontSize: "9px",
-              color: "#2A3A4A",
+              color: "#FFFFFF",
               margin: 0,
               textAlign: "center",
             }}
@@ -311,7 +311,7 @@ export function Footer() {
             style={{
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
               fontSize: "9px",
-              color: "#2A3A4A",
+              color: "#FFFFFF",
               margin: 0,
               textAlign: "center",
             }}
@@ -322,7 +322,7 @@ export function Footer() {
             style={{
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
               fontSize: "9px",
-              color: "#2A3A4A",
+              color: "#FFFFFF",
               margin: 0,
               textAlign: "center",
             }}
