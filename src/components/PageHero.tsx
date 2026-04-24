@@ -1,17 +1,3 @@
-import { Bebas_Neue, Rajdhani } from "next/font/google"
-
-const bebasNeue = Bebas_Neue({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-bebas-neue",
-})
-
-const rajdhani = Rajdhani({
-  weight: ["400", "500", "600"],
-  subsets: ["latin"],
-  variable: "--font-rajdhani",
-})
-
 interface PageHeroProps {
   pageName: string
   subtitle: string
@@ -20,7 +6,7 @@ interface PageHeroProps {
 export function PageHero({ pageName, subtitle }: PageHeroProps) {
   return (
     <section
-      className={`${bebasNeue.variable} ${rajdhani.variable} relative w-full min-h-[200px] md:min-h-[280px] flex items-center justify-center border-b overflow-hidden px-4 py-8`}
+      className="relative w-full min-h-[200px] md:min-h-[280px] flex items-center justify-center border-b overflow-hidden px-4 py-8"
       style={{
         backgroundColor: "#151E28",
         borderBottomColor: "#253344",
@@ -45,7 +31,7 @@ export function PageHero({ pageName, subtitle }: PageHeroProps) {
         <p
           className="mb-10 uppercase font-semibold"
           style={{
-            fontFamily: "var(--font-rajdhani), sans-serif",
+            fontFamily: "'Rajdhani', sans-serif",
             fontSize: "14px",
             letterSpacing: "3px",
             color: "#FFFFFF",
@@ -58,7 +44,7 @@ export function PageHero({ pageName, subtitle }: PageHeroProps) {
         <h1
           className="text-[32px] xs:text-[40px] sm:text-[52px] md:text-[64px] leading-none"
           style={{
-            fontFamily: "var(--font-bebas-neue), sans-serif",
+            fontFamily: "'Bebas Neue', sans-serif",
             letterSpacing: "2px",
             lineHeight: "0.9",
           }}
@@ -71,7 +57,7 @@ export function PageHero({ pageName, subtitle }: PageHeroProps) {
         <p
           className="mt-3 uppercase text-[9px] xs:text-[10px] sm:text-[11px]"
           style={{
-            fontFamily: "var(--font-rajdhani), sans-serif",
+            fontFamily: "'Rajdhani', sans-serif",
             letterSpacing: "3px",
             color: "#7A8A96",
           }}
