@@ -25,6 +25,9 @@ interface InstructorCardProps {
   bioFull: string;
   photo: string;
   order: number;
+  module?: string;
+  schedule?: string;
+  linkedinUrl?: string;
 }
 
 export default function InstructorCard({
@@ -35,6 +38,9 @@ export default function InstructorCard({
   bioShort,
   bioFull,
   photo,
+  module,
+  schedule,
+  linkedinUrl,
 }: InstructorCardProps) {
   const [expanded, setExpanded] = useState(false);
 
@@ -74,7 +80,7 @@ export default function InstructorCard({
         style={{
           padding: '20px',
           display: 'grid',
-          gridTemplateRows: 'auto auto 80px minmax(96px, auto) auto',
+          gridTemplateRows: 'auto auto 80px auto auto',
           gap: '0px',
           alignItems: 'start',
         }}
@@ -149,54 +155,122 @@ export default function InstructorCard({
           })}
         </div>
 
-        {/* Bio: clamped short text when collapsed; full text in same slot when expanded */}
-        <div style={{ alignSelf: 'start', minHeight: expanded ? undefined : '96px' }}>
-          <p
-            style={{
-              fontFamily: "'Libre Baskerville', serif",
-              fontSize: expanded ? '13px' : '12px',
-              color: expanded ? '#7A8A96' : '#5A6A7A',
-              lineHeight: expanded ? 1.75 : 1.6,
-              margin: 0,
-              ...(expanded
-                ? {}
-                : {
-                    display: '-webkit-box',
-                    WebkitLineClamp: 3,
-                    WebkitBoxOrient: 'vertical' as const,
-                    overflow: 'hidden',
-                  }),
-            }}
-          >
-            {expanded ? bioFull : bioShort}
-          </p>
-        </div>
-
-        <div style={{ alignSelf: 'start' }}>
-          <button
-            type="button"
-            onClick={() => setExpanded(!expanded)}
-            className="flex items-center gap-1 bg-transparent border-none"
-            style={{
-              flexShrink: 0,
-              fontFamily: 'Rajdhani, sans-serif',
-              fontSize: '9px',
-              letterSpacing: '2px',
-              color: '#C4922A',
-              fontWeight: 700,
-              cursor: 'pointer',
-              padding: 0,
-            }}
-          >
-            {expanded ? 'ZWIŃ BIO' : 'ROZWIŃ BIO'}
-            <ChevronDown
-              size={12}
-              style={{
-                transition: 'transform 300ms ease',
-                transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
-              }}
-            />
-          </button>
+        <div style={{ alignSelf: 'start', height: 'auto' }}>
+          {!expanded ? (
+            /* COLLAPSED */
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <p
+                style={{
+                  fontFamily: "'Libre Baskerville', serif",
+                  fontSize: '12px',
+                  color: '#5A6A7A',
+                  lineHeight: 1.6,
+                  margin: 0,
+                  display: '-webkit-box',
+                  WebkitLineClamp: 3,
+                  WebkitBoxOrient: 'vertical' as const,
+                  overflow: 'hidden',
+                  height: '96px',
+                }}
+              >
+                {bioShort}
+              </p>
+              <button
+                type="button"
+                onClick={() => setExpanded(true)}
+                className="flex items-center gap-1 bg-transparent border-none"
+                style={{
+                  fontFamily: 'Rajdhani, sans-serif',
+                  fontSize: '9px',
+                  letterSpacing: '2px',
+                  color: '#C4922A',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  padding: 0,
+                }}
+              >
+                ROZWIŃ BIO
+                <ChevronDown size={12} style={{ transform: 'rotate(0deg)', transition: 'transform 300ms ease' }} />
+              </button>
+            </div>
+          ) : (
+            /* EXPANDED */
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <button
+                type="button"
+                onClick={() => setExpanded(false)}
+                className="flex items-center gap-1 bg-transparent border-none"
+                style={{
+                  fontFamily: 'Rajdhani, sans-serif',
+                  fontSize: '9px',
+                  letterSpacing: '2px',
+                  color: '#C4922A',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  padding: 0,
+                }}
+              >
+                ZWIŃ BIO
+                <ChevronDown size={12} style={{ transform: 'rotate(180deg)', transition: 'transform 300ms ease' }} />
+              </button>
+              <p
+                style={{
+                  fontFamily: "'Libre Baskerville', serif",
+                  fontSize: '13px',
+                  color: '#7A8A96',
+                  lineHeight: 1.75,
+                  margin: 0,
+                  borderTop: '1px solid #253344',
+                  paddingTop: '12px',
+                }}
+              >
+                {bioFull}
+              </p>
+              {module && (
+                <p
+                  style={{
+                    fontFamily: 'Rajdhani, sans-serif',
+                    fontSize: '9px',
+                    letterSpacing: '2px',
+                    color: '#C4922A',
+                    margin: '4px 0 0 0',
+                  }}
+                >
+                  MODUŁ: {module}
+                </p>
+              )}
+              {schedule && (
+                <p
+                  style={{
+                    fontFamily: 'Rajdhani, sans-serif',
+                    fontSize: '9px',
+                    letterSpacing: '2px',
+                    color: '#7A8A96',
+                    margin: '2px 0 0 0',
+                  }}
+                >
+                  HARMONOGRAM: {schedule}
+                </p>
+              )}
+              {linkedinUrl && (
+                <a
+                  href={linkedinUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    fontFamily: 'Rajdhani, sans-serif',
+                    fontSize: '9px',
+                    letterSpacing: '2px',
+                    color: '#3A7ACA',
+                    marginTop: '4px',
+                    display: 'block',
+                  }}
+                >
+                  LINKEDIN →
+                </a>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
