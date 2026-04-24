@@ -223,7 +223,7 @@ export function PartnersStrip() {
   return (
     <section
       className="w-full bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28] px-4 sm:px-6 md:px-8"
-      style={{ paddingTop: "80px", paddingBottom: "80px" }}
+      style={{ paddingTop: "80px", paddingBottom: "0px" }}
     >
       <div className="max-w-6xl mx-auto">
 

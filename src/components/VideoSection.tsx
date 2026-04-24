@@ -87,7 +87,7 @@ export function VideoSection() {
   return (
     <section
       className="w-full bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28]"
-      style={{ paddingTop: "80px", paddingBottom: "80px", paddingLeft: "5%", paddingRight: "5%" }}
+      style={{ paddingTop: "80px", paddingBottom: "0px", paddingLeft: "5%", paddingRight: "5%" }}
     >
       {/* Header */}
       <div className="mb-8 text-center">
