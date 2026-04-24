@@ -131,7 +131,10 @@ export function NavBar({ activeLink }: NavBarProps) {
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="flex items-center gap-2 md:gap-4" style={{ alignItems: 'center' }}>
+        <div
+          className="flex items-center gap-2 md:gap-4"
+          style={{ display: 'flex', alignItems: 'center' }}
+        >
           {/* Language Switcher - Dropdown */}
           <div className="relative">
             <button
@@ -231,6 +234,7 @@ export function NavBar({ activeLink }: NavBarProps) {
             className="block transition-colors duration-150 shrink-0"
             style={{
               alignSelf: 'center',
+              margin: '0',
               backgroundColor: '#C42B2B',
               color: 'white',
               fontFamily: "'Rajdhani', sans-serif",
