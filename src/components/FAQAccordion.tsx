@@ -143,6 +143,17 @@ export default function FAQAccordion() {
             letterSpacing: '0.05em',
           }}
         >
+          FAQ
+        </h2>
+        <h2
+          className="text-center mb-12"
+          style={{
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontSize: '42px',
+            color: '#E4DDD0',
+            letterSpacing: '0.05em',
+          }}
+        >
           NAJCZĘSTSZE PYTANIA
         </h2>
         <div>
