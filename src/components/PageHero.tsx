@@ -14,14 +14,31 @@ export function PageHero({ category, title, subtitle, pageLabel, pageName }: Pag
     <section
       className="relative w-full min-h-[200px] md:min-h-[280px] flex items-center justify-center border-b overflow-hidden px-4 py-8"
       style={{
+        position: "relative",
+        overflow: "hidden",
         backgroundColor: "#151E28",
         borderBottomColor: "#253344",
       }}
     >
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: "url('/images/page_hero_graph.webp')",
+          backgroundSize: "cover",
+          backgroundPosition: "center top",
+          backgroundRepeat: "no-repeat",
+          opacity: 0.4,
+          zIndex: 0,
+          pointerEvents: "none",
+        }}
+      />
+
       {/* Subtle diagonal lines background */}
       <div
         className="absolute inset-0 opacity-30 pointer-events-none"
         style={{
+          zIndex: 1,
           backgroundImage: `
             linear-gradient(45deg, transparent 49.5%, #1E2B38 49.5%, #1E2B38 50.5%, transparent 50.5%),
             linear-gradient(45deg, transparent 49.5%, #1E2B38 49.5%, #1E2B38 50.5%, transparent 50.5%)
@@ -32,7 +49,10 @@ export function PageHero({ category, title, subtitle, pageLabel, pageName }: Pag
       />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center text-center w-full max-w-4xl">
+      <div
+        className="relative z-10 flex flex-col items-center justify-center text-center w-full max-w-4xl"
+        style={{ position: "relative", zIndex: 10 }}
+      >
         {/* Page Name */}
         <p
           className="mb-10 uppercase font-semibold"
