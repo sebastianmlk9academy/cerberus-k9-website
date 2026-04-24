@@ -522,17 +522,6 @@ export default function InteractiveAgenda() {
     >
       <div style={{ maxWidth: 960, margin: "0 auto" }}>
         <header style={{ marginBottom: 32, textAlign: "center" }}>
-          <h1
-            style={{
-              fontFamily: "'Bebas Neue', Impact, sans-serif",
-              fontSize: 42,
-              letterSpacing: 4,
-              margin: 0,
-              color: "#E4DDD0",
-            }}
-          >
-            <span>CERBERUS </span><span style={{ color: "#C42B2B" }}>K9</span>
-          </h1>
           <p
             style={{
               fontFamily: "'Rajdhani', sans-serif",
@@ -544,6 +533,17 @@ export default function InteractiveAgenda() {
           >
             AGENDA WYDARZENIA — 13–14 CZERWCA 2026
           </p>
+          <h1
+            style={{
+              fontFamily: "'Bebas Neue', Impact, sans-serif",
+              fontSize: 42,
+              letterSpacing: 4,
+              margin: 0,
+              color: "#E4DDD0",
+            }}
+          >
+            <span>CERBERUS </span><span style={{ color: "#C42B2B" }}>K9</span>
+          </h1>
         </header>
 
         {/* Day Tabs */}
