@@ -78,8 +78,13 @@ function LocationBlock({
 export function LocationsSection() {
   return (
     <section
-      className="w-full bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28]"
-      style={{ paddingTop: "0px", paddingBottom: "10px" }}
+      className="w-full"
+      style={{
+        paddingTop: "0px",
+        paddingBottom: "10px",
+        background:
+          "linear-gradient(to bottom, rgba(22,31,40,0.85), rgba(26,37,48,0.85), rgba(22,31,40,0.85))",
+      }}
     >
       {/* Section Header */}
       <div
