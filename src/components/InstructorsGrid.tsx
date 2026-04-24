@@ -99,7 +99,7 @@ export default function InstructorsGrid({ instructors }: InstructorsGridProps) {
       }}
     >
       {/* Filter bar */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '48px', alignItems: 'center' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '48px', alignItems: 'center', justifyContent: 'center' }}>
         <span style={{
           fontFamily: 'Rajdhani, sans-serif',
           fontSize: '9px',
