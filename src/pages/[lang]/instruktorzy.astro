@@ -1,0 +1,91 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { locales } from '../../../locales.mjs';
+import { isLang } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+import { instructorsSeoByLang } from '../../i18n/instructorsSeo';
+import { NavBar } from '../../components/NavBar';
+import { PageHero } from '../../components/PageHero';
+import InstructorsGrid from '../../components/InstructorsGrid';
+import { Footer } from '../../components/Footer';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+	return locales.filter((locale) => locale !== 'pl').map((lang) => ({ params: { lang } }));
+}
+
+const param = Astro.params.lang ?? '';
+const lang: Lang = isLang(param) ? param : 'en';
+const seo = instructorsSeoByLang[lang];
+
+const instructors = (await getCollection('instruktorzy'))
+	.map((entry) => ({ ...entry.data }))
+	.sort((a, b) => a.order - b.order);
+
+const instructorsCount = instructors.length;
+const countriesCount = new Set(instructors.map((instructor) => instructor.countryCode)).size;
+---
+
+<BaseLayout
+	lang={lang}
+	title={seo.title}
+	description={seo.description}
+	localizedPath="instruktorzy"
+	ogType="website"
+>
+	<NavBar client:load />
+	<PageHero
+		category="ZESPÓŁ INSTRUKTORSKI"
+		title="INSTRUKTORZY"
+		subtitle="WETERANI JWK · US POLICE K9 · MARINHA PORTUGUESA · EKSPERCI NATO"
+	/>
+
+	<section class="team-intro">
+		<p>
+			Nasi instruktorzy to elita - emeryci Jednostki Wojskowej Komandosow (JWK), weterani operacji NATO,
+			certyfikowani specjalisci K9 ze Stanow Zjednoczonych, Slowacji, Czech i Wegier. Laczy ich jedno:
+			realna, bojowa wiedza przekazywana bezposrednio uczestnikom CERBERUS K9.
+		</p>
+	</section>
+
+	<section class="count-bar">
+		<p>{instructorsCount} INSTRUKTOROW Z {countriesCount} KRAJOW</p>
+	</section>
+
+	<InstructorsGrid instructors={instructors} client:load />
+	<Footer client:load />
+</BaseLayout>
+
+<style>
+	.team-intro {
+		background: #151e28;
+		padding: 48px 5%;
+	}
+
+	.team-intro p {
+		max-width: 1200px;
+		margin: 0 auto;
+		font-family: var(--font-libre-baskerville), 'Libre Baskerville', serif;
+		font-size: 15px;
+		line-height: 1.8;
+		color: #7a8a96;
+	}
+
+	.count-bar {
+		background: #151e28;
+		padding: 0 5% 48px;
+	}
+
+	.count-bar p {
+		max-width: 1200px;
+		margin: 0 auto;
+		font-family: var(--font-rajdhani), 'Rajdhani', sans-serif;
+		font-size: 14px;
+		font-weight: 700;
+		letter-spacing: 0.18em;
+		color: #c4922a;
+		text-transform: uppercase;
+	}
+</style>
