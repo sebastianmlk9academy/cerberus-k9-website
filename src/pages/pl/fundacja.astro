@@ -39,7 +39,7 @@ const legalRows: { label: string; value: string }[] = [
 	{ label: 'Adres', value: 'ul. Odolanowska 17, 63-400 Topola Mała, woj. wielkopolskie' },
 	{
 		label: 'Prezes',
-		value: 'Mariusz Lis (jedyny upoważniony do składania oświadczeń woli)',
+		value: 'Mariusz Lis',
 	},
 	{ label: 'Wiceprezes', value: 'Sebastian Bożek' },
 	{ label: 'Status', value: 'Fundacja, osobowość prawna' },
@@ -107,11 +107,11 @@ const legalRows: { label: string; value: string }[] = [
 			</dl>
 
 			<div class="fundacja-legal__cta-row">
-				<a class="fundacja-legal__cta fundacja-legal__cta--gold" href="/statut-pacta-k9.pdf">
+				<a class="fundacja-legal__cta fundacja-legal__cta--partner" href="/statut-pacta-k9.pdf">
 					Pobierz Statut Fundacji
 				</a>
 				<a
-					class="fundacja-legal__cta fundacja-legal__cta--outline"
+					class="fundacja-legal__cta fundacja-legal__cta--partner"
 					href="https://ekrs.ms.gov.pl"
 					target="_blank"
 					rel="noopener noreferrer"
@@ -135,7 +135,7 @@ const legalRows: { label: string; value: string }[] = [
 
 <style>
 	.fundacja-mission {
-		background-color: #1e2b38;
+		background-color: #151e28;
 		padding: 64px 5%;
 	}
 	.fundacja-mission__inner {
@@ -176,7 +176,7 @@ const legalRows: { label: string; value: string }[] = [
 	}
 
 	.fundacja-legal {
-		background-color: #0f1720;
+		background-color: #151e28;
 		padding: 48px 5%;
 	}
 	.fundacja-legal__inner {
@@ -241,30 +241,39 @@ const legalRows: { label: string; value: string }[] = [
 		margin-bottom: 3rem;
 	}
 	.fundacja-legal__cta {
-		display: inline-flex;
+		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding: 0.75rem 1.5rem;
-		font-family: 'Rajdhani', sans-serif;
-		font-weight: 700;
-		font-size: 0.7rem;
-		letter-spacing: 0.18em;
-		text-transform: uppercase;
 		text-decoration: none;
-		transition: opacity 0.15s ease;
+		text-transform: uppercase;
+		cursor: pointer;
+		box-sizing: border-box;
 	}
-	.fundacja-legal__cta:hover {
-		opacity: 0.88;
-	}
-	.fundacja-legal__cta--gold {
-		background-color: #c4922a;
-		color: #0f1720;
+	.fundacja-legal__cta--partner {
+		width: 100%;
+		padding: 12px 20px;
+		font-family: var(--font-rajdhani), sans-serif;
+		font-size: 10px;
+		font-weight: 700;
+		letter-spacing: 3px;
+		color: #c4922a;
+		background-color: transparent;
 		border: 1px solid #c4922a;
+		border-radius: 0;
+		transition-property: color, background-color, border-color;
+		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+		transition-duration: 150ms;
 	}
-	.fundacja-legal__cta--outline {
-		background: transparent;
-		color: #e4ddd0;
-		border: 1px solid #253344;
+	@media (min-width: 640px) {
+		.fundacja-legal__cta--partner {
+			width: auto;
+			padding: 14px 24px;
+			font-size: 11px;
+		}
+	}
+	.fundacja-legal__cta--partner:hover {
+		background-color: #c4922a;
+		color: #1e2b38;
 	}
 	.fundacja-statute__heading {
 		font-family: 'Bebas Neue', sans-serif;

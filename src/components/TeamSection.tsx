@@ -191,7 +191,7 @@ interface TeamMember {
   
   export function TeamSection() {
     return (
-      <section style={{ backgroundColor: "#0F1720", padding: "80px 24px" }}>
+      <section style={{ backgroundColor: "#151e28", padding: "80px 24px" }}>
         <div className="mx-auto max-w-6xl">
           <div className="mb-12 text-center">
             <div className="flex items-center justify-center gap-4 mb-4">
