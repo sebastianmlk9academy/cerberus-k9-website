@@ -173,15 +173,14 @@ interface TeamMember {
               <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
             </div>
             <h2
+              className="font-[family-name:var(--font-rajdhani)] uppercase text-2xl sm:text-3xl lg:text-[32px]"
               style={{
-                fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: "48px",
+                fontWeight: 700,
                 color: "#E4DDD0",
                 letterSpacing: "2px",
-                margin: 0,
               }}
             >
-              LUDZIE PACTA K9
+              PACTA K9
             </h2>
           </div>
   
