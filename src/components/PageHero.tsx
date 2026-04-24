@@ -28,9 +28,20 @@ export function PageHero({ category, title, subtitle, pageLabel, pageName }: Pag
           backgroundSize: "cover",
           backgroundPosition: "center top",
           backgroundRepeat: "no-repeat",
-          opacity: 0.4,
+          opacity: 0.40,
           zIndex: 0,
           pointerEvents: "none",
+        }}
+      />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          zIndex: 1,
+          background: `
+            linear-gradient(to right, rgba(30,43,56,0.95) 0%, rgba(30,43,56,0.7) 50%, rgba(30,43,56,0.4) 100%),
+            radial-gradient(circle at 85% 15%, rgba(196,146,42,0.1) 0%, transparent 60%),
+            radial-gradient(circle at 40% 85%, rgba(196,43,43,0.08) 0%, transparent 50%)
+          `,
         }}
       />
 
