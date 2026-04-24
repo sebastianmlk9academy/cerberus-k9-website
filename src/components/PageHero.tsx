@@ -1,10 +1,15 @@
 interface PageHeroProps {
-  pageName: string
+  category?: string
+  title?: string
   subtitle: string
   pageLabel?: string
+  pageName?: string
 }
 
-export function PageHero({ pageName, subtitle, pageLabel }: PageHeroProps) {
+export function PageHero({ category, title, subtitle, pageLabel, pageName }: PageHeroProps) {
+  const resolvedCategory = category ?? pageName ?? "CERBERUS K9";
+  const resolvedTitle = title ?? "CERBERUS K9";
+
   return (
     <section
       className="relative w-full min-h-[200px] md:min-h-[280px] flex items-center justify-center border-b overflow-hidden px-4 py-8"
@@ -38,7 +43,7 @@ export function PageHero({ pageName, subtitle, pageLabel }: PageHeroProps) {
             color: "#FFFFFF",
           }}
         >
-          {pageName}
+          {resolvedCategory}
         </p>
 
         {pageLabel && (
@@ -67,8 +72,7 @@ export function PageHero({ pageName, subtitle, pageLabel }: PageHeroProps) {
             lineHeight: "0.9",
           }}
         >
-          <span style={{ color: "#E4DDD0" }}>CERBERUS </span>
-          <span style={{ color: "#C42B2B" }}>K9</span>
+          <span style={{ color: "#E4DDD0" }}>{resolvedTitle}</span>
         </h1>
 
         {/* Subtitle */}

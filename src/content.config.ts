@@ -25,4 +25,18 @@ const blog = defineCollection({
 		}),
 });
 
-export const collections = { blog, i18nMessages };
+const instruktorzy = defineCollection({
+	loader: glob({ base: './src/content/instruktorzy', pattern: '**/*.{md,mdx,json,yml,yaml}' }),
+	schema: z.object({
+		name: z.string(),
+		country: z.string(),
+		countryCode: z.string().length(2),
+		specializations: z.array(z.string()),
+		bioShort: z.string(),
+		bioFull: z.string(),
+		photo: z.string(),
+		order: z.number().int(),
+	}),
+});
+
+export const collections = { blog, i18nMessages, instruktorzy };
