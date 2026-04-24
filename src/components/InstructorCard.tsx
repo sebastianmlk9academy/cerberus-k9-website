@@ -43,7 +43,7 @@ export default function InstructorCard({
   linkedinUrl,
 }: InstructorCardProps) {
   const [expanded, setExpanded] = useState(false);
-  const photoSrc = photo || '/images/instruktorzy/placeholder.jpg';
+  const photoSrc = photo || '/images/instruktorzy/test_instruktor_photo.webp';
 
   return (
     <div
@@ -66,7 +66,7 @@ export default function InstructorCard({
           alt={name}
           className="absolute inset-0 w-full h-full object-cover"
           onError={(e) => {
-            e.currentTarget.src = '/images/instruktorzy/placeholder.jpg';
+            e.currentTarget.src = '/images/instruktorzy/test_instruktor_photo.webp';
           }}
         />
         {/* Bottom gradient overlay */}
