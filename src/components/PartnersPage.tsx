@@ -1,5 +1,5 @@
 import { useState, type MouseEvent } from 'react';
-import { ExternalLink, Mail, Download } from 'lucide-react';
+import { Mail, Download } from 'lucide-react';
 
 export type PartnerType = 'Strategiczny' | 'Sponsor' | 'Patron Medialny' | 'Technologiczny';
 
@@ -187,15 +187,20 @@ function PartnerCard({ partner }: { partner: Partner }) {
   return (
     <div
       style={{
-        background: '#1E2B38',
+        background: '#0F1720',
         border: '1px solid #253344',
         padding: '24px',
         display: 'flex',
         flexDirection: 'column',
         gap: '0',
-        transition: 'border-color 0.2s, box-shadow 0.2s',
+        transition: 'border-color 200ms ease',
       }}
-      className="partner-card group"
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = '#C4922A';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = '#253344';
+      }}
     >
       {/* Logo area */}
       <div
@@ -204,8 +209,10 @@ function PartnerCard({ partner }: { partner: Partner }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          background: '#0F1720',
           borderBottom: '1px solid #253344',
-          marginBottom: '16px',
+          margin: '0 -24px 16px',
+          padding: '0 24px',
         }}
       >
         {partner.logo ? (
@@ -255,9 +262,9 @@ function PartnerCard({ partner }: { partner: Partner }) {
       {/* Name */}
       <p
         style={{
-          fontFamily: "'Rajdhani', sans-serif",
-          fontWeight: 700,
-          fontSize: '14px',
+          fontFamily: "'Bebas Neue', sans-serif",
+          fontSize: '20px',
+          letterSpacing: '1px',
           color: '#E4DDD0',
           marginBottom: '8px',
           marginTop: '0',
@@ -307,8 +314,7 @@ function PartnerCard({ partner }: { partner: Partner }) {
           }}
           className="partner-link"
         >
-          Website
-          <ExternalLink size={9} />
+          WEBSITE →
         </a>
       )}
     </div>
@@ -377,10 +383,6 @@ export default function PartnersPage({ partners: partnersProp, embedded = false 
       }}
     >
       <style>{`
-        .partner-card:hover {
-          border-color: #3A4A5A !important;
-          box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-        }
         .partner-link:hover {
           color: #E0AA44 !important;
         }
@@ -655,7 +657,7 @@ export default function PartnersPage({ partners: partnersProp, embedded = false 
               style={{
                 fontFamily: "'Libre Baskerville', serif",
                 fontSize: '14px',
-                color: '#8A9AAA',
+                color: '#5A6A7A',
                 lineHeight: 1.75,
                 margin: '0 0 32px 0',
                 flexGrow: 1,
@@ -754,7 +756,7 @@ export default function PartnersPage({ partners: partnersProp, embedded = false 
               style={{
                 fontFamily: "'Libre Baskerville', serif",
                 fontSize: '14px',
-                color: '#8A9AAA',
+                color: '#5A6A7A',
                 lineHeight: 1.75,
                 margin: '0 0 32px 0',
                 flexGrow: 1,
