@@ -517,8 +517,8 @@ export default function PartnersPage({ partners: partnersProp, embedded = false 
         <SectionDivider label="AKTUALNI PARTNERZY" />
 
         {/* Filter tabs */}
-        <div className="filter-tabs-scroll" style={{ marginBottom: '40px' }}>
-          <div style={{ display: 'flex', gap: '2px', width: 'max-content', justifyContent: 'center' }}>
+        <div className="filter-tabs-scroll" style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
+          <div style={{ display: 'flex', gap: '2px', width: 'max-content', justifyContent: 'center', margin: '0 auto' }}>
             {filterTabs.map((tab) => (
               <button
                 key={tab}
