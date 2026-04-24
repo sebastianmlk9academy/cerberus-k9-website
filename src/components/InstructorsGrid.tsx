@@ -72,6 +72,8 @@ export default function InstructorCard({
     <div
       className="group overflow-hidden cursor-pointer"
       style={{
+        paddingTop: '80px',
+        paddingBottom: '80px',
         background: '#1E2B38',
         border: '1px solid #253344',
         transition: 'border-color 200ms ease',

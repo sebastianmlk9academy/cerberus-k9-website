@@ -131,7 +131,13 @@ export default function FAQAccordion() {
   return (
     <section
       className="w-full"
-      style={{ background: 'linear-gradient(to bottom, #161F28, #1A2530, #161F28)', padding: '80px 5%' }}
+      style={{
+        background: 'linear-gradient(to bottom, #161F28, #1A2530, #161F28)',
+        paddingTop: '80px',
+        paddingBottom: '80px',
+        paddingLeft: '5%',
+        paddingRight: '5%',
+      }}
     >
       <div className="mx-auto" style={{ maxWidth: '800px' }}>
         <div className="flex items-center justify-center gap-4 mb-4">
