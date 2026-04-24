@@ -74,7 +74,7 @@ export default function InstructorCard({
         style={{
           padding: '20px',
           display: 'grid',
-          gridTemplateRows: 'auto auto 80px 96px auto',
+          gridTemplateRows: 'auto auto 80px minmax(96px, auto) auto',
           gap: '0px',
           alignItems: 'start',
         }}
@@ -149,36 +149,32 @@ export default function InstructorCard({
           })}
         </div>
 
-        {/* Short bio — hidden when expanded */}
-        <div
-          style={{
-            height: expanded ? '0px' : '96px',
-            overflow: 'hidden',
-            alignSelf: 'start',
-            opacity: expanded ? 0 : 1,
-            transition: 'height 300ms ease, opacity 200ms ease',
-          }}
-        >
+        {/* Bio: clamped short text when collapsed; full text in same slot when expanded */}
+        <div style={{ alignSelf: 'start', minHeight: expanded ? undefined : '96px' }}>
           <p
             style={{
               fontFamily: "'Libre Baskerville', serif",
-              fontSize: '12px',
-              color: '#5A6A7A',
-              lineHeight: 1.6,
+              fontSize: expanded ? '13px' : '12px',
+              color: expanded ? '#7A8A96' : '#5A6A7A',
+              lineHeight: expanded ? 1.75 : 1.6,
               margin: 0,
-              display: '-webkit-box',
-              WebkitLineClamp: 3,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
+              ...(expanded
+                ? {}
+                : {
+                    display: '-webkit-box',
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: 'vertical' as const,
+                    overflow: 'hidden',
+                  }),
             }}
           >
-            {bioShort}
+            {expanded ? bioFull : bioShort}
           </p>
         </div>
 
-        <div style={{ marginTop: '0px', alignSelf: 'start' }}>
-          {/* Expand/collapse button */}
+        <div style={{ alignSelf: 'start' }}>
           <button
+            type="button"
             onClick={() => setExpanded(!expanded)}
             className="flex items-center gap-1 bg-transparent border-none"
             style={{
@@ -201,31 +197,6 @@ export default function InstructorCard({
               }}
             />
           </button>
-
-          {/* Expanded bio */}
-          <div
-            style={{
-              flexShrink: 0,
-              maxHeight: expanded ? '500px' : '0px',
-              overflow: 'hidden',
-              transition: 'max-height 300ms ease',
-              borderTop: expanded ? '1px solid #253344' : '1px solid transparent',
-              marginTop: '12px',
-              paddingTop: expanded ? '12px' : '0px',
-            }}
-          >
-            <p
-              style={{
-                fontFamily: "'Libre Baskerville', serif",
-                fontSize: '13px',
-                color: '#7A8A96',
-                lineHeight: 1.75,
-                margin: 0,
-              }}
-            >
-              {bioFull}
-            </p>
-          </div>
         </div>
       </div>
     </div>
