@@ -1,34 +1,190 @@
-import InstructorCard, { type InstructorCardProps } from './InstructorCard';
+import { useState } from 'react';
+import InstructorCard from './InstructorCard';
 
-interface InstructorsGridProps {
-  instructors: InstructorCardProps[];
+interface Instructor {
+  name: string;
+  country: string;
+  countryCode: string;
+  specializations: string[];
+  bioShort: string;
+  bioFull: string;
+  photo: string;
+  order: number;
+  type?: string;
+  module?: string;
+  schedule?: string;
+  languages?: string;
+  linkedinUrl?: string;
+  unit?: string;
 }
 
+interface InstructorsGridProps {
+  instructors?: Instructor[];
+}
+
+const FALLBACK: Instructor[] = [
+  {
+    name: 'Mariusz Lis',
+    country: 'Polska',
+    countryCode: 'PL',
+    specializations: ['K9 Gryzienie', 'K9 Detekcja'],
+    bioShort: 'Wieloletni operator JWK. Prezes Fundacji PACTA K9. Twórca CERBERUS K9.',
+    bioFull: 'Wieloletni operator Jednostki Wojskowej Komandosów. Współzałożyciel i Prezes Fundacji PACTA K9.',
+    photo: '/images/instruktorzy/placeholder.jpg',
+    order: 1,
+    type: 'Instruktor',
+    module: 'Dyrekcja Programowa — oba dni',
+  },
+  {
+    name: 'Brandon M.',
+    country: 'USA',
+    countryCode: 'US',
+    specializations: ['Pozorant', 'K9 Gryzienie'],
+    bioShort: 'Aktywny pozorant K9 dla SWAT i Policji USA.',
+    bioFull: 'Aktywny pozorant i instruktor K9 dla departamentów policji USA i SWAT.',
+    photo: '/images/instruktorzy/placeholder.jpg',
+    order: 2,
+    type: 'Pozorant',
+    module: 'K9-Gryzanie + HARDEST HIT',
+  },
+  {
+    name: 'Instruktor TCCC',
+    country: 'Polska',
+    countryCode: 'PL',
+    specializations: ['TCCC', 'TCCC-K9'],
+    bioShort: 'Ratownik medyczny JWK. Twórca programu TCCC-K9.',
+    bioFull: 'Ratownik medyczny z doświadczeniem operacyjnym JWK.',
+    photo: '/images/instruktorzy/placeholder.jpg',
+    order: 3,
+    type: 'Instruktor',
+    module: 'TCCC Dzień 1: 13:30-16:00',
+  },
+  {
+    name: 'Delegacja Marinha Portuguesa',
+    country: 'Portugalia',
+    countryCode: 'PT',
+    specializations: ['K9 Detekcja', 'K9 Gryzienie'],
+    bioShort: 'Marynarka Wojenna Portugalia. Specjaliści NATO K9.',
+    bioFull: 'Oficjalna delegacja Marynarki Wojennej Portugalia — NATO K9.',
+    photo: '/images/instruktorzy/placeholder.jpg',
+    order: 4,
+    type: 'Instruktor',
+    module: 'K9-Detekcja + pokaz NATO K9',
+  },
+];
+
+const FILTERS = ['WSZYSCY', 'K9', 'TCCC', 'DRONY', 'KONFERENCJA', 'POZORANT'];
+
 export default function InstructorsGrid({ instructors }: InstructorsGridProps) {
+  const [activeFilter, setActiveFilter] = useState('WSZYSCY');
+  const data = (instructors && instructors.length > 0) ? instructors : FALLBACK;
+
+  const filtered = activeFilter === 'WSZYSCY'
+    ? data
+    : data.filter(i =>
+        i.specializations.some(s =>
+          s.toLowerCase().includes(activeFilter.toLowerCase())
+        ) || (activeFilter === 'POZORANT' && i.type === 'Pozorant')
+      );
+
   return (
-    <section id="instruktorzy" className="w-full" style={{ backgroundColor: '#151E28', padding: '0 5% 64px' }}>
-      <div
-        className="mx-auto grid"
-        style={{
-          maxWidth: '1400px',
-          gap: '24px',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-        }}
-      >
-        {instructors.map((instructor) => (
-          <InstructorCard
-            key={`${instructor.name}-${instructor.order}`}
-            name={instructor.name}
-            country={instructor.country}
-            countryCode={instructor.countryCode}
-            specializations={instructor.specializations}
-            bioShort={instructor.bioShort}
-            bioFull={instructor.bioFull}
-            photo={instructor.photo}
-            order={instructor.order}
-          />
+    <section
+      id="instructors-grid"
+      style={{
+        backgroundColor: '#151E28',
+        paddingTop: '80px',
+        paddingBottom: '0px',
+        paddingLeft: '5%',
+        paddingRight: '5%',
+      }}
+    >
+      {/* Filter bar */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '48px', alignItems: 'center' }}>
+        <span style={{
+          fontFamily: 'Rajdhani, sans-serif',
+          fontSize: '9px',
+          letterSpacing: '3px',
+          color: '#4A5A6A',
+          fontWeight: 700,
+          marginRight: '8px',
+        }}>
+          FILTRUJ:
+        </span>
+        {FILTERS.map(f => (
+          <button
+            key={f}
+            onClick={() => setActiveFilter(f)}
+            style={{
+              fontFamily: 'Rajdhani, sans-serif',
+              fontSize: '9px',
+              letterSpacing: '2px',
+              fontWeight: 700,
+              padding: '6px 16px',
+              cursor: 'pointer',
+              border: '1px solid',
+              borderColor: activeFilter === f ? '#C4922A' : '#253344',
+              background: activeFilter === f ? '#C4922A' : 'transparent',
+              color: activeFilter === f ? '#0F1720' : '#4A5A6A',
+              transition: 'all 150ms ease',
+            }}
+            onMouseEnter={e => {
+              if (activeFilter !== f) {
+                e.currentTarget.style.borderColor = '#C4922A';
+                e.currentTarget.style.color = '#C4922A';
+              }
+            }}
+            onMouseLeave={e => {
+              if (activeFilter !== f) {
+                e.currentTarget.style.borderColor = '#253344';
+                e.currentTarget.style.color = '#4A5A6A';
+              }
+            }}
+          >
+            {f}
+          </button>
         ))}
       </div>
+
+      {/* Grid */}
+      {filtered.length === 0 ? (
+        <p style={{
+          fontFamily: 'Rajdhani, sans-serif',
+          color: '#4A5A6A',
+          fontSize: '12px',
+          letterSpacing: '2px',
+          textAlign: 'center',
+          padding: '48px 0',
+        }}>
+          BRAK INSTRUKTORÓW DLA WYBRANEGO FILTRA
+        </p>
+      ) : (
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '2px',
+          background: '#1A2230',
+        }}>
+          {filtered.map((instructor, i) => (
+            <InstructorCard
+              key={instructor.name + i}
+              name={instructor.name}
+              country={instructor.country}
+              countryCode={instructor.countryCode}
+              specializations={instructor.specializations}
+              bioShort={instructor.bioShort}
+              bioFull={instructor.bioFull}
+              photo={instructor.photo}
+              order={instructor.order}
+              type={instructor.type as any}
+              module={instructor.module}
+              schedule={instructor.schedule}
+              languages={instructor.languages}
+              linkedinUrl={instructor.linkedinUrl}
+              unit={instructor.unit}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }
