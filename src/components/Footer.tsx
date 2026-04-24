@@ -97,12 +97,12 @@ export function Footer() {
           </h2>
           <p
             style={{
-              fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
-              fontSize: "9px",
-              letterSpacing: "5px",
+              fontFamily: "'Rajdhani', sans-serif",
+              fontSize: "clamp(6px, 0.75vw, 8px)",
+              letterSpacing: "1.8px",
+              fontWeight: 700,
               color: "#4A5A6A",
-              margin: 0,
-              textTransform: "uppercase",
+              marginTop: "-1px",
             }}
           >
             INTERNATIONAL DEFENSE PLATFORM
