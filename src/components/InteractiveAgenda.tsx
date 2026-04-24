@@ -594,17 +594,23 @@ export default function InteractiveAgenda() {
           }}
         >
           {FILTERS.map((f) => {
+            const isActive = filter === f.key;
             return (
               <button
                 key={f.key}
                 onClick={() => setFilter(f.key)}
                 style={{
                   ...partnerButtonStyle,
+                  backgroundColor: isActive ? "#C4922A" : "transparent",
+                  color: isActive ? "#1E2B38" : "#C4922A",
                   padding: "8px 14px",
                   fontSize: 11,
                 }}
                 onMouseEnter={handlePartnerButtonMouseEnter}
-                onMouseLeave={handlePartnerButtonMouseLeave}
+                onMouseLeave={(e) => {
+                  if (isActive) return;
+                  handlePartnerButtonMouseLeave(e);
+                }}
               >
                 {f.label}
               </button>
@@ -643,6 +649,7 @@ export default function InteractiveAgenda() {
           {visibleItems.map((item) => {
             const meta = CATEGORY_META[item.category];
             const isOpen = !!expanded[item.id];
+            const isCalendarMenuOpen = calendarMenuFor === item.id;
             return (
               <div
                 key={item.id}
@@ -850,6 +857,10 @@ export default function InteractiveAgenda() {
                               }
                               style={{
                                 ...partnerButtonStyle,
+                                backgroundColor: isCalendarMenuOpen
+                                  ? "#C4922A"
+                                  : "transparent",
+                                color: isCalendarMenuOpen ? "#1E2B38" : "#C4922A",
                                 padding: "6px 12px",
                                 fontSize: 11,
                                 display: "inline-flex",
@@ -857,7 +868,10 @@ export default function InteractiveAgenda() {
                                 gap: 6,
                               }}
                               onMouseEnter={handlePartnerButtonMouseEnter}
-                              onMouseLeave={handlePartnerButtonMouseLeave}
+                              onMouseLeave={(e) => {
+                                if (isCalendarMenuOpen) return;
+                                handlePartnerButtonMouseLeave(e);
+                              }}
                             >
                               <Calendar size={14} />
                               DODAJ DO KALENDARZA
@@ -898,6 +912,8 @@ export default function InteractiveAgenda() {
               onClick={() => setFullEventMenuOpen((v) => !v)}
               style={{
                 ...partnerButtonStyle,
+                backgroundColor: fullEventMenuOpen ? "#C4922A" : "transparent",
+                color: fullEventMenuOpen ? "#1E2B38" : "#C4922A",
                 padding: "12px 24px",
                 fontSize: 13,
                 display: "inline-flex",
@@ -905,7 +921,10 @@ export default function InteractiveAgenda() {
                 gap: 6,
               }}
               onMouseEnter={handlePartnerButtonMouseEnter}
-              onMouseLeave={handlePartnerButtonMouseLeave}
+              onMouseLeave={(e) => {
+                if (fullEventMenuOpen) return;
+                handlePartnerButtonMouseLeave(e);
+              }}
             >
               <Calendar size={14} />
               DODAJ DO KALENDARZA

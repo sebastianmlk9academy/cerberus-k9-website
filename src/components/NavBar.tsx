@@ -158,7 +158,9 @@ export function NavBar({ activeLink }: NavBarProps) {
                 alt={currentLang.name}
                 className="w-4 h-3 object-cover"
               />
-              <span className="hidden sm:inline">{currentLang.name.toUpperCase()}</span>
+              <span className="hidden sm:inline" style={{ color: '#FFFFFF' }}>
+                {currentLang.name.toUpperCase()}
+              </span>
               <svg
                 className="w-3 h-3 transition-transform duration-150"
                 style={{
