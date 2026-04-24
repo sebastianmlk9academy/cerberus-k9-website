@@ -142,12 +142,11 @@ export default function FAQAccordion() {
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
         </div>
         <h2
-          className="text-center mb-12"
+          className="text-center mb-12 mt-3 font-[family-name:var(--font-rajdhani)] uppercase text-2xl sm:text-3xl lg:text-[32px]"
           style={{
-            fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: '42px',
-            color: '#E4DDD0',
-            letterSpacing: '0.05em',
+            fontWeight: 700,
+            color: "#E4DDD0",
+            letterSpacing: "2px",
           }}
         >
           NAJCZĘSTSZE PYTANIA

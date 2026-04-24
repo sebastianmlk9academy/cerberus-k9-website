@@ -530,12 +530,11 @@ export default function InteractiveAgenda() {
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
           </div>
           <h1
+            className="mt-3 font-[family-name:var(--font-rajdhani)] uppercase text-2xl sm:text-3xl lg:text-[32px]"
             style={{
-              fontFamily: "'Bebas Neue', Impact, sans-serif",
-              fontSize: 42,
-              letterSpacing: 4,
-              margin: 0,
+              fontWeight: 700,
               color: "#E4DDD0",
+              letterSpacing: "2px",
             }}
           >
             <span>CERBERUS </span><span style={{ color: "#C42B2B" }}>K9</span>
