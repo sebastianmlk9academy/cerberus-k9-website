@@ -306,27 +306,34 @@ function PartnerCard({ partner }: { partner: Partner }) {
 }
 
 function SectionDivider({ label }: { label: string }) {
+  const lineStyle = {
+    height: '1px',
+    flex: 1,
+    background: 'linear-gradient(to right, transparent, rgba(196, 43, 43, 0.4), transparent)',
+  } as const;
   return (
     <div
       style={{
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'center',
         gap: '16px',
         marginBottom: '48px',
       }}
     >
-      <div style={{ width: '40px', height: '2px', background: '#C4922A' }} />
+      <div style={lineStyle} />
       <span
         style={{
-          fontFamily: "'Bebas Neue', cursive",
-          fontSize: '13px',
-          letterSpacing: '4px',
-          color: '#C4922A',
+          fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
+          fontSize: '12px',
+          fontWeight: 500,
+          letterSpacing: '5px',
+          color: '#C42B2B',
         }}
       >
         {label}
       </span>
-      <div style={{ flex: 1, height: '1px', background: '#253344' }} />
+      <div style={lineStyle} />
     </div>
   );
 }
@@ -511,7 +518,7 @@ export default function PartnersPage({ partners: partnersProp, embedded = false 
 
         {/* Filter tabs */}
         <div className="filter-tabs-scroll" style={{ marginBottom: '40px' }}>
-          <div style={{ display: 'flex', gap: '2px', width: 'max-content' }}>
+          <div style={{ display: 'flex', gap: '2px', width: 'max-content', justifyContent: 'center' }}>
             {filterTabs.map((tab) => (
               <button
                 key={tab}
@@ -755,33 +762,6 @@ export default function PartnersPage({ partners: partnersProp, embedded = false 
               </p>
             </div>
           </div>
-        </div>
-
-        {/* Footer note */}
-        <div
-          style={{
-            marginTop: '64px',
-            paddingTop: '32px',
-            borderTop: '1px solid #1A2230',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '16px',
-          }}
-        >
-          <div style={{ width: '24px', height: '1px', background: '#253344' }} />
-          <span
-            style={{
-              fontFamily: "'Rajdhani', sans-serif",
-              fontSize: '10px',
-              fontWeight: 700,
-              letterSpacing: '3px',
-              color: '#3A4A5A',
-            }}
-          >
-            CERBERUS K9 — POLSKA · EUROPA
-          </span>
-          <div style={{ width: '24px', height: '1px', background: '#253344' }} />
         </div>
       </div>
     </div>
