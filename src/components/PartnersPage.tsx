@@ -555,7 +555,7 @@ export default function PartnersPage({ partners: partnersProp, embedded = false 
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
             gap: '2px',
-            background: '#1A2230',
+            background: 'transparent',
             marginBottom: '80px',
           }}
         >
