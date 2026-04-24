@@ -140,6 +140,7 @@ export default function InstructorsGrid({ instructors }: InstructorsGridProps) {
     <section
       id="instructors-grid"
       style={{
+        background: 'linear-gradient(to bottom, #161F28, #1A2530, #161F28)',
         paddingTop: '0px',
         paddingBottom: '10px',
         paddingLeft: '5%',
