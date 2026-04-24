@@ -5,6 +5,14 @@
 <script type="text/javascript" src="https://pretix.eu/widget/v1.pl.js" async crossorigin></script>
 
 <style>
+  .pretix-widget-wrapper,
+  .pretix-widget-wrapper *,
+  pretix-widget,
+  pretix-widget * {
+    opacity: 1 !important;
+    filter: none !important;
+    color: #000000 !important;
+  }
   .pretix-widget,
   .pretix-widget *,
   .pretix-widget p,
@@ -29,7 +37,10 @@
   }
 </style>
 
-<div style="background: #ffffff; min-height: 400px; width: 100%;">
+<div
+	class="pretix-widget-wrapper"
+	style="background: #ffffff; min-height: 400px; width: 100%; opacity: 1 !important; filter: none !important; color: #000000 !important;"
+>
 	<pretix-widget event="https://pretix.eu/MLK9-LLK9/CERBERUS/"></pretix-widget>
 	<noscript>
 		<div style="padding: 20px; font-family: Rajdhani, sans-serif;">
