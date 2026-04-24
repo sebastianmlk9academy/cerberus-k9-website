@@ -43,6 +43,7 @@ export default function InstructorCard({
   linkedinUrl,
 }: InstructorCardProps) {
   const [expanded, setExpanded] = useState(false);
+  const photoSrc = photo || '/images/instruktorzy/placeholder.jpg';
 
   return (
     <div
@@ -59,11 +60,14 @@ export default function InstructorCard({
       onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#253344')}
     >
       {/* Photo area */}
-      <div className="relative w-full" style={{ aspectRatio: '1/1', flexShrink: 0, background: '#151E28' }}>
+      <div className="relative w-full" style={{ aspectRatio: '1/1', flexShrink: 0, background: '#253344' }}>
         <img
-          src={photo}
+          src={photoSrc}
           alt={name}
           className="absolute inset-0 w-full h-full object-cover"
+          onError={(e) => {
+            e.currentTarget.src = '/images/instruktorzy/placeholder.jpg';
+          }}
         />
         {/* Bottom gradient overlay */}
         <div
