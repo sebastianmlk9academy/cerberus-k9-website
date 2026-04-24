@@ -53,7 +53,9 @@ export default function RegistrationEmbed() {
                   margin: 0,
                 }}
               >
-                Rejestracja na Cerberus K9 2026
+                <span>Rejestracja na Cerberus </span>
+                <span style={{ color: '#C42B2B' }}>K9</span>
+                <span> 2026</span>
               </h2>
               <p
                 style={{
