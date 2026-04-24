@@ -656,9 +656,9 @@ export default function PartnersPage({ partners: partnersProp, embedded = false 
                 flexGrow: 1,
               }}
             >
-              Dotrzyj do elity służb mundurowych, ekspertów bezpieczeństwa i środowisk K9 z Polski
-              i całej Europy. Pakiety sponsorskie od{' '}
-              <strong style={{ color: '#C4922A' }}>5 000 PLN</strong>.
+              Dotrzyj do elity służb mundurowych, ekspertów bezpieczeństwa, środowisk K9 i Twoich
+              klientów docelowych z Polski i całej Europy. Pakiety sponsorskie od{' '}
+              <strong style={{ color: '#C4922A' }}>10 000 PLN</strong>.
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'flex-start' }}>
