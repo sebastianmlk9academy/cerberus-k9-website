@@ -170,12 +170,14 @@ export default function InstructorsGrid({ instructors }: InstructorsGridProps) {
           BRAK INSTRUKTORÓW DLA WYBRANEGO FILTRA
         </p>
       ) : (
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '2px',
-          background: '#1A2230',
-        }}>
+        <div
+          className="instructors-grid-layout"
+          style={{
+            display: 'grid',
+            gap: '2px',
+            background: '#1A2230',
+          }}
+        >
           {filtered.map((instructor, i) => (
             <InstructorCard
               {...({
@@ -199,6 +201,29 @@ export default function InstructorsGrid({ instructors }: InstructorsGridProps) {
           ))}
         </div>
       )}
+      <style>{`
+        .instructors-grid-layout {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        @media (max-width: 1200px) {
+          .instructors-grid-layout {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+          }
+        }
+
+        @media (max-width: 900px) {
+          .instructors-grid-layout {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+        }
+
+        @media (max-width: 600px) {
+          .instructors-grid-layout {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
     </section>
   );
 }
