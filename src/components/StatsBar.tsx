@@ -235,7 +235,7 @@ export function StatsBar() {
     <section
       ref={containerRef}
       className="relative w-full overflow-hidden"
-      style={{ backgroundColor: '#0F1720', paddingTop: '40px', paddingBottom: '40px' }}
+      style={{ backgroundColor: '#0F1720', paddingTop: '80px', paddingBottom: '80px' }}
     >
       {/* Subtle top border with gradient */}
       <div 
