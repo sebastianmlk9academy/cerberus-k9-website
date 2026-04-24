@@ -97,21 +97,21 @@ export function NavBar({ activeLink }: NavBarProps) {
         </a>
 
         {/* CENTER — NAVIGATION LINKS (desktop only) */}
-        <div className="hidden lg:flex items-center gap-4 xl:gap-6">
+        <div className="hidden lg:flex items-center gap-4 xl:gap-6" style={{ alignItems: 'center', height: '100%' }}>
           {navLinks.map((link) => {
             const isActive = activeLink === link.href;
             return (
               <a
                 key={link.href}
                 href={link.href}
-                className="transition-colors duration-150 pb-1 whitespace-nowrap"
+                className="transition-colors duration-150 whitespace-nowrap"
                 style={{
                   fontFamily: "'Rajdhani', sans-serif",
                   fontSize: '10px',
                   letterSpacing: '2px',
                   fontWeight: 700,
                   color: isActive ? '#C4922A' : '#FFFFFF',
-                  borderBottom: isActive ? '2px solid #C4922A' : '2px solid transparent',
+                  boxShadow: isActive ? 'inset 0 -2px 0 #C4922A' : 'none',
                 }}
                 onMouseEnter={(e: MouseEvent<HTMLAnchorElement>) => {
                   if (!isActive) {
