@@ -107,31 +107,57 @@ interface TeamMember {
         </div>
   
         {/* Content */}
-        <div style={{ padding: "24px" }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateRows: "auto auto auto 1fr",
+            gap: "0px",
+            padding: "20px",
+            alignItems: "start",
+          }}
+        >
           <div
             style={{
-              fontFamily: "'Rajdhani', sans-serif",
-              fontSize: "8px",
-              letterSpacing: "5px",
-              color: "#C42B2B",
-              fontWeight: 700,
-              marginBottom: "6px",
+              minHeight: "24px",
+              display: "flex",
+              alignItems: "center",
             }}
           >
-            {member.role}
+            <div
+              style={{
+                fontFamily: "'Rajdhani', sans-serif",
+                fontSize: "8px",
+                letterSpacing: "5px",
+                color: "#C42B2B",
+                fontWeight: 700,
+                marginBottom: "6px",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {member.role}
+            </div>
           </div>
-          <h3
+          <div
             style={{
-              fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: "28px",
-              color: "#E4DDD0",
-              letterSpacing: "1px",
-              margin: 0,
-              lineHeight: 1.1,
+              minHeight: "48px",
+              display: "flex",
+              alignItems: "center",
             }}
           >
-            {member.name}
-          </h3>
+            <h3
+              style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: "28px",
+                color: "#E4DDD0",
+                letterSpacing: "1px",
+                margin: 0,
+                lineHeight: 1.1,
+                whiteSpace: "nowrap",
+              }}
+            >
+              {member.name}
+            </h3>
+          </div>
           <div
             style={{
               fontFamily: "'Rajdhani', sans-serif",
@@ -151,6 +177,7 @@ interface TeamMember {
               color: "#5A6A7A",
               lineHeight: 1.7,
               margin: 0,
+              alignSelf: "start",
             }}
           >
             {member.bio}
