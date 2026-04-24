@@ -119,7 +119,7 @@ export default function InstructorsGrid({ instructors }: InstructorsGridProps) {
       style={{
         backgroundColor: '#151E28',
         paddingTop: '80px',
-        paddingBottom: '0px',
+        paddingBottom: '10px',
         paddingLeft: '5%',
         paddingRight: '5%',
       }}
