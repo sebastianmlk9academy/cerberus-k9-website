@@ -134,17 +134,13 @@ export default function FAQAccordion() {
       style={{ background: 'linear-gradient(to bottom, #161F28, #1A2530, #161F28)', padding: '80px 5%' }}
     >
       <div className="mx-auto" style={{ maxWidth: '800px' }}>
-        <h2
-          className="text-center mb-12"
-          style={{
-            fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: '42px',
-            color: '#E4DDD0',
-            letterSpacing: '0.05em',
-          }}
-        >
-          FAQ
-        </h2>
+        <div className="flex items-center justify-center gap-4 mb-4">
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
+          <span className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]">
+            FAQ
+          </span>
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
+        </div>
         <h2
           className="text-center mb-12"
           style={{
