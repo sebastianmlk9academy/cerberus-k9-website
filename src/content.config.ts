@@ -39,4 +39,18 @@ const instruktorzy = defineCollection({
 	}),
 });
 
-export const collections = { blog, i18nMessages, instruktorzy };
+const partnerzy = defineCollection({
+	loader: glob({ base: './src/content/partnerzy', pattern: '**/*.{md,mdx}' }),
+	schema: z.object({
+		name: z.string().optional(),
+		type: z.enum(['Strategiczny', 'Sponsor', 'Patron-Medialny', 'Technologiczny']).optional(),
+		logo: z.string().optional(),
+		website: z.string().optional(),
+		description: z.string().optional(),
+		order: z.number().int().optional(),
+		/** When true, entry is kept for tooling/CMS but excluded from the public partners page. */
+		draft: z.boolean().optional(),
+	}),
+});
+
+export const collections = { blog, i18nMessages, instruktorzy, partnerzy };
