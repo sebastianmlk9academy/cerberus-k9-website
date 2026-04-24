@@ -79,10 +79,13 @@ export function LocationsSection() {
   return (
     <section
       className="w-full bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28]"
-      style={{ paddingTop: "80px", paddingBottom: "0px" }}
+      style={{ paddingTop: "0px", paddingBottom: "0px" }}
     >
       {/* Section Header */}
-      <div className="px-4 py-12 text-center sm:px-6 md:py-16">
+      <div
+        className="px-4 py-12 text-center sm:px-6 md:py-16"
+        style={{ paddingTop: "80px" }}
+      >
         <div className="flex items-center justify-center gap-4 mb-4">
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
           <span 
@@ -93,7 +96,7 @@ export function LocationsSection() {
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
         </div>
         <h2
-          className="mt-3 font-[family-name:var(--font-rajdhani)] uppercase text-2xl sm:text-3xl lg:text-[32px]"
+          className="font-[family-name:var(--font-rajdhani)] uppercase text-2xl sm:text-3xl lg:text-[32px]"
           style={{
             fontWeight: 700,
             color: "#E4DDD0",
