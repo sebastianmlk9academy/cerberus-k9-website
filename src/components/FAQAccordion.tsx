@@ -131,7 +131,7 @@ export default function FAQAccordion() {
   return (
     <section
       className="w-full"
-      style={{ background: '#1E2B38', padding: '80px 5%' }}
+      style={{ background: 'linear-gradient(to bottom, #161F28, #1A2530, #161F28)', padding: '80px 5%' }}
     >
       <div className="mx-auto" style={{ maxWidth: '800px' }}>
         <h2

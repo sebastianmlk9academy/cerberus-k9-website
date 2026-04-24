@@ -64,7 +64,7 @@ export function Footer() {
     <footer
       className="w-full"
       style={{
-        backgroundColor: "#0C1018",
+        background: "linear-gradient(to bottom, #161F28, #1A2530, #161F28)",
         borderTop: "2px solid #1E2B38",
       }}
     >

@@ -55,7 +55,7 @@ export function NavBar({ activeLink }: NavBarProps) {
     <nav
       className="sticky top-0 z-50 border-b"
       style={{
-        backgroundColor: '#0C1018',
+        background: 'linear-gradient(to bottom, #161F28, #1A2530, #161F28)',
         borderBottomColor: '#253344',
       }}
     >
