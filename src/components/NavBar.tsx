@@ -198,15 +198,13 @@ export function NavBar({ activeLink }: NavBarProps) {
                         fontSize: '10px',
                         letterSpacing: '2px',
                         fontWeight: 700,
-                        color: currentLang.code === lang.code ? '#C4922A' : '#4A5A6A',
+                        color: '#FFFFFF',
                       }}
                       onMouseEnter={(e: MouseEvent<HTMLButtonElement>) => {
-                        e.currentTarget.style.color = '#C4922A';
+                        e.currentTarget.style.color = '#FFFFFF';
                       }}
                       onMouseLeave={(e: MouseEvent<HTMLButtonElement>) => {
-                        if (currentLang.code !== lang.code) {
-                          e.currentTarget.style.color = '#4A5A6A';
-                        }
+                        e.currentTarget.style.color = '#FFFFFF';
                       }}
                     >
                       <img

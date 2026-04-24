@@ -1,3 +1,4 @@
+import { Calendar } from "lucide-react";
 import { useMemo, useState } from "react";
 
 type Category = "K9" | "TCCC" | "DRONY" | "KONFERENCJA" | "CEREMONIA" | "BREAK";
@@ -346,6 +347,32 @@ function itemToEvent(item: AgendaItem, dayDate: string): CalendarEvent {
   };
 }
 
+const partnerButtonStyle: React.CSSProperties = {
+  backgroundColor: "transparent",
+  color: "#C4922A",
+  fontFamily: "var(--font-rajdhani), sans-serif",
+  letterSpacing: "3px",
+  fontWeight: 700,
+  borderRadius: 0,
+  border: "1px solid #C4922A",
+  transition: "background-color 150ms ease, color 150ms ease",
+  cursor: "pointer",
+};
+
+const handlePartnerButtonMouseEnter = (
+  e: React.MouseEvent<HTMLButtonElement>,
+) => {
+  e.currentTarget.style.backgroundColor = "#C4922A";
+  e.currentTarget.style.color = "#1E2B38";
+};
+
+const handlePartnerButtonMouseLeave = (
+  e: React.MouseEvent<HTMLButtonElement>,
+) => {
+  e.currentTarget.style.backgroundColor = "transparent";
+  e.currentTarget.style.color = "#C4922A";
+};
+
 function CalendarMenu({
   event,
   open,
@@ -397,33 +424,6 @@ function CalendarMenu({
       >
         ↗ GOOGLE CALENDAR
       </a>
-      <a
-        href={outlookWebLink(event, "outlook")}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={onClose}
-        style={itemStyle}
-      >
-        ↗ OUTLOOK.COM
-      </a>
-      <a
-        href={outlookWebLink(event, "office")}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={onClose}
-        style={itemStyle}
-      >
-        ↗ OFFICE 365
-      </a>
-      <a
-        href={yahooCalendarLink(event)}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={onClose}
-        style={itemStyle}
-      >
-        ↗ YAHOO CALENDAR
-      </a>
       <button
         onClick={() => {
           downloadICSEvent(event);
@@ -431,7 +431,7 @@ function CalendarMenu({
         }}
         style={itemStyle}
       >
-        🍎 APPLE / ICAL (.ICS)
+        APPLE / ICAL (.ICS)
       </button>
       <button
         onClick={() => {
@@ -594,23 +594,17 @@ export default function InteractiveAgenda() {
           }}
         >
           {FILTERS.map((f) => {
-            const active = filter === f.key;
             return (
               <button
                 key={f.key}
                 onClick={() => setFilter(f.key)}
                 style={{
+                  ...partnerButtonStyle,
                   padding: "8px 14px",
-                  backgroundColor: active ? "#1E2B38" : "transparent",
-                  color: active ? "#C4922A" : "#3A4A5A",
-                  border: `1px solid ${active ? "#C4922A" : "#253344"}`,
-                  fontFamily: "'Rajdhani', sans-serif",
                   fontSize: 11,
-                  fontWeight: 700,
-                  letterSpacing: 2,
-                  cursor: "pointer",
-                  transition: "all 0.2s ease",
                 }}
+                onMouseEnter={handlePartnerButtonMouseEnter}
+                onMouseLeave={handlePartnerButtonMouseLeave}
               >
                 {f.label}
               </button>
@@ -677,7 +671,17 @@ export default function InteractiveAgenda() {
                 >
                   {item.start}
                   <br />
-                  <span style={{ opacity: 0.5 }}>{item.end}</span>
+                  <span
+                    style={{
+                      fontFamily: "'Rajdhani', sans-serif",
+                      fontSize: 12,
+                      fontWeight: 700,
+                      color: "#3A4A5A",
+                      letterSpacing: 0,
+                    }}
+                  >
+                    {item.end}
+                  </span>
                 </div>
 
                 {/* Dot on timeline */}
@@ -845,18 +849,18 @@ export default function InteractiveAgenda() {
                                 )
                               }
                               style={{
-                                background: "transparent",
-                                border: "1px solid #253344",
-                                color: "#C4922A",
+                                ...partnerButtonStyle,
                                 padding: "6px 12px",
-                                fontFamily: "'Rajdhani', sans-serif",
                                 fontSize: 11,
-                                letterSpacing: 1,
-                                fontWeight: 700,
-                                cursor: "pointer",
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: 6,
                               }}
+                              onMouseEnter={handlePartnerButtonMouseEnter}
+                              onMouseLeave={handlePartnerButtonMouseLeave}
                             >
-                              📅 DODAJ DO KALENDARZA
+                              <Calendar size={14} />
+                              DODAJ DO KALENDARZA
                             </button>
 
                             <CalendarMenu
@@ -893,18 +897,18 @@ export default function InteractiveAgenda() {
             <button
               onClick={() => setFullEventMenuOpen((v) => !v)}
               style={{
-                background: "#1E2B38",
-                border: "1px solid #C4922A",
-                color: "#C4922A",
+                ...partnerButtonStyle,
                 padding: "12px 24px",
-                fontFamily: "'Rajdhani', sans-serif",
                 fontSize: 13,
-                letterSpacing: 2,
-                fontWeight: 700,
-                cursor: "pointer",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
               }}
+              onMouseEnter={handlePartnerButtonMouseEnter}
+              onMouseLeave={handlePartnerButtonMouseLeave}
             >
-              📅 DODAJ DO KALENDARZA
+              <Calendar size={14} />
+              DODAJ DO KALENDARZA
             </button>
             <CalendarMenu
               event={fullEvent}
