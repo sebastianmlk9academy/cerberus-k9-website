@@ -1,4 +1,4 @@
-import { Calendar } from "lucide-react";
+import { ArrowUpRight, Calendar } from "lucide-react";
 import { useMemo, useState } from "react";
 
 type Category = "K9" | "TCCC" | "DRONY" | "KONFERENCJA" | "CEREMONIA" | "BREAK";
@@ -431,7 +431,9 @@ function CalendarMenu({
         }}
         style={itemStyle}
       >
-        APPLE / ICAL (.ICS)
+        <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+          APPLE / ICAL (.ICS) <ArrowUpRight size={12} />
+        </span>
       </button>
       <button
         onClick={() => {
