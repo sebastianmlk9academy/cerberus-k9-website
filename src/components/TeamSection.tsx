@@ -41,27 +41,46 @@ interface TeamMember {
           className="relative w-full aspect-square flex items-center justify-center"
           style={{ backgroundColor: "#151E28" }}
         >
-          {/* Initials placeholder */}
-          <div
-            className="flex items-center justify-center rounded-full"
-            style={{
-              width: "120px",
-              height: "120px",
-              border: "1px solid #253344",
-              backgroundColor: "#1E2B38",
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: "44px",
-                color: "#C4922A",
-                letterSpacing: "2px",
-              }}
-            >
-              {member.initials}
-            </span>
-          </div>
+          {member.name === "Mariusz Lis" ||
+          member.name === "Sebastian Bożek" ? (
+            <div className="absolute inset-0">
+              <img
+                src="/images/instruktorzy/test_instruktor_photo.webp"
+                alt={member.name}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "center top",
+                  display: "block",
+                }}
+              />
+            </div>
+          ) : (
+            <>
+              {/* Initials placeholder */}
+              <div
+                className="flex items-center justify-center rounded-full"
+                style={{
+                  width: "120px",
+                  height: "120px",
+                  border: "1px solid #253344",
+                  backgroundColor: "#1E2B38",
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "'Bebas Neue', sans-serif",
+                    fontSize: "44px",
+                    color: "#C4922A",
+                    letterSpacing: "2px",
+                  }}
+                >
+                  {member.initials}
+                </span>
+              </div>
+            </>
+          )}
   
           {/* Bottom overlay gradient */}
           <div
