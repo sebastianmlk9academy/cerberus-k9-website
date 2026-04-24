@@ -429,27 +429,6 @@ export default function PartnersPage({ partners: partnersProp, embedded = false 
           background: #C83828;
           transform: translateY(-1px);
         }
-        .cta-btn-gold {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          background: transparent;
-          color: #C4922A;
-          font-family: 'Rajdhani', sans-serif;
-          font-weight: 700;
-          font-size: 11px;
-          letter-spacing: 2.5px;
-          padding: 13px 24px;
-          border: 1px solid #C4922A;
-          cursor: pointer;
-          transition: all 0.2s;
-          text-transform: uppercase;
-          text-decoration: none;
-        }
-        .cta-btn-gold:hover {
-          background: rgba(196,146,42,0.12);
-          transform: translateY(-1px);
-        }
         @media (max-width: 900px) {
           .partners-grid {
             grid-template-columns: repeat(2, 1fr) !important;
@@ -786,7 +765,34 @@ export default function PartnersPage({ partners: partnersProp, embedded = false 
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'flex-start' }}>
-              <a href="mailto:sebastian@pactak9.org" className="cta-btn-gold">
+              <a
+                href="mailto:sebastian@pactak9.org"
+                style={{
+                  backgroundColor: 'transparent',
+                  color: '#C4922A',
+                  fontFamily: 'var(--font-rajdhani), sans-serif',
+                  letterSpacing: '3px',
+                  fontWeight: 700,
+                  borderRadius: 0,
+                  border: '1px solid #C4922A',
+                  transition: 'background-color 150ms ease, color 150ms ease',
+                  cursor: 'pointer',
+                  padding: '12px 24px',
+                  fontSize: 13,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  textDecoration: 'none',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#C4922A';
+                  e.currentTarget.style.color = '#1E2B38';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.color = '#C4922A';
+                }}
+              >
                 <Mail size={13} />
                 NAPISZ DO NAS
               </a>
