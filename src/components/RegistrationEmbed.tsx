@@ -1,12 +1,6 @@
 import { useState, type MouseEvent } from "react";
 import { Calendar, MapPin, Ticket, AlertCircle, Mail, Phone, ExternalLink, ChevronDown } from "lucide-react";
 
-const PretixWidget = "pretix-widget" as unknown as React.ComponentType<{
-  event: string;
-  "skip-ssl-check"?: string;
-  "single-item-select"?: string;
-}>;
-
 const partnerCtaBase = {
   border: "1px solid #C4922A",
   background: "transparent",
@@ -220,23 +214,18 @@ export default function RegistrationEmbed() {
               </a>
             </div>
 
-            <div
-              style={{
-                background: "#0F1720",
-                padding: "4px",
-                minHeight: "600px",
-              }}
-            >
-              <PretixWidget event="https://pretix.eu/MLK9-LLK9/CERBERUS/" />
-              <noscript>
-                Rejestruj się na:{" "}
-                <a
-                  href="https://pretix.eu/MLK9-LLK9/CERBERUS/"
-                  style={{ color: "#C4922A", textDecoration: "underline" }}
-                >
-                  https://pretix.eu/MLK9-LLK9/CERBERUS/
-                </a>
-              </noscript>
+            <div style={{ background: "#FFFFFF", minHeight: "600px", width: "100%" }}>
+              <iframe
+                src="https://pretix.eu/MLK9-LLK9/CERBERUS/"
+                style={{
+                  width: "100%",
+                  height: "700px",
+                  border: "none",
+                  display: "block",
+                }}
+                title="Rejestracja CERBERUS K9 2026"
+                loading="lazy"
+              />
             </div>
 
             <div
@@ -568,12 +557,6 @@ export default function RegistrationEmbed() {
           </aside>
         </div>
       </div>
-
-      {/* Pretix widget responsive override */}
-      <style>{`
-        pretix-widget { display: block; width: 100%; }
-        .pretix-widget-wrapper { max-width: 100% !important; }
-      `}</style>
     </section>
   );
 }
