@@ -51,7 +51,7 @@ export function HeroSection() {
 
   return (
     <section
-      className="relative w-full min-h-screen sm:min-h-[90vh] flex flex-col justify-center px-4 sm:px-[5%] py-6 sm:py-8 md:py-12 overflow-hidden"
+      className="relative w-full min-h-screen sm:min-h-[90vh] flex flex-col justify-center px-4 sm:px-[5%] py-10 overflow-hidden"
       style={{
         backgroundColor: "#1E2B38",
       }}

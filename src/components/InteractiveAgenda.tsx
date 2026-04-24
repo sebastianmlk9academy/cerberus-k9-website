@@ -516,7 +516,7 @@ export default function InteractiveAgenda() {
         background: "linear-gradient(to bottom, #161F28, #1A2530, #161F28)",
         color: "#E4DDD0",
         minHeight: "100vh",
-        padding: "32px 16px",
+        padding: "40px 16px",
         fontFamily: "'Libre Baskerville', Georgia, serif",
       }}
     >
