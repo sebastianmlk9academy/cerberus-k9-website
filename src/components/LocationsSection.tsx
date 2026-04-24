@@ -79,7 +79,7 @@ export function LocationsSection() {
   return (
     <section
       className="w-full bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28]"
-      style={{ paddingTop: "0px", paddingBottom: "0px" }}
+      style={{ paddingTop: "0px", paddingBottom: "10px" }}
     >
       {/* Section Header */}
       <div
