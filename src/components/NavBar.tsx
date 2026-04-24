@@ -107,7 +107,7 @@ export function NavBar({ activeLink }: NavBarProps) {
                   fontSize: '10px',
                   letterSpacing: '2px',
                   fontWeight: 700,
-                  color: isActive ? '#C4922A' : '#4A5A6A',
+                  color: isActive ? '#C4922A' : '#FFFFFF',
                   borderBottom: isActive ? '2px solid #C4922A' : '2px solid transparent',
                 }}
                 onMouseEnter={(e: MouseEvent<HTMLAnchorElement>) => {
@@ -117,7 +117,7 @@ export function NavBar({ activeLink }: NavBarProps) {
                 }}
                 onMouseLeave={(e: MouseEvent<HTMLAnchorElement>) => {
                   if (!isActive) {
-                    e.currentTarget.style.color = '#4A5A6A';
+                    e.currentTarget.style.color = '#FFFFFF';
                   }
                 }}
               >
@@ -301,7 +301,7 @@ export function NavBar({ activeLink }: NavBarProps) {
                   fontSize: '11px',
                   letterSpacing: '3px',
                   fontWeight: 700,
-                  color: isActive ? '#C4922A' : '#4A5A6A',
+                  color: isActive ? '#C4922A' : '#FFFFFF',
                 }}
               >
                 {link.label}
