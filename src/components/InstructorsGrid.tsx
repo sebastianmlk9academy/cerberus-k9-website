@@ -134,7 +134,6 @@ export default function InstructorsGrid({ instructors }: InstructorsGridProps) {
           fontWeight: 700,
           marginRight: '8px',
         }}>
-          FILTRUJ:
         </span>
         {FILTERS.map(f => (
           <button
