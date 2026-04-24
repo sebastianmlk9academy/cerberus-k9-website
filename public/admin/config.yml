@@ -225,8 +225,17 @@ collections:
         format: yaml
         fields:
           - { label: Data wydarzenia, name: event_date, widget: datetime, required: false, date_format: YYYY-MM-DD, time_format: HH:mm }
-          - { label: Liczba uczestników (tekst), name: participants_count, widget: string, required: false }
+          - { label: Statystyka uczestników (wyświetlana), name: participants_count, widget: string, default: "250+", hint: "Tekst do StatsBar np. 250+. Do licznika live użyj participantsRegistered (number)" }
           - { label: Liczba krajów (tekst), name: countries_count, widget: string, required: false }
           - { label: Liczba psów (tekst), name: dogs_count, widget: string, required: false }
           - { label: Link Pretix, name: pretix_url, widget: string, required: false }
           - { label: URL wideo hero, name: hero_video_url, widget: string, required: false }
+          - { label: "Rejestracje (liczba do licznika live)", name: "participantsRegistered", widget: "number", default: 0, hint: "Aktualizuj co tydzień lub podłącz przez Pretix API (Rozdz. 29)" }
+          - { label: "Granty zatwierdzone (z 8)", name: "grantsApproved", widget: "number", default: 0 }
+          - { label: "Wolontariusze zarekrutowani", name: "volunteersCount", widget: "number", default: 0 }
+          - { label: "Pasek powiadomień aktywny", name: "notificationBarActive", widget: "boolean", default: true }
+          - { label: "Tekst paska powiadomień", name: "notificationBarText", widget: "string", default: "Rejestracja otwarta · Wstęp bezpłatny" }
+          - { label: "Link paska powiadomień", name: "notificationBarUrl", widget: "string", default: "https://pretix.eu/MLK9-LLK9/CERBERUS/" }
+          - { label: "Tryb LIVE aktywny (włącz 13-14.06)", name: "liveModeActive", widget: "boolean", default: false }
+          - { label: "HARDEST HIT — aktualny zawodnik na arenie", name: "currentCompetitor", widget: "string", required: false }
+          - { label: "Wydarzenie aktywne (pokaż przycisk rejestracji)", name: "registrationActive", widget: "boolean", default: true }
