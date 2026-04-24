@@ -341,7 +341,9 @@ type PartnersPageProps = {
 export default function PartnersPage({ partners: partnersProp, embedded = false }: PartnersPageProps) {
   const [activeFilter, setActiveFilter] = useState<FilterTab>('WSZYSCY');
 
-  const partners = partnersProp ?? defaultPartners;
+  const partners = (partnersProp && partnersProp.length > 0)
+    ? partnersProp
+    : defaultPartners;
 
   const filtered =
     activeFilter === 'WSZYSCY'
