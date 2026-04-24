@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type MouseEvent } from 'react';
 import { ExternalLink, Mail, Download } from 'lucide-react';
 
 export type PartnerType = 'Strategiczny' | 'Sponsor' | 'Patron Medialny' | 'Technologiczny';
@@ -137,6 +137,16 @@ const filterTabs: FilterTab[] = [
   'PATRONI MEDIALNI',
   'TECHNOLOGICZNI',
 ];
+
+function handlePartnersFilterMouseEnter(e: MouseEvent<HTMLButtonElement>) {
+  e.currentTarget.style.backgroundColor = '#C4922A';
+  e.currentTarget.style.color = '#1E2B38';
+}
+
+function handlePartnersFilterMouseLeave(e: MouseEvent<HTMLButtonElement>) {
+  e.currentTarget.style.backgroundColor = 'transparent';
+  e.currentTarget.style.color = '#C4922A';
+}
 
 const typeToFilter: Record<PartnerType, FilterTab> = {
   Strategiczny: 'STRATEGICZNI',
@@ -376,25 +386,27 @@ export default function PartnersPage({ partners: partnersProp, embedded = false 
         }
         .filter-tab {
           background: transparent;
-          border: 1px solid #253344;
-          color: #5A6A7A;
-          font-family: 'Rajdhani', sans-serif;
-          font-weight: 700;
+          border: 1px solid #C4922A;
+          color: #C4922A;
+          font-family: var(--font-rajdhani), sans-serif;
           font-size: 11px;
-          letter-spacing: 2px;
-          padding: 8px 18px;
+          font-weight: 700;
+          letter-spacing: 3px;
+          padding: 8px 14px;
           cursor: pointer;
-          transition: all 0.2s;
+          border-radius: 0;
+          transition: background-color 150ms ease, color 150ms ease;
           white-space: nowrap;
         }
         .filter-tab:hover {
-          border-color: #C4922A;
-          color: #C4922A;
+          border: 1px solid #C4922A;
+          background: #C4922A;
+          color: #1E2B38;
         }
         .filter-tab.active {
-          background: rgba(196,146,42,0.12);
-          border-color: #C4922A;
-          color: #C4922A;
+          border: 1px solid #C4922A;
+          background: #C4922A;
+          color: #1E2B38;
         }
         .cta-btn-red {
           display: inline-flex;
@@ -518,16 +530,58 @@ export default function PartnersPage({ partners: partnersProp, embedded = false 
 
         {/* Filter tabs */}
         <div className="filter-tabs-scroll" style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
-          <div style={{ display: 'flex', gap: '2px', width: 'max-content', justifyContent: 'center', margin: '0 auto' }}>
-            {filterTabs.map((tab) => (
-              <button
-                key={tab}
-                className={`filter-tab${activeFilter === tab ? ' active' : ''}`}
-                onClick={() => setActiveFilter(tab)}
-              >
-                {tab}
-              </button>
-            ))}
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 8,
+              padding: '20px 0',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "'Rajdhani', sans-serif",
+                fontSize: 11,
+                letterSpacing: 2,
+                color: '#C4922A',
+                fontWeight: 700,
+              }}
+            >
+              FILTRUJ:
+            </span>
+            {filterTabs.map((tab) => {
+              const isActive = activeFilter === tab;
+              return (
+                <button
+                  key={tab}
+                  type="button"
+                  onClick={() => setActiveFilter(tab)}
+                  style={{
+                    backgroundColor: isActive ? '#C4922A' : 'transparent',
+                    color: isActive ? '#1E2B38' : '#C4922A',
+                    fontFamily: 'var(--font-rajdhani), sans-serif',
+                    letterSpacing: '3px',
+                    fontWeight: 700,
+                    borderRadius: 0,
+                    border: '1px solid #C4922A',
+                    transition: 'background-color 150ms ease, color 150ms ease',
+                    cursor: 'pointer',
+                    padding: '8px 14px',
+                    fontSize: 11,
+                    whiteSpace: 'nowrap',
+                  }}
+                  onMouseEnter={handlePartnersFilterMouseEnter}
+                  onMouseLeave={(e) => {
+                    if (isActive) return;
+                    handlePartnersFilterMouseLeave(e);
+                  }}
+                >
+                  {tab}
+                </button>
+              );
+            })}
           </div>
         </div>
 
