@@ -134,7 +134,7 @@ export default function FAQAccordion() {
       style={{
         background: 'linear-gradient(to bottom, #161F28, #1A2530, #161F28)',
         paddingTop: '80px',
-        paddingBottom: '0px',
+        paddingBottom: '10px',
         paddingLeft: '5%',
         paddingRight: '5%',
       }}
