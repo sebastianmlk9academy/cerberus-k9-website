@@ -510,11 +510,15 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
         }
         .edition-tabs {
           display: flex;
+          justify-content: center;
           gap: 16px;
           flex-wrap: wrap;
           margin-bottom: 12px;
         }
         .edition-tab {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
           border: none;
           background: transparent;
           color: #8898a6;
