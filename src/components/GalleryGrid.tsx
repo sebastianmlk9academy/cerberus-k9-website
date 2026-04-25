@@ -302,7 +302,7 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
 
   return (
     <div className="gallery-grid-wrap" ref={rootRef}>
-      <div className="mb-8 text-center">
+      <div className="mt-[40px] mb-8 text-center">
         <div className="flex items-center justify-center gap-4 mb-4">
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
           <span className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]">
