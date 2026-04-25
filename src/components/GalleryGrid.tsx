@@ -1,5 +1,5 @@
 import { Lock } from "lucide-react";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 type Category =
   | "HARDEST HIT"
@@ -83,9 +83,39 @@ function formatCountdown(targetDate: Date): string {
   return `${days} dni ${hours} godz.`;
 }
 
+const partnerButtonStyle: React.CSSProperties = {
+  backgroundColor: "transparent",
+  color: "#C4922A",
+  fontFamily: "var(--font-rajdhani), sans-serif",
+  letterSpacing: "3px",
+  fontWeight: 700,
+  borderRadius: 0,
+  border: "1px solid #C4922A",
+  transition: "background-color 150ms ease, color 150ms ease",
+  cursor: "pointer",
+};
+
+const handlePartnerButtonMouseEnter = (
+  e: React.MouseEvent<HTMLButtonElement>,
+) => {
+  e.currentTarget.style.backgroundColor = "#C4922A";
+  e.currentTarget.style.color = "#1E2B38";
+};
+
+const handlePartnerButtonMouseLeave = (
+  e: React.MouseEvent<HTMLButtonElement>,
+) => {
+  e.currentTarget.style.backgroundColor = "transparent";
+  e.currentTarget.style.color = "#C4922A";
+};
+
 export function GalleryGrid({ photos }: GalleryGridProps) {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const visibleLimitRef = useRef<number>(12);
+  const [activeCategory, setActiveCategory] = useState("WSZYSTKO");
+  const [activeLocation, setActiveLocation] = useState("WSZYSTKIE LOKALIZACJE");
+  const [activeView, setActiveView] = useState("SIATKA");
+  const [activeEdition, setActiveEdition] = useState("2025");
 
   const sortedPhotos = useMemo(
     () =>
@@ -147,12 +177,7 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
 
     const grid = root.querySelector<HTMLElement>("[data-gallery-grid]");
     const photoItems = Array.from(root.querySelectorAll<HTMLElement>("[data-photo-item]"));
-    const filterButtons = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-filter]"));
-    const locationButtons = Array.from(
-      root.querySelectorAll<HTMLButtonElement>("[data-location-filter]"),
-    );
     const tabButtons = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-edition]"));
-    const viewButtons = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-view]"));
     const loadMoreButton = root.querySelector<HTMLButtonElement>("[data-load-more]");
     const loadMoreText = root.querySelector<HTMLElement>("[data-load-more-count]");
     const lockedSection = root.querySelector<HTMLElement>("[data-locked-section]");
@@ -160,25 +185,8 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
 
     if (!grid || !loadMoreButton || !loadMoreText || !lockedSection || !countdownText) return;
 
-    let activeCategory = "WSZYSTKO";
-    let activeLocation = "WSZYSTKIE LOKALIZACJE";
-    let activeEdition = "2025";
-    let activeView = "SIATKA";
-
     const is2026Unlocked = new Date().getTime() >= RELEASE_2026_DATE.getTime();
     countdownText.textContent = formatCountdown(RELEASE_2026_DATE);
-
-    const setActiveButton = (
-      buttons: HTMLButtonElement[],
-      key: "filter" | "locationFilter" | "edition" | "view",
-      value: string,
-    ) => {
-      buttons.forEach((button) => {
-        const buttonValue = button.dataset[key];
-        const isActive = buttonValue === value;
-        button.classList.toggle("is-active", isActive);
-      });
-    };
 
     const updateVisibility = () => {
       if (detached) return;
@@ -239,76 +247,18 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
       return () => button.removeEventListener("click", handler);
     };
 
-    const applyHoverBehavior = (button: HTMLButtonElement) => {
-      const handleMouseEnter = () => {
-        if (button.classList.contains("is-active")) return;
-        button.style.backgroundColor = "#C4922A";
-        button.style.color = "#1E2B38";
-      };
-      const handleMouseLeave = () => {
-        if (button.classList.contains("is-active")) return;
-        button.style.backgroundColor = "transparent";
-        button.style.color = "#C4922A";
-      };
-      button.addEventListener("mouseenter", handleMouseEnter);
-      button.addEventListener("mouseleave", handleMouseLeave);
-      return () => {
-        button.removeEventListener("mouseenter", handleMouseEnter);
-        button.removeEventListener("mouseleave", handleMouseLeave);
-      };
-    };
-
     const cleanupFns: Array<() => void> = [];
-    [...filterButtons, ...locationButtons, ...viewButtons].forEach((button) => {
-      cleanupFns.push(applyHoverBehavior(button));
-    });
-
-    filterButtons.forEach((button) => {
-      cleanupFns.push(
-        bindClick(button, () => {
-          activeCategory = button.dataset.filter || "WSZYSTKO";
-          visibleLimitRef.current = 12;
-          setActiveButton(filterButtons, "filter", activeCategory);
-          updateVisibility();
-        }),
-      );
-    });
-
-    locationButtons.forEach((button) => {
-      cleanupFns.push(
-        bindClick(button, () => {
-          activeLocation = button.dataset.locationFilter || "WSZYSTKIE LOKALIZACJE";
-          visibleLimitRef.current = 12;
-          setActiveButton(locationButtons, "locationFilter", activeLocation);
-          updateVisibility();
-        }),
-      );
-    });
 
     tabButtons.forEach((button) => {
       cleanupFns.push(
         bindClick(button, () => {
           const edition = button.dataset.edition || "2025";
           if (edition === "2026" && !is2026Unlocked) {
-            activeEdition = "2026";
-            setActiveButton(tabButtons, "edition", "2026");
-            updateVisibility();
+            setActiveEdition("2026");
             return;
           }
-          activeEdition = edition;
+          setActiveEdition(edition);
           visibleLimitRef.current = 12;
-          setActiveButton(tabButtons, "edition", activeEdition);
-          updateVisibility();
-        }),
-      );
-    });
-
-    viewButtons.forEach((button) => {
-      cleanupFns.push(
-        bindClick(button, () => {
-          activeView = button.dataset.view || "SIATKA";
-          setActiveButton(viewButtons, "view", activeView);
-          grid.classList.toggle("view-masonry", activeView === "MASONRY");
         }),
       );
     });
@@ -319,6 +269,12 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
         updateVisibility();
       }),
     );
+
+    tabButtons.forEach((button) => {
+      const buttonValue = button.dataset.edition || "2025";
+      button.classList.toggle("is-active", buttonValue === activeEdition);
+    });
+    grid.classList.toggle("view-masonry", activeView === "MASONRY");
 
     ensureScript()
       .then(() => {
@@ -340,7 +296,7 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
       cleanupFns.forEach((fn) => fn());
       lightboxInstance?.destroy();
     };
-  }, [sortedPhotos]);
+  }, [sortedPhotos, activeCategory, activeLocation, activeEdition, activeView]);
 
   const is2026Unlocked = new Date().getTime() >= RELEASE_2026_DATE.getTime();
 
@@ -370,12 +326,28 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
 
       <div className="filter-bar">
         <div className="main-filter-list">
-          {mainFilters.map((filter, idx) => (
+          {mainFilters.map((filter) => (
             <button
               key={filter}
               type="button"
-              className={`filter-pill ${idx === 0 ? "is-active" : ""}`}
+              className="filter-pill"
               data-filter={filter}
+              onClick={() => {
+                setActiveCategory(filter);
+                visibleLimitRef.current = 12;
+              }}
+              style={{
+                ...partnerButtonStyle,
+                backgroundColor: activeCategory === filter ? "#C4922A" : "transparent",
+                color: activeCategory === filter ? "#1E2B38" : "#C4922A",
+                padding: "8px 14px",
+                fontSize: 11,
+              }}
+              onMouseEnter={handlePartnerButtonMouseEnter}
+              onMouseLeave={(e) => {
+                if (activeCategory === filter) return;
+                handlePartnerButtonMouseLeave(e);
+              }}
             >
               {filter}
             </button>
@@ -383,22 +355,72 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
         </div>
 
         <div className="view-toggle">
-          <button type="button" className="view-btn is-active" data-view="SIATKA">
+          <button
+            type="button"
+            className="view-btn"
+            data-view="SIATKA"
+            onClick={() => setActiveView("SIATKA")}
+            style={{
+              ...partnerButtonStyle,
+              backgroundColor: activeView === "SIATKA" ? "#C4922A" : "transparent",
+              color: activeView === "SIATKA" ? "#1E2B38" : "#C4922A",
+              padding: "8px 14px",
+              fontSize: 11,
+            }}
+            onMouseEnter={handlePartnerButtonMouseEnter}
+            onMouseLeave={(e) => {
+              if (activeView === "SIATKA") return;
+              handlePartnerButtonMouseLeave(e);
+            }}
+          >
             SIATKA
           </button>
-          <button type="button" className="view-btn" data-view="MASONRY">
+          <button
+            type="button"
+            className="view-btn"
+            data-view="MASONRY"
+            onClick={() => setActiveView("MASONRY")}
+            style={{
+              ...partnerButtonStyle,
+              backgroundColor: activeView === "MASONRY" ? "#C4922A" : "transparent",
+              color: activeView === "MASONRY" ? "#1E2B38" : "#C4922A",
+              padding: "8px 14px",
+              fontSize: 11,
+            }}
+            onMouseEnter={handlePartnerButtonMouseEnter}
+            onMouseLeave={(e) => {
+              if (activeView === "MASONRY") return;
+              handlePartnerButtonMouseLeave(e);
+            }}
+          >
             MASONRY
           </button>
         </div>
       </div>
 
       <div className="location-filters">
-        {locationFilters.map((location, idx) => (
+        {locationFilters.map((location) => (
           <button
             key={location}
             type="button"
-            className={`location-pill ${idx === 0 ? "is-active" : ""}`}
+            className="location-pill"
             data-location-filter={location}
+            onClick={() => {
+              setActiveLocation(location);
+              visibleLimitRef.current = 12;
+            }}
+            style={{
+              ...partnerButtonStyle,
+              backgroundColor: activeLocation === location ? "#C4922A" : "transparent",
+              color: activeLocation === location ? "#1E2B38" : "#C4922A",
+              padding: "8px 14px",
+              fontSize: 11,
+            }}
+            onMouseEnter={handlePartnerButtonMouseEnter}
+            onMouseLeave={(e) => {
+              if (activeLocation === location) return;
+              handlePartnerButtonMouseLeave(e);
+            }}
           >
             {location}
           </button>
