@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { NavBar } from '../../../components/NavBar';
+import { PageHero } from '../../../components/PageHero';
+import { NewsListing } from '../../../components/NewsListing';
+import { Footer } from '../../../components/Footer';
+import { locales } from '../../../../locales.mjs';
+import { isLang } from '../../../i18n/utils';
+import type { Lang } from '../../../i18n/ui';
+import { newsSeoByLang } from '../../../i18n/newsSeo';
+import { aktualnosciToListingArticles } from '../../../lib/aktualnosci';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+	return locales.filter((locale) => locale !== 'pl').map((lang) => ({ params: { lang } }));
+}
+
+const param = Astro.params.lang ?? '';
+const lang: Lang = isLang(param) ? param : 'en';
+const seo = newsSeoByLang[lang];
+const entries = await getCollection('aktualnosci');
+const articles = aktualnosciToListingArticles(entries, lang);
+---
+
+<BaseLayout
+	lang={lang}
+	title={seo.title}
+	description={seo.description}
+	localizedPath="aktualnosci"
+	ogType="website"
+>
+	<NavBar client:load />
+	<PageHero
+		category="CERBERUS K9"
+		title="AKTUALNOŚCI"
+		subtitle="WIADOMOŚCI, KOMUNIKATY I RELACJE Z PRZYGOTOWAŃ DO WYDARZENIA"
+	/>
+	<NewsListing articles={articles} client:load />
+	<Footer client:load />
+</BaseLayout>
