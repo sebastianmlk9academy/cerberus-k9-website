@@ -2,122 +2,141 @@ import { FileText, Mail, Phone, ExternalLink } from 'lucide-react';
 import { ui } from '../i18n/ui';
 import type { Lang } from '../i18n/utils';
 
-const pressKitItems = [
-  '✓ Logo CERBERUS K9 (PNG, SVG, białe/czarne/kolorowe)',
-  '✓ Logo Fundacji PACTA K9',
-  '✓ Zdjęcia prasowe w rozdzielczości do druku (min. 300 DPI)',
-  '✓ Key facts — liczby i fakty o wydarzeniu',
-  '✓ Biogramy Prezesa i Wiceprezesa',
-  '✓ Notka prasowa CERBERUS K9 2026',
-  '✓ Regulamin użycia materiałów (CC BY-NC)',
-] as const;
+type PressKitItem = string;
 
-const pressReleases = [
-  {
-    date: '[Data]',
-    title: 'Zaproszenie mediów na CERBERUS K9 2026',
-    href: '/press/zaproszenie-mediow-cerberus-k9-2026.pdf',
-  },
-  {
-    date: '[Data]',
-    title: 'Informacja prasowa — Potwierdzony udział US Police K9',
-    href: '/press/ip-us-police-k9-2026.pdf',
-  },
-  {
-    date: '[Data]',
-    title: 'Informacja prasowa — Marynarka Wojenna Portugalia',
-    href: '/press/ip-marynarka-portugalia-2026.pdf',
-  },
-] as const;
+type PressRelease = {
+  date: string;
+  title: string;
+  href: string;
+};
 
-type MediaArchiveItem = {
+type ArchiveItem = {
   outlet: string;
   type: string;
   href: string;
   isPlaceholder?: boolean;
 };
 
-const mediaArchive2025: MediaArchiveItem[] = [
-  {
-    outlet: 'Polska Zbrojna',
-    type: 'VIDEO',
-    href: 'https://www.youtube.com/watch?v=kUhqmGhrbas',
-  },
-  {
-    outlet: 'TVP — PANORAMA',
-    type: 'VIDEO',
-    href: 'https://youtu.be/Fo-j5vGI0m4',
-  },
-  {
-    outlet: 'TVN — FAKTY',
-    type: 'VIDEO',
-    href: 'https://youtu.be/Fo-j5vGI0m4',
-  },
-  {
-    outlet: 'Polskie Radio',
-    type: 'REPORTAŻ AUDIO',
-    href: 'https://youtu.be/lf-Aek_TSzI',
-  },
-  {
-    outlet: 'Czeska Telewizja Publiczna',
-    type: 'VIDEO',
-    href: 'https://youtu.be/YAsXbzL3PWs',
-  },
-  {
-    outlet: 'Special-Ops.pl',
-    type: 'ARTYKUŁ',
-    href: '/downloads/special-ops-cerberus-k9-2025.pdf',
-  },
-  {
-    outlet: 'Polska Zbrojna',
-    type: 'ARTYKUŁ',
-    href: '/downloads/polska-zbrojna-cerberus-k9-2025.pdf',
-  },
-];
-
 const raj = "'Rajdhani', sans-serif" as const;
 const bebas = "'Bebas Neue', sans-serif" as const;
 
 interface MediaPageProps {
   lang: Lang;
+  pressKitItems?: PressKitItem[];
+  pressReleases?: PressRelease[];
+  mediaArchive?: ArchiveItem[];
 }
 
-export default function MediaPage({ lang }: MediaPageProps) {
-  const sectionTag = ui[lang].nav_media;
-  const t = {
-    pl: {
-      mediaPack: 'Komplet materiałów dla mediów w jednym pliku',
-      downloadArticle: 'Pobierz artykuł',
-      contactAccreditation: 'KONTAKT I AKREDYTACJA',
-      journalistAccreditation: 'AKREDYTACJA DZIENNIKARSKA',
-      pressInfo: 'INFORMACJE PRASOWE',
-      mediaArchive: 'ARCHIWUM MEDIALNE — RELACJE 2025',
-    },
-    en: { mediaPack: 'Complete media materials in one file', downloadArticle: 'Download article', contactAccreditation: 'CONTACT & ACCREDITATION', journalistAccreditation: 'MEDIA ACCREDITATION', pressInfo: 'PRESS INFORMATION', mediaArchive: 'MEDIA ARCHIVE — 2025 COVERAGE' },
-    de: { mediaPack: 'Komplette Medienmaterialien in einer Datei', downloadArticle: 'Artikel herunterladen', contactAccreditation: 'KONTAKT & AKKREDITIERUNG', journalistAccreditation: 'PRESSEAKKREDITIERUNG', pressInfo: 'PRESSEINFORMATIONEN', mediaArchive: 'MEDIENARCHIV — BERICHTE 2025' },
-    fr: { mediaPack: 'Pack médias complet dans un seul fichier', downloadArticle: "Télécharger l'article", contactAccreditation: 'CONTACT & ACCRÉDITATION', journalistAccreditation: 'ACCRÉDITATION JOURNALISTE', pressInfo: 'INFORMATIONS PRESSE', mediaArchive: 'ARCHIVES MÉDIAS — COUVERTURE 2025' },
-    hr: { mediaPack: 'Komplet materijala za medije u jednoj datoteci', downloadArticle: 'Preuzmi članak', contactAccreditation: 'KONTAKT I AKREDITACIJA', journalistAccreditation: 'NOVINARSKA AKREDITACIJA', pressInfo: 'PRIOPĆENJA ZA MEDIJE', mediaArchive: 'MEDIJSKA ARHIVA — IZVJEŠĆA 2025' },
-    cs: { mediaPack: 'Kompletní mediální materiály v jednom souboru', downloadArticle: 'Stáhnout článek', contactAccreditation: 'KONTAKT A AKREDITACE', journalistAccreditation: 'NOVINÁŘSKÁ AKREDITACE', pressInfo: 'TISKOVÉ INFORMACE', mediaArchive: 'MEDIÁLNÍ ARCHIV — REPORTÁŽE 2025' },
-    lt: { mediaPack: 'Visa medijos medžiaga viename faile', downloadArticle: 'Atsisiųsti straipsnį', contactAccreditation: 'KONTAKTAI IR AKREDITACIJA', journalistAccreditation: 'ŽURNALISTŲ AKREDITACIJA', pressInfo: 'PRANEŠIMAI SPAUDAI', mediaArchive: 'MEDIJOS ARCHYVAS — 2025 APŽVALGOS' },
-    lv: { mediaPack: 'Pilns mediju materiālu komplekts vienā failā', downloadArticle: 'Lejupielādēt rakstu', contactAccreditation: 'KONTAKTS UN AKREDITĀCIJA', journalistAccreditation: 'ŽURNĀLISTU AKREDITĀCIJA', pressInfo: 'PRESĒ INFORMĀCIJA', mediaArchive: 'MEDIJU ARHĪVS — 2025 MATERIĀLI' },
-    sk: { mediaPack: 'Kompletné mediálne materiály v jednom súbore', downloadArticle: 'Stiahnuť článok', contactAccreditation: 'KONTAKT A AKREDITÁCIA', journalistAccreditation: 'NOVINÁRSKA AKREDITÁCIA', pressInfo: 'TLAČOVÉ INFORMÁCIE', mediaArchive: 'MEDIÁLNY ARCHÍV — SPRÁVY 2025' },
-    sl: { mediaPack: 'Celoten medijski paket v eni datoteki', downloadArticle: 'Prenesi članek', contactAccreditation: 'KONTAKT IN AKREDITACIJA', journalistAccreditation: 'NOVINARSKA AKREDITACIJA', pressInfo: 'INFORMACIJE ZA MEDIJE', mediaArchive: 'MEDIJSKI ARHIV — POROČILA 2025' },
-    hu: { mediaPack: 'Teljes médiacsomag egy fájlban', downloadArticle: 'Cikk letöltése', contactAccreditation: 'KAPCSOLAT ÉS AKKREDITÁCIÓ', journalistAccreditation: 'SAJTÓAKKREDITÁCIÓ', pressInfo: 'SAJTÓINFORMÁCIÓK', mediaArchive: 'MÉDIAARCHÍVUM — 2025-ÖS ANYAGOK' },
-    no: { mediaPack: 'Komplett mediepakke i én fil', downloadArticle: 'Last ned artikkel', contactAccreditation: 'KONTAKT OG AKKREDITERING', journalistAccreditation: 'PRESSEAKKREDITERING', pressInfo: 'PRESSEINFORMASJON', mediaArchive: 'MEDIEARKIV — DEKNING 2025' },
-    sv: { mediaPack: 'Komplett mediepaket i en fil', downloadArticle: 'Ladda ner artikel', contactAccreditation: 'KONTAKT OCH ACKREDITERING', journalistAccreditation: 'PRESSACKREDITERING', pressInfo: 'PRESSINFORMATION', mediaArchive: 'MEDIEARKIV — RAPPORTERING 2025' },
-    nl: { mediaPack: 'Volledig mediapakket in één bestand', downloadArticle: 'Artikel downloaden', contactAccreditation: 'CONTACT EN ACCREDITATIE', journalistAccreditation: 'PERSACCREDITATIE', pressInfo: 'PERSINFORMATIE', mediaArchive: 'MEDIA-ARCHIEF — VERSLAGGEVING 2025' },
-    es: { mediaPack: 'Paquete completo de medios en un archivo', downloadArticle: 'Descargar artículo', contactAccreditation: 'CONTACTO Y ACREDITACIÓN', journalistAccreditation: 'ACREDITACIÓN DE PRENSA', pressInfo: 'INFORMACIÓN DE PRENSA', mediaArchive: 'ARCHIVO DE MEDIOS — COBERTURA 2025' },
-    pt: { mediaPack: 'Pacote completo de media num único ficheiro', downloadArticle: 'Transferir artigo', contactAccreditation: 'CONTACTO E ACREDITAÇÃO', journalistAccreditation: 'ACREDITAÇÃO JORNALÍSTICA', pressInfo: 'INFORMAÇÃO DE IMPRENSA', mediaArchive: 'ARQUIVO DE MEDIA — COBERTURA 2025' },
-    ro: { mediaPack: 'Pachet media complet într-un singur fișier', downloadArticle: 'Descarcă articolul', contactAccreditation: 'CONTACT ȘI ACREDITARE', journalistAccreditation: 'ACREDITARE JURNALIȘTI', pressInfo: 'INFORMAȚII DE PRESĂ', mediaArchive: 'ARHIVĂ MEDIA — RELATĂRI 2025' },
-    it: { mediaPack: 'Pacchetto media completo in un unico file', downloadArticle: 'Scarica articolo', contactAccreditation: 'CONTATTI E ACCREDITO', journalistAccreditation: 'ACCREDITO GIORNALISTICO', pressInfo: 'INFORMAZIONI STAMPA', mediaArchive: 'ARCHIVIO MEDIA — COPERTURA 2025' },
-    ko: { mediaPack: '미디어 자료 전체를 하나의 파일로 제공', downloadArticle: '기사 다운로드', contactAccreditation: '연락처 및 취재 승인', journalistAccreditation: '언론 취재 승인', pressInfo: '보도 자료', mediaArchive: '미디어 아카이브 — 2025 보도' },
-  }[lang] ?? {
-    mediaPack: 'Complete media materials in one file',
-    downloadArticle: 'Download article',
+type MediaLabels = {
+  fullMaterials: string;
+  downloadArticle: string;
+  contactAccreditation: string;
+  pressAccreditation: string;
+  pressInfo: string;
+  mediaArchive: string;
+  downloadPressKit: string;
+  becomeMediaPartner: string;
+  contactForMedia: string;
+  vicePresident: string;
+  responseTime: string;
+  accreditationBody: string;
+  submissionDeadline: string;
+  archiveDescription: string;
+  linkSoon: string;
+  open: string;
+  downloadPdf: string;
+};
+
+const mediaLabelsMap: Partial<Record<Lang, MediaLabels>> = {
+  pl: {
+    fullMaterials: 'KOMPLET MATERIAŁÓW',
+    downloadArticle: 'POBIERZ ARTYKUŁ',
+    contactAccreditation: 'KONTAKT I AKREDYTACJA',
+    pressAccreditation: 'AKREDYTACJA DZIENNIKARSKA',
+    pressInfo: 'INFORMACJE PRASOWE',
+    mediaArchive: 'ARCHIWUM MEDIALNE',
+    downloadPressKit: 'POBIERZ PRESS KIT',
+    becomeMediaPartner: 'ZOSTAŃ PATRONEM MEDIALNYM',
+    contactForMedia: 'KONTAKT DLA MEDIÓW',
+    vicePresident: 'Sebastian Bożek — Wiceprezes',
+    responseTime: 'Czas odpowiedzi: do 24h',
+    accreditationBody:
+      'Akredytacja odbywa się wyłącznie drogą mailową. W wiadomości prosimy o podanie: imienia i nazwiska, redakcji, stanowiska, numeru telefonu oraz zakresu planowanej relacji (tekst, foto, wideo). Po weryfikacji otrzymasz potwierdzenie i dalsze instrukcje.',
+    submissionDeadline: 'Termin zgłoszeń: 30.05.2026',
+    archiveDescription: 'Wybrane relacje prasowe i materiały z ubiegłorocznej edycji.',
+    linkSoon: 'LINK — WKRÓTCE',
+    open: 'OTWÓRZ',
+    downloadPdf: 'POBIERZ PDF',
+  },
+  en: {
+    fullMaterials: 'FULL MATERIALS',
+    downloadArticle: 'DOWNLOAD ARTICLE',
     contactAccreditation: 'CONTACT & ACCREDITATION',
-    journalistAccreditation: 'MEDIA ACCREDITATION',
+    pressAccreditation: 'PRESS ACCREDITATION',
     pressInfo: 'PRESS INFORMATION',
-    mediaArchive: 'MEDIA ARCHIVE — 2025 COVERAGE',
+    mediaArchive: 'MEDIA ARCHIVE',
+    downloadPressKit: 'DOWNLOAD PRESS KIT',
+    becomeMediaPartner: 'BECOME MEDIA PARTNER',
+    contactForMedia: 'MEDIA CONTACT',
+    vicePresident: 'Sebastian Bożek — Vice President',
+    responseTime: 'Response time: up to 24h',
+    accreditationBody:
+      'Accreditation is handled only by email. Please provide: full name, newsroom, role, phone number, and the scope of planned coverage (text, photo, video). After verification, you will receive confirmation and further instructions.',
+    submissionDeadline: 'Submission deadline: 30.05.2026',
+    archiveDescription: 'Selected press coverage and materials from last year.',
+    linkSoon: 'LINK — SOON',
+    open: 'OPEN',
+    downloadPdf: 'DOWNLOAD PDF',
+  },
+  de: {
+    fullMaterials: 'VOLLSTÄNDIGE MATERIALIEN',
+    downloadArticle: 'ARTIKEL HERUNTERLADEN',
+    contactAccreditation: 'KONTAKT & AKKREDITIERUNG',
+    pressAccreditation: 'PRESSEAKKREDITIERUNG',
+    pressInfo: 'PRESSEINFORMATIONEN',
+    mediaArchive: 'MEDIENARCHIV',
+    downloadPressKit: 'PRESS KIT HERUNTERLADEN',
+    becomeMediaPartner: 'MEDIENPARTNER WERDEN',
+    contactForMedia: 'MEDIENKONTAKT',
+    vicePresident: 'Sebastian Bożek — Vizepräsident',
+    responseTime: 'Antwortzeit: bis zu 24h',
+    accreditationBody:
+      'Die Akkreditierung erfolgt ausschließlich per E-Mail. Bitte geben Sie an: Vor- und Nachname, Redaktion, Position, Telefonnummer sowie den Umfang der geplanten Berichterstattung (Text, Foto, Video). Nach der Verifizierung erhalten Sie eine Bestätigung und weitere Anweisungen.',
+    submissionDeadline: 'Einreichungsfrist: 30.05.2026',
+    archiveDescription: 'Ausgewählte Presseberichte und Materialien aus dem letzten Jahr.',
+    linkSoon: 'LINK — BALD',
+    open: 'ÖFFNEN',
+    downloadPdf: 'PDF HERUNTERLADEN',
+  },
+  fr: {} as MediaLabels,
+  hr: {} as MediaLabels,
+  cs: {} as MediaLabels,
+  lt: {} as MediaLabels,
+  lv: {} as MediaLabels,
+  sk: {} as MediaLabels,
+  sl: {} as MediaLabels,
+  hu: {} as MediaLabels,
+  no: {} as MediaLabels,
+  sv: {} as MediaLabels,
+  nl: {} as MediaLabels,
+  es: {} as MediaLabels,
+  pt: {} as MediaLabels,
+  ro: {} as MediaLabels,
+  it: {} as MediaLabels,
+  ko: {} as MediaLabels,
+};
+
+export default function MediaPage({
+  lang,
+  pressKitItems = [],
+  pressReleases = [],
+  mediaArchive = [],
+}: MediaPageProps) {
+  const sectionTag = ui[lang].nav_media;
+  const englishFallback = mediaLabelsMap.en as MediaLabels;
+  const mediaLabels = {
+    ...englishFallback,
+    ...(mediaLabelsMap[lang] ?? {}),
   };
   return (
     <div
@@ -162,7 +181,7 @@ export default function MediaPage({ lang }: MediaPageProps) {
             fontWeight: 500,
           }}
         >
-          {t.mediaPack}
+          {mediaLabels.fullMaterials}
         </p>
         <ul
           style={{
@@ -209,7 +228,7 @@ export default function MediaPage({ lang }: MediaPageProps) {
           }}
           className="media-page-download-btn"
         >
-          POBIERZ PRESS KIT (ZIP) ↓
+          {mediaLabels.downloadPressKit} (ZIP) ↓
         </a>
         <div
           style={{
@@ -227,7 +246,7 @@ export default function MediaPage({ lang }: MediaPageProps) {
             rel="noopener noreferrer"
             className="media-page-cta-btn"
           >
-            {t.downloadArticle} — Polska Zbrojna
+            {mediaLabels.downloadArticle} — Polska Zbrojna
           </a>
           <a
             href="/downloads/special-ops-cerberus-k9-2025.pdf"
@@ -236,7 +255,7 @@ export default function MediaPage({ lang }: MediaPageProps) {
             rel="noopener noreferrer"
             className="media-page-cta-btn"
           >
-            {t.downloadArticle} — Special Ops
+            {mediaLabels.downloadArticle} — Special Ops
           </a>
         </div>
       </section>
@@ -291,7 +310,7 @@ export default function MediaPage({ lang }: MediaPageProps) {
           margin: '0 0 24px 0',
         }}
       >
-        {t.contactAccreditation}
+        {mediaLabels.contactAccreditation}
       </h2>
       <div
         style={{
@@ -317,10 +336,10 @@ export default function MediaPage({ lang }: MediaPageProps) {
               letterSpacing: '1px',
             }}
           >
-            KONTAKT DLA MEDIÓW
+            {mediaLabels.contactForMedia}
           </h3>
           <p style={{ margin: '0 0 12px 0', fontSize: '15px', color: '#E4DDD0', fontWeight: 600 }}>
-            Sebastian Bożek — Wiceprezes
+            {mediaLabels.vicePresident}
           </p>
           <a
             href="mailto:sebastian@pactak9.org"
@@ -351,7 +370,7 @@ export default function MediaPage({ lang }: MediaPageProps) {
             +48 695 637 907
           </p>
           <p style={{ margin: 0, fontSize: '13px', color: '#7A8A9A', letterSpacing: '0.5px' }}>
-            Czas odpowiedzi: do 24h
+            {mediaLabels.responseTime}
           </p>
         </div>
 
@@ -371,12 +390,10 @@ export default function MediaPage({ lang }: MediaPageProps) {
               letterSpacing: '1px',
             }}
           >
-            {t.journalistAccreditation}
+            {mediaLabels.pressAccreditation}
           </h3>
           <p style={{ margin: '0 0 16px 0', fontSize: '14px', lineHeight: 1.65, color: '#C5BCB0' }}>
-            Akredytacja odbywa się wyłącznie drogą mailową. W wiadomości prosimy o podanie: imienia i
-            nazwiska, redakcji, stanowiska, numeru telefonu oraz zakresu planowanej relacji (tekst,
-            foto, wideo). Po weryfikacji otrzymasz potwierdzenie i dalsze instrukcje.
+            {mediaLabels.accreditationBody}
           </p>
           <a
             href="mailto:sebastian@pactak9.org"
@@ -394,7 +411,7 @@ export default function MediaPage({ lang }: MediaPageProps) {
             sebastian@pactak9.org
           </a>
           <p style={{ margin: 0, fontSize: '13px', color: '#7A8A9A' }}>
-            Termin zgłoszeń: 30.05.2026
+            {mediaLabels.submissionDeadline}
           </p>
         </div>
       </div>
@@ -409,7 +426,7 @@ export default function MediaPage({ lang }: MediaPageProps) {
           margin: '0 0 24px 0',
         }}
       >
-        {t.pressInfo}
+        {mediaLabels.pressInfo}
       </h2>
       <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 56px 0' }}>
         {pressReleases.map((item) => (
@@ -472,10 +489,10 @@ export default function MediaPage({ lang }: MediaPageProps) {
           margin: '0 0 12px 0',
         }}
       >
-        {t.mediaArchive}
+        {mediaLabels.mediaArchive}
       </h2>
       <p style={{ margin: '0 0 28px 0', fontSize: '14px', color: '#8A9AAA' }}>
-        Wybrane relacje prasowe i materiały z ubiegłorocznej edycji.
+        {mediaLabels.archiveDescription}
       </p>
       <div
         style={{
@@ -484,7 +501,7 @@ export default function MediaPage({ lang }: MediaPageProps) {
           gap: '20px',
         }}
       >
-        {mediaArchive2025.map((item) => {
+        {mediaArchive.map((item) => {
           const isExternal = item.href.startsWith('http');
           const linkStyle = {
             marginTop: '16px',
@@ -546,7 +563,7 @@ export default function MediaPage({ lang }: MediaPageProps) {
                     cursor: 'default',
                   }}
                 >
-                  LINK — WKRÓTCE
+                  {mediaLabels.linkSoon}
                 </span>
               ) : (
                 <a
@@ -557,12 +574,12 @@ export default function MediaPage({ lang }: MediaPageProps) {
                 >
                   {isExternal ? (
                     <>
-                      OTWÓRZ
+                      {mediaLabels.open}
                       <ExternalLink size={14} aria-hidden />
                     </>
                   ) : (
                     <>
-                      POBIERZ PDF
+                      {mediaLabels.downloadPdf}
                       <FileText size={14} aria-hidden />
                     </>
                   )}

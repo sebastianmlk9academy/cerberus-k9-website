@@ -1,14 +1,14 @@
 import { useState, type MouseEvent } from 'react';
 import { Mail, Download } from 'lucide-react';
-import { ui } from '../i18n/ui';
 import type { Lang } from '../i18n/utils';
 
-export type PartnerType = 'Strategiczny' | 'Sponsor' | 'Patron Medialny' | 'Technologiczny';
+export type PartnerTypeId = 'strategic' | 'sponsor' | 'media' | 'technology';
+export type PartnerType = PartnerTypeId;
 
 export interface Partner {
   id: number;
   name: string;
-  type: PartnerType;
+  type: PartnerTypeId;
   description: string;
   website: string | null;
   websiteLabel: string | null;
@@ -19,8 +19,8 @@ const defaultPartners: Partner[] = [
   {
     id: 1,
     name: 'Polska Zbrojna (WIW MON)',
-    type: 'Patron Medialny',
-    description: 'Miesięcznik Wojska Polskiego. Patron medialny CERBERUS K9 od edycji 2025.',
+    type: 'media',
+    description: '',
     website: 'https://polska-zbrojna.pl',
     websiteLabel: 'polska-zbrojna.pl',
     logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Polska%20Zbrojna-khEyAPmGAkhHX4IAVuiDjYLAqdTuoA.webp',
@@ -28,8 +28,8 @@ const defaultPartners: Partner[] = [
   {
     id: 2,
     name: 'Special Ops',
-    type: 'Patron Medialny',
-    description: 'Kwartalnik Defence24 o tematyce jednostek specjalnych, wojska i służb mundurowych. Patron medialny CERBERUS K9 od edycji 2025.',
+    type: 'media',
+    description: '',
     website: 'https://www.special-ops.pl',
     websiteLabel: 'special-ops.pl',
     logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/special-ops-logo-1-aKqs9eqCEBoNfiGfXd2COdP8qMZtns.webp',
@@ -37,8 +37,8 @@ const defaultPartners: Partner[] = [
   {
     id: 3,
     name: 'Politechnika Wrocławska',
-    type: 'Strategiczny',
-    description: 'Katedra Mechaniki, Inżynierii Materiałowej i Biomedycznej. Partner R&D.',
+    type: 'strategic',
+    description: '',
     website: 'https://pwr.edu.pl',
     websiteLabel: 'pwr.edu.pl',
     logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Politechnika%20Wroc%C5%82awska-bMf1AU1ZOaGoG2raCdKyyGazQpQI6u.webp',
@@ -46,8 +46,8 @@ const defaultPartners: Partner[] = [
   {
     id: 4,
     name: 'Astriva',
-    type: 'Technologiczny',
-    description: 'Zaawansowana ochrona balistyczna i pancerze osobiste.',
+    type: 'technology',
+    description: '',
     website: 'https://astriva.pl',
     websiteLabel: 'astriva.pl',
     logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/astriva-logo-0p88smYLLCJekxGZrKcWgVzM5HJCj8.webp',
@@ -55,8 +55,8 @@ const defaultPartners: Partner[] = [
   {
     id: 5,
     name: 'WOPR Ostrów Wlkp.',
-    type: 'Strategiczny',
-    description: 'Wodne Ochotnicze Pogotowie Ratunkowe. Pierwsza pomoc na CERBERUS K9.',
+    type: 'strategic',
+    description: '',
     website: 'https://facebook.com/profile.php?id=100064367904632',
     websiteLabel: 'Facebook',
     logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/wopr-I5BCl7zZm2JTLmXzWMKw3AChpkC4Zg.webp',
@@ -64,8 +64,8 @@ const defaultPartners: Partner[] = [
   {
     id: 6,
     name: 'Rescue Team SE.A.L',
-    type: 'Strategiczny',
-    description: 'Szkolenia TCCC. Partnerzy modułu TCCC CERBERUS K9.',
+    type: 'strategic',
+    description: '',
     website: 'https://rescueteamseal.pl',
     websiteLabel: 'rescueteamseal.pl',
     logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Rescue%20Team%20SE.AL.-mSxq32Jr7TWiiO7jVs0TZzHRjUJWlG.webp',
@@ -73,8 +73,8 @@ const defaultPartners: Partner[] = [
   {
     id: 7,
     name: 'Smart Target',
-    type: 'Technologiczny',
-    description: 'Sprzęt szkoleniowy dla zespołów K9 i służb mundurowych.',
+    type: 'technology',
+    description: '',
     website: 'https://smart-target.pl',
     websiteLabel: 'smart-target.pl',
     logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Smart%20Target-GqsRtYarx3io0nrWEQCWoTOjpm1mLv.webp',
@@ -82,8 +82,8 @@ const defaultPartners: Partner[] = [
   {
     id: 8,
     name: 'Jednostka Strzelecka 3102 GRYF',
-    type: 'Strategiczny',
-    description: 'Organizacja proobronna.',
+    type: 'strategic',
+    description: '',
     website: 'https://www.jsgryf.pl',
     websiteLabel: 'jsgryf.pl',
     logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Jednostka%20Strzelecka%203102%20GRYF-IifeMDJr6xPU7yqVkJgy5UKaSjDerI.webp',
@@ -91,8 +91,8 @@ const defaultPartners: Partner[] = [
   {
     id: 9,
     name: 'ObronaPowszechna.org',
-    type: 'Strategiczny',
-    description: 'Portal wiedzy o obronie powszechnej.',
+    type: 'strategic',
+    description: '',
     website: 'https://obronap.org',
     websiteLabel: 'obronap.org',
     logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Obrona%20Powszechna-dmnnCmzvoiFfBRngRmbYdqfeDRa2d7.webp',
@@ -100,8 +100,8 @@ const defaultPartners: Partner[] = [
   {
     id: 10,
     name: 'PZSO',
-    type: 'Strategiczny',
-    description: 'Polski Związek Strzelectwa Obronnego.',
+    type: 'strategic',
+    description: '',
     website: 'https://pzso.org.pl',
     websiteLabel: 'pzso.org.pl',
     logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/PZSO-yZgAaGjcQBuj54Ax83d0qlCz4fL46X.webp',
@@ -109,8 +109,8 @@ const defaultPartners: Partner[] = [
   {
     id: 11,
     name: 'SOF K9 Lubliniec',
-    type: 'Strategiczny',
-    description: 'Szkolenia K9. Partner modułu K9 CERBERUS K9.',
+    type: 'strategic',
+    description: '',
     website: 'https://www.facebook.com/p/SOF-K9-Lubliniec-100088222903375/',
     websiteLabel: 'Facebook',
     logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/K9%20SOF%20Lubliniec-artpTknhksLDSxkhJyjN82TuLV4172.webp',
@@ -118,8 +118,8 @@ const defaultPartners: Partner[] = [
   {
     id: 12,
     name: 'ETO K9',
-    type: 'Strategiczny',
-    description: 'Szkolenia K9. Partner modułu K9 CERBERUS K9.',
+    type: 'strategic',
+    description: '',
     website: 'https://etok9.pl',
     websiteLabel: 'etok9.pl',
     logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/K9%20ETO-cykwJh43PrBIrkyYV0bJOC4AXZRKQV.webp',
@@ -127,8 +127,8 @@ const defaultPartners: Partner[] = [
   {
     id: 13,
     name: 'Grupa KMS K9',
-    type: 'Strategiczny',
-    description: 'Szkolenia K9. Partner modułu K9 CERBERUS K9.',
+    type: 'strategic',
+    description: '',
     website: 'https://www.facebook.com/GrupaKMSK9profesjonalneszkoleniepsow/',
     websiteLabel: 'Facebook',
     logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Grupa%20KMS-uQtZha8d8KN8g4Agiz8VbSKYlEyFJ1.webp',
@@ -136,22 +136,22 @@ const defaultPartners: Partner[] = [
   {
     id: 14,
     name: 'VALHALL K-9',
-    type: 'Strategiczny',
-    description: 'Szkolenia K9. Partner modułu K9 CERBERUS K9.',
+    type: 'strategic',
+    description: '',
     website: 'https://valhallk9.com',
     websiteLabel: 'valhallk9.com',
     logo: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Valhall%20K9-qobBFVbFLarEmNDPb2waxfUzwFEiOC.webp',
   },
 ];
 
-type FilterTab = 'WSZYSCY' | 'STRATEGICZNI' | 'SPONSORZY' | 'PATRONI MEDIALNI' | 'TECHNOLOGICZNI';
+type FilterTab = 'all' | 'strategic' | 'sponsor' | 'media' | 'technology';
 
 const filterTabs: FilterTab[] = [
-  'WSZYSCY',
-  'STRATEGICZNI',
-  'SPONSORZY',
-  'PATRONI MEDIALNI',
-  'TECHNOLOGICZNI',
+  'all',
+  'strategic',
+  'sponsor',
+  'media',
+  'technology',
 ];
 
 function handlePartnersFilterMouseEnter(e: MouseEvent<HTMLButtonElement>) {
@@ -164,41 +164,146 @@ function handlePartnersFilterMouseLeave(e: MouseEvent<HTMLButtonElement>) {
   e.currentTarget.style.color = '#C4922A';
 }
 
-const typeToFilter: Record<PartnerType, FilterTab> = {
-  Strategiczny: 'STRATEGICZNI',
-  Sponsor: 'SPONSORZY',
-  'Patron Medialny': 'PATRONI MEDIALNI',
-  Technologiczny: 'TECHNOLOGICZNI',
-};
-
-const typeBadge: Record<PartnerType, { label: string; bg: string; text: string; border: string }> = {
-  Strategiczny: {
-    label: 'STRATEGICZNY',
+const typeBadge: Record<PartnerTypeId, { bg: string; text: string; border: string }> = {
+  strategic: {
     bg: 'rgba(196,146,42,0.12)',
     text: '#C4922A',
     border: 'rgba(196,146,42,0.35)',
   },
-  Sponsor: {
-    label: 'SPONSOR',
+  sponsor: {
     bg: 'rgba(180,30,30,0.12)',
     text: '#C0392B',
     border: 'rgba(180,30,30,0.35)',
   },
-  'Patron Medialny': {
-    label: 'PATRON MEDIALNY',
+  media: {
     bg: 'rgba(32,160,150,0.12)',
     text: '#20A096',
     border: 'rgba(32,160,150,0.35)',
   },
-  Technologiczny: {
-    label: 'TECHNOLOGICZNY',
+  technology: {
     bg: 'rgba(58,120,200,0.12)',
     text: '#4A90D9',
     border: 'rgba(58,120,200,0.35)',
   },
 };
 
-function PartnerCard({ partner }: { partner: Partner }) {
+type PartnerLabels = {
+  all: string;
+  strategic: string;
+  sponsor: string;
+  media: string;
+  technology: string;
+  currentPartners: string;
+  becomePartner: string;
+  noPartners: string;
+  partnerCTA: string;
+  heroTitle: string;
+  heroDescription: string;
+  corporatePackage: string;
+  becomeSponsor: string;
+  sponsorDescription: string;
+  downloadSponsorOffer: string;
+  orWrite: string;
+  forMedia: string;
+  mediaPatronage: string;
+  mediaDescription: string;
+  writeToUs: string;
+  website: string;
+};
+
+const partnerLabelsMap: Partial<Record<Lang, PartnerLabels>> = {
+  pl: {
+    all: 'WSZYSCY',
+    strategic: 'STRATEGICZNY',
+    sponsor: 'SPONSOR',
+    media: 'PATRON MEDIALNY',
+    technology: 'TECHNOLOGICZNY',
+    currentPartners: 'AKTUALNI PARTNERZY',
+    becomePartner: 'ZOSTAŃ PARTNEREM',
+    noPartners: 'BRAK PARTNERÓW',
+    partnerCTA: 'Dołącz do grona partnerów CERBERUS K9',
+    heroTitle: 'PARTNERZY',
+    heroDescription: 'Instytucje, organizacje i firmy, które tworzą ekosystem CERBERUS K9.',
+    corporatePackage: 'PAKIET KORPORACYJNY',
+    becomeSponsor: 'ZOSTAŃ SPONSOREM',
+    sponsorDescription:
+      'Dotrzyj do elity służb mundurowych, ekspertów bezpieczeństwa, środowisk K9 i klientów docelowych z Polski i całej Europy. Pakiety sponsorskie od 10 000 PLN.',
+    downloadSponsorOffer: 'POBIERZ OFERTĘ SPONSORSKĄ',
+    orWrite: 'Lub napisz',
+    forMedia: 'DLA MEDIÓW',
+    mediaPatronage: 'PATRONAT MEDIALNY',
+    mediaDescription: 'Oferujemy wzajemną promocję, akredytację dziennikarską i materiały prasowe.',
+    writeToUs: 'NAPISZ DO NAS',
+    website: 'WEBSITE →',
+  },
+  en: {
+    all: 'ALL',
+    strategic: 'STRATEGIC',
+    sponsor: 'SPONSOR',
+    media: 'MEDIA PARTNER',
+    technology: 'TECHNOLOGY',
+    currentPartners: 'CURRENT PARTNERS',
+    becomePartner: 'BECOME A PARTNER',
+    noPartners: 'NO PARTNERS',
+    partnerCTA: 'Join the CERBERUS K9 partner network',
+    heroTitle: 'PARTNERS',
+    heroDescription: 'Institutions, organizations, and companies that build the CERBERUS K9 ecosystem.',
+    corporatePackage: 'CORPORATE PACKAGE',
+    becomeSponsor: 'BECOME A SPONSOR',
+    sponsorDescription:
+      'Reach elite uniformed services, security experts, K9 communities, and your target clients from Poland and across Europe. Sponsorship packages start at 10,000 PLN.',
+    downloadSponsorOffer: 'DOWNLOAD SPONSOR OFFER',
+    orWrite: 'Or write',
+    forMedia: 'FOR MEDIA',
+    mediaPatronage: 'MEDIA PARTNERSHIP',
+    mediaDescription: 'We offer mutual promotion, press accreditation, and press materials.',
+    writeToUs: 'WRITE TO US',
+    website: 'WEBSITE →',
+  },
+  de: {
+    all: 'ALLE',
+    strategic: 'STRATEGISCH',
+    sponsor: 'SPONSOR',
+    media: 'MEDIENPARTNER',
+    technology: 'TECHNOLOGIE',
+    currentPartners: 'AKTUELLE PARTNER',
+    becomePartner: 'PARTNER WERDEN',
+    noPartners: 'KEINE PARTNER',
+    partnerCTA: 'Werden Sie Teil des CERBERUS K9 Partnernetzwerks',
+    heroTitle: 'PARTNER',
+    heroDescription:
+      'Institutionen, Organisationen und Unternehmen, die das CERBERUS K9-Ökosystem aufbauen.',
+    corporatePackage: 'UNTERNEHMENSPAKET',
+    becomeSponsor: 'SPONSOR WERDEN',
+    sponsorDescription:
+      'Erreichen Sie Eliteeinheiten, Sicherheitsexperten, K9-Communitys und Zielkunden aus Polen und ganz Europa. Sponsoring-Pakete ab 10.000 PLN.',
+    downloadSponsorOffer: 'SPONSOR-ANGEBOT HERUNTERLADEN',
+    orWrite: 'Oder schreiben Sie',
+    forMedia: 'FÜR MEDIEN',
+    mediaPatronage: 'MEDIENPARTNERSCHAFT',
+    mediaDescription: 'Wir bieten gegenseitige Promotion, Presseakkreditierung und Pressematerialien.',
+    writeToUs: 'SCHREIBEN SIE UNS',
+    website: 'WEBSITE →',
+  },
+  fr: {} as PartnerLabels,
+  hr: {} as PartnerLabels,
+  cs: {} as PartnerLabels,
+  lt: {} as PartnerLabels,
+  lv: {} as PartnerLabels,
+  sk: {} as PartnerLabels,
+  sl: {} as PartnerLabels,
+  hu: {} as PartnerLabels,
+  no: {} as PartnerLabels,
+  sv: {} as PartnerLabels,
+  nl: {} as PartnerLabels,
+  es: {} as PartnerLabels,
+  pt: {} as PartnerLabels,
+  ro: {} as PartnerLabels,
+  it: {} as PartnerLabels,
+  ko: {} as PartnerLabels,
+};
+
+function PartnerCard({ partner, labels }: { partner: Partner; labels: PartnerLabels }) {
   const badge = typeBadge[partner.type];
   return (
     <div
@@ -271,7 +376,7 @@ function PartnerCard({ partner }: { partner: Partner }) {
             padding: '3px 8px',
           }}
         >
-          {badge.label}
+          {labels[partner.type]}
         </span>
       </div>
 
@@ -330,7 +435,7 @@ function PartnerCard({ partner }: { partner: Partner }) {
           }}
           className="partner-link"
         >
-          WEBSITE →
+          {labels.website}
         </a>
       )}
     </div>
@@ -379,45 +484,19 @@ type PartnersPageProps = {
 };
 
 export default function PartnersPage({ lang, partners: partnersProp, embedded = false }: PartnersPageProps) {
-  const t = {
-    pl: { all: 'WSZYSCY', strategic: 'STRATEGICZNI', sponsors: 'SPONSORZY', mediaPatrons: 'PATRONI MEDIALNI', tech: 'TECHNOLOGICZNI', currentPartners: 'AKTUALNI PARTNERZY', becomePartner: 'ZOSTAŃ PARTNEREM', ctaDesc: 'Akredytacje i zapytania medialne przyjmujemy przez cały rok.' },
-    en: { all: 'ALL', strategic: 'STRATEGIC', sponsors: 'SPONSORS', mediaPatrons: 'MEDIA PATRONS', tech: 'TECHNOLOGICAL', currentPartners: 'CURRENT PARTNERS', becomePartner: 'BECOME A PARTNER', ctaDesc: 'We accept accreditation and media inquiries year-round.' },
-    de: { all: 'ALLE', strategic: 'STRATEGISCH', sponsors: 'SPONSOREN', mediaPatrons: 'MEDIENPARTNER', tech: 'TECHNOLOGISCH', currentPartners: 'AKTUELLE PARTNER', becomePartner: 'PARTNER WERDEN', ctaDesc: 'Akkreditierungen und Medienanfragen nehmen wir ganzjährig an.' },
-    fr: { all: 'TOUS', strategic: 'STRATÉGIQUES', sponsors: 'SPONSORS', mediaPatrons: 'PARTENAIRES MÉDIAS', tech: 'TECHNOLOGIQUES', currentPartners: 'PARTENAIRES ACTUELS', becomePartner: 'DEVENIR PARTENAIRE', ctaDesc: 'Nous acceptons les accréditations et demandes médias toute l’année.' },
-    hr: { all: 'SVI', strategic: 'STRATEŠKI', sponsors: 'SPONZORI', mediaPatrons: 'MEDIJSKI PARTNERI', tech: 'TEHNOLOŠKI', currentPartners: 'TRENUTNI PARTNERI', becomePartner: 'POSTANI PARTNER', ctaDesc: 'Akreditacije i medijske upite primamo tijekom cijele godine.' },
-    cs: { all: 'VŠICHNI', strategic: 'STRATEGIČTÍ', sponsors: 'SPONZOŘI', mediaPatrons: 'MEDIÁLNÍ PARTNEŘI', tech: 'TECHNOLOGIČTÍ', currentPartners: 'AKTUÁLNÍ PARTNEŘI', becomePartner: 'STAŇTE SE PARTNEREM', ctaDesc: 'Akreditace a mediální dotazy přijímáme po celý rok.' },
-    lt: { all: 'VISI', strategic: 'STRATEGINIAI', sponsors: 'RĖMĖJAI', mediaPatrons: 'MEDIJŲ PARTNERIAI', tech: 'TECHNOLOGINIAI', currentPartners: 'DABARTINIAI PARTNERIAI', becomePartner: 'TAPKITE PARTNERIU', ctaDesc: 'Akreditacijas ir žiniasklaidos užklausas priimame visus metus.' },
-    lv: { all: 'VISI', strategic: 'STRATĒĢISKIE', sponsors: 'SPONSORI', mediaPatrons: 'MEDIJU PARTNERI', tech: 'TEHNOLOĢISKIE', currentPartners: 'PAŠREIZĒJIE PARTNERI', becomePartner: 'KĻŪSTI PAR PARTNERI', ctaDesc: 'Akreditācijas un mediju pieprasījumus pieņemam visu gadu.' },
-    sk: { all: 'VŠETCI', strategic: 'STRATEGICKÍ', sponsors: 'SPONZORI', mediaPatrons: 'MEDIÁLNI PARTNERI', tech: 'TECHNOLOGICKÍ', currentPartners: 'AKTUÁLNI PARTNERI', becomePartner: 'STAŤ SA PARTNEROM', ctaDesc: 'Akreditácie a mediálne otázky prijímame počas celého roka.' },
-    sl: { all: 'VSI', strategic: 'STRATEŠKI', sponsors: 'SPONZORJI', mediaPatrons: 'MEDIJSKI PARTNERJI', tech: 'TEHNOLOŠKI', currentPartners: 'TRENUTNI PARTNERJI', becomePartner: 'POSTANI PARTNER', ctaDesc: 'Akreditacije in medijska vprašanja sprejemamo vse leto.' },
-    hu: { all: 'ÖSSZES', strategic: 'STRATÉGIAI', sponsors: 'SZPONZOROK', mediaPatrons: 'MÉDIAPARTNEREK', tech: 'TECHNOLÓGIAI', currentPartners: 'AKTUÁLIS PARTNEREK', becomePartner: 'LEGYEN PARTNER', ctaDesc: 'Egész évben fogadunk akkreditációs és média megkereséseket.' },
-    no: { all: 'ALLE', strategic: 'STRATEGISKE', sponsors: 'SPONSORER', mediaPatrons: 'MEDIEPARTNERE', tech: 'TEKNOLOGISKE', currentPartners: 'NÅVÆRENDE PARTNERE', becomePartner: 'BLI PARTNER', ctaDesc: 'Vi tar imot akkreditering og mediehenvendelser hele året.' },
-    sv: { all: 'ALLA', strategic: 'STRATEGISKA', sponsors: 'SPONSORER', mediaPatrons: 'MEDIEPARTNERS', tech: 'TEKNOLOGISKA', currentPartners: 'AKTUELLA PARTNERS', becomePartner: 'BLI PARTNER', ctaDesc: 'Vi tar emot ackrediteringar och medieförfrågningar året runt.' },
-    nl: { all: 'ALLE', strategic: 'STRATEGISCH', sponsors: 'SPONSORS', mediaPatrons: 'MEDIAPARTNERS', tech: 'TECHNOLOGISCH', currentPartners: 'HUIDIGE PARTNERS', becomePartner: 'WORD PARTNER', ctaDesc: 'Accreditaties en mediaverzoeken accepteren we het hele jaar door.' },
-    es: { all: 'TODOS', strategic: 'ESTRATÉGICOS', sponsors: 'PATROCINADORES', mediaPatrons: 'SOCIOS DE MEDIOS', tech: 'TECNOLÓGICOS', currentPartners: 'SOCIOS ACTUALES', becomePartner: 'HAZTE SOCIO', ctaDesc: 'Aceptamos acreditaciones y consultas de medios durante todo el año.' },
-    pt: { all: 'TODOS', strategic: 'ESTRATÉGICOS', sponsors: 'PATROCINADORES', mediaPatrons: 'PARCEIROS DE MEDIA', tech: 'TECNOLÓGICOS', currentPartners: 'PARCEIROS ATUAIS', becomePartner: 'TORNE-SE PARCEIRO', ctaDesc: 'Aceitamos acreditações e pedidos de media durante todo o ano.' },
-    ro: { all: 'TOȚI', strategic: 'STRATEGICI', sponsors: 'SPONSORI', mediaPatrons: 'PARTENERI MEDIA', tech: 'TEHNOLOGICI', currentPartners: 'PARTENERI ACTUALI', becomePartner: 'DEVINO PARTENER', ctaDesc: 'Acceptăm acreditări și solicitări media pe tot parcursul anului.' },
-    it: { all: 'TUTTI', strategic: 'STRATEGICI', sponsors: 'SPONSOR', mediaPatrons: 'PARTNER MEDIA', tech: 'TECNOLOGICI', currentPartners: 'PARTNER ATTUALI', becomePartner: 'DIVENTA PARTNER', ctaDesc: 'Accettiamo accrediti e richieste media durante tutto l’anno.' },
-    ko: { all: '전체', strategic: '전략 파트너', sponsors: '스폰서', mediaPatrons: '미디어 파트너', tech: '기술 파트너', currentPartners: '현재 파트너', becomePartner: '파트너가 되세요', ctaDesc: '취재 승인 및 미디어 문의는 연중 접수합니다.' },
-  }[lang] ?? { all: 'ALL', strategic: 'STRATEGIC', sponsors: 'SPONSORS', mediaPatrons: 'MEDIA PATRONS', tech: 'TECHNOLOGICAL', currentPartners: 'CURRENT PARTNERS', becomePartner: 'BECOME A PARTNER', ctaDesc: 'We accept accreditation and media inquiries year-round.' };
-  const translatedTabs = filterTabs.map((tab) => {
-    if (tab === 'WSZYSCY') return (ui[lang] as Record<string, string>).filter_all ?? t.all;
-    if (tab === 'STRATEGICZNI') return t.strategic;
-    if (tab === 'SPONSORZY') return t.sponsors;
-    if (tab === 'PATRONI MEDIALNI') return t.mediaPatrons;
-    if (tab === 'TECHNOLOGICZNI') return t.tech;
-    return tab;
-  });
-  const [activeFilter, setActiveFilter] = useState<FilterTab>('WSZYSCY');
+  const englishFallback = partnerLabelsMap.en as PartnerLabels;
+  const partnerLabels = {
+    ...englishFallback,
+    ...(partnerLabelsMap[lang] ?? {}),
+  };
+  const translatedTabs = filterTabs.map((tab) => partnerLabels[tab]);
+  const [activeFilter, setActiveFilter] = useState<FilterTab>('all');
 
   const partners = (partnersProp && partnersProp.length > 0)
     ? partnersProp
     : defaultPartners;
 
-  const filtered =
-    activeFilter === 'WSZYSCY'
-      ? partners
-      : partners.filter((p) => typeToFilter[p.type] === activeFilter);
+  const filtered = activeFilter === 'all' ? partners : partners.filter((p) => p.type === activeFilter);
 
   return (
     <div
@@ -509,7 +588,7 @@ export default function PartnersPage({ lang, partners: partnersProp, embedded = 
                 lineHeight: 1,
               }}
             >
-              PARTNERZY
+              {partnerLabels.heroTitle}
             </h1>
             <p
               style={{
@@ -521,8 +600,7 @@ export default function PartnersPage({ lang, partners: partnersProp, embedded = 
                 margin: 0,
               }}
             >
-              Instytucje, organizacje i firmy, które tworzą ekosystem CERBERUS K9 — najwyżej cenionego
-              szkolenia służb K9 i mundurowych w Polsce.
+              {partnerLabels.heroDescription}
             </p>
           </div>
         </div>
@@ -532,7 +610,7 @@ export default function PartnersPage({ lang, partners: partnersProp, embedded = 
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: embedded ? '48px 32px 64px' : '64px 32px' }}>
 
         {/* Section 1 — Partners Grid */}
-        <SectionDivider label={t.currentPartners} />
+        <SectionDivider label={partnerLabels.currentPartners} />
 
         {/* Filter tabs */}
         <div className="filter-tabs-scroll" style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
@@ -592,7 +670,7 @@ export default function PartnersPage({ lang, partners: partnersProp, embedded = 
           }}
         >
           {filtered.map((partner) => (
-            <PartnerCard key={partner.id} partner={partner} />
+            <PartnerCard key={partner.id} partner={partner} labels={partnerLabels} />
           ))}
           {filtered.length === 0 && (
             <div
@@ -607,13 +685,13 @@ export default function PartnersPage({ lang, partners: partnersProp, embedded = 
                 letterSpacing: '2px',
               }}
             >
-              BRAK PARTNERÓW W TEJ KATEGORII
+              {partnerLabels.noPartners}
             </div>
           )}
         </div>
 
         {/* Section 2 — CTA Cards */}
-        <SectionDivider label={t.becomePartner} />
+        <SectionDivider label={partnerLabels.becomePartner} />
 
         <div
           className="cta-cards"
@@ -661,7 +739,7 @@ export default function PartnersPage({ lang, partners: partnersProp, embedded = 
                   padding: '3px 8px',
                 }}
               >
-                PAKIET KORPORACYJNY
+                {partnerLabels.corporatePackage}
               </span>
             </div>
 
@@ -675,7 +753,7 @@ export default function PartnersPage({ lang, partners: partnersProp, embedded = 
                 margin: '12px 0 20px',
               }}
             >
-              ZOSTAŃ SPONSOREM
+              {partnerLabels.becomeSponsor}
             </h2>
 
             <p
@@ -688,9 +766,7 @@ export default function PartnersPage({ lang, partners: partnersProp, embedded = 
                 flexGrow: 1,
               }}
             >
-              Dotrzyj do elity służb mundurowych, ekspertów bezpieczeństwa, środowisk K9 i Twoich
-              klientów docelowych z Polski i całej Europy. Pakiety sponsorskie od{' '}
-              <strong style={{ color: '#C4922A' }}>10 000 PLN</strong>.
+              {partnerLabels.sponsorDescription}
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'flex-start' }}>
@@ -714,7 +790,7 @@ export default function PartnersPage({ lang, partners: partnersProp, embedded = 
                 }}
               >
                 <Download size={13} />
-                POBIERZ OFERTĘ SPONSORSKĄ
+                {partnerLabels.downloadSponsorOffer}
               </a>
 
               <a
@@ -740,7 +816,7 @@ export default function PartnersPage({ lang, partners: partnersProp, embedded = 
                 }}
               >
                 <Mail size={11} />
-                Lub napisz: sebastian@pactak9.org
+                {partnerLabels.orWrite}: sebastian@pactak9.org
               </a>
             </div>
           </div>
@@ -784,7 +860,7 @@ export default function PartnersPage({ lang, partners: partnersProp, embedded = 
                   padding: '3px 8px',
                 }}
               >
-                DLA MEDIÓW
+                {partnerLabels.forMedia}
               </span>
             </div>
 
@@ -798,7 +874,7 @@ export default function PartnersPage({ lang, partners: partnersProp, embedded = 
                 margin: '12px 0 20px',
               }}
             >
-              PATRONAT MEDIALNY
+              {partnerLabels.mediaPatronage}
             </h2>
 
             <p
@@ -811,8 +887,7 @@ export default function PartnersPage({ lang, partners: partnersProp, embedded = 
                 flexGrow: 1,
               }}
             >
-              Oferujemy wzajemną promocję, akredytację dziennikarską, materiały prasowe i ekskluzywny
-              dostęp mediów do CERBERUS K9.
+              {partnerLabels.mediaDescription}
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'flex-start' }}>
@@ -845,7 +920,7 @@ export default function PartnersPage({ lang, partners: partnersProp, embedded = 
                 }}
               >
                 <Mail size={13} />
-                NAPISZ DO NAS
+                {partnerLabels.writeToUs}
               </a>
 
               <p
@@ -858,7 +933,7 @@ export default function PartnersPage({ lang, partners: partnersProp, embedded = 
                   lineHeight: 1.6,
                 }}
               >
-                {t.ctaDesc}
+                {partnerLabels.partnerCTA}
               </p>
             </div>
           </div>
