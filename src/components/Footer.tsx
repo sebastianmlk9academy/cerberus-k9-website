@@ -1,24 +1,13 @@
 "use client"
 import type { MouseEvent } from "react"
+import type { Lang } from "../i18n/utils"
+import type { FooterCopy } from "../i18n/footer"
+import { ui } from "../i18n/ui"
 
-const eventLinks = [
-  { label: "O Wydarzeniu", href: "#o-wydarzeniu" },
-  { label: "Instruktorzy", href: "#instruktorzy" },
-  { label: "Rejestracja", href: "#rejestracja" },
-  { label: "Program", href: "#program" },
-  { label: "Galeria", href: "#galeria" },
-  { label: "Media", href: "#media" },
-  { label: "Aktualności", href: "#aktualnosci" },
-]
-
-const foundationLinks = [
-  { label: "O Fundacji", href: "#o-fundacji" },
-  { label: "Misja i Wizja", href: "#misja-wizja" },
-  { label: "Zarząd", href: "#zarzad" },
-  { label: "Statut", href: "#statut" },
-  { label: "Kontakt", href: "#kontakt" },
-  { label: "Partnerzy", href: "#partnerzy" },
-]
+interface FooterProps {
+  lang: Lang
+  copy: FooterCopy
+}
 
 const socialLinks = [
   {
@@ -59,7 +48,27 @@ const socialLinks = [
   },
 ]
 
-export function Footer() {
+export function Footer({ lang, copy }: FooterProps) {
+  const eventLinks = [
+    { label: copy.linkAbout, href: `/${lang}/o-wydarzeniu` },
+    { label: copy.linkInstructors, href: `/${lang}/instruktorzy` },
+    { label: copy.linkRegistration, href: `/${lang}/rejestracja` },
+    { label: copy.linkProgram, href: `/${lang}/program` },
+  ]
+
+  const orgLinks = [
+    { label: copy.linkFoundation, href: `/${lang}/fundacja` },
+    { label: copy.linkPartners, href: `/${lang}/partnerzy` },
+  ]
+
+  const mediaLinks = [
+    { label: copy.linkMedia, href: `/${lang}/media` },
+    { label: copy.linkNews, href: `/${lang}/aktualnosci` },
+    { label: copy.linkGallery, href: `/${lang}/galeria` },
+  ]
+
+  const contactLinks = [{ label: copy.linkContact, href: `/${lang}/kontakt` }]
+
   return (
     <footer
       className="w-full"
@@ -151,7 +160,7 @@ export function Footer() {
               textTransform: "uppercase",
             }}
           >
-            CERBERUS K9
+            {copy.colEvent}
           </h3>
           <nav className="flex flex-col gap-2">
             {eventLinks.map((link) => (
@@ -180,7 +189,7 @@ export function Footer() {
           </nav>
         </div>
 
-        {/* Column 3 - Foundation */}
+        {/* Column 3 - Organization */}
         <div className="flex flex-col">
           <h3
             style={{
@@ -193,10 +202,10 @@ export function Footer() {
               textTransform: "uppercase",
             }}
           >
-            FUNDACJA PACTA K9
+            {copy.colOrg}
           </h3>
           <nav className="flex flex-col gap-2">
-            {foundationLinks.map((link) => (
+            {orgLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
@@ -222,7 +231,7 @@ export function Footer() {
           </nav>
         </div>
 
-        {/* Column 4 - Formal Data + Social */}
+        {/* Column 4 - Media, Contact, Formal Data + Social */}
         <div className="flex flex-col">
           <h3
             style={{
@@ -235,7 +244,85 @@ export function Footer() {
               textTransform: "uppercase",
             }}
           >
-            DANE REJESTROWE
+            {copy.colMedia}
+          </h3>
+          <nav className="mb-4 flex flex-col gap-2">
+            {mediaLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="footer-link"
+                style={{
+                  fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
+                  fontSize: "10px",
+                  letterSpacing: "1px",
+                  color: "#FFFFFF",
+                  textDecoration: "none",
+                  transition: "color 0.2s ease",
+                }}
+                onMouseEnter={(e: MouseEvent<HTMLAnchorElement>) => {
+                  e.currentTarget.style.color = "#C4922A"
+                }}
+                onMouseLeave={(e: MouseEvent<HTMLAnchorElement>) => {
+                  e.currentTarget.style.color = "#FFFFFF"
+                }}
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+
+          <h3
+            style={{
+              fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
+              fontSize: "9px",
+              letterSpacing: "3px",
+              color: "#FFFFFF",
+              fontWeight: 700,
+              marginBottom: "16px",
+              textTransform: "uppercase",
+            }}
+          >
+            {copy.colContact}
+          </h3>
+          <nav className="mb-4 flex flex-col gap-2">
+            {contactLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="footer-link"
+                style={{
+                  fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
+                  fontSize: "10px",
+                  letterSpacing: "1px",
+                  color: "#FFFFFF",
+                  textDecoration: "none",
+                  transition: "color 0.2s ease",
+                }}
+                onMouseEnter={(e: MouseEvent<HTMLAnchorElement>) => {
+                  e.currentTarget.style.color = "#C4922A"
+                }}
+                onMouseLeave={(e: MouseEvent<HTMLAnchorElement>) => {
+                  e.currentTarget.style.color = "#FFFFFF"
+                }}
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+
+          <h3
+            style={{
+              fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
+              fontSize: "9px",
+              letterSpacing: "3px",
+              color: "#FFFFFF",
+              fontWeight: 700,
+              marginBottom: "16px",
+              textTransform: "uppercase",
+            }}
+          >
+            {copy.legalLabel}
           </h3>
           <div
             className="flex flex-col gap-1"
@@ -329,8 +416,7 @@ export function Footer() {
               textAlign: "center",
             }}
           >
-            © 2026 Fundacja PACTA K9 – Sebastian Bożek. Wszelkie prawa
-            zastrzeżone.
+            {copy.copyright}
           </p>
           <p
             style={{
@@ -352,7 +438,7 @@ export function Footer() {
               textAlign: "center",
             }}
           >
-            13–14 CZERWCA 2026 · OSTRÓW WIELKOPOLSKI
+            {copy.dateLocation}
           </p>
         </div>
       </div>
