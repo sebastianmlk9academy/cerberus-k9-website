@@ -32,11 +32,16 @@ const scorePhoto = (photo: {
 	);
 };
 
+const galleryContentFiles = import.meta.glob('/src/content/galeria/**/*.{md,mdx,json,yaml,yml}');
+const hasGalleryContent = Object.keys(galleryContentFiles).length > 0;
+
 let allEntries = [];
-try {
-	allEntries = await getCollection('galeria');
-} catch {
-	// Empty or missing collection during early setup; keep page renderable.
+if (hasGalleryContent) {
+	try {
+		allEntries = await getCollection('galeria');
+	} catch {
+		// Keep page renderable even if content parsing fails.
+	}
 }
 const photos = allEntries
 	.map((entry) => ({

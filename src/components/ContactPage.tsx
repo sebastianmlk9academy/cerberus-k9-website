@@ -213,7 +213,7 @@ export function ContactPage() {
             name="contact"
             method="POST"
             action="/kontakt"
-            netlify
+            netlify="true"
             data-netlify="true"
             data-netlify-honeypot="company-website"
             onSubmit={handleSubmit}
