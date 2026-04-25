@@ -483,8 +483,28 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
         <p className="locked-countdown">
           Odblokowanie za: <strong data-countdown>0 dni</strong>
         </p>
-        <a href="/rejestracja" className="locked-cta">
-          Zarejestruj się i będziesz tutaj ↗
+        <a
+          href="/rejestracja"
+          className="flex items-center justify-center cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-6 sm:py-3.5 text-decoration-none"
+          style={{
+            backgroundColor: "transparent",
+            color: "#C4922A",
+            fontFamily: "var(--font-rajdhani), sans-serif",
+            letterSpacing: "3px",
+            fontWeight: 700,
+            borderRadius: 0,
+            border: "1px solid #C4922A",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = "#C4922A";
+            e.currentTarget.style.color = "#1E2B38";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = "transparent";
+            e.currentTarget.style.color = "#C4922A";
+          }}
+        >
+          ZAREJESTRUJ SIĘ I BĘDZIESZ TUTAJ <span className="ml-1">↗</span>
         </a>
       </section>
 
@@ -736,10 +756,6 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
         .locked-countdown {
           margin: 0 0 12px;
           color: #9ca9b4;
-        }
-        .locked-cta {
-          color: #c4922a;
-          text-decoration: none;
         }
         .photo-grid {
           display: grid;
