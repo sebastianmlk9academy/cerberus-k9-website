@@ -1,3 +1,4 @@
+import { Lock } from "lucide-react";
 import { useEffect, useMemo, useRef } from "react";
 
 type Category =
@@ -238,7 +239,29 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
       return () => button.removeEventListener("click", handler);
     };
 
+    const applyHoverBehavior = (button: HTMLButtonElement) => {
+      const handleMouseEnter = () => {
+        if (button.classList.contains("is-active")) return;
+        button.style.backgroundColor = "#C4922A";
+        button.style.color = "#1E2B38";
+      };
+      const handleMouseLeave = () => {
+        if (button.classList.contains("is-active")) return;
+        button.style.backgroundColor = "transparent";
+        button.style.color = "#C4922A";
+      };
+      button.addEventListener("mouseenter", handleMouseEnter);
+      button.addEventListener("mouseleave", handleMouseLeave);
+      return () => {
+        button.removeEventListener("mouseenter", handleMouseEnter);
+        button.removeEventListener("mouseleave", handleMouseLeave);
+      };
+    };
+
     const cleanupFns: Array<() => void> = [];
+    [...filterButtons, ...locationButtons, ...viewButtons].forEach((button) => {
+      cleanupFns.push(applyHoverBehavior(button));
+    });
 
     filterButtons.forEach((button) => {
       cleanupFns.push(
@@ -323,12 +346,55 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
 
   return (
     <div className="gallery-grid-wrap" ref={rootRef}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "16px",
+          marginBottom: "16px",
+        }}
+      >
+        <div
+          style={{
+            height: "1px",
+            flex: 1,
+            background:
+              "linear-gradient(to right, transparent, rgba(196, 43, 43, 0.4), transparent)",
+          }}
+        />
+        <span
+          style={{
+            fontFamily: "var(--font-rajdhani)",
+            fontSize: "12px",
+            fontWeight: 500,
+            letterSpacing: "5px",
+            color: "#C42B2B",
+          }}
+        >
+          ZDJĘCIA
+        </span>
+        <div
+          style={{
+            height: "1px",
+            flex: 1,
+            background:
+              "linear-gradient(to right, transparent, rgba(196, 43, 43, 0.4), transparent)",
+          }}
+        />
+      </div>
       <div className="edition-tabs">
         <button type="button" className="edition-tab is-active" data-edition="2025">
           EDYCJA 2025 — TRÓJMIASTO
         </button>
         <button type="button" className="edition-tab" data-edition="2026">
-          EDYCJA 2026 — OSTRÓW WIELKOPOLSKI {!is2026Unlocked ? " [AFTER 14.06.2026] 🔒" : ""}
+          EDYCJA 2026 — OSTRÓW WIELKOPOLSKI
+          {!is2026Unlocked ? (
+            <Lock
+              size={12}
+              style={{ display: "inline", verticalAlign: "middle", marginLeft: "6px" }}
+            />
+          ) : null}
         </button>
       </div>
 
@@ -481,33 +547,29 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
           flex-wrap: wrap;
         }
         .filter-pill,
-        .view-btn {
-          border: 1px solid #253344;
+        .view-btn,
+        .location-pill {
+          border: 1px solid #c4922a;
           background: transparent;
-          color: #4a5a6a;
-          padding: 7px 11px;
-          font-size: 12px;
-          border-radius: 999px;
+          color: #c4922a;
+          font-family: var(--font-rajdhani), sans-serif;
+          letter-spacing: 3px;
+          font-weight: 700;
+          border-radius: 0;
+          transition: background-color 150ms ease, color 150ms ease;
           cursor: pointer;
+          padding: 8px 14px;
+          font-size: 11px;
         }
         .filter-pill.is-active,
         .view-btn.is-active,
         .location-pill.is-active {
-          background: #253344;
-          color: #c4922a;
+          background: #c4922a;
+          color: #1e2b38;
           border-color: #c4922a;
         }
         .location-filters {
           margin: 12px 0 14px;
-        }
-        .location-pill {
-          border: 1px solid #253344;
-          background: #111a24;
-          color: #8a96a2;
-          font-size: 11px;
-          padding: 5px 10px;
-          border-radius: 999px;
-          cursor: pointer;
         }
         .edition-locked {
           background: rgba(14, 21, 29, 0.88);
