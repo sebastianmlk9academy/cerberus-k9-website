@@ -1,16 +1,21 @@
 "use client";
 
 import { useState } from "react";
+import type { Lang } from "../i18n/utils";
+import type { LatestNewsCopy } from "../i18n/latestNews";
 
 interface ButtonProps {
   children: React.ReactNode;
+  href: string;
 }
 
-function CTAButton({ children }: ButtonProps) {
+function CTAButton({ children, href }: ButtonProps) {
   return (
-    <button
+    <a
+      href={href}
       className="cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-6 sm:py-3.5"
       style={{
+        display: "inline-block",
         backgroundColor: "transparent",
         color: "#C4922A",
         fontFamily: "var(--font-rajdhani), sans-serif",
@@ -29,43 +34,25 @@ function CTAButton({ children }: ButtonProps) {
       }}
     >
       {children}
-    </button>
+    </a>
   );
 }
 
-interface NewsCard {
-  category: string;
-  title: string;
-  date: string;
-  lead: string;
-  image: string;
+interface LatestNewsProps {
+  lang: Lang;
+  copy: LatestNewsCopy;
+  articles: any[];
 }
 
-const newsData: NewsCard[] = [
-  {
-    category: "AKTUALNOŚCI",
-    title: "Potwierdzony udział US Police K9 SWAT na CERBERUS K9 2026",
-    date: "15.04.2026",
-    lead: "Oficjalnie potwierdzamy udział przewodnika K9 SWAT z USA wraz z pozorantem szkolącym jednostki specjalne.",
-    image: "/images/news-swat-k9.webp",
-  },
-  {
-    category: "REJESTRACJA",
-    title: "Rejestracja otwarta — 250 miejsc, wstęp bezpłatny",
-    date: "01.04.2026",
-    lead: "Rejestracja na CERBERUS K9 2026 jest już dostępna. Liczba miejsc ograniczona. Wejście bezpłatne dla wszystkich uczestników.",
-    image: "/images/news-registration.webp",
-  },
-  {
-    category: "PARTNERZY",
-    title: "Marynarka Wojenna Portugalii dołącza do CERBERUS K9 2026",
-    date: "20.03.2026",
-    lead: "Jednostka K9 Marinha Portuguesa potwierdza udział — dwa zespoły z psami bojowymi z Lizbony.",
-    image: "/images/news-portugal-navy.webp",
-  },
-];
-
-function NewsCardComponent({ card }: { card: NewsCard }) {
+function NewsCardComponent({
+  card,
+  lang,
+  readMore,
+}: {
+  card: any;
+  lang: Lang;
+  readMore: string;
+}) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -169,7 +156,7 @@ function NewsCardComponent({ card }: { card: NewsCard }) {
 
         {/* Read More Link */}
         <a
-          href="#"
+          href={`/${lang}/aktualnosci/${card.slug}`}
           className="font-[family-name:var(--font-rajdhani)] uppercase inline-block transition-opacity hover:opacity-80"
           style={{
             fontSize: "9px",
@@ -178,14 +165,14 @@ function NewsCardComponent({ card }: { card: NewsCard }) {
             marginTop: "12px",
           }}
         >
-          Czytaj więcej →
+          {readMore} →
         </a>
       </div>
     </article>
   );
 }
 
-export default function LatestNews() {
+export default function LatestNews({ lang, copy, articles }: LatestNewsProps) {
   return (
     <section
       className="bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28] px-4 sm:px-6 lg:px-[5%]"
@@ -199,7 +186,7 @@ export default function LatestNews() {
           <span 
             className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]"
           >
-            AKTUALNOŚCI
+            {copy.sectionTag}
           </span>
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
         </div>
@@ -213,7 +200,7 @@ export default function LatestNews() {
             letterSpacing: "2px",
           }}
         >
-          NAJNOWSZE INFORMACJE
+          {copy.sectionTitle}
         </h2>
       </div>
 
@@ -226,14 +213,14 @@ export default function LatestNews() {
           maxWidth: "1200px",
         }}
       >
-        {newsData.map((card, index) => (
-          <NewsCardComponent key={index} card={card} />
+        {articles.map((card, index) => (
+          <NewsCardComponent key={index} card={card} lang={lang} readMore={copy.readMore} />
         ))}
       </div>
 
       {/* CTA Button */}
       <div className="text-center mt-8 sm:mt-12">
-        <CTAButton>WSZYSTKIE AKTUALNOŚCI →</CTAButton>
+        <CTAButton href={`/${lang}/aktualnosci`}>{copy.allNews} →</CTAButton>
       </div>
     </section>
   );
