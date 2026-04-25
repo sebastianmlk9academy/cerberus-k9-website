@@ -302,44 +302,56 @@ export function NewsListing({
       }}
     >
       <div
-        className="sticky top-0 z-40"
-        style={{ backgroundColor: "#161F28", marginBottom: "20px" }}
+        role="tablist"
+        aria-label="Filtr kategorii aktualności"
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "8px",
+          padding: "20px 0",
+          marginTop: "16px",
+          justifyContent: "center",
+          marginBottom: "20px",
+        }}
       >
-        <div className="mx-auto max-w-7xl overflow-x-auto px-3 py-3 sm:px-4">
-          <div
-            className="flex min-w-min gap-1 sm:flex-wrap sm:justify-center"
-            role="tablist"
-            aria-label="Filtr kategorii aktualności"
-          >
-            {FILTERS.map((f) => {
-              const active = filter === f.id;
-              return (
-                <button
-                  key={f.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={active}
-                  onClick={() => {
-                    setFilter(f.id);
-                    setVisible(pageSize);
-                  }}
-                  className="shrink-0 whitespace-nowrap px-3 py-2 transition-colors sm:px-4"
-                  style={{
-                    fontFamily: rajdhani,
-                    fontSize: "10px",
-                    letterSpacing: "2px",
-                    fontWeight: 700,
-                    backgroundColor: active ? "#C4922A" : "transparent",
-                    color: active ? "#0F1720" : "#8A9BAE",
-                    border: active ? "none" : "1px solid #253344",
-                  }}
-                >
-                  {f.label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
+        {FILTERS.map((f) => {
+          const isActive = filter === f.id;
+          return (
+            <button
+              key={f.id}
+              type="button"
+              role="tab"
+              aria-selected={isActive}
+              onClick={() => {
+                setFilter(f.id);
+                setVisible(pageSize);
+              }}
+              style={{
+                backgroundColor: isActive ? "#C4922A" : "transparent",
+                color: isActive ? "#1E2B38" : "#C4922A",
+                fontFamily: "'Rajdhani', sans-serif",
+                letterSpacing: "3px",
+                fontWeight: 700,
+                border: "1px solid #C4922A",
+                transition: "background-color 150ms ease, color 150ms ease",
+                cursor: "pointer",
+                padding: "8px 14px",
+                fontSize: "11px",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = "#C4922A";
+                e.currentTarget.style.color = "#1E2B38";
+              }}
+              onMouseLeave={(e) => {
+                if (isActive) return;
+                e.currentTarget.style.backgroundColor = "transparent";
+                e.currentTarget.style.color = "#C4922A";
+              }}
+            >
+              {f.label}
+            </button>
+          );
+        })}
       </div>
 
       <div
