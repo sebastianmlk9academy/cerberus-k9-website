@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { Lang } from "../i18n/utils";
 import type { LatestNewsCopy } from "../i18n/latestNews";
+import { latestNewsByLang } from "../i18n/latestNews";
 
 interface ButtonProps {
   children: React.ReactNode;
@@ -40,8 +41,8 @@ function CTAButton({ children, href }: ButtonProps) {
 
 interface LatestNewsProps {
   lang: Lang;
-  copy: LatestNewsCopy;
-  articles: any[];
+  copy?: LatestNewsCopy;
+  articles?: any[];
 }
 
 function NewsCardComponent({
@@ -173,6 +174,8 @@ function NewsCardComponent({
 }
 
 export default function LatestNews({ lang, copy, articles }: LatestNewsProps) {
+  const safeCopy = copy ?? latestNewsByLang[lang] ?? latestNewsByLang.pl;
+  const safeArticles = articles ?? [];
   return (
     <section
       className="bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28] px-4 sm:px-6 lg:px-[5%]"
@@ -186,7 +189,7 @@ export default function LatestNews({ lang, copy, articles }: LatestNewsProps) {
           <span 
             className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]"
           >
-            {copy.sectionTag}
+            {safeCopy.sectionTag}
           </span>
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
         </div>
@@ -200,7 +203,7 @@ export default function LatestNews({ lang, copy, articles }: LatestNewsProps) {
             letterSpacing: "2px",
           }}
         >
-          {copy.sectionTitle}
+          {safeCopy.sectionTitle}
         </h2>
       </div>
 
@@ -213,14 +216,14 @@ export default function LatestNews({ lang, copy, articles }: LatestNewsProps) {
           maxWidth: "1200px",
         }}
       >
-        {articles.map((card, index) => (
-          <NewsCardComponent key={index} card={card} lang={lang} readMore={copy.readMore} />
+        {safeArticles.map((card, index) => (
+          <NewsCardComponent key={index} card={card} lang={lang} readMore={safeCopy.readMore} />
         ))}
       </div>
 
       {/* CTA Button */}
       <div className="text-center mt-8 sm:mt-12">
-        <CTAButton href={`/${lang}/aktualnosci`}>{copy.allNews} →</CTAButton>
+        <CTAButton href={`/${lang}/aktualnosci`}>{safeCopy.allNews} →</CTAButton>
       </div>
     </section>
   );

@@ -2,6 +2,7 @@
 
 import type { Lang } from "../i18n/utils"
 import type { LocationsSectionCopy } from "../i18n/locationsSection"
+import { locationsSectionByLang } from "../i18n/locationsSection"
 
 function LocationBlock({
   number,
@@ -59,13 +60,15 @@ function LocationBlock({
   )
 }
 
-interface LocationsSectionProps { lang: Lang; copy: LocationsSectionCopy; }
+interface LocationsSectionProps { lang?: Lang; copy?: LocationsSectionCopy; }
 
 export function LocationsSection({ lang, copy }: LocationsSectionProps) {
+  const safeLang = lang ?? "pl";
+  const safeCopy = copy ?? locationsSectionByLang[safeLang] ?? locationsSectionByLang.pl;
   return (
     <section
       className="w-full"
-      data-lang={lang}
+      data-lang={safeLang}
       style={{
         paddingTop: "0px",
         paddingBottom: "10px",
@@ -83,7 +86,7 @@ export function LocationsSection({ lang, copy }: LocationsSectionProps) {
           <span 
             className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]"
           >
-            {copy.sectionTag}
+            {safeCopy.sectionTag}
           </span>
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
         </div>
@@ -95,7 +98,7 @@ export function LocationsSection({ lang, copy }: LocationsSectionProps) {
             letterSpacing: "2px",
           }}
         >
-          {copy.sectionTitle}
+          {safeCopy.sectionTitle}
         </h2>
       </div>
 
@@ -108,14 +111,14 @@ export function LocationsSection({ lang, copy }: LocationsSectionProps) {
           className="grid grid-cols-1 gap-[1px] min-[400px]:grid-cols-2 lg:grid-cols-4"
           style={{ backgroundColor: "#253344" }}
         >
-          {copy.locations.map((loc, i) => (
+          {safeCopy.locations.map((loc, i) => (
             <LocationBlock
               key={`${i + 1}-${loc.name}`}
               number={String(i + 1).padStart(2, "0")}
               name={loc.name}
               description={loc.description}
               detail={loc.detail}
-              status={copy.statusConfirmed}
+              status={safeCopy.statusConfirmed}
             />
           ))}
         </div>
