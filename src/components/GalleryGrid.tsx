@@ -1,5 +1,5 @@
 import { Lock } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 type Category =
   | "HARDEST HIT"
@@ -49,10 +49,30 @@ const mainFilters = [
 ];
 
 const videoItems = [
-  { title: "Polska Zbrojna", href: "https://www.youtube.com/watch?v=kUhqmGhrbas", id: "kUhqmGhrbas" },
-  { title: "TVP – Panorama", href: "https://youtu.be/Fo-j5vGI0m4", id: "Fo-j5vGI0m4" },
-  { title: "Polskie Radio", href: "https://youtu.be/lf-Aek_TSzI", id: "lf-Aek_TSzI" },
-  { title: "TVN - Fakty", href: "https://youtu.be/aNG1UVyOqNA", id: "aNG1UVyOqNA" },
+  {
+    title: "CERBERUS K9 2025 - Główna relacja",
+    badge: "POLSKA ZBROJNA · PATRON MEDIALNY",
+    embedUrl: "https://www.youtube.com/embed/kUhqmGhrbas",
+    id: "kUhqmGhrbas",
+  },
+  {
+    title: "TVP — Relacja z CERBERUS K9 2025",
+    badge: "TVP",
+    embedUrl: "https://www.youtube.com/embed/Fo-j5vGI0m4",
+    id: "Fo-j5vGI0m4",
+  },
+  {
+    title: "Polskie Radio — Reportaż i wywiad",
+    badge: "Polskie Radio",
+    embedUrl: "https://www.youtube.com/embed/lf-Aek_TSzI",
+    id: "lf-Aek_TSzI",
+  },
+  {
+    title: "TVN — Fakty",
+    badge: "TVN",
+    embedUrl: "https://www.youtube.com/embed/aNG1UVyOqNA",
+    id: "aNG1UVyOqNA",
+  },
 ];
 
 declare global {
@@ -116,6 +136,29 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
   const [activeLocation, setActiveLocation] = useState("WSZYSTKIE LOKALIZACJE");
   const [activeView, setActiveView] = useState("SIATKA");
   const [activeEdition, setActiveEdition] = useState("2025");
+  const [modalVideo, setModalVideo] = useState<string | null>(null);
+
+  const closeModal = useCallback(() => {
+    setModalVideo(null);
+  }, []);
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        closeModal();
+      }
+    };
+
+    if (modalVideo) {
+      document.addEventListener("keydown", handleEscape);
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "";
+    };
+  }, [modalVideo, closeModal]);
 
   const sortedPhotos = useMemo(
     () =>
@@ -300,6 +343,11 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
   }, [sortedPhotos, activeCategory, activeLocation, activeEdition, activeView]);
 
   const is2026Unlocked = new Date().getTime() >= RELEASE_2026_DATE.getTime();
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      closeModal();
+    }
+  };
 
   return (
     <div className="gallery-grid-wrap mb-5" ref={rootRef}>
@@ -498,18 +546,91 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
         <h3>WIDEO I RELACJE MEDIALNE</h3>
         <div className="video-grid">
           {videoItems.map((video) => (
-            <a key={video.id} href={video.href} target="_blank" rel="noreferrer" className="video-card">
-              <img
-                src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
-                alt={video.title}
-                loading="lazy"
-              />
-              <span className="video-play">▶</span>
+            <button
+              key={video.id}
+              type="button"
+              onClick={() => setModalVideo(video.embedUrl)}
+              className="video-card text-left w-full group cursor-pointer"
+            >
+              <div className="video-thumb">
+                <img
+                  src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
+                  alt={video.title}
+                  loading="lazy"
+                />
+                <div className="video-play-overlay">
+                  <div
+                    className="flex items-center justify-center transition-transform group-hover:scale-110"
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "50%",
+                      border: "2px solid rgba(196, 43, 43, 0.7)",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: 0,
+                        height: 0,
+                        borderLeft: "10px solid #C42B2B",
+                        borderTop: "6px solid transparent",
+                        borderBottom: "6px solid transparent",
+                        marginLeft: "3px",
+                      }}
+                    />
+                  </div>
+                </div>
+                <div
+                  className="video-badge absolute bottom-2 left-2 transition-colors duration-200 bg-[#C42B2B] group-hover:bg-[#8B1A1A] text-white text-[8px] font-bold px-1.5 py-0.5"
+                  style={{ fontFamily: "'Rajdhani', Trebuchet MS, sans-serif" }}
+                >
+                  {video.badge}
+                </div>
+              </div>
               <span className="video-title">{video.title}</span>
-            </a>
+            </button>
           ))}
         </div>
       </section>
+
+      {modalVideo && (
+        <div
+          className="fixed inset-0 flex items-center justify-center"
+          style={{
+            backgroundColor: "rgba(15, 23, 32, 0.92)",
+            backdropFilter: "blur(8px)",
+            zIndex: 50,
+          }}
+          onClick={handleBackdropClick}
+        >
+          <div className="relative w-[90%]" style={{ maxWidth: "860px" }}>
+            <button
+              onClick={closeModal}
+              className="absolute -top-10 right-0 cursor-pointer"
+              style={{
+                fontFamily: "'Rajdhani', Trebuchet MS, sans-serif",
+                fontSize: "20px",
+                color: "#E4DDD0",
+                background: "transparent",
+                border: "none",
+                padding: "8px",
+              }}
+            >
+              ✕
+            </button>
+            <div className="aspect-video w-full">
+              <iframe
+                src={`${modalVideo}?autoplay=1`}
+                title="Video Player"
+                className="w-full h-full"
+                style={{ border: "none" }}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       <style>{`
         .gallery-grid-wrap {
@@ -775,30 +896,36 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
           background: transparent;
           border: 1px solid #253344;
           overflow: hidden;
+          padding: 0;
+        }
+        .video-thumb {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 16 / 9;
+          background: #151E28;
         }
         .video-card img {
           display: block;
           width: 100%;
-          height: auto;
+          height: 100%;
+          object-fit: cover;
         }
-        .video-play {
+        .video-play-overlay {
           position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
-          background: rgba(12, 18, 26, 0.8);
-          border: 1px solid #c4922a;
-          width: 44px;
-          height: 44px;
-          border-radius: 999px;
-          display: grid;
-          place-items: center;
-          color: #c4922a;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         .video-title {
           display: block;
-          padding: 8px 10px;
-          font-size: 13px;
+          margin-top: 8px;
+          font-size: 11px;
+          color: #E4DDD0;
+          font-family: 'Rajdhani', Trebuchet MS, sans-serif;
+        }
+        .video-badge {
+          letter-spacing: 0.2px;
         }
         @media (max-width: 720px) {
           .photo-item.wide {
