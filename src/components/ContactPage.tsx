@@ -195,10 +195,6 @@ export function ContactPage() {
           border: 1px solid ${fieldBorder};
           border-radius: 10px;
         }
-        .ck9-social-list {
-          display: grid;
-          gap: 8px;
-        }
         @media (max-width: 980px) {
           .ck9-contact-grid {
             grid-template-columns: 1fr;
@@ -338,23 +334,6 @@ export function ContactPage() {
             </p>
           </article>
 
-          <article className="ck9-info-card">
-            <h3 className="ck9-card-title">SOCIAL MEDIA</h3>
-            <div className="ck9-social-list">
-              <a className="ck9-card-link" href="https://www.facebook.com/" target="_blank" rel="noreferrer">
-                Facebook
-              </a>
-              <a className="ck9-card-link" href="https://www.instagram.com/" target="_blank" rel="noreferrer">
-                Instagram
-              </a>
-              <a className="ck9-card-link" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">
-                LinkedIn
-              </a>
-              <a className="ck9-card-link" href="https://www.youtube.com/" target="_blank" rel="noreferrer">
-                YouTube
-              </a>
-            </div>
-          </article>
         </aside>
       </div>
     </section>
