@@ -76,7 +76,7 @@ export function NavBar({ activeLink }: NavBarProps) {
         style={{ display: 'flex', alignItems: 'center' }}
       >
         {/* LEFT SIDE — LOGO AREA */}
-        <a href="#" className="flex items-center gap-2 md:gap-3 shrink-0">
+        <a href="/pl" className="flex items-center gap-2 md:gap-3 shrink-0">
           <img
             src="/images/cerberus-k9-logo.png"
             alt="CERBERUS K9"
