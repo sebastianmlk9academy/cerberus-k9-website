@@ -438,10 +438,6 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
         </div>
       </section>
 
-      <footer className="copyright-strip">
-        Fundacja PACTA K9 – SEBASTIAN BOŻEK © 2025-2026 · Licencja CC BY-NC · Kontakt: sebastian@pactak9.org
-      </footer>
-
       <style>{`
         .gallery-grid-wrap {
           color: #e4ddd0;
@@ -700,13 +696,6 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
           display: block;
           padding: 8px 10px;
           font-size: 13px;
-        }
-        .copyright-strip {
-          margin-top: 24px;
-          color: #7f8e9e;
-          font-size: 12px;
-          border-top: 1px solid #253344;
-          padding-top: 12px;
         }
         @media (max-width: 720px) {
           .photo-item.wide {
