@@ -1,14 +1,4 @@
-import { useState, type MouseEvent } from 'react';
-
-const navLinks = [
-  { label: 'O WYDARZENIU', href: '/pl/o-wydarzeniu' },
-  { label: 'INSTRUKTORZY', href: '/pl/instruktorzy' },
-  { label: 'PARTNERZY', href: '/pl/partnerzy' },
-  { label: 'MEDIA', href: '/pl/media' },
-  { label: 'FUNDACJA', href: '/pl/fundacja' },
-  { label: 'GALERIA', href: '/pl/galeria' },
-  { label: 'KONTAKT', href: '/pl/kontakt' },
-];
+import { useEffect, useState, type MouseEvent } from 'react';
 
 const languages = [
   { code: 'pl', name: 'Polski', countryCode: 'pl' },
@@ -39,28 +29,59 @@ const getFlagUrl = (countryCode: string) =>
 
 interface NavBarProps {
   activeLink?: string;
+  lang?: string;
 }
 
-export function NavBar({ activeLink }: NavBarProps) {
+export function NavBar({ activeLink, lang = 'pl' }: NavBarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [currentLang, setCurrentLang] = useState<Language>(languages[0]);
+  const [currentLang, setCurrentLang] = useState<Language>(
+    () => languages.find((l) => l.code === lang) ?? languages[0],
+  );
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    const pathLang = window.location.pathname.split('/')[1];
+    const found = languages.find((l) => l.code === pathLang);
+    if (found) setCurrentLang(found);
+  }, []);
+
+  const currentLangCode = currentLang.code;
+
+  const navLinks = [
+    {
+      label: currentLangCode === 'pl' ? 'O WYDARZENIU' : 'THE EVENT',
+      href: `/${currentLangCode}/o-wydarzeniu`,
+    },
+    {
+      label: currentLangCode === 'pl' ? 'INSTRUKTORZY' : 'INSTRUCTORS',
+      href: `/${currentLangCode}/instruktorzy`,
+    },
+    {
+      label: currentLangCode === 'pl' ? 'PARTNERZY' : 'PARTNERS',
+      href: `/${currentLangCode}/partnerzy`,
+    },
+    { label: 'MEDIA', href: `/${currentLangCode}/media` },
+    {
+      label: currentLangCode === 'pl' ? 'FUNDACJA' : 'FOUNDATION',
+      href: `/${currentLangCode}/fundacja`,
+    },
+    {
+      label: currentLangCode === 'pl' ? 'GALERIA' : 'GALLERY',
+      href: `/${currentLangCode}/galeria`,
+    },
+    {
+      label: currentLangCode === 'pl' ? 'KONTAKT' : 'CONTACT',
+      href: `/${currentLangCode}/kontakt`,
+    },
+  ];
 
   const selectLang = (lang: Language) => {
     setCurrentLang(lang);
     setLangDropdownOpen(false);
-
-    // Navigate to the same page in the selected language
-    const currentPath = window.location.pathname;
-    // Extract current path without language prefix
-    // e.g. /pl/o-wydarzeniu → /en/o-wydarzeniu
-    const pathParts = currentPath.split('/');
-    if (pathParts.length >= 2) {
-      pathParts[1] = lang.code;
-      window.location.href = pathParts.join('/') || '/' + lang.code;
-    } else {
-      window.location.href = '/' + lang.code;
-    }
+    const pathParts = window.location.pathname.split('/');
+    pathParts[1] = lang.code;
+    const newPath = pathParts.join('/') || '/' + lang.code;
+    window.location.href = newPath;
   };
 
   return (
@@ -76,7 +97,7 @@ export function NavBar({ activeLink }: NavBarProps) {
         style={{ display: 'flex', alignItems: 'center' }}
       >
         {/* LEFT SIDE — LOGO AREA */}
-        <a href="/pl" className="flex items-center gap-2 md:gap-3 shrink-0">
+        <a href={`/${currentLang.code}`} className="flex items-center gap-2 md:gap-3 shrink-0">
           <img
             src="/images/cerberus-k9-logo.png"
             alt="CERBERUS K9"
@@ -241,7 +262,7 @@ export function NavBar({ activeLink }: NavBarProps) {
 
           {/* CTA Button - Always visible */}
           <a
-            href="/pl/rejestracja"
+            href={`/${currentLang.code}/rejestracja`}
             className="block transition-colors duration-150 shrink-0"
             style={{
               backgroundColor: '#C42B2B',
