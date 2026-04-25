@@ -325,10 +325,10 @@ export function ContactPage() {
             <iframe
               className="ck9-map"
               title="Lokalizacja eventu CERBERUS K9 2026"
-              src="https://www.openstreetmap.org/export/embed.html?bbox=17.79,51.63,17.86,51.68&layer=mapnik&marker=51.655,17.820"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=17.7985,51.6409,17.8185,51.6609&layer=mapnik&marker=51.6509,17.8085"
               loading="lazy"
             />
-            <p className="ck9-card-line">Ostrów Wielkopolski, woj. Wielkopolskie</p>
+            <p className="ck9-card-line">3MK Arena, ul. Andrzeja Kowalczyka 1, Ostrów Wielkopolski, Polska</p>
             <p className="ck9-card-note">
               Szczegółowa mapa dojazdu dostępna w materiałach rejestracyjnych
             </p>
