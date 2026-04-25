@@ -44,8 +44,7 @@ const mediaArchive2025: MediaArchiveItem[] = [
   {
     outlet: 'TVP — PANORAMA',
     type: 'VIDEO',
-    href: '#',
-    isPlaceholder: true,
+    href: 'https://youtu.be/Fo-j5vGI0m4',
   },
   {
     outlet: 'TVN — FAKTY',
