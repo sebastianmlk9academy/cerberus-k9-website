@@ -307,7 +307,7 @@ export default function MediaPage() {
             }}
           >
             <Phone size={16} aria-hidden />
-            +48 [XXX XXX XXX]
+            +48 695 637 907
           </p>
           <p style={{ margin: 0, fontSize: '13px', color: '#7A8A9A', letterSpacing: '0.5px' }}>
             Czas odpowiedzi: do 24h
@@ -338,7 +338,7 @@ export default function MediaPage() {
             foto, wideo). Po weryfikacji otrzymasz potwierdzenie i dalsze instrukcje.
           </p>
           <a
-            href="mailto:akredytacja@cerberusk9.pl"
+            href="mailto:sebastian@pactak9.org"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
