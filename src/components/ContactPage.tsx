@@ -114,7 +114,7 @@ export function ContactPage() {
         .ck9-checkbox {
           display: flex;
           align-items: flex-start;
-          gap: 10px;
+          gap: 4px;
           margin: 4px 0 8px;
         }
         .ck9-checkbox input {
