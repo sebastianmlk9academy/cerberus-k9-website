@@ -96,14 +96,14 @@ const partnerButtonStyle: React.CSSProperties = {
 };
 
 const handlePartnerButtonMouseEnter = (
-  e: React.MouseEvent<HTMLButtonElement>,
+  e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>,
 ) => {
   e.currentTarget.style.backgroundColor = "#C4922A";
   e.currentTarget.style.color = "#1E2B38";
 };
 
 const handlePartnerButtonMouseLeave = (
-  e: React.MouseEvent<HTMLButtonElement>,
+  e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>,
 ) => {
   e.currentTarget.style.backgroundColor = "transparent";
   e.currentTarget.style.color = "#C4922A";
@@ -178,7 +178,7 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
     const grid = root.querySelector<HTMLElement>("[data-gallery-grid]");
     const photoItems = Array.from(root.querySelectorAll<HTMLElement>("[data-photo-item]"));
     const tabButtons = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-edition]"));
-    const loadMoreButton = root.querySelector<HTMLButtonElement>("[data-load-more]");
+    const loadMoreButton = root.querySelector<HTMLAnchorElement>("[data-load-more]");
     const loadMoreText = root.querySelector<HTMLElement>("[data-load-more-count]");
     const lockedSection = root.querySelector<HTMLElement>("[data-locked-section]");
     const countdownText = root.querySelector<HTMLElement>("[data-countdown]");
@@ -242,7 +242,7 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
       }, 200);
     };
 
-    const bindClick = (button: HTMLButtonElement, handler: () => void) => {
+    const bindClick = (button: HTMLElement, handler: (event: MouseEvent) => void) => {
       button.addEventListener("click", handler);
       return () => button.removeEventListener("click", handler);
     };
@@ -264,7 +264,8 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
     });
 
     cleanupFns.push(
-      bindClick(loadMoreButton, () => {
+      bindClick(loadMoreButton, (event) => {
+        event.preventDefault();
         visibleLimitRef.current += 12;
         updateVisibility();
       }),
@@ -477,9 +478,16 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
         })}
       </div>
 
-      <button type="button" className="load-more-btn" data-load-more>
+      <a
+        href="#"
+        className="load-more-btn flex items-center justify-center cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-6 sm:py-3.5"
+        style={partnerButtonStyle}
+        onMouseEnter={handlePartnerButtonMouseEnter}
+        onMouseLeave={handlePartnerButtonMouseLeave}
+        data-load-more
+      >
         ZAŁADUJ WIĘCEJ — <span data-load-more-count>12</span> KOLEJNYCH ZDJĘĆ
-      </button>
+      </a>
 
       <section className="video-section">
         <div className="video-pretitle-wrap">
@@ -713,13 +721,12 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
           color: #253344;
         }
         .load-more-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
           width: 100%;
           margin-top: 10px;
-          border: 1px solid #253344;
-          background: transparent;
-          color: #c4922a;
-          padding: 12px 16px;
-          cursor: pointer;
+          text-decoration: none;
         }
         .video-section {
           margin-top: 28px;
