@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { NavBar } from '../../components/NavBar';
+import { PageHero } from '../../components/PageHero';
+import MediaPage from '../../components/MediaPage';
+import { Footer } from '../../components/Footer';
+
+export const prerender = true;
+
+const lang = 'pl';
+const title = 'Media — CERBERUS K9 2026 | Press Kit, Informacje Prasowe, Akredytacja';
+const description =
+	'Materiały prasowe CERBERUS K9 2026. Pobierz press kit, logo, zdjęcia i informacje prasowe. Kontakt dla mediów.';
+---
+
+<BaseLayout
+	lang={lang}
+	title={title}
+	description={description}
+	canonicalHref="/pl/media"
+	omitLocaleAlternates
+	ogType="website"
+>
+	<div
+		style="background: linear-gradient(to bottom, #161F28, #1A2530, #161F28); min-height: 100vh;"
+	>
+		<NavBar client:load />
+		<PageHero
+			category="DLA DZIENNIKARZY"
+			title="MEDIA"
+			subtitle="PRESS KIT · INFORMACJE PRASOWE · RELACJE 2025"
+		/>
+		<MediaPage client:load />
+		<Footer client:load />
+	</div>
+</BaseLayout>
