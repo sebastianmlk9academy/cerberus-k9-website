@@ -3,7 +3,7 @@ import { useState, type FormEvent } from "react";
 const bebas = "'Bebas Neue', Impact, sans-serif" as const;
 const raj = "'Rajdhani', sans-serif" as const;
 
-const sectionBg = "#1E2B38";
+const sectionBg = "linear-gradient(to bottom, #161F28, #1A2530, #161F28)";
 const fieldBg = "#0F1420";
 const fieldBorder = "#1e2838";
 const textColor = "#E4DDD0";
