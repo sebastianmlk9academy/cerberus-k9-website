@@ -3,6 +3,7 @@ import type { Lang, UiKey, UiStrings } from './ui';
 import { ui } from './ui';
 
 export { locales };
+export type { Lang };
 
 export function getLangFromUrl(url: URL): Lang {
 	const segment = url.pathname.split('/').filter(Boolean)[0];
