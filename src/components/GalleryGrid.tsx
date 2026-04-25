@@ -482,6 +482,11 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
       </button>
 
       <section className="video-section">
+        <div className="video-pretitle-wrap">
+          <div className="video-pretitle-line" />
+          <span className="video-pretitle">FILMY</span>
+          <div className="video-pretitle-line" />
+        </div>
         <h3>WIDEO I RELACJE MEDIALNE</h3>
         <div className="video-grid">
           {videoItems.map((video) => (
@@ -500,6 +505,7 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
 
       <style>{`
         .gallery-grid-wrap {
+          background: linear-gradient(to bottom, #161F28, #1A2530, #161F28);
           color: #e4ddd0;
         }
         .edition-tabs {
@@ -515,7 +521,11 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
           padding: 8px 0;
           border-bottom: 2px solid transparent;
           cursor: pointer;
-          font-size: 14px;
+          font-family: var(--font-rajdhani), sans-serif;
+          font-size: clamp(1.5rem, 3vw, 32px);
+          font-weight: 700;
+          letter-spacing: 2px;
+          text-transform: uppercase;
         }
         .edition-tab.is-active {
           color: #e4ddd0;
@@ -526,7 +536,6 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
           top: 0;
           z-index: 10;
           background: #0f1720;
-          border-bottom: 1px solid #253344;
           padding: 12px 5%;
           display: flex;
           justify-content: space-between;
@@ -564,10 +573,10 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
         }
         .location-filters {
           margin: 12px 0 14px;
+          justify-content: center;
         }
         .edition-locked {
-          background: rgba(14, 21, 29, 0.88);
-          border: 1px solid #253344;
+          background: linear-gradient(to bottom, #161F28, #1A2530, #161F28);
           border-radius: 8px;
           padding: 24px;
           min-height: 220px;
@@ -710,10 +719,36 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
         }
         .video-section {
           margin-top: 28px;
+          background: linear-gradient(to bottom, #161F28, #1A2530, #161F28);
+        }
+        .video-pretitle-wrap {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 16px;
+          margin-bottom: 16px;
+        }
+        .video-pretitle-line {
+          height: 1px;
+          flex: 1;
+          background: linear-gradient(to right, transparent, rgba(196, 43, 43, 0.4), transparent);
+        }
+        .video-pretitle {
+          font-family: var(--font-rajdhani), sans-serif;
+          font-size: 12px;
+          font-weight: 500;
+          letter-spacing: 5px;
+          color: #C42B2B;
         }
         .video-section h3 {
-          margin-bottom: 12px;
-          letter-spacing: 0.2px;
+          margin: 0 0 12px;
+          font-family: var(--font-rajdhani), sans-serif;
+          font-size: clamp(1.5rem, 3vw, 32px);
+          font-weight: 700;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          color: #E4DDD0;
+          text-align: center;
         }
         .video-grid {
           display: grid;
