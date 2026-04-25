@@ -282,7 +282,7 @@ export default function MediaPage() {
             [Imię Nazwisko — rzecznik prasowy]
           </p>
           <a
-            href="mailto:media@cerberusk9.pl"
+            href="mailto:sebastian@pactak9.org"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -294,7 +294,7 @@ export default function MediaPage() {
             }}
           >
             <Mail size={16} aria-hidden />
-            media@cerberusk9.pl
+            sebastian@pactak9.org
           </a>
           <p
             style={{
@@ -350,7 +350,7 @@ export default function MediaPage() {
             }}
           >
             <Mail size={16} aria-hidden />
-            akredytacja@cerberusk9.pl
+            sebastian@pactak9.org
           </a>
           <p style={{ margin: 0, fontSize: '13px', color: '#7A8A9A' }}>
             Termin zgłoszeń: [data — do uzupełnienia]
