@@ -20,6 +20,28 @@ const lang: Lang = isLang(param) ? param : 'en';
 const title = 'Kontakt — Fundacja PACTA K9 | CERBERUS K9 2026';
 const description = 'Skontaktuj się z Fundacją PACTA K9 i zespołem CERBERUS K9 2026.';
 const canonicalHref = '/pl/kontakt/';
+const contactHero: Record<Lang, { title: string; subtitle: string }> = {
+	pl: { title: 'KONTAKT', subtitle: 'Skontaktuj się z nami, aby uzyskać informacje o wydarzeniu i współpracy.' },
+	en: { title: 'CONTACT', subtitle: 'Get in touch with us for event details and partnership inquiries.' },
+	de: { title: 'KONTAKT', subtitle: 'Kontaktieren Sie uns für Veranstaltungsdetails und Partnerschaftsanfragen.' },
+	fr: { title: 'CONTACT', subtitle: "Contactez-nous pour les détails de l'événement et les demandes de partenariat." },
+	hr: { title: 'KONTAKT', subtitle: 'Javite nam se za informacije o događaju i partnerstvu.' },
+	cs: { title: 'KONTAKT', subtitle: 'Kontaktujte nás pro informace o akci a partnerské spolupráci.' },
+	lt: { title: 'KONTAKTAI', subtitle: 'Susisiekite su mumis dėl renginio informacijos ir partnerystės užklausų.' },
+	lv: { title: 'KONTAKTI', subtitle: 'Sazinieties ar mums par pasākuma informāciju un partnerības iespējām.' },
+	sk: { title: 'KONTAKT', subtitle: 'Kontaktujte nás pre informácie o podujatí a partnerskej spolupráci.' },
+	sl: { title: 'KONTAKT', subtitle: 'Kontaktirajte nas za informacije o dogodku in partnerstvu.' },
+	hu: { title: 'KAPCSOLAT', subtitle: 'Vegye fel velünk a kapcsolatot eseményinformációkért és partneri megkeresésekhez.' },
+	no: { title: 'KONTAKT', subtitle: 'Kontakt oss for informasjon om arrangementet og partnerskap.' },
+	sv: { title: 'KONTAKT', subtitle: 'Kontakta oss för information om evenemanget och partnerskap.' },
+	nl: { title: 'CONTACT', subtitle: 'Neem contact met ons op voor informatie over het evenement en partnerschappen.' },
+	es: { title: 'CONTACTO', subtitle: 'Póngase en contacto con nosotros para información del evento y colaboraciones.' },
+	pt: { title: 'CONTACTO', subtitle: 'Entre em contacto connosco para detalhes do evento e parcerias.' },
+	ro: { title: 'CONTACT', subtitle: 'Contactați-ne pentru informații despre eveniment și parteneriate.' },
+	it: { title: 'CONTATTO', subtitle: "Contattaci per dettagli sull'evento e richieste di partnership." },
+	ko: { title: '문의', subtitle: '행사 정보 및 파트너십 문의는 여기로 연락해 주세요.' },
+};
+const ctHero = contactHero[lang] ?? contactHero.en;
 ---
 
 <BaseLayout
@@ -32,9 +54,9 @@ const canonicalHref = '/pl/kontakt/';
 >
 	<NavBar client:load />
 	<PageHero
-		category="KONTAKT"
-		title="SKONTAKTUJ SIĘ"
-		subtitle="FUNDACJA PACTA K9 · CERBERUS K9 2026"
+		category={ctHero.title}
+		title={ctHero.title}
+		subtitle={ctHero.subtitle}
 	/>
 	<ContactPage client:load />
 	<Footer client:load />

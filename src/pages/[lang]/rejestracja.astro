@@ -22,6 +22,104 @@ const title = 'Rejestracja — CERBERUS K9 2026 | Bezpłatna rejestracja online'
 const description =
 	'Zarejestruj się bezpłatnie na CERBERUS K9 2026. 13-14 czerwca, Ostrów Wielkopolski. 250+ uczestników z 15+ krajów NATO.';
 const canonicalHref = '/pl/rejestracja/';
+const regHero: Record<Lang, { category: string; title: string; subtitle: string }> = {
+	pl: {
+		category: 'DOŁĄCZ DO NAS',
+		title: 'REJESTRACJA',
+		subtitle: 'Zarejestruj się na CERBERUS K9 i potwierdź bezpłatny udział w wydarzeniu.',
+	},
+	en: {
+		category: 'JOIN US',
+		title: 'REGISTRATION',
+		subtitle: 'Register for CERBERUS K9 and confirm your free event participation.',
+	},
+	de: {
+		category: 'MITMACHEN',
+		title: 'REGISTRIERUNG',
+		subtitle: 'Registrieren Sie sich für CERBERUS K9 und bestätigen Sie Ihre kostenlose Teilnahme.',
+	},
+	fr: {
+		category: 'REJOIGNEZ-NOUS',
+		title: 'INSCRIPTION',
+		subtitle: "Inscrivez-vous à CERBERUS K9 et confirmez votre participation gratuite à l'événement.",
+	},
+	hr: {
+		category: 'PRIDRUŽITE NAM SE',
+		title: 'REGISTRACIJA',
+		subtitle: 'Registrirajte se za CERBERUS K9 i potvrdite besplatan ulaz na događaj.',
+	},
+	cs: {
+		category: 'PŘIPOJTE SE K NÁM',
+		title: 'REGISTRACE',
+		subtitle: 'Zaregistrujte se na CERBERUS K9 a potvrďte svou bezplatnou účast na akci.',
+	},
+	lt: {
+		category: 'PRISIJUNKITE PRIE MŪSŲ',
+		title: 'REGISTRACIJA',
+		subtitle: 'Užsiregistruokite į CERBERUS K9 ir patvirtinkite nemokamą dalyvavimą renginyje.',
+	},
+	lv: {
+		category: 'PIEVIENOJIETIES MUMS',
+		title: 'REĢISTRĀCIJA',
+		subtitle: 'Reģistrējieties CERBERUS K9 un apstipriniet savu bezmaksas dalību pasākumā.',
+	},
+	sk: {
+		category: 'PRIDAJTE SA K NÁM',
+		title: 'REGISTRÁCIA',
+		subtitle: 'Zaregistrujte sa na CERBERUS K9 a potvrďte svoju bezplatnú účasť na podujatí.',
+	},
+	sl: {
+		category: 'PRIDRUŽITE SE NAM',
+		title: 'REGISTRACIJA',
+		subtitle: 'Registrirajte se na CERBERUS K9 in potrdite brezplačno udeležbo na dogodku.',
+	},
+	hu: {
+		category: 'CSATLAKOZZON HOZZÁNK',
+		title: 'REGISZTRÁCIÓ',
+		subtitle: 'Regisztráljon a CERBERUS K9 eseményre, és erősítse meg ingyenes részvételét.',
+	},
+	no: {
+		category: 'BLI MED OSS',
+		title: 'REGISTRERING',
+		subtitle: 'Registrer deg for CERBERUS K9 og bekreft gratis deltakelse på arrangementet.',
+	},
+	sv: {
+		category: 'GÅ MED OSS',
+		title: 'REGISTRERING',
+		subtitle: 'Registrera dig för CERBERUS K9 och bekräfta gratis deltagande i evenemanget.',
+	},
+	nl: {
+		category: 'DOE MEE',
+		title: 'REGISTRATIE',
+		subtitle: 'Registreer je voor CERBERUS K9 en bevestig je gratis deelname aan het evenement.',
+	},
+	es: {
+		category: 'ÚNETE A NOSOTROS',
+		title: 'REGISTRO',
+		subtitle: 'Regístrese en CERBERUS K9 y confirme su participación gratuita en el evento.',
+	},
+	pt: {
+		category: 'JUNTE-SE A NÓS',
+		title: 'REGISTO',
+		subtitle: 'Registe-se no CERBERUS K9 e confirme a sua participação gratuita no evento.',
+	},
+	ro: {
+		category: 'ALĂTURAȚI-VĂ NOUĂ',
+		title: 'ÎNREGISTRARE',
+		subtitle: 'Înregistrați-vă la CERBERUS K9 și confirmați participarea gratuită la eveniment.',
+	},
+	it: {
+		category: 'UNISCITI A NOI',
+		title: 'REGISTRAZIONE',
+		subtitle: "Registrati a CERBERUS K9 e conferma la tua partecipazione gratuita all'evento.",
+	},
+	ko: {
+		category: '함께하세요',
+		title: '등록',
+		subtitle: 'CERBERUS K9에 등록하고 무료 행사 참여를 확정하세요.',
+	},
+};
+const regH = regHero[lang] ?? regHero.en;
 ---
 
 <BaseLayout
@@ -35,9 +133,9 @@ const canonicalHref = '/pl/rejestracja/';
 >
 	<NavBar client:load />
 	<PageHero
-		category="DOŁĄCZ DO NAS"
-		title="REJESTRACJA"
-		subtitle="WSTĘP BEZPŁATNY · WYMAGANA REJESTRACJA · 13–14 CZERWCA 2026"
+		category={regH.category}
+		title={regH.title}
+		subtitle={regH.subtitle}
 	/>
 	<RegistrationSection />
 	<Footer client:load />

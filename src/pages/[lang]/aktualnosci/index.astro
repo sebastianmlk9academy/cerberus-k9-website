@@ -7,7 +7,7 @@ import { NewsListing } from '../../../components/NewsListing';
 import { Footer } from '../../../components/Footer';
 import { locales } from '../../../../locales.mjs';
 import { isLang } from '../../../i18n/utils';
-import type { Lang } from '../../../i18n/ui';
+import { ui, type Lang } from '../../../i18n/ui';
 import { newsSeoByLang } from '../../../i18n/newsSeo';
 import { aktualnosciToListingArticles } from '../../../lib/aktualnosci';
 
@@ -34,8 +34,8 @@ const articles = aktualnosciToListingArticles(entries, lang);
 	<NavBar client:load />
 	<PageHero
 		category="CERBERUS K9"
-		title="AKTUALNOŚCI"
-		subtitle="WIADOMOŚCI, KOMUNIKATY I RELACJE Z PRZYGOTOWAŃ DO WYDARZENIA"
+		title={ui[lang].nav_news}
+		subtitle={seo.newsPageSubtitle}
 	/>
 	<NewsListing articles={articles} client:load />
 	<Footer client:load />
