@@ -1,58 +1,17 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import type { Lang } from "../i18n/utils"
 
-interface Stat {
+interface StatItem {
   value: string
-  numericValue: number
-  prefix?: string
-  suffix?: string
   label: string
-  color: "gold" | "red"
 }
 
-const stats: Stat[] = [
-  {
-    value: "250+",
-    numericValue: 250,
-    suffix: "+",
-    label: "UCZESTNIKÓW",
-    color: "gold",
-  },
-  {
-    value: "10+",
-    numericValue: 10,
-    suffix: "+",
-    label: "KRAJÓW NATO · UE",
-    color: "red",
-  },
-  {
-    value: "3",
-    numericValue: 3,
-    label: "SPECJALIZACJE K9",
-    color: "gold",
-  },
-  {
-    value: "2",
-    numericValue: 2,
-    label: "DNI INTENSYWNYCH SZKOLEŃ",
-    color: "red",
-  },
-  {
-    value: "100+",
-    numericValue: 100,
-    suffix: "+",
-    label: "UCZESTNIKÓW SZKOLENIA DRONOWEGO · TCCC · TCCC-K9",
-    color: "gold",
-  },
-  {
-    value: "1ST",
-    numericValue: 1,
-    suffix: "ST",
-    label: "KONFERENCJA BEZPIECZEŃSTWA DLA WSZYSTKICH POWIATÓW",
-    color: "red",
-  },
-]
+interface StatsBarProps {
+  lang: Lang
+  stats: StatItem[]
+}
 
 function useCountUp(
   end: number,
@@ -92,12 +51,17 @@ function StatItem({
   index,
   isVisible,
 }: {
-  stat: Stat
+  stat: StatItem
   index: number
   isVisible: boolean
 }) {
-  const count = useCountUp(stat.numericValue, 1500, isVisible)
-  const isGold = stat.color === "gold"
+  const valueMatch = stat.value.match(/^(\D*)(\d+)(\D*)$/)
+  const numericValue = valueMatch ? Number(valueMatch[2]) : 0
+  const prefix = valueMatch ? valueMatch[1] : ""
+  const suffix = valueMatch ? valueMatch[3] : ""
+  const hasNumericValue = valueMatch !== null
+  const count = useCountUp(numericValue, 1500, isVisible)
+  const isGold = index % 2 === 0
   const accentColor = isGold ? "#C4922A" : "#C42B2B"
 
   return (
@@ -170,9 +134,15 @@ function StatItem({
             textShadow: isVisible ? `0 0 30px ${accentColor}40` : 'none'
           }}
         >
-          {stat.prefix}
-          {count}
-          {stat.suffix}
+          {hasNumericValue ? (
+            <>
+              {prefix}
+              {count}
+              {suffix}
+            </>
+          ) : (
+            stat.value
+          )}
         </div>
       </div>
 
@@ -209,7 +179,8 @@ function StatItem({
   )
 }
 
-export function StatsBar() {
+export function StatsBar({ lang, stats }: StatsBarProps) {
+  void lang
   const containerRef = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
 
