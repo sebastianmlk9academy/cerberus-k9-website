@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { locales } from '../../../locales.mjs';
 import { isLang } from '../../i18n/utils';
@@ -8,8 +8,9 @@ import { partnerzyPageByLang } from '../../i18n/plOnlyPagesCopy';
 import { ui } from '../../i18n/ui';
 import { NavBar } from '../../components/NavBar';
 import { PageHero } from '../../components/PageHero';
-import PartnersPage, { type Partner, type PartnerType } from '../../components/PartnersPage';
+import PartnersPage, { type Partner, type PartnerTypeId } from '../../components/PartnersPage';
 import { Footer } from '../../components/Footer';
+import { footerCopyByLang } from '../../i18n/footer';
 
 export const prerender = true;
 
@@ -19,6 +20,8 @@ export function getStaticPaths() {
 
 const { lang: paramLang } = Astro.params;
 const lang: Lang = isLang(paramLang ?? '') ? (paramLang as Lang) : 'en';
+const settings = await getEntry('ustawienia', 'ustawienia');
+const s = settings?.data;
 const copy = partnerzyPageByLang[lang] ?? partnerzyPageByLang['pl'];
 const navPartners = (ui[lang] ?? ui['pl']).nav_partners;
 
@@ -36,11 +39,19 @@ function websiteLabel(url: string | undefined): string | null {
 }
 
 function cmsTypeToPartnerType(
-	t: 'Strategiczny' | 'Sponsor' | 'Patron-Medialny' | 'Technologiczny' | undefined,
-): PartnerType {
-	if (t === 'Patron-Medialny') return 'Patron Medialny';
-	if (t === 'Strategiczny' || t === 'Sponsor' || t === 'Technologiczny') return t;
-	return 'Strategiczny';
+	t:
+		| 'Strategiczny'
+		| 'Sponsor'
+		| 'Patron-Medialny'
+		| 'Patron Medialny'
+		| 'Technologiczny'
+		| undefined,
+): PartnerTypeId {
+	if (t === 'Patron-Medialny' || t === 'Patron Medialny') return 'media';
+	if (t === 'Sponsor') return 'sponsor';
+	if (t === 'Technologiczny') return 'technology';
+	if (t === 'Strategiczny') return 'strategic';
+	return 'strategic';
 }
 
 function displayName(entry: (typeof sorted)[number]): string {
@@ -55,13 +66,14 @@ function displayName(entry: (typeof sorted)[number]): string {
 
 const partners: Partner[] = sorted.map((entry, i) => {
 	const website = entry.data.website?.trim() || null;
+	const labelFromCms = entry.data.website_label?.trim();
 	return {
 		id: i + 1,
 		name: displayName(entry),
 		type: cmsTypeToPartnerType(entry.data.type),
 		description: entry.data.description?.trim() || '',
 		website,
-		websiteLabel: website ? websiteLabel(website) : null,
+		websiteLabel: labelFromCms || (website ? websiteLabel(website) : null),
 		logo: entry.data.logo?.trim() || null,
 	};
 });
@@ -79,8 +91,25 @@ const partners: Partner[] = sorted.map((entry, i) => {
 		style="background: linear-gradient(to bottom, #161F28, #1A2530, #161F28); min-height: 100vh;"
 	>
 		<NavBar client:load lang={lang} />
-		<PageHero category={copy.heroCategory} title={navPartners} subtitle={copy.heroSubtitle} />
+		<PageHero
+			category={copy.heroCategory}
+			title={navPartners}
+			subtitle={copy.heroSubtitle}
+			heroImage={s?.hero_background_image}
+			heroOpacity={s?.hero_background_opacity}
+		/>
 		<PartnersPage client:load lang={lang} partners={partners} embedded />
-		<Footer lang={lang} client:load />
+		<Footer
+			lang={lang}
+			copy={footerCopyByLang[lang] ?? footerCopyByLang['pl']}
+			email={s?.footer_email}
+			phone={s?.footer_phone}
+			socialFacebook={s?.social_facebook}
+			socialYoutube={s?.social_youtube}
+			socialInstagram={s?.social_instagram}
+			socialLinkedin={s?.social_linkedin}
+			socialTwitter={s?.social_twitter}
+			client:load
+		/>
 	</div>
 </BaseLayout>

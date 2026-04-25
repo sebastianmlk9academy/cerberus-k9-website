@@ -1,10 +1,11 @@
 ---
-import { type CollectionEntry, getCollection, render } from 'astro:content';
+import { type CollectionEntry, getCollection, getEntry, render } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { NavBar } from '../../../components/NavBar';
 import { ArticleLayout } from '../../../components/ArticleLayout';
 import { Footer } from '../../../components/Footer';
 import { newsSeoByLang } from '../../../i18n/newsSeo';
+import { footerCopyByLang } from '../../../i18n/footer';
 import { categoryBadgeLabel, formatNewsDateLabel } from '../../../lib/aktualnosci';
 
 export const prerender = true;
@@ -20,6 +21,9 @@ export async function getStaticPaths() {
 type Props = { post: CollectionEntry<'aktualnosci'> };
 
 const lang = 'pl';
+const settings = await getEntry('ustawienia', 'ustawienia');
+const s = settings?.data;
+const footerCopy = footerCopyByLang[lang] ?? footerCopyByLang['pl'];
 const seoLang = newsSeoByLang[lang] ?? newsSeoByLang['pl'];
 const { post } = Astro.props;
 const { Content } = await render(post);
@@ -30,7 +34,10 @@ const pageTitle = `${post.data.title} — CERBERUS K9`;
 const description = post.data.lead;
 const canonicalPath = `/pl/aktualnosci/${post.id}/`;
 const canonicalUrl = new URL(canonicalPath, Astro.site ?? Astro.url).href;
-const shareUrl = canonicalUrl;
+const shareUrl =
+	post.data.share_url?.trim() && /^https?:\/\//i.test(post.data.share_url.trim())
+		? post.data.share_url.trim()
+		: canonicalUrl;
 
 const hero =
 	post.data.image?.trim() && post.data.image_alt?.trim()
@@ -68,7 +75,7 @@ const jsonLd = {
 	canonicalHref={canonicalUrl}
 >
 	<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-	<NavBar client:load />
+	<NavBar client:load lang={lang} />
 	<ArticleLayout
 		breadcrumb={[
 			{ label: 'CERBERUS K9', href: `/${lang}/` },
@@ -88,5 +95,16 @@ const jsonLd = {
 	>
 		<Content />
 	</ArticleLayout>
-	<Footer client:load />
+	<Footer
+		lang={lang}
+		copy={footerCopy}
+		email={s?.footer_email}
+		phone={s?.footer_phone}
+		socialFacebook={s?.social_facebook}
+		socialYoutube={s?.social_youtube}
+		socialInstagram={s?.social_instagram}
+		socialLinkedin={s?.social_linkedin}
+		socialTwitter={s?.social_twitter}
+		client:load
+	/>
 </BaseLayout>

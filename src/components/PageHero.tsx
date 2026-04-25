@@ -4,11 +4,24 @@ interface PageHeroProps {
   subtitle: string
   pageLabel?: string
   pageName?: string
+  /** Page background image (defaults to site hero graphic). */
+  heroImage?: string
+  heroOpacity?: number
 }
 
-export function PageHero({ category, title, subtitle, pageLabel, pageName }: PageHeroProps) {
+export function PageHero({
+  category,
+  title,
+  subtitle,
+  pageLabel,
+  pageName,
+  heroImage,
+  heroOpacity,
+}: PageHeroProps) {
   const resolvedCategory = category ?? pageName ?? "CERBERUS K9";
   const resolvedTitle = title ?? "CERBERUS K9";
+  const bgImage = heroImage ?? "/images/page_hero_graph.webp";
+  const bgOpacity = heroOpacity ?? 0.4;
 
   return (
     <section
@@ -24,11 +37,11 @@ export function PageHero({ category, title, subtitle, pageLabel, pageName }: Pag
         style={{
           position: "absolute",
           inset: 0,
-          backgroundImage: "url('/images/page_hero_graph.webp')",
+          backgroundImage: `url('${bgImage.replace(/'/g, "\\'")}')`,
           backgroundSize: "cover",
           backgroundPosition: "center top",
           backgroundRepeat: "no-repeat",
-          opacity: 0.40,
+          opacity: bgOpacity,
           zIndex: 0,
           pointerEvents: "none",
         }}

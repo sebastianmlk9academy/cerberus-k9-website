@@ -1,5 +1,7 @@
 ---
+import { getEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
+import AnnouncementBar from '../components/AnnouncementBar.astro';
 import type { ImageMetadata } from 'astro';
 import FallbackImage from '../assets/blog-placeholder-1.jpg';
 import { getAbsoluteLocaleUrlList } from 'astro:i18n';
@@ -31,6 +33,10 @@ const {
 	robots,
 	omitLocaleAlternates = false,
 } = Astro.props;
+
+const settings = await getEntry('ustawienia', 'ustawienia');
+const s = settings?.data;
+
 const alternates = omitLocaleAlternates ? [] : getAbsoluteLocaleUrlList(localizedPath);
 const plIndex = locales.indexOf('pl');
 const xDefaultHref = alternates[plIndex >= 0 ? plIndex : 0];
@@ -77,6 +83,11 @@ const canonicalAlternateHref = (
 		}
 	</head>
 	<body class="min-h-screen bg-navyDeep font-sans text-bone antialiased">
+		<AnnouncementBar
+			active={s?.notification_bar_active ?? false}
+			text={s?.notification_bar_text}
+			url={s?.notification_bar_url}
+		/>
 		<slot name="header" />
 		<slot />
 		<slot name="footer" />

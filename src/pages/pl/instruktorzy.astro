@@ -1,7 +1,8 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { instructorsSeoByLang } from '../../i18n/instructorsSeo';
+import { footerCopyByLang } from '../../i18n/footer';
 import { NavBar } from '../../components/NavBar';
 import { PageHero } from '../../components/PageHero';
 import InstructorsGrid from '../../components/InstructorsGrid';
@@ -9,7 +10,11 @@ import { Footer } from '../../components/Footer';
 
 export const prerender = true;
 
+const settings = await getEntry('ustawienia', 'ustawienia');
+const s = settings?.data;
+
 const lang = 'pl';
+const footerCopy = footerCopyByLang[lang] ?? footerCopyByLang['pl'];
 const seo = instructorsSeoByLang[lang] ?? instructorsSeoByLang['pl'];
 
 let visibleInstructors = [];
@@ -54,6 +59,8 @@ const countriesCount = new Set(visibleInstructors.map((instructor) => instructor
 		category="NASI"
 		title="INSTRUKTORZY"
 		subtitle="WETERANI JWK · ODDZIAŁU SPECJALNEGO ŻANDARMERII WOJSKOWEJ · POLICJANCI · JSPEC · EKSPERCI NATO"
+		heroImage={s?.hero_background_image}
+		heroOpacity={s?.hero_background_opacity}
 	/>
 
 	<section class="team-intro">
@@ -69,7 +76,18 @@ const countriesCount = new Set(visibleInstructors.map((instructor) => instructor
 	</section>
 
 	<InstructorsGrid client:load lang={lang} instructors={visibleInstructors} />
-	<Footer client:load />
+	<Footer
+		lang={lang}
+		copy={footerCopy}
+		email={s?.footer_email}
+		phone={s?.footer_phone}
+		socialFacebook={s?.social_facebook}
+		socialYoutube={s?.social_youtube}
+		socialInstagram={s?.social_instagram}
+		socialLinkedin={s?.social_linkedin}
+		socialTwitter={s?.social_twitter}
+		client:load
+	/>
 </BaseLayout>
 
 <style>

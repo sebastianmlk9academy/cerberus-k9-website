@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { locales } from '../../../locales.mjs';
 import { isLang } from '../../i18n/utils';
@@ -19,6 +19,8 @@ export function getStaticPaths() {
 
 const { lang: paramLang } = Astro.params;
 const lang: Lang = isLang(paramLang ?? '') ? (paramLang as Lang) : 'en';
+const settings = await getEntry('ustawienia', 'ustawienia');
+const s = settings?.data;
 const copy = galeriaPageByLang[lang] ?? galeriaPageByLang['pl'];
 const navGallery = (ui[lang] ?? ui['pl']).nav_gallery;
 
@@ -84,9 +86,25 @@ const ogImage = bestGalleryPhoto?.photo ?? '/images/page_hero_graph.webp';
 
 	<div style="background: linear-gradient(to bottom, #161F28, #1A2530, #161F28); min-height: 100vh;">
 		<NavBar client:load lang={lang} />
-		<PageHero category={copy.heroCategory} title={navGallery} subtitle={copy.heroSubtitle} />
+		<PageHero
+			category={copy.heroCategory}
+			title={navGallery}
+			subtitle={copy.heroSubtitle}
+			heroImage={s?.hero_background_image}
+			heroOpacity={s?.hero_background_opacity}
+		/>
 		<GalleryGrid client:load lang={lang} photos={photos} />
-		<Footer lang={lang} client:load />
+		<Footer
+			lang={lang}
+			email={s?.footer_email}
+			phone={s?.footer_phone}
+			socialFacebook={s?.social_facebook}
+			socialYoutube={s?.social_youtube}
+			socialInstagram={s?.social_instagram}
+			socialLinkedin={s?.social_linkedin}
+			socialTwitter={s?.social_twitter}
+			client:load
+		/>
 	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>

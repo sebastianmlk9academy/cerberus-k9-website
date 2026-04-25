@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { NavBar } from '../../../components/NavBar';
 import { PageHero } from '../../../components/PageHero';
@@ -20,6 +20,8 @@ export function getStaticPaths() {
 
 const param = Astro.params.lang ?? '';
 const lang: Lang = isLang(param) ? param : 'en';
+const settings = await getEntry('ustawienia', 'ustawienia');
+const s = settings?.data;
 const seo = newsSeoByLang[lang] ?? newsSeoByLang['pl'];
 const entries = await getCollection('aktualnosci');
 const articles = aktualnosciToListingArticles(entries, lang);
@@ -37,7 +39,20 @@ const articles = aktualnosciToListingArticles(entries, lang);
 		category="CERBERUS K9"
 		title={(ui[lang] ?? ui['pl']).nav_news}
 		subtitle={seo.newsPageSubtitle}
+		heroImage={s?.hero_background_image}
+		heroOpacity={s?.hero_background_opacity}
 	/>
 	<NewsListing articles={articles} lang={lang} client:load />
-	<Footer lang={lang} copy={footerCopyByLang[lang] ?? footerCopyByLang['pl']} client:load />
+	<Footer
+		lang={lang}
+		copy={footerCopyByLang[lang] ?? footerCopyByLang['pl']}
+		email={s?.footer_email}
+		phone={s?.footer_phone}
+		socialFacebook={s?.social_facebook}
+		socialYoutube={s?.social_youtube}
+		socialInstagram={s?.social_instagram}
+		socialLinkedin={s?.social_linkedin}
+		socialTwitter={s?.social_twitter}
+		client:load
+	/>
 </BaseLayout>

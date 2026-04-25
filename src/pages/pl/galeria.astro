@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { NavBar } from '../../components/NavBar';
 import { PageHero } from '../../components/PageHero';
@@ -7,6 +7,9 @@ import { GalleryGrid } from '../../components/GalleryGrid';
 import { Footer } from '../../components/Footer';
 
 export const prerender = true;
+
+const settings = await getEntry('ustawienia', 'ustawienia');
+const s = settings?.data;
 
 const lang = 'pl';
 const title = 'Galeria — CERBERUS K9 2025 | Zdjęcia i Wideo z Ćwiczeń K9';
@@ -79,9 +82,21 @@ const ogImage = bestGalleryPhoto?.photo ?? '/images/page_hero_graph.webp';
 			category="ARCHIWUM FOTOGRAFICZNE"
 			title="GALERIA"
 			subtitle="EDYCJA 2025 · TRÓJMIASTO · 300+ ZDJĘĆ"
+			heroImage={s?.hero_background_image}
+			heroOpacity={s?.hero_background_opacity}
 		/>
 		<GalleryGrid client:load lang={lang} photos={photos} />
-		<Footer client:load />
+		<Footer
+			lang={lang}
+			email={s?.footer_email}
+			phone={s?.footer_phone}
+			socialFacebook={s?.social_facebook}
+			socialYoutube={s?.social_youtube}
+			socialInstagram={s?.social_instagram}
+			socialLinkedin={s?.social_linkedin}
+			socialTwitter={s?.social_twitter}
+			client:load
+		/>
 	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>

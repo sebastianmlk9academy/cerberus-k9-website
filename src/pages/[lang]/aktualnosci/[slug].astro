@@ -1,9 +1,10 @@
 ---
-import { type CollectionEntry, getCollection, render } from 'astro:content';
+import { type CollectionEntry, getCollection, getEntry, render } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { NavBar } from '../../../components/NavBar';
 import { ArticleLayout } from '../../../components/ArticleLayout';
 import { Footer } from '../../../components/Footer';
+import { footerCopyByLang } from '../../../i18n/footer';
 import { locales } from '../../../../locales.mjs';
 import { isLang } from '../../../i18n/utils';
 import type { Lang } from '../../../i18n/ui';
@@ -29,6 +30,8 @@ const param = Astro.params.lang ?? '';
 const langFromParams: Lang = isLang(param) ? param : 'en';
 const { post, lang: langProp } = Astro.props;
 const lang = langProp ?? langFromParams;
+const settings = await getEntry('ustawienia', 'ustawienia');
+const s = settings?.data;
 const seoLang = newsSeoByLang[lang] ?? newsSeoByLang['pl'];
 const { Content } = await render(post);
 
@@ -38,6 +41,10 @@ const pageTitle = `${post.data.title} — CERBERUS K9`;
 const description = post.data.lead;
 const canonicalPath = `/${lang}/aktualnosci/${post.id}/`;
 const canonicalUrl = new URL(canonicalPath, Astro.site ?? Astro.url).href;
+const shareUrl =
+	post.data.share_url?.trim() && /^https?:\/\//i.test(post.data.share_url.trim())
+		? post.data.share_url.trim()
+		: canonicalUrl;
 
 const hero =
 	post.data.image?.trim() && post.data.image_alt?.trim()
@@ -75,7 +82,7 @@ const jsonLd = {
 	canonicalHref={canonicalUrl}
 >
 	<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-	<NavBar client:load />
+	<NavBar client:load lang={lang} />
 	<ArticleLayout
 		breadcrumb={[
 			{ label: 'CERBERUS K9', href: `/${lang}/` },
@@ -89,11 +96,22 @@ const jsonLd = {
 		lead={post.data.lead}
 		heroImage={hero}
 		tags={post.data.tags ?? []}
-		shareUrl={canonicalUrl}
+		shareUrl={shareUrl}
 		shareTitle={post.data.title}
 		backHref={`/${lang}/aktualnosci/`}
 	>
 		<Content />
 	</ArticleLayout>
-	<Footer client:load />
+	<Footer
+		lang={lang}
+		copy={footerCopyByLang[lang] ?? footerCopyByLang['pl']}
+		email={s?.footer_email}
+		phone={s?.footer_phone}
+		socialFacebook={s?.social_facebook}
+		socialYoutube={s?.social_youtube}
+		socialInstagram={s?.social_instagram}
+		socialLinkedin={s?.social_linkedin}
+		socialTwitter={s?.social_twitter}
+		client:load
+	/>
 </BaseLayout>

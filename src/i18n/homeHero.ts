@@ -12,6 +12,8 @@ export type HomeHeroCopy = {
 	ctaRegister: string;
 	ctaProgram: string;
 	ctaVideo: string;
+	ctaProgramHref: string;
+	ctaVideoHref: string;
 };
 
 export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
@@ -27,6 +29,8 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 		ctaRegister: 'ZAREJESTRUJ SIĘ TERAZ',
 		ctaProgram: 'POBIERZ PROGRAM',
 		ctaVideo: 'OBEJRZYJ RELACJĘ 2025',
+		ctaProgramHref: '#program',
+		ctaVideoHref: 'https://www.youtube.com/watch?v=kUhqmGhrbas',
 	},
 	en: {
 		tagline: 'INTERNATIONAL DEFENSE PLATFORM · 2026 EDITION',
@@ -40,6 +44,8 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 		ctaRegister: 'REGISTER NOW',
 		ctaProgram: 'DOWNLOAD PROGRAM',
 		ctaVideo: 'WATCH 2025 COVERAGE',
+		ctaProgramHref: '#program',
+		ctaVideoHref: 'https://www.youtube.com/watch?v=kUhqmGhrbas',
 	},
 	de: {
 		tagline: 'INTERNATIONALE VERTEIDIGUNGSPLATTFORM · AUSGABE 2026',
@@ -53,6 +59,8 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 		ctaRegister: 'JETZT ANMELDEN',
 		ctaProgram: 'PROGRAMM HERUNTERLADEN',
 		ctaVideo: 'BERICHT 2025 ANSEHEN',
+		ctaProgramHref: '#program',
+		ctaVideoHref: 'https://www.youtube.com/watch?v=kUhqmGhrbas',
 	},
 	fr: {
 		tagline: 'PLATEFORME INTERNATIONALE DE DÉFENSE · ÉDITION 2026',
@@ -66,6 +74,8 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 		ctaRegister: "S'INSCRIRE MAINTENANT",
 		ctaProgram: 'TÉLÉCHARGER LE PROGRAMME',
 		ctaVideo: 'VOIR LE REPORTAGE 2025',
+		ctaProgramHref: '#program',
+		ctaVideoHref: 'https://www.youtube.com/watch?v=kUhqmGhrbas',
 	},
 	hr: {
 		tagline: 'MEĐUNARODNA OBRAMBENA PLATFORMA · IZDANJE 2026',
@@ -79,6 +89,8 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 		ctaRegister: 'REGISTRIRAJ SE ODMAH',
 		ctaProgram: 'PREUZMI PROGRAM',
 		ctaVideo: 'POGLEDAJ IZVJEŠTAJ 2025',
+		ctaProgramHref: '#program',
+		ctaVideoHref: 'https://www.youtube.com/watch?v=kUhqmGhrbas',
 	},
 	cs: {
 		tagline: 'MEZINÁRODNÍ OBRANNÁ PLATFORMA · ROČNÍK 2026',
@@ -92,6 +104,8 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 		ctaRegister: 'REGISTROVAT NYNÍ',
 		ctaProgram: 'STÁHNOUT PROGRAM',
 		ctaVideo: 'ZHLÉDNOUT REPORTÁŽ 2025',
+		ctaProgramHref: '#program',
+		ctaVideoHref: 'https://www.youtube.com/watch?v=kUhqmGhrbas',
 	},
 	lt: {
 		tagline: 'TARPTAUTINĖ GYNYBOS PLATFORMA · 2026 M. LEIDIMAS',
@@ -105,6 +119,8 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 		ctaRegister: 'REGISTRUOKITĖS DABAR',
 		ctaProgram: 'ATSISIŲSTI PROGRAMĄ',
 		ctaVideo: 'ŽIŪRĖTI 2025 REPORTAŽĄ',
+		ctaProgramHref: '#program',
+		ctaVideoHref: 'https://www.youtube.com/watch?v=kUhqmGhrbas',
 	},
 	lv: {
 		tagline: 'STARPTAUTISKĀ AIZSARDZĪBAS PLATFORMA · 2026. GADA IZDEVUMS',
@@ -118,6 +134,8 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 		ctaRegister: 'REĢISTRĒTIES TAGAD',
 		ctaProgram: 'LEJUPIELĀDĒT PROGRAMMU',
 		ctaVideo: 'SKATĪTIES 2025. GADA REPORTĀŽU',
+		ctaProgramHref: '#program',
+		ctaVideoHref: 'https://www.youtube.com/watch?v=kUhqmGhrbas',
 	},
 	sk: {
 		tagline: 'MEDZINÁRODNÁ OBRANNÁ PLATFORMA · ROČNÍK 2026',
@@ -131,6 +149,8 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 		ctaRegister: 'REGISTROVAŤ SA TERAZ',
 		ctaProgram: 'STIAHNUŤ PROGRAM',
 		ctaVideo: 'POZRIEŤ REPORTÁŽ 2025',
+		ctaProgramHref: '#program',
+		ctaVideoHref: 'https://www.youtube.com/watch?v=kUhqmGhrbas',
 	},
 	sl: {
 		tagline: 'MEDNARODNA OBRAMBNA PLATFORMA · IZDAJA 2026',
@@ -144,6 +164,8 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 		ctaRegister: 'PRIJAVITE SE ZDAJ',
 		ctaProgram: 'PRENESI PROGRAM',
 		ctaVideo: 'OGLEJ SI POROČILO 2025',
+		ctaProgramHref: '#program',
+		ctaVideoHref: 'https://www.youtube.com/watch?v=kUhqmGhrbas',
 	},
 	hu: {
 		tagline: 'NEMZETKÖZI VÉDELMI PLATFORM · 2026-OS KIADÁS',
@@ -157,6 +179,8 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 		ctaRegister: 'REGISZTRÁLJON MOST',
 		ctaProgram: 'PROGRAM LETÖLTÉSE',
 		ctaVideo: 'NÉZZE MEG A 2025-ÖS BESZÁMOLÓT',
+		ctaProgramHref: '#program',
+		ctaVideoHref: 'https://www.youtube.com/watch?v=kUhqmGhrbas',
 	},
 	no: {
 		tagline: 'INTERNASJONAL FORSVARSPLATTFORM · 2026-UTGAVEN',
@@ -170,6 +194,8 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 		ctaRegister: 'REGISTRER DEG NÅ',
 		ctaProgram: 'LAST NED PROGRAM',
 		ctaVideo: 'SE 2025-REPORTASJEN',
+		ctaProgramHref: '#program',
+		ctaVideoHref: 'https://www.youtube.com/watch?v=kUhqmGhrbas',
 	},
 	sv: {
 		tagline: 'INTERNATIONELL FÖRSVARSPLATTFORM · 2026 ÅRS UPPLAGA',
@@ -183,6 +209,8 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 		ctaRegister: 'REGISTRERA DIG NU',
 		ctaProgram: 'LADDA NED PROGRAM',
 		ctaVideo: 'SE REPORTAGET FRÅN 2025',
+		ctaProgramHref: '#program',
+		ctaVideoHref: 'https://www.youtube.com/watch?v=kUhqmGhrbas',
 	},
 	nl: {
 		tagline: 'INTERNATIONAAL DEFENSIEPLATFORM · EDITIE 2026',
@@ -196,6 +224,8 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 		ctaRegister: 'REGISTREER NU',
 		ctaProgram: 'PROGRAMMA DOWNLOADEN',
 		ctaVideo: 'BEKIJK DE REPORTAGE 2025',
+		ctaProgramHref: '#program',
+		ctaVideoHref: 'https://www.youtube.com/watch?v=kUhqmGhrbas',
 	},
 	es: {
 		tagline: 'PLATAFORMA INTERNACIONAL DE DEFENSA · EDICIÓN 2026',
@@ -209,6 +239,8 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 		ctaRegister: 'REGÍSTRATE AHORA',
 		ctaProgram: 'DESCARGAR PROGRAMA',
 		ctaVideo: 'VER COBERTURA 2025',
+		ctaProgramHref: '#program',
+		ctaVideoHref: 'https://www.youtube.com/watch?v=kUhqmGhrbas',
 	},
 	pt: {
 		tagline: 'PLATAFORMA INTERNACIONAL DE DEFESA · EDIÇÃO 2026',
@@ -222,6 +254,8 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 		ctaRegister: 'REGISTE-SE AGORA',
 		ctaProgram: 'DESCARREGAR PROGRAMA',
 		ctaVideo: 'VER REPORTAGEM 2025',
+		ctaProgramHref: '#program',
+		ctaVideoHref: 'https://www.youtube.com/watch?v=kUhqmGhrbas',
 	},
 	ro: {
 		tagline: 'PLATFORMĂ INTERNAȚIONALĂ DE APĂRARE · EDIȚIA 2026',
@@ -235,6 +269,8 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 		ctaRegister: 'ÎNREGISTREAZĂ-TE ACUM',
 		ctaProgram: 'DESCARCĂ PROGRAMUL',
 		ctaVideo: 'VEZI REPORTAJUL 2025',
+		ctaProgramHref: '#program',
+		ctaVideoHref: 'https://www.youtube.com/watch?v=kUhqmGhrbas',
 	},
 	it: {
 		tagline: 'PIATTAFORMA INTERNAZIONALE DI DIFESA · EDIZIONE 2026',
@@ -248,6 +284,8 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 		ctaRegister: 'REGISTRATI ORA',
 		ctaProgram: 'SCARICA IL PROGRAMMA',
 		ctaVideo: 'GUARDA IL REPORTAGE 2025',
+		ctaProgramHref: '#program',
+		ctaVideoHref: 'https://www.youtube.com/watch?v=kUhqmGhrbas',
 	},
 	ko: {
 		tagline: '국제 국방 플랫폼 · 2026 에디션',
@@ -261,5 +299,7 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 		ctaRegister: '지금 등록하기',
 		ctaProgram: '프로그램 다운로드',
 		ctaVideo: '2025 공식 영상 보기',
+		ctaProgramHref: '#program',
+		ctaVideoHref: 'https://www.youtube.com/watch?v=kUhqmGhrbas',
 	},
 };

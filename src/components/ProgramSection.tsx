@@ -12,6 +12,7 @@ export function ProgramSection({ lang, copy }: ProgramSectionProps) {
   void lang
   return (
     <section
+      id="program"
       className="bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28] px-[5%]"
       style={{ paddingTop: "80px", paddingBottom: "10px" }}
     >
