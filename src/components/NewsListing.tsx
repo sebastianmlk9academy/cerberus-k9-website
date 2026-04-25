@@ -159,6 +159,7 @@ function ArticleCard({ article }: { article: NewsListingArticle }) {
             <div
               className="absolute inset-0 flex items-center justify-center px-4 text-center transition-transform duration-300"
               style={{
+                background: "rgba(30,43,56,0.5)",
                 transform: hovered ? "scale(1.03)" : "scale(1)",
                 fontFamily: rajdhani,
                 fontSize: "10px",
@@ -298,12 +299,12 @@ export function NewsListing({
       style={{
         paddingTop: "20px",
         paddingBottom: "20px",
-        background: "linear-gradient(to bottom, #161F28, #1A2530, #161F28)",
+        background: "#161F28",
       }}
     >
       <div
-        className="sticky top-0 z-40 border-b border-[#253344]"
-        style={{ backgroundColor: "#0F1720", marginBottom: "20px" }}
+        className="sticky top-0 z-40"
+        style={{ backgroundColor: "#161F28", marginBottom: "20px" }}
       >
         <div className="mx-auto max-w-7xl overflow-x-auto px-3 py-3 sm:px-4">
           <div
@@ -344,7 +345,7 @@ export function NewsListing({
 
       <div
         className="mx-auto grid max-w-7xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-        style={{ gap: "2px", backgroundColor: "#1A2230" }}
+        style={{ gap: "2px", backgroundColor: "transparent" }}
       >
         {visibleArticles.map((article) => (
           <ArticleCard key={article.id} article={article} />
