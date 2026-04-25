@@ -172,39 +172,40 @@ function ArticleCard({ article }: { article: NewsListingArticle }) {
             </div>
           )}
 
-          <div
+          <span
             style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginBottom: "8px",
+              position: "absolute",
+              top: "12px",
+              left: "12px",
+              fontFamily: "'Rajdhani', sans-serif",
+              backgroundColor: "rgba(196,43,43,0.85)",
+              color: "white",
+              fontSize: "8px",
+              letterSpacing: "2px",
+              padding: "4px 8px",
+              fontWeight: 700,
+              zIndex: 2,
             }}
           >
-            <span
-              className="font-[family-name:var(--font-rajdhani)] uppercase"
-              style={{
-                backgroundColor: "rgba(196, 43, 43, 0.85)",
-                color: "white",
-                fontSize: "8px",
-                letterSpacing: "2px",
-                padding: "4px 8px",
-              }}
-            >
-              {article.categoryLabel}
-            </span>
+            {article.categoryLabel}
+          </span>
 
-            <span
-              className="font-[family-name:var(--font-rajdhani)]"
-              style={{
-                backgroundColor: "rgba(15, 23, 32, 0.85)",
-                color: "#C4922A",
-                fontSize: "12px",
-                padding: "5px 10px",
-              }}
-            >
-              {article.date}
-            </span>
-          </div>
+          <span
+            style={{
+              position: "absolute",
+              top: "12px",
+              right: "12px",
+              fontFamily: "'Rajdhani', sans-serif",
+              backgroundColor: "rgba(15,23,32,0.85)",
+              color: "#C4922A",
+              fontSize: "12px",
+              padding: "5px 10px",
+              fontWeight: 600,
+              zIndex: 2,
+            }}
+          >
+            {article.date}
+          </span>
         </div>
 
         <div style={{ padding: "18px 16px" }}>
@@ -296,7 +297,7 @@ export function NewsListing({
     <div
       className="w-full"
       style={{
-        paddingTop: "20px",
+        paddingTop: "40px",
         paddingBottom: "20px",
         background: "#161F28",
       }}
