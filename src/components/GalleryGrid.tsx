@@ -734,10 +734,12 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
         }
         .photo-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-          gap: 3px;
+          grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+          gap: clamp(6px, 1.2vw, 14px);
           opacity: 1;
           transition: opacity 200ms ease;
+          width: 100%;
+          min-width: 0;
         }
         .photo-grid.is-fading {
           opacity: 0.2;
@@ -750,6 +752,8 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
           position: relative;
           overflow: hidden;
           background: transparent;
+          width: 100%;
+          min-width: 0;
         }
         .photo-item.is-hidden {
           display: none;
@@ -757,10 +761,14 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
         .photo-item.wide {
           grid-column: span 2;
         }
+        .photo-item > a {
+          display: block;
+          width: 100%;
+        }
         .photo-ratio {
           position: relative;
           width: 100%;
-          padding-top: 75%;
+          aspect-ratio: 4 / 3;
         }
         .photo-ratio picture,
         .photo-ratio img {
@@ -885,8 +893,10 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
         }
         .video-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-          gap: 10px;
+          grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+          gap: clamp(8px, 1.4vw, 16px);
+          width: 100%;
+          min-width: 0;
         }
         .video-card {
           position: relative;
@@ -897,6 +907,8 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
           border: 1px solid #253344;
           overflow: hidden;
           padding: 0;
+          width: 100%;
+          min-width: 0;
         }
         .video-thumb {
           position: relative;
@@ -928,6 +940,11 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
           letter-spacing: 0.2px;
         }
         @media (max-width: 720px) {
+          .photo-item.wide {
+            grid-column: span 1;
+          }
+        }
+        @media (max-width: 960px) {
           .photo-item.wide {
             grid-column: span 1;
           }
