@@ -142,7 +142,7 @@ function ArticleCard({ article }: { article: NewsListingArticle }) {
     <article
       className="overflow-hidden transition-[border-color] duration-300"
       style={{
-        backgroundColor: "#1E2B38",
+        backgroundColor: "transparent",
         borderTop: hovered ? "3px solid #C4922A" : "3px solid transparent",
       }}
       onMouseEnter={() => setHovered(true)}
@@ -153,7 +153,7 @@ function ArticleCard({ article }: { article: NewsListingArticle }) {
           className="relative w-full overflow-hidden"
           style={{
             aspectRatio: "16 / 9",
-            backgroundColor: "#0F141C",
+            backgroundColor: "transparent",
           }}
         >
           {article.imageSrc ? (
