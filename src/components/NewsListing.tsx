@@ -5,18 +5,18 @@ import { ui } from "../i18n/ui";
 import type { Lang } from "../i18n/utils";
 
 export type NewsListingCategory =
-  | "wszystkie"
-  | "aktualnosci"
-  | "rejestracja"
-  | "instruktorzy"
-  | "partnerzy"
+  | "all"
+  | "news"
+  | "registration"
+  | "instructors"
+  | "partners"
   | "media"
-  | "hardest-hit";
+  | "hardestHit";
 
 export interface NewsListingArticle {
   id: string;
-  /** Filter key — must match a filter except "wszystkie" */
-  category: Exclude<NewsListingCategory, "wszystkie">;
+  /** Filter key — must match a filter except "all" */
+  category: Exclude<NewsListingCategory, "all">;
   /** Short label shown on badges (uppercase) */
   categoryLabel: string;
   title: string;
@@ -31,13 +31,13 @@ export interface NewsListingArticle {
 }
 
 const FILTERS: { id: NewsListingCategory; label: string }[] = [
-  { id: "wszystkie", label: "WSZYSTKIE" },
-  { id: "aktualnosci", label: "AKTUALNOŚCI" },
-  { id: "rejestracja", label: "REJESTRACJA" },
-  { id: "instruktorzy", label: "INSTRUKTORZY" },
-  { id: "partnerzy", label: "PARTNERZY" },
+  { id: "all", label: "ALL" },
+  { id: "news", label: "NEWS" },
+  { id: "registration", label: "REGISTRATION" },
+  { id: "instructors", label: "INSTRUCTORS" },
+  { id: "partners", label: "PARTNERS" },
   { id: "media", label: "MEDIA" },
-  { id: "hardest-hit", label: "HARDEST HIT" },
+  { id: "hardestHit", label: "HARDEST HIT" },
 ];
 
 function estimateReadingMinutes(text: string): number {
@@ -46,9 +46,30 @@ function estimateReadingMinutes(text: string): number {
   return minutes;
 }
 
-function formatReadingTime(minutes: number): string {
-  if (minutes === 1) return "1 min czytania";
-  return `${minutes} min czytania`;
+function formatReadingTime(minutes: number, lang: Lang): string {
+  const readingTimeLabel: Partial<Record<Lang, string>> = {
+    pl: "min czytania",
+    en: "min read",
+    de: "Min Lesezeit",
+    fr: "min de lecture",
+    es: "min de lectura",
+    it: "min di lettura",
+    pt: "min de leitura",
+    nl: "min leestijd",
+    sv: "min lasning",
+    no: "min lesetid",
+    hr: "min citanja",
+    cs: "min cteni",
+    sk: "min citania",
+    sl: "min branja",
+    lt: "min skaitymo",
+    lv: "min lasisanas",
+    hu: "perc olvasas",
+    ro: "min de citire",
+    ko: "분 읽기",
+  };
+  const rtLabel = readingTimeLabel[lang] ?? "min read";
+  return `${minutes} ${rtLabel}`;
 }
 
 const rajdhani = "var(--font-rajdhani), sans-serif";
@@ -61,66 +82,7 @@ interface NewsListingProps {
   pageSize?: number;
 }
 
-const defaultArticles: NewsListingArticle[] = [
-  {
-    id: "1",
-    category: "aktualnosci",
-    categoryLabel: "AKTUALNOŚCI",
-    title: "Potwierdzony udział US Police K9 SWAT na CERBERUS K9 2026",
-    date: "15.04.2026",
-    lead: "Oficjalnie potwierdzamy udział przewodnika K9 SWAT z USA wraz z pozorantem szkolącym jednostki specjalne.",
-    href: "#",
-    imageSrc: "/images/news-swat-k9.webp",
-  },
-  {
-    id: "2",
-    category: "rejestracja",
-    categoryLabel: "REJESTRACJA",
-    title: "Rejestracja otwarta — 250 miejsc, wstęp bezpłatny",
-    date: "01.04.2026",
-    lead: "Rejestracja na CERBERUS K9 2026 jest już dostępna. Liczba miejsc ograniczona. Wejście bezpłatne dla wszystkich uczestników.",
-    href: "#",
-    imageSrc: "/images/news-registration.webp",
-  },
-  {
-    id: "3",
-    category: "partnerzy",
-    categoryLabel: "PARTNERZY",
-    title: "Marynarka Wojenna Portugalii dołącza do CERBERUS K9 2026",
-    date: "20.03.2026",
-    lead: "Jednostka K9 Marinha Portuguesa potwierdza udział — dwa zespoły z psami bojowymi z Lizbony.",
-    href: "#",
-    imageSrc: "/images/news-portugal-navy.webp",
-  },
-  {
-    id: "4",
-    category: "media",
-    categoryLabel: "MEDIA",
-    title: "Relacja wideo z poprzedniej edycji — pełna galeria",
-    date: "10.02.2026",
-    lead: "Materiały filmowe i zdjęcia z zeszłorocznego wydarzenia w jednym miejscu.",
-    href: "#",
-  },
-  {
-    id: "5",
-    category: "instruktorzy",
-    categoryLabel: "INSTRUKTORZY",
-    title: "Nowi instruktorzy na scenie HARDEST HIT",
-    date: "28.01.2026",
-    lead: "Poznaj prowadzących warsztaty taktyczne i scenariusze bojowe przygotowane na 2026 rok.",
-    href: "#",
-    imageSrc: "/images/news-swat-k9.webp",
-  },
-  {
-    id: "6",
-    category: "hardest-hit",
-    categoryLabel: "HARDEST HIT",
-    title: "Scenariusz nocny — limity miejsc i wymagania",
-    date: "05.01.2026",
-    lead: "Zapisy na blok nocny otwarte; obowiązuje wcześniejsza weryfikacja umiejętności zespołu.",
-    href: "#",
-  },
-];
+const defaultArticles: NewsListingArticle[] = [];
 
 function ArticleCard({ article, lang }: { article: NewsListingArticle; lang: Lang }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -274,7 +236,7 @@ function ArticleCard({ article, lang }: { article: NewsListingArticle; lang: Lan
                 color: "#5A6A7A",
               }}
             >
-              {formatReadingTime(reading)}
+              {formatReadingTime(reading, lang)}
             </span>
           </div>
         </div>
@@ -310,16 +272,54 @@ export function NewsListing({
     ko: { allNews: "전체 뉴스", loadMoreArticles: "기사 더 불러오기" },
   }[lang] ?? { allNews: "ALL NEWS", loadMoreArticles: "LOAD MORE ARTICLES" };
 
-  const translatedFilters: { id: NewsListingCategory; label: string }[] = FILTERS.map((f) => {
-    if (f.id === "wszystkie") return { ...f, label: (ui[lang] as Record<string, string>).btn_all ?? "ALL" };
-    if (f.id === "aktualnosci") return { ...f, label: ui[lang].nav_news };
-    return f;
-  });
-  const [filter, setFilter] = useState<NewsListingCategory>("wszystkie");
+  const filterLabels: Record<Lang, Record<string, string>> = {
+    pl: { all: "WSZYSTKIE", news: "AKTUALNOŚCI", instructors: "INSTRUKTORZY", partners: "PARTNERZY", registration: "REJESTRACJA", media: "MEDIA", hardestHit: "HARDEST HIT" },
+    en: { all: "ALL", news: "NEWS", instructors: "INSTRUCTORS", partners: "PARTNERS", registration: "REGISTRATION", media: "MEDIA", hardestHit: "HARDEST HIT" },
+    de: { all: "ALLE", news: "NACHRICHTEN", instructors: "INSTRUKTEURE", partners: "PARTNER", registration: "ANMELDUNG", media: "MEDIEN", hardestHit: "HARDEST HIT" },
+    fr: { all: "TOUT", news: "ACTUALITÉS", instructors: "INSTRUCTEURS", partners: "PARTENAIRES", registration: "INSCRIPTION", media: "MÉDIAS", hardestHit: "HARDEST HIT" },
+    es: { all: "TODO", news: "NOTICIAS", instructors: "INSTRUCTORES", partners: "SOCIOS", registration: "REGISTRO", media: "MEDIOS", hardestHit: "HARDEST HIT" },
+    it: { all: "TUTTI", news: "NOTIZIE", instructors: "ISTRUTTORI", partners: "PARTNER", registration: "REGISTRAZIONE", media: "MEDIA", hardestHit: "HARDEST HIT" },
+    pt: { all: "TUDO", news: "NOTÍCIAS", instructors: "INSTRUTORES", partners: "PARCEIROS", registration: "REGISTRO", media: "MÍDIA", hardestHit: "HARDEST HIT" },
+    nl: { all: "ALLES", news: "NIEUWS", instructors: "INSTRUCTEURS", partners: "PARTNERS", registration: "REGISTRATIE", media: "MEDIA", hardestHit: "HARDEST HIT" },
+    sv: { all: "ALLT", news: "NYHETER", instructors: "INSTRUKTÖRER", partners: "PARTNERS", registration: "REGISTRERING", media: "MEDIA", hardestHit: "HARDEST HIT" },
+    no: { all: "ALT", news: "NYHETER", instructors: "INSTRUKTØRER", partners: "PARTNERE", registration: "REGISTRERING", media: "MEDIA", hardestHit: "HARDEST HIT" },
+    hr: { all: "SVE", news: "VIJESTI", instructors: "INSTRUKTORI", partners: "PARTNERI", registration: "REGISTRACIJA", media: "MEDIJI", hardestHit: "HARDEST HIT" },
+    cs: { all: "VŠE", news: "AKTUALITY", instructors: "INSTRUKTOŘI", partners: "PARTNEŘI", registration: "REGISTRACE", media: "MÉDIA", hardestHit: "HARDEST HIT" },
+    sk: { all: "VŠETKO", news: "AKTUALITY", instructors: "INŠTRUKTORI", partners: "PARTNERI", registration: "REGISTRÁCIA", media: "MÉDIÁ", hardestHit: "HARDEST HIT" },
+    sl: { all: "VSE", news: "NOVICE", instructors: "INŠTRUKTORJI", partners: "PARTNERJI", registration: "REGISTRACIJA", media: "MEDIJI", hardestHit: "HARDEST HIT" },
+    lt: { all: "VISKAS", news: "NAUJIENOS", instructors: "INSTRUKTORIAI", partners: "PARTNERIAI", registration: "REGISTRACIJA", media: "ŽINIASKLAIDA", hardestHit: "HARDEST HIT" },
+    lv: { all: "VISS", news: "ZIŅAS", instructors: "INSTRUKTORI", partners: "PARTNERI", registration: "REĢISTRĀCIJA", media: "MEDIJI", hardestHit: "HARDEST HIT" },
+    hu: { all: "MIND", news: "HÍREK", instructors: "OKTATÓK", partners: "PARTNEREK", registration: "REGISZTRÁCIÓ", media: "MÉDIA", hardestHit: "HARDEST HIT" },
+    ro: { all: "TOATE", news: "ȘTIRI", instructors: "INSTRUCTORI", partners: "PARTENERI", registration: "ÎNREGISTRARE", media: "MEDIA", hardestHit: "HARDEST HIT" },
+    ko: { all: "전체", news: "뉴스", instructors: "강사", partners: "파트너", registration: "등록", media: "미디어", hardestHit: "HARDEST HIT" },
+  };
+  const labels = filterLabels[lang] ?? filterLabels.en;
+  const ariaLabels: Partial<Record<Lang, string>> = {
+    pl: "Filtr kategorii aktualności",
+    en: "News category filter",
+    de: "Nachrichtenkategorie-Filter",
+    fr: "Filtre de catégorie d'actualités",
+    es: "Filtro de categoría de noticias",
+    it: "Filtro categoria notizie",
+    pt: "Filtro de categoria de notícias",
+    nl: "Nieuws categoriefilter",
+    sv: "Filter för nyhetskategori",
+    no: "Filter for nyhetskategori",
+    hr: "Filtar kategorije vijesti",
+    cs: "Filtr kategorie novinek",
+    sk: "Filter kategórie noviniek",
+    sl: "Filter kategorij novic",
+    lt: "Naujienų kategorijos filtras",
+    lv: "Ziņu kategorijas filtrs",
+    hu: "Hírkategória-szűrő",
+    ro: "Filtru categorie știri",
+    ko: "뉴스 카테고리 필터",
+  };
+  const [filter, setFilter] = useState<NewsListingCategory>("all");
   const [visible, setVisible] = useState(pageSize);
 
   const filtered = useMemo(() => {
-    if (filter === "wszystkie") return articles;
+    if (filter === "all") return articles;
     return articles.filter((a) => a.category === filter);
   }, [articles, filter]);
 
@@ -383,7 +383,7 @@ export function NewsListing({
 
       <div
         role="tablist"
-        aria-label="Filtr kategorii aktualności"
+        aria-label={ariaLabels[lang] ?? "News category filter"}
         style={{
           display: "flex",
           flexWrap: "wrap",
@@ -394,7 +394,7 @@ export function NewsListing({
           marginBottom: "20px",
         }}
       >
-        {translatedFilters.map((f) => {
+        {FILTERS.map((f) => {
           const isActive = filter === f.id;
           return (
             <button
@@ -428,7 +428,7 @@ export function NewsListing({
                 e.currentTarget.style.color = "#C4922A";
               }}
             >
-              {f.label}
+              {labels[f.id] ?? f.label}
             </button>
           );
         })}
