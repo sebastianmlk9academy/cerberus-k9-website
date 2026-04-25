@@ -1,6 +1,5 @@
 import { Calendar } from "lucide-react";
 import { useMemo, useState } from "react";
-import { ui } from "../i18n/ui";
 import type { Lang } from "../i18n/utils";
 
 type Category = "K9" | "TCCC" | "DRONY" | "KONFERENCJA" | "CEREMONIA" | "BREAK";
@@ -14,6 +13,7 @@ interface AgendaItem {
   category: Category;
   description: string;
   instructor?: string;
+  dayId?: "day1" | "day2";
 }
 
 interface DaySchedule {
@@ -23,183 +23,432 @@ interface DaySchedule {
   items: AgendaItem[];
 }
 
-const CATEGORY_META: Record<Category, { color: string; label: string }> = {
-  K9: { color: "#C4922A", label: "K9" },
-  TCCC: { color: "#8B2020", label: "TCCC / MEDYCYNA" },
-  DRONY: { color: "#2A5A8A", label: "DRONY" },
-  KONFERENCJA: { color: "#2A6A3A", label: "KONFERENCJA" },
-  CEREMONIA: { color: "#5A3A8A", label: "CEREMONIA" },
-  BREAK: { color: "#3A4A5A", label: "PRZERWA" },
+const CATEGORY_META: Record<Category, { color: string }> = {
+  K9: { color: "#C4922A" },
+  TCCC: { color: "#8B2020" },
+  DRONY: { color: "#2A5A8A" },
+  KONFERENCJA: { color: "#2A6A3A" },
+  CEREMONIA: { color: "#5A3A8A" },
+  BREAK: { color: "#3A4A5A" },
 };
 
-const DAYS: DaySchedule[] = [
-  {
-    id: "day1",
-    label: "DZIEŃ 1 — CZWARTEK 13.06",
-    date: "2026-06-13",
-    items: [
-      {
-        id: "d1-1",
-        start: "08:00",
-        end: "08:30",
-        title: "Ceremonia otwarcia",
-        location: "Arena Główna",
-        category: "CEREMONIA",
-        description: "Powitanie uczestników, krótka prezentacja.",
-      },
-      {
-        id: "d1-2",
-        start: "09:00",
-        end: "12:30",
-        title: "Szkolenia K9 Blok 1 — Gryzaki",
-        location: "3MK Arena + Szkoła Mundurowa",
-        category: "K9",
-        description:
-          "Pary pies-przewodnik w specjalizacji ataku i kontroli. Dla służb i cywilów.",
-        instructor: "JWK Lubliniec, US Police K9 SWAT",
-      },
-      {
-        id: "d1-3",
-        start: "09:00",
-        end: "12:30",
-        title: "Szkolenia K9 Blok 1 — Detekcja",
-        location: "Szkoła Mundurowa",
-        category: "K9",
-        description:
-          "Wykrywanie narkotyków i materiałów wybuchowych. Metody szkoleniowe NATO.",
-        instructor: "Pozorant z USA",
-      },
-      {
-        id: "d1-4",
-        start: "12:30",
-        end: "13:30",
-        title: "Przerwa obiadowa",
-        location: "—",
-        category: "BREAK",
-        description: "Lunch dla uczestników zapewniony przez organizatora.",
-      },
-      {
-        id: "d1-5",
-        start: "13:30",
-        end: "16:00",
-        title: "TCCC i TCCC-K9",
-        location: "3MK Arena",
-        category: "TCCC",
-        description:
-          "Tactical Combat Casualty Care. Obsługa ran bojowych psów.",
-        instructor: "Rescue Team Se.a.l. + WOPR Ostrów",
-      },
-      {
-        id: "d1-6",
-        start: "13:30",
-        end: "16:00",
-        title: "Szkolenie Dronowe",
-        location: "Stadion Miejski",
-        category: "DRONY",
-        description:
-          "Pilotaż dronów BSP, zastosowania w bezpieczeństwie.",
-        instructor: "Fundacja Polska Armia Dronów",
-      },
-      {
-        id: "d1-7",
-        start: "16:30",
-        end: "18:00",
-        title: "HARDEST HIT — Eliminacje",
-        location: "Arena Główna",
-        category: "K9",
-        description:
-          "Pierwsza w Polsce konkurencja sprawdzająca psa w konfrontacji z pozorantem. Atak i kontrola. Obowiązkowa dokumentacja foto/video.",
-      },
-      {
-        id: "d1-8",
-        start: "17:30",
-        end: "19:30",
-        title: "Konferencja ZK — Panel 1",
-        location: "Sala Konferencyjna",
-        category: "KONFERENCJA",
-        description:
-          "Bezpieczeństwo wewnętrzne i publiczne. Case Study: Powiat Pruszkowski. Dla JST Wielkopolski.",
-      },
-    ],
-  },
-  {
-    id: "day2",
-    label: "DZIEŃ 2 — PIĄTEK 14.06",
-    date: "2026-06-14",
-    items: [
-      {
-        id: "d2-1",
-        start: "09:00",
-        end: "12:00",
-        title: "Szkolenia K9 Blok 2 — Tropienie i SAR",
-        location: "Stadion Miejski",
-        category: "K9",
-        description:
-          "Search and Rescue. Tropienie śladów. Lokalizacja osób zaginionych.",
-        instructor: "Marinha Portuguesa, Szkoły K9 EU",
-      },
-      {
-        id: "d2-2",
-        start: "09:00",
-        end: "12:00",
-        title: "Pierwsza Pomoc Przedmedyczna",
-        location: "3MK Arena",
-        category: "TCCC",
-        description:
-          "Kurs pierwszej pomocy dla każdego uczestnika i przechodnia. Certyfikaty.",
-        instructor: "WOPR Ostrów Wlkp.",
-      },
-      {
-        id: "d2-3",
-        start: "12:00",
-        end: "13:00",
-        title: "Przerwa obiadowa",
-        location: "—",
-        category: "BREAK",
-        description: "",
-      },
-      {
-        id: "d2-4",
-        start: "13:00",
-        end: "15:30",
-        title: "HARDEST HIT — Finały",
-        location: "Arena Główna",
-        category: "K9",
-        description:
-          "Finał konkurencji HARDEST HIT. Ogłoszenie wyników. Nagrody.",
-      },
-      {
-        id: "d2-5",
-        start: "15:30",
-        end: "17:00",
-        title: "Konferencja ZK — Panel 2 i 3",
-        location: "Sala Konferencyjna",
-        category: "KONFERENCJA",
-        description:
-          "Obrona Powszechna + Bezpieczeństwo Infrastruktury Krytycznej z użyciem dronów. Prelegenci z WOT i RCB.",
-      },
-      {
-        id: "d2-6",
-        start: "17:00",
-        end: "17:30",
-        title: "Ceremonia zamknięcia",
-        location: "Arena Główna",
-        category: "CEREMONIA",
-        description:
-          "Wręczenie dyplomów i nagród. Oficjalne zamknięcie CERBERUS K9 2026. Seans grupowy.",
-      },
-    ],
-  },
+const DAYS: Omit<DaySchedule, "items" | "label">[] = [
+  { id: "day1", date: "2026-06-13" },
+  { id: "day2", date: "2026-06-14" },
 ];
 
-const FILTERS: { key: "ALL" | Category; label: string }[] = [
-  { key: "ALL", label: "WSZYSTKO" },
-  { key: "K9", label: "K9" },
-  { key: "TCCC", label: "TCCC" },
-  { key: "DRONY", label: "DRONY" },
-  { key: "KONFERENCJA", label: "KONFERENCJA" },
-  { key: "CEREMONIA", label: "CEREMONIA" },
+const FILTERS: { key: "ALL" | Category }[] = [
+  { key: "ALL" },
+  { key: "K9" },
+  { key: "TCCC" },
+  { key: "DRONY" },
+  { key: "KONFERENCJA" },
+  { key: "CEREMONIA" },
 ];
+
+type AgendaLabels = {
+  all: string;
+  addToCalendar: string;
+  noEvents: string;
+  day1: string;
+  day2: string;
+  instructor: string;
+  location: string;
+  download: string;
+  share: string;
+  categories: {
+    k9: string;
+    tccc: string;
+    drones: string;
+    conference: string;
+    ceremony: string;
+    break: string;
+  };
+};
+
+const AGENDA_LABELS: Partial<Record<Lang, AgendaLabels>> = {
+  pl: {
+    all: "WSZYSTKO",
+    addToCalendar: "DODAJ DO KALENDARZA",
+    noEvents: "BRAK WYDARZEŃ",
+    day1: "DZIEŃ 1",
+    day2: "DZIEŃ 2",
+    instructor: "INSTRUKTOR",
+    location: "LOKALIZACJA",
+    download: "POBIERZ",
+    share: "UDOSTĘPNIJ",
+    categories: {
+      k9: "K9",
+      tccc: "TCCC",
+      drones: "DRONY",
+      conference: "KONFERENCJA",
+      ceremony: "CEREMONIA",
+      break: "PRZERWA",
+    },
+  },
+  en: {
+    all: "ALL",
+    addToCalendar: "ADD TO CALENDAR",
+    noEvents: "NO EVENTS",
+    day1: "DAY 1",
+    day2: "DAY 2",
+    instructor: "INSTRUCTOR",
+    location: "LOCATION",
+    download: "DOWNLOAD",
+    share: "SHARE",
+    categories: {
+      k9: "K9",
+      tccc: "TCCC",
+      drones: "DRONES",
+      conference: "CONFERENCE",
+      ceremony: "CEREMONY",
+      break: "BREAK",
+    },
+  },
+  de: {
+    all: "ALLE",
+    addToCalendar: "ZUM KALENDER HINZUFÜGEN",
+    noEvents: "KEINE VERANSTALTUNGEN",
+    day1: "TAG 1",
+    day2: "TAG 2",
+    instructor: "INSTRUKTEUR",
+    location: "STANDORT",
+    download: "HERUNTERLADEN",
+    share: "TEILEN",
+    categories: {
+      k9: "K9",
+      tccc: "TCCC",
+      drones: "DROHNEN",
+      conference: "KONFERENZ",
+      ceremony: "ZEREMONIE",
+      break: "PAUSE",
+    },
+  },
+  fr: {
+    all: "TOUT",
+    addToCalendar: "AJOUTER AU CALENDRIER",
+    noEvents: "AUCUN ÉVÉNEMENT",
+    day1: "JOUR 1",
+    day2: "JOUR 2",
+    instructor: "INSTRUCTEUR",
+    location: "LIEU",
+    download: "TÉLÉCHARGER",
+    share: "PARTAGER",
+    categories: {
+      k9: "K9",
+      tccc: "TCCC",
+      drones: "DRONES",
+      conference: "CONFÉRENCE",
+      ceremony: "CÉRÉMONIE",
+      break: "PAUSE",
+    },
+  },
+  es: {
+    all: "TODO",
+    addToCalendar: "AÑADIR AL CALENDARIO",
+    noEvents: "SIN EVENTOS",
+    day1: "DÍA 1",
+    day2: "DÍA 2",
+    instructor: "INSTRUCTOR",
+    location: "UBICACIÓN",
+    download: "DESCARGAR",
+    share: "COMPARTIR",
+    categories: {
+      k9: "K9",
+      tccc: "TCCC",
+      drones: "DRONES",
+      conference: "CONFERENCIA",
+      ceremony: "CEREMONIA",
+      break: "PAUSA",
+    },
+  },
+  it: {
+    all: "TUTTO",
+    addToCalendar: "AGGIUNGI AL CALENDARIO",
+    noEvents: "NESSUN EVENTO",
+    day1: "GIORNO 1",
+    day2: "GIORNO 2",
+    instructor: "ISTRUTTORE",
+    location: "POSIZIONE",
+    download: "SCARICA",
+    share: "CONDIVIDI",
+    categories: {
+      k9: "K9",
+      tccc: "TCCC",
+      drones: "DRONI",
+      conference: "CONFERENZA",
+      ceremony: "CERIMONIA",
+      break: "PAUSA",
+    },
+  },
+  pt: {
+    all: "TUDO",
+    addToCalendar: "ADICIONAR AO CALENDÁRIO",
+    noEvents: "SEM EVENTOS",
+    day1: "DIA 1",
+    day2: "DIA 2",
+    instructor: "INSTRUTOR",
+    location: "LOCAL",
+    download: "BAIXAR",
+    share: "PARTILHAR",
+    categories: {
+      k9: "K9",
+      tccc: "TCCC",
+      drones: "DRONES",
+      conference: "CONFERÊNCIA",
+      ceremony: "CERIMÓNIA",
+      break: "PAUSA",
+    },
+  },
+  nl: {
+    all: "ALLES",
+    addToCalendar: "AAN KALENDER TOEVOEGEN",
+    noEvents: "GEEN EVENEMENTEN",
+    day1: "DAG 1",
+    day2: "DAG 2",
+    instructor: "INSTRUCTEUR",
+    location: "LOCATIE",
+    download: "DOWNLOADEN",
+    share: "DELEN",
+    categories: {
+      k9: "K9",
+      tccc: "TCCC",
+      drones: "DRONES",
+      conference: "CONFERENTIE",
+      ceremony: "CEREMONIE",
+      break: "PAUZE",
+    },
+  },
+  sv: {
+    all: "ALLT",
+    addToCalendar: "LÄGG TILL I KALENDERN",
+    noEvents: "INGA EVENEMANG",
+    day1: "DAG 1",
+    day2: "DAG 2",
+    instructor: "INSTRUKTÖR",
+    location: "PLATS",
+    download: "LADDA NED",
+    share: "DELA",
+    categories: {
+      k9: "K9",
+      tccc: "TCCC",
+      drones: "DRÖNARE",
+      conference: "KONFERENS",
+      ceremony: "CEREMONI",
+      break: "PAUS",
+    },
+  },
+  no: {
+    all: "ALLE",
+    addToCalendar: "LEGG TIL I KALENDER",
+    noEvents: "INGEN ARRANGEMENTER",
+    day1: "DAG 1",
+    day2: "DAG 2",
+    instructor: "INSTRUKTØR",
+    location: "STED",
+    download: "LAST NED",
+    share: "DEL",
+    categories: {
+      k9: "K9",
+      tccc: "TCCC",
+      drones: "DRONER",
+      conference: "KONFERANSE",
+      ceremony: "SEREMONI",
+      break: "PAUSE",
+    },
+  },
+  hr: {
+    all: "SVE",
+    addToCalendar: "DODAJ U KALENDAR",
+    noEvents: "NEMA DOGAĐAJA",
+    day1: "DAN 1",
+    day2: "DAN 2",
+    instructor: "INSTRUKTOR",
+    location: "LOKACIJA",
+    download: "PREUZMI",
+    share: "PODIJELI",
+    categories: {
+      k9: "K9",
+      tccc: "TCCC",
+      drones: "DRONOVI",
+      conference: "KONFERENCIJA",
+      ceremony: "CEREMONIJA",
+      break: "PAUZA",
+    },
+  },
+  cs: {
+    all: "VŠE",
+    addToCalendar: "PŘIDAT DO KALENDÁŘE",
+    noEvents: "ŽÁDNÉ UDÁLOSTI",
+    day1: "DEN 1",
+    day2: "DEN 2",
+    instructor: "INSTRUKTOR",
+    location: "LOKACE",
+    download: "STÁHNOUT",
+    share: "SDÍLET",
+    categories: {
+      k9: "K9",
+      tccc: "TCCC",
+      drones: "DRONY",
+      conference: "KONFERENCE",
+      ceremony: "CEREMONIE",
+      break: "PŘESTÁVKA",
+    },
+  },
+  sk: {
+    all: "VŠETKO",
+    addToCalendar: "PRIDAŤ DO KALENDÁRA",
+    noEvents: "ŽIADNE UDALOSTI",
+    day1: "DEŇ 1",
+    day2: "DEŇ 2",
+    instructor: "INŠTRUKTOR",
+    location: "LOKALITA",
+    download: "STIAHNUŤ",
+    share: "ZDIEĽAŤ",
+    categories: {
+      k9: "K9",
+      tccc: "TCCC",
+      drones: "DRONY",
+      conference: "KONFERENCIA",
+      ceremony: "CEREMÓNIA",
+      break: "PRESTÁVKA",
+    },
+  },
+  sl: {
+    all: "VSE",
+    addToCalendar: "DODAJ V KOLEDAR",
+    noEvents: "NI DOGODKOV",
+    day1: "DAN 1",
+    day2: "DAN 2",
+    instructor: "INŠTRUKTOR",
+    location: "LOKACIJA",
+    download: "PRENESI",
+    share: "DELI",
+    categories: {
+      k9: "K9",
+      tccc: "TCCC",
+      drones: "DRONI",
+      conference: "KONFERENCA",
+      ceremony: "CEREMONIJA",
+      break: "ODMOR",
+    },
+  },
+  lt: {
+    all: "VISKAS",
+    addToCalendar: "PRIDĖTI Į KALENDORIŲ",
+    noEvents: "NĖRA RENGINIŲ",
+    day1: "1 DIENA",
+    day2: "2 DIENA",
+    instructor: "INSTRUKTORIUS",
+    location: "VIETA",
+    download: "ATSISIŲSTI",
+    share: "BENDRINTI",
+    categories: {
+      k9: "K9",
+      tccc: "TCCC",
+      drones: "DRONAI",
+      conference: "KONFERENCIJA",
+      ceremony: "CEREMONIJA",
+      break: "PERTRAUKA",
+    },
+  },
+  lv: {
+    all: "VISS",
+    addToCalendar: "PIEVIENOT KALENDĀRAM",
+    noEvents: "NAV PASĀKUMU",
+    day1: "1. DIENA",
+    day2: "2. DIENA",
+    instructor: "INSTRUKTORS",
+    location: "VIETA",
+    download: "LEJUPIELĀDĒT",
+    share: "DALĪTIES",
+    categories: {
+      k9: "K9",
+      tccc: "TCCC",
+      drones: "DRONI",
+      conference: "KONFERENCE",
+      ceremony: "CEREMONIJA",
+      break: "PĀRTRAUKUMS",
+    },
+  },
+  hu: {
+    all: "ÖSSZES",
+    addToCalendar: "HOZZÁADÁS A NAPTÁRHOZ",
+    noEvents: "NINCS ESEMÉNY",
+    day1: "1. NAP",
+    day2: "2. NAP",
+    instructor: "OKTATÓ",
+    location: "HELYSZÍN",
+    download: "LETÖLTÉS",
+    share: "MEGOSZTÁS",
+    categories: {
+      k9: "K9",
+      tccc: "TCCC",
+      drones: "DRÓNOK",
+      conference: "KONFERENCIA",
+      ceremony: "CEREMÓNIA",
+      break: "SZÜNET",
+    },
+  },
+  ro: {
+    all: "TOT",
+    addToCalendar: "ADAUGĂ ÎN CALENDAR",
+    noEvents: "FĂRĂ EVENIMENTE",
+    day1: "ZIUA 1",
+    day2: "ZIUA 2",
+    instructor: "INSTRUCTOR",
+    location: "LOCAȚIE",
+    download: "DESCARCĂ",
+    share: "PARTAJEAZĂ",
+    categories: {
+      k9: "K9",
+      tccc: "TCCC",
+      drones: "DRONE",
+      conference: "CONFERINȚĂ",
+      ceremony: "CEREMONIE",
+      break: "PAUZĂ",
+    },
+  },
+  ko: {
+    all: "전체",
+    addToCalendar: "캘린더에 추가",
+    noEvents: "이벤트 없음",
+    day1: "1일차",
+    day2: "2일차",
+    instructor: "강사",
+    location: "위치",
+    download: "다운로드",
+    share: "공유",
+    categories: {
+      k9: "K9",
+      tccc: "TCCC",
+      drones: "드론",
+      conference: "컨퍼런스",
+      ceremony: "세리머니",
+      break: "휴식",
+    },
+  },
+};
+
+const DEFAULT_AGENDA_LABELS: AgendaLabels = {
+  all: "ALL",
+  addToCalendar: "ADD TO CALENDAR",
+  noEvents: "NO EVENTS",
+  day1: "DAY 1",
+  day2: "DAY 2",
+  instructor: "INSTRUCTOR",
+  location: "LOCATION",
+  download: "DOWNLOAD",
+  share: "SHARE",
+  categories: {
+    k9: "K9",
+    tccc: "TCCC",
+    drones: "DRONES",
+    conference: "CONFERENCE",
+    ceremony: "CEREMONY",
+    break: "BREAK",
+  },
+};
 
 interface CalendarEvent {
   id: string;
@@ -321,25 +570,25 @@ function getAgendaUrl() {
   return `${window.location.origin}${window.location.pathname}`;
 }
 
-function itemToEvent(item: AgendaItem, dayDate: string): CalendarEvent {
-  const meta = CATEGORY_META[item.category];
+function itemToEvent(item: AgendaItem, dayDate: string, labels: AgendaLabels): CalendarEvent {
   const location = item.location === "—" ? "" : item.location;
+  const category = categoryLabel(item.category, labels);
   const lines = [
     item.description,
     "",
-    "— SZCZEGÓŁY —",
-    `Wydarzenie: CERBERUS K9 2026`,
-    `Kategoria: ${meta.label}`,
-    location && `Lokalizacja: ${location}`,
-    `Czas: ${item.start}–${item.end} (${dayDate})`,
-    item.instructor && `Prowadzący: ${item.instructor}`,
+    "— DETAILS —",
+    "Event: CERBERUS K9 2026",
+    `Category: ${category}`,
+    location && `${labels.location}: ${location}`,
+    `Time: ${item.start}-${item.end} (${dayDate})`,
+    item.instructor && `${labels.instructor}: ${item.instructor}`,
     "",
-    `Pełna agenda: ${getAgendaUrl()}`,
+    `Full agenda: ${getAgendaUrl()}`,
   ].filter(Boolean) as string[];
 
   return {
     id: item.id,
-    title: `[${meta.label}] ${item.title}`,
+    title: `[${category}] ${item.title}`,
     location,
     description: lines.join("\n"),
     startDate: dayDate,
@@ -379,11 +628,13 @@ function CalendarMenu({
   event,
   open,
   onClose,
+  labels,
   align = "left",
 }: {
   event: CalendarEvent;
   open: boolean;
   onClose: () => void;
+  labels: AgendaLabels;
   align?: "left" | "center";
 }) {
   if (!open) return null;
@@ -424,7 +675,7 @@ function CalendarMenu({
         onClick={onClose}
         style={itemStyle}
       >
-        ↗ GOOGLE CALENDAR
+        ↗ GOOGLE CALENDAR ({labels.share})
       </a>
       <button
         onClick={() => {
@@ -433,7 +684,7 @@ function CalendarMenu({
         }}
         style={itemStyle}
       >
-        ↗ APPLE / ICAL (.ICS)
+        ↗ APPLE / ICAL ({labels.download})
       </button>
       <button
         onClick={() => {
@@ -442,46 +693,64 @@ function CalendarMenu({
         }}
         style={itemStyle}
       >
-        ⬇ PLIK .ICS (INNY KALENDARZ)
+        ⬇ .ICS ({labels.download})
       </button>
     </div>
   );
 }
 
-function buildFullEventCalendarEvent(): CalendarEvent {
-  const first = DAYS[0];
-  const last = DAYS[DAYS.length - 1];
+function categoryLabel(category: Category, labels: AgendaLabels) {
+  switch (category) {
+    case "K9":
+      return labels.categories.k9;
+    case "TCCC":
+      return labels.categories.tccc;
+    case "DRONY":
+      return labels.categories.drones;
+    case "KONFERENCJA":
+      return labels.categories.conference;
+    case "CEREMONIA":
+      return labels.categories.ceremony;
+    case "BREAK":
+      return labels.categories.break;
+  }
+}
+
+function buildFullEventCalendarEvent(days: DaySchedule[], labels: AgendaLabels): CalendarEvent {
+  const nonEmptyDays = days.filter((d) => d.items.length > 0);
+  const first = nonEmptyDays[0] ?? days[0];
+  const last = nonEmptyDays[nonEmptyDays.length - 1] ?? days[days.length - 1];
   const firstStart = first.items.reduce(
     (acc, i) => (i.start < acc ? i.start : acc),
-    first.items[0].start,
+    first.items[0]?.start ?? "08:00",
   );
   const lastEnd = last.items.reduce(
     (acc, i) => (i.end > acc ? i.end : acc),
-    last.items[0].end,
+    last.items[0]?.end ?? "18:00",
   );
-  const agendaLines = DAYS.map((d) => {
+  const agendaLines = days.map((d) => {
     const lines = d.items
       .map((i) => {
-        const meta = CATEGORY_META[i.category];
+        const tag = categoryLabel(i.category, labels);
         const loc = i.location !== "—" ? ` — ${i.location}` : "";
-        return `  ${i.start}–${i.end}  [${meta.label}] ${i.title}${loc}${i.instructor ? ` (${i.instructor})` : ""}`;
+        return `  ${i.start}–${i.end}  [${tag}] ${i.title}${loc}${i.instructor ? ` (${i.instructor})` : ""}`;
       })
       .join("\n");
     return `${d.label}\n${lines}`;
   }).join("\n\n");
 
   const description = [
-    "CERBERUS K9 2026 — pełny program wydarzenia.",
+    "CERBERUS K9 2026 — full event agenda.",
     "",
-    "— PROGRAM —",
+    "— AGENDA —",
     agendaLines,
     "",
-    `Pełna agenda online: ${getAgendaUrl()}`,
+    `Full online agenda: ${getAgendaUrl()}`,
   ].join("\n");
 
   return {
     id: "cerberus-k9-2026-full",
-    title: "CERBERUS K9 2026 — całe wydarzenie",
+    title: "CERBERUS K9 2026 — full event",
     location: "Ostrów Wielkopolski",
     description,
     startDate: first.date,
@@ -493,43 +762,44 @@ function buildFullEventCalendarEvent(): CalendarEvent {
 
 interface InteractiveAgendaProps {
   lang: Lang;
+  items?: AgendaItem[];
 }
 
-export default function InteractiveAgenda({ lang }: InteractiveAgendaProps) {
-  const t = {
-    pl: { all: "WSZYSTKO", addCalendar: "DODAJ DO KALENDARZA", noEvents: "BRAK WYDARZEŃ DLA WYBRANEGO FILTRA", day1: "DZIEŃ 1", day2: "DZIEŃ 2" },
-    en: { all: "ALL", addCalendar: "ADD TO CALENDAR", noEvents: "NO EVENTS FOR THE SELECTED FILTER", day1: "DAY 1", day2: "DAY 2" },
-    de: { all: "ALLE", addCalendar: "ZUM KALENDER HINZUFÜGEN", noEvents: "KEINE TERMINE FÜR DIESEN FILTER", day1: "TAG 1", day2: "TAG 2" },
-    fr: { all: "TOUT", addCalendar: "AJOUTER AU CALENDRIER", noEvents: "AUCUN ÉVÉNEMENT POUR CE FILTRE", day1: "JOUR 1", day2: "JOUR 2" },
-    hr: { all: "SVE", addCalendar: "DODAJ U KALENDAR", noEvents: "NEMA DOGAĐAJA ZA ODABRANI FILTAR", day1: "DAN 1", day2: "DAN 2" },
-    cs: { all: "VŠE", addCalendar: "PŘIDAT DO KALENDÁŘE", noEvents: "PRO VYBRANÝ FILTR NEJSOU ŽÁDNÉ UDÁLOSTI", day1: "DEN 1", day2: "DEN 2" },
-    lt: { all: "VISKAS", addCalendar: "PRIDĖTI Į KALENDORIŲ", noEvents: "PAGAL PASIRINKTĄ FILTRĄ ĮVYKIŲ NĖRA", day1: "1 DIENA", day2: "2 DIENA" },
-    lv: { all: "VISS", addCalendar: "PIEVIENOT KALENDĀRAM", noEvents: "NAV PASĀKUMU ŠIM FILTRAM", day1: "1. DIENA", day2: "2. DIENA" },
-    sk: { all: "VŠETKO", addCalendar: "PRIDAŤ DO KALENDÁRA", noEvents: "PRE VYBRANÝ FILTER NIE SÚ ŽIADNE UDALOSTI", day1: "DEŇ 1", day2: "DEŇ 2" },
-    sl: { all: "VSE", addCalendar: "DODAJ V KOLEDAR", noEvents: "ZA IZBRANI FILTER NI DOGODKOV", day1: "DAN 1", day2: "DAN 2" },
-    hu: { all: "ÖSSZES", addCalendar: "HOZZÁADÁS A NAPTÁRHOZ", noEvents: "NINCS ESEMÉNY A KIVÁLASZTOTT SZŰRŐHÖZ", day1: "1. NAP", day2: "2. NAP" },
-    no: { all: "ALLE", addCalendar: "LEGG TIL I KALENDER", noEvents: "INGEN HENDELSER FOR VALGT FILTER", day1: "DAG 1", day2: "DAG 2" },
-    sv: { all: "ALLT", addCalendar: "LÄGG TILL I KALENDERN", noEvents: "INGA HÄNDELSER FÖR VALT FILTER", day1: "DAG 1", day2: "DAG 2" },
-    nl: { all: "ALLES", addCalendar: "AAN AGENDA TOEVOEGEN", noEvents: "GEEN EVENEMENTEN VOOR DIT FILTER", day1: "DAG 1", day2: "DAG 2" },
-    es: { all: "TODO", addCalendar: "AÑADIR AL CALENDARIO", noEvents: "NO HAY EVENTOS PARA EL FILTRO SELECCIONADO", day1: "DÍA 1", day2: "DÍA 2" },
-    pt: { all: "TUDO", addCalendar: "ADICIONAR AO CALENDÁRIO", noEvents: "SEM EVENTOS PARA O FILTRO SELECIONADO", day1: "DIA 1", day2: "DIA 2" },
-    ro: { all: "TOT", addCalendar: "ADAUGĂ ÎN CALENDAR", noEvents: "NU EXISTĂ EVENIMENTE PENTRU FILTRUL SELECTAT", day1: "ZIUA 1", day2: "ZIUA 2" },
-    it: { all: "TUTTO", addCalendar: "AGGIUNGI AL CALENDARIO", noEvents: "NESSUN EVENTO PER IL FILTRO SELEZIONATO", day1: "GIORNO 1", day2: "GIORNO 2" },
-    ko: { all: "전체", addCalendar: "캘린더에 추가", noEvents: "선택한 필터에 이벤트가 없습니다", day1: "1일차", day2: "2일차" },
-  }[lang] ?? { all: "ALL", addCalendar: "ADD TO CALENDAR", noEvents: "NO EVENTS FOR THE SELECTED FILTER", day1: "DAY 1", day2: "DAY 2" };
-  const translatedFilters = FILTERS.map((f) =>
-    f.key === "ALL" ? { ...f, label: (ui[lang] as Record<string, string>).filter_all ?? t.all } : f,
-  );
+export default function InteractiveAgenda({ lang, items }: InteractiveAgendaProps) {
+  const agendaLabels = AGENDA_LABELS[lang] ?? DEFAULT_AGENDA_LABELS;
+  const agendaItems = items?.length > 0 ? items : [];
+  const translatedFilters = FILTERS.map((f) => {
+    if (f.key === "ALL") return { ...f, label: agendaLabels.all };
+    if (f.key === "K9") return { ...f, label: agendaLabels.categories.k9 };
+    if (f.key === "TCCC") return { ...f, label: agendaLabels.categories.tccc };
+    if (f.key === "DRONY") return { ...f, label: agendaLabels.categories.drones };
+    if (f.key === "KONFERENCJA") return { ...f, label: agendaLabels.categories.conference };
+    return { ...f, label: agendaLabels.categories.ceremony };
+  });
   const [activeDayId, setActiveDayId] = useState<string>(DAYS[0].id);
   const [filter, setFilter] = useState<"ALL" | Category>("ALL");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [calendarMenuFor, setCalendarMenuFor] = useState<string | null>(null);
   const [fullEventMenuOpen, setFullEventMenuOpen] = useState(false);
-  const fullEvent = useMemo(() => buildFullEventCalendarEvent(), []);
+  const scheduleDays = useMemo(
+    () =>
+      DAYS.map((day) => ({
+        ...day,
+        label: day.id === "day1" ? agendaLabels.day1 : agendaLabels.day2,
+        items: agendaItems.filter((item) =>
+          item.dayId ? item.dayId === day.id : item.id.startsWith(day.id === "day1" ? "d1-" : "d2-"),
+        ),
+      })),
+    [agendaItems, agendaLabels.day1, agendaLabels.day2],
+  );
+  const fullEvent = useMemo(
+    () => buildFullEventCalendarEvent(scheduleDays, agendaLabels),
+    [agendaLabels, scheduleDays],
+  );
 
   const activeDay = useMemo(
-    () => DAYS.find((d) => d.id === activeDayId)!,
-    [activeDayId],
+    () => scheduleDays.find((d) => d.id === activeDayId) ?? scheduleDays[0],
+    [activeDayId, scheduleDays],
   );
 
   const visibleItems = useMemo(() => {
@@ -584,7 +854,6 @@ export default function InteractiveAgenda({ lang }: InteractiveAgendaProps) {
         >
           {DAYS.map((day) => {
             const active = day.id === activeDayId;
-            const dayLabel = day.id === "day1" ? t.day1 : day.id === "day2" ? t.day2 : day.label;
             return (
               <button
                 key={day.id}
@@ -606,7 +875,7 @@ export default function InteractiveAgenda({ lang }: InteractiveAgendaProps) {
                   transition: "all 0.2s ease",
                 }}
               >
-                {dayLabel}
+                {day.label}
               </button>
             );
           })}
@@ -672,7 +941,7 @@ export default function InteractiveAgenda({ lang }: InteractiveAgendaProps) {
                 letterSpacing: 2,
               }}
             >
-              {t.noEvents}
+              {agendaLabels.noEvents}
             </div>
           )}
 
@@ -806,7 +1075,7 @@ export default function InteractiveAgenda({ lang }: InteractiveAgendaProps) {
                           fontWeight: 700,
                         }}
                       >
-                        {meta.label}
+                        {categoryLabel(item.category, agendaLabels)}
                       </span>
                     </div>
                     {/* Row 2 */}
@@ -870,7 +1139,7 @@ export default function InteractiveAgenda({ lang }: InteractiveAgendaProps) {
                               fontWeight: 700,
                             }}
                           >
-                            PROWADZĄCY: {item.instructor.toUpperCase()}
+                            {agendaLabels.instructor}: {item.instructor.toUpperCase()}
                           </p>
                         )}
 
@@ -904,13 +1173,14 @@ export default function InteractiveAgenda({ lang }: InteractiveAgendaProps) {
                               }}
                             >
                               <Calendar size={14} />
-                              {t.addCalendar}
+                              {agendaLabels.addToCalendar}
                             </button>
 
                             <CalendarMenu
-                              event={itemToEvent(item, activeDay.date)}
+                              event={itemToEvent(item, activeDay.date, agendaLabels)}
                               open={calendarMenuFor === item.id}
                               onClose={() => setCalendarMenuFor(null)}
+                              labels={agendaLabels}
                             />
                           </div>
                         )}
@@ -957,12 +1227,13 @@ export default function InteractiveAgenda({ lang }: InteractiveAgendaProps) {
               }}
             >
               <Calendar size={14} />
-              {t.addCalendar}
+              {agendaLabels.addToCalendar}
             </button>
             <CalendarMenu
               event={fullEvent}
               open={fullEventMenuOpen}
               onClose={() => setFullEventMenuOpen(false)}
+              labels={agendaLabels}
               align="center"
             />
           </div>
