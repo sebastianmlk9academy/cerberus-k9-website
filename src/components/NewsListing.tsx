@@ -307,10 +307,13 @@ export function NewsListing({
   const showLoadMore = hasMore;
 
   return (
-    <div className="w-full">
+    <div
+      className="w-full"
+      style={{ paddingTop: "20px", paddingBottom: "20px" }}
+    >
       <div
         className="sticky top-0 z-40 border-b border-[#253344]"
-        style={{ backgroundColor: "#0F1720" }}
+        style={{ backgroundColor: "#0F1720", marginBottom: "20px" }}
       >
         <div className="mx-auto max-w-7xl overflow-x-auto px-3 py-3 sm:px-4">
           <div
