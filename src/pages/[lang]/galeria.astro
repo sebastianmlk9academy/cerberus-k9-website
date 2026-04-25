@@ -1,0 +1,91 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { locales } from '../../../locales.mjs';
+import { isLang } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+import { galeriaPageByLang } from '../../i18n/plOnlyPagesCopy';
+import { ui } from '../../i18n/ui';
+import { NavBar } from '../../components/NavBar';
+import { PageHero } from '../../components/PageHero';
+import { GalleryGrid } from '../../components/GalleryGrid';
+import { Footer } from '../../components/Footer';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+	return locales.filter((l) => l !== 'pl').map((lang) => ({ params: { lang } }));
+}
+
+const param = Astro.params.lang ?? '';
+const lang: Lang = isLang(param) ? param : 'en';
+const copy = galeriaPageByLang[lang];
+const navGallery = ui[lang].nav_gallery;
+
+const categoryPriority = ['HARDEST HIT', 'SZKOLENIA K9', 'TCCC', 'KONFERENCJA', 'DRONY'] as const;
+
+const scorePhoto = (photo: {
+	tags?: string[];
+	category: string;
+	edition: string;
+	order?: number;
+}) => {
+	const tags = (photo.tags ?? []).map((tag) => tag.toLowerCase());
+	const hasHeroTag = tags.some((tag) => ['hero', 'cover', 'best', 'featured', 'main'].includes(tag));
+	const categoryIndex = categoryPriority.indexOf(photo.category as (typeof categoryPriority)[number]);
+	return (
+		(hasHeroTag ? 1000 : 0) +
+		(photo.edition === '2025' ? 200 : 0) +
+		(categoryIndex >= 0 ? 100 - categoryIndex : 0) +
+		(100 - (photo.order ?? 99))
+	);
+};
+
+let allEntries = [];
+try {
+	allEntries = await getCollection('galeria');
+} catch {
+	// Empty or missing collection during early setup; keep page renderable.
+}
+const photos = allEntries
+	.map((entry) => ({
+		title: entry.data.title,
+		category: entry.data.category,
+		location: entry.data.location,
+		edition: entry.data.edition,
+		photo: entry.data.photo,
+		alt: entry.data.alt,
+		tags: entry.data.tags ?? [],
+		order: entry.data.order ?? 99,
+	}))
+	.sort((a, b) => a.order - b.order);
+
+const bestGalleryPhoto = [...photos].sort((a, b) => scorePhoto(b) - scorePhoto(a))[0];
+const ogImage = bestGalleryPhoto?.photo ?? '/images/page_hero_graph.webp';
+---
+
+<BaseLayout
+	lang={lang}
+	title={copy.metaTitle}
+	description={copy.metaDescription}
+	localizedPath="galeria"
+	ogType="website"
+	ogImage={ogImage}
+	canonicalHref="/pl/galeria"
+>
+	<Fragment slot="head">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+	</Fragment>
+
+	<div style="background: linear-gradient(to bottom, #161F28, #1A2530, #161F28); min-height: 100vh;">
+		<NavBar client:load lang={lang} />
+		<PageHero category={copy.heroCategory} title={navGallery} subtitle={copy.heroSubtitle} />
+		<GalleryGrid client:load photos={photos} />
+		<Footer client:load />
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+	<script is:inline>
+		const lightbox = GLightbox({ selector: '.glightbox' });
+	</script>
+</BaseLayout>

@@ -1,0 +1,86 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { locales } from '../../../locales.mjs';
+import { isLang } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+import { partnerzyPageByLang } from '../../i18n/plOnlyPagesCopy';
+import { ui } from '../../i18n/ui';
+import { NavBar } from '../../components/NavBar';
+import { PageHero } from '../../components/PageHero';
+import PartnersPage, { type Partner, type PartnerType } from '../../components/PartnersPage';
+import { Footer } from '../../components/Footer';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+	return locales.filter((l) => l !== 'pl').map((lang) => ({ params: { lang } }));
+}
+
+const param = Astro.params.lang ?? '';
+const lang: Lang = isLang(param) ? param : 'en';
+const copy = partnerzyPageByLang[lang];
+const navPartners = ui[lang].nav_partners;
+
+const entries = await getCollection('partnerzy', ({ data }) => data.draft !== true);
+const sorted = [...entries].sort((a, b) => (a.data.order ?? 9999) - (b.data.order ?? 9999));
+
+function websiteLabel(url: string | undefined): string | null {
+	if (!url?.trim()) return null;
+	const href = /^https?:\/\//i.test(url) ? url : `https://${url}`;
+	try {
+		return new URL(href).hostname.replace(/^www\./i, '');
+	} catch {
+		return url;
+	}
+}
+
+function cmsTypeToPartnerType(
+	t: 'Strategiczny' | 'Sponsor' | 'Patron-Medialny' | 'Technologiczny' | undefined,
+): PartnerType {
+	if (t === 'Patron-Medialny') return 'Patron Medialny';
+	if (t === 'Strategiczny' || t === 'Sponsor' || t === 'Technologiczny') return t;
+	return 'Strategiczny';
+}
+
+function displayName(entry: (typeof sorted)[number]): string {
+	const n = entry.data.name?.trim();
+	if (n) return n;
+	return entry.id
+		.replace(/\.md$/i, '')
+		.split('-')
+		.map((w) => (w.length ? w.charAt(0).toUpperCase() + w.slice(1) : ''))
+		.join(' ');
+}
+
+const partners: Partner[] = sorted.map((entry, i) => {
+	const website = entry.data.website?.trim() || null;
+	return {
+		id: i + 1,
+		name: displayName(entry),
+		type: cmsTypeToPartnerType(entry.data.type),
+		description: entry.data.description?.trim() || '',
+		website,
+		websiteLabel: website ? websiteLabel(website) : null,
+		logo: entry.data.logo?.trim() || null,
+	};
+});
+---
+
+<BaseLayout
+	lang={lang}
+	title={copy.metaTitle}
+	description={copy.metaDescription}
+	localizedPath="partnerzy"
+	ogType="website"
+	canonicalHref="/pl/partnerzy"
+>
+	<div
+		style="background: linear-gradient(to bottom, #161F28, #1A2530, #161F28); min-height: 100vh;"
+	>
+		<NavBar client:load lang={lang} />
+		<PageHero category={copy.heroCategory} title={navPartners} subtitle={copy.heroSubtitle} />
+		<PartnersPage client:load partners={partners} embedded />
+		<Footer client:load />
+	</div>
+</BaseLayout>
