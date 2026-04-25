@@ -1,13 +1,19 @@
 ---
+import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { NavBar } from '../../components/NavBar';
 import { PageHero } from '../../components/PageHero';
 import { ContactPage } from '../../components/ContactPage';
 import { Footer } from '../../components/Footer';
+import { footerCopyByLang } from '../../i18n/footer';
 
 export const prerender = true;
 
+const settings = await getEntry('ustawienia', 'ustawienia');
+const s = settings?.data;
+
 const lang = 'pl';
+const footerCopy = footerCopyByLang[lang] ?? footerCopyByLang['pl'];
 const title = 'Kontakt — Fundacja PACTA K9 | CERBERUS K9 2026';
 const description = 'Skontaktuj się z Fundacją PACTA K9 i zespołem CERBERUS K9 2026.';
 ---
@@ -18,7 +24,26 @@ const description = 'Skontaktuj się z Fundacją PACTA K9 i zespołem CERBERUS K
 		category="KONTAKT"
 		title="SKONTAKTUJ SIĘ"
 		subtitle="FUNDACJA PACTA K9 · CERBERUS K9 2026"
+		heroImage={s?.hero_background_image}
+		heroOpacity={s?.hero_background_opacity}
 	/>
-	<ContactPage client:load />
-	<Footer client:load />
+	<ContactPage
+		lang={lang}
+		email={s?.footer_email}
+		phone={s?.footer_phone}
+		address="ul. Odolanowska 17, 63-400 Topola Mała"
+		client:load
+	/>
+	<Footer
+		lang={lang}
+		copy={footerCopy}
+		email={s?.footer_email}
+		phone={s?.footer_phone}
+		socialFacebook={s?.social_facebook}
+		socialYoutube={s?.social_youtube}
+		socialInstagram={s?.social_instagram}
+		socialLinkedin={s?.social_linkedin}
+		socialTwitter={s?.social_twitter}
+		client:load
+	/>
 </BaseLayout>

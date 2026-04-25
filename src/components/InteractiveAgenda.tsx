@@ -37,6 +37,25 @@ const DAYS: Omit<DaySchedule, "items" | "label">[] = [
   { id: "day2", date: "2026-06-14" },
 ];
 
+/** Mirrors `src/content/program/*.md` when CMS is empty — keeps the agenda usable offline. */
+const FALLBACK_AGENDA_ITEMS: AgendaItem[] = [
+  { id: "fallback-d1-1", dayId: "day1", start: "08:00", end: "08:30", title: "Ceremonia otwarcia", location: "Arena Główna", category: "CEREMONIA", description: "Powitanie uczestników, krótka prezentacja." },
+  { id: "fallback-d1-2", dayId: "day1", start: "08:30", end: "09:00", title: "Przerwa kawowa", location: "3MK Arena", category: "BREAK", description: "Networking i rejestracja uczestników." },
+  { id: "fallback-d1-3", dayId: "day1", start: "09:00", end: "10:30", title: "Taktyczne gryzienie K9 — moduł podstawowy", location: "3MK Arena", category: "K9", description: "Demonstracje i warsztaty z zakresu pracy operacyjnej psów." },
+  { id: "fallback-d1-4", dayId: "day1", start: "10:45", end: "12:15", title: "TCCC dla operatorów", location: "Szkoła Mundurowa", category: "TCCC", description: "Medycyna pola walki i procedury ratunkowe." },
+  { id: "fallback-d1-5", dayId: "day1", start: "12:15", end: "13:15", title: "Lunch", location: "—", category: "BREAK", description: "" },
+  { id: "fallback-d1-6", dayId: "day1", start: "13:15", end: "15:00", title: "Detekcja ładunków wybuchowych", location: "Stadion Miejski", category: "K9", description: "Scenariusze wyszukiwania i oznaczania zagrożeń." },
+  { id: "fallback-d1-7", dayId: "day1", start: "15:15", end: "16:45", title: "Drony rozpoznawcze — wprowadzenie", location: "Stadion Miejski", category: "DRONY", description: "Taktyka UAV i bezpieczeństwo operacji." },
+  { id: "fallback-d1-8", dayId: "day1", start: "17:00", end: "18:30", title: "Konferencja bezpieczeństwa — sesja I", location: "3MK Arena", category: "KONFERENCJA", description: "Panel ekspertów: interoperacyjność i gotowość." },
+  { id: "fallback-d1-9", dayId: "day1", start: "18:45", end: "19:00", title: "Zamknięcie dnia", location: "3MK Arena", category: "CEREMONIA", description: "Podsumowanie i komunikaty organizacyjne." },
+  { id: "fallback-d2-1", dayId: "day2", start: "08:30", end: "09:00", title: "Rejestracja drugiego dnia", location: "3MK Arena", category: "CEREMONIA", description: "Wejście i odprawa." },
+  { id: "fallback-d2-2", dayId: "day2", start: "09:00", end: "11:00", title: "Moduł zaawansowany K9", location: "3MK Arena", category: "K9", description: "Zaawansowane scenariusze operacyjne." },
+  { id: "fallback-d2-3", dayId: "day2", start: "11:15", end: "12:45", title: "Medycyna pola walki TCCC", location: "Szkoła Mundurowa", category: "TCCC", description: "Procedury dla zespołów taktycznych." },
+  { id: "fallback-d2-4", dayId: "day2", start: "13:00", end: "14:30", title: "Swarm i taktyka UAV", location: "Stadion Miejski", category: "DRONY", description: "Koordynacja grup dronów w terenie." },
+  { id: "fallback-d2-5", dayId: "day2", start: "14:45", end: "16:15", title: "Konferencja bezpieczeństwa — sesja II", location: "3MK Arena", category: "KONFERENCJA", description: "Trendy zagrożeń i odporność kryzysowa." },
+  { id: "fallback-d2-6", dayId: "day2", start: "16:30", end: "17:00", title: "Ceremonia zamknięcia", location: "Arena Główna", category: "CEREMONIA", description: "Podziękowania i oficjalne zakończenie wydarzenia." },
+];
+
 const FILTERS: { key: "ALL" | Category }[] = [
   { key: "ALL" },
   { key: "K9" },
@@ -767,7 +786,7 @@ interface InteractiveAgendaProps {
 
 export default function InteractiveAgenda({ lang, items }: InteractiveAgendaProps) {
   const agendaLabels = AGENDA_LABELS[lang] ?? DEFAULT_AGENDA_LABELS;
-  const agendaItems = items?.length > 0 ? items : [];
+  const agendaItems = items && items.length > 0 ? items : FALLBACK_AGENDA_ITEMS;
   const translatedFilters = FILTERS.map((f) => {
     if (f.key === "ALL") return { ...f, label: agendaLabels.all };
     if (f.key === "K9") return { ...f, label: agendaLabels.categories.k9 };
@@ -854,6 +873,7 @@ export default function InteractiveAgenda({ lang, items }: InteractiveAgendaProp
         >
           {DAYS.map((day) => {
             const active = day.id === activeDayId;
+            const tabLabel = day.id === "day1" ? agendaLabels.day1 : agendaLabels.day2;
             return (
               <button
                 key={day.id}
@@ -875,7 +895,7 @@ export default function InteractiveAgenda({ lang, items }: InteractiveAgendaProp
                   transition: "all 0.2s ease",
                 }}
               >
-                {day.label}
+                {tabLabel}
               </button>
             );
           })}

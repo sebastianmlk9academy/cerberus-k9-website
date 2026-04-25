@@ -3,6 +3,12 @@ import { Calendar, MapPin, Ticket, AlertCircle, Mail, Phone, ExternalLink, Chevr
 
 interface RegistrationEmbedProps {
   lang?: string;
+  dateValue?: string;
+  prepDay?: string;
+  venues?: string;
+  city?: string;
+  contactEmail?: string;
+  contactPhone?: string;
 }
 
 const regCopy: Record<
@@ -307,8 +313,30 @@ export function RegistrationTip({ lang }: RegistrationEmbedProps) {
   );
 }
 
-export function RegistrationAside({ lang }: RegistrationEmbedProps) {
+function telHref(phone: string) {
+  const cleaned = phone.replace(/\s+/g, "").replace(/(?!^\+)\D/g, "");
+  return `tel:${cleaned}`;
+}
+
+export function RegistrationAside({
+  lang,
+  dateValue,
+  prepDay,
+  venues,
+  city,
+  contactEmail,
+  contactPhone,
+}: RegistrationEmbedProps) {
   const c = regCopy[lang ?? "pl"] ?? regCopy["en"];
+  const dateStr =
+    dateValue ??
+    (lang === "pl" ? "13–14 czerwca 2026" : lang === "de" ? "13.–14. Juni 2026" : "June 13–14, 2026");
+  const prepStr = prepDay ?? c.deadline;
+  const venuesStr =
+    venues ?? "3MK Arena, Szkoła Mundurowa, Stadion Miejski";
+  const cityStr = city ?? (lang === "pl" ? "Ostrów Wielkopolski" : "Ostrow Wielkopolski");
+  const emailStr = contactEmail ?? "rejestracja@cerberusk9.pl";
+  const phoneStr = contactPhone ?? "+48 000 000 000";
   return (
     <aside className="flex flex-col gap-4">
       <div
@@ -340,7 +368,7 @@ export function RegistrationAside({ lang }: RegistrationEmbedProps) {
             lineHeight: 1.1,
           }}
         >
-          {(c as any).dateValue ?? "June 13-14, 2026"}
+          {dateStr}
         </p>
         <p
           className="mt-1"
@@ -352,7 +380,7 @@ export function RegistrationAside({ lang }: RegistrationEmbedProps) {
             marginTop: "4px",
           }}
         >
-          {c.deadline}
+          {prepStr}
         </p>
       </div>
 
@@ -386,7 +414,7 @@ export function RegistrationAside({ lang }: RegistrationEmbedProps) {
             margin: 0,
           }}
         >
-          3MK Arena, Szkoła Mundurowa, Stadion Miejski
+          {venuesStr}
         </p>
         <p
           className="mt-1"
@@ -398,7 +426,7 @@ export function RegistrationAside({ lang }: RegistrationEmbedProps) {
             marginTop: "4px",
           }}
         >
-          {(c as any).placeValue ?? "Ostrow Wielkopolski"}
+          {cityStr}
         </p>
       </div>
 
@@ -508,7 +536,7 @@ export function RegistrationAside({ lang }: RegistrationEmbedProps) {
         </div>
         <div className="space-y-2">
           <a
-            href="mailto:rejestracja@cerberusk9.pl"
+            href={`mailto:${emailStr}`}
             className="flex items-center gap-2 transition-colors duration-200"
             style={{
               fontFamily: "'Rajdhani', sans-serif",
@@ -524,10 +552,10 @@ export function RegistrationAside({ lang }: RegistrationEmbedProps) {
             }}
           >
             <Mail className="h-4 w-4 shrink-0" style={{ color: "#C4922A" }} />
-            rejestracja@cerberusk9.pl
+            {emailStr}
           </a>
           <a
-            href="tel:+48000000000"
+            href={telHref(phoneStr)}
             className="flex items-center gap-2 transition-colors duration-200"
             style={{
               fontFamily: "'Rajdhani', sans-serif",
@@ -543,7 +571,7 @@ export function RegistrationAside({ lang }: RegistrationEmbedProps) {
             }}
           >
             <Phone className="h-4 w-4 shrink-0" style={{ color: "#C4922A" }} />
-            +48 000 000 000
+            {phoneStr}
           </a>
         </div>
       </div>

@@ -11,7 +11,28 @@ const red = "#B2312D";
 
 interface ContactPageProps {
   lang?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
 }
+
+const DEFAULT_EMAIL = "sebastian@pactak9.org";
+const DEFAULT_PHONE_DISPLAY = "788 929 200";
+const DEFAULT_PHONE_TEL = "+48788929200";
+
+function toTelHref(display: string): string {
+  const digits = display.replace(/\D/g, "");
+  if (!digits) return DEFAULT_PHONE_TEL;
+  if (digits.length >= 11 && digits.startsWith("48")) return `tel:+${digits}`;
+  if (digits.length === 9) return `tel:+48${digits}`;
+  return `tel:+${digits}`;
+}
+const DEFAULT_ADDRESS_LINES = [
+  "Fundacja PACTA K9",
+  "ul. Odolanowska 17",
+  "63-400 Topola Mała",
+  "woj. Wielkopolskie",
+] as const;
 
 const contactCopy: Record<
   string,
@@ -143,11 +164,20 @@ const contactCopy: Record<
   },
 };
 
-export function ContactPage({ lang }: ContactPageProps) {
+export function ContactPage({ lang, email, phone, address }: ContactPageProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [hasError, setHasError] = useState(false);
   const c = contactCopy[lang ?? "pl"] ?? contactCopy["pl"];
+  const contactEmail = (email ?? "").trim() || DEFAULT_EMAIL;
+  const phoneDisplay = (phone ?? "").trim() || DEFAULT_PHONE_DISPLAY;
+  const phoneTel = toTelHref(phoneDisplay);
+  const addressBlock =
+    (address ?? "").trim() ||
+    DEFAULT_ADDRESS_LINES.join("\n");
+  const addressLines = addressBlock.includes("\n")
+    ? addressBlock.split("\n").filter(Boolean)
+    : [addressBlock];
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -428,18 +458,19 @@ export function ContactPage({ lang }: ContactPageProps) {
         <aside className="ck9-info-column" aria-label="Dane kontaktowe">
           <article className="ck9-info-card">
             <h3 className="ck9-card-title">{c.addressTitle}</h3>
-            <p className="ck9-card-line">Fundacja PACTA K9</p>
-            <p className="ck9-card-line">ul. Odolanowska 17</p>
-            <p className="ck9-card-line">63-400 Topola Mała</p>
-            <p className="ck9-card-line">woj. Wielkopolskie</p>
+            {addressLines.map((line) => (
+              <p key={line} className="ck9-card-line">
+                {line}
+              </p>
+            ))}
           </article>
 
           <article className="ck9-info-card">
             <h3 className="ck9-card-title">{(c as any).directContactTitle ?? "DIRECT CONTACT"}</h3>
             <p className="ck9-card-line">
               {c.emailTitle}:{" "}
-              <a className="ck9-card-link" href="mailto:sebastian@pactak9.org">
-                sebastian@pactak9.org
+              <a className="ck9-card-link" href={`mailto:${contactEmail}`}>
+                {contactEmail}
               </a>
             </p>
             <p className="ck9-card-line">
@@ -450,8 +481,8 @@ export function ContactPage({ lang }: ContactPageProps) {
             </p>
             <p className="ck9-card-line">
               {c.phoneTitle}:{" "}
-              <a className="ck9-card-link" href="tel:+48788929200">
-                788 929 200
+              <a className="ck9-card-link" href={`tel:${phoneTel}`}>
+                {phoneDisplay}
               </a>
             </p>
           </article>

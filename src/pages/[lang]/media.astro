@@ -1,16 +1,21 @@
 ---
+import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { locales } from '../../../locales.mjs';
 import { isLang } from '../../i18n/utils';
 import type { Lang } from '../../i18n/ui';
 import { mediaPageByLang } from '../../i18n/plOnlyPagesCopy';
 import { ui } from '../../i18n/ui';
+import { footerCopyByLang } from '../../i18n/footer';
 import { NavBar } from '../../components/NavBar';
 import { PageHero } from '../../components/PageHero';
 import MediaPage from '../../components/MediaPage';
 import { Footer } from '../../components/Footer';
 
 export const prerender = true;
+
+const settings = await getEntry('ustawienia', 'ustawienia');
+const s = settings?.data;
 
 export function getStaticPaths() {
 	return locales.filter((l) => l !== 'pl').map((lang) => ({ params: { lang } }));
@@ -34,8 +39,25 @@ const navMedia = (ui[lang] ?? ui['pl']).nav_media;
 		style="background: linear-gradient(to bottom, #161F28, #1A2530, #161F28); min-height: 100vh;"
 	>
 		<NavBar client:load lang={lang} />
-		<PageHero category={copy.heroCategory} title={navMedia} subtitle={copy.heroSubtitle} />
-		<MediaPage client:load lang={lang} />
-		<Footer lang={lang} client:load />
+		<PageHero
+			category={copy.heroCategory}
+			title={navMedia}
+			subtitle={copy.heroSubtitle}
+			heroImage={s?.hero_background_image}
+			heroOpacity={s?.hero_background_opacity}
+		/>
+		<MediaPage client:load lang={lang} accreditationDeadline={s?.accreditation_deadline} />
+		<Footer
+			lang={lang}
+			copy={footerCopyByLang[lang] ?? footerCopyByLang['pl']}
+			email={s?.footer_email}
+			phone={s?.footer_phone}
+			socialFacebook={s?.social_facebook}
+			socialYoutube={s?.social_youtube}
+			socialInstagram={s?.social_instagram}
+			socialLinkedin={s?.social_linkedin}
+			socialTwitter={s?.social_twitter}
+			client:load
+		/>
 	</div>
 </BaseLayout>

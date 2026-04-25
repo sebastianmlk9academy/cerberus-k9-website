@@ -4,15 +4,23 @@
  * to the `/fundacja` path (path-based multisite / subdirectory on the same hosting).
  * Primary event site can remain on cerberusk9.org; the foundation microsite uses this page.
  */
+import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { NavBar } from '../../components/NavBar';
 import { PageHero } from '../../components/PageHero';
 import TeamSection from '../../components/TeamSection';
 import { Footer } from '../../components/Footer';
+import { footerCopyByLang } from '../../i18n/footer';
 
 export const prerender = true;
 
+const settings = await getEntry('ustawienia', 'ustawienia');
+const s = settings?.data;
+const statuteHref = s?.statute_pdf ?? '#';
+const krsHref = s?.krs_url ?? '#';
+
 const lang = 'pl';
+const footerCopy = footerCopyByLang[lang] ?? footerCopyByLang['pl'];
 const title = 'Fundacja PACTA K9 — KRS 0001219121 | Misja, Wizja, Zarząd';
 const description =
 	'Fundacja PACTA K9: misja i wizja, zarząd, dane rejestrowe (KRS, NIP, REGON), cele statutowe wg §5 oraz odnośniki do statutu i KRS.';
@@ -60,6 +68,8 @@ const legalRows: { label: string; value: string }[] = [
 		category="O NAS"
 		title="FUNDACJA PACTA K9"
 		subtitle="KRS: 0001219121 · TOPOLA MAŁA · WIELKOPOLSKA"
+		heroImage={s?.hero_background_image}
+		heroOpacity={s?.hero_background_opacity}
 	/>
 
 	<section class="fundacja-mission" aria-labelledby="fundacja-misja-heading">
@@ -89,7 +99,7 @@ const legalRows: { label: string; value: string }[] = [
 		</div>
 	</section>
 
-	<TeamSection client:load />
+	<TeamSection email={s?.footer_email} client:load />
 
 	<section class="fundacja-legal" aria-labelledby="fundacja-legal-heading">
 		<div class="fundacja-legal__inner">
@@ -107,15 +117,10 @@ const legalRows: { label: string; value: string }[] = [
 			</dl>
 
 			<div class="fundacja-legal__cta-row">
-				<a class="fundacja-legal__cta fundacja-legal__cta--partner" href="/statut-pacta-k9.pdf">
+				<a class="fundacja-legal__cta fundacja-legal__cta--partner" href={statuteHref}>
 					Pobierz Statut Fundacji
 				</a>
-				<a
-					class="fundacja-legal__cta fundacja-legal__cta--partner"
-					href="https://ekrs.ms.gov.pl"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
+				<a class="fundacja-legal__cta fundacja-legal__cta--partner" href={krsHref} target="_blank" rel="noopener noreferrer">
 					Sprawdź w KRS ↗
 				</a>
 			</div>
@@ -130,7 +135,18 @@ const legalRows: { label: string; value: string }[] = [
 		</div>
 	</section>
 
-	<Footer client:load />
+	<Footer
+		lang={lang}
+		copy={footerCopy}
+		email={s?.footer_email}
+		phone={s?.footer_phone}
+		socialFacebook={s?.social_facebook}
+		socialYoutube={s?.social_youtube}
+		socialInstagram={s?.social_instagram}
+		socialLinkedin={s?.social_linkedin}
+		socialTwitter={s?.social_twitter}
+		client:load
+	/>
 </BaseLayout>
 
 <style>
