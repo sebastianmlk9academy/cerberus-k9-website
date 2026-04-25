@@ -17,8 +17,8 @@ export function getStaticPaths() {
 	return locales.filter((l) => l !== 'pl').map((lang) => ({ params: { lang } }));
 }
 
-const param = Astro.params.lang ?? '';
-const lang: Lang = isLang(param) ? param : 'en';
+const { lang: paramLang } = Astro.params;
+const lang: Lang = isLang(paramLang ?? '') ? (paramLang as Lang) : 'en';
 const copy = partnerzyPageByLang[lang] ?? partnerzyPageByLang['pl'];
 const navPartners = (ui[lang] ?? ui['pl']).nav_partners;
 
@@ -81,6 +81,6 @@ const partners: Partner[] = sorted.map((entry, i) => {
 		<NavBar client:load lang={lang} />
 		<PageHero category={copy.heroCategory} title={navPartners} subtitle={copy.heroSubtitle} />
 		<PartnersPage client:load lang={lang} partners={partners} embedded />
-		<Footer client:load />
+		<Footer lang={lang} client:load />
 	</div>
 </BaseLayout>

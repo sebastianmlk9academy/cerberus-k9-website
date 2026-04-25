@@ -16,10 +16,13 @@ export function getStaticPaths() {
 	return locales.filter((l) => l !== 'pl').map((lang) => ({ params: { lang } }));
 }
 
-const param = Astro.params.lang ?? '';
-const lang: Lang = isLang(param) ? param : 'en';
-const title = 'Kontakt — Fundacja PACTA K9 | CERBERUS K9 2026';
-const description = 'Skontaktuj się z Fundacją PACTA K9 i zespołem CERBERUS K9 2026.';
+const { lang: paramLang } = Astro.params;
+const lang: Lang = isLang(paramLang ?? '') ? (paramLang as Lang) : 'en';
+const title = lang === 'pl' ? 'Kontakt — CERBERUS K9' : 'Contact — CERBERUS K9';
+const description =
+	lang === 'pl'
+		? 'Skontaktuj się z Fundacją PACTA K9 i zespołem CERBERUS K9 2026.'
+		: 'Get in touch with the PACTA K9 Foundation and the CERBERUS K9 2026 team.';
 const canonicalHref = '/pl/kontakt/';
 const contactHero: Record<Lang, { title: string; subtitle: string }> = {
 	pl: { title: 'KONTAKT', subtitle: 'Skontaktuj się z nami, aby uzyskać informacje o wydarzeniu i współpracy.' },
@@ -59,6 +62,6 @@ const ctHero = contactHero[lang] ?? contactHero.pl;
 		title={ctHero.title}
 		subtitle={ctHero.subtitle}
 	/>
-	<ContactPage client:load />
+	<ContactPage lang={lang} client:load />
 	<Footer lang={lang} copy={footerCopyByLang[lang] ?? footerCopyByLang['pl']} client:load />
 </BaseLayout>

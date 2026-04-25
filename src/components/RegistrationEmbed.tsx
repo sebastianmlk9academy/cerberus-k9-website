@@ -1,6 +1,69 @@
 import { useState, type MouseEvent } from "react";
 import { Calendar, MapPin, Ticket, AlertCircle, Mail, Phone, ExternalLink, ChevronDown } from "lucide-react";
 
+interface RegistrationEmbedProps {
+  lang?: string;
+}
+
+const regCopy: Record<
+  string,
+  {
+    title: string;
+    subtitle: string;
+    howTitle: string;
+    step1: string;
+    step2: string;
+    step3: string;
+    openForm: string;
+    tip: string;
+    deadline: string;
+    dateLabel: string;
+    placeLabel: string;
+    admissionLabel: string;
+    admissionValue: string;
+    limitLabel: string;
+    limitValue: string;
+    contactLabel: string;
+    questionsLabel: string;
+    contactUs: string;
+  }
+> = {
+  pl: {
+    title: "Rejestracja na Cerberus",
+    subtitle: "WSTĘP BEZPŁATNY · WYMAGANA REJESTRACJA",
+    howTitle: "JAK SIĘ ZAREJESTROWAĆ — 3 KROKI",
+    step1: "Wybierz bilet i kliknij „Zarejestruj\" / „Dalej\".",
+    step2: "Finalizacja otworzy się w nowym oknie Pretix — zezwól na wyskakujące okna.",
+    step3: "Jeśli przyciski nie reagują, użyj linku „Otwórz pełny formularz\" pod widgetem.",
+    openForm: "OTWÓRZ PEŁNY FORMULARZ REJESTRACJI",
+    tip: "Po wybraniu biletu, finalizacja zamówienia odbywa się na stronie Pretix.",
+    deadline: "Dzień przygotowawczy: 12 czerwca",
+    dateLabel: "TERMIN", placeLabel: "MIEJSCE",
+    admissionLabel: "WSTĘP", admissionValue: "BEZPŁATNY",
+    limitLabel: "UWAGA", limitValue: "LICZBA MIEJSC OGRANICZONA",
+    contactLabel: "KONTAKT — REJESTRACJA",
+    questionsLabel: "MASZ PYTANIA O REJESTRACJĘ?",
+    contactUs: "SKONTAKTUJ SIĘ Z NAMI",
+  },
+  en: {
+    title: "Register for Cerberus",
+    subtitle: "FREE ADMISSION · REGISTRATION REQUIRED",
+    howTitle: "HOW TO REGISTER — 3 STEPS",
+    step1: "Select a ticket and click \"Register\" / \"Next\".",
+    step2: "Checkout will open in a new Pretix window — allow pop-ups.",
+    step3: "If buttons don't respond, use the \"Open full form\" link below the widget.",
+    openForm: "OPEN FULL REGISTRATION FORM",
+    tip: "After selecting a ticket, order finalisation takes place on the Pretix website.",
+    deadline: "Preparation day: June 12",
+    dateLabel: "DATE", placeLabel: "VENUE",
+    admissionLabel: "ADMISSION", admissionValue: "FREE",
+    limitLabel: "NOTE", limitValue: "LIMITED PLACES AVAILABLE",
+    contactLabel: "CONTACT — REGISTRATION",
+    questionsLabel: "QUESTIONS ABOUT REGISTRATION?",
+    contactUs: "CONTACT US",
+  },
+};
+
 const partnerCtaBase = {
   border: "1px solid #C4922A",
   background: "transparent",
@@ -25,8 +88,9 @@ function setPartnerCtaLeave(e: MouseEvent<HTMLAnchorElement>) {
 }
 
 /** Left column: heading + registration steps (Pretix widget is rendered between this and RegistrationTip via Astro). */
-export function RegistrationIntro() {
+export function RegistrationIntro({ lang }: RegistrationEmbedProps) {
   const [showInstructions, setShowInstructions] = useState(false);
+  const c = regCopy[lang ?? "pl"] ?? regCopy["en"];
 
   return (
     <>
@@ -40,7 +104,7 @@ export function RegistrationIntro() {
             margin: 0,
           }}
         >
-          <span>Rejestracja na Cerberus </span>
+          <span>{c.title} </span>
           <span style={{ color: '#C42B2B' }}>K9</span>
         </h2>
         <p
@@ -53,7 +117,7 @@ export function RegistrationIntro() {
             marginTop: "8px",
           }}
         >
-          Wstęp bezpłatny · Wymagana rejestracja
+          {c.subtitle}
         </p>
       </div>
 
@@ -81,7 +145,7 @@ export function RegistrationIntro() {
               fontWeight: 700,
             }}
           >
-            Jak się zarejestrować — 3 kroki
+            {c.howTitle}
           </span>
           <ChevronDown
             className={`h-4 w-4 shrink-0 transition-transform sm:hidden ${
@@ -123,8 +187,7 @@ export function RegistrationIntro() {
                 color: "rgba(228,221,208,0.92)",
               }}
             >
-              Wybierz bilet i kliknij{" "}
-              <strong>„Zarejestruj"</strong> / <strong>„Dalej"</strong>.
+              {c.step1}
             </span>
           </li>
           <li className="flex gap-2 sm:gap-3">
@@ -153,8 +216,7 @@ export function RegistrationIntro() {
                 color: "rgba(228,221,208,0.92)",
               }}
             >
-              Finalizacja otworzy się w nowym oknie Pretix — zezwól na
-              wyskakujące okna.
+              {c.step2}
             </span>
           </li>
           <li className="flex gap-2 sm:gap-3">
@@ -183,11 +245,7 @@ export function RegistrationIntro() {
                 color: "rgba(228,221,208,0.92)",
               }}
             >
-              Jeśli przyciski nie reagują, użyj linku{" "}
-              <strong style={{ color: "#C4922A" }}>
-                „Otwórz pełny formularz"
-              </strong>{" "}
-              pod widgetem.
+              {c.step3}
             </span>
           </li>
         </ol>
@@ -201,7 +259,7 @@ export function RegistrationIntro() {
           onMouseEnter={setPartnerCtaHover}
           onMouseLeave={setPartnerCtaLeave}
         >
-          Otwórz pełny formularz rejestracji
+          {c.openForm}
           <ExternalLink className="h-3.5 w-3.5" />
         </a>
       </div>
@@ -211,7 +269,8 @@ export function RegistrationIntro() {
   );
 }
 
-export function RegistrationTip() {
+export function RegistrationTip({ lang }: RegistrationEmbedProps) {
+  const c = regCopy[lang ?? "pl"] ?? regCopy["en"];
   return (
     <div
       className="mt-4"
@@ -230,11 +289,7 @@ export function RegistrationTip() {
           margin: "0 0 12px 0",
         }}
       >
-        <strong style={{ color: "#C4922A" }}>Wskazówka:</strong> Po
-        wybraniu biletu, finalizacja zamówienia (dane osobowe,
-        potwierdzenie) odbywa się na stronie Pretix. Jeśli przycisk
-        „Dalej / Kontynuuj" nie działa w osadzonym formularzu, otwórz
-        rejestrację w nowym oknie:
+        <strong style={{ color: "#C4922A" }}>Tip:</strong> {c.tip}
       </p>
       <a
         href="https://pretix.eu/MLK9-LLK9/CERBERUS/"
@@ -245,14 +300,15 @@ export function RegistrationTip() {
         onMouseEnter={setPartnerCtaHover}
         onMouseLeave={setPartnerCtaLeave}
       >
-        Otwórz pełny formularz rejestracji
+        {c.openForm}
         <ExternalLink className="h-4 w-4" />
       </a>
     </div>
   );
 }
 
-export function RegistrationAside() {
+export function RegistrationAside({ lang }: RegistrationEmbedProps) {
+  const c = regCopy[lang ?? "pl"] ?? regCopy["en"];
   return (
     <aside className="flex flex-col gap-4">
       <div
@@ -273,7 +329,7 @@ export function RegistrationAside() {
           }}
         >
           <Calendar className="h-4 w-4 shrink-0" />
-          Termin
+          {c.dateLabel}
         </div>
         <p
           style={{
@@ -284,7 +340,7 @@ export function RegistrationAside() {
             lineHeight: 1.1,
           }}
         >
-          13–14 czerwca 2026
+          {(c as any).dateValue ?? "June 13-14, 2026"}
         </p>
         <p
           className="mt-1"
@@ -296,7 +352,7 @@ export function RegistrationAside() {
             marginTop: "4px",
           }}
         >
-          Dzień przygotowawczy: 12 czerwca
+          {c.deadline}
         </p>
       </div>
 
@@ -318,7 +374,7 @@ export function RegistrationAside() {
           }}
         >
           <MapPin className="h-4 w-4 shrink-0" />
-          Miejsce
+          {c.placeLabel}
         </div>
         <p
           style={{
@@ -342,7 +398,7 @@ export function RegistrationAside() {
             marginTop: "4px",
           }}
         >
-          Ostrów Wielkopolski
+          {(c as any).placeValue ?? "Ostrow Wielkopolski"}
         </p>
       </div>
 
@@ -364,7 +420,7 @@ export function RegistrationAside() {
           }}
         >
           <Ticket className="h-4 w-4 shrink-0" />
-          Wstęp
+          {c.admissionLabel}
         </div>
         <p
           style={{
@@ -375,7 +431,7 @@ export function RegistrationAside() {
             lineHeight: 1,
           }}
         >
-          Bezpłatny
+          {c.admissionValue}
         </p>
         <p
           className="mt-2"
@@ -388,7 +444,7 @@ export function RegistrationAside() {
             marginTop: "8px",
           }}
         >
-          Finansowany z dotacji samorządowych art. 19a UPPP
+          {(c as any).admissionNote ?? "Funded by local government grants"}
         </p>
       </div>
 
@@ -410,7 +466,7 @@ export function RegistrationAside() {
           }}
         >
           <AlertCircle className="h-4 w-4 shrink-0" />
-          Uwaga
+          {c.limitLabel}
         </div>
         <p
           style={{
@@ -421,7 +477,7 @@ export function RegistrationAside() {
             lineHeight: 1.15,
           }}
         >
-          Liczba miejsc ograniczona
+          {c.limitValue}
         </p>
         <p
           className="mt-1"
@@ -433,7 +489,7 @@ export function RegistrationAside() {
             marginTop: "4px",
           }}
         >
-          Zarejestruj się teraz
+          {(c as any).registerNow ?? "Register now"}
         </p>
       </div>
 
@@ -448,7 +504,7 @@ export function RegistrationAside() {
             fontWeight: 700,
           }}
         >
-          Kontakt — rejestracja
+          {c.contactLabel}
         </div>
         <div className="space-y-2">
           <a
@@ -512,7 +568,7 @@ export function RegistrationAside() {
             marginBottom: "8px",
           }}
         >
-          Masz pytania o rejestrację?
+          {c.questionsLabel}
         </p>
         <a
           href="/kontakt"
@@ -531,7 +587,7 @@ export function RegistrationAside() {
             e.currentTarget.style.color = "#C4922A";
           }}
         >
-          Skontaktuj się z nami
+          {c.contactUs}
           <ExternalLink className="h-4 w-4" />
         </a>
       </div>

@@ -6,11 +6,22 @@ interface TeamMember {
     bio: string;
     initials: string;
   }
+
+interface TeamSectionProps {
+  lang?: string;
+}
+
+const teamCopy: Record<string, { sectionTag: string; role1: string; role2: string }> = {
+  pl: { sectionTag: 'ZARZĄD FUNDACJI', role1: 'PREZES ZARZĄDU', role2: 'WICEPREZES ZARZĄDU' },
+  en: { sectionTag: 'FOUNDATION BOARD', role1: 'PRESIDENT', role2: 'VICE-PRESIDENT' },
+  de: { sectionTag: 'VORSTAND', role1: 'VORSITZENDER', role2: 'STELLVERTRETENDER VORSITZENDER' },
+  fr: { sectionTag: 'CONSEIL DE FONDATION', role1: 'PRÉSIDENT', role2: 'VICE-PRÉSIDENT' },
+};
   
-  const members: TeamMember[] = [
+  const membersByLang = (c: { role1: string; role2: string }): TeamMember[] => [
     {
       rank: "01",
-      role: "PREZES ZARZĄDU",
+      role: c.role1,
       name: "Mariusz Lis",
       military:
         "POLICJA · SAPER · EMERYTOWANY ATK · SZKOLENIOWIEC CENTRUM SZKOLENIA POLICJI · INSTRUKTOR K9",
@@ -19,7 +30,7 @@ interface TeamMember {
     },
     {
       rank: "02",
-      role: "WICEPREZES ZARZĄDU",
+      role: c.role2,
       name: "Sebastian Bożek",
       military: "WOJSKA OBRONY TERYTORIALNEJ · 7 PBOT · INSTRUKTOR K9",
       bio: "Sebastian Bożek to żołnierz Wojsk Obrony Terytorialnej ze stażem ponad 8 lat w 7 Pomorskiej Brygadzie Obrony Terytorialnej oraz wieloletni członek organizacji proobronnej. Instruktor K9, koordynator strategiczny i operacyjny CERBERUS K9. Odpowiada za całość strategii, logistyki, dokumentacji i kontaktów instytucjonalnych Fundacji PACTA K9.",
@@ -189,7 +200,9 @@ interface TeamMember {
     );
   }
   
-  export function TeamSection() {
+  export function TeamSection({ lang }: TeamSectionProps) {
+    const c = teamCopy[lang ?? 'pl'] ?? teamCopy['en'];
+    const members = membersByLang(c);
     return (
       <section style={{ backgroundColor: "#151e28", padding: "80px 24px" }}>
         <div className="mx-auto max-w-6xl">
@@ -197,7 +210,7 @@ interface TeamMember {
             <div className="flex items-center justify-center gap-4 mb-4">
               <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
               <span className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]">
-                ZARZĄD FUNDACJI
+                {c.sectionTag}
               </span>
               <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
             </div>

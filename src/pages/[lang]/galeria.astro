@@ -17,8 +17,8 @@ export function getStaticPaths() {
 	return locales.filter((l) => l !== 'pl').map((lang) => ({ params: { lang } }));
 }
 
-const param = Astro.params.lang ?? '';
-const lang: Lang = isLang(param) ? param : 'en';
+const { lang: paramLang } = Astro.params;
+const lang: Lang = isLang(paramLang ?? '') ? (paramLang as Lang) : 'en';
 const copy = galeriaPageByLang[lang] ?? galeriaPageByLang['pl'];
 const navGallery = (ui[lang] ?? ui['pl']).nav_gallery;
 
@@ -86,7 +86,7 @@ const ogImage = bestGalleryPhoto?.photo ?? '/images/page_hero_graph.webp';
 		<NavBar client:load lang={lang} />
 		<PageHero category={copy.heroCategory} title={navGallery} subtitle={copy.heroSubtitle} />
 		<GalleryGrid client:load lang={lang} photos={photos} />
-		<Footer client:load />
+		<Footer lang={lang} client:load />
 	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>

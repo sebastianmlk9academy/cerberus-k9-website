@@ -9,10 +9,145 @@ const fieldBorder = "#1e2838";
 const textColor = "#E4DDD0";
 const red = "#B2312D";
 
-export function ContactPage() {
+interface ContactPageProps {
+  lang?: string;
+}
+
+const contactCopy: Record<
+  string,
+  {
+    title: string;
+    subtitle: string;
+    nameLabel: string;
+    emailLabel: string;
+    messageLabel: string;
+    sendBtn: string;
+    addressTitle: string;
+    phoneTitle: string;
+    emailTitle: string;
+  }
+> = {
+  pl: {
+    title: "KONTAKT", subtitle: "Skontaktuj się z nami",
+    nameLabel: "IMIĘ I NAZWISKO", emailLabel: "ADRES E-MAIL",
+    messageLabel: "TREŚĆ WIADOMOŚCI", sendBtn: "WYŚLIJ WIADOMOŚĆ",
+    addressTitle: "ADRES", phoneTitle: "TELEFON", emailTitle: "E-MAIL"
+  },
+  en: {
+    title: "CONTACT", subtitle: "Get in touch with us",
+    nameLabel: "FULL NAME", emailLabel: "EMAIL ADDRESS",
+    messageLabel: "MESSAGE", sendBtn: "SEND MESSAGE",
+    addressTitle: "ADDRESS", phoneTitle: "PHONE", emailTitle: "EMAIL"
+  },
+  de: {
+    title: "KONTAKT", subtitle: "Nehmen Sie Kontakt auf",
+    nameLabel: "VOR- UND NACHNAME", emailLabel: "E-MAIL-ADRESSE",
+    messageLabel: "NACHRICHT", sendBtn: "NACHRICHT SENDEN",
+    addressTitle: "ADRESSE", phoneTitle: "TELEFON", emailTitle: "E-MAIL"
+  },
+  fr: {
+    title: "CONTACT", subtitle: "Contactez-nous",
+    nameLabel: "NOM ET PRÉNOM", emailLabel: "ADRESSE E-MAIL",
+    messageLabel: "MESSAGE", sendBtn: "ENVOYER LE MESSAGE",
+    addressTitle: "ADRESSE", phoneTitle: "TÉLÉPHONE", emailTitle: "E-MAIL"
+  },
+  cs: {
+    title: "KONTAKT", subtitle: "Kontaktujte nás",
+    nameLabel: "JMÉNO A PŘÍJMENÍ", emailLabel: "E-MAILOVÁ ADRESA",
+    messageLabel: "ZPRÁVA", sendBtn: "ODESLAT ZPRÁVU",
+    addressTitle: "ADRESA", phoneTitle: "TELEFON", emailTitle: "E-MAIL"
+  },
+  sk: {
+    title: "KONTAKT", subtitle: "Kontaktujte nás",
+    nameLabel: "MENO A PRIEZVISKO", emailLabel: "E-MAILOVÁ ADRESA",
+    messageLabel: "SPRÁVA", sendBtn: "ODOSLAŤ SPRÁVU",
+    addressTitle: "ADRESA", phoneTitle: "TELEFÓN", emailTitle: "E-MAIL"
+  },
+  hu: {
+    title: "KAPCSOLAT", subtitle: "Lépjen kapcsolatba velünk",
+    nameLabel: "TELJES NÉV", emailLabel: "E-MAIL CÍM",
+    messageLabel: "ÜZENET", sendBtn: "ÜZENET KÜLDÉSE",
+    addressTitle: "CÍM", phoneTitle: "TELEFON", emailTitle: "E-MAIL"
+  },
+  hr: {
+    title: "KONTAKT", subtitle: "Kontaktirajte nas",
+    nameLabel: "IME I PREZIME", emailLabel: "E-MAIL ADRESA",
+    messageLabel: "PORUKA", sendBtn: "POŠALJI PORUKU",
+    addressTitle: "ADRESA", phoneTitle: "TELEFON", emailTitle: "E-MAIL"
+  },
+  sl: {
+    title: "KONTAKT", subtitle: "Stopite v stik z nami",
+    nameLabel: "IME IN PRIIMEK", emailLabel: "E-POŠTNI NASLOV",
+    messageLabel: "SPOROČILO", sendBtn: "POŠLJI SPOROČILO",
+    addressTitle: "NASLOV", phoneTitle: "TELEFON", emailTitle: "E-POŠTA"
+  },
+  lt: {
+    title: "KONTAKTAI", subtitle: "Susisiekite su mumis",
+    nameLabel: "VARDAS IR PAVARDĖ", emailLabel: "EL. PAŠTO ADRESAS",
+    messageLabel: "ŽINUTĖ", sendBtn: "SIŲSTI ŽINUTĘ",
+    addressTitle: "ADRESAS", phoneTitle: "TELEFONAS", emailTitle: "EL. PAŠTAS"
+  },
+  lv: {
+    title: "KONTAKTI", subtitle: "Sazinieties ar mums",
+    nameLabel: "VĀRDS UN UZVĀRDS", emailLabel: "E-PASTA ADRESE",
+    messageLabel: "ZIŅOJUMS", sendBtn: "NOSŪTĪT ZIŅU",
+    addressTitle: "ADRESE", phoneTitle: "TĀLRUNIS", emailTitle: "E-PASTS"
+  },
+  no: {
+    title: "KONTAKT", subtitle: "Ta kontakt med oss",
+    nameLabel: "FULLT NAVN", emailLabel: "E-POSTADRESSE",
+    messageLabel: "MELDING", sendBtn: "SEND MELDING",
+    addressTitle: "ADRESSE", phoneTitle: "TELEFON", emailTitle: "E-POST"
+  },
+  sv: {
+    title: "KONTAKT", subtitle: "Kontakta oss",
+    nameLabel: "FULLSTÄNDIGT NAMN", emailLabel: "E-POSTADRESS",
+    messageLabel: "MEDDELANDE", sendBtn: "SKICKA MEDDELANDE",
+    addressTitle: "ADRESS", phoneTitle: "TELEFON", emailTitle: "E-POST"
+  },
+  nl: {
+    title: "CONTACT", subtitle: "Neem contact met ons op",
+    nameLabel: "VOOR- EN ACHTERNAAM", emailLabel: "E-MAILADRES",
+    messageLabel: "BERICHT", sendBtn: "BERICHT VERSTUREN",
+    addressTitle: "ADRES", phoneTitle: "TELEFOON", emailTitle: "E-MAIL"
+  },
+  es: {
+    title: "CONTACTO", subtitle: "Póngase en contacto con nosotros",
+    nameLabel: "NOMBRE COMPLETO", emailLabel: "DIRECCIÓN DE CORREO",
+    messageLabel: "MENSAJE", sendBtn: "ENVIAR MENSAJE",
+    addressTitle: "DIRECCIÓN", phoneTitle: "TELÉFONO", emailTitle: "CORREO"
+  },
+  pt: {
+    title: "CONTACTO", subtitle: "Entre em contacto connosco",
+    nameLabel: "NOME COMPLETO", emailLabel: "ENDEREÇO DE E-MAIL",
+    messageLabel: "MENSAGEM", sendBtn: "ENVIAR MENSAGEM",
+    addressTitle: "ENDEREÇO", phoneTitle: "TELEFONE", emailTitle: "E-MAIL"
+  },
+  ro: {
+    title: "CONTACT", subtitle: "Contactați-ne",
+    nameLabel: "NUME COMPLET", emailLabel: "ADRESĂ DE E-MAIL",
+    messageLabel: "MESAJ", sendBtn: "TRIMITEȚI MESAJUL",
+    addressTitle: "ADRESĂ", phoneTitle: "TELEFON", emailTitle: "E-MAIL"
+  },
+  it: {
+    title: "CONTATTO", subtitle: "Contattaci",
+    nameLabel: "NOME E COGNOME", emailLabel: "INDIRIZZO E-MAIL",
+    messageLabel: "MESSAGGIO", sendBtn: "INVIA MESSAGGIO",
+    addressTitle: "INDIRIZZO", phoneTitle: "TELEFONO", emailTitle: "E-MAIL"
+  },
+  ko: {
+    title: "문의", subtitle: "저희에게 연락하세요",
+    nameLabel: "성명", emailLabel: "이메일 주소",
+    messageLabel: "메시지", sendBtn: "메시지 보내기",
+    addressTitle: "주소", phoneTitle: "전화", emailTitle: "이메일"
+  },
+};
+
+export function ContactPage({ lang }: ContactPageProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const c = contactCopy[lang ?? "pl"] ?? contactCopy["pl"];
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -205,8 +340,9 @@ export function ContactPage() {
       <div className="ck9-contact-grid">
         <div>
           <h2 id="contact-title" className="ck9-contact-title">
-            NAPISZ DO NAS
+            {c.title}
           </h2>
+          <p style={{ margin: "0 0 14px", fontFamily: raj, fontSize: "14px", color: "#7A8A96" }}>{c.subtitle}</p>
 
           <form
             className="ck9-contact-form"
@@ -226,7 +362,7 @@ export function ContactPage() {
             </p>
 
             <div>
-              <label htmlFor="fullName">Imię i Nazwisko</label>
+              <label htmlFor="fullName">{c.nameLabel}</label>
               <input
                 id="fullName"
                 className="ck9-contact-input"
@@ -238,51 +374,52 @@ export function ContactPage() {
             </div>
 
             <div>
-              <label htmlFor="email">Email</label>
+              <label htmlFor="email">{c.emailLabel}</label>
               <input id="email" className="ck9-contact-input" name="email" type="email" required />
             </div>
 
             <div>
-              <label htmlFor="organization">Organizacja / Jednostka</label>
+              <label htmlFor="organization">{(c as any).organizationLabel ?? "ORGANIZATION / UNIT"}</label>
               <input id="organization" className="ck9-contact-input" name="organization" type="text" />
             </div>
 
             <div>
-              <label htmlFor="subject">Temat</label>
+              <label htmlFor="subject">{(c as any).subjectLabel ?? "SUBJECT"}</label>
               <select id="subject" className="ck9-contact-select" name="subject">
-                <option>Rejestracja</option>
-                <option>Sponsoring</option>
-                <option>Patronat Medialny</option>
-                <option>Instruktorzy</option>
-                <option>Prasa i Media</option>
-                <option>Inne</option>
+                <option>{(c as any).subjectRegistration ?? "Registration"}</option>
+                <option>{(c as any).subjectSponsoring ?? "Sponsoring"}</option>
+                <option>{(c as any).subjectMediaPatronage ?? "Media Partnership"}</option>
+                <option>{(c as any).subjectInstructors ?? "Instructors"}</option>
+                <option>{(c as any).subjectPress ?? "Press & Media"}</option>
+                <option>{(c as any).subjectOther ?? "Other"}</option>
               </select>
             </div>
 
             <div>
-              <label htmlFor="message">Wiadomość</label>
+              <label htmlFor="message">{c.messageLabel}</label>
               <textarea id="message" className="ck9-contact-textarea" name="message" required />
             </div>
 
             <label className="ck9-checkbox" htmlFor="privacyConsent">
               <input id="privacyConsent" name="privacyConsent" type="checkbox" required />
               <span>
-                Zapoznałem/am się z Polityką Prywatności i wyrażam zgodę na przetwarzanie danych
+                {(c as any).privacyConsent ??
+                  "I have read the Privacy Policy and consent to personal data processing"}
               </span>
             </label>
 
             <button className="ck9-contact-btn" type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "WYSYŁANIE..." : "WYŚLIJ WIADOMOŚĆ →"}
+              {isSubmitting ? ((c as any).sending ?? "SENDING...") : `${c.sendBtn} →`}
             </button>
 
             {isSuccess ? (
               <p className="ck9-contact-status ck9-contact-status--ok">
-                Dziękujemy! Odpiszemy w ciągu 24 godzin.
+                {(c as any).successMessage ?? "Thank you! We will reply within 24 hours."}
               </p>
             ) : null}
             {hasError ? (
               <p className="ck9-contact-status ck9-contact-status--err">
-                Nie udało się wysłać formularza. Spróbuj ponownie za chwilę.
+                {(c as any).errorMessage ?? "Failed to send the form. Please try again shortly."}
               </p>
             ) : null}
           </form>
@@ -290,7 +427,7 @@ export function ContactPage() {
 
         <aside className="ck9-info-column" aria-label="Dane kontaktowe">
           <article className="ck9-info-card">
-            <h3 className="ck9-card-title">DANE FUNDACJI</h3>
+            <h3 className="ck9-card-title">{c.addressTitle}</h3>
             <p className="ck9-card-line">Fundacja PACTA K9</p>
             <p className="ck9-card-line">ul. Odolanowska 17</p>
             <p className="ck9-card-line">63-400 Topola Mała</p>
@@ -298,21 +435,21 @@ export function ContactPage() {
           </article>
 
           <article className="ck9-info-card">
-            <h3 className="ck9-card-title">KONTAKT BEZPOŚREDNI</h3>
+            <h3 className="ck9-card-title">{(c as any).directContactTitle ?? "DIRECT CONTACT"}</h3>
             <p className="ck9-card-line">
-              Email:{" "}
+              {c.emailTitle}:{" "}
               <a className="ck9-card-link" href="mailto:sebastian@pactak9.org">
                 sebastian@pactak9.org
               </a>
             </p>
             <p className="ck9-card-line">
-              Prezes:{" "}
+              {(c as any).presidentLabel ?? "President"}:{" "}
               <a className="ck9-card-link" href="mailto:mariusz@pactak9.org">
                 mariusz@pactak9.org
               </a>
             </p>
             <p className="ck9-card-line">
-              Tel:{" "}
+              {c.phoneTitle}:{" "}
               <a className="ck9-card-link" href="tel:+48788929200">
                 788 929 200
               </a>
@@ -320,16 +457,16 @@ export function ContactPage() {
           </article>
 
           <article className="ck9-info-card">
-            <h3 className="ck9-card-title">LOKALIZACJA EVENTU — CERBERUS K9 2026</h3>
+            <h3 className="ck9-card-title">{(c as any).eventLocationTitle ?? "EVENT LOCATION — CERBERUS K9 2026"}</h3>
             <iframe
               className="ck9-map"
-              title="Lokalizacja eventu CERBERUS K9 2026"
+              title={(c as any).eventLocationTitle ?? "EVENT LOCATION — CERBERUS K9 2026"}
               src="https://www.openstreetmap.org/export/embed.html?bbox=17.7985,51.6409,17.8185,51.6609&layer=mapnik&marker=51.6509,17.8085"
               loading="lazy"
             />
             <p className="ck9-card-line">3MK Arena, ul. Andrzeja Kowalczyka 1, Ostrów Wielkopolski, Polska</p>
             <p className="ck9-card-note">
-              Szczegółowa mapa dojazdu dostępna w materiałach rejestracyjnych
+              {(c as any).mapNote ?? "Detailed route map is available in registration materials"}
             </p>
           </article>
 

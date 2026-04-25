@@ -15,8 +15,8 @@ export function getStaticPaths() {
 	return locales.filter((l) => l !== 'pl').map((lang) => ({ params: { lang } }));
 }
 
-const param = Astro.params.lang ?? '';
-const lang: Lang = isLang(param) ? param : 'en';
+const { lang: paramLang } = Astro.params;
+const lang: Lang = isLang(paramLang ?? '') ? (paramLang as Lang) : 'en';
 const copy = fundacjaPageByLang[lang] ?? fundacjaPageByLang['pl'];
 
 /** Statutory goals (Article 5) — English for international `[lang]` routes. */
@@ -84,7 +84,7 @@ const legalRows: { label: string; value: string }[] = [
 		</div>
 	</section>
 
-	<TeamSection client:load />
+	<TeamSection lang={lang} client:load />
 
 	<section class="fundacja-legal" aria-labelledby="fundacja-legal-heading">
 		<div class="fundacja-legal__inner">
@@ -125,7 +125,7 @@ const legalRows: { label: string; value: string }[] = [
 		</div>
 	</section>
 
-	<Footer client:load />
+	<Footer lang={lang} client:load />
 </BaseLayout>
 
 <style>

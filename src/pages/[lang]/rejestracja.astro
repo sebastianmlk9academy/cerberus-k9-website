@@ -16,12 +16,14 @@ export function getStaticPaths() {
 	return locales.filter((l) => l !== 'pl').map((lang) => ({ params: { lang } }));
 }
 
-const param = Astro.params.lang ?? '';
-const lang: Lang = isLang(param) ? param : 'en';
+const { lang: paramLang } = Astro.params;
+const lang: Lang = isLang(paramLang ?? '') ? (paramLang as Lang) : 'en';
 
-const title = 'Rejestracja — CERBERUS K9 2026 | Bezpłatna rejestracja online';
+const title = lang === 'pl' ? 'Rejestracja — CERBERUS K9' : 'Registration — CERBERUS K9';
 const description =
-	'Zarejestruj się bezpłatnie na CERBERUS K9 2026. 13-14 czerwca, Ostrów Wielkopolski. 250+ uczestników z 15+ krajów NATO.';
+	lang === 'pl'
+		? 'Zarejestruj się bezpłatnie na CERBERUS K9 2026. 13-14 czerwca, Ostrów Wielkopolski. 250+ uczestników z 15+ krajów NATO.'
+		: 'Register for CERBERUS K9 2026. June 13-14, Ostrow Wielkopolski. 250+ participants from 15+ NATO countries.';
 const canonicalHref = '/pl/rejestracja/';
 const regHero: Record<Lang, { category: string; title: string; subtitle: string }> = {
 	pl: {
@@ -138,6 +140,6 @@ const regH = regHero[lang] ?? regHero.pl;
 		title={regH.title}
 		subtitle={regH.subtitle}
 	/>
-	<RegistrationSection />
+	<RegistrationSection lang={lang} />
 	<Footer lang={lang} copy={footerCopyByLang[lang] ?? footerCopyByLang['pl']} client:load />
 </BaseLayout>

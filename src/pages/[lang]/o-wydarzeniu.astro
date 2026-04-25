@@ -15,11 +15,11 @@ import { Footer } from '../../components/Footer';
 export const prerender = true;
 
 export function getStaticPaths() {
-	return locales.map((lang) => ({ params: { lang } }));
+	return locales.filter((l) => l !== 'pl').map((lang) => ({ params: { lang } }));
 }
 
-const param = Astro.params.lang ?? '';
-const lang: Lang = isLang(param) ? param : 'pl';
+const { lang: paramLang } = Astro.params;
+const lang: Lang = isLang(paramLang ?? '') ? (paramLang as Lang) : 'pl';
 const copy = aboutEventPageByLang[lang] ?? aboutEventPageByLang['pl'];
 
 const eventSchema = {
@@ -99,9 +99,9 @@ const eventSchema = {
 	</section>
 
 	<InteractiveAgenda client:load lang={lang} />
-	<LocationsSection client:load />
+	<LocationsSection lang={lang} client:load />
 	<FAQAccordion client:load lang={lang} />
-	<Footer client:load />
+	<Footer lang={lang} client:load />
 </BaseLayout>
 
 <style>
