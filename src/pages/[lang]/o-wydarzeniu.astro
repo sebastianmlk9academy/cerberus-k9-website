@@ -20,7 +20,7 @@ export function getStaticPaths() {
 
 const param = Astro.params.lang ?? '';
 const lang: Lang = isLang(param) ? param : 'pl';
-const copy = aboutEventPageByLang[lang];
+const copy = aboutEventPageByLang[lang] ?? aboutEventPageByLang['pl'];
 
 const eventSchema = {
 	'@context': 'https://schema.org',

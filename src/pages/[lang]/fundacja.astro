@@ -17,7 +17,7 @@ export function getStaticPaths() {
 
 const param = Astro.params.lang ?? '';
 const lang: Lang = isLang(param) ? param : 'en';
-const copy = fundacjaPageByLang[lang];
+const copy = fundacjaPageByLang[lang] ?? fundacjaPageByLang['pl'];
 
 /** Statutory goals (Article 5) — English for international `[lang]` routes. */
 const statutoryGoals: string[] = [

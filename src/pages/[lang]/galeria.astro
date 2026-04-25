@@ -19,8 +19,8 @@ export function getStaticPaths() {
 
 const param = Astro.params.lang ?? '';
 const lang: Lang = isLang(param) ? param : 'en';
-const copy = galeriaPageByLang[lang];
-const navGallery = ui[lang].nav_gallery;
+const copy = galeriaPageByLang[lang] ?? galeriaPageByLang['pl'];
+const navGallery = (ui[lang] ?? ui['pl']).nav_gallery;
 
 const categoryPriority = ['HARDEST HIT', 'SZKOLENIA K9', 'TCCC', 'KONFERENCJA', 'DRONY'] as const;
 

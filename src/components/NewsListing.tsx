@@ -86,6 +86,7 @@ const defaultArticles: NewsListingArticle[] = [];
 
 function ArticleCard({ article, lang }: { article: NewsListingArticle; lang: Lang }) {
   const [isHovered, setIsHovered] = useState(false);
+  const safeUi = ui[lang] ?? ui.pl;
   const reading =
     article.readingMinutes ??
     estimateReadingMinutes(`${article.title} ${article.lead}`);
@@ -227,7 +228,7 @@ function ArticleCard({ article, lang }: { article: NewsListingArticle; lang: Lan
                 color: "#C4922A",
               }}
             >
-              {ui[lang].btn_readmore ?? "READ MORE"} →
+              {safeUi.btn_readmore ?? "READ MORE"} →
             </span>
             <span
               className="font-[family-name:var(--font-rajdhani)]"
@@ -250,6 +251,7 @@ export function NewsListing({
   articles = defaultArticles,
   pageSize = 6,
 }: NewsListingProps) {
+  const safeUi = ui[lang] ?? ui.pl;
   const t = {
     pl: { allNews: "WSZYSTKIE WIADOMOŚCI", loadMoreArticles: "ZAŁADUJ WIĘCEJ ARTYKUŁÓW" },
     en: { allNews: "ALL NEWS", loadMoreArticles: "LOAD MORE ARTICLES" },
@@ -358,7 +360,7 @@ export function NewsListing({
             letterSpacing: '5px',
             color: '#C42B2B',
           }}>
-            {ui[lang].nav_news}
+            {safeUi.nav_news}
           </span>
           <div style={{
             height: '1px',

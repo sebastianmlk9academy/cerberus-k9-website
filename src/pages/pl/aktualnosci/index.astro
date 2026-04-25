@@ -11,7 +11,7 @@ import { aktualnosciToListingArticles } from '../../../lib/aktualnosci';
 export const prerender = true;
 
 const lang = 'pl';
-const seo = newsSeoByLang[lang];
+const seo = newsSeoByLang[lang] ?? newsSeoByLang['pl'];
 const entries = await getCollection('aktualnosci');
 const articles = aktualnosciToListingArticles(entries, lang);
 ---

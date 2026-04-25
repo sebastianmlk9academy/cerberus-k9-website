@@ -18,8 +18,8 @@ export function getStaticPaths() {
 
 const param = Astro.params.lang ?? '';
 const lang: Lang = isLang(param) ? param : 'en';
-const copy = mediaPageByLang[lang];
-const navMedia = ui[lang].nav_media;
+const copy = mediaPageByLang[lang] ?? mediaPageByLang['pl'];
+const navMedia = (ui[lang] ?? ui['pl']).nav_media;
 ---
 
 <BaseLayout

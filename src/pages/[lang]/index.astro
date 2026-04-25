@@ -29,15 +29,15 @@ export const getStaticPaths = () =>
 
 const param = Astro.params.lang ?? '';
 const lang: Lang = isLang(param) ? param : 'en';
-const seo = homeSeoByLang[lang];
-const heroCopy = homeHeroCopyByLang[lang];
-const footerCopy = footerCopyByLang[lang];
-const statsCopy = homeStatsByLang[lang];
-const programCopy = programSectionByLang[lang];
-const locationsCopy = locationsSectionByLang[lang];
-const videoCopy = videoSectionByLang[lang];
-const newsCopy = latestNewsByLang[lang];
-const partnersCopy = partnersStripByLang[lang];
+const seo = homeSeoByLang[lang] ?? homeSeoByLang['pl'];
+const heroCopy = homeHeroCopyByLang[lang] ?? homeHeroCopyByLang['pl'];
+const footerCopy = footerCopyByLang[lang] ?? footerCopyByLang['pl'];
+const statsCopy = homeStatsByLang[lang] ?? homeStatsByLang['pl'];
+const programCopy = programSectionByLang[lang] ?? programSectionByLang['pl'];
+const locationsCopy = locationsSectionByLang[lang] ?? locationsSectionByLang['pl'];
+const videoCopy = videoSectionByLang[lang] ?? videoSectionByLang['pl'];
+const newsCopy = latestNewsByLang[lang] ?? latestNewsByLang['pl'];
+const partnersCopy = partnersStripByLang[lang] ?? partnersStripByLang['pl'];
 
 const eventSchema = {
 	'@context': 'https://schema.org',

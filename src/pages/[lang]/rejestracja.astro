@@ -120,7 +120,7 @@ const regHero: Record<Lang, { category: string; title: string; subtitle: string 
 		subtitle: 'CERBERUS K9에 등록하고 무료 행사 참여를 확정하세요.',
 	},
 };
-const regH = regHero[lang] ?? regHero.en;
+const regH = regHero[lang] ?? regHero.pl;
 ---
 
 <BaseLayout
@@ -139,5 +139,5 @@ const regH = regHero[lang] ?? regHero.en;
 		subtitle={regH.subtitle}
 	/>
 	<RegistrationSection />
-	<Footer lang={lang} copy={footerCopyByLang[lang]} client:load />
+	<Footer lang={lang} copy={footerCopyByLang[lang] ?? footerCopyByLang['pl']} client:load />
 </BaseLayout>

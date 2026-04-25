@@ -132,7 +132,7 @@ export default function MediaPage({
   pressReleases = [],
   mediaArchive = [],
 }: MediaPageProps) {
-  const sectionTag = ui[lang].nav_media;
+  const sectionTag = (ui[lang] ?? ui.pl).nav_media;
   const englishFallback = mediaLabelsMap.en as MediaLabels;
   const mediaLabels = {
     ...englishFallback,

@@ -87,8 +87,8 @@ interface FAQAccordionProps {
 
 export default function FAQAccordion({ lang }: FAQAccordionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const faqItems = faqByLang[lang] ?? faqByLang.en;
-  const localizedFaqBadge = (ui[lang] as Record<string, string>).faq ?? 'FAQ';
+  const faqItems = faqByLang[lang] ?? faqByLang.pl;
+  const localizedFaqBadge = ((ui[lang] ?? ui.pl) as Record<string, string>).faq ?? 'FAQ';
   const t = {
     pl: { title: 'NAJCZĘSTSZE PYTANIA' },
     en: { title: 'FREQUENTLY ASKED QUESTIONS' },

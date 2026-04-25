@@ -436,10 +436,11 @@ const handlePartnerButtonMouseLeave = (e: ReactMouseEvent<HTMLButtonElement | HT
 
 export function GalleryGrid({ photos, lang }: GalleryGridProps) {
   const galleryLabels = resolveGalleryLabels(lang);
+  const safeUi = ui[lang] ?? ui.pl;
 
   const translatedMainFilterLabels = MAIN_FILTER_IDS.map((filterId) =>
     filterId === "all"
-      ? ((ui[lang] as Record<string, string>).filter_all ?? galleryLabels.all)
+      ? ((safeUi as Record<string, string>).filter_all ?? galleryLabels.all)
       : filterId,
   );
 

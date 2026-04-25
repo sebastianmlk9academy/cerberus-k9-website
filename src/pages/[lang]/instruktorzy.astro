@@ -20,8 +20,8 @@ export function getStaticPaths() {
 
 const param = Astro.params.lang ?? '';
 const lang: Lang = isLang(param) ? param : 'en';
-const seo = instructorsSeoByLang[lang];
-const instrCopy = instructorsPageByLang[lang];
+const seo = instructorsSeoByLang[lang] ?? instructorsSeoByLang['pl'];
+const instrCopy = instructorsPageByLang[lang] ?? instructorsPageByLang['pl'];
 
 const instructors = (await getCollection('instruktorzy'))
 	.map((entry) => ({ ...entry.data }))
@@ -54,7 +54,7 @@ const countriesCount = new Set(instructors.map((instructor) => instructor.countr
 	</section>
 
 	<InstructorsGrid instructors={instructors} lang={lang} client:load />
-	<Footer lang={lang} copy={footerCopyByLang[lang]} client:load />
+	<Footer lang={lang} copy={footerCopyByLang[lang] ?? footerCopyByLang['pl']} client:load />
 </BaseLayout>
 
 <style>

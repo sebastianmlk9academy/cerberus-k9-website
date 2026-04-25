@@ -2,11 +2,11 @@
 import type { MouseEvent } from "react"
 import type { Lang } from "../i18n/utils"
 import type { FooterCopy } from "../i18n/footer"
-import { ui } from "../i18n/ui"
+import { footerCopyByLang } from "../i18n/footer"
 
 interface FooterProps {
-  lang: Lang
-  copy: FooterCopy
+  lang?: Lang
+  copy?: FooterCopy
 }
 
 const socialLinks = [
@@ -49,25 +49,27 @@ const socialLinks = [
 ]
 
 export function Footer({ lang, copy }: FooterProps) {
+  const safeLang = lang ?? "pl";
+  const safeCopy = copy ?? footerCopyByLang[safeLang] ?? footerCopyByLang["pl"];
   const eventLinks = [
-    { label: copy.linkAbout, href: `/${lang}/o-wydarzeniu` },
-    { label: copy.linkInstructors, href: `/${lang}/instruktorzy` },
-    { label: copy.linkRegistration, href: `/${lang}/rejestracja` },
-    { label: copy.linkProgram, href: `/${lang}/program` },
+    { label: safeCopy.linkAbout, href: `/${safeLang}/o-wydarzeniu` },
+    { label: safeCopy.linkInstructors, href: `/${safeLang}/instruktorzy` },
+    { label: safeCopy.linkRegistration, href: `/${safeLang}/rejestracja` },
+    { label: safeCopy.linkProgram, href: `/${safeLang}/program` },
   ]
 
   const orgLinks = [
-    { label: copy.linkFoundation, href: `/${lang}/fundacja` },
-    { label: copy.linkPartners, href: `/${lang}/partnerzy` },
+    { label: safeCopy.linkFoundation, href: `/${safeLang}/fundacja` },
+    { label: safeCopy.linkPartners, href: `/${safeLang}/partnerzy` },
   ]
 
   const mediaLinks = [
-    { label: copy.linkMedia, href: `/${lang}/media` },
-    { label: copy.linkNews, href: `/${lang}/aktualnosci` },
-    { label: copy.linkGallery, href: `/${lang}/galeria` },
+    { label: safeCopy.linkMedia, href: `/${safeLang}/media` },
+    { label: safeCopy.linkNews, href: `/${safeLang}/aktualnosci` },
+    { label: safeCopy.linkGallery, href: `/${safeLang}/galeria` },
   ]
 
-  const contactLinks = [{ label: copy.linkContact, href: `/${lang}/kontakt` }]
+  const contactLinks = [{ label: safeCopy.linkContact, href: `/${safeLang}/kontakt` }]
 
   return (
     <footer
@@ -160,7 +162,7 @@ export function Footer({ lang, copy }: FooterProps) {
               textTransform: "uppercase",
             }}
           >
-            {copy.colEvent}
+            {safeCopy.colEvent}
           </h3>
           <nav className="flex flex-col gap-2">
             {eventLinks.map((link) => (
@@ -202,7 +204,7 @@ export function Footer({ lang, copy }: FooterProps) {
               textTransform: "uppercase",
             }}
           >
-            {copy.colOrg}
+            {safeCopy.colOrg}
           </h3>
           <nav className="flex flex-col gap-2">
             {orgLinks.map((link) => (
@@ -244,7 +246,7 @@ export function Footer({ lang, copy }: FooterProps) {
               textTransform: "uppercase",
             }}
           >
-            {copy.colMedia}
+            {safeCopy.colMedia}
           </h3>
           <nav className="mb-4 flex flex-col gap-2">
             {mediaLinks.map((link) => (
@@ -283,7 +285,7 @@ export function Footer({ lang, copy }: FooterProps) {
               textTransform: "uppercase",
             }}
           >
-            {copy.colContact}
+            {safeCopy.colContact}
           </h3>
           <nav className="mb-4 flex flex-col gap-2">
             {contactLinks.map((link) => (
@@ -322,7 +324,7 @@ export function Footer({ lang, copy }: FooterProps) {
               textTransform: "uppercase",
             }}
           >
-            {copy.legalLabel}
+            {safeCopy.legalLabel}
           </h3>
           <div
             className="flex flex-col gap-1"
@@ -416,7 +418,7 @@ export function Footer({ lang, copy }: FooterProps) {
               textAlign: "center",
             }}
           >
-            {copy.copyright}
+            {safeCopy.copyright}
           </p>
           <p
             style={{
@@ -438,7 +440,7 @@ export function Footer({ lang, copy }: FooterProps) {
               textAlign: "center",
             }}
           >
-            {copy.dateLocation}
+            {safeCopy.dateLocation}
           </p>
         </div>
       </div>

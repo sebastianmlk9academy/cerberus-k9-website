@@ -20,7 +20,7 @@ export async function getStaticPaths() {
 type Props = { post: CollectionEntry<'aktualnosci'> };
 
 const lang = 'pl';
-const seoLang = newsSeoByLang[lang];
+const seoLang = newsSeoByLang[lang] ?? newsSeoByLang['pl'];
 const { post } = Astro.props;
 const { Content } = await render(post);
 

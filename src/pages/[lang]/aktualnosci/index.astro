@@ -20,7 +20,7 @@ export function getStaticPaths() {
 
 const param = Astro.params.lang ?? '';
 const lang: Lang = isLang(param) ? param : 'en';
-const seo = newsSeoByLang[lang];
+const seo = newsSeoByLang[lang] ?? newsSeoByLang['pl'];
 const entries = await getCollection('aktualnosci');
 const articles = aktualnosciToListingArticles(entries, lang);
 ---
@@ -35,9 +35,9 @@ const articles = aktualnosciToListingArticles(entries, lang);
 	<NavBar client:load lang={lang} />
 	<PageHero
 		category="CERBERUS K9"
-		title={ui[lang].nav_news}
+		title={(ui[lang] ?? ui['pl']).nav_news}
 		subtitle={seo.newsPageSubtitle}
 	/>
 	<NewsListing articles={articles} lang={lang} client:load />
-	<Footer lang={lang} copy={footerCopyByLang[lang]} client:load />
+	<Footer lang={lang} copy={footerCopyByLang[lang] ?? footerCopyByLang['pl']} client:load />
 </BaseLayout>

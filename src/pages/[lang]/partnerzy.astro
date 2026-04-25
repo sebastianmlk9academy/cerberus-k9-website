@@ -19,8 +19,8 @@ export function getStaticPaths() {
 
 const param = Astro.params.lang ?? '';
 const lang: Lang = isLang(param) ? param : 'en';
-const copy = partnerzyPageByLang[lang];
-const navPartners = ui[lang].nav_partners;
+const copy = partnerzyPageByLang[lang] ?? partnerzyPageByLang['pl'];
+const navPartners = (ui[lang] ?? ui['pl']).nav_partners;
 
 const entries = await getCollection('partnerzy', ({ data }) => data.draft !== true);
 const sorted = [...entries].sort((a, b) => (a.data.order ?? 9999) - (b.data.order ?? 9999));

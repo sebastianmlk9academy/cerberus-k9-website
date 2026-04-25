@@ -29,7 +29,7 @@ const param = Astro.params.lang ?? '';
 const langFromParams: Lang = isLang(param) ? param : 'en';
 const { post, lang: langProp } = Astro.props;
 const lang = langProp ?? langFromParams;
-const seoLang = newsSeoByLang[lang];
+const seoLang = newsSeoByLang[lang] ?? newsSeoByLang['pl'];
 const { Content } = await render(post);
 
 const dateLabel = formatNewsDateLabel(post.data.date, lang);

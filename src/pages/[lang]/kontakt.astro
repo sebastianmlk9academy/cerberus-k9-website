@@ -42,7 +42,7 @@ const contactHero: Record<Lang, { title: string; subtitle: string }> = {
 	it: { title: 'CONTATTO', subtitle: "Contattaci per dettagli sull'evento e richieste di partnership." },
 	ko: { title: '문의', subtitle: '행사 정보 및 파트너십 문의는 여기로 연락해 주세요.' },
 };
-const ctHero = contactHero[lang] ?? contactHero.en;
+const ctHero = contactHero[lang] ?? contactHero.pl;
 ---
 
 <BaseLayout
@@ -60,5 +60,5 @@ const ctHero = contactHero[lang] ?? contactHero.en;
 		subtitle={ctHero.subtitle}
 	/>
 	<ContactPage client:load />
-	<Footer lang={lang} copy={footerCopyByLang[lang]} client:load />
+	<Footer lang={lang} copy={footerCopyByLang[lang] ?? footerCopyByLang['pl']} client:load />
 </BaseLayout>
