@@ -1,0 +1,92 @@
+---
+import { type CollectionEntry, getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { NavBar } from '../../../components/NavBar';
+import { ArticleLayout } from '../../../components/ArticleLayout';
+import { Footer } from '../../../components/Footer';
+import { newsSeoByLang } from '../../../i18n/newsSeo';
+import { categoryBadgeLabel, formatNewsDateLabel } from '../../../lib/aktualnosci';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+	const posts = await getCollection('aktualnosci');
+	return posts.map((post) => ({
+		params: { slug: post.id },
+		props: { post },
+	}));
+}
+
+type Props = { post: CollectionEntry<'aktualnosci'> };
+
+const lang = 'pl';
+const seoLang = newsSeoByLang[lang];
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const dateLabel = formatNewsDateLabel(post.data.date, lang);
+const dateIso = post.data.date.toISOString().slice(0, 10);
+const pageTitle = `${post.data.title} — CERBERUS K9`;
+const description = post.data.lead;
+const canonicalPath = `/pl/aktualnosci/${post.id}/`;
+const canonicalUrl = new URL(canonicalPath, Astro.site ?? Astro.url).href;
+const shareUrl = canonicalUrl;
+
+const hero =
+	post.data.image?.trim() && post.data.image_alt?.trim()
+		? { src: post.data.image.trim(), alt: post.data.image_alt.trim() }
+		: post.data.image?.trim()
+			? { src: post.data.image.trim(), alt: post.data.title }
+			: undefined;
+
+const jsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'NewsArticle',
+	headline: post.data.title,
+	description: post.data.lead,
+	datePublished: post.data.date.toISOString(),
+	image: hero ? [new URL(hero.src, Astro.site ?? Astro.url).href] : undefined,
+	url: canonicalUrl,
+	mainEntityOfPage: {
+		'@type': 'WebPage',
+		'@id': canonicalUrl,
+	},
+	publisher: {
+		'@type': 'Organization',
+		name: 'CERBERUS K9',
+		url: (Astro.site ?? Astro.url).origin,
+	},
+};
+---
+
+<BaseLayout
+	lang={lang}
+	title={pageTitle}
+	description={description}
+	localizedPath={`aktualnosci/${post.id}`}
+	ogType="article"
+	canonicalHref={canonicalUrl}
+>
+	<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+	<NavBar client:load />
+	<ArticleLayout
+		breadcrumb={[
+			{ label: 'CERBERUS K9', href: `/${lang}/` },
+			{ label: seoLang.breadcrumbNews, href: `/${lang}/aktualnosci/` },
+			{ label: post.data.title },
+		]}
+		category={categoryBadgeLabel(post.data.category)}
+		date={dateLabel}
+		dateTime={dateIso}
+		title={post.data.title}
+		lead={post.data.lead}
+		heroImage={hero}
+		tags={post.data.tags ?? []}
+		shareUrl={shareUrl}
+		shareTitle={post.data.title}
+		backHref={`/${lang}/aktualnosci/`}
+	>
+		<Content />
+	</ArticleLayout>
+	<Footer client:load />
+</BaseLayout>
