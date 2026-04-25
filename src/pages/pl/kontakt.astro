@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { NavBar } from '../../components/NavBar';
+import { PageHero } from '../../components/PageHero';
+import { ContactPage } from '../../components/ContactPage';
+import { Footer } from '../../components/Footer';
+
+export const prerender = true;
+
+const lang = 'pl';
+const title = 'Kontakt — Fundacja PACTA K9 | CERBERUS K9 2026';
+const description = 'Skontaktuj się z Fundacją PACTA K9 i zespołem CERBERUS K9 2026.';
+---
+
+<BaseLayout lang={lang} title={title} description={description} localizedPath="kontakt" ogType="website">
+	<NavBar client:load />
+	<PageHero
+		category="KONTAKT"
+		title="SKONTAKTUJ SIĘ"
+		subtitle="FUNDACJA PACTA K9 · CERBERUS K9 2026"
+	/>
+	<ContactPage client:load />
+	<Footer client:load />
+</BaseLayout>

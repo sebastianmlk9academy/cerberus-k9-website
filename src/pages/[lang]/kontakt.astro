@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { locales } from '../../../locales.mjs';
+import { isLang } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+import { NavBar } from '../../components/NavBar';
+import { PageHero } from '../../components/PageHero';
+import { ContactPage } from '../../components/ContactPage';
+import { Footer } from '../../components/Footer';
+
+export const prerender = true;
+
+/** Polish URL is canonical; /pl/kontakt is defined in `src/pages/pl/kontakt.astro`. */
+export function getStaticPaths() {
+	return locales.filter((l) => l !== 'pl').map((lang) => ({ params: { lang } }));
+}
+
+const param = Astro.params.lang ?? '';
+const lang: Lang = isLang(param) ? param : 'en';
+const title = 'Kontakt — Fundacja PACTA K9 | CERBERUS K9 2026';
+const description = 'Skontaktuj się z Fundacją PACTA K9 i zespołem CERBERUS K9 2026.';
+const canonicalHref = '/pl/kontakt/';
+---
+
+<BaseLayout
+	lang={lang}
+	title={title}
+	description={description}
+	localizedPath="kontakt"
+	ogType="website"
+	canonicalHref={canonicalHref}
+>
+	<NavBar client:load />
+	<PageHero
+		category="KONTAKT"
+		title="SKONTAKTUJ SIĘ"
+		subtitle="FUNDACJA PACTA K9 · CERBERUS K9 2026"
+	/>
+	<ContactPage client:load />
+	<Footer client:load />
+</BaseLayout>

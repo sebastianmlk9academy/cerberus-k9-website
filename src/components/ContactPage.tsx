@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { useState, type FormEvent } from "react";
 
 const bebas = "'Bebas Neue', Impact, sans-serif" as const;
 const raj = "'Rajdhani', sans-serif" as const;
@@ -213,6 +213,7 @@ export function ContactPage() {
             name="contact"
             method="POST"
             action="/kontakt"
+            netlify
             data-netlify="true"
             data-netlify-honeypot="company-website"
             onSubmit={handleSubmit}
