@@ -301,6 +301,50 @@ export function NewsListing({
         background: "#161F28",
       }}
     >
+      <div style={{ textAlign: 'center', marginBottom: '32px', marginTop: '0' }}>
+        {/* Red lines + AKTUALNOŚCI tag */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '16px',
+          marginBottom: '16px',
+        }}>
+          <div style={{
+            height: '1px',
+            flex: 1,
+            background: 'linear-gradient(to right, transparent, rgba(196,43,43,0.4), transparent)',
+          }} />
+          <span style={{
+            fontFamily: 'var(--font-rajdhani), sans-serif',
+            fontSize: '12px',
+            fontWeight: 500,
+            letterSpacing: '5px',
+            color: '#C42B2B',
+          }}>
+            AKTUALNOŚCI
+          </span>
+          <div style={{
+            height: '1px',
+            flex: 1,
+            background: 'linear-gradient(to right, transparent, rgba(196,43,43,0.4), transparent)',
+          }} />
+        </div>
+
+        {/* WSZYSTKIE WIADOMOŚCI title */}
+        <h2 style={{
+          fontFamily: 'var(--font-rajdhani), sans-serif',
+          fontSize: 'clamp(24px, 3vw, 32px)',
+          fontWeight: 700,
+          color: '#E4DDD0',
+          letterSpacing: '2px',
+          textTransform: 'uppercase',
+          margin: 0,
+        }}>
+          WSZYSTKIE WIADOMOŚCI
+        </h2>
+      </div>
+
       <div
         role="tablist"
         aria-label="Filtr kategorii aktualności"
