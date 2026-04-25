@@ -1,0 +1,303 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { locales } from '../../../locales.mjs';
+import { isLang } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+import { fundacjaPageByLang } from '../../i18n/plOnlyPagesCopy';
+import { NavBar } from '../../components/NavBar';
+import { PageHero } from '../../components/PageHero';
+import TeamSection from '../../components/TeamSection';
+import { Footer } from '../../components/Footer';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+	return locales.filter((l) => l !== 'pl').map((lang) => ({ params: { lang } }));
+}
+
+const param = Astro.params.lang ?? '';
+const lang: Lang = isLang(param) ? param : 'en';
+const copy = fundacjaPageByLang[lang];
+
+/** Statutory goals (Article 5) — English for international `[lang]` routes. */
+const statutoryGoals: string[] = [
+	'Education of children, youth, and adults in public safety, crisis response, and responsible work with dogs.',
+	'Organising and running training in dog training, working with dogs, and preparing handlers and future instructors.',
+	'Organising training courses, seminars, and workshops for people who work with dogs.',
+	'Organising competitions, sporting events, and gatherings focused on dogs, protection, and security.',
+	'Organising camps, training camps, integration meetings, and family events for people with dogs.',
+	'Activities for people with disabilities, with or without dogs, including training, classes, demonstrations, events, and activation or rehabilitation programmes.',
+	'Creating, operating, and developing sports, recreational, and training infrastructure accessible to people with disabilities, including sports tracks, training facilities, and recreational areas.',
+	'Activities for animal shelters and homeless dogs, especially training, socialisation, rehabilitation, and adoption readiness.',
+	'Promoting humane treatment of animals and responsible adoption.',
+	'Supporting veterans, instructors, and people working for public safety.',
+	'Supporting national and international cooperation within K9 communities.',
+];
+
+const legalRows: { label: string; value: string }[] = [
+	{ label: 'KRS', value: '0001219121' },
+	{ label: 'NIP', value: '6222869581' },
+	{ label: 'REGON', value: '543799847' },
+	{ label: 'Registered address', value: 'ul. Odolanowska 17, 63-400 Topola Mała, Greater Poland Voivodeship, Poland' },
+	{ label: 'Chair', value: 'Mariusz Lis' },
+	{ label: 'Vice-Chair', value: 'Sebastian Bożek' },
+	{ label: 'Legal form', value: 'Foundation (non-profit legal entity)' },
+	{ label: 'Activity', value: 'Non-profit under the Polish Act on Foundations' },
+];
+---
+
+<BaseLayout
+	lang={lang}
+	title={copy.metaTitle}
+	description={copy.metaDescription}
+	localizedPath="fundacja"
+	ogType="website"
+	canonicalHref="/pl/fundacja"
+>
+	<NavBar client:load lang={lang} />
+	<PageHero category={copy.heroCategory} title={copy.heroTitle} subtitle={copy.heroSubtitle} />
+
+	<section class="fundacja-mission" aria-labelledby="fundacja-misja-heading">
+		<div class="fundacja-mission__inner">
+			<div class="fundacja-mission__col">
+				<h2 id="fundacja-misja-heading" class="fundacja-mission__title fundacja-mission__title--gold">
+					MISSION
+				</h2>
+				<p class="fundacja-mission__body">
+					The PACTA K9 Foundation and the CERBERUS K9 International Defence Platform connect uniformed services
+					and the civilian sector through a unified training system that standardises skills, strengthens
+					civil–military cooperation nationally and within NATO, and prepares citizens to act effectively under
+					threat and in crisis situations.
+				</p>
+			</div>
+			<div class="fundacja-mission__col">
+				<h2 class="fundacja-mission__title fundacja-mission__title--red">VISION</h2>
+				<p class="fundacja-mission__body">
+					To be Poland’s largest and one of NATO’s leading integrated security platforms — combining uniformed
+					services, civil defence structures, and the private sector into one coherent ecosystem of operational
+					readiness. We build societal resilience not through declarations alone, but through verifiable
+					competence — training, assessing, and certifying citizens able to operate in crisis, conflict, and
+					hybrid-threat conditions. We deliver to uniformed services candidates who are mentally and
+					procedurally prepared to serve from day one.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<TeamSection client:load />
+
+	<section class="fundacja-legal" aria-labelledby="fundacja-legal-heading">
+		<div class="fundacja-legal__inner">
+			<h2 id="fundacja-legal-heading" class="fundacja-legal__heading">REGISTRY AND LEGAL INFORMATION</h2>
+
+			<dl class="fundacja-legal__table">
+				{
+					legalRows.map((row) => (
+						<div class="fundacja-legal__pair">
+							<dt>{row.label}</dt>
+							<dd>{row.value}</dd>
+						</div>
+					))
+				}
+			</dl>
+
+			<div class="fundacja-legal__cta-row">
+				<a class="fundacja-legal__cta fundacja-legal__cta--partner" href="/statut-pacta-k9.pdf">
+					Download foundation statute (PDF)
+				</a>
+				<a
+					class="fundacja-legal__cta fundacja-legal__cta--partner"
+					href="https://ekrs.ms.gov.pl"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					Verify in Polish KRS ↗
+				</a>
+			</div>
+
+			<div class="fundacja-statute" aria-labelledby="fundacja-statute-heading">
+				<h3 id="fundacja-statute-heading" class="fundacja-statute__heading">Statutory goals — Article 5</h3>
+				<p class="fundacja-statute__intro">The foundation’s specific objectives include in particular:</p>
+				<ol class="fundacja-statute__list">
+					{statutoryGoals.map((text) => <li>{text}</li>)}
+				</ol>
+			</div>
+		</div>
+	</section>
+
+	<Footer client:load />
+</BaseLayout>
+
+<style>
+	.fundacja-mission {
+		background-color: #151e28;
+		padding: 64px 5%;
+	}
+	.fundacja-mission__inner {
+		max-width: 72rem;
+		margin: 0 auto;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 3rem;
+	}
+	@media (min-width: 768px) {
+		.fundacja-mission__inner {
+			grid-template-columns: 1fr 1fr;
+			gap: 4rem;
+		}
+	}
+	.fundacja-mission__title {
+		font-family: 'Bebas Neue', sans-serif;
+		font-size: clamp(2rem, 4vw, 2.75rem);
+		letter-spacing: 0.12em;
+		color: #e4ddd0;
+		margin: 0 0 1.25rem;
+		padding-bottom: 0.75rem;
+		border-bottom: 3px solid transparent;
+		line-height: 1.1;
+	}
+	.fundacja-mission__title--gold {
+		border-bottom-color: #c4922a;
+	}
+	.fundacja-mission__title--red {
+		border-bottom-color: #c42b2b;
+	}
+	.fundacja-mission__body {
+		font-family: 'Libre Baskerville', serif;
+		font-size: 0.95rem;
+		line-height: 1.75;
+		color: #7a8a96;
+		margin: 0;
+	}
+
+	.fundacja-legal {
+		background-color: #151e28;
+		padding: 48px 5%;
+	}
+	.fundacja-legal__inner {
+		max-width: 48rem;
+		margin: 0 auto;
+	}
+	.fundacja-legal__heading {
+		font-family: var(--font-rajdhani), 'Rajdhani', sans-serif;
+		font-size: 1.5rem;
+		line-height: 2rem;
+		font-weight: 700;
+		letter-spacing: 2px;
+		color: #e4ddd0;
+		text-transform: uppercase;
+		margin: 0 0 2rem;
+		text-align: center;
+	}
+	@media (min-width: 640px) {
+		.fundacja-legal__heading {
+			font-size: 1.875rem;
+			line-height: 2.25rem;
+		}
+	}
+	@media (min-width: 1024px) {
+		.fundacja-legal__heading {
+			font-size: 32px;
+		}
+	}
+	.fundacja-legal__table {
+		display: flex;
+		flex-direction: column;
+		gap: 0.65rem;
+		margin: 0 0 2rem;
+		font-family: 'Rajdhani', sans-serif;
+		font-size: 0.9375rem;
+		line-height: 1.45;
+	}
+	.fundacja-legal__pair {
+		display: grid;
+		grid-template-columns: minmax(6.5rem, 28%) 1fr;
+		gap: 0 1.25rem;
+		align-items: start;
+	}
+	.fundacja-legal__table dt {
+		margin: 0;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		color: #c4922a;
+		text-transform: uppercase;
+		font-size: 0.75rem;
+	}
+	.fundacja-legal__table dd {
+		margin: 0;
+		color: #b8c4ce;
+		font-weight: 500;
+	}
+	.fundacja-legal__cta-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+		justify-content: center;
+		margin-bottom: 3rem;
+	}
+	.fundacja-legal__cta {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-decoration: none;
+		text-transform: uppercase;
+		cursor: pointer;
+		box-sizing: border-box;
+	}
+	.fundacja-legal__cta--partner {
+		width: 100%;
+		padding: 12px 20px;
+		font-family: var(--font-rajdhani), sans-serif;
+		font-size: 10px;
+		font-weight: 700;
+		letter-spacing: 3px;
+		color: #c4922a;
+		background-color: transparent;
+		border: 1px solid #c4922a;
+		border-radius: 0;
+		transition-property: color, background-color, border-color;
+		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+		transition-duration: 150ms;
+	}
+	@media (min-width: 640px) {
+		.fundacja-legal__cta--partner {
+			width: auto;
+			padding: 14px 24px;
+			font-size: 11px;
+		}
+	}
+	.fundacja-legal__cta--partner:hover {
+		background-color: #c4922a;
+		color: #1e2b38;
+	}
+	.fundacja-statute__heading {
+		font-family: 'Bebas Neue', sans-serif;
+		font-size: 1.5rem;
+		letter-spacing: 0.1em;
+		color: #e4ddd0;
+		margin: 0 0 0.75rem;
+	}
+	.fundacja-statute__intro {
+		font-family: 'Rajdhani', sans-serif;
+		font-size: 0.8125rem;
+		color: #7a8a96;
+		margin: 0 0 1.25rem;
+		letter-spacing: 0.04em;
+	}
+	.fundacja-statute__list {
+		margin: 0;
+		padding-left: 1.25rem;
+		font-family: 'Libre Baskerville', serif;
+		font-size: 0.875rem;
+		line-height: 1.65;
+		color: #5a6a7a;
+	}
+	.fundacja-statute__list li {
+		margin-bottom: 0.65rem;
+		padding-left: 0.35rem;
+	}
+	.fundacja-statute__list li::marker {
+		color: #c42b2b;
+		font-weight: 700;
+	}
+</style>

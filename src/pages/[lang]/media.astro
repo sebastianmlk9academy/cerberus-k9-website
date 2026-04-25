@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { locales } from '../../../locales.mjs';
+import { isLang } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+import { mediaPageByLang } from '../../i18n/plOnlyPagesCopy';
+import { ui } from '../../i18n/ui';
+import { NavBar } from '../../components/NavBar';
+import { PageHero } from '../../components/PageHero';
+import MediaPage from '../../components/MediaPage';
+import { Footer } from '../../components/Footer';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+	return locales.filter((l) => l !== 'pl').map((lang) => ({ params: { lang } }));
+}
+
+const param = Astro.params.lang ?? '';
+const lang: Lang = isLang(param) ? param : 'en';
+const copy = mediaPageByLang[lang];
+const navMedia = ui[lang].nav_media;
+---
+
+<BaseLayout
+	lang={lang}
+	title={copy.metaTitle}
+	description={copy.metaDescription}
+	localizedPath="media"
+	ogType="website"
+	canonicalHref="/pl/media"
+>
+	<div
+		style="background: linear-gradient(to bottom, #161F28, #1A2530, #161F28); min-height: 100vh;"
+	>
+		<NavBar client:load lang={lang} />
+		<PageHero category={copy.heroCategory} title={navMedia} subtitle={copy.heroSubtitle} />
+		<MediaPage client:load />
+		<Footer client:load />
+	</div>
+</BaseLayout>
