@@ -350,7 +350,7 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
   };
 
   return (
-    <div className="gallery-grid-wrap mb-5" ref={rootRef}>
+    <div className="gallery-grid-wrap mb-5 w-full overflow-x-hidden" ref={rootRef}>
       <div className="mt-[40px] mb-8 text-center">
         <div className="flex items-center justify-center gap-4 mb-4">
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
@@ -636,6 +636,9 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
         .gallery-grid-wrap {
           background: linear-gradient(to bottom, #161F28, #1A2530, #161F28);
           color: #e4ddd0;
+          width: 100%;
+          max-width: 100%;
+          overflow-x: hidden;
         }
         .edition-tabs {
           display: flex;
@@ -938,6 +941,24 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
         }
         .video-badge {
           letter-spacing: 0.2px;
+        }
+        @media (min-width: 1024px) {
+          .gallery-grid-wrap {
+            width: 100vw;
+            max-width: 100vw;
+            margin-left: calc(50% - 50vw);
+            margin-right: calc(50% - 50vw);
+            padding-left: 0;
+            padding-right: 0;
+          }
+          .photo-grid {
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: clamp(8px, 0.9vw, 14px);
+          }
+          .video-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: clamp(10px, 1vw, 16px);
+          }
         }
         @media (max-width: 720px) {
           .photo-item.wide {
