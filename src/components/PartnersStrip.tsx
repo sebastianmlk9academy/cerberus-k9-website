@@ -1,6 +1,8 @@
 "use client"
 
 import { useState } from "react"
+import type { Lang } from "../i18n/utils"
+import type { PartnersStripCopy } from "../i18n/partnersStrip"
 
 interface Partner {
   name: string
@@ -219,10 +221,13 @@ function SectionHeader({ children, accent = false }: { children: React.ReactNode
   )
 }
 
-export function PartnersStrip() {
+interface PartnersStripProps { lang: Lang; copy: PartnersStripCopy; }
+
+export function PartnersStrip({ lang, copy }: PartnersStripProps) {
   return (
     <section
       className="w-full bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28] px-4 sm:px-6 md:px-8"
+      data-lang={lang}
       style={{ paddingTop: "80px", paddingBottom: "10px" }}
     >
       <div className="max-w-6xl mx-auto">
@@ -235,7 +240,7 @@ export function PartnersStrip() {
             <span
               className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]"
             >
-              PATRONATY I PARTNERSTWA
+              {copy.sectionTag}
             </span>
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
           </div>
@@ -247,13 +252,13 @@ export function PartnersStrip() {
               letterSpacing: "2px",
             }}
           >
-            PATRONATY
+            {copy.patronage}
           </h2>
         </div>
 
         {/* Media Patronage Section */}
         <div className="mb-12 sm:mb-16 md:mb-20">
-          <SectionHeader accent>PATRONAT MEDIALNY</SectionHeader>
+          <SectionHeader accent>{copy.mediaPatronage}</SectionHeader>
           
           <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8">
             {mediaPatrons.map((patron) => (
@@ -273,7 +278,7 @@ export function PartnersStrip() {
                 letterSpacing: "2px",
               }}
             >
-              PARTNERZY
+              {copy.partners}
             </h2>
           </div>
           
@@ -306,7 +311,7 @@ export function PartnersStrip() {
                 e.currentTarget.style.color = "#C4922A";
               }}
             >
-              ZOSTAŃ PARTNEREM
+              {copy.becomePartner}
             </a>
           </div>
         </div>

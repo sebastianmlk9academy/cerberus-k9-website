@@ -1,6 +1,8 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
+import type { Lang } from "../i18n/utils"
+import type { VideoSectionCopy } from "../i18n/videoSection"
 
 interface SideVideo {
   id: string
@@ -19,7 +21,7 @@ function getYouTubeThumbnail(embedUrl: string): string {
 const mainVideo = {
   id: "polska-zbrojna",
   badge: "POLSKA ZBROJNA · PATRON MEDIALNY",
-  title: "CERBERUS K9 2025 - Główna relacja",
+  title: "CERBERUS K9 2025",
   embedUrl: "https://www.youtube.com/embed/kUhqmGhrbas",
 }
 
@@ -33,7 +35,7 @@ const topSideVideos: SideVideo[] = [
   {
     id: "polskie-radio",
     badge: "Polskie Radio",
-    title: "Polskie Radio — Reportaż i wywiad",
+    title: "Polskie Radio",
     embedUrl: "https://www.youtube.com/embed/lf-Aek_TSzI",
   },
 ]
@@ -53,7 +55,9 @@ const bottomVideos: SideVideo[] = [
   },
 ]
 
-export function VideoSection() {
+interface VideoSectionProps { lang: Lang; copy: VideoSectionCopy; }
+
+export function VideoSection({ lang, copy }: VideoSectionProps) {
   const [modalVideo, setModalVideo] = useState<string | null>(null)
 
   const closeModal = useCallback(() => {
@@ -87,6 +91,7 @@ export function VideoSection() {
   return (
     <section
       className="w-full bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28]"
+      data-lang={lang}
       style={{ paddingTop: "80px", paddingBottom: "10px", paddingLeft: "5%", paddingRight: "5%" }}
     >
       {/* Header */}
@@ -96,7 +101,7 @@ export function VideoSection() {
           <span 
             className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]"
           >
-            MEDIA I PRASA
+            {copy.sectionTag}
           </span>
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
         </div>
@@ -108,7 +113,7 @@ export function VideoSection() {
             letterSpacing: "2px",
           }}
         >
-          RELACJA 2025
+          {copy.sectionTitle}
         </h2>
       </div>
 
@@ -168,6 +173,12 @@ export function VideoSection() {
               </div>
             </div>
           </button>
+          <p
+            className="mt-2 text-[11px] text-[#E4DDD0]"
+            style={{ fontFamily: "'Rajdhani', Trebuchet MS, sans-serif" }}
+          >
+            {copy.mainVideoTitle}
+          </p>
 
           {/* Bottom Videos - TVN and Czeska TV */}
           <div className="flex flex-col md:flex-row gap-5">
@@ -281,7 +292,7 @@ export function VideoSection() {
                   color: "#E4DDD0",
                 }}
               >
-                {video.title}
+                {video.id === "polskie-radio" ? copy.secondaryVideoTitle : video.title}
               </p>
             </button>
           ))}
@@ -299,8 +310,7 @@ export function VideoSection() {
           marginTop: "32px",
         }}
       >
-        CERBERUS K9 2025 · 150+ UCZESTNIKÓW · 7 KRAJÓW · TERMINAL LPG · PROM
-        STENA LINE · MUZEUM TECHNIKI WOJSKOWEJ GRYF
+        {copy.stripText}
       </p>
 
       {/* Modal */}

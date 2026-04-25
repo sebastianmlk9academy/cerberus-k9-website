@@ -1,41 +1,19 @@
 "use client"
 
-const locations = [
-  {
-    number: "01",
-    name: "3MK ARENA",
-    description: "Główna lokalizacja · Szkolenia K9 · Medycyna · Drony · VIP",
-    status: "POTWIERDZONE",
-  },
-  {
-    number: "02",
-    name: "SZKOŁA MUNDUROWA W PRZYGODZICACH",
-    description: "Szkolenia K9 · Medycyna",
-    status: "POTWIERDZONE",
-  },
-  {
-    number: "03",
-    name: "STADION MIEJSKI",
-    description: "Szkolenia K9 · Medycyna · Drony · HARDEST HIT",
-    status: "POTWIERDZONE",
-  },
-  {
-    number: "04",
-    name: "OŚRODEK WYPOCZYNKOWO-REKREACYJNY PIASKI-SZCZYGLICZKA",
-    description: "Szkolenia K9 · Drony",
-    status: "POTWIERDZONE",
-  },
-]
+import type { Lang } from "../i18n/utils"
+import type { LocationsSectionCopy } from "../i18n/locationsSection"
 
 function LocationBlock({
   number,
   name,
   description,
+  detail,
   status,
 }: {
   number: string
   name: string
   description: string
+  detail: string
   status: string
 }) {
   return (
@@ -56,10 +34,16 @@ function LocationBlock({
         {name}
       </span>
       <span
-        className="block h-[14px] overflow-hidden text-ellipsis whitespace-nowrap text-[10px] sm:h-[16px] sm:text-[11px]"
+        className="block text-[10px] sm:text-[11px]"
         style={{ color: "#5A6A7A" }}
       >
         {description}
+      </span>
+      <span
+        className="mt-[2px] block h-[14px] overflow-hidden text-ellipsis whitespace-nowrap text-[10px] sm:h-[16px] sm:text-[11px]"
+        style={{ color: "#5A6A7A" }}
+      >
+        {detail}
       </span>
       <span
         className="mt-[10px] inline-block h-[18px] self-start px-[10px] py-[3px] text-[7px] font-bold tracking-[3px] sm:h-[20px]"
@@ -75,10 +59,13 @@ function LocationBlock({
   )
 }
 
-export function LocationsSection() {
+interface LocationsSectionProps { lang: Lang; copy: LocationsSectionCopy; }
+
+export function LocationsSection({ lang, copy }: LocationsSectionProps) {
   return (
     <section
       className="w-full"
+      data-lang={lang}
       style={{
         paddingTop: "0px",
         paddingBottom: "10px",
@@ -96,7 +83,7 @@ export function LocationsSection() {
           <span 
             className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]"
           >
-            LOKALIZACJE
+            {copy.sectionTag}
           </span>
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
         </div>
@@ -108,7 +95,7 @@ export function LocationsSection() {
             letterSpacing: "2px",
           }}
         >
-          INFRASTRUKTURA EVENTU
+          {copy.sectionTitle}
         </h2>
       </div>
 
@@ -121,13 +108,14 @@ export function LocationsSection() {
           className="grid grid-cols-1 gap-[1px] min-[400px]:grid-cols-2 lg:grid-cols-4"
           style={{ backgroundColor: "#253344" }}
         >
-          {locations.map((location) => (
+          {copy.locations.map((loc, i) => (
             <LocationBlock
-              key={location.number + location.name}
-              number={location.number}
-              name={location.name}
-              description={location.description}
-              status={location.status}
+              key={`${i + 1}-${loc.name}`}
+              number={String(i + 1).padStart(2, "0")}
+              name={loc.name}
+              description={loc.description}
+              detail={loc.detail}
+              status={copy.statusConfirmed}
             />
           ))}
         </div>
