@@ -17,7 +17,10 @@ export type ArticleBreadcrumbItem = {
 export type ArticleLayoutProps = {
   breadcrumb?: ArticleBreadcrumbItem[];
   category?: string;
+  /** Visible date label (e.g. 13.06.2026). */
   date?: string;
+  /** ISO date for the `datetime` attribute; falls back to `date` when omitted. */
+  dateTime?: string;
   title: string;
   lead?: string;
   heroImage?: { src: string; alt: string };
@@ -83,6 +86,7 @@ export function ArticleLayout({
   breadcrumb = [],
   category,
   date,
+  dateTime,
   title,
   lead,
   heroImage,
@@ -236,7 +240,7 @@ export function ArticleLayout({
                 {category}
               </span>
             )}
-            {date && <time dateTime={date}>{date}</time>}
+            {date && <time dateTime={dateTime ?? date}>{date}</time>}
           </div>
         </header>
 

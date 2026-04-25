@@ -53,4 +53,24 @@ const partnerzy = defineCollection({
 	}),
 });
 
-export const collections = { blog, i18nMessages, instruktorzy, partnerzy };
+const aktualnosci = defineCollection({
+	loader: glob({ base: './src/content/aktualnosci', pattern: '**/*.{md,mdx}' }),
+	schema: z.object({
+		title: z.string(),
+		date: z.coerce.date(),
+		category: z.enum([
+			'Aktualności',
+			'Instruktorzy',
+			'Partnerzy',
+			'Rejestracja',
+			'Media',
+			'HARDEST HIT',
+		]),
+		lead: z.string().max(500),
+		image: z.string().optional(),
+		image_alt: z.string().optional(),
+		tags: z.array(z.string()).optional(),
+	}),
+});
+
+export const collections = { blog, i18nMessages, instruktorzy, partnerzy, aktualnosci };
