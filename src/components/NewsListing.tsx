@@ -119,27 +119,28 @@ const defaultArticles: NewsListingArticle[] = [
 ];
 
 function ArticleCard({ article }: { article: NewsListingArticle }) {
-  const [hovered, setHovered] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const reading =
     article.readingMinutes ??
     estimateReadingMinutes(`${article.title} ${article.lead}`);
 
   return (
     <article
-      className="overflow-hidden transition-[border-color] duration-300"
+      className="cursor-pointer overflow-hidden transition-all duration-300"
       style={{
-        background: "transparent",
-        borderTop: hovered ? "3px solid #C4922A" : "3px solid transparent",
+        backgroundColor: "#1E2B38",
+        borderTop: isHovered ? "3px solid #C4922A" : "3px solid transparent",
+        transform: isHovered ? "scale(1.005)" : "scale(1)",
       }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       <a href={article.href} className="block text-inherit no-underline">
         <div
-          className="relative w-full overflow-hidden"
+          className="relative overflow-hidden w-full"
           style={{
+            backgroundColor: "#151E28",
             aspectRatio: "16 / 9",
-            background: "transparent",
           }}
         >
           {article.imageSrc ? (
@@ -150,22 +151,21 @@ function ArticleCard({ article }: { article: NewsListingArticle }) {
               height={360}
               loading="lazy"
               decoding="async"
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-300"
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-500"
               style={{
-                transform: hovered ? "scale(1.03)" : "scale(1)",
+                transform: isHovered ? "scale(1.05)" : "scale(1)",
               }}
             />
           ) : (
             <div
-              className="absolute inset-0 flex items-center justify-center px-4 text-center transition-transform duration-300"
+              className="absolute inset-0 flex items-center justify-center px-4 text-center transition-transform duration-500"
               style={{
-                background: "rgba(30,43,56,0.5)",
-                transform: hovered ? "scale(1.03)" : "scale(1)",
-                fontFamily: rajdhani,
-                fontSize: "10px",
-                letterSpacing: "3px",
-                color: "#5A6A7A",
-                fontWeight: 700,
+                backgroundColor: "#151E28",
+                transform: isHovered ? "scale(1.05)" : "scale(1)",
+                fontFamily: "var(--font-rajdhani), sans-serif",
+                fontSize: "8px",
+                letterSpacing: "2px",
+                color: "white",
               }}
             >
               {article.categoryLabel}
@@ -173,29 +173,25 @@ function ArticleCard({ article }: { article: NewsListingArticle }) {
           )}
 
           <span
-            className="absolute left-3 top-3 uppercase text-white"
+            className="absolute top-3 left-3 font-[family-name:var(--font-rajdhani)] uppercase"
             style={{
-              fontFamily: rajdhani,
+              backgroundColor: "rgba(196, 43, 43, 0.85)",
+              color: "white",
               fontSize: "8px",
               letterSpacing: "2px",
               padding: "4px 8px",
-              background: "transparent",
-              fontWeight: 700,
             }}
           >
             {article.categoryLabel}
           </span>
 
           <span
-            className="absolute right-3 top-3 uppercase"
+            className="absolute top-3 right-3 font-[family-name:var(--font-rajdhani)]"
             style={{
-              fontFamily: rajdhani,
-              fontSize: "8px",
-              letterSpacing: "2px",
-              padding: "4px 8px",
+              backgroundColor: "rgba(15, 23, 32, 0.85)",
               color: "#C4922A",
-              background: "transparent",
-              fontWeight: 600,
+              fontSize: "8px",
+              padding: "4px 8px",
             }}
           >
             {article.date}
@@ -204,25 +200,24 @@ function ArticleCard({ article }: { article: NewsListingArticle }) {
 
         <div style={{ padding: "18px 16px" }}>
           <span
-            className="mb-2 block uppercase"
+            className="block font-[family-name:var(--font-rajdhani)] uppercase"
             style={{
-              fontFamily: rajdhani,
               fontSize: "8px",
               letterSpacing: "3px",
               color: "#C4922A",
               fontWeight: 700,
+              marginBottom: "8px",
             }}
           >
             {article.categoryLabel}
           </span>
 
           <h2
-            className="line-clamp-2"
+            className="font-[family-name:var(--font-rajdhani)]"
             style={{
-              fontFamily: rajdhani,
               fontSize: "17px",
-              fontWeight: 700,
               color: "#E4DDD0",
+              fontWeight: 700,
               lineHeight: 1.3,
               marginBottom: "8px",
             }}
@@ -231,13 +226,11 @@ function ArticleCard({ article }: { article: NewsListingArticle }) {
           </h2>
 
           <p
-            className="line-clamp-3"
+            className="font-[family-name:var(--font-libre)]"
             style={{
-              fontFamily: libre,
               fontSize: "12px",
               color: "#5A6A7A",
               lineHeight: 1.6,
-              marginBottom: "12px",
             }}
           >
             {article.lead}
@@ -245,26 +238,23 @@ function ArticleCard({ article }: { article: NewsListingArticle }) {
 
           <div
             className="flex flex-wrap items-center justify-between gap-2"
-            style={{ marginTop: "4px" }}
+            style={{ marginTop: "12px" }}
           >
             <span
-              className="uppercase"
+              className="font-[family-name:var(--font-rajdhani)] uppercase inline-block transition-opacity hover:opacity-80"
               style={{
-                fontFamily: rajdhani,
                 fontSize: "9px",
                 letterSpacing: "2px",
                 color: "#C4922A",
-                fontWeight: 700,
               }}
             >
               Czytaj więcej →
             </span>
             <span
+              className="font-[family-name:var(--font-rajdhani)]"
               style={{
-                fontFamily: rajdhani,
                 fontSize: "10px",
                 color: "#5A6A7A",
-                letterSpacing: "0.5px",
               }}
             >
               {formatReadingTime(reading)}
