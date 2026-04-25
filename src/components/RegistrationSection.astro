@@ -4,9 +4,16 @@ import { RegistrationAside, RegistrationIntro, RegistrationTip } from './Registr
 
 interface Props {
 	lang?: string;
+	pretixUrl?: string;
+	dateValue?: string;
+	prepDay?: string;
+	venues?: string;
+	city?: string;
+	contactEmail?: string;
+	contactPhone?: string;
 }
 
-const { lang } = Astro.props as Props;
+const { lang, pretixUrl, dateValue, prepDay, venues, city, contactEmail, contactPhone } = Astro.props as Props;
 ---
 
 <section id="rejestracja" class="w-full" style="background-color: #1E2B38; padding: 80px 5%;">
@@ -14,10 +21,19 @@ const { lang } = Astro.props as Props;
 		<div class="grid grid-cols-1 gap-10 lg:grid-cols-[65%_35%] lg:gap-8">
 			<div>
 				<RegistrationIntro lang={lang} client:only="react" />
-				<PretixWidgetEmbed />
+				<PretixWidgetEmbed pretixUrl={pretixUrl} />
 				<RegistrationTip lang={lang} client:only="react" />
 			</div>
-			<RegistrationAside lang={lang} client:only="react" />
+			<RegistrationAside
+				lang={lang}
+				dateValue={dateValue}
+				prepDay={prepDay}
+				venues={venues}
+				city={city}
+				contactEmail={contactEmail}
+				contactPhone={contactPhone}
+				client:only="react"
+			/>
 		</div>
 	</div>
 </section>

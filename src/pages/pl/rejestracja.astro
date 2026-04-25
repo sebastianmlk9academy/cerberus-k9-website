@@ -1,25 +1,64 @@
 ---
+import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { NavBar } from '../../components/NavBar';
 import { PageHero } from '../../components/PageHero';
 import RegistrationSection from '../../components/RegistrationSection.astro';
 import { Footer } from '../../components/Footer';
+import { footerCopyByLang } from '../../i18n/footer';
 
 export const prerender = true;
 
+const settings = await getEntry('ustawienia', 'ustawienia');
+const s = settings?.data;
+
 const lang = 'pl';
+const footerCopy = footerCopyByLang[lang] ?? footerCopyByLang['pl'];
 const title = 'Rejestracja — CERBERUS K9 2026 | Bezpłatna rejestracja online';
 const description =
 	'Zarejestruj się bezpłatnie na CERBERUS K9 2026. 13-14 czerwca, Ostrów Wielkopolski. 250+ uczestników z 15+ krajów NATO.';
 ---
 
 <BaseLayout lang={lang} title={title} description={description} localizedPath="rejestracja" ogType="website">
-	<NavBar client:load />
+	<NavBar lang={lang} client:load />
 	<PageHero
 		category="DOŁĄCZ DO NAS"
 		title="REJESTRACJA"
 		subtitle="WSTĘP BEZPŁATNY · WYMAGANA REJESTRACJA · 13–14 CZERWCA 2026"
+		heroImage={s?.hero_background_image}
+		heroOpacity={s?.hero_background_opacity}
 	/>
-	<RegistrationSection />
-	<Footer client:load />
+	{
+		!s?.registration_active ? (
+			<section style="background:#161F28; padding:80px 5%; text-align:center;">
+				<p
+					style="font-family:Rajdhani,sans-serif; font-size:11px; letter-spacing:3px; color:#C4922A; font-weight:700;"
+				>
+					REJESTRACJA NIEDOSTĘPNA — SPRAWDŹ PONOWNIE PÓŹNIEJ
+				</p>
+			</section>
+		) : (
+			<RegistrationSection
+				pretixUrl={s?.pretix_url}
+				dateValue={s?.registration_date_display}
+				prepDay={s?.registration_prep_day}
+				venues={s?.registration_venues}
+				city={s?.registration_city}
+				contactEmail={s?.registration_contact_email}
+				contactPhone={s?.registration_contact_phone}
+			/>
+		)
+	}
+	<Footer
+		lang={lang}
+		copy={footerCopy}
+		email={s?.footer_email}
+		phone={s?.footer_phone}
+		socialFacebook={s?.social_facebook}
+		socialYoutube={s?.social_youtube}
+		socialInstagram={s?.social_instagram}
+		socialLinkedin={s?.social_linkedin}
+		socialTwitter={s?.social_twitter}
+		client:load
+	/>
 </BaseLayout>

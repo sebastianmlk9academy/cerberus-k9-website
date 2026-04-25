@@ -1,4 +1,5 @@
 ---
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { locales } from '../../i18n/utils';
 import { isLang } from '../../i18n/utils';
@@ -21,6 +22,7 @@ import { VideoSection } from '../../components/VideoSection';
 import { PartnersStrip } from '../../components/PartnersStrip';
 import LatestNews from '../../components/LatestNews';
 import { Footer } from '../../components/Footer';
+import { aktualnosciToListingArticles } from '../../lib/aktualnosci';
 
 export const prerender = true;
 
@@ -29,10 +31,43 @@ export const getStaticPaths = () =>
 
 const param = Astro.params.lang ?? '';
 const lang: Lang = isLang(param) ? param : 'en';
+
+const settings = await getEntry('ustawienia', 'ustawienia');
+const s = settings?.data;
+
+const allArticles = await getCollection('aktualnosci');
+const latestArticles = [...allArticles]
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+	.slice(0, 3);
+const latestForListing = aktualnosciToListingArticles(latestArticles, lang).map((a) => ({
+	slug: a.slug ?? a.id,
+	image: a.imageSrc ?? '/images/cerberus-k9-logo.png',
+	category: a.categoryLabel,
+	title: a.title,
+	lead: a.lead,
+	date: a.date,
+}));
+
+const plausibleDomain = s?.plausible_domain ?? 'cerberusk9.org';
 const seo = homeSeoByLang[lang] ?? homeSeoByLang['pl'];
 const heroCopy = homeHeroCopyByLang[lang] ?? homeHeroCopyByLang['pl'];
 const footerCopy = footerCopyByLang[lang] ?? footerCopyByLang['pl'];
-const statsCopy = homeStatsByLang[lang] ?? homeStatsByLang['pl'];
+const statsBase = homeStatsByLang[lang] ?? homeStatsByLang['pl'];
+const statsCopy = statsBase.map((item, i) => {
+	if (i === 0) return { ...item, value: s?.participants_count ?? item.value };
+	if (i === 1) return { ...item, value: s?.countries_count ?? item.value };
+	return item;
+});
+
+const partnersRaw = await getCollection('partnerzy');
+const stripPartners = partnersRaw
+	.filter((p) => p.data.name && !p.data.draft)
+	.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
+	.map((p) => ({
+		name: p.data.name as string,
+		logo: p.data.logo ?? null,
+		website: p.data.website ?? null,
+	}));
 const programCopy = programSectionByLang[lang] ?? programSectionByLang['pl'];
 const locationsCopy = locationsSectionByLang[lang] ?? locationsSectionByLang['pl'];
 const videoCopy = videoSectionByLang[lang] ?? videoSectionByLang['pl'];
@@ -43,16 +78,16 @@ const eventSchema = {
 	'@context': 'https://schema.org',
 	'@type': 'Event',
 	name: seo.eventName,
-	startDate: '2026-06-13',
-	endDate: '2026-06-14',
+	startDate: s?.event_date ?? '2026-06-13',
+	endDate: s?.event_date_end ?? '2026-06-14',
 	eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
 	eventStatus: 'https://schema.org/EventScheduled',
 	location: {
 		'@type': 'Place',
-		name: '3MK Arena Ostrów Wielkopolski',
+		name: s?.event_venue ?? '3MK Arena',
 		address: {
 			'@type': 'PostalAddress',
-			addressLocality: 'Ostrów Wielkopolski',
+			addressLocality: s?.event_city ?? 'Ostrów Wielkopolski',
 			addressCountry: 'PL',
 		},
 	},
@@ -75,20 +110,47 @@ const eventSchema = {
 	ogImage={HOME_OG_IMAGE}
 	ogType="website"
 >
-	<script
-		defer
-		data-domain="cerberusk9.org"
-		src="https://plausible.io/js/plausible.js"
-	></script>
+	<script defer data-domain={plausibleDomain} src="https://plausible.io/js/plausible.js"></script>
 	<script type="application/ld+json" set:html={JSON.stringify(eventSchema)} />
 
 	<NavBar lang={lang} client:load />
-	<HeroSection lang={lang} copy={heroCopy} client:load />
+	<HeroSection
+		lang={lang}
+		copy={heroCopy}
+		eventDate={s?.event_date}
+		heroImage={s?.hero_background_image}
+		heroOpacity={s?.hero_background_opacity}
+		client:load
+	/>
 	<StatsBar lang={lang} stats={statsCopy} client:load />
 	<ProgramSection lang={lang} copy={programCopy} client:load />
 	<LocationsSection lang={lang} copy={locationsCopy} client:load />
-	<VideoSection lang={lang} copy={videoCopy} client:load />
-	<PartnersStrip lang={lang} copy={partnersCopy} client:load />
-	<LatestNews lang={lang} copy={newsCopy} client:load />
-	<Footer lang={lang} copy={footerCopy} client:load />
+	<VideoSection
+		lang={lang}
+		copy={videoCopy}
+		mainVideoUrl={s?.main_video_youtube}
+		mainVideoTitle={s?.main_video_title}
+		videoBadge1={s?.video_badge_1}
+		video2Url={s?.video_url_2}
+		video2Badge={s?.video_badge_2}
+		video3Url={s?.video_url_3}
+		video3Badge={s?.video_badge_3}
+		video4Url={s?.video_url_4}
+		video4Badge={s?.video_badge_4}
+		client:load
+	/>
+	<PartnersStrip lang={lang} copy={partnersCopy} partners={stripPartners} partnerCtaHref={s?.partner_cta_href} client:load />
+	<LatestNews lang={lang} copy={newsCopy} articles={latestForListing} client:load />
+	<Footer
+		lang={lang}
+		copy={footerCopy}
+		email={s?.footer_email}
+		phone={s?.footer_phone}
+		socialFacebook={s?.social_facebook}
+		socialYoutube={s?.social_youtube}
+		socialInstagram={s?.social_instagram}
+		socialLinkedin={s?.social_linkedin}
+		socialTwitter={s?.social_twitter}
+		client:load
+	/>
 </BaseLayout>

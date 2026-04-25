@@ -49,6 +49,19 @@ collections:
       - { label: Treść, name: body, widget: markdown, required: true }
       - { label: Obraz wyróżniający, name: image, widget: image, required: false, choose_url: true }
       - { label: Opis obrazu (alt), name: image_alt, widget: string, required: false }
+      - label: Tagi
+        name: tags
+        widget: list
+        required: false
+        hint: "Np. K9, TCCC, NATO, 2026"
+        field: { label: Tag, name: tag, widget: string }
+      - { label: Punkt centralny zdjęcia — poziomo (%), name: heroImageFocalX, widget: number, default: 50, min: 0, max: 100, required: false }
+      - { label: Punkt centralny zdjęcia — pionowo (%), name: heroImageFocalY, widget: number, default: 50, min: 0, max: 100, required: false }
+      - name: share_url
+        label: "URL do udostępniania (opcjonalnie)"
+        widget: string
+        required: false
+        hint: "Zostaw puste — system uzupełni automatycznie"
 
   # --- 2. Instruktorzy ---
   - name: instruktorzy
@@ -62,12 +75,14 @@ collections:
     format: frontmatter
     fields:
       - { label: Imię i nazwisko, name: name, widget: string, required: true }
+      - { label: Rola / stanowisko, name: role, widget: string, required: false }
       - { label: Kraj, name: country, widget: string, required: true }
-      - label: Kod kraju (flaga)
-        name: country_flag
+      - label: Kod kraju (2 litery, np. PL, US, PT)
+        name: countryCode
         widget: string
-        required: false
-        hint: 'Opcjonalnie: dwuliterowy kod ISO 3166-1 alpha-2, np. PL, DE.'
+        required: true
+        hint: 'Kod ISO 3166-1 alpha-2, np. PL, US, DE'
+      - { label: Flaga (emoji), name: countryFlag, widget: string, required: false }
       - label: Specjalizacje
         name: specializations
         widget: select
@@ -83,6 +98,18 @@ collections:
           - Pierwsza-Pomoc
           - Behawiorysta
           - Konferencja
+      - { label: Jednostka / formacja, name: unit, widget: string, required: false }
+      - { label: Moduł szkoleniowy, name: module, widget: string, required: false }
+      - { label: Harmonogram, name: schedule, widget: string, required: false }
+      - { label: Języki, name: languages, widget: string, default: Polski, required: false }
+      - label: Typ uczestnika
+        name: type
+        widget: select
+        options: [Instruktor, Pozorant, Lider Grupy, Prelegent, VIP]
+        default: Instruktor
+        required: false
+      - { label: LinkedIn URL, name: linkedinUrl, widget: string, required: false }
+      - { label: Pokaż na stronie głównej, name: showOnHomepage, widget: boolean, default: true }
       - label: Bio krótkie
         name: bio_short
         widget: text
@@ -114,10 +141,11 @@ collections:
         options:
           - Strategiczny
           - Sponsor
-          - Patron-Medialny
+          - Patron Medialny
           - Technologiczny
       - { label: Logo, name: logo, widget: image, required: false, choose_url: true }
       - { label: Strona WWW, name: website, widget: string, required: false }
+      - { label: Etykieta linku WWW, name: website_label, widget: string, required: false }
       - { label: Opis, name: description, widget: text, required: false }
       - { label: Kolejność sortowania, name: order, widget: number, value_type: int, min: 0, step: 1, default: 0 }
 
@@ -143,26 +171,17 @@ collections:
           - TCCC
           - Konferencja
           - Drony
-      - label: Lokalizacja
-        name: location
-        widget: select
-        required: false
-        options:
-          - Terminal LPG
-          - Muzeum Gryf
-          - Stena Line
-          - 3MK Arena
-          - Szkoła Mundurowa
-          - Stadion Miejski
       - label: Edycja
         name: edition
         widget: select
         required: false
+        default: '2026'
         options:
           - '2025'
           - '2026'
+      - { label: Tekst alternatywny (SEO), name: alt, widget: string, required: false }
+      - { label: Lokalizacja, name: location, widget: string, required: false }
       - { label: Zdjęcie, name: photo, widget: image, required: true, choose_url: true }
-      - { label: Opis alternatywny (alt), name: alt, widget: string, required: false }
       - label: Tagi
         name: tags
         widget: list
@@ -183,13 +202,11 @@ collections:
     extension: md
     format: frontmatter
     fields:
-      - label: Dzień
+      - label: Dzień (data YYYY-MM-DD lub Dzień 1 / Dzień 2)
         name: day
-        widget: select
+        widget: string
         required: false
-        options:
-          - Dzień 1
-          - Dzień 2
+        hint: 'np. 2026-06-13 lub Dzień 1'
       - { label: Godzina rozpoczęcia, name: time_start, widget: string, required: false, hint: 'np. 09:00' }
       - { label: Godzina zakończenia, name: time_end, widget: string, required: false, hint: 'np. 10:30' }
       - { label: Tytuł, name: title, widget: string, required: false }
@@ -199,10 +216,13 @@ collections:
         widget: select
         required: false
         options:
+          - Arena Główna
           - 3MK Arena
           - Szkoła Mundurowa
           - Stadion Miejski
-          - Orlen
+          - Sala Konferencyjna
+          - Infrastruktura Orlen
+          - "—"
       - label: Kategoria
         name: category
         widget: select
@@ -210,32 +230,71 @@ collections:
         options:
           - K9
           - TCCC
-          - Drony
-          - Konferencja
-          - Ceremonia
+          - DRONY
+          - KONFERENCJA
+          - CEREMONIA
+          - BREAK
       - { label: Instruktor / prowadzący, name: instructor, widget: string, required: false }
+      - { label: Kolejność w agendzie, name: order, widget: number, value_type: int, min: 0, step: 1, required: false }
 
-  # --- 6. Ustawienia globalne (jeden plik) ---
+  # --- 6. Ustawienia serwisu (jeden plik) ---
   - name: ustawienia
-    label: Ustawienia
+    label: Ustawienia serwisu
     files:
-      - label: Ustawienia globalne
-        name: global
+      - name: ustawienia
+        label: Ustawienia globalne
         file: src/content/ustawienia.yml
         format: yaml
         fields:
-          - { label: Data wydarzenia, name: event_date, widget: datetime, required: false, date_format: YYYY-MM-DD, time_format: HH:mm }
-          - { label: Statystyka uczestników (wyświetlana), name: participants_count, widget: string, default: "250+", hint: "Tekst do StatsBar np. 250+. Do licznika live użyj participantsRegistered (number)" }
-          - { label: Liczba krajów (tekst), name: countries_count, widget: string, required: false }
-          - { label: Liczba psów (tekst), name: dogs_count, widget: string, required: false }
-          - { label: Link Pretix, name: pretix_url, widget: string, required: false }
-          - { label: URL wideo hero, name: hero_video_url, widget: string, required: false }
-          - { label: "Rejestracje (liczba do licznika live)", name: "participantsRegistered", widget: "number", default: 0, hint: "Aktualizuj co tydzień lub podłącz przez Pretix API (Rozdz. 29)" }
-          - { label: "Granty zatwierdzone (z 8)", name: "grantsApproved", widget: "number", default: 0 }
-          - { label: "Wolontariusze zarekrutowani", name: "volunteersCount", widget: "number", default: 0 }
-          - { label: "Pasek powiadomień aktywny", name: "notificationBarActive", widget: "boolean", default: true }
-          - { label: "Tekst paska powiadomień", name: "notificationBarText", widget: "string", default: "Rejestracja otwarta · Wstęp bezpłatny" }
-          - { label: "Link paska powiadomień", name: "notificationBarUrl", widget: "string", default: "https://pretix.eu/MLK9-LLK9/CERBERUS/" }
-          - { label: "Tryb LIVE aktywny (włącz 13-14.06)", name: "liveModeActive", widget: "boolean", default: false }
-          - { label: "HARDEST HIT — aktualny zawodnik na arenie", name: "currentCompetitor", widget: "string", required: false }
-          - { label: "Wydarzenie aktywne (pokaż przycisk rejestracji)", name: "registrationActive", widget: "boolean", default: true }
+          - { label: Data wydarzenia (start), name: event_date, widget: datetime, format: YYYY-MM-DD, date_format: DD.MM.YYYY, time_format: false }
+          - { label: Data wydarzenia (koniec), name: event_date_end, widget: datetime, format: YYYY-MM-DD, date_format: DD.MM.YYYY, time_format: false }
+          - { label: Miasto, name: event_city, widget: string }
+          - { label: Główna lokalizacja, name: event_venue, widget: string }
+          - { label: Liczba uczestników (wyświetlana), name: participants_count, widget: string, default: "250+" }
+          - { label: Liczba krajów (wyświetlana), name: countries_count, widget: string, default: "15+" }
+          - { label: Liczba psów (wyświetlana), name: dogs_count, widget: string, default: "80+" }
+          - { label: Liczba modułów (wyświetlana), name: modules_count, widget: string, default: "8" }
+          - { label: URL Pretix (rejestracja), name: pretix_url, widget: string }
+          - { label: URL video hero (opcjonalnie), name: hero_video_url, widget: string, required: false }
+          - { label: "Tło Hero — zdjęcie", name: hero_background_image, widget: image, required: false }
+          - label: "Tło Hero — przezroczystość (0.1–1.0)"
+            name: hero_background_opacity
+            widget: number
+            default: 0.4
+            min: 0.1
+            max: 1.0
+            step: 0.05
+          - { label: Domena Plausible, name: plausible_domain, widget: string }
+          - { label: Rejestracja aktywna, name: registration_active, widget: boolean, default: true }
+          - { label: HARDEST HIT aktywny, name: hardest_hit_active, widget: boolean, default: true }
+          - { label: Pasek powiadomień aktywny, name: notification_bar_active, widget: boolean, default: false }
+          - { label: Tekst paska powiadomień, name: notification_bar_text, widget: string, required: false }
+          - { label: Link paska powiadomień, name: notification_bar_url, widget: string, required: false }
+          - { label: Tryb LIVE aktywny, name: live_mode_active, widget: boolean, default: false }
+          - { label: Email kontaktowy (stopka/formularz), name: footer_email, widget: string }
+          - { label: Telefon kontaktowy, name: footer_phone, widget: string }
+          - { label: Facebook URL, name: social_facebook, widget: string }
+          - { label: YouTube URL, name: social_youtube, widget: string }
+          - { label: Instagram URL, name: social_instagram, widget: string, required: false }
+          - { label: LinkedIn URL, name: social_linkedin, widget: string, required: false }
+          - { label: Twitter/X URL, name: social_twitter, widget: string, required: false }
+          - { label: Statut fundacji (PDF), name: statute_pdf, widget: string }
+          - { label: KRS — link do rejestru, name: krs_url, widget: string }
+          - { label: Główne wideo YouTube URL, name: main_video_youtube, widget: string }
+          - { label: Tytuł głównego wideo, name: main_video_title, widget: string }
+          - { label: Główne wideo — badge (linia 1), name: video_badge_1, widget: string, required: false }
+          - { label: Wideo 2 — URL, name: video_url_2, widget: string, required: false }
+          - { label: Wideo 2 — Badge (np. TVP), name: video_badge_2, widget: string, required: false }
+          - { label: Wideo 3 — URL, name: video_url_3, widget: string, required: false }
+          - { label: Wideo 3 — Badge, name: video_badge_3, widget: string, required: false }
+          - { label: Wideo 4 — URL, name: video_url_4, widget: string, required: false }
+          - { label: Wideo 4 — Badge, name: video_badge_4, widget: string, required: false }
+          - { label: Data rejestracji (wyświetlana), name: registration_date_display, widget: string }
+          - { label: Dzień przygotowawczy, name: registration_prep_day, widget: string }
+          - { label: Lokalizacje (przecinek), name: registration_venues, widget: string }
+          - { label: Miasto wydarzenia, name: registration_city, widget: string }
+          - { label: Email rejestracyjny, name: registration_contact_email, widget: string }
+          - { label: Telefon rejestracyjny, name: registration_contact_phone, widget: string }
+          - { label: Deadline akredytacji mediów, name: accreditation_deadline, widget: string }
+          - { label: CTA Zostań Partnerem — href, name: partner_cta_href, widget: string }
+          - { label: CTA Zostań Partnerem — link pełny (opcjonalnie), name: partner_cta_href_full, widget: string, required: false }

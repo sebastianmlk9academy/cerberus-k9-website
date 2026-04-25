@@ -1,7 +1,13 @@
 ---
+interface Props {
+	pretixUrl?: string;
+}
+
+const { pretixUrl = 'https://pretix.eu/MLK9-LLK9/CERBERUS/' } = Astro.props;
+const base = pretixUrl.replace(/\/$/, '');
 ---
 
-<link rel="stylesheet" type="text/css" href="https://pretix.eu/MLK9-LLK9/CERBERUS/widget/v1.css" crossorigin />
+<link rel="stylesheet" type="text/css" href={`${base}/widget/v1.css`} crossorigin />
 <script type="text/javascript" src="https://pretix.eu/widget/v1.pl.js" async crossorigin></script>
 
 <style>
@@ -41,11 +47,11 @@
 	class="pretix-widget-wrapper"
 	style="background: #ffffff; min-height: 400px; width: 100%; opacity: 1 !important; filter: none !important; color: #000000 !important;"
 >
-	<pretix-widget event="https://pretix.eu/MLK9-LLK9/CERBERUS/"></pretix-widget>
+	<pretix-widget event={pretixUrl}></pretix-widget>
 	<noscript>
 		<div style="padding: 20px; font-family: Rajdhani, sans-serif;">
 			Zarejestruj się na:
-			<a href="https://pretix.eu/MLK9-LLK9/CERBERUS/" style="color: #C4922A;"> pretix.eu/MLK9-LLK9/CERBERUS </a>
+			<a href={pretixUrl} style="color: #C4922A;">{pretixUrl}</a>
 		</div>
 	</noscript>
 </div>

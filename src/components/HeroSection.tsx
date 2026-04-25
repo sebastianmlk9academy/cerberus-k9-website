@@ -13,9 +13,8 @@ interface TimeLeft {
   seconds: number;
 }
 
-function calculateTimeLeft(): TimeLeft {
-  // Target date: June 13, 2026, 10:00:00 Polish timezone (CEST = UTC+2)
-  const targetDate = new Date("2026-06-13T10:00:00+02:00");
+function calculateTimeLeft(eventDateIso: string): TimeLeft {
+  const targetDate = new Date(`${eventDateIso}T10:00:00+02:00`);
   const now = new Date();
   const difference = targetDate.getTime() - now.getTime();
 
@@ -34,10 +33,17 @@ function calculateTimeLeft(): TimeLeft {
 interface HeroSectionProps {
   lang: Lang;
   copy: HomeHeroCopy;
+  /** ISO date `YYYY-MM-DD` for countdown (event start 10:00 Europe/Warsaw). */
+  eventDate?: string;
+  heroImage?: string;
+  heroOpacity?: number;
 }
 
-export function HeroSection({ lang, copy }: HeroSectionProps) {
+export function HeroSection({ lang, copy, eventDate, heroImage, heroOpacity }: HeroSectionProps) {
   const safeCopy: HomeHeroCopy = copy ?? homeHeroCopyByLang.pl;
+  const eventDateIso = eventDate?.trim() || "2026-06-13";
+  const bgUrl = heroImage?.trim() || "/images/page_hero_graph.webp";
+  const bgOpacity = heroOpacity ?? 0.4;
   const safeUi = ui[lang] ?? ui.pl;
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
     days: 0,
@@ -49,14 +55,14 @@ export function HeroSection({ lang, copy }: HeroSectionProps) {
 
   useEffect(() => {
     setMounted(true);
-    setTimeLeft(calculateTimeLeft());
+    setTimeLeft(calculateTimeLeft(eventDateIso));
 
     const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
+      setTimeLeft(calculateTimeLeft(eventDateIso));
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [eventDateIso]);
 
   const formatNumber = (num: number) => String(num).padStart(2, "0");
 
@@ -71,11 +77,11 @@ export function HeroSection({ lang, copy }: HeroSectionProps) {
       <div
         className="absolute inset-0 z-0"
         style={{
-          backgroundImage: `url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/hero-cerberus-k9-2026-20kb322G5ITsheiXGJ5jTfRMvozRnI.webp')`,
+          backgroundImage: `url('${bgUrl.replace(/'/g, "\\'")}')`,
           backgroundSize: "100% 100%",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          opacity: 0.40,
+          opacity: bgOpacity,
         }}
       />
       {/* Dark overlay for text readability */}
@@ -193,8 +199,9 @@ export function HeroSection({ lang, copy }: HeroSectionProps) {
 
       {/* Section 6: CTA Buttons Row */}
       <div className="relative z-10 flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-2 sm:gap-3">
-        <button
-          className="cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-8 sm:py-3.5"
+        <a
+          href={`/${lang}/rejestracja`}
+          className="inline-block text-center cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-8 sm:py-3.5 no-underline"
           style={{
             backgroundColor: "#C42B2B",
             color: "white",
@@ -208,9 +215,10 @@ export function HeroSection({ lang, copy }: HeroSectionProps) {
           onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#C42B2B")}
         >
           {safeCopy.ctaRegister}
-        </button>
-        <button
-          className="cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-6 sm:py-3.5"
+        </a>
+        <a
+          href={safeCopy.ctaProgramHref}
+          className="inline-block text-center cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-6 sm:py-3.5 no-underline"
           style={{
             backgroundColor: "transparent",
             color: "#C4922A",
@@ -230,9 +238,12 @@ export function HeroSection({ lang, copy }: HeroSectionProps) {
           }}
         >
           {safeCopy.ctaProgram}
-        </button>
-        <button
-          className="cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-5 sm:py-3.5"
+        </a>
+        <a
+          href={safeCopy.ctaVideoHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block text-center cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-5 sm:py-3.5 no-underline"
           style={{
             backgroundColor: "transparent",
             color: "#7A8A96",
@@ -252,7 +263,7 @@ export function HeroSection({ lang, copy }: HeroSectionProps) {
           }}
         >
           {safeCopy.ctaVideo}
-        </button>
+        </a>
       </div>
     </section>
   );
