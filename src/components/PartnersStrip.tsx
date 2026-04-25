@@ -7,6 +7,8 @@ import type { PartnersStripCopy } from "../i18n/partnersStrip"
 interface Partner {
   name: string
   logo: string | null
+  website?: string | null
+  /** @deprecated use website */
   url?: string
 }
 
@@ -14,16 +16,16 @@ const mediaPatrons: Partner[] = [
   {
     name: "POLSKA ZBROJNA",
     logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Polska%20Zbrojna-khEyAPmGAkhHX4IAVuiDjYLAqdTuoA.webp",
-    url: "https://polska-zbrojna.pl",
+    website: "https://polska-zbrojna.pl",
   },
   {
     name: "SPECIAL OPS",
     logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/special-ops-logo-1-aKqs9eqCEBoNfiGfXd2COdP8qMZtns.webp",
-    url: "https://special-ops.pl",
+    website: "https://special-ops.pl",
   },
 ]
 
-const partners: Partner[] = [
+const HARDCODED_STRIP_PARTNERS: Partner[] = [
   {
     name: "POLITECHNIKA WROCŁAWSKA",
     logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Politechnika%20Wroc%C5%82awska-bMf1AU1ZOaGoG2raCdKyyGazQpQI6u.webp",
@@ -80,7 +82,7 @@ function MediaPatronCard({ partner }: { partner: Partner }) {
 
   return (
     <a
-      href={partner.url || "#"}
+      href={partner.website || partner.url || "#"}
       target="_blank"
       rel="noopener noreferrer"
       onMouseEnter={() => setIsHovered(true)}
@@ -221,9 +223,18 @@ function SectionHeader({ children, accent = false }: { children: React.ReactNode
   )
 }
 
-interface PartnersStripProps { lang: Lang; copy: PartnersStripCopy; }
+interface PartnersStripProps {
+  lang: Lang
+  copy: PartnersStripCopy
+  partners?: Partner[]
+  partnerCtaHref?: string | null
+}
 
-export function PartnersStrip({ lang, copy }: PartnersStripProps) {
+export function PartnersStrip({ lang, copy, partners: partnersProp, partnerCtaHref }: PartnersStripProps) {
+  const stripPartners =
+    partnersProp && partnersProp.length > 0 ? partnersProp : HARDCODED_STRIP_PARTNERS
+  const ctaHref = (partnerCtaHref ?? "").trim() || "mailto:sebastian@pactak9.org"
+
   return (
     <section
       className="w-full bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28] px-4 sm:px-6 md:px-8"
@@ -283,7 +294,7 @@ export function PartnersStrip({ lang, copy }: PartnersStripProps) {
           </div>
           
           <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 sm:gap-4 md:gap-5">
-            {partners.map((partner) => (
+            {stripPartners.map((partner) => (
               <PartnerCard key={partner.name} partner={partner} />
             ))}
           </div>
@@ -291,7 +302,7 @@ export function PartnersStrip({ lang, copy }: PartnersStripProps) {
           {/* CTA */}
           <div className="mt-8 sm:mt-10 md:mt-12 flex justify-center">
             <a
-              href="#"
+              href={ctaHref}
               className="flex items-center justify-center cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-6 sm:py-3.5"
               style={{
                 backgroundColor: "transparent",

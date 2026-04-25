@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useMemo } from "react"
 import type { Lang } from "../i18n/utils"
 import type { VideoSectionCopy } from "../i18n/videoSection"
 
@@ -18,45 +18,54 @@ function getYouTubeThumbnail(embedUrl: string): string {
   return `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
 }
 
-const mainVideo = {
-  id: "polska-zbrojna",
-  title: "CERBERUS K9 2025",
-  embedUrl: "https://www.youtube.com/embed/kUhqmGhrbas",
+function youTubeInputToEmbedUrl(input: string | undefined | null): string {
+  const raw = (input ?? "").trim()
+  if (!raw) return ""
+  if (raw.includes("youtube.com/embed/")) return raw.split("?")[0]
+  const m = raw.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{6,})/)
+  return m ? `https://www.youtube.com/embed/${m[1]}` : raw
 }
 
-const topSideVideos: SideVideo[] = [
-  {
-    id: "tvp",
-    badge: "TVP",
-    title: "",
-    embedUrl: "https://www.youtube.com/embed/Fo-j5vGI0m4",
-  },
-  {
-    id: "polskie-radio",
-    badge: "Polskie Radio",
-    title: "Polskie Radio",
-    embedUrl: "https://www.youtube.com/embed/lf-Aek_TSzI",
-  },
+const DEFAULT_MAIN_EMBED = "https://www.youtube.com/embed/kUhqmGhrbas"
+const DEFAULT_MAIN_TITLE = "CERBERUS K9 2025"
+
+const DEFAULT_TOP_SIDE: SideVideo[] = [
+  { id: "tvp", badge: "TVP", title: "", embedUrl: "https://www.youtube.com/embed/Fo-j5vGI0m4" },
+  { id: "polskie-radio", badge: "Polskie Radio", title: "Polskie Radio", embedUrl: "https://www.youtube.com/embed/lf-Aek_TSzI" },
 ]
 
-const bottomVideos: SideVideo[] = [
-  {
-    id: "tvn",
-    badge: "TVN",
-    title: "TVN — Fakty",
-    embedUrl: "https://www.youtube.com/embed/aNG1UVyOqNA",
-  },
-  {
-    id: "ceska-tv",
-    badge: "Czeska Telewizja Publiczna",
-    title: "",
-    embedUrl: "https://www.youtube.com/embed/YAsXbzL3PWs",
-  },
+const DEFAULT_BOTTOM: SideVideo[] = [
+  { id: "tvn", badge: "TVN", title: "TVN — Fakty", embedUrl: "https://www.youtube.com/embed/aNG1UVyOqNA" },
+  { id: "ceska-tv", badge: "Czeska Telewizja Publiczna", title: "", embedUrl: "https://www.youtube.com/embed/YAsXbzL3PWs" },
 ]
 
-interface VideoSectionProps { lang: Lang; copy: VideoSectionCopy; }
+interface VideoSectionProps {
+  lang: Lang
+  copy: VideoSectionCopy
+  mainVideoUrl?: string | null
+  mainVideoTitle?: string | null
+  videoBadge1?: string | null
+  video2Url?: string | null
+  video2Badge?: string | null
+  video3Url?: string | null
+  video3Badge?: string | null
+  video4Url?: string | null
+  video4Badge?: string | null
+}
 
-export function VideoSection({ lang, copy }: VideoSectionProps) {
+export function VideoSection({
+  lang,
+  copy,
+  mainVideoUrl,
+  mainVideoTitle,
+  videoBadge1,
+  video2Url,
+  video2Badge,
+  video3Url,
+  video3Badge,
+  video4Url,
+  video4Badge,
+}: VideoSectionProps) {
   const [modalVideo, setModalVideo] = useState<string | null>(null)
 
   const closeModal = useCallback(() => {
@@ -86,6 +95,55 @@ export function VideoSection({ lang, copy }: VideoSectionProps) {
       closeModal()
     }
   }
+
+  const mainEmbed = useMemo(() => {
+    const fromCms = youTubeInputToEmbedUrl(mainVideoUrl ?? undefined)
+    return fromCms || DEFAULT_MAIN_EMBED
+  }, [mainVideoUrl])
+
+  const resolvedMainTitle = (mainVideoTitle ?? "").trim() || DEFAULT_MAIN_TITLE
+
+  const mainBadgeLine = useMemo(() => {
+    const b = (videoBadge1 ?? "").trim()
+    if (b) return b
+    return `${copy.mainVideoBadge} · ${copy.mediaPatronBadge}`
+  }, [videoBadge1, copy.mainVideoBadge, copy.mediaPatronBadge])
+
+  const topSideVideos = useMemo((): SideVideo[] => {
+    const v2 = youTubeInputToEmbedUrl(video2Url ?? undefined)
+    const v3 = youTubeInputToEmbedUrl(video3Url ?? undefined)
+    const d0 = DEFAULT_TOP_SIDE[0]!
+    const d1 = DEFAULT_TOP_SIDE[1]!
+    return [
+      {
+        id: "side-1",
+        embedUrl: v2 || d0.embedUrl,
+        badge: (video2Badge ?? "").trim() || d0.badge,
+        title: v2 ? "" : d0.title,
+      },
+      {
+        id: "side-2",
+        embedUrl: v3 || d1.embedUrl,
+        badge: (video3Badge ?? "").trim() || d1.badge,
+        title: v3 ? "" : d1.title,
+      },
+    ]
+  }, [video2Url, video2Badge, video3Url, video3Badge])
+
+  const bottomVideos = useMemo((): SideVideo[] => {
+    const v4 = youTubeInputToEmbedUrl(video4Url ?? undefined)
+    const d0 = DEFAULT_BOTTOM[0]!
+    const d1 = DEFAULT_BOTTOM[1]!
+    return [
+      {
+        id: "bottom-1",
+        embedUrl: v4 || d0.embedUrl,
+        badge: (video4Badge ?? "").trim() || d0.badge,
+        title: v4 ? "" : d0.title,
+      },
+      { ...d1 },
+    ]
+  }, [video4Url, video4Badge])
 
   return (
     <section
@@ -122,7 +180,7 @@ export function VideoSection({ lang, copy }: VideoSectionProps) {
         <div className="w-full lg:w-[65%] flex flex-col gap-6">
           {/* Main Video */}
           <button
-            onClick={() => setModalVideo(mainVideo.embedUrl)}
+            onClick={() => setModalVideo(mainEmbed)}
             className="text-left w-full group cursor-pointer"
           >
             <div
@@ -132,8 +190,8 @@ export function VideoSection({ lang, copy }: VideoSectionProps) {
               <div className="aspect-video relative">
                 {/* Thumbnail */}
                 <img
-                  src={getYouTubeThumbnail(mainVideo.embedUrl)}
-                  alt={mainVideo.title}
+                  src={getYouTubeThumbnail(mainEmbed)}
+                  alt={resolvedMainTitle}
                   className="absolute inset-0 w-full h-full object-cover"
                 />
                 {/* Play Button Overlay */}
@@ -168,7 +226,7 @@ export function VideoSection({ lang, copy }: VideoSectionProps) {
                   transition: "background 0.2s ease, color 0.2s ease",
                 }}
               >
-                {copy.mainVideoBadge} · {copy.mediaPatronBadge}
+                {mainBadgeLine}
               </div>
             </div>
           </button>
@@ -176,7 +234,7 @@ export function VideoSection({ lang, copy }: VideoSectionProps) {
             className="mt-2 text-[11px] text-[#E4DDD0]"
             style={{ fontFamily: "'Rajdhani', Trebuchet MS, sans-serif" }}
           >
-            {copy.mainVideoTitle}
+            {(mainVideoTitle ?? "").trim() || copy.mainVideoTitle}
           </p>
 
           {/* Bottom Videos - TVN and Czeska TV */}
@@ -234,7 +292,9 @@ export function VideoSection({ lang, copy }: VideoSectionProps) {
                   className="mt-2 text-[11px] text-[#E4DDD0]"
                   style={{ fontFamily: "'Rajdhani', Trebuchet MS, sans-serif" }}
                 >
-                  {video.id === "ceska-tv" ? copy.secondaryVideoTitle : video.title}
+                  {video.id === "ceska-tv"
+                    ? copy.secondaryVideoTitle
+                    : video.title?.trim() || video.badge}
                 </p>
               </button>
             ))}
@@ -291,7 +351,8 @@ export function VideoSection({ lang, copy }: VideoSectionProps) {
                   color: "#E4DDD0",
                 }}
               >
-                {video.id === "tvp" ? copy.secondaryVideoBadge : video.id === "polskie-radio" ? copy.secondaryVideoTitle : video.title}
+                {video.title?.trim() ||
+                  (video.id === "side-1" ? copy.secondaryVideoBadge : copy.secondaryVideoTitle)}
               </p>
             </button>
           ))}
