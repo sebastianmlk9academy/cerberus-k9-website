@@ -4,6 +4,14 @@ import { locales } from '../../i18n/utils';
 import { isLang } from '../../i18n/utils';
 import type { Lang } from '../../i18n/ui';
 import { HOME_OG_IMAGE, homeSeoByLang } from '../../i18n/homeSeo';
+import { homeHeroCopyByLang } from '../../i18n/homeHero';
+import { footerCopyByLang } from '../../i18n/footer';
+import { homeStatsByLang } from '../../i18n/homeStats';
+import { programSectionByLang } from '../../i18n/programSection';
+import { locationsSectionByLang } from '../../i18n/locationsSection';
+import { videoSectionByLang } from '../../i18n/videoSection';
+import { latestNewsByLang } from '../../i18n/latestNews';
+import { partnersStripByLang } from '../../i18n/partnersStrip';
 import { NavBar } from '../../components/NavBar';
 import { HeroSection } from '../../components/HeroSection';
 import { StatsBar } from '../../components/StatsBar';
@@ -22,6 +30,14 @@ export const getStaticPaths = () =>
 const param = Astro.params.lang ?? '';
 const lang: Lang = isLang(param) ? param : 'en';
 const seo = homeSeoByLang[lang];
+const heroCopy = homeHeroCopyByLang[lang];
+const footerCopy = footerCopyByLang[lang];
+const statsCopy = homeStatsByLang[lang];
+const programCopy = programSectionByLang[lang];
+const locationsCopy = locationsSectionByLang[lang];
+const videoCopy = videoSectionByLang[lang];
+const newsCopy = latestNewsByLang[lang];
+const partnersCopy = partnersStripByLang[lang];
 
 const eventSchema = {
 	'@context': 'https://schema.org',
@@ -66,13 +82,13 @@ const eventSchema = {
 	></script>
 	<script type="application/ld+json" set:html={JSON.stringify(eventSchema)} />
 
-	<NavBar client:load />
-	<HeroSection client:load />
-	<StatsBar client:load />
-	<ProgramSection client:load />
-	<LocationsSection client:load />
-	<VideoSection client:load />
-	<PartnersStrip client:load />
-	<LatestNews client:load />
-	<Footer client:load />
+	<NavBar lang={lang} client:load />
+	<HeroSection lang={lang} copy={heroCopy} client:load />
+	<StatsBar lang={lang} copy={statsCopy} client:load />
+	<ProgramSection lang={lang} copy={programCopy} client:load />
+	<LocationsSection lang={lang} copy={locationsCopy} client:load />
+	<VideoSection lang={lang} copy={videoCopy} client:load />
+	<PartnersStrip lang={lang} copy={partnersCopy} client:load />
+	<LatestNews lang={lang} copy={newsCopy} client:load />
+	<Footer lang={lang} copy={footerCopy} client:load />
 </BaseLayout>
