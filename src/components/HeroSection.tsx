@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { Lang } from "../i18n/utils";
+import type { HomeHeroCopy } from "../i18n/homeHero";
+import { ui } from "../i18n/ui";
 
 interface TimeLeft {
   days: number;
@@ -27,7 +30,12 @@ function calculateTimeLeft(): TimeLeft {
   };
 }
 
-export function HeroSection() {
+interface HeroSectionProps {
+  lang: Lang;
+  copy: HomeHeroCopy;
+}
+
+export function HeroSection({ lang, copy }: HeroSectionProps) {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
     days: 0,
     hours: 0,
@@ -93,7 +101,7 @@ export function HeroSection() {
             color: "#C42B2B",
           }}
         >
-          MIĘDZYNARODOWA PLATFORMA OBRONY · EDYCJA 2026
+          {copy.tagline}
         </span>
       </div>
 
@@ -135,31 +143,31 @@ export function HeroSection() {
           color: "#7A8A96",
         }}
       >
-        13–14 CZERWCA · 3MK ARENA · OSTRÓW WIELKOPOLSKI · POLSKA
+        {copy.dateLocation}
       </p>
 
       {/* Section 4: Countdown Timer */}
       <div className="relative z-10 flex items-center gap-2 sm:gap-3 md:gap-4 mb-6 sm:mb-8 flex-wrap">
         {mounted && (
           <>
-            <CountdownBlock value={formatNumber(timeLeft.days)} label="DNI" />
+            <CountdownBlock value={formatNumber(timeLeft.days)} label={ui[lang].countdown_days} />
             <Separator />
-            <CountdownBlock value={formatNumber(timeLeft.hours)} label="GODZIN" />
+            <CountdownBlock value={formatNumber(timeLeft.hours)} label={ui[lang].countdown_hours} />
             <Separator />
-            <CountdownBlock value={formatNumber(timeLeft.minutes)} label="MINUT" />
+            <CountdownBlock value={formatNumber(timeLeft.minutes)} label={ui[lang].countdown_minutes} />
             <Separator />
-            <CountdownBlock value={formatNumber(timeLeft.seconds)} label="SEKUND" />
+            <CountdownBlock value={formatNumber(timeLeft.seconds)} label={ui[lang].countdown_seconds} />
           </>
         )}
         {!mounted && (
           <>
-            <CountdownBlock value="--" label="DNI" />
+            <CountdownBlock value="--" label={ui[lang].countdown_days} />
             <Separator />
-            <CountdownBlock value="--" label="GODZIN" />
+            <CountdownBlock value="--" label={ui[lang].countdown_hours} />
             <Separator />
-            <CountdownBlock value="--" label="MINUT" />
+            <CountdownBlock value="--" label={ui[lang].countdown_minutes} />
             <Separator />
-            <CountdownBlock value="--" label="SEKUND" />
+            <CountdownBlock value="--" label={ui[lang].countdown_seconds} />
           </>
         )}
       </div>
@@ -167,16 +175,16 @@ export function HeroSection() {
       {/* Section 5: Meta Info Row */}
       <div className="relative z-10 flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-6 md:gap-8 mb-6 sm:mb-8">
         <MetaInfoItem
-          label="LOKALIZACJE"
-          value="3MK Arena · Stadion Miejski · Szkoła Mundurowa"
+          label={copy.metaRow1}
+          value={copy.metaRow1Value}
         />
         <MetaInfoItem
-          label="DELEGACJE"
-          value="Marinha Portuguesa Destacamento de Ações Especiais · US Police K9 · 10+ krajów"
+          label={copy.metaRow2}
+          value={copy.metaRow2Value}
         />
         <MetaInfoItem
-          label="WSTĘP"
-          value="BEZPŁATNY — wymagana rejestracja"
+          label={copy.metaRow3}
+          value={copy.metaRow3Value}
         />
       </div>
 
@@ -196,7 +204,7 @@ export function HeroSection() {
           onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#9E1F1F")}
           onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#C42B2B")}
         >
-          ZAREJESTRUJ SIĘ TERAZ
+          {copy.ctaRegister}
         </button>
         <button
           className="cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-6 sm:py-3.5"
@@ -218,7 +226,7 @@ export function HeroSection() {
             e.currentTarget.style.color = "#C4922A";
           }}
         >
-          POBIERZ PROGRAM
+          {copy.ctaProgram}
         </button>
         <button
           className="cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-5 sm:py-3.5"
@@ -240,7 +248,7 @@ export function HeroSection() {
             e.currentTarget.style.color = "#7A8A96";
           }}
         >
-          OBEJRZYJ RELACJĘ 2025
+          {copy.ctaVideo}
         </button>
       </div>
     </section>
