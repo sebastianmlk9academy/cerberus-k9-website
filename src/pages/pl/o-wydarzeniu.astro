@@ -1,0 +1,205 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { HOME_OG_IMAGE } from '../../i18n/homeSeo';
+import { aboutEventPageByLang } from '../../i18n/aboutEventPage';
+import { NavBar } from '../../components/NavBar';
+import { PageHero } from '../../components/PageHero';
+import InteractiveAgenda from '../../components/InteractiveAgenda';
+import { LocationsSection } from '../../components/LocationsSection';
+import FAQAccordion from '../../components/FAQAccordion';
+import { Footer } from '../../components/Footer';
+import { footerCopyByLang } from '../../i18n/footer';
+import { programEntriesToAgendaItems } from '../../lib/programAgenda';
+
+export const prerender = true;
+
+const lang = 'pl';
+const settings = await getEntry('ustawienia', 'ustawienia');
+const s = settings?.data;
+const copy = aboutEventPageByLang[lang] ?? aboutEventPageByLang['pl'];
+const plausibleDomain = s?.plausible_domain ?? 'cerberusk9.org';
+
+const programItems = await getCollection('program');
+const agendaItems = programEntriesToAgendaItems(programItems);
+
+const eventSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'Event',
+	name: 'CERBERUS K9 2026',
+	startDate: s?.event_date ?? '2026-06-13',
+	endDate: s?.event_date_end ?? '2026-06-14',
+	eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+	eventStatus: 'https://schema.org/EventScheduled',
+	location: {
+		'@type': 'Place',
+		name: s?.event_venue ?? '3MK Arena',
+		address: {
+			'@type': 'PostalAddress',
+			addressLocality: s?.event_city ?? 'Ostrów Wielkopolski',
+			addressCountry: 'PL',
+		},
+	},
+	organizer: {
+		'@type': 'Organization',
+		name: 'Fundacja PACTA K9',
+		url: 'https://cerberusk9.org',
+	},
+	description: copy.metaDescription,
+	image: [new URL(HOME_OG_IMAGE, Astro.site ?? Astro.url).toString()],
+	url: Astro.url.toString(),
+};
+---
+
+<BaseLayout
+	lang={lang}
+	title={copy.metaTitle}
+	description={copy.metaDescription}
+	localizedPath="o-wydarzeniu"
+	ogImage={HOME_OG_IMAGE}
+	ogType="website"
+>
+	<script defer data-domain={plausibleDomain} src="https://plausible.io/js/plausible.js"></script>
+	<script type="application/ld+json" set:html={JSON.stringify(eventSchema)} />
+
+	<NavBar client:load lang={lang} />
+	<PageHero
+		category={copy.category}
+		title={copy.heroTitle}
+		subtitle={copy.heroSubtitle}
+		heroImage={s?.hero_background_image}
+		heroOpacity={s?.hero_background_opacity}
+	/>
+
+	<section class="event-description" aria-labelledby="event-desc-heading" style={{ paddingTop: '10px' }}>
+		<div class="event-description__inner">
+			<div class="event-description__col event-description__col--main">
+				<h2 id="event-desc-heading" class="event-description__title">
+					{copy.sectionTitle}
+				</h2>
+				<p class="event-description__body">{copy.bodyP1}</p>
+				<p class="event-description__body">{copy.bodyP2}</p>
+			</div>
+			<div class="event-description__col event-description__col--stats">
+				<div class="event-description__grid items-center">
+					{
+						copy.stats.map((stat) => (
+							<div
+								class:list={[
+									'event-description__stat',
+									stat.accent === 'gold' && 'event-description__stat--gold',
+									stat.accent === 'red' && 'event-description__stat--red',
+								]}
+							>
+								<p class="event-description__stat-value">{stat.value}</p>
+								<p class="event-description__stat-label">{stat.label}</p>
+							</div>
+						))
+					}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<InteractiveAgenda client:load lang={lang} items={agendaItems} />
+	<LocationsSection lang={lang} client:load />
+	<FAQAccordion client:load lang={lang} />
+	<Footer
+		lang={lang}
+		copy={footerCopyByLang[lang] ?? footerCopyByLang['pl']}
+		email={s?.footer_email}
+		phone={s?.footer_phone}
+		socialFacebook={s?.social_facebook}
+		socialYoutube={s?.social_youtube}
+		socialInstagram={s?.social_instagram}
+		socialLinkedin={s?.social_linkedin}
+		socialTwitter={s?.social_twitter}
+		client:load
+	/>
+</BaseLayout>
+
+<style>
+	.event-description {
+		background: linear-gradient(to bottom, #161F28, #1A2530, #161F28);
+		padding: 0 5%;
+		margin: 0;
+		border-top: none;
+		border-bottom: none;
+	}
+	.event-description__inner {
+		max-width: 1200px;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		gap: 3rem;
+	}
+	@media (min-width: 1024px) {
+		.event-description__inner {
+			flex-direction: row;
+			align-items: center;
+			gap: 4rem;
+		}
+		.event-description__col--main {
+			flex: 0 0 60%;
+			max-width: 60%;
+		}
+		.event-description__col--stats {
+			flex: 0 0 40%;
+			max-width: 40%;
+		}
+	}
+	.event-description__title {
+		font-family: var(--font-bebas-neue), 'Bebas Neue', sans-serif;
+		font-size: 42px;
+		line-height: 1.1;
+		color: #e4ddd0;
+		margin: 0 0 1.5rem;
+		letter-spacing: 0.02em;
+	}
+	.event-description__body {
+		font-family: var(--font-libre-baskerville), 'Libre Baskerville', Georgia, serif;
+		font-size: 15px;
+		line-height: 1.8;
+		color: #7a8a96;
+		margin: 0 0 1.25rem;
+	}
+	.event-description__grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1rem;
+	}
+	.event-description__stat {
+		background: rgba(15, 23, 32, 0.65);
+		border: 1px solid #253344;
+		border-left-width: 4px;
+		padding: 1.25rem 1rem;
+		min-height: 120px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+	.event-description__stat--gold {
+		border-left-color: #c4922a;
+	}
+	.event-description__stat--red {
+		border-left-color: #c42b2b;
+	}
+	.event-description__stat-value {
+		font-family: var(--font-bebas-neue), 'Bebas Neue', sans-serif;
+		font-size: 2.75rem;
+		line-height: 1;
+		color: #e4ddd0;
+		margin: 0 0 0.5rem;
+		letter-spacing: 0.04em;
+	}
+	.event-description__stat-label {
+		font-family: var(--font-rajdhani), 'Rajdhani', sans-serif;
+		font-size: 10px;
+		font-weight: 600;
+		letter-spacing: 0.12em;
+		color: #7a8a96;
+		margin: 0;
+		text-transform: uppercase;
+		line-height: 1.35;
+	}
+</style>
