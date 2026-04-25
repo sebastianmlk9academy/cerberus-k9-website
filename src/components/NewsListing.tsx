@@ -190,8 +190,8 @@ function ArticleCard({ article }: { article: NewsListingArticle }) {
             style={{
               backgroundColor: "rgba(15, 23, 32, 0.85)",
               color: "#C4922A",
-              fontSize: "8px",
-              padding: "4px 8px",
+              fontSize: "12px",
+              padding: "5px 10px",
             }}
           >
             {article.date}
