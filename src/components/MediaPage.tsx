@@ -65,12 +65,12 @@ const mediaArchive2025: MediaArchiveItem[] = [
   {
     outlet: 'Special-Ops.pl',
     type: 'ARTYKUŁ',
-    href: '/press/archiwum-2025-special-ops-cerberus-k9.pdf',
+    href: '/downloads/special-ops-cerberus-k9-2025.pdf',
   },
   {
     outlet: 'Polska Zbrojna',
     type: 'ARTYKUŁ',
-    href: '/press/archiwum-2025-polska-zbrojna-cerberus-k9.pdf',
+    href: '/downloads/polska-zbrojna-cerberus-k9-2025.pdf',
   },
 ];
 
@@ -170,11 +170,70 @@ export default function MediaPage() {
         >
           POBIERZ PRESS KIT (ZIP) ↓
         </a>
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '12px 16px',
+            alignItems: 'center',
+            marginTop: '24px',
+          }}
+        >
+          <a
+            href="/downloads/polska-zbrojna-cerberus-k9-2025.pdf"
+            download
+            target="_blank"
+            rel="noopener noreferrer"
+            className="media-page-cta-btn"
+          >
+            Pobierz artykuł — Polska Zbrojna
+          </a>
+          <a
+            href="/downloads/special-ops-cerberus-k9-2025.pdf"
+            download
+            target="_blank"
+            rel="noopener noreferrer"
+            className="media-page-cta-btn"
+          >
+            Pobierz artykuł — Special Ops
+          </a>
+        </div>
       </section>
 
       <style>{`
         .media-page-download-btn:hover {
           background: #a82424 !important;
+        }
+        .media-page-cta-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          box-sizing: border-box;
+          cursor: pointer;
+          transition: background-color 0.2s ease, color 0.2s ease;
+          background-color: transparent;
+          color: #c4922a;
+          font-family: ${raj};
+          letter-spacing: 3px;
+          font-weight: 700;
+          border-radius: 0;
+          border: 1px solid #c4922a;
+          text-decoration: none;
+          text-align: center;
+          line-height: 1.35;
+          max-width: 100%;
+          font-size: 10px;
+          padding: 12px 18px;
+        }
+        @media (min-width: 640px) {
+          .media-page-cta-btn {
+            font-size: 11px;
+            padding: 14px 22px;
+          }
+        }
+        .media-page-cta-btn:hover {
+          background-color: #c4922a;
+          color: #1e2b38;
         }
         .media-archive-link:hover {
           color: #E0AA44 !important;
