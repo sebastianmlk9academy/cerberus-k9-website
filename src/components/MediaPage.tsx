@@ -353,7 +353,7 @@ export default function MediaPage() {
             sebastian@pactak9.org
           </a>
           <p style={{ margin: 0, fontSize: '13px', color: '#7A8A9A' }}>
-            Termin zgłoszeń: [data — do uzupełnienia]
+            Termin zgłoszeń: 30.05.2026
           </p>
         </div>
       </div>
