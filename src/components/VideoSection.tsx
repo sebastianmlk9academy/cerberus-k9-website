@@ -20,7 +20,6 @@ function getYouTubeThumbnail(embedUrl: string): string {
 
 const mainVideo = {
   id: "polska-zbrojna",
-  badge: "POLSKA ZBROJNA · PATRON MEDIALNY",
   title: "CERBERUS K9 2025",
   embedUrl: "https://www.youtube.com/embed/kUhqmGhrbas",
 }
@@ -29,7 +28,7 @@ const topSideVideos: SideVideo[] = [
   {
     id: "tvp",
     badge: "TVP",
-    title: "TVP — Relacja z CERBERUS K9 2025",
+    title: "",
     embedUrl: "https://www.youtube.com/embed/Fo-j5vGI0m4",
   },
   {
@@ -50,7 +49,7 @@ const bottomVideos: SideVideo[] = [
   {
     id: "ceska-tv",
     badge: "Czeska Telewizja Publiczna",
-    title: "Czeska Telewizja Publiczna - Reportaż",
+    title: "",
     embedUrl: "https://www.youtube.com/embed/YAsXbzL3PWs",
   },
 ]
@@ -169,7 +168,7 @@ export function VideoSection({ lang, copy }: VideoSectionProps) {
                   transition: "background 0.2s ease, color 0.2s ease",
                 }}
               >
-                POLSKA ZBROJNA · PATRON MEDIALNY
+                {copy.mainVideoBadge} · {copy.mediaPatronBadge}
               </div>
             </div>
           </button>
@@ -235,7 +234,7 @@ export function VideoSection({ lang, copy }: VideoSectionProps) {
                   className="mt-2 text-[11px] text-[#E4DDD0]"
                   style={{ fontFamily: "'Rajdhani', Trebuchet MS, sans-serif" }}
                 >
-                  {video.title}
+                  {video.id === "ceska-tv" ? copy.secondaryVideoTitle : video.title}
                 </p>
               </button>
             ))}
@@ -292,7 +291,7 @@ export function VideoSection({ lang, copy }: VideoSectionProps) {
                   color: "#E4DDD0",
                 }}
               >
-                {video.id === "polskie-radio" ? copy.secondaryVideoTitle : video.title}
+                {video.id === "tvp" ? copy.secondaryVideoBadge : video.id === "polskie-radio" ? copy.secondaryVideoTitle : video.title}
               </p>
             </button>
           ))}
