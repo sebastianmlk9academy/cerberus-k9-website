@@ -37,18 +37,6 @@ const FILTERS: { id: NewsListingCategory; label: string }[] = [
   { id: "hardest-hit", label: "HARDEST HIT" },
 ];
 
-const CATEGORY_BADGE_COLORS: Record<
-  Exclude<NewsListingCategory, "wszystkie">,
-  string
-> = {
-  aktualnosci: "rgba(196, 43, 43, 0.9)",
-  rejestracja: "rgba(196, 146, 42, 0.95)",
-  instruktorzy: "rgba(58, 124, 165, 0.95)",
-  partnerzy: "rgba(42, 157, 143, 0.95)",
-  media: "rgba(123, 97, 255, 0.95)",
-  "hardest-hit": "rgba(201, 74, 40, 0.95)",
-};
-
 function estimateReadingMinutes(text: string): number {
   const words = text.trim().split(/\s+/).filter(Boolean).length;
   const minutes = Math.max(1, Math.ceil(words / 200));
@@ -136,13 +124,11 @@ function ArticleCard({ article }: { article: NewsListingArticle }) {
     article.readingMinutes ??
     estimateReadingMinutes(`${article.title} ${article.lead}`);
 
-  const badgeBg = CATEGORY_BADGE_COLORS[article.category];
-
   return (
     <article
       className="overflow-hidden transition-[border-color] duration-300"
       style={{
-        backgroundColor: "transparent",
+        background: "transparent",
         borderTop: hovered ? "3px solid #C4922A" : "3px solid transparent",
       }}
       onMouseEnter={() => setHovered(true)}
@@ -153,7 +139,7 @@ function ArticleCard({ article }: { article: NewsListingArticle }) {
           className="relative w-full overflow-hidden"
           style={{
             aspectRatio: "16 / 9",
-            backgroundColor: "transparent",
+            background: "transparent",
           }}
         >
           {article.imageSrc ? (
@@ -192,7 +178,7 @@ function ArticleCard({ article }: { article: NewsListingArticle }) {
               fontSize: "8px",
               letterSpacing: "2px",
               padding: "4px 8px",
-              backgroundColor: badgeBg,
+              background: "transparent",
               fontWeight: 700,
             }}
           >
@@ -207,7 +193,7 @@ function ArticleCard({ article }: { article: NewsListingArticle }) {
               letterSpacing: "2px",
               padding: "4px 8px",
               color: "#C4922A",
-              backgroundColor: "rgba(15, 23, 32, 0.85)",
+              background: "transparent",
               fontWeight: 600,
             }}
           >
