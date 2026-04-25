@@ -171,7 +171,7 @@ export function ArticleLayout({
       `}</style>
       <article
         style={{
-          maxWidth: 780,
+          maxWidth: 1180,
           margin: '0 auto',
           padding: '80px 5%',
           background: '#1E2B38',
