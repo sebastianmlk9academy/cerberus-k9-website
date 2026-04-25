@@ -24,13 +24,13 @@ const description =
 	<div
 		style="background: linear-gradient(to bottom, #161F28, #1A2530, #161F28); min-height: 100vh;"
 	>
-		<NavBar client:load />
+		<NavBar client:load lang={lang} />
 		<PageHero
 			category="DLA DZIENNIKARZY"
 			title="MEDIA"
 			subtitle="PRESS KIT · INFORMACJE PRASOWE · RELACJE 2025"
 		/>
-		<MediaPage client:load />
+		<MediaPage client:load lang={lang} />
 		<Footer client:load />
 	</div>
 </BaseLayout>

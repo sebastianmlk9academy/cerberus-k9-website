@@ -31,12 +31,12 @@ const articles = aktualnosciToListingArticles(entries, lang);
 	localizedPath="aktualnosci"
 	ogType="website"
 >
-	<NavBar client:load />
+	<NavBar client:load lang={lang} />
 	<PageHero
 		category="CERBERUS K9"
 		title={ui[lang].nav_news}
 		subtitle={seo.newsPageSubtitle}
 	/>
-	<NewsListing articles={articles} client:load />
+	<NewsListing articles={articles} lang={lang} client:load />
 	<Footer client:load />
 </BaseLayout>

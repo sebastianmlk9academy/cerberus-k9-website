@@ -74,13 +74,13 @@ const ogImage = bestGalleryPhoto?.photo ?? '/images/page_hero_graph.webp';
 	</Fragment>
 
 	<div style="background: linear-gradient(to bottom, #161F28, #1A2530, #161F28); min-height: 100vh;">
-		<NavBar client:load />
+		<NavBar client:load lang={lang} />
 		<PageHero
 			category="ARCHIWUM FOTOGRAFICZNE"
 			title="GALERIA"
 			subtitle="EDYCJA 2025 · TRÓJMIASTO · 300+ ZDJĘĆ"
 		/>
-		<GalleryGrid client:load photos={photos} />
+		<GalleryGrid client:load lang={lang} photos={photos} />
 		<Footer client:load />
 	</div>
 

@@ -1,4 +1,6 @@
 import { FileText, Mail, Phone, ExternalLink } from 'lucide-react';
+import { ui } from '../i18n/ui';
+import type { Lang } from '../i18n/utils';
 
 const pressKitItems = [
   '✓ Logo CERBERUS K9 (PNG, SVG, białe/czarne/kolorowe)',
@@ -76,7 +78,47 @@ const mediaArchive2025: MediaArchiveItem[] = [
 const raj = "'Rajdhani', sans-serif" as const;
 const bebas = "'Bebas Neue', sans-serif" as const;
 
-export default function MediaPage() {
+interface MediaPageProps {
+  lang: Lang;
+}
+
+export default function MediaPage({ lang }: MediaPageProps) {
+  const sectionTag = ui[lang].nav_media;
+  const t = {
+    pl: {
+      mediaPack: 'Komplet materiałów dla mediów w jednym pliku',
+      downloadArticle: 'Pobierz artykuł',
+      contactAccreditation: 'KONTAKT I AKREDYTACJA',
+      journalistAccreditation: 'AKREDYTACJA DZIENNIKARSKA',
+      pressInfo: 'INFORMACJE PRASOWE',
+      mediaArchive: 'ARCHIWUM MEDIALNE — RELACJE 2025',
+    },
+    en: { mediaPack: 'Complete media materials in one file', downloadArticle: 'Download article', contactAccreditation: 'CONTACT & ACCREDITATION', journalistAccreditation: 'MEDIA ACCREDITATION', pressInfo: 'PRESS INFORMATION', mediaArchive: 'MEDIA ARCHIVE — 2025 COVERAGE' },
+    de: { mediaPack: 'Komplette Medienmaterialien in einer Datei', downloadArticle: 'Artikel herunterladen', contactAccreditation: 'KONTAKT & AKKREDITIERUNG', journalistAccreditation: 'PRESSEAKKREDITIERUNG', pressInfo: 'PRESSEINFORMATIONEN', mediaArchive: 'MEDIENARCHIV — BERICHTE 2025' },
+    fr: { mediaPack: 'Pack médias complet dans un seul fichier', downloadArticle: "Télécharger l'article", contactAccreditation: 'CONTACT & ACCRÉDITATION', journalistAccreditation: 'ACCRÉDITATION JOURNALISTE', pressInfo: 'INFORMATIONS PRESSE', mediaArchive: 'ARCHIVES MÉDIAS — COUVERTURE 2025' },
+    hr: { mediaPack: 'Komplet materijala za medije u jednoj datoteci', downloadArticle: 'Preuzmi članak', contactAccreditation: 'KONTAKT I AKREDITACIJA', journalistAccreditation: 'NOVINARSKA AKREDITACIJA', pressInfo: 'PRIOPĆENJA ZA MEDIJE', mediaArchive: 'MEDIJSKA ARHIVA — IZVJEŠĆA 2025' },
+    cs: { mediaPack: 'Kompletní mediální materiály v jednom souboru', downloadArticle: 'Stáhnout článek', contactAccreditation: 'KONTAKT A AKREDITACE', journalistAccreditation: 'NOVINÁŘSKÁ AKREDITACE', pressInfo: 'TISKOVÉ INFORMACE', mediaArchive: 'MEDIÁLNÍ ARCHIV — REPORTÁŽE 2025' },
+    lt: { mediaPack: 'Visa medijos medžiaga viename faile', downloadArticle: 'Atsisiųsti straipsnį', contactAccreditation: 'KONTAKTAI IR AKREDITACIJA', journalistAccreditation: 'ŽURNALISTŲ AKREDITACIJA', pressInfo: 'PRANEŠIMAI SPAUDAI', mediaArchive: 'MEDIJOS ARCHYVAS — 2025 APŽVALGOS' },
+    lv: { mediaPack: 'Pilns mediju materiālu komplekts vienā failā', downloadArticle: 'Lejupielādēt rakstu', contactAccreditation: 'KONTAKTS UN AKREDITĀCIJA', journalistAccreditation: 'ŽURNĀLISTU AKREDITĀCIJA', pressInfo: 'PRESĒ INFORMĀCIJA', mediaArchive: 'MEDIJU ARHĪVS — 2025 MATERIĀLI' },
+    sk: { mediaPack: 'Kompletné mediálne materiály v jednom súbore', downloadArticle: 'Stiahnuť článok', contactAccreditation: 'KONTAKT A AKREDITÁCIA', journalistAccreditation: 'NOVINÁRSKA AKREDITÁCIA', pressInfo: 'TLAČOVÉ INFORMÁCIE', mediaArchive: 'MEDIÁLNY ARCHÍV — SPRÁVY 2025' },
+    sl: { mediaPack: 'Celoten medijski paket v eni datoteki', downloadArticle: 'Prenesi članek', contactAccreditation: 'KONTAKT IN AKREDITACIJA', journalistAccreditation: 'NOVINARSKA AKREDITACIJA', pressInfo: 'INFORMACIJE ZA MEDIJE', mediaArchive: 'MEDIJSKI ARHIV — POROČILA 2025' },
+    hu: { mediaPack: 'Teljes médiacsomag egy fájlban', downloadArticle: 'Cikk letöltése', contactAccreditation: 'KAPCSOLAT ÉS AKKREDITÁCIÓ', journalistAccreditation: 'SAJTÓAKKREDITÁCIÓ', pressInfo: 'SAJTÓINFORMÁCIÓK', mediaArchive: 'MÉDIAARCHÍVUM — 2025-ÖS ANYAGOK' },
+    no: { mediaPack: 'Komplett mediepakke i én fil', downloadArticle: 'Last ned artikkel', contactAccreditation: 'KONTAKT OG AKKREDITERING', journalistAccreditation: 'PRESSEAKKREDITERING', pressInfo: 'PRESSEINFORMASJON', mediaArchive: 'MEDIEARKIV — DEKNING 2025' },
+    sv: { mediaPack: 'Komplett mediepaket i en fil', downloadArticle: 'Ladda ner artikel', contactAccreditation: 'KONTAKT OCH ACKREDITERING', journalistAccreditation: 'PRESSACKREDITERING', pressInfo: 'PRESSINFORMATION', mediaArchive: 'MEDIEARKIV — RAPPORTERING 2025' },
+    nl: { mediaPack: 'Volledig mediapakket in één bestand', downloadArticle: 'Artikel downloaden', contactAccreditation: 'CONTACT EN ACCREDITATIE', journalistAccreditation: 'PERSACCREDITATIE', pressInfo: 'PERSINFORMATIE', mediaArchive: 'MEDIA-ARCHIEF — VERSLAGGEVING 2025' },
+    es: { mediaPack: 'Paquete completo de medios en un archivo', downloadArticle: 'Descargar artículo', contactAccreditation: 'CONTACTO Y ACREDITACIÓN', journalistAccreditation: 'ACREDITACIÓN DE PRENSA', pressInfo: 'INFORMACIÓN DE PRENSA', mediaArchive: 'ARCHIVO DE MEDIOS — COBERTURA 2025' },
+    pt: { mediaPack: 'Pacote completo de media num único ficheiro', downloadArticle: 'Transferir artigo', contactAccreditation: 'CONTACTO E ACREDITAÇÃO', journalistAccreditation: 'ACREDITAÇÃO JORNALÍSTICA', pressInfo: 'INFORMAÇÃO DE IMPRENSA', mediaArchive: 'ARQUIVO DE MEDIA — COBERTURA 2025' },
+    ro: { mediaPack: 'Pachet media complet într-un singur fișier', downloadArticle: 'Descarcă articolul', contactAccreditation: 'CONTACT ȘI ACREDITARE', journalistAccreditation: 'ACREDITARE JURNALIȘTI', pressInfo: 'INFORMAȚII DE PRESĂ', mediaArchive: 'ARHIVĂ MEDIA — RELATĂRI 2025' },
+    it: { mediaPack: 'Pacchetto media completo in un unico file', downloadArticle: 'Scarica articolo', contactAccreditation: 'CONTATTI E ACCREDITO', journalistAccreditation: 'ACCREDITO GIORNALISTICO', pressInfo: 'INFORMAZIONI STAMPA', mediaArchive: 'ARCHIVIO MEDIA — COPERTURA 2025' },
+    ko: { mediaPack: '미디어 자료 전체를 하나의 파일로 제공', downloadArticle: '기사 다운로드', contactAccreditation: '연락처 및 취재 승인', journalistAccreditation: '언론 취재 승인', pressInfo: '보도 자료', mediaArchive: '미디어 아카이브 — 2025 보도' },
+  }[lang] ?? {
+    mediaPack: 'Complete media materials in one file',
+    downloadArticle: 'Download article',
+    contactAccreditation: 'CONTACT & ACCREDITATION',
+    journalistAccreditation: 'MEDIA ACCREDITATION',
+    pressInfo: 'PRESS INFORMATION',
+    mediaArchive: 'MEDIA ARCHIVE — 2025 COVERAGE',
+  };
   return (
     <div
       style={{
@@ -109,7 +151,7 @@ export default function MediaPage() {
             lineHeight: 1.15,
           }}
         >
-          PRESS KIT — CERBERUS K9 2026
+          PRESS KIT — {sectionTag} 2026
         </h1>
         <p
           style={{
@@ -120,7 +162,7 @@ export default function MediaPage() {
             fontWeight: 500,
           }}
         >
-          Komplet materiałów dla mediów w jednym pliku
+          {t.mediaPack}
         </p>
         <ul
           style={{
@@ -185,7 +227,7 @@ export default function MediaPage() {
             rel="noopener noreferrer"
             className="media-page-cta-btn"
           >
-            Pobierz artykuł — Polska Zbrojna
+            {t.downloadArticle} — Polska Zbrojna
           </a>
           <a
             href="/downloads/special-ops-cerberus-k9-2025.pdf"
@@ -194,7 +236,7 @@ export default function MediaPage() {
             rel="noopener noreferrer"
             className="media-page-cta-btn"
           >
-            Pobierz artykuł — Special Ops
+            {t.downloadArticle} — Special Ops
           </a>
         </div>
       </section>
@@ -249,7 +291,7 @@ export default function MediaPage() {
           margin: '0 0 24px 0',
         }}
       >
-        KONTAKT I AKREDYTACJA
+        {t.contactAccreditation}
       </h2>
       <div
         style={{
@@ -329,7 +371,7 @@ export default function MediaPage() {
               letterSpacing: '1px',
             }}
           >
-            AKREDYTACJA DZIENNIKARSKA
+            {t.journalistAccreditation}
           </h3>
           <p style={{ margin: '0 0 16px 0', fontSize: '14px', lineHeight: 1.65, color: '#C5BCB0' }}>
             Akredytacja odbywa się wyłącznie drogą mailową. W wiadomości prosimy o podanie: imienia i
@@ -367,7 +409,7 @@ export default function MediaPage() {
           margin: '0 0 24px 0',
         }}
       >
-        INFORMACJE PRASOWE
+        {t.pressInfo}
       </h2>
       <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 56px 0' }}>
         {pressReleases.map((item) => (
@@ -430,7 +472,7 @@ export default function MediaPage() {
           margin: '0 0 12px 0',
         }}
       >
-        ARCHIWUM MEDIALNE — RELACJE 2025
+        {t.mediaArchive}
       </h2>
       <p style={{ margin: '0 0 28px 0', fontSize: '14px', color: '#8A9AAA' }}>
         Wybrane relacje prasowe i materiały z ubiegłorocznej edycji.

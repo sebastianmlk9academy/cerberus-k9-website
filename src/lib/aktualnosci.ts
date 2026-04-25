@@ -70,6 +70,7 @@ export function aktualnosciToListingArticles(
 				lead: entry.data.lead,
 				date: formatNewsDateLabel(entry.data.date, lang),
 				href: `/${lang}/aktualnosci/${entry.id}/`,
+				slug: entry.id,
 				imageSrc: entry.data.image?.trim() || undefined,
 			} satisfies NewsListingArticle;
 		});

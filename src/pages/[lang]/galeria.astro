@@ -85,7 +85,7 @@ const ogImage = bestGalleryPhoto?.photo ?? '/images/page_hero_graph.webp';
 	<div style="background: linear-gradient(to bottom, #161F28, #1A2530, #161F28); min-height: 100vh;">
 		<NavBar client:load lang={lang} />
 		<PageHero category={copy.heroCategory} title={navGallery} subtitle={copy.heroSubtitle} />
-		<GalleryGrid client:load photos={photos} />
+		<GalleryGrid client:load lang={lang} photos={photos} />
 		<Footer client:load />
 	</div>
 

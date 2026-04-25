@@ -1,5 +1,7 @@
 import { Lock } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ui } from "../i18n/ui";
+import type { Lang } from "../i18n/utils";
 
 type Category =
   | "HARDEST HIT"
@@ -19,6 +21,7 @@ type PhotoItem = {
 };
 
 type GalleryGridProps = {
+  lang: Lang;
   photos: PhotoItem[];
 };
 
@@ -129,7 +132,34 @@ const handlePartnerButtonMouseLeave = (
   e.currentTarget.style.color = "#C4922A";
 };
 
-export function GalleryGrid({ photos }: GalleryGridProps) {
+export function GalleryGrid({ photos, lang }: GalleryGridProps) {
+  const t = {
+    pl: { allLocations: "WSZYSTKIE LOKALIZACJE", all: "WSZYSTKO", photos: "ZDJĘCIA", videos: "FILMY", loadMore: "ZAŁADUJ WIĘCEJ", nextPhotos: "KOLEJNYCH ZDJĘĆ" },
+    en: { allLocations: "ALL LOCATIONS", all: "ALL", photos: "PHOTOS", videos: "VIDEOS", loadMore: "LOAD MORE", nextPhotos: "MORE PHOTOS" },
+    de: { allLocations: "ALLE STANDORTE", all: "ALLE", photos: "FOTOS", videos: "VIDEOS", loadMore: "MEHR LADEN", nextPhotos: "WEITERE FOTOS" },
+    fr: { allLocations: "TOUS LES LIEUX", all: "TOUT", photos: "PHOTOS", videos: "VIDÉOS", loadMore: "CHARGER PLUS", nextPhotos: "AUTRES PHOTOS" },
+    hr: { allLocations: "SVE LOKACIJE", all: "SVE", photos: "FOTOGRAFIJE", videos: "VIDEO", loadMore: "UČITAJ VIŠE", nextPhotos: "SLJEDEĆIH FOTOGRAFIJA" },
+    cs: { allLocations: "VŠECHNY LOKALITY", all: "VŠE", photos: "FOTKY", videos: "VIDEA", loadMore: "NAČÍST VÍCE", nextPhotos: "DALŠÍCH FOTEK" },
+    lt: { allLocations: "VISOS VIETOS", all: "VISKAS", photos: "NUOTRAUKOS", videos: "VAIZDO ĮRAŠAI", loadMore: "ĮKELTI DAUGIAU", nextPhotos: "KITŲ NUOTRAUKŲ" },
+    lv: { allLocations: "VISAS LOKĀCIJAS", all: "VISS", photos: "FOTO", videos: "VIDEO", loadMore: "IELĀDĒT VAIRĀK", nextPhotos: "NĀKAMO FOTO" },
+    sk: { allLocations: "VŠETKY LOKALITY", all: "VŠETKO", photos: "FOTKY", videos: "VIDEÁ", loadMore: "NAČÍTAŤ VIAC", nextPhotos: "ĎALŠÍCH FOTIEK" },
+    sl: { allLocations: "VSE LOKACIJE", all: "VSE", photos: "FOTOGRAFIJE", videos: "VIDEI", loadMore: "NALOŽI VEČ", nextPhotos: "NASLEDNJIH FOTOGRAFIJ" },
+    hu: { allLocations: "ÖSSZES HELYSZÍN", all: "ÖSSZES", photos: "FOTÓK", videos: "VIDEÓK", loadMore: "TÖBB BETÖLTÉSE", nextPhotos: "TOVÁBBI FOTÓ" },
+    no: { allLocations: "ALLE STEDER", all: "ALLE", photos: "BILDER", videos: "VIDEOER", loadMore: "LAST INN FLERE", nextPhotos: "FLERE BILDER" },
+    sv: { allLocations: "ALLA PLATSER", all: "ALLT", photos: "BILDER", videos: "VIDEOR", loadMore: "LADDA FLER", nextPhotos: "FLER BILDER" },
+    nl: { allLocations: "ALLE LOCATIES", all: "ALLES", photos: "FOTO'S", videos: "VIDEO'S", loadMore: "MEER LADEN", nextPhotos: "VOLGENDE FOTO'S" },
+    es: { allLocations: "TODAS LAS UBICACIONES", all: "TODO", photos: "FOTOS", videos: "VIDEOS", loadMore: "CARGAR MÁS", nextPhotos: "MÁS FOTOS" },
+    pt: { allLocations: "TODOS OS LOCAIS", all: "TUDO", photos: "FOTOS", videos: "VÍDEOS", loadMore: "CARREGAR MAIS", nextPhotos: "PRÓXIMAS FOTOS" },
+    ro: { allLocations: "TOATE LOCAȚIILE", all: "TOT", photos: "FOTOGRAFII", videos: "VIDEO", loadMore: "ÎNCARCĂ MAI MULT", nextPhotos: "URMĂTOARELE FOTOGRAFII" },
+    it: { allLocations: "TUTTE LE SEDI", all: "TUTTO", photos: "FOTO", videos: "VIDEO", loadMore: "CARICA ALTRO", nextPhotos: "ALTRE FOTO" },
+    ko: { allLocations: "모든 장소", all: "전체", photos: "사진", videos: "영상", loadMore: "더 불러오기", nextPhotos: "다음 사진" },
+  }[lang] ?? { allLocations: "ALL LOCATIONS", all: "ALL", photos: "PHOTOS", videos: "VIDEOS", loadMore: "LOAD MORE", nextPhotos: "MORE PHOTOS" };
+  const translatedMainFilters = mainFilters.map((filter) =>
+    filter === "WSZYSTKO" ? ((ui[lang] as Record<string, string>).filter_all ?? t.all) : filter,
+  );
+  const translatedLocationFilters = locationFilters.map((location) =>
+    location === "WSZYSTKIE LOKALIZACJE" ? t.allLocations : location,
+  );
   const rootRef = useRef<HTMLDivElement | null>(null);
   const visibleLimitRef = useRef<number>(12);
   const [activeCategory, setActiveCategory] = useState("WSZYSTKO");
@@ -355,7 +385,7 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
         <div className="flex items-center justify-center gap-4 mb-4">
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
           <span className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]">
-            ZDJĘCIA
+            {t.photos}
           </span>
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
         </div>
@@ -377,7 +407,7 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
 
       <div className="filter-bar">
         <div className="main-filter-list">
-          {mainFilters.map((filter) => (
+          {mainFilters.map((filter, index) => (
             <button
               key={filter}
               type="button"
@@ -400,7 +430,7 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
                 handlePartnerButtonMouseLeave(e);
               }}
             >
-              {filter}
+              {translatedMainFilters[index]}
             </button>
           ))}
         </div>
@@ -450,7 +480,7 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
       </div>
 
       <div className="location-filters">
-        {locationFilters.map((location) => (
+        {locationFilters.map((location, index) => (
           <button
             key={location}
             type="button"
@@ -473,7 +503,7 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
               handlePartnerButtonMouseLeave(e);
             }}
           >
-            {location}
+            {translatedLocationFilters[index]}
           </button>
         ))}
       </div>
@@ -554,13 +584,13 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
         onMouseLeave={handlePartnerButtonMouseLeave}
         data-load-more
       >
-        ZAŁADUJ WIĘCEJ — <span data-load-more-count>12</span> KOLEJNYCH ZDJĘĆ
+        {t.loadMore} — <span data-load-more-count>12</span> {t.nextPhotos}
       </a>
 
       <section className="video-section">
         <div className="video-pretitle-wrap">
           <div className="video-pretitle-line" />
-          <span className="video-pretitle">FILMY</span>
+          <span className="video-pretitle">{t.videos}</span>
           <div className="video-pretitle-line" />
         </div>
         <h3>WIDEO I RELACJE MEDIALNE</h3>

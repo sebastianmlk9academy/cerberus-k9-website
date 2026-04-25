@@ -1,5 +1,7 @@
 import { useState, type MouseEvent } from 'react';
 import { Mail, Download } from 'lucide-react';
+import { ui } from '../i18n/ui';
+import type { Lang } from '../i18n/utils';
 
 export type PartnerType = 'Strategiczny' | 'Sponsor' | 'Patron Medialny' | 'Technologiczny';
 
@@ -369,13 +371,43 @@ function SectionDivider({ label }: { label: string }) {
 }
 
 type PartnersPageProps = {
+  lang: Lang;
   /** When set, replaces the built-in demo list (e.g. from `getCollection('partnerzy')`). */
   partners?: Partner[];
   /** Omit the built-in page hero when the route already renders `PageHero` above. */
   embedded?: boolean;
 };
 
-export default function PartnersPage({ partners: partnersProp, embedded = false }: PartnersPageProps) {
+export default function PartnersPage({ lang, partners: partnersProp, embedded = false }: PartnersPageProps) {
+  const t = {
+    pl: { all: 'WSZYSCY', strategic: 'STRATEGICZNI', sponsors: 'SPONSORZY', mediaPatrons: 'PATRONI MEDIALNI', tech: 'TECHNOLOGICZNI', currentPartners: 'AKTUALNI PARTNERZY', becomePartner: 'ZOSTAŃ PARTNEREM', ctaDesc: 'Akredytacje i zapytania medialne przyjmujemy przez cały rok.' },
+    en: { all: 'ALL', strategic: 'STRATEGIC', sponsors: 'SPONSORS', mediaPatrons: 'MEDIA PATRONS', tech: 'TECHNOLOGICAL', currentPartners: 'CURRENT PARTNERS', becomePartner: 'BECOME A PARTNER', ctaDesc: 'We accept accreditation and media inquiries year-round.' },
+    de: { all: 'ALLE', strategic: 'STRATEGISCH', sponsors: 'SPONSOREN', mediaPatrons: 'MEDIENPARTNER', tech: 'TECHNOLOGISCH', currentPartners: 'AKTUELLE PARTNER', becomePartner: 'PARTNER WERDEN', ctaDesc: 'Akkreditierungen und Medienanfragen nehmen wir ganzjährig an.' },
+    fr: { all: 'TOUS', strategic: 'STRATÉGIQUES', sponsors: 'SPONSORS', mediaPatrons: 'PARTENAIRES MÉDIAS', tech: 'TECHNOLOGIQUES', currentPartners: 'PARTENAIRES ACTUELS', becomePartner: 'DEVENIR PARTENAIRE', ctaDesc: 'Nous acceptons les accréditations et demandes médias toute l’année.' },
+    hr: { all: 'SVI', strategic: 'STRATEŠKI', sponsors: 'SPONZORI', mediaPatrons: 'MEDIJSKI PARTNERI', tech: 'TEHNOLOŠKI', currentPartners: 'TRENUTNI PARTNERI', becomePartner: 'POSTANI PARTNER', ctaDesc: 'Akreditacije i medijske upite primamo tijekom cijele godine.' },
+    cs: { all: 'VŠICHNI', strategic: 'STRATEGIČTÍ', sponsors: 'SPONZOŘI', mediaPatrons: 'MEDIÁLNÍ PARTNEŘI', tech: 'TECHNOLOGIČTÍ', currentPartners: 'AKTUÁLNÍ PARTNEŘI', becomePartner: 'STAŇTE SE PARTNEREM', ctaDesc: 'Akreditace a mediální dotazy přijímáme po celý rok.' },
+    lt: { all: 'VISI', strategic: 'STRATEGINIAI', sponsors: 'RĖMĖJAI', mediaPatrons: 'MEDIJŲ PARTNERIAI', tech: 'TECHNOLOGINIAI', currentPartners: 'DABARTINIAI PARTNERIAI', becomePartner: 'TAPKITE PARTNERIU', ctaDesc: 'Akreditacijas ir žiniasklaidos užklausas priimame visus metus.' },
+    lv: { all: 'VISI', strategic: 'STRATĒĢISKIE', sponsors: 'SPONSORI', mediaPatrons: 'MEDIJU PARTNERI', tech: 'TEHNOLOĢISKIE', currentPartners: 'PAŠREIZĒJIE PARTNERI', becomePartner: 'KĻŪSTI PAR PARTNERI', ctaDesc: 'Akreditācijas un mediju pieprasījumus pieņemam visu gadu.' },
+    sk: { all: 'VŠETCI', strategic: 'STRATEGICKÍ', sponsors: 'SPONZORI', mediaPatrons: 'MEDIÁLNI PARTNERI', tech: 'TECHNOLOGICKÍ', currentPartners: 'AKTUÁLNI PARTNERI', becomePartner: 'STAŤ SA PARTNEROM', ctaDesc: 'Akreditácie a mediálne otázky prijímame počas celého roka.' },
+    sl: { all: 'VSI', strategic: 'STRATEŠKI', sponsors: 'SPONZORJI', mediaPatrons: 'MEDIJSKI PARTNERJI', tech: 'TEHNOLOŠKI', currentPartners: 'TRENUTNI PARTNERJI', becomePartner: 'POSTANI PARTNER', ctaDesc: 'Akreditacije in medijska vprašanja sprejemamo vse leto.' },
+    hu: { all: 'ÖSSZES', strategic: 'STRATÉGIAI', sponsors: 'SZPONZOROK', mediaPatrons: 'MÉDIAPARTNEREK', tech: 'TECHNOLÓGIAI', currentPartners: 'AKTUÁLIS PARTNEREK', becomePartner: 'LEGYEN PARTNER', ctaDesc: 'Egész évben fogadunk akkreditációs és média megkereséseket.' },
+    no: { all: 'ALLE', strategic: 'STRATEGISKE', sponsors: 'SPONSORER', mediaPatrons: 'MEDIEPARTNERE', tech: 'TEKNOLOGISKE', currentPartners: 'NÅVÆRENDE PARTNERE', becomePartner: 'BLI PARTNER', ctaDesc: 'Vi tar imot akkreditering og mediehenvendelser hele året.' },
+    sv: { all: 'ALLA', strategic: 'STRATEGISKA', sponsors: 'SPONSORER', mediaPatrons: 'MEDIEPARTNERS', tech: 'TEKNOLOGISKA', currentPartners: 'AKTUELLA PARTNERS', becomePartner: 'BLI PARTNER', ctaDesc: 'Vi tar emot ackrediteringar och medieförfrågningar året runt.' },
+    nl: { all: 'ALLE', strategic: 'STRATEGISCH', sponsors: 'SPONSORS', mediaPatrons: 'MEDIAPARTNERS', tech: 'TECHNOLOGISCH', currentPartners: 'HUIDIGE PARTNERS', becomePartner: 'WORD PARTNER', ctaDesc: 'Accreditaties en mediaverzoeken accepteren we het hele jaar door.' },
+    es: { all: 'TODOS', strategic: 'ESTRATÉGICOS', sponsors: 'PATROCINADORES', mediaPatrons: 'SOCIOS DE MEDIOS', tech: 'TECNOLÓGICOS', currentPartners: 'SOCIOS ACTUALES', becomePartner: 'HAZTE SOCIO', ctaDesc: 'Aceptamos acreditaciones y consultas de medios durante todo el año.' },
+    pt: { all: 'TODOS', strategic: 'ESTRATÉGICOS', sponsors: 'PATROCINADORES', mediaPatrons: 'PARCEIROS DE MEDIA', tech: 'TECNOLÓGICOS', currentPartners: 'PARCEIROS ATUAIS', becomePartner: 'TORNE-SE PARCEIRO', ctaDesc: 'Aceitamos acreditações e pedidos de media durante todo o ano.' },
+    ro: { all: 'TOȚI', strategic: 'STRATEGICI', sponsors: 'SPONSORI', mediaPatrons: 'PARTENERI MEDIA', tech: 'TEHNOLOGICI', currentPartners: 'PARTENERI ACTUALI', becomePartner: 'DEVINO PARTENER', ctaDesc: 'Acceptăm acreditări și solicitări media pe tot parcursul anului.' },
+    it: { all: 'TUTTI', strategic: 'STRATEGICI', sponsors: 'SPONSOR', mediaPatrons: 'PARTNER MEDIA', tech: 'TECNOLOGICI', currentPartners: 'PARTNER ATTUALI', becomePartner: 'DIVENTA PARTNER', ctaDesc: 'Accettiamo accrediti e richieste media durante tutto l’anno.' },
+    ko: { all: '전체', strategic: '전략 파트너', sponsors: '스폰서', mediaPatrons: '미디어 파트너', tech: '기술 파트너', currentPartners: '현재 파트너', becomePartner: '파트너가 되세요', ctaDesc: '취재 승인 및 미디어 문의는 연중 접수합니다.' },
+  }[lang] ?? { all: 'ALL', strategic: 'STRATEGIC', sponsors: 'SPONSORS', mediaPatrons: 'MEDIA PATRONS', tech: 'TECHNOLOGICAL', currentPartners: 'CURRENT PARTNERS', becomePartner: 'BECOME A PARTNER', ctaDesc: 'We accept accreditation and media inquiries year-round.' };
+  const translatedTabs = filterTabs.map((tab) => {
+    if (tab === 'WSZYSCY') return (ui[lang] as Record<string, string>).filter_all ?? t.all;
+    if (tab === 'STRATEGICZNI') return t.strategic;
+    if (tab === 'SPONSORZY') return t.sponsors;
+    if (tab === 'PATRONI MEDIALNI') return t.mediaPatrons;
+    if (tab === 'TECHNOLOGICZNI') return t.tech;
+    return tab;
+  });
   const [activeFilter, setActiveFilter] = useState<FilterTab>('WSZYSCY');
 
   const partners = (partnersProp && partnersProp.length > 0)
@@ -500,7 +532,7 @@ export default function PartnersPage({ partners: partnersProp, embedded = false 
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: embedded ? '48px 32px 64px' : '64px 32px' }}>
 
         {/* Section 1 — Partners Grid */}
-        <SectionDivider label="AKTUALNI PARTNERZY" />
+        <SectionDivider label={t.currentPartners} />
 
         {/* Filter tabs */}
         <div className="filter-tabs-scroll" style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
@@ -514,7 +546,7 @@ export default function PartnersPage({ partners: partnersProp, embedded = false 
               alignItems: 'center',
             }}
           >
-            {filterTabs.map((tab) => {
+            {filterTabs.map((tab, index) => {
               const isActive = activeFilter === tab;
               return (
                 <button
@@ -541,7 +573,7 @@ export default function PartnersPage({ partners: partnersProp, embedded = false 
                     handlePartnersFilterMouseLeave(e);
                   }}
                 >
-                  {tab}
+                  {translatedTabs[index]}
                 </button>
               );
             })}
@@ -581,7 +613,7 @@ export default function PartnersPage({ partners: partnersProp, embedded = false 
         </div>
 
         {/* Section 2 — CTA Cards */}
-        <SectionDivider label="ZOSTAŃ PARTNEREM" />
+        <SectionDivider label={t.becomePartner} />
 
         <div
           className="cta-cards"
@@ -826,7 +858,7 @@ export default function PartnersPage({ partners: partnersProp, embedded = false 
                   lineHeight: 1.6,
                 }}
               >
-                Akredytacje i zapytania medialne przyjmujemy przez cały rok.
+                {t.ctaDesc}
               </p>
             </div>
           </div>

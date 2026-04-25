@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import InstructorCard from './InstructorCard';
+import { ui } from '../i18n/ui';
+import type { Lang } from '../i18n/utils';
 
 interface Instructor {
   name: string;
@@ -19,6 +21,7 @@ interface Instructor {
 }
 
 interface InstructorsGridProps {
+  lang: Lang;
   instructors?: Instructor[];
 }
 
@@ -101,7 +104,33 @@ const handlePartnerButtonMouseLeave = (
   e.currentTarget.style.color = '#C4922A';
 };
 
-export default function InstructorsGrid({ instructors }: InstructorsGridProps) {
+export default function InstructorsGrid({ instructors, lang }: InstructorsGridProps) {
+  const t = {
+    pl: { all: 'WSZYSCY', decoy: 'POZORANT', noInstructors: 'BRAK INSTRUKTORÓW DLA WYBRANEGO FILTRA', loading: 'ŁADOWANIE...' },
+    en: { all: 'ALL', decoy: 'DECOY', noInstructors: 'NO INSTRUCTORS FOR THE SELECTED FILTER', loading: 'LOADING...' },
+    de: { all: 'ALLE', decoy: 'SCHEINANGREIFER', noInstructors: 'KEINE INSTRUKTOREN FÜR DIESEN FILTER', loading: 'WIRD GELADEN...' },
+    fr: { all: 'TOUS', decoy: 'HOMME D’ATTAQUE', noInstructors: 'AUCUN INSTRUCTEUR POUR CE FILTRE', loading: 'CHARGEMENT...' },
+    hr: { all: 'SVI', decoy: 'MAMAC', noInstructors: 'NEMA INSTRUKTORA ZA ODABRANI FILTAR', loading: 'UČITAVANJE...' },
+    cs: { all: 'VŠICHNI', decoy: 'FIGURANT', noInstructors: 'PRO VYBRANÝ FILTR NEJSOU INSTRUKTOŘI', loading: 'NAČÍTÁNÍ...' },
+    lt: { all: 'VISI', decoy: 'FIGŪRANTAS', noInstructors: 'ŠIAM FILTRUI NĖRA INSTRUKTORIŲ', loading: 'ĮKELIAMA...' },
+    lv: { all: 'VISI', decoy: 'FIGURANTS', noInstructors: 'NAV INSTRUKTORU ŠIM FILTRAM', loading: 'IELĀDE...' },
+    sk: { all: 'VŠETCI', decoy: 'FIGURANT', noInstructors: 'PRE VYBRANÝ FILTER NIE SÚ INŠTRUKTORI', loading: 'NAČÍTAVA SA...' },
+    sl: { all: 'VSI', decoy: 'FIGURANT', noInstructors: 'ZA IZBRANI FILTER NI INŠTRUKTORJEV', loading: 'NALAGANJE...' },
+    hu: { all: 'ÖSSZES', decoy: 'SEGÉD', noInstructors: 'NINCS OKTATÓ A KIVÁLASZTOTT SZŰRŐHÖZ', loading: 'BETÖLTÉS...' },
+    no: { all: 'ALLE', decoy: 'FIGURANT', noInstructors: 'INGEN INSTRUKTØRER FOR DETTE FILTERET', loading: 'LASTER...' },
+    sv: { all: 'ALLA', decoy: 'FIGURANT', noInstructors: 'INGA INSTRUKTÖRER FÖR DETTA FILTER', loading: 'LADDAR...' },
+    nl: { all: 'ALLE', decoy: 'PAKWERKER', noInstructors: 'GEEN INSTRUCTEURS VOOR DIT FILTER', loading: 'LADEN...' },
+    es: { all: 'TODOS', decoy: 'FIGURANTE', noInstructors: 'NO HAY INSTRUCTORES PARA ESTE FILTRO', loading: 'CARGANDO...' },
+    pt: { all: 'TODOS', decoy: 'FIGURANTE', noInstructors: 'SEM INSTRUTORES PARA ESTE FILTRO', loading: 'A CARREGAR...' },
+    ro: { all: 'TOȚI', decoy: 'FIGURANT', noInstructors: 'NU EXISTĂ INSTRUCTORI PENTRU ACEST FILTRU', loading: 'SE ÎNCARCĂ...' },
+    it: { all: 'TUTTI', decoy: 'FIGURANTE', noInstructors: 'NESSUN ISTRUTTORE PER QUESTO FILTRO', loading: 'CARICAMENTO...' },
+    ko: { all: '전체', decoy: '도우미', noInstructors: '선택한 필터에 강사가 없습니다', loading: '로딩 중...' },
+  }[lang] ?? { all: 'ALL', decoy: 'DECOY', noInstructors: 'NO INSTRUCTORS FOR THE SELECTED FILTER', loading: 'LOADING...' };
+  const translatedFilters = FILTERS.map((f) => {
+    if (f === 'WSZYSCY') return (ui[lang] as Record<string, string>).filter_all ?? t.all;
+    if (f === 'POZORANT') return t.decoy;
+    return f;
+  });
   const [activeFilter, setActiveFilter] = useState('WSZYSCY');
   const [visibleCount, setVisibleCount] = useState(4);
   const loaderRef = useRef<HTMLDivElement>(null);
@@ -165,7 +194,7 @@ export default function InstructorsGrid({ instructors }: InstructorsGridProps) {
           marginRight: '8px',
         }}>
         </span>
-        {FILTERS.map(f => (
+        {FILTERS.map((f, index) => (
           <button
             key={f}
             onClick={() => setActiveFilter(f)}
@@ -182,7 +211,7 @@ export default function InstructorsGrid({ instructors }: InstructorsGridProps) {
               handlePartnerButtonMouseLeave(e);
             }}
           >
-            {f}
+            {translatedFilters[index]}
           </button>
         ))}
       </div>
@@ -197,7 +226,7 @@ export default function InstructorsGrid({ instructors }: InstructorsGridProps) {
           textAlign: 'center',
           padding: '48px 0',
         }}>
-          BRAK INSTRUKTORÓW DLA WYBRANEGO FILTRA
+          {t.noInstructors}
         </p>
       ) : (
         <>
@@ -231,7 +260,7 @@ export default function InstructorsGrid({ instructors }: InstructorsGridProps) {
                 letterSpacing: '3px',
                 color: '#4A5A6A',
               }}>
-                ŁADOWANIE...
+                {t.loading}
               </span>
             </div>
           )}

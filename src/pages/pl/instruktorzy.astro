@@ -49,7 +49,7 @@ const countriesCount = new Set(visibleInstructors.map((instructor) => instructor
 	localizedPath="instruktorzy"
 	ogType="website"
 >
-	<NavBar client:load />
+	<NavBar client:load lang={lang} />
 	<PageHero
 		category="NASI"
 		title="INSTRUKTORZY"
@@ -68,7 +68,7 @@ const countriesCount = new Set(visibleInstructors.map((instructor) => instructor
 		<p>{instructorsCount} INSTRUKTORÓW Z {countriesCount} KRAJÓW</p>
 	</section>
 
-	<InstructorsGrid client:load instructors={visibleInstructors} />
+	<InstructorsGrid client:load lang={lang} instructors={visibleInstructors} />
 	<Footer client:load />
 </BaseLayout>
 

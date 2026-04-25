@@ -1,5 +1,7 @@
 import { Calendar } from "lucide-react";
 import { useMemo, useState } from "react";
+import { ui } from "../i18n/ui";
+import type { Lang } from "../i18n/utils";
 
 type Category = "K9" | "TCCC" | "DRONY" | "KONFERENCJA" | "CEREMONIA" | "BREAK";
 
@@ -489,7 +491,35 @@ function buildFullEventCalendarEvent(): CalendarEvent {
   };
 }
 
-export default function InteractiveAgenda() {
+interface InteractiveAgendaProps {
+  lang: Lang;
+}
+
+export default function InteractiveAgenda({ lang }: InteractiveAgendaProps) {
+  const t = {
+    pl: { all: "WSZYSTKO", addCalendar: "DODAJ DO KALENDARZA", noEvents: "BRAK WYDARZEŃ DLA WYBRANEGO FILTRA", day1: "DZIEŃ 1", day2: "DZIEŃ 2" },
+    en: { all: "ALL", addCalendar: "ADD TO CALENDAR", noEvents: "NO EVENTS FOR THE SELECTED FILTER", day1: "DAY 1", day2: "DAY 2" },
+    de: { all: "ALLE", addCalendar: "ZUM KALENDER HINZUFÜGEN", noEvents: "KEINE TERMINE FÜR DIESEN FILTER", day1: "TAG 1", day2: "TAG 2" },
+    fr: { all: "TOUT", addCalendar: "AJOUTER AU CALENDRIER", noEvents: "AUCUN ÉVÉNEMENT POUR CE FILTRE", day1: "JOUR 1", day2: "JOUR 2" },
+    hr: { all: "SVE", addCalendar: "DODAJ U KALENDAR", noEvents: "NEMA DOGAĐAJA ZA ODABRANI FILTAR", day1: "DAN 1", day2: "DAN 2" },
+    cs: { all: "VŠE", addCalendar: "PŘIDAT DO KALENDÁŘE", noEvents: "PRO VYBRANÝ FILTR NEJSOU ŽÁDNÉ UDÁLOSTI", day1: "DEN 1", day2: "DEN 2" },
+    lt: { all: "VISKAS", addCalendar: "PRIDĖTI Į KALENDORIŲ", noEvents: "PAGAL PASIRINKTĄ FILTRĄ ĮVYKIŲ NĖRA", day1: "1 DIENA", day2: "2 DIENA" },
+    lv: { all: "VISS", addCalendar: "PIEVIENOT KALENDĀRAM", noEvents: "NAV PASĀKUMU ŠIM FILTRAM", day1: "1. DIENA", day2: "2. DIENA" },
+    sk: { all: "VŠETKO", addCalendar: "PRIDAŤ DO KALENDÁRA", noEvents: "PRE VYBRANÝ FILTER NIE SÚ ŽIADNE UDALOSTI", day1: "DEŇ 1", day2: "DEŇ 2" },
+    sl: { all: "VSE", addCalendar: "DODAJ V KOLEDAR", noEvents: "ZA IZBRANI FILTER NI DOGODKOV", day1: "DAN 1", day2: "DAN 2" },
+    hu: { all: "ÖSSZES", addCalendar: "HOZZÁADÁS A NAPTÁRHOZ", noEvents: "NINCS ESEMÉNY A KIVÁLASZTOTT SZŰRŐHÖZ", day1: "1. NAP", day2: "2. NAP" },
+    no: { all: "ALLE", addCalendar: "LEGG TIL I KALENDER", noEvents: "INGEN HENDELSER FOR VALGT FILTER", day1: "DAG 1", day2: "DAG 2" },
+    sv: { all: "ALLT", addCalendar: "LÄGG TILL I KALENDERN", noEvents: "INGA HÄNDELSER FÖR VALT FILTER", day1: "DAG 1", day2: "DAG 2" },
+    nl: { all: "ALLES", addCalendar: "AAN AGENDA TOEVOEGEN", noEvents: "GEEN EVENEMENTEN VOOR DIT FILTER", day1: "DAG 1", day2: "DAG 2" },
+    es: { all: "TODO", addCalendar: "AÑADIR AL CALENDARIO", noEvents: "NO HAY EVENTOS PARA EL FILTRO SELECCIONADO", day1: "DÍA 1", day2: "DÍA 2" },
+    pt: { all: "TUDO", addCalendar: "ADICIONAR AO CALENDÁRIO", noEvents: "SEM EVENTOS PARA O FILTRO SELECIONADO", day1: "DIA 1", day2: "DIA 2" },
+    ro: { all: "TOT", addCalendar: "ADAUGĂ ÎN CALENDAR", noEvents: "NU EXISTĂ EVENIMENTE PENTRU FILTRUL SELECTAT", day1: "ZIUA 1", day2: "ZIUA 2" },
+    it: { all: "TUTTO", addCalendar: "AGGIUNGI AL CALENDARIO", noEvents: "NESSUN EVENTO PER IL FILTRO SELEZIONATO", day1: "GIORNO 1", day2: "GIORNO 2" },
+    ko: { all: "전체", addCalendar: "캘린더에 추가", noEvents: "선택한 필터에 이벤트가 없습니다", day1: "1일차", day2: "2일차" },
+  }[lang] ?? { all: "ALL", addCalendar: "ADD TO CALENDAR", noEvents: "NO EVENTS FOR THE SELECTED FILTER", day1: "DAY 1", day2: "DAY 2" };
+  const translatedFilters = FILTERS.map((f) =>
+    f.key === "ALL" ? { ...f, label: (ui[lang] as Record<string, string>).filter_all ?? t.all } : f,
+  );
   const [activeDayId, setActiveDayId] = useState<string>(DAYS[0].id);
   const [filter, setFilter] = useState<"ALL" | Category>("ALL");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
@@ -554,6 +584,7 @@ export default function InteractiveAgenda() {
         >
           {DAYS.map((day) => {
             const active = day.id === activeDayId;
+            const dayLabel = day.id === "day1" ? t.day1 : day.id === "day2" ? t.day2 : day.label;
             return (
               <button
                 key={day.id}
@@ -575,7 +606,7 @@ export default function InteractiveAgenda() {
                   transition: "all 0.2s ease",
                 }}
               >
-                {day.label}
+                {dayLabel}
               </button>
             );
           })}
@@ -592,7 +623,7 @@ export default function InteractiveAgenda() {
             justifyContent: "center",
           }}
         >
-          {FILTERS.map((f) => {
+          {translatedFilters.map((f) => {
             const isActive = filter === f.key;
             return (
               <button
@@ -641,7 +672,7 @@ export default function InteractiveAgenda() {
                 letterSpacing: 2,
               }}
             >
-              BRAK WYDARZEŃ DLA WYBRANEGO FILTRA
+              {t.noEvents}
             </div>
           )}
 
@@ -873,7 +904,7 @@ export default function InteractiveAgenda() {
                               }}
                             >
                               <Calendar size={14} />
-                              DODAJ DO KALENDARZA
+                              {t.addCalendar}
                             </button>
 
                             <CalendarMenu
@@ -926,7 +957,7 @@ export default function InteractiveAgenda() {
               }}
             >
               <Calendar size={14} />
-              DODAJ DO KALENDARZA
+              {t.addCalendar}
             </button>
             <CalendarMenu
               event={fullEvent}

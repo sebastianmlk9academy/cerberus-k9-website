@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { ui } from "../i18n/ui";
+import type { Lang } from "../i18n/utils";
 
 export type NewsListingCategory =
   | "wszystkie"
@@ -22,6 +24,7 @@ export interface NewsListingArticle {
   /** Display date, e.g. 15.04.2026 */
   date: string;
   href: string;
+  slug?: string;
   /** WebP path; omit for no-image fallback */
   imageSrc?: string;
   readingMinutes?: number;
@@ -52,6 +55,7 @@ const rajdhani = "var(--font-rajdhani), sans-serif";
 const libre = "var(--font-libre), Georgia, serif";
 
 interface NewsListingProps {
+  lang: Lang;
   articles?: NewsListingArticle[];
   /** How many cards to show before "load more" */
   pageSize?: number;
@@ -118,7 +122,7 @@ const defaultArticles: NewsListingArticle[] = [
   },
 ];
 
-function ArticleCard({ article }: { article: NewsListingArticle }) {
+function ArticleCard({ article, lang }: { article: NewsListingArticle; lang: Lang }) {
   const [isHovered, setIsHovered] = useState(false);
   const reading =
     article.readingMinutes ??
@@ -135,7 +139,10 @@ function ArticleCard({ article }: { article: NewsListingArticle }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <a href={article.href} className="block text-inherit no-underline">
+      <a
+        href={article.slug ? `/${lang}/aktualnosci/${article.slug}` : article.href}
+        className="block text-inherit no-underline"
+      >
         <div
           className="relative overflow-hidden w-full"
           style={{
@@ -258,7 +265,7 @@ function ArticleCard({ article }: { article: NewsListingArticle }) {
                 color: "#C4922A",
               }}
             >
-              Czytaj więcej →
+              {ui[lang].btn_readmore ?? "READ MORE"} →
             </span>
             <span
               className="font-[family-name:var(--font-rajdhani)]"
@@ -277,9 +284,37 @@ function ArticleCard({ article }: { article: NewsListingArticle }) {
 }
 
 export function NewsListing({
+  lang,
   articles = defaultArticles,
   pageSize = 6,
 }: NewsListingProps) {
+  const t = {
+    pl: { allNews: "WSZYSTKIE WIADOMOŚCI", loadMoreArticles: "ZAŁADUJ WIĘCEJ ARTYKUŁÓW" },
+    en: { allNews: "ALL NEWS", loadMoreArticles: "LOAD MORE ARTICLES" },
+    de: { allNews: "ALLE NACHRICHTEN", loadMoreArticles: "MEHR ARTIKEL LADEN" },
+    fr: { allNews: "TOUTES LES ACTUALITÉS", loadMoreArticles: "CHARGER PLUS D'ARTICLES" },
+    hr: { allNews: "SVE VIJESTI", loadMoreArticles: "UČITAJ VIŠE ČLANAKA" },
+    cs: { allNews: "VŠECHNY NOVINKY", loadMoreArticles: "NAČÍST DALŠÍ ČLÁNKY" },
+    lt: { allNews: "VISOS NAUJIENOS", loadMoreArticles: "ĮKELTI DAUGIAU STRAIPSNIŲ" },
+    lv: { allNews: "VISAS ZIŅAS", loadMoreArticles: "IELĀDĒT VAIRĀK RAKSTU" },
+    sk: { allNews: "VŠETKY NOVINKY", loadMoreArticles: "NAČÍTAŤ ĎALŠIE ČLÁNKY" },
+    sl: { allNews: "VSE NOVICE", loadMoreArticles: "NALOŽI VEČ ČLANKOV" },
+    hu: { allNews: "ÖSSZES HÍR", loadMoreArticles: "TÖBB CIKK BETÖLTÉSE" },
+    no: { allNews: "ALLE NYHETER", loadMoreArticles: "LAST INN FLERE ARTIKLER" },
+    sv: { allNews: "ALLA NYHETER", loadMoreArticles: "LADDA FLER ARTIKLAR" },
+    nl: { allNews: "AL HET NIEUWS", loadMoreArticles: "MEER ARTIKELEN LADEN" },
+    es: { allNews: "TODAS LAS NOTICIAS", loadMoreArticles: "CARGAR MÁS ARTÍCULOS" },
+    pt: { allNews: "TODAS AS NOTÍCIAS", loadMoreArticles: "CARREGAR MAIS ARTIGOS" },
+    ro: { allNews: "TOATE ȘTIRILE", loadMoreArticles: "ÎNCARCĂ MAI MULTE ARTICOLE" },
+    it: { allNews: "TUTTE LE NOTIZIE", loadMoreArticles: "CARICA ALTRI ARTICOLI" },
+    ko: { allNews: "전체 뉴스", loadMoreArticles: "기사 더 불러오기" },
+  }[lang] ?? { allNews: "ALL NEWS", loadMoreArticles: "LOAD MORE ARTICLES" };
+
+  const translatedFilters: { id: NewsListingCategory; label: string }[] = FILTERS.map((f) => {
+    if (f.id === "wszystkie") return { ...f, label: (ui[lang] as Record<string, string>).btn_all ?? "ALL" };
+    if (f.id === "aktualnosci") return { ...f, label: ui[lang].nav_news };
+    return f;
+  });
   const [filter, setFilter] = useState<NewsListingCategory>("wszystkie");
   const [visible, setVisible] = useState(pageSize);
 
@@ -323,7 +358,7 @@ export function NewsListing({
             letterSpacing: '5px',
             color: '#C42B2B',
           }}>
-            AKTUALNOŚCI
+            {ui[lang].nav_news}
           </span>
           <div style={{
             height: '1px',
@@ -342,7 +377,7 @@ export function NewsListing({
           textTransform: 'uppercase',
           margin: 0,
         }}>
-          WSZYSTKIE WIADOMOŚCI
+          {t.allNews}
         </h2>
       </div>
 
@@ -359,7 +394,7 @@ export function NewsListing({
           marginBottom: "20px",
         }}
       >
-        {FILTERS.map((f) => {
+        {translatedFilters.map((f) => {
           const isActive = filter === f.id;
           return (
             <button
@@ -404,7 +439,7 @@ export function NewsListing({
         style={{ gap: "2px", backgroundColor: "transparent" }}
       >
         {visibleArticles.map((article) => (
-          <ArticleCard key={article.id} article={article} />
+          <ArticleCard key={article.id} article={article} lang={lang} />
         ))}
       </div>
 
@@ -430,7 +465,7 @@ export function NewsListing({
               e.currentTarget.style.backgroundColor = "transparent";
             }}
           >
-            ZAŁADUJ WIĘCEJ ARTYKUŁÓW
+            {t.loadMoreArticles}
           </button>
         </div>
       )}

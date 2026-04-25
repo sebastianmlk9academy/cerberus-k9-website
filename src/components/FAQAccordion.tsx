@@ -1,52 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
+import { ui } from '../i18n/ui';
+import type { Lang } from '../i18n/utils';
+import { faqByLang } from '../i18n/faq';
 
 interface FAQItem {
   question: string;
   answer: string;
 }
-
-const faqItems: FAQItem[] = [
-  {
-    question: 'Czy wydarzenie jest płatne?',
-    answer:
-      'Wstęp na CERBERUS K9 2026 jest całkowicie bezpłatny dla wszystkich uczestników — zarówno służb mundurowych, jak i cywilów. Rejestracja jest obowiązkowa ze względu na ograniczoną liczbę miejsc. Rejestruj się na: pretix.eu/MLK9-LLK9/CERBERUS',
-  },
-  {
-    question: 'Czy mogę przyjść z psem?',
-    answer:
-      'Tak. Kategoria uczestnictwa z psem dostępna jest dla służb (psy służbowe) oraz cywilów (psy prywatne). Wymagane jest: potwierdzenie szczepień, mikrochip, smycz. Szczegóły w formularzu rejestracyjnym.',
-  },
-  {
-    question: 'Jakie są wymagania dla psa-uczestnika?',
-    answer:
-      'Pies musi posiadać aktualne szczepienia (w tym wścieklizna), mikrochip, dokumentację weterynaryjną. Dla psów gryzących obowiązkowy kaganiec podczas poruszania się po terenie eventu (poza modułami szkoleniowymi).',
-  },
-  {
-    question: 'Czy mogę uczestniczyć jako widz bez psa?',
-    answer:
-      'Tak. Możesz uczestniczyć w konferencji, obserwować pokazy, wziąć udział w szkoleniu z pierwszej pomocy i dronowym bez posiadania psa.',
-  },
-  {
-    question: 'Jaki jest język eventu?',
-    answer:
-      'Językiem roboczym jest język polski. Moduły z instruktorami zagranicznymi prowadzone są w języku angielskim z tłumaczeniem. Prezentacje i materiały dostępne będą w języku polskim i angielskim.',
-  },
-  {
-    question: 'Czy są noclegi?',
-    answer:
-      'Organizator nie zapewnia noclegów bezpośrednio, jednak w formularzu rejestracyjnym Pretix znajdziesz informacje o polecanych hotelach w Ostrowie Wielkopolskim z preferencyjnymi stawkami.',
-  },
-  {
-    question: 'Jak dojechać do Ostrowa Wielkopolskiego?',
-    answer:
-      'Ostrów Wlkp. leży przy A2 (exit Ostrów). Pociągi z Poznania (45 min), Wrocławia (1.5h), Łodzi (2h). Szczegółowa mapa dojazdu dostępna na stronie /kontakt.',
-  },
-  {
-    question: 'Czy jest parking?',
-    answer:
-      'Tak, przy 3MK Arena dostępny jest bezpłatny parking. Dla uczestników z psami przygotowane zostaną wyznaczone strefy.',
-  },
-];
 
 function AccordionItem({ item, isOpen, onToggle }: { item: FAQItem; isOpen: boolean; onToggle: () => void }) {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -121,8 +81,35 @@ function AccordionItem({ item, isOpen, onToggle }: { item: FAQItem; isOpen: bool
   );
 }
 
-export default function FAQAccordion() {
+interface FAQAccordionProps {
+  lang: Lang;
+}
+
+export default function FAQAccordion({ lang }: FAQAccordionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const faqItems = faqByLang[lang] ?? faqByLang.en;
+  const localizedFaqBadge = (ui[lang] as Record<string, string>).faq ?? 'FAQ';
+  const t = {
+    pl: { title: 'NAJCZĘSTSZE PYTANIA' },
+    en: { title: 'FREQUENTLY ASKED QUESTIONS' },
+    de: { title: 'HÄUFIG GESTELLTE FRAGEN' },
+    fr: { title: 'QUESTIONS FRÉQUENTES' },
+    hr: { title: 'NAJČEŠĆA PITANJA' },
+    cs: { title: 'NEJČASTĚJŠÍ DOTAZY' },
+    lt: { title: 'DAŽNIAUSI KLAUSIMAI' },
+    lv: { title: 'BIEŽĀK UZDOTIE JAUTĀJUMI' },
+    sk: { title: 'NAJČASTEJŠIE OTÁZKY' },
+    sl: { title: 'POGOSTA VPRAŠANJA' },
+    hu: { title: 'GYAKRAN ISMÉTELT KÉRDÉSEK' },
+    no: { title: 'OFTE STILTE SPØRSMÅL' },
+    sv: { title: 'VANLIGA FRÅGOR' },
+    nl: { title: 'VEELGESTELDE VRAGEN' },
+    es: { title: 'PREGUNTAS FRECUENTES' },
+    pt: { title: 'PERGUNTAS FREQUENTES' },
+    ro: { title: 'ÎNTREBĂRI FRECVENTE' },
+    it: { title: 'DOMANDE FREQUENTI' },
+    ko: { title: '자주 묻는 질문' },
+  }[lang] ?? { title: 'FREQUENTLY ASKED QUESTIONS' };
 
   const handleToggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -143,7 +130,7 @@ export default function FAQAccordion() {
         <div className="flex items-center justify-center gap-4 mb-4">
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
           <span className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]">
-            FAQ
+            {localizedFaqBadge}
           </span>
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
         </div>
@@ -155,7 +142,7 @@ export default function FAQAccordion() {
             letterSpacing: "2px",
           }}
         >
-          NAJCZĘSTSZE PYTANIA
+          {t.title}
         </h2>
         <div>
           {faqItems.map((item, index) => (

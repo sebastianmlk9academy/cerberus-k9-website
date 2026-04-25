@@ -80,7 +80,7 @@ const partners: Partner[] = sorted.map((entry, i) => {
 	>
 		<NavBar client:load lang={lang} />
 		<PageHero category={copy.heroCategory} title={navPartners} subtitle={copy.heroSubtitle} />
-		<PartnersPage client:load partners={partners} embedded />
+		<PartnersPage client:load lang={lang} partners={partners} embedded />
 		<Footer client:load />
 	</div>
 </BaseLayout>

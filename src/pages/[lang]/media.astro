@@ -35,7 +35,7 @@ const navMedia = ui[lang].nav_media;
 	>
 		<NavBar client:load lang={lang} />
 		<PageHero category={copy.heroCategory} title={navMedia} subtitle={copy.heroSubtitle} />
-		<MediaPage client:load />
+		<MediaPage client:load lang={lang} />
 		<Footer client:load />
 	</div>
 </BaseLayout>

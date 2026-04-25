@@ -65,7 +65,7 @@ const eventSchema = {
 	></script>
 	<script type="application/ld+json" set:html={JSON.stringify(eventSchema)} />
 
-	<NavBar client:load />
+	<NavBar client:load lang={lang} />
 	<PageHero category={copy.category} title={copy.heroTitle} subtitle={copy.heroSubtitle} />
 
 	<section class="event-description" aria-labelledby="event-desc-heading" style={{ paddingTop: '10px' }}>
@@ -98,9 +98,9 @@ const eventSchema = {
 		</div>
 	</section>
 
-	<InteractiveAgenda client:load />
+	<InteractiveAgenda client:load lang={lang} />
 	<LocationsSection client:load />
-	<FAQAccordion client:load />
+	<FAQAccordion client:load lang={lang} />
 	<Footer client:load />
 </BaseLayout>
 

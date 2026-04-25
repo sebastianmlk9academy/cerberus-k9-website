@@ -69,13 +69,13 @@ const partners: Partner[] = sorted.map((entry, i) => {
 	<div
 		style="background: linear-gradient(to bottom, #161F28, #1A2530, #161F28); min-height: 100vh;"
 	>
-	<NavBar client:load />
+	<NavBar client:load lang={lang} />
 	<PageHero
 		category="WSPÓŁPRACA"
 		title="PARTNERZY"
 		subtitle="STRATEGICZNI · SPONSORZY · PATRONI MEDIALNI"
 	/>
-	<PartnersPage client:load partners={partners} embedded />
+	<PartnersPage client:load lang={lang} partners={partners} embedded />
 	<Footer client:load />
 	</div>
 </BaseLayout>
