@@ -174,7 +174,7 @@ export function ArticleLayout({
           maxWidth: 1180,
           margin: '0 auto',
           padding: '80px 5%',
-          background: '#1E2B38',
+          background: 'linear-gradient(to bottom, #161F28, #1A2530, #161F28)',
           boxSizing: 'border-box',
         }}
       >
