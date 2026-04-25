@@ -6,6 +6,7 @@ import { isLang } from '../../i18n/utils';
 import type { Lang } from '../../i18n/ui';
 import { instructorsSeoByLang } from '../../i18n/instructorsSeo';
 import { instructorsPageByLang } from '../../i18n/instructorsPage';
+import { footerCopyByLang } from '../../i18n/footer';
 import { NavBar } from '../../components/NavBar';
 import { PageHero } from '../../components/PageHero';
 import InstructorsGrid from '../../components/InstructorsGrid';
@@ -37,7 +38,7 @@ const countriesCount = new Set(instructors.map((instructor) => instructor.countr
 	localizedPath="instruktorzy"
 	ogType="website"
 >
-	<NavBar client:load />
+	<NavBar lang={lang} client:load />
 	<PageHero
 		category="CERBERUS K9"
 		title={instrCopy.heroTitle}
@@ -53,7 +54,7 @@ const countriesCount = new Set(instructors.map((instructor) => instructor.countr
 	</section>
 
 	<InstructorsGrid instructors={instructors} lang={lang} client:load />
-	<Footer client:load />
+	<Footer lang={lang} copy={footerCopyByLang[lang]} client:load />
 </BaseLayout>
 
 <style>

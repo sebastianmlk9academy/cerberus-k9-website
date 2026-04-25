@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { locales } from '../../../locales.mjs';
+import { footerCopyByLang } from '../../i18n/footer';
 import { isLang } from '../../i18n/utils';
 import type { Lang } from '../../i18n/ui';
 import { NavBar } from '../../components/NavBar';
@@ -131,12 +132,12 @@ const regH = regHero[lang] ?? regHero.en;
 	canonicalHref={canonicalHref}
 	robots="noindex, follow"
 >
-	<NavBar client:load />
+	<NavBar lang={lang} client:load />
 	<PageHero
 		category={regH.category}
 		title={regH.title}
 		subtitle={regH.subtitle}
 	/>
 	<RegistrationSection />
-	<Footer client:load />
+	<Footer lang={lang} copy={footerCopyByLang[lang]} client:load />
 </BaseLayout>

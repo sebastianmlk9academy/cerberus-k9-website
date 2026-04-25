@@ -9,6 +9,7 @@ import { locales } from '../../../../locales.mjs';
 import { isLang } from '../../../i18n/utils';
 import { ui, type Lang } from '../../../i18n/ui';
 import { newsSeoByLang } from '../../../i18n/newsSeo';
+import { footerCopyByLang } from '../../../i18n/footer';
 import { aktualnosciToListingArticles } from '../../../lib/aktualnosci';
 
 export const prerender = true;
@@ -38,5 +39,5 @@ const articles = aktualnosciToListingArticles(entries, lang);
 		subtitle={seo.newsPageSubtitle}
 	/>
 	<NewsListing articles={articles} lang={lang} client:load />
-	<Footer client:load />
+	<Footer lang={lang} copy={footerCopyByLang[lang]} client:load />
 </BaseLayout>
