@@ -49,6 +49,18 @@ export function NavBar({ activeLink }: NavBarProps) {
   const selectLang = (lang: Language) => {
     setCurrentLang(lang);
     setLangDropdownOpen(false);
+
+    // Navigate to the same page in the selected language
+    const currentPath = window.location.pathname;
+    // Extract current path without language prefix
+    // e.g. /pl/o-wydarzeniu → /en/o-wydarzeniu
+    const pathParts = currentPath.split('/');
+    if (pathParts.length >= 2) {
+      pathParts[1] = lang.code;
+      window.location.href = pathParts.join('/') || '/' + lang.code;
+    } else {
+      window.location.href = '/' + lang.code;
+    }
   };
 
   return (
