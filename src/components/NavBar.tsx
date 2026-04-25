@@ -1,5 +1,191 @@
 import { useEffect, useState, type MouseEvent } from 'react';
 
+// Mini translation map for nav — keeps island bundle small
+const navTranslations: Record<
+  string,
+  {
+    event: string;
+    instructors: string;
+    partners: string;
+    foundation: string;
+    gallery: string;
+    contact: string;
+    register: string;
+  }
+> = {
+  pl: {
+    event: 'O WYDARZENIU',
+    instructors: 'INSTRUKTORZY',
+    partners: 'PARTNERZY',
+    foundation: 'FUNDACJA',
+    gallery: 'GALERIA',
+    contact: 'KONTAKT',
+    register: 'REJESTRACJA',
+  },
+  en: {
+    event: 'THE EVENT',
+    instructors: 'INSTRUCTORS',
+    partners: 'PARTNERS',
+    foundation: 'FOUNDATION',
+    gallery: 'GALLERY',
+    contact: 'CONTACT',
+    register: 'REGISTER',
+  },
+  de: {
+    event: 'DIE VERANSTALTUNG',
+    instructors: 'INSTRUKTEURE',
+    partners: 'PARTNER',
+    foundation: 'STIFTUNG',
+    gallery: 'GALERIE',
+    contact: 'KONTAKT',
+    register: 'ANMELDEN',
+  },
+  fr: {
+    event: "L'ÉVÉNEMENT",
+    instructors: 'INSTRUCTEURS',
+    partners: 'PARTENAIRES',
+    foundation: 'FONDATION',
+    gallery: 'GALERIE',
+    contact: 'CONTACT',
+    register: "S'INSCRIRE",
+  },
+  cs: {
+    event: 'O UDÁLOSTI',
+    instructors: 'INSTRUKTOŘI',
+    partners: 'PARTNEŘI',
+    foundation: 'NADACE',
+    gallery: 'GALERIE',
+    contact: 'KONTAKT',
+    register: 'REGISTRACE',
+  },
+  sk: {
+    event: 'O PODUJATÍ',
+    instructors: 'INŠTRUKTORI',
+    partners: 'PARTNERI',
+    foundation: 'NADÁCIA',
+    gallery: 'GALÉRIA',
+    contact: 'KONTAKT',
+    register: 'REGISTRÁCIA',
+  },
+  hu: {
+    event: 'AZ ESEMÉNYRŐL',
+    instructors: 'OKTATÓK',
+    partners: 'PARTNEREK',
+    foundation: 'ALAPÍTVÁNY',
+    gallery: 'GALÉRIA',
+    contact: 'KAPCSOLAT',
+    register: 'REGISZTRÁCIÓ',
+  },
+  hr: {
+    event: 'O DOGAĐAJU',
+    instructors: 'INSTRUKTORI',
+    partners: 'PARTNERI',
+    foundation: 'ZAKLADA',
+    gallery: 'GALERIJA',
+    contact: 'KONTAKT',
+    register: 'REGISTRACIJA',
+  },
+  sl: {
+    event: 'O DOGODKU',
+    instructors: 'INŠTRUKTORJI',
+    partners: 'PARTNERJI',
+    foundation: 'FUNDACIJA',
+    gallery: 'GALERIJA',
+    contact: 'KONTAKT',
+    register: 'REGISTRACIJA',
+  },
+  lt: {
+    event: 'APIE RENGINĮ',
+    instructors: 'INSTRUKTORIAI',
+    partners: 'PARTNERIAI',
+    foundation: 'FONDAS',
+    gallery: 'GALERIJA',
+    contact: 'KONTAKTAI',
+    register: 'REGISTRUOTIS',
+  },
+  lv: {
+    event: 'PAR PASĀKUMU',
+    instructors: 'INSTRUKTORI',
+    partners: 'PARTNERI',
+    foundation: 'FONDS',
+    gallery: 'GALERIJA',
+    contact: 'KONTAKTI',
+    register: 'REĢISTRĒTIES',
+  },
+  no: {
+    event: 'OM ARRANGEMENTET',
+    instructors: 'INSTRUKTØRER',
+    partners: 'PARTNERE',
+    foundation: 'STIFTELSE',
+    gallery: 'GALLERI',
+    contact: 'KONTAKT',
+    register: 'REGISTRER DEG',
+  },
+  sv: {
+    event: 'OM EVENEMANGET',
+    instructors: 'INSTRUKTÖRER',
+    partners: 'PARTNERS',
+    foundation: 'STIFTELSE',
+    gallery: 'GALLERI',
+    contact: 'KONTAKT',
+    register: 'REGISTRERA DIG',
+  },
+  nl: {
+    event: 'HET EVENEMENT',
+    instructors: 'INSTRUCTEURS',
+    partners: 'PARTNERS',
+    foundation: 'STICHTING',
+    gallery: 'GALERIJ',
+    contact: 'CONTACT',
+    register: 'REGISTREER NU',
+  },
+  es: {
+    event: 'EL EVENTO',
+    instructors: 'INSTRUCTORES',
+    partners: 'SOCIOS',
+    foundation: 'FUNDACIÓN',
+    gallery: 'GALERÍA',
+    contact: 'CONTACTO',
+    register: 'REGISTRARSE',
+  },
+  pt: {
+    event: 'O EVENTO',
+    instructors: 'INSTRUTORES',
+    partners: 'PARCEIROS',
+    foundation: 'FUNDAÇÃO',
+    gallery: 'GALERIA',
+    contact: 'CONTACTO',
+    register: 'REGISTAR-SE',
+  },
+  ro: {
+    event: 'DESPRE EVENIMENT',
+    instructors: 'INSTRUCTORI',
+    partners: 'PARTENERI',
+    foundation: 'FUNDAȚIE',
+    gallery: 'GALERIE',
+    contact: 'CONTACT',
+    register: 'ÎNREGISTRARE',
+  },
+  it: {
+    event: "L'EVENTO",
+    instructors: 'ISTRUTTORI',
+    partners: 'PARTNER',
+    foundation: 'FONDAZIONE',
+    gallery: 'GALLERIA',
+    contact: 'CONTATTO',
+    register: 'REGISTRATI',
+  },
+  ko: {
+    event: '행사 소개',
+    instructors: '강사진',
+    partners: '파트너',
+    foundation: '재단',
+    gallery: '갤러리',
+    contact: '문의',
+    register: '등록',
+  },
+};
+
 const languages = [
   { code: 'pl', name: 'Polski', countryCode: 'pl' },
   { code: 'en', name: 'English', countryCode: 'gb' },
@@ -45,34 +231,16 @@ export function NavBar({ activeLink, lang = 'pl' }: NavBarProps) {
     if (found) setCurrentLang(found);
   }, []);
 
-  const currentLangCode = currentLang.code;
+  const t = navTranslations[currentLang.code] ?? navTranslations['en'];
 
   const navLinks = [
-    {
-      label: currentLangCode === 'pl' ? 'O WYDARZENIU' : 'THE EVENT',
-      href: `/${currentLangCode}/o-wydarzeniu`,
-    },
-    {
-      label: currentLangCode === 'pl' ? 'INSTRUKTORZY' : 'INSTRUCTORS',
-      href: `/${currentLangCode}/instruktorzy`,
-    },
-    {
-      label: currentLangCode === 'pl' ? 'PARTNERZY' : 'PARTNERS',
-      href: `/${currentLangCode}/partnerzy`,
-    },
-    { label: 'MEDIA', href: `/${currentLangCode}/media` },
-    {
-      label: currentLangCode === 'pl' ? 'FUNDACJA' : 'FOUNDATION',
-      href: `/${currentLangCode}/fundacja`,
-    },
-    {
-      label: currentLangCode === 'pl' ? 'GALERIA' : 'GALLERY',
-      href: `/${currentLangCode}/galeria`,
-    },
-    {
-      label: currentLangCode === 'pl' ? 'KONTAKT' : 'CONTACT',
-      href: `/${currentLangCode}/kontakt`,
-    },
+    { label: t.event, href: `/${currentLang.code}/o-wydarzeniu` },
+    { label: t.instructors, href: `/${currentLang.code}/instruktorzy` },
+    { label: t.partners, href: `/${currentLang.code}/partnerzy` },
+    { label: 'MEDIA', href: `/${currentLang.code}/media` },
+    { label: t.foundation, href: `/${currentLang.code}/fundacja` },
+    { label: t.gallery, href: `/${currentLang.code}/galeria` },
+    { label: t.contact, href: `/${currentLang.code}/kontakt` },
   ];
 
   const selectLang = (lang: Language) => {
@@ -280,7 +448,7 @@ export function NavBar({ activeLink, lang = 'pl' }: NavBarProps) {
               e.currentTarget.style.backgroundColor = '#C42B2B';
             }}
           >
-            REJESTRACJA
+            {t.register}
           </a>
 
           {/* Mobile Hamburger Menu */}
