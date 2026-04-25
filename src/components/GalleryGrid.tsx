@@ -639,6 +639,12 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
           width: 100%;
           max-width: 100%;
           overflow-x: hidden;
+          box-sizing: border-box;
+        }
+        .gallery-grid-wrap *,
+        .gallery-grid-wrap *::before,
+        .gallery-grid-wrap *::after {
+          box-sizing: border-box;
         }
         .edition-tabs {
           display: flex;
@@ -944,10 +950,10 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
         }
         @media (min-width: 1024px) {
           .gallery-grid-wrap {
-            width: 100vw;
-            max-width: 100vw;
-            margin-left: calc(50% - 50vw);
-            margin-right: calc(50% - 50vw);
+            width: 100%;
+            max-width: 100%;
+            margin-left: 0;
+            margin-right: 0;
             padding-left: 0;
             padding-right: 0;
           }
