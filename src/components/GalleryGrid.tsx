@@ -539,7 +539,7 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
           position: sticky;
           top: 0;
           z-index: 10;
-          background: #0f1720;
+          background: transparent;
           padding: 12px 5%;
           display: flex;
           justify-content: space-between;
@@ -580,7 +580,7 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
           justify-content: center;
         }
         .edition-locked {
-          background: linear-gradient(to bottom, #161F28, #1A2530, #161F28);
+          background: transparent;
           border-radius: 8px;
           padding: 24px;
           min-height: 220px;
@@ -620,7 +620,7 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
         .photo-item {
           position: relative;
           overflow: hidden;
-          background: #151e28;
+          background: transparent;
         }
         .photo-item.is-hidden {
           display: none;
@@ -723,7 +723,7 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
         }
         .video-section {
           margin-top: 28px;
-          background: linear-gradient(to bottom, #161F28, #1A2530, #161F28);
+          background: transparent;
         }
         .video-pretitle-wrap {
           display: flex;
@@ -765,7 +765,7 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
           display: block;
           color: inherit;
           text-decoration: none;
-          background: #151e28;
+          background: transparent;
           border: 1px solid #253344;
           overflow: hidden;
         }
