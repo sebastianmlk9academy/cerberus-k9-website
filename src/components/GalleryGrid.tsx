@@ -1,5 +1,6 @@
 import { Lock } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { CSSProperties, MouseEvent as ReactMouseEvent } from "react";
 import { ui } from "../i18n/ui";
 import type { Lang } from "../i18n/utils";
 
@@ -9,6 +10,12 @@ type Category =
   | "TCCC"
   | "KONFERENCJA"
   | "DRONY";
+
+type MainCategoryFilter = "all" | Category;
+
+type LocationFilterId = "all" | "lpg" | "gryf" | "stena" | "arena" | "school" | "stadium";
+
+type ViewModeId = "grid" | "masonry";
 
 type PhotoItem = {
   title: string;
@@ -25,6 +32,33 @@ type GalleryGridProps = {
   photos: PhotoItem[];
 };
 
+type GalleryLabels = {
+  allLocations: string;
+  all: string;
+  photos: string;
+  videos: string;
+  loadMore: string;
+  morePhotos: string;
+  edition2025: string;
+  edition2026: string;
+  locationLPG: string;
+  locationGryf: string;
+  locationStena: string;
+  locationArena: string;
+  locationSchool: string;
+  locationStadion: string;
+  viewGrid: string;
+  viewMasonry: string;
+  lockedTitle: string;
+  lockedCountdownPrefix: string;
+  registerCta: string;
+  videoSectionTitle: string;
+  enlarge: string;
+  countdownEmpty: string;
+  countdownDay: string;
+  countdownHour: string;
+};
+
 const RELEASE_2026_DATE = new Date("2026-06-14T00:00:00");
 
 const categoryBadgeClass: Record<Category, string> = {
@@ -35,21 +69,266 @@ const categoryBadgeClass: Record<Category, string> = {
   DRONY: "badge-drony",
 };
 
-const locationFilters = [
-  "WSZYSTKIE LOKALIZACJE",
-  "TERMINAL LPG",
-  "MUZEUM GRYF",
-  "STENA LINE",
-];
-
-const mainFilters = [
-  "WSZYSTKO",
+const CATEGORY_VALUES: Category[] = [
   "HARDEST HIT",
   "SZKOLENIA K9",
   "TCCC",
   "KONFERENCJA",
   "DRONY",
 ];
+
+function resolveCategoryForBadge(category: string): Category | null {
+  return CATEGORY_VALUES.find((c) => normalize(c) === normalize(category)) ?? null;
+}
+
+const MAIN_FILTER_IDS: MainCategoryFilter[] = [
+  "all",
+  "HARDEST HIT",
+  "SZKOLENIA K9",
+  "TCCC",
+  "KONFERENCJA",
+  "DRONY",
+];
+
+const LOCATION_FILTER_IDS: LocationFilterId[] = [
+  "all",
+  "lpg",
+  "gryf",
+  "stena",
+  "arena",
+  "school",
+  "stadium",
+];
+
+const CANONICAL_LOCATION_BY_ID: Record<Exclude<LocationFilterId, "all">, string> = {
+  lpg: "Terminal LPG",
+  gryf: "Muzeum Gryf",
+  stena: "Stena Line",
+  arena: "3MK Arena",
+  school: "Szkoła Mundurowa",
+  stadium: "Stadion Miejski",
+};
+
+const galleryLabelsEn: GalleryLabels = {
+  allLocations: "ALL LOCATIONS",
+  all: "ALL",
+  photos: "PHOTOS",
+  videos: "VIDEOS",
+  loadMore: "LOAD MORE",
+  morePhotos: "MORE PHOTOS",
+  edition2025: "EDITION 2025 — TRICITY",
+  edition2026: "EDITION 2026 — OSTRÓW WIELKOPOLSKI",
+  locationLPG: "LPG Terminal",
+  locationGryf: "Gryf Museum",
+  locationStena: "Stena Line",
+  locationArena: "3MK Arena",
+  locationSchool: "Uniform School",
+  locationStadion: "City Stadium",
+  viewGrid: "GRID",
+  viewMasonry: "MASONRY",
+  lockedTitle: "Photos will appear after the event ends",
+  lockedCountdownPrefix: "Unlocks in:",
+  registerCta: "REGISTER AND YOU WILL BE HERE",
+  videoSectionTitle: "VIDEO AND MEDIA COVERAGE",
+  enlarge: "🔍 Enlarge",
+  countdownEmpty: "0 days",
+  countdownDay: "days",
+  countdownHour: "hrs",
+};
+
+const galleryLabelsPl: GalleryLabels = {
+  allLocations: "WSZYSTKIE LOKALIZACJE",
+  all: "WSZYSTKO",
+  photos: "ZDJĘCIA",
+  videos: "FILMY",
+  loadMore: "ZAŁADUJ WIĘCEJ",
+  morePhotos: "KOLEJNYCH ZDJĘĆ",
+  edition2025: "EDYCJA 2025 — TRÓJMIASTO",
+  edition2026: "EDYCJA 2026 — OSTRÓW WIELKOPOLSKI",
+  locationLPG: "Terminal LPG",
+  locationGryf: "Muzeum Gryf",
+  locationStena: "Stena Line",
+  locationArena: "3MK Arena",
+  locationSchool: "Szkoła Mundurowa",
+  locationStadion: "Stadion Miejski",
+  viewGrid: "SIATKA",
+  viewMasonry: "MASONRY",
+  lockedTitle: "Zdjęcia pojawią się po zakończeniu eventu",
+  lockedCountdownPrefix: "Odblokowanie za:",
+  registerCta: "ZAREJESTRUJ SIĘ I BĘDZIESZ TUTAJ",
+  videoSectionTitle: "WIDEO I RELACJE MEDIALNE",
+  enlarge: "🔍 Powiększ",
+  countdownEmpty: "0 dni",
+  countdownDay: "dni",
+  countdownHour: "godz.",
+};
+
+const galleryLabelsDe: GalleryLabels = {
+  allLocations: "ALLE STANDORTE",
+  all: "ALLE",
+  photos: "FOTOS",
+  videos: "VIDEOS",
+  loadMore: "MEHR LADEN",
+  morePhotos: "WEITERE FOTOS",
+  edition2025: "AUSGABE 2025 — DREISTADT",
+  edition2026: "AUSGABE 2026 — OSTRÓW WIELKOPOLSKI",
+  locationLPG: "LPG-Terminal",
+  locationGryf: "Gryf-Museum",
+  locationStena: "Stena Line",
+  locationArena: "3MK Arena",
+  locationSchool: "Uniformschule",
+  locationStadion: "Stadtstadion",
+  viewGrid: "RASTER",
+  viewMasonry: "MASONRY",
+  lockedTitle: "Fotos erscheinen nach Ende der Veranstaltung",
+  lockedCountdownPrefix: "Freischaltung in:",
+  registerCta: "JETZT ANMELDEN UND DABEI SEIN",
+  videoSectionTitle: "VIDEOS UND MEDIENBERICHTE",
+  enlarge: "🔍 Vergrößern",
+  countdownEmpty: "0 Tage",
+  countdownDay: "Tage",
+  countdownHour: "Std.",
+};
+
+/** Core strings per language; merged with English defaults for missing keys. */
+const galleryLabelsCore: Partial<Record<Lang, Partial<GalleryLabels>>> = {
+  fr: {
+    allLocations: "TOUS LES LIEUX",
+    all: "TOUT",
+    photos: "PHOTOS",
+    videos: "VIDÉOS",
+    loadMore: "CHARGER PLUS",
+    morePhotos: "AUTRES PHOTOS",
+  },
+  hr: {
+    allLocations: "SVE LOKACIJE",
+    all: "SVE",
+    photos: "FOTOGRAFIJE",
+    videos: "VIDEO",
+    loadMore: "UČITAJ VIŠE",
+    morePhotos: "SLJEDEĆIH FOTOGRAFIJA",
+  },
+  cs: {
+    allLocations: "VŠECHNY LOKALITY",
+    all: "VŠE",
+    photos: "FOTKY",
+    videos: "VIDEA",
+    loadMore: "NAČÍST VÍCE",
+    morePhotos: "DALŠÍCH FOTEK",
+  },
+  lt: {
+    allLocations: "VISOS VIETOS",
+    all: "VISKAS",
+    photos: "NUOTRAUKOS",
+    videos: "VAIZDO ĮRAŠAI",
+    loadMore: "ĮKELTI DAUGIAU",
+    morePhotos: "KITŲ NUOTRAUKŲ",
+  },
+  lv: {
+    allLocations: "VISAS LOKĀCIJAS",
+    all: "VISS",
+    photos: "FOTO",
+    videos: "VIDEO",
+    loadMore: "IELĀDĒT VAIRĀK",
+    morePhotos: "NĀKAMO FOTO",
+  },
+  sk: {
+    allLocations: "VŠETKY LOKALITY",
+    all: "VŠETKO",
+    photos: "FOTKY",
+    videos: "VIDEÁ",
+    loadMore: "NAČÍTAŤ VIAC",
+    morePhotos: "ĎALŠÍCH FOTIEK",
+  },
+  sl: {
+    allLocations: "VSE LOKACIJE",
+    all: "VSE",
+    photos: "FOTOGRAFIJE",
+    videos: "VIDEI",
+    loadMore: "NALOŽI VEČ",
+    morePhotos: "NASLEDNJIH FOTOGRAFIJ",
+  },
+  hu: {
+    allLocations: "ÖSSZES HELYSZÍN",
+    all: "ÖSSZES",
+    photos: "FOTÓK",
+    videos: "VIDEÓK",
+    loadMore: "TÖBB BETÖLTÉSE",
+    morePhotos: "TOVÁBBI FOTÓ",
+  },
+  no: {
+    allLocations: "ALLE STEDER",
+    all: "ALLE",
+    photos: "BILDER",
+    videos: "VIDEOER",
+    loadMore: "LAST INN FLERE",
+    morePhotos: "FLERE BILDER",
+  },
+  sv: {
+    allLocations: "ALLA PLATSER",
+    all: "ALLT",
+    photos: "BILDER",
+    videos: "VIDEOR",
+    loadMore: "LADDA FLER",
+    morePhotos: "FLER BILDER",
+  },
+  nl: {
+    allLocations: "ALLE LOCATIES",
+    all: "ALLES",
+    photos: "FOTO'S",
+    videos: "VIDEO'S",
+    loadMore: "MEER LADEN",
+    morePhotos: "VOLGENDE FOTO'S",
+  },
+  es: {
+    allLocations: "TODAS LAS UBICACIONES",
+    all: "TODO",
+    photos: "FOTOS",
+    videos: "VIDEOS",
+    loadMore: "CARGAR MÁS",
+    morePhotos: "MÁS FOTOS",
+  },
+  pt: {
+    allLocations: "TODOS OS LOCAIS",
+    all: "TUDO",
+    photos: "FOTOS",
+    videos: "VÍDEOS",
+    loadMore: "CARREGAR MAIS",
+    morePhotos: "PRÓXIMAS FOTOS",
+  },
+  ro: {
+    allLocations: "TOATE LOCAȚIILE",
+    all: "TOT",
+    photos: "FOTOGRAFII",
+    videos: "VIDEO",
+    loadMore: "ÎNCARCĂ MAI MULT",
+    morePhotos: "URMĂTOARELE FOTOGRAFII",
+  },
+  it: {
+    allLocations: "TUTTE LE SEDI",
+    all: "TUTTO",
+    photos: "FOTO",
+    videos: "VIDEO",
+    loadMore: "CARICA ALTRO",
+    morePhotos: "ALTRE FOTO",
+  },
+  ko: {
+    allLocations: "모든 장소",
+    all: "전체",
+    photos: "사진",
+    videos: "영상",
+    loadMore: "더 불러오기",
+    morePhotos: "다음 사진",
+  },
+};
+
+function resolveGalleryLabels(lang: Lang): GalleryLabels {
+  if (lang === "pl") return galleryLabelsPl;
+  if (lang === "de") return galleryLabelsDe;
+  if (lang === "en") return galleryLabelsEn;
+  const core = galleryLabelsCore[lang];
+  return { ...galleryLabelsEn, ...core };
+}
 
 const videoItems = [
   {
@@ -95,18 +374,45 @@ function toJpgFallback(photo: string): string {
   return photo;
 }
 
-function formatCountdown(targetDate: Date): string {
+function formatCountdown(targetDate: Date, labels: GalleryLabels): string {
   const now = new Date();
   const diff = targetDate.getTime() - now.getTime();
   if (diff <= 0) {
-    return "0 dni";
+    return labels.countdownEmpty;
   }
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  return `${days} dni ${hours} godz.`;
+  return `${days} ${labels.countdownDay} ${hours} ${labels.countdownHour}`;
 }
 
-const partnerButtonStyle: React.CSSProperties = {
+function locationLabelForId(id: LocationFilterId, labels: GalleryLabels): string {
+  switch (id) {
+    case "all":
+      return labels.allLocations;
+    case "lpg":
+      return labels.locationLPG;
+    case "gryf":
+      return labels.locationGryf;
+    case "stena":
+      return labels.locationStena;
+    case "arena":
+      return labels.locationArena;
+    case "school":
+      return labels.locationSchool;
+    case "stadium":
+      return labels.locationStadion;
+    default:
+      return labels.allLocations;
+  }
+}
+
+function locationMatchesFilter(photoLocation: string, filterId: LocationFilterId): boolean {
+  if (filterId === "all") return true;
+  const canonical = CANONICAL_LOCATION_BY_ID[filterId];
+  return normalize(photoLocation) === normalize(canonical);
+}
+
+const partnerButtonStyle: CSSProperties = {
   backgroundColor: "transparent",
   color: "#C4922A",
   fontFamily: "var(--font-rajdhani), sans-serif",
@@ -118,54 +424,31 @@ const partnerButtonStyle: React.CSSProperties = {
   cursor: "pointer",
 };
 
-const handlePartnerButtonMouseEnter = (
-  e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>,
-) => {
+const handlePartnerButtonMouseEnter = (e: ReactMouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
   e.currentTarget.style.backgroundColor = "#C4922A";
   e.currentTarget.style.color = "#1E2B38";
 };
 
-const handlePartnerButtonMouseLeave = (
-  e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>,
-) => {
+const handlePartnerButtonMouseLeave = (e: ReactMouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
   e.currentTarget.style.backgroundColor = "transparent";
   e.currentTarget.style.color = "#C4922A";
 };
 
 export function GalleryGrid({ photos, lang }: GalleryGridProps) {
-  const t = {
-    pl: { allLocations: "WSZYSTKIE LOKALIZACJE", all: "WSZYSTKO", photos: "ZDJĘCIA", videos: "FILMY", loadMore: "ZAŁADUJ WIĘCEJ", nextPhotos: "KOLEJNYCH ZDJĘĆ" },
-    en: { allLocations: "ALL LOCATIONS", all: "ALL", photos: "PHOTOS", videos: "VIDEOS", loadMore: "LOAD MORE", nextPhotos: "MORE PHOTOS" },
-    de: { allLocations: "ALLE STANDORTE", all: "ALLE", photos: "FOTOS", videos: "VIDEOS", loadMore: "MEHR LADEN", nextPhotos: "WEITERE FOTOS" },
-    fr: { allLocations: "TOUS LES LIEUX", all: "TOUT", photos: "PHOTOS", videos: "VIDÉOS", loadMore: "CHARGER PLUS", nextPhotos: "AUTRES PHOTOS" },
-    hr: { allLocations: "SVE LOKACIJE", all: "SVE", photos: "FOTOGRAFIJE", videos: "VIDEO", loadMore: "UČITAJ VIŠE", nextPhotos: "SLJEDEĆIH FOTOGRAFIJA" },
-    cs: { allLocations: "VŠECHNY LOKALITY", all: "VŠE", photos: "FOTKY", videos: "VIDEA", loadMore: "NAČÍST VÍCE", nextPhotos: "DALŠÍCH FOTEK" },
-    lt: { allLocations: "VISOS VIETOS", all: "VISKAS", photos: "NUOTRAUKOS", videos: "VAIZDO ĮRAŠAI", loadMore: "ĮKELTI DAUGIAU", nextPhotos: "KITŲ NUOTRAUKŲ" },
-    lv: { allLocations: "VISAS LOKĀCIJAS", all: "VISS", photos: "FOTO", videos: "VIDEO", loadMore: "IELĀDĒT VAIRĀK", nextPhotos: "NĀKAMO FOTO" },
-    sk: { allLocations: "VŠETKY LOKALITY", all: "VŠETKO", photos: "FOTKY", videos: "VIDEÁ", loadMore: "NAČÍTAŤ VIAC", nextPhotos: "ĎALŠÍCH FOTIEK" },
-    sl: { allLocations: "VSE LOKACIJE", all: "VSE", photos: "FOTOGRAFIJE", videos: "VIDEI", loadMore: "NALOŽI VEČ", nextPhotos: "NASLEDNJIH FOTOGRAFIJ" },
-    hu: { allLocations: "ÖSSZES HELYSZÍN", all: "ÖSSZES", photos: "FOTÓK", videos: "VIDEÓK", loadMore: "TÖBB BETÖLTÉSE", nextPhotos: "TOVÁBBI FOTÓ" },
-    no: { allLocations: "ALLE STEDER", all: "ALLE", photos: "BILDER", videos: "VIDEOER", loadMore: "LAST INN FLERE", nextPhotos: "FLERE BILDER" },
-    sv: { allLocations: "ALLA PLATSER", all: "ALLT", photos: "BILDER", videos: "VIDEOR", loadMore: "LADDA FLER", nextPhotos: "FLER BILDER" },
-    nl: { allLocations: "ALLE LOCATIES", all: "ALLES", photos: "FOTO'S", videos: "VIDEO'S", loadMore: "MEER LADEN", nextPhotos: "VOLGENDE FOTO'S" },
-    es: { allLocations: "TODAS LAS UBICACIONES", all: "TODO", photos: "FOTOS", videos: "VIDEOS", loadMore: "CARGAR MÁS", nextPhotos: "MÁS FOTOS" },
-    pt: { allLocations: "TODOS OS LOCAIS", all: "TUDO", photos: "FOTOS", videos: "VÍDEOS", loadMore: "CARREGAR MAIS", nextPhotos: "PRÓXIMAS FOTOS" },
-    ro: { allLocations: "TOATE LOCAȚIILE", all: "TOT", photos: "FOTOGRAFII", videos: "VIDEO", loadMore: "ÎNCARCĂ MAI MULT", nextPhotos: "URMĂTOARELE FOTOGRAFII" },
-    it: { allLocations: "TUTTE LE SEDI", all: "TUTTO", photos: "FOTO", videos: "VIDEO", loadMore: "CARICA ALTRO", nextPhotos: "ALTRE FOTO" },
-    ko: { allLocations: "모든 장소", all: "전체", photos: "사진", videos: "영상", loadMore: "더 불러오기", nextPhotos: "다음 사진" },
-  }[lang] ?? { allLocations: "ALL LOCATIONS", all: "ALL", photos: "PHOTOS", videos: "VIDEOS", loadMore: "LOAD MORE", nextPhotos: "MORE PHOTOS" };
-  const translatedMainFilters = mainFilters.map((filter) =>
-    filter === "WSZYSTKO" ? ((ui[lang] as Record<string, string>).filter_all ?? t.all) : filter,
+  const galleryLabels = resolveGalleryLabels(lang);
+
+  const translatedMainFilterLabels = MAIN_FILTER_IDS.map((filterId) =>
+    filterId === "all"
+      ? ((ui[lang] as Record<string, string>).filter_all ?? galleryLabels.all)
+      : filterId,
   );
-  const translatedLocationFilters = locationFilters.map((location) =>
-    location === "WSZYSTKIE LOKALIZACJE" ? t.allLocations : location,
-  );
+
   const rootRef = useRef<HTMLDivElement | null>(null);
   const visibleLimitRef = useRef<number>(12);
-  const [activeCategory, setActiveCategory] = useState("WSZYSTKO");
-  const [activeLocation, setActiveLocation] = useState("WSZYSTKIE LOKALIZACJE");
-  const [activeView, setActiveView] = useState("SIATKA");
-  const [activeEdition, setActiveEdition] = useState("2025");
+  const [activeCategory, setActiveCategory] = useState<MainCategoryFilter>("all");
+  const [activeLocation, setActiveLocation] = useState<LocationFilterId>("all");
+  const [activeView, setActiveView] = useState<ViewModeId>("grid");
+  const [activeEdition, setActiveEdition] = useState<"2025" | "2026">("2025");
   const [modalVideo, setModalVideo] = useState<string | null>(null);
 
   const closeModal = useCallback(() => {
@@ -259,7 +542,7 @@ export function GalleryGrid({ photos, lang }: GalleryGridProps) {
     if (!grid || !loadMoreButton || !loadMoreText || !lockedSection || !countdownText) return;
 
     const is2026Unlocked = new Date().getTime() >= RELEASE_2026_DATE.getTime();
-    countdownText.textContent = formatCountdown(RELEASE_2026_DATE);
+    countdownText.textContent = formatCountdown(RELEASE_2026_DATE, galleryLabels);
 
     const updateVisibility = () => {
       if (detached) return;
@@ -274,9 +557,9 @@ export function GalleryGrid({ photos, lang }: GalleryGridProps) {
           const location = item.dataset.location || "";
           const edition = item.dataset.edition || "";
 
-          const categoryMatch = activeCategory === "WSZYSTKO" || category === activeCategory;
-          const locationMatch =
-            activeLocation === "WSZYSTKIE LOKALIZACJE" || normalize(location) === normalize(activeLocation);
+          const categoryMatch =
+            activeCategory === "all" || normalize(category) === normalize(activeCategory);
+          const locationMatch = locationMatchesFilter(location, activeLocation);
           const editionMatch = edition === activeEdition;
 
           const shouldShow = categoryMatch && locationMatch && editionMatch;
@@ -315,7 +598,7 @@ export function GalleryGrid({ photos, lang }: GalleryGridProps) {
       }, 200);
     };
 
-    const bindClick = (button: HTMLElement, handler: (event: MouseEvent) => void) => {
+    const bindClick = (button: HTMLElement, handler: (event: globalThis.MouseEvent) => void) => {
       button.addEventListener("click", handler);
       return () => button.removeEventListener("click", handler);
     };
@@ -325,7 +608,8 @@ export function GalleryGrid({ photos, lang }: GalleryGridProps) {
     tabButtons.forEach((button) => {
       cleanupFns.push(
         bindClick(button, () => {
-          const edition = button.dataset.edition || "2025";
+          const editionRaw = button.dataset.edition || "2025";
+          const edition: "2025" | "2026" = editionRaw === "2026" ? "2026" : "2025";
           if (edition === "2026" && !is2026Unlocked) {
             setActiveEdition("2026");
             return;
@@ -348,7 +632,7 @@ export function GalleryGrid({ photos, lang }: GalleryGridProps) {
       const buttonValue = button.dataset.edition || "2025";
       button.classList.toggle("is-active", buttonValue === activeEdition);
     });
-    grid.classList.toggle("view-masonry", activeView === "MASONRY");
+    grid.classList.toggle("view-masonry", activeView === "masonry");
 
     ensureScript()
       .then(() => {
@@ -370,10 +654,10 @@ export function GalleryGrid({ photos, lang }: GalleryGridProps) {
       cleanupFns.forEach((fn) => fn());
       lightboxInstance?.destroy();
     };
-  }, [sortedPhotos, activeCategory, activeLocation, activeEdition, activeView]);
+  }, [sortedPhotos, activeCategory, activeLocation, activeEdition, activeView, galleryLabels]);
 
   const is2026Unlocked = new Date().getTime() >= RELEASE_2026_DATE.getTime();
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleBackdropClick = (e: ReactMouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       closeModal();
     }
@@ -385,17 +669,17 @@ export function GalleryGrid({ photos, lang }: GalleryGridProps) {
         <div className="flex items-center justify-center gap-4 mb-4">
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
           <span className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]">
-            {t.photos}
+            {galleryLabels.photos}
           </span>
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
         </div>
       </div>
       <div className="edition-tabs">
         <button type="button" className="edition-tab is-active" data-edition="2025">
-          EDYCJA 2025 — TRÓJMIASTO
+          {galleryLabels.edition2025}
         </button>
         <button type="button" className="edition-tab" data-edition="2026">
-          EDYCJA 2026 — OSTRÓW WIELKOPOLSKI
+          {galleryLabels.edition2026}
           {!is2026Unlocked ? (
             <Lock
               size={12}
@@ -407,30 +691,30 @@ export function GalleryGrid({ photos, lang }: GalleryGridProps) {
 
       <div className="filter-bar">
         <div className="main-filter-list">
-          {mainFilters.map((filter, index) => (
+          {MAIN_FILTER_IDS.map((filterId, index) => (
             <button
-              key={filter}
+              key={filterId}
               type="button"
               className="filter-pill"
-              data-filter={filter}
+              data-filter={filterId}
               onClick={() => {
-                setActiveCategory(filter);
+                setActiveCategory(filterId);
                 visibleLimitRef.current = 12;
               }}
               style={{
                 ...partnerButtonStyle,
-                backgroundColor: activeCategory === filter ? "#C4922A" : "transparent",
-                color: activeCategory === filter ? "#1E2B38" : "#C4922A",
+                backgroundColor: activeCategory === filterId ? "#C4922A" : "transparent",
+                color: activeCategory === filterId ? "#1E2B38" : "#C4922A",
                 padding: "8px 14px",
                 fontSize: 11,
               }}
               onMouseEnter={handlePartnerButtonMouseEnter}
               onMouseLeave={(e) => {
-                if (activeCategory === filter) return;
+                if (activeCategory === filterId) return;
                 handlePartnerButtonMouseLeave(e);
               }}
             >
-              {translatedMainFilters[index]}
+              {translatedMainFilterLabels[index]}
             </button>
           ))}
         </div>
@@ -439,82 +723,83 @@ export function GalleryGrid({ photos, lang }: GalleryGridProps) {
           <button
             type="button"
             className="view-btn"
-            data-view="SIATKA"
-            onClick={() => setActiveView("SIATKA")}
+            data-view="grid"
+            onClick={() => setActiveView("grid")}
             style={{
               ...partnerButtonStyle,
-              backgroundColor: activeView === "SIATKA" ? "#C4922A" : "transparent",
-              color: activeView === "SIATKA" ? "#1E2B38" : "#C4922A",
+              backgroundColor: activeView === "grid" ? "#C4922A" : "transparent",
+              color: activeView === "grid" ? "#1E2B38" : "#C4922A",
               padding: "8px 14px",
               fontSize: 11,
             }}
             onMouseEnter={handlePartnerButtonMouseEnter}
             onMouseLeave={(e) => {
-              if (activeView === "SIATKA") return;
+              if (activeView === "grid") return;
               handlePartnerButtonMouseLeave(e);
             }}
           >
-            SIATKA
+            {galleryLabels.viewGrid}
           </button>
           <button
             type="button"
             className="view-btn"
-            data-view="MASONRY"
-            onClick={() => setActiveView("MASONRY")}
+            data-view="masonry"
+            onClick={() => setActiveView("masonry")}
             style={{
               ...partnerButtonStyle,
-              backgroundColor: activeView === "MASONRY" ? "#C4922A" : "transparent",
-              color: activeView === "MASONRY" ? "#1E2B38" : "#C4922A",
+              backgroundColor: activeView === "masonry" ? "#C4922A" : "transparent",
+              color: activeView === "masonry" ? "#1E2B38" : "#C4922A",
               padding: "8px 14px",
               fontSize: 11,
             }}
             onMouseEnter={handlePartnerButtonMouseEnter}
             onMouseLeave={(e) => {
-              if (activeView === "MASONRY") return;
+              if (activeView === "masonry") return;
               handlePartnerButtonMouseLeave(e);
             }}
           >
-            MASONRY
+            {galleryLabels.viewMasonry}
           </button>
         </div>
       </div>
 
       <div className="location-filters">
-        {locationFilters.map((location, index) => (
+        {LOCATION_FILTER_IDS.map((locationId) => (
           <button
-            key={location}
+            key={locationId}
             type="button"
             className="location-pill"
-            data-location-filter={location}
+            data-location-filter={locationId}
             onClick={() => {
-              setActiveLocation(location);
+              setActiveLocation(locationId);
               visibleLimitRef.current = 12;
             }}
             style={{
               ...partnerButtonStyle,
-              backgroundColor: activeLocation === location ? "#C4922A" : "transparent",
-              color: activeLocation === location ? "#1E2B38" : "#C4922A",
+              backgroundColor: activeLocation === locationId ? "#C4922A" : "transparent",
+              color: activeLocation === locationId ? "#1E2B38" : "#C4922A",
               padding: "8px 14px",
               fontSize: 11,
             }}
             onMouseEnter={handlePartnerButtonMouseEnter}
             onMouseLeave={(e) => {
-              if (activeLocation === location) return;
+              if (activeLocation === locationId) return;
               handlePartnerButtonMouseLeave(e);
             }}
           >
-            {translatedLocationFilters[index]}
+            {locationLabelForId(locationId, galleryLabels)}
           </button>
         ))}
       </div>
 
       <section className="edition-locked" data-locked-section>
-        <p className="locked-title">Zdjęcia pojawią się po zakończeniu eventu</p>
+        <p className="locked-title">{galleryLabels.lockedTitle}</p>
         <p className="locked-countdown">
-          Odblokowanie za: <strong data-countdown>0 dni</strong>
+          {galleryLabels.lockedCountdownPrefix}{" "}
+          <strong data-countdown>{galleryLabels.countdownEmpty}</strong>
         </p>
         <a
-          href="/rejestracja"
+          href={`/${lang}/rejestracja`}
           className="flex items-center justify-center cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-6 sm:py-3.5 text-decoration-none"
           style={{
             backgroundColor: "transparent",
@@ -534,7 +819,7 @@ export function GalleryGrid({ photos, lang }: GalleryGridProps) {
             e.currentTarget.style.color = "#C4922A";
           }}
         >
-          ZAREJESTRUJ SIĘ I BĘDZIESZ TUTAJ <span className="ml-1">↗</span>
+          {galleryLabels.registerCta} <span className="ml-1">↗</span>
         </a>
       </section>
 
@@ -542,6 +827,8 @@ export function GalleryGrid({ photos, lang }: GalleryGridProps) {
         {sortedPhotos.map((item, index) => {
           const isWide = index % 9 === 0 || item.tags?.some((tag) => normalize(tag) === "wide");
           const jpgFallback = toJpgFallback(item.photo);
+          const categoryKey = resolveCategoryForBadge(item.category);
+          const badgeClass = categoryKey ? categoryBadgeClass[categoryKey] : "badge-hardest-hit";
           return (
             <article
               key={item.id}
@@ -566,9 +853,9 @@ export function GalleryGrid({ photos, lang }: GalleryGridProps) {
                 <div className="photo-overlay">
                   <p className="photo-title">{item.title}</p>
                   <p className="photo-location">{item.location}</p>
-                  <span className="photo-zoom">🔍 Powiększ</span>
+                  <span className="photo-zoom">{galleryLabels.enlarge}</span>
                 </div>
-                <span className={`category-badge ${categoryBadgeClass[item.category]}`}>{item.category}</span>
+                <span className={`category-badge ${badgeClass}`}>{item.category}</span>
                 <span className="webp-badge">WebP</span>
               </a>
             </article>
@@ -584,16 +871,16 @@ export function GalleryGrid({ photos, lang }: GalleryGridProps) {
         onMouseLeave={handlePartnerButtonMouseLeave}
         data-load-more
       >
-        {t.loadMore} — <span data-load-more-count>12</span> {t.nextPhotos}
+        {galleryLabels.loadMore} — <span data-load-more-count>12</span> {galleryLabels.morePhotos}
       </a>
 
       <section className="video-section">
         <div className="video-pretitle-wrap">
           <div className="video-pretitle-line" />
-          <span className="video-pretitle">{t.videos}</span>
+          <span className="video-pretitle">{galleryLabels.videos}</span>
           <div className="video-pretitle-line" />
         </div>
-        <h3>WIDEO I RELACJE MEDIALNE</h3>
+        <h3>{galleryLabels.videoSectionTitle}</h3>
         <div className="video-grid">
           {videoItems.map((video) => (
             <button
