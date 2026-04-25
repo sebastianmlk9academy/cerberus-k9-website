@@ -143,7 +143,7 @@ collections:
           - Sponsor
           - Patron Medialny
           - Technologiczny
-      - { label: Logo, name: logo, widget: image, required: false, choose_url: true }
+      - { label: Logo, name: logo, widget: image, required: false, choose_url: true, hint: 'Wgraj logo w formacie WebP. Zalecany rozmiar: 300x120px. Po wgraniu zmień rozszerzenie na .webp' }
       - { label: Strona WWW, name: website, widget: string, required: false }
       - { label: Etykieta linku WWW, name: website_label, widget: string, required: false }
       - { label: Opis, name: description, widget: text, required: false }
