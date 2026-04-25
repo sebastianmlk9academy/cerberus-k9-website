@@ -114,12 +114,16 @@ export function ContactPage() {
         .ck9-checkbox {
           display: flex;
           align-items: flex-start;
-          gap: 4px;
+          gap: 8px;
           margin: 4px 0 8px;
+          cursor: pointer;
         }
         .ck9-checkbox input {
-          margin-top: 2px;
+          flex-shrink: 0;
+          margin-right: 4px;
+          margin-top: 3px;
           accent-color: ${red};
+          cursor: pointer;
         }
         .ck9-checkbox span {
           font: 500 13px/1.45 ${raj};
