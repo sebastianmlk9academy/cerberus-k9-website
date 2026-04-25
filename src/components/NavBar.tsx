@@ -1,13 +1,13 @@
 import { useState, type MouseEvent } from 'react';
 
 const navLinks = [
-  { label: 'O WYDARZENIU', href: '#o-wydarzeniu' },
-  { label: 'INSTRUKTORZY', href: '#instruktorzy' },
-  { label: 'PARTNERZY', href: '#partnerzy' },
-  { label: 'MEDIA', href: '#media' },
-  { label: 'FUNDACJA', href: '#fundacja' },
-  { label: 'GALERIA', href: '#galeria' },
-  { label: 'KONTAKT', href: '#kontakt' },
+  { label: 'O WYDARZENIU', href: '/pl/o-wydarzeniu' },
+  { label: 'INSTRUKTORZY', href: '/pl/instruktorzy' },
+  { label: 'PARTNERZY', href: '/pl/partnerzy' },
+  { label: 'MEDIA', href: '/pl/media' },
+  { label: 'FUNDACJA', href: '/pl/fundacja' },
+  { label: 'GALERIA', href: '/pl/galeria' },
+  { label: 'KONTAKT', href: '/pl/kontakt' },
 ];
 
 const languages = [
@@ -229,7 +229,7 @@ export function NavBar({ activeLink }: NavBarProps) {
 
           {/* CTA Button - Always visible */}
           <a
-            href="#rejestracja"
+            href="/pl/rejestracja"
             className="block transition-colors duration-150 shrink-0"
             style={{
               backgroundColor: '#C42B2B',
