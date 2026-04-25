@@ -279,7 +279,7 @@ export default function MediaPage() {
             KONTAKT DLA MEDIÓW
           </h3>
           <p style={{ margin: '0 0 12px 0', fontSize: '15px', color: '#E4DDD0', fontWeight: 600 }}>
-            [Imię Nazwisko — rzecznik prasowy]
+            Sebastian Bożek — Wiceprezes
           </p>
           <a
             href="mailto:sebastian@pactak9.org"
