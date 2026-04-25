@@ -1,40 +1,15 @@
 "use client"
 
-interface ProgramCard {
-  category: string
-  title: string
-  description: string
-  badge: string
+import type { Lang } from "../i18n/utils"
+import type { ProgramSectionCopy } from "../i18n/programSection"
+
+interface ProgramSectionProps {
+  lang: Lang
+  copy: ProgramSectionCopy
 }
 
-const programCards: ProgramCard[] = [
-  {
-    category: "◈ SZKOLENIA K9",
-    title: "PSY GRYZĄCE · DETEKCJA · TROPIENIE · SAR",
-    description: "Służby i cywile w parach pies + przewodnik. Instruktorzy to emerytowani operatorzy JWK, OSŻW, policjanci. Do Waszej dyspozycji 8 topowych pozorantów z całej Europy i USA.",
-    badge: "SŁUŻBY + CYWILE"
-  },
-  {
-    category: "◈ MEDYCYNA",
-    title: "MEDYCYNA POLA WALKI",
-    description: "Rescue Team SE.A.L. + WOPR Ostrów Wlkp. Taktyczna medycyna pola walki dla służb i cywilów. Opatrywanie ran psów pracujących. Pierwsza pomoc przedmedyczna dla każdego.",
-    badge: "MEDYCYNA POLA WALKI"
-  },
-  {
-    category: "◈ DRONY",
-    title: "PILOTAŻ I TAKTYKA W DZIAŁANIU",
-    description: "Praktyczny kurs pilotażu bezzałogowych statków powietrznych, mający zastosowanie w operacjach SAR, bezpieczeństwie publicznym i zarządzaniu kryzysowym.",
-    badge: "GRUPY SAR + SŁUŻBY + ORGANIZACJE PROOBRONNE + CYWILE"
-  },
-  {
-    category: "◈ KONFERENCJA",
-    title: "OBRONA POWSZECHNA I ZARZĄDZANIE KRYZYSOWE",
-    description: "Panele: bezpieczeństwo wewnętrzne i publiczne, obrona powszechna, ochrona infrastruktury krytycznej przy wykorzystaniu dronów.",
-    badge: "JEDNOSTKI SAMORZĄDU TERYTORIALNEGO + SŁUŻBY + CYWILE"
-  }
-]
-
-export function ProgramSection() {
+export function ProgramSection({ lang, copy }: ProgramSectionProps) {
+  void lang
   return (
     <section
       className="bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28] px-[5%]"
@@ -48,7 +23,7 @@ export function ProgramSection() {
           <span 
             className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]"
           >
-            PROGRAM GŁÓWNY
+            {copy.sectionTag}
           </span>
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
         </div>
@@ -62,13 +37,13 @@ export function ProgramSection() {
             letterSpacing: "2px",
           }}
         >
-          CO CIĘ CZEKA
+          {copy.sectionTitle}
         </h2>
       </div>
 
       {/* Cards Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-0.5 bg-[#1A2230] max-w-7xl mx-auto">
-        {programCards.map((card, index) => (
+        {copy.cards.map((card, index) => (
           <div
             key={index}
             className="group flex flex-col bg-[#0F1720] min-h-[400px] pt-5 pb-9 px-6 border-l-[3px] border-l-transparent hover:border-l-[#C4922A] hover:bg-[#151E28] transition-all duration-300"
