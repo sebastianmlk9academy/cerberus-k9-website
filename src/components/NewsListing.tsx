@@ -309,7 +309,11 @@ export function NewsListing({
   return (
     <div
       className="w-full"
-      style={{ paddingTop: "20px", paddingBottom: "20px" }}
+      style={{
+        paddingTop: "20px",
+        paddingBottom: "20px",
+        background: "linear-gradient(to bottom, #161F28, #1A2530, #161F28)",
+      }}
     >
       <div
         className="sticky top-0 z-40 border-b border-[#253344]"
