@@ -738,6 +738,7 @@ export function GalleryGrid({ photos }: GalleryGridProps) {
           background: linear-gradient(to right, transparent, rgba(196, 43, 43, 0.4), transparent);
         }
         .video-pretitle {
+          margin-top: 40px;
           font-family: var(--font-rajdhani), sans-serif;
           font-size: 12px;
           font-weight: 500;
