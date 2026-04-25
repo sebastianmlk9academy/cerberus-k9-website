@@ -74,7 +74,14 @@ export function PageHero({ category, title, subtitle, pageLabel, pageName }: Pag
             color: "#FFFFFF",
           }}
         >
-          {resolvedCategory}
+          {resolvedCategory === "CERBERUS K9" ? (
+            <>
+              <span>CERBERUS </span>
+              <span style={{ color: "#C42B2B" }}>K9</span>
+            </>
+          ) : (
+            resolvedCategory
+          )}
         </p>
 
         {pageLabel && (
