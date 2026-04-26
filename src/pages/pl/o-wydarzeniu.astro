@@ -14,6 +14,7 @@ import { locationsSectionByLang } from '../../i18n/locationsSection';
 import { programEntriesToAgendaItems } from '../../lib/programAgenda';
 import type { AgendaCategory } from '../../lib/agendaCategories';
 import { locationEntriesToItems } from '../../lib/eventLocations';
+import { sectionTitlePartsAroundK9 } from '../../lib/sectionTitleK9Parts';
 
 export const prerender = true;
 
@@ -21,6 +22,7 @@ const lang = 'pl';
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
 const copy = aboutEventPageByLang[lang] ?? aboutEventPageByLang['pl'];
+const sectionTitleParts = sectionTitlePartsAroundK9(copy.sectionTitle);
 const plausibleDomain = s?.plausible_domain ?? 'cerberusk9.org';
 const agendaHeading =
 	lang === 'pl'
@@ -127,7 +129,13 @@ const eventSchema = {
 		<div class="event-description__inner">
 			<div class="event-description__col event-description__col--main">
 				<h2 id="event-desc-heading" class="event-description__title">
-					{copy.sectionTitle}
+					{
+						sectionTitleParts ? (
+							<>{sectionTitleParts.before}<span style="color: #C42B2B">K9</span>{sectionTitleParts.after}</>
+						) : (
+							copy.sectionTitle
+						)
+					}
 				</h2>
 				<p class="event-description__body">{copy.bodyP1}</p>
 				<p class="event-description__body">{copy.bodyP2}</p>
