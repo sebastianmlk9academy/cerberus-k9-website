@@ -22,6 +22,7 @@ collections:
     folder: src/content/aktualnosci
     create: true
     slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    preview_path: 'pl/aktualnosci/{{slug}}'
     extension: md
     format: frontmatter
     fields:
@@ -42,10 +43,10 @@ collections:
         name: lead
         widget: text
         required: true
-        hint: 'Maksymalnie 160 znaków (krótki lead pod tytułem).'
+        hint: 'Krótki opis artykułu, max 500 znaków'
         pattern:
-          - '^.{1,160}$'
-          - 'Maksymalnie 160 znaków.'
+          - '^.{1,500}$'
+          - 'Maksymalnie 500 znaków'
       - { label: Treść, name: body, widget: markdown, required: true }
       - { label: Obraz wyróżniający, name: image, widget: image, required: false, choose_url: true }
       - { label: Opis obrazu (alt), name: image_alt, widget: string, required: false }

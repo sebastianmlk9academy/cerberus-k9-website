@@ -77,12 +77,13 @@ const jsonLd = {
 	<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 	<NavBar client:load lang={lang} />
 	<ArticleLayout
+		lang="pl"
 		breadcrumb={[
 			{ label: 'CERBERUS K9', href: `/${lang}/` },
 			{ label: seoLang.breadcrumbNews, href: `/${lang}/aktualnosci/` },
 			{ label: post.data.title },
 		]}
-		category={categoryBadgeLabel(post.data.category)}
+		category={categoryBadgeLabel(post.data.category, lang)}
 		date={dateLabel}
 		dateTime={dateIso}
 		title={post.data.title}

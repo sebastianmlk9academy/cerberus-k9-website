@@ -312,6 +312,30 @@ export function NewsListing({
     ko: { all: "전체", news: "뉴스", instructors: "강사", partners: "파트너", registration: "등록", media: "미디어", hardestHit: "HARDEST HIT" },
   };
   const labels = filterLabels[lang] ?? filterLabels.en;
+
+  const emptyStateLabels: Record<string, string> = {
+    pl: "BRAK ARTYKUŁÓW W TEJ KATEGORII",
+    en: "NO ARTICLES IN THIS CATEGORY",
+    de: "KEINE ARTIKEL IN DIESER KATEGORIE",
+    fr: "AUCUN ARTICLE DANS CETTE CATÉGORIE",
+    cs: "ŽÁDNÉ ČLÁNKY V TÉTO KATEGORII",
+    sk: "ŽIADNE ČLÁNKY V TEJTO KATEGÓRII",
+    hu: "NINCS CIKK EBBEN A KATEGÓRIÁBAN",
+    hr: "NEMA ČLANAKA U OVOJ KATEGORIJI",
+    sl: "NI ČLANKOV V TEJ KATEGORIJI",
+    lt: "NĖRA STRAIPSNIŲ ŠIOJE KATEGORIJOJE",
+    lv: "NAV RAKSTU ŠAJĀ KATEGORIJĀ",
+    no: "INGEN ARTIKLER I DENNE KATEGORIEN",
+    sv: "INGA ARTIKLAR I DENNA KATEGORI",
+    nl: "GEEN ARTIKELEN IN DEZE CATEGORIE",
+    es: "NO HAY ARTÍCULOS EN ESTA CATEGORÍA",
+    pt: "SEM ARTIGOS NESTA CATEGORIA",
+    ro: "NU EXISTĂ ARTICOLE ÎN ACEASTĂ CATEGORIE",
+    it: "NESSUN ARTICOLO IN QUESTA CATEGORIA",
+    ko: "이 카테고리에 기사가 없습니다",
+  };
+  const emptyStateLabel = emptyStateLabels[lang ?? "pl"] ?? emptyStateLabels["en"];
+
   const ariaLabels: Partial<Record<Lang, string>> = {
     pl: "Filtr kategorii aktualności",
     en: "News category filter",
@@ -459,6 +483,22 @@ export function NewsListing({
         {visibleArticles.map((article) => (
           <ArticleCard key={article.id} article={article} lang={lang} />
         ))}
+        {visibleArticles.length === 0 && (
+          <div
+            style={{
+              gridColumn: "1 / -1",
+              textAlign: "center",
+              padding: "60px 20px",
+              fontFamily: "'Rajdhani', sans-serif",
+              fontSize: "11px",
+              letterSpacing: "3px",
+              color: "#4A5A6A",
+              fontWeight: 700,
+            }}
+          >
+            {emptyStateLabel}
+          </div>
+        )}
       </div>
 
       {showLoadMore && (

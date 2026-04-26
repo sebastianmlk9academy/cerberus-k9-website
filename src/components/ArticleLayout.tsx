@@ -14,6 +14,190 @@ export type ArticleBreadcrumbItem = {
   href?: string;
 };
 
+type ArticleUiCopy = {
+  back: string;
+  share: string;
+  fb: string;
+  x: string;
+  li: string;
+  wa: string;
+  breadcrumb: string;
+};
+
+const articleCopy: Record<string, ArticleUiCopy> = {
+  pl: {
+    back: '← POWRÓT DO AKTUALNOŚCI',
+    share: 'UDOSTĘPNIJ:',
+    fb: 'Udostępnij na Facebooku',
+    x: 'Udostępnij na X',
+    li: 'Udostępnij na LinkedIn',
+    wa: 'Udostępnij przez WhatsApp',
+    breadcrumb: 'Nawigacja',
+  },
+  en: {
+    back: '← BACK TO NEWS',
+    share: 'SHARE:',
+    fb: 'Share on Facebook',
+    x: 'Share on X',
+    li: 'Share on LinkedIn',
+    wa: 'Share via WhatsApp',
+    breadcrumb: 'Breadcrumb',
+  },
+  de: {
+    back: '← ZURÜCK ZU DEN NACHRICHTEN',
+    share: 'TEILEN:',
+    fb: 'Auf Facebook teilen',
+    x: 'Auf X teilen',
+    li: 'Auf LinkedIn teilen',
+    wa: 'Per WhatsApp teilen',
+    breadcrumb: 'Navigation',
+  },
+  fr: {
+    back: '← RETOUR AUX ACTUALITÉS',
+    share: 'PARTAGER :',
+    fb: 'Partager sur Facebook',
+    x: 'Partager sur X',
+    li: 'Partager sur LinkedIn',
+    wa: 'Partager via WhatsApp',
+    breadcrumb: 'Navigation',
+  },
+  cs: {
+    back: '← ZPĚT NA AKTUALITY',
+    share: 'SDÍLET:',
+    fb: 'Sdílet na Facebooku',
+    x: 'Sdílet na X',
+    li: 'Sdílet na LinkedIn',
+    wa: 'Sdílet přes WhatsApp',
+    breadcrumb: 'Navigace',
+  },
+  sk: {
+    back: '← SPÄŤ NA AKTUALITY',
+    share: 'ZDIEĽAŤ:',
+    fb: 'Zdieľať na Facebooku',
+    x: 'Zdieľať na X',
+    li: 'Zdieľať na LinkedIn',
+    wa: 'Zdieľať cez WhatsApp',
+    breadcrumb: 'Navigácia',
+  },
+  hu: {
+    back: '← VISSZA A HÍREKHEZ',
+    share: 'MEGOSZTÁS:',
+    fb: 'Megosztás Facebookon',
+    x: 'Megosztás X-en',
+    li: 'Megosztás LinkedInen',
+    wa: 'Megosztás WhatsAppon',
+    breadcrumb: 'Navigáció',
+  },
+  hr: {
+    back: '← POVRATAK NA VIJESTI',
+    share: 'PODIJELI:',
+    fb: 'Podijeli na Facebooku',
+    x: 'Podijeli na X',
+    li: 'Podijeli na LinkedInu',
+    wa: 'Podijeli putem WhatsAppa',
+    breadcrumb: 'Navigacija',
+  },
+  sl: {
+    back: '← NAZAJ NA NOVOSTI',
+    share: 'DELI:',
+    fb: 'Deli na Facebooku',
+    x: 'Deli na X',
+    li: 'Deli na LinkedInu',
+    wa: 'Deli prek WhatsAppa',
+    breadcrumb: 'Navigacija',
+  },
+  lt: {
+    back: '← GRĮŽTI Į NAUJIENAS',
+    share: 'DALINTIS:',
+    fb: 'Dalintis Facebook',
+    x: 'Dalintis X',
+    li: 'Dalintis LinkedIn',
+    wa: 'Dalintis per WhatsApp',
+    breadcrumb: 'Naršymas',
+  },
+  lv: {
+    back: '← ATPAKAĻ UZ JAUNUMIEM',
+    share: 'KOPĪGOT:',
+    fb: 'Kopīgot Facebook',
+    x: 'Kopīgot X',
+    li: 'Kopīgot LinkedIn',
+    wa: 'Kopīgot WhatsApp',
+    breadcrumb: 'Navigācija',
+  },
+  no: {
+    back: '← TILBAKE TIL NYHETER',
+    share: 'DEL:',
+    fb: 'Del på Facebook',
+    x: 'Del på X',
+    li: 'Del på LinkedIn',
+    wa: 'Del via WhatsApp',
+    breadcrumb: 'Navigasjon',
+  },
+  sv: {
+    back: '← TILLBAKA TILL NYHETER',
+    share: 'DELA:',
+    fb: 'Dela på Facebook',
+    x: 'Dela på X',
+    li: 'Dela på LinkedIn',
+    wa: 'Dela via WhatsApp',
+    breadcrumb: 'Navigering',
+  },
+  nl: {
+    back: '← TERUG NAAR NIEUWS',
+    share: 'DELEN:',
+    fb: 'Delen op Facebook',
+    x: 'Delen op X',
+    li: 'Delen op LinkedIn',
+    wa: 'Delen via WhatsApp',
+    breadcrumb: 'Navigatie',
+  },
+  es: {
+    back: '← VOLVER A LAS NOTICIAS',
+    share: 'COMPARTIR:',
+    fb: 'Compartir en Facebook',
+    x: 'Compartir en X',
+    li: 'Compartir en LinkedIn',
+    wa: 'Compartir por WhatsApp',
+    breadcrumb: 'Navegación',
+  },
+  pt: {
+    back: '← VOLTAR ÀS NOTÍCIAS',
+    share: 'PARTILHAR:',
+    fb: 'Partilhar no Facebook',
+    x: 'Partilhar no X',
+    li: 'Partilhar no LinkedIn',
+    wa: 'Partilhar via WhatsApp',
+    breadcrumb: 'Navegação',
+  },
+  ro: {
+    back: '← ÎNAPOI LA ȘTIRI',
+    share: 'DISTRIBUIȚI:',
+    fb: 'Distribuiți pe Facebook',
+    x: 'Distribuiți pe X',
+    li: 'Distribuiți pe LinkedIn',
+    wa: 'Distribuiți pe WhatsApp',
+    breadcrumb: 'Navigare',
+  },
+  it: {
+    back: '← TORNA ALLE NOTIZIE',
+    share: 'CONDIVIDI:',
+    fb: 'Condividi su Facebook',
+    x: 'Condividi su X',
+    li: 'Condividi su LinkedIn',
+    wa: 'Condividi via WhatsApp',
+    breadcrumb: 'Navigazione',
+  },
+  ko: {
+    back: '← 뉴스로 돌아가기',
+    share: '공유:',
+    fb: 'Facebook에서 공유',
+    x: 'X에서 공유',
+    li: 'LinkedIn에서 공유',
+    wa: 'WhatsApp으로 공유',
+    breadcrumb: '탐색',
+  },
+};
+
 export type ArticleLayoutProps = {
   lang?: string;
   breadcrumb?: ArticleBreadcrumbItem[];
@@ -98,6 +282,7 @@ export function ArticleLayout({
   backHref = `/${lang ?? 'pl'}/aktualnosci`,
   children,
 }: ArticleLayoutProps) {
+  const t = articleCopy[lang ?? 'pl'] ?? articleCopy.en;
   const url = shareUrl;
   const text = shareTitle || title;
   const shareLinks = {
@@ -182,7 +367,7 @@ export function ArticleLayout({
       >
         <header style={{ marginBottom: 28 }}>
           {breadcrumb.length > 0 && (
-            <nav aria-label="Breadcrumb" style={{ marginBottom: 14 }}>
+            <nav aria-label={t.breadcrumb} style={{ marginBottom: 14 }}>
               <ol
                 style={{
                   listStyle: 'none',
@@ -324,13 +509,13 @@ export function ArticleLayout({
               color: bone,
             }}
           >
-            <span>UDOSTĘPNIJ:</span>
+            <span>{t.share}</span>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
               <a
                 href={shareLinks.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Udostępnij na Facebooku"
+                aria-label={t.fb}
                 style={shareBtn}
                 className="ck9-share-btn"
               >
@@ -340,7 +525,7 @@ export function ArticleLayout({
                 href={shareLinks.x}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Udostępnij na X (Twitter)"
+                aria-label={t.x}
                 style={shareBtn}
                 className="ck9-share-btn"
               >
@@ -350,7 +535,7 @@ export function ArticleLayout({
                 href={shareLinks.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Udostępnij na LinkedIn"
+                aria-label={t.li}
                 style={shareBtn}
                 className="ck9-share-btn"
               >
@@ -360,7 +545,7 @@ export function ArticleLayout({
                 href={shareLinks.whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Udostępnij przez WhatsApp"
+                aria-label={t.wa}
                 style={shareBtn}
                 className="ck9-share-btn"
               >
@@ -405,7 +590,7 @@ export function ArticleLayout({
               borderBottom: '1px solid transparent',
             }}
           >
-            ← POWRÓT DO AKTUALNOŚCI
+            {t.back}
           </a>
         </div>
       </article>
