@@ -330,58 +330,6 @@ export function Footer({
 
         {/* Column 4 - Media, Contact, Formal Data + Social */}
         <div className="flex flex-col">
-          <nav className="mb-4 flex flex-col gap-2">
-            {mediaLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="footer-link"
-                style={{
-                  fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
-                  fontSize: "10px",
-                  letterSpacing: "1px",
-                  color: "#FFFFFF",
-                  textDecoration: "none",
-                  transition: "color 0.2s ease",
-                }}
-                onMouseEnter={(e: MouseEvent<HTMLAnchorElement>) => {
-                  e.currentTarget.style.color = "#C4922A"
-                }}
-                onMouseLeave={(e: MouseEvent<HTMLAnchorElement>) => {
-                  e.currentTarget.style.color = "#FFFFFF"
-                }}
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
-
-          <nav className="mb-4 flex flex-col gap-2">
-            {contactLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="footer-link"
-                style={{
-                  fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
-                  fontSize: "10px",
-                  letterSpacing: "1px",
-                  color: "#FFFFFF",
-                  textDecoration: "none",
-                  transition: "color 0.2s ease",
-                }}
-                onMouseEnter={(e: MouseEvent<HTMLAnchorElement>) => {
-                  e.currentTarget.style.color = "#C4922A"
-                }}
-                onMouseLeave={(e: MouseEvent<HTMLAnchorElement>) => {
-                  e.currentTarget.style.color = "#FFFFFF"
-                }}
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
-
           <h3
             style={{
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
