@@ -98,13 +98,17 @@ function ArticleCard({ article, lang }: { article: NewsListingArticle; lang: Lan
         backgroundColor: "#1E2B38",
         borderTop: isHovered ? "3px solid #C4922A" : "3px solid transparent",
         transform: isHovered ? "scale(1.005)" : "scale(1)",
+        display: "grid",
+        gridTemplateRows: "auto auto auto auto auto",
+        gridRow: "span 5",
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <a
         href={article.slug ? `/${lang}/aktualnosci/${article.slug}` : article.href}
-        className="block text-inherit no-underline"
+        className="text-inherit no-underline"
+        style={{ display: "contents" }}
       >
         <div
           className="relative overflow-hidden w-full"
@@ -178,7 +182,7 @@ function ArticleCard({ article, lang }: { article: NewsListingArticle; lang: Lan
           </span>
         </div>
 
-        <div style={{ padding: "18px 16px" }}>
+        <div style={{ display: "contents" }}>
           <span
             className="block font-[family-name:var(--font-rajdhani)] uppercase"
             style={{
@@ -187,6 +191,9 @@ function ArticleCard({ article, lang }: { article: NewsListingArticle; lang: Lan
               color: "#C4922A",
               fontWeight: 700,
               marginBottom: "8px",
+              paddingLeft: "16px",
+              paddingTop: "18px",
+              paddingRight: "16px",
             }}
           >
             {article.categoryLabel}
@@ -200,6 +207,8 @@ function ArticleCard({ article, lang }: { article: NewsListingArticle; lang: Lan
               fontWeight: 700,
               lineHeight: 1.3,
               marginBottom: "8px",
+              paddingLeft: "16px",
+              paddingRight: "16px",
             }}
           >
             {article.title}
@@ -211,6 +220,8 @@ function ArticleCard({ article, lang }: { article: NewsListingArticle; lang: Lan
               fontSize: "12px",
               color: "#5A6A7A",
               lineHeight: 1.6,
+              paddingLeft: "16px",
+              paddingRight: "16px",
             }}
           >
             {article.lead}
@@ -218,7 +229,12 @@ function ArticleCard({ article, lang }: { article: NewsListingArticle; lang: Lan
 
           <div
             className="flex flex-wrap items-center justify-between gap-2"
-            style={{ marginTop: "12px" }}
+            style={{
+              paddingLeft: "16px",
+              paddingRight: "16px",
+              paddingBottom: "18px",
+              marginTop: "12px",
+            }}
           >
             <span
               className="font-[family-name:var(--font-rajdhani)] uppercase inline-block transition-opacity hover:opacity-80"
@@ -438,7 +454,7 @@ export function NewsListing({
 
       <div
         className="mx-auto grid max-w-7xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-        style={{ gap: "2px", backgroundColor: "transparent" }}
+        style={{ gap: "2px", backgroundColor: "transparent", gridAutoRows: "auto" }}
       >
         {visibleArticles.map((article) => (
           <ArticleCard key={article.id} article={article} lang={lang} />
