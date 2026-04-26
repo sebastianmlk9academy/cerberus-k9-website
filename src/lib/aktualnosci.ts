@@ -215,7 +215,12 @@ export function aktualnosciToListingArticles(
 	lang: Lang,
 ): NewsListingArticle[] {
 	return [...entries]
-		.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+		.filter((entry) => entry.data.draft !== true)
+		.sort((a, b) => {
+			if (a.data.featured && !b.data.featured) return -1;
+			if (!a.data.featured && b.data.featured) return 1;
+			return b.data.date.valueOf() - a.data.date.valueOf();
+		})
 		.map((entry) => {
 			const cat = entry.data.category;
 			return {

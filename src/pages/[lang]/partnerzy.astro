@@ -25,7 +25,7 @@ const s = settings?.data;
 const copy = partnerzyPageByLang[lang] ?? partnerzyPageByLang['pl'];
 const navPartners = (ui[lang] ?? ui['pl']).nav_partners;
 
-const entries = await getCollection('partnerzy', ({ data }) => data.draft !== true);
+const entries = await getCollection('partnerzy', ({ data }) => data.active !== false);
 const sorted = [...entries].sort((a, b) => (a.data.order ?? 9999) - (b.data.order ?? 9999));
 
 function websiteLabel(url: string | undefined): string | null {

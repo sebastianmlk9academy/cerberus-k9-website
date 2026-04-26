@@ -1,5 +1,5 @@
 ---
-import { getEntry } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { NavBar } from '../../components/NavBar';
 import { PageHero } from '../../components/PageHero';
@@ -11,6 +11,19 @@ export const prerender = true;
 
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
+
+const archiveEntries = await getCollection('media_archive');
+const mediaArchive = archiveEntries
+	.filter((e) => e.data.active !== false)
+	.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
+	.map((e) => ({
+		outlet: e.data.outlet,
+		description: e.data.description ?? '',
+		date: e.data.date ?? '',
+		href: e.data.link ?? '#',
+		badge: e.data.badge ?? 'VIDEO',
+		outletLogo: e.data.outlet_logo ?? null,
+	}));
 
 const lang = 'pl';
 const footerCopy = footerCopyByLang[lang] ?? footerCopyByLang['pl'];
@@ -41,6 +54,7 @@ const description =
 		<MediaPage
 			client:load
 			lang={lang}
+			mediaArchive={mediaArchive}
 			accreditationDeadline={s?.accreditation_deadline}
 			pressKitItems={[
 				{

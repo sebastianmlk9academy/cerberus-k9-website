@@ -11,6 +11,7 @@ export function partnerEntriesToStripItems(
   entries: CollectionEntry<'partnerzy'>[]
 ): StripPartner[] {
   return entries
+    .filter((e) => e.data.active !== false)
     .filter(e => e.data.show_in_strip !== false)
     .sort((a, b) => {
       const aOrder = (a.data as any).strip_order ?? 99;

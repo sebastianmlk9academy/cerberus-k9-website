@@ -86,8 +86,7 @@ const partnerzy = defineCollection({
 		order: z.number().int().optional(),
 		show_in_strip: z.boolean().optional().default(true),
 		strip_order: z.number().optional().default(99),
-		/** When true, entry is kept for tooling/CMS but excluded from the public partners page. */
-		draft: z.boolean().optional(),
+		active: z.boolean().optional().default(true),
 	}),
 });
 
@@ -111,6 +110,29 @@ const aktualnosci = defineCollection({
 		heroImageFocalX: z.number().optional(),
 		heroImageFocalY: z.number().optional(),
 		share_url: z.string().optional(),
+		draft: z.boolean().optional().default(false),
+		featured: z.boolean().optional().default(false),
+		seo_title: z.string().optional(),
+		seo_description: z.string().optional(),
+		og_image_override: z.string().optional(),
+		reading_time_override: z.number().optional(),
+	}),
+});
+
+const media_archive = defineCollection({
+	loader: glob({ base: './src/content/media_archive', pattern: '**/*.{md,mdx}' }),
+	schema: z.object({
+		outlet: z.string(),
+		description: z.string().optional(),
+		date: z.string().optional(),
+		link: z.string().optional(),
+		badge: z
+			.enum(['VIDEO', 'ARTYKUŁ', 'AUDIO', 'PODCAST', 'REPORTAŻ'])
+			.optional()
+			.default('VIDEO'),
+		outlet_logo: z.string().optional(),
+		order: z.number().optional().default(99),
+		active: z.boolean().optional().default(true),
 	}),
 });
 
@@ -458,6 +480,7 @@ export const collections = {
 	instruktorzy,
 	partnerzy,
 	aktualnosci,
+	media_archive,
 	galeria,
 	program,
 	ustawienia,

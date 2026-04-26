@@ -18,7 +18,7 @@ const title = 'Partnerzy CERBERUS K9 | Sponsorzy i Patronat Medialny';
 const description =
 	'Partnerzy strategiczni, sponsorzy i patroni medialni wydarzenia CERBERUS K9 — instytucje i firmy współtworzące szkolenia K9 oraz rozwój kompetencji służb mundurowych.';
 
-const entries = await getCollection('partnerzy', ({ data }) => data.draft !== true);
+const entries = await getCollection('partnerzy', ({ data }) => data.active !== false);
 const sorted = [...entries].sort((a, b) => (a.data.order ?? 9999) - (b.data.order ?? 9999));
 
 function websiteLabel(url: string | undefined): string | null {

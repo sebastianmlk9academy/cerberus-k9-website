@@ -23,6 +23,7 @@ type ArchiveItem = {
   badge?: string;
   href: string;
   isPlaceholder?: boolean;
+  outletLogo?: string | null;
 };
 
 const raj = "'Rajdhani', sans-serif" as const;
@@ -603,7 +604,7 @@ export default function MediaPage({
           };
           return (
             <div
-              key={`${item.outlet}-${item.type}-${item.href}`}
+              key={`${item.outlet}-${item.badge ?? item.type ?? 'media'}-${item.href}`}
               style={{
                 background: '#0F1720',
                 border: '1px solid #253344',
@@ -613,6 +614,13 @@ export default function MediaPage({
                 minHeight: '140px',
               }}
             >
+              {item.outletLogo ? (
+                <img
+                  src={item.outletLogo}
+                  alt=""
+                  style={{ maxHeight: '40px', width: 'auto', maxWidth: '180px', objectFit: 'contain', marginBottom: '12px' }}
+                />
+              ) : null}
               <p
                 style={{
                   fontFamily: bebas,

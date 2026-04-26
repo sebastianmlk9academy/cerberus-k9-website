@@ -40,10 +40,7 @@ const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
 
 const allArticles = await getCollection('aktualnosci');
-const latestArticles = [...allArticles]
-	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-	.slice(0, 3);
-const latestForListing = aktualnosciToListingArticles(latestArticles, lang).map((a) => ({
+const latestForListing = aktualnosciToListingArticles(allArticles, lang).slice(0, 3).map((a) => ({
 	slug: a.slug ?? a.id,
 	image: a.imageSrc ?? '/images/cerberus-k9-logo.png',
 	category: a.categoryLabel,

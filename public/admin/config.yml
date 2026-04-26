@@ -22,7 +22,7 @@ collections:
     folder: src/content/aktualnosci
     create: true
     slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
-    preview_path: 'pl/aktualnosci/{{slug}}'
+    preview_path: '{lang}/aktualnosci/{{slug}}'
     extension: md
     format: frontmatter
     fields:
@@ -63,6 +63,36 @@ collections:
         widget: string
         required: false
         hint: "Zostaw puste — system uzupełni automatycznie"
+      - name: draft
+        label: "Szkic (niepublikowany)"
+        widget: boolean
+        default: false
+        hint: "Zaznacz aby ukryć artykuł na stronie"
+      - name: featured
+        label: "Wyróżniony artykuł"
+        widget: boolean
+        default: false
+        hint: "Wyróżnione artykuły mogą być wyświetlane na górze listy"
+      - name: seo_title
+        label: "SEO Title (nadpisuje tytuł)"
+        widget: string
+        required: false
+        hint: "Jeśli puste — używany jest tytuł artykułu"
+      - name: seo_description
+        label: "SEO Description (nadpisuje lead)"
+        widget: text
+        required: false
+        hint: "Jeśli puste — używany jest lead artykułu. Max 160 znaków."
+      - name: og_image_override
+        label: "OG Image (nadpisuje zdjęcie artykułu)"
+        widget: image
+        required: false
+        hint: "Grafika do social media. Jeśli puste — używane jest zdjęcie artykułu."
+      - name: reading_time_override
+        label: "Czas czytania (minuty, opcjonalnie)"
+        widget: number
+        required: false
+        hint: "Jeśli puste — czas jest obliczany automatycznie"
 
   # --- 2. Instruktorzy ---
   - name: instruktorzy
@@ -172,6 +202,31 @@ collections:
         widget: number
         default: 99
         hint: "Kolejność wyświetlania w scrollującym pasku na stronie głównej"
+      - name: active
+        label: "Aktywny (widoczny na stronie)"
+        widget: boolean
+        default: true
+
+  - name: media_archive
+    label: "Archiwum mediów"
+    folder: "src/content/media_archive"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: "Outlet (np. TVP, TVN)", name: outlet, widget: string }
+      - { label: "Opis", name: description, widget: text, required: false }
+      - { label: "Data", name: date, widget: string, required: false,
+          hint: "Np. 2025, 2025-06" }
+      - { label: "Link URL", name: link, widget: string, required: false }
+      - { label: "Badge", name: badge, widget: select,
+          options: ["VIDEO", "ARTYKUŁ", "AUDIO", "PODCAST", "REPORTAŻ"],
+          default: "VIDEO" }
+      - { label: "Logo outlet", name: outlet_logo, widget: image, required: false }
+      - { label: "Kolejność", name: order, widget: number, default: 99 }
+      - { label: "Aktywne", name: active, widget: boolean, default: true }
 
   # --- 4. Galeria ---
   - name: galeria
