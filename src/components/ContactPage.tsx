@@ -22,25 +22,25 @@ interface ContactPageProps {
 const DEFAULT_EMAIL = "sebastian@pactak9.org";
 /** Country line for the contact mailing address (street/city stay Polish). */
 const ADDRESS_COUNTRY_BY_LANG: Record<string, string> = {
-  pl: "Polska.",
-  en: "Poland.",
-  de: "Polen.",
-  fr: "Pologne.",
-  cs: "Polsko.",
-  sk: "Poľsko.",
-  hu: "Lengyelország.",
-  hr: "Poljska.",
-  sl: "Poljska.",
-  lt: "Lenkija.",
-  lv: "Polija.",
-  no: "Polen.",
-  sv: "Polen.",
-  nl: "Polen.",
-  es: "Polonia.",
-  pt: "Polónia.",
-  ro: "Polonia.",
-  it: "Polonia.",
-  ko: "폴란드.",
+  pl: "Polska",
+  en: "Poland",
+  de: "Polen",
+  fr: "Pologne",
+  cs: "Polsko",
+  sk: "Poľsko",
+  hu: "Lengyelország",
+  hr: "Poljska",
+  sl: "Poljska",
+  lt: "Lenkija",
+  lv: "Polija",
+  no: "Polen",
+  sv: "Polen",
+  nl: "Polen",
+  es: "Polonia",
+  pt: "Polónia",
+  ro: "Polonia",
+  it: "Polonia",
+  ko: "폴란드",
 };
 
 type ContactCopyEntry = {
@@ -507,8 +507,9 @@ export function ContactPage({ lang, email, mapEmbedUrl, venueAddress, presidentE
           <article className="ck9-info-card">
             <h3 className="ck9-card-title">{c.addressTitle}</h3>
             <p className="ck9-card-line">
-              <span style={{ display: "block" }}>ul. Odolanowska 17,</span>
-              <span style={{ display: "block" }}>63-400 Topola Mała,</span>
+              <span style={{ display: "block" }}>Fundacja Pacta K9</span>
+              <span style={{ display: "block" }}>ul. Odolanowska 17</span>
+              <span style={{ display: "block" }}>63-400 Topola Mała</span>
               <span style={{ display: "block" }}>{addressCountryLine}</span>
             </p>
           </article>
