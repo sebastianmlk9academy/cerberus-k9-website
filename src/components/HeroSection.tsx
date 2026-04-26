@@ -110,7 +110,7 @@ export function HeroSection({ lang, copy, eventDate, heroImage, heroOpacity }: H
             color: "#C42B2B",
           }}
         >
-          {safeCopy.tagline}
+          {(ui[lang] as any)?.hero_tag ?? safeCopy.tagline}
         </span>
       </div>
 
@@ -152,7 +152,7 @@ export function HeroSection({ lang, copy, eventDate, heroImage, heroOpacity }: H
           color: "#7A8A96",
         }}
       >
-        {safeCopy.dateLocation}
+        {((ui[lang] as any)?.hero_free ?? safeCopy.dateLocation)}
       </p>
 
       {/* Section 4: Countdown Timer */}

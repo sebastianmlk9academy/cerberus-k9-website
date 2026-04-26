@@ -167,10 +167,12 @@ collections:
         required: false
         options:
           - HARDEST HIT
-          - Szkolenia K9
-          - TCCC
-          - Konferencja
-          - Drony
+          - SZKOLENIA K9
+          - CEREMONIA
+          - KONFERENCJA
+          - DRONY
+          - SAR
+          - OGÓLNE
       - label: Edycja
         name: edition
         widget: select
@@ -366,3 +368,35 @@ collections:
       - { label: "Email", name: email, widget: string, required: false }
       - { label: "LinkedIn", name: linkedin, widget: string, required: false }
       - { label: "Kolejność", name: order, widget: number, default: 99 }
+
+  - name: homepage_cards
+    label: "Strona główna — karty programu"
+    folder: "src/content/homepage_cards"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Kategoria", name: category, widget: select, options: ["K9", "TCCC", "DRONY", "KONFERENCJA"] }
+      - { label: "Tytuł (PL)", name: title_pl, widget: string }
+      - { label: "Opis (PL)", name: description_pl, widget: text }
+      - { label: "Badge (PL)", name: badge_pl, widget: string, required: false }
+      - { label: "Tytuł (EN)", name: title_en, widget: string, required: false }
+      - { label: "Opis (EN)", name: description_en, widget: text, required: false }
+      - { label: "Badge (EN)", name: badge_en, widget: string, required: false }
+      - { label: "Kolejność", name: order, widget: number, default: 1 }
+      - { label: "Aktywna", name: active, widget: boolean, default: true }
+
+  - name: locations
+    label: "Lokalizacje CERBERUS K9"
+    folder: "src/content/locations"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Nazwa", name: name, widget: string }
+      - { label: "Adres", name: address, widget: string, required: false }
+      - { label: "Opis (PL)", name: description_pl, widget: text }
+      - { label: "Opis (EN)", name: description_en, widget: text, required: false }
+      - { label: "Status", name: status, widget: select, options: ["POTWIERDZONE", "W TRAKCIE ROZMÓW", "PLANOWANE"], default: "POTWIERDZONE" }
+      - { label: "Moduły (PL)", name: modules_pl, widget: string, required: false, hint: "Np. Szkolenia K9 · Medycyna · HARDEST HIT" }
+      - { label: "Zdjęcie", name: image, widget: image, required: false }
+      - { label: "Kolejność", name: order, widget: number, default: 1 }
+      - { label: "Aktywna", name: active, widget: boolean, default: true }

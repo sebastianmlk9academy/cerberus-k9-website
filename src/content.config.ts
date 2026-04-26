@@ -101,20 +101,16 @@ const program = defineCollection({
 		title: z.string().optional(),
 		description: z.string().optional(),
 		location: z.string().optional(),
-		category: z
-			.enum([
-				'K9',
-				'TCCC',
-				'Drony',
-				'DRONY',
-				'Konferencja',
-				'KONFERENCJA',
-				'Ceremonia',
-				'CEREMONIA',
-				'Przerwa',
-				'BREAK',
-			])
-			.optional(),
+		category: z.preprocess(
+			(val) => {
+				if (val === 'Drony') return 'DRONY';
+				if (val === 'Konferencja') return 'KONFERENCJA';
+				if (val === 'Ceremonia') return 'CEREMONIA';
+				if (val === 'Przerwa') return 'BREAK';
+				return val;
+			},
+			z.enum(['K9', 'TCCC', 'DRONY', 'KONFERENCJA', 'CEREMONIA', 'BREAK']).optional(),
+		),
 		instructor: z.string().optional(),
 		order: z.number().int().optional(),
 	}),
@@ -213,7 +209,7 @@ const ustawienia = defineCollection({
 });
 
 const faq = defineCollection({
-	type: 'content',
+	loader: glob({ base: './src/content/faq', pattern: '**/*.{md,mdx}' }),
 	schema: z.object({
 		question_pl: z.string(),
 		answer_pl: z.string(),
@@ -239,16 +235,47 @@ const team = defineCollection({
 });
 
 const galeria = defineCollection({
-	type: 'content',
+	loader: glob({ base: './src/content/galeria', pattern: '**/*.{md,mdx}' }),
 	schema: z.object({
 		title: z.string(),
-		category: z.enum(['HARDEST HIT', 'SZKOLENIA K9', 'TCCC', 'KONFERENCJA', 'DRONY']),
+		date: z.string().optional(),
+		category: z.enum(['SZKOLENIA K9', 'HARDEST HIT', 'CEREMONIA', 'KONFERENCJA', 'DRONY', 'SAR', 'OGÓLNE']),
 		location: z.string(),
 		edition: z.enum(['2025', '2026']),
 		photo: z.string(),
 		alt: z.string(),
 		tags: z.array(z.string()).optional(),
 		order: z.number().int().optional(),
+	}),
+});
+
+const homepage_cards = defineCollection({
+	loader: glob({ base: './src/content/homepage_cards', pattern: '**/*.{md,mdx}' }),
+	schema: z.object({
+		category: z.enum(['K9', 'TCCC', 'DRONY', 'KONFERENCJA']),
+		title_pl: z.string(),
+		description_pl: z.string(),
+		badge_pl: z.string().optional(),
+		title_en: z.string().optional(),
+		description_en: z.string().optional(),
+		badge_en: z.string().optional(),
+		order: z.number().optional().default(1),
+		active: z.boolean().optional().default(true),
+	}),
+});
+
+const locations = defineCollection({
+	loader: glob({ base: './src/content/locations', pattern: '**/*.{md,mdx}' }),
+	schema: z.object({
+		name: z.string(),
+		address: z.string().optional(),
+		description_pl: z.string(),
+		description_en: z.string().optional(),
+		status: z.enum(['POTWIERDZONE', 'W TRAKCIE ROZMÓW', 'PLANOWANE']).optional().default('POTWIERDZONE'),
+		modules_pl: z.string().optional(),
+		image: z.string().optional(),
+		order: z.number().optional().default(1),
+		active: z.boolean().optional().default(true),
 	}),
 });
 
@@ -263,4 +290,6 @@ export const collections = {
 	ustawienia,
 	faq,
 	team,
+	homepage_cards,
+	locations,
 };

@@ -30,6 +30,18 @@ const faqItems = faqEntries
 		question: lang === 'pl' ? e.data.question_pl : (e.data.question_en ?? e.data.question_pl),
 		answer: lang === 'pl' ? e.data.answer_pl : (e.data.answer_en ?? e.data.answer_pl),
 	}));
+const locationsData = await getCollection('locations');
+const locations = locationsData
+	.filter((l) => l.data.active !== false)
+	.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
+	.map((l) => ({
+		name: l.data.name,
+		address: l.data.address ?? '',
+		description: lang === 'pl' ? l.data.description_pl : (l.data.description_en ?? l.data.description_pl),
+		status: l.data.status ?? 'POTWIERDZONE',
+		modules: l.data.modules_pl ?? '',
+		image: l.data.image ?? '',
+	}));
 
 const eventSchema = {
 	'@context': 'https://schema.org',
@@ -51,7 +63,7 @@ const eventSchema = {
 	organizer: {
 		'@type': 'Organization',
 		name: 'Fundacja PACTA K9',
-		url: 'https://cerberusk9.org',
+		url: s?.site_url ?? 'https://cerberusk9.org',
 	},
 	description: copy.metaDescription,
 	image: [new URL(HOME_OG_IMAGE, Astro.site ?? Astro.url).toString()],
@@ -110,7 +122,7 @@ const eventSchema = {
 	</section>
 
 	<InteractiveAgenda client:load lang={lang} items={agendaItems} agendaUrl={s?.agenda_page_url} city={s?.event_city} />
-	<LocationsSection lang={lang} client:load />
+	<LocationsSection lang={lang} locations={locations} client:load />
 	<FAQAccordion client:load lang={lang} faqItems={faqItems} />
 	<Footer
 		lang={lang}

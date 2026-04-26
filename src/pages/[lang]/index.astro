@@ -13,6 +13,7 @@ import { locationsSectionByLang } from '../../i18n/locationsSection';
 import { videoSectionByLang } from '../../i18n/videoSection';
 import { latestNewsByLang } from '../../i18n/latestNews';
 import { partnersStripByLang } from '../../i18n/partnersStrip';
+import { ui } from '../../i18n/ui';
 import { NavBar } from '../../components/NavBar';
 import { HeroSection } from '../../components/HeroSection';
 import { StatsBar } from '../../components/StatsBar';
@@ -50,6 +51,9 @@ const latestForListing = aktualnosciToListingArticles(latestArticles, lang).map(
 
 const plausibleDomain = s?.plausible_domain ?? 'cerberusk9.org';
 const seo = homeSeoByLang[lang] ?? homeSeoByLang['pl'];
+const safeUi = ui[lang] ?? ui.pl;
+const seoTitle = safeUi.meta_title_home ?? seo.title;
+const seoDescription = safeUi.meta_desc_home ?? seo.description;
 const heroCopy = homeHeroCopyByLang[lang] ?? homeHeroCopyByLang['pl'];
 const footerCopy = footerCopyByLang[lang] ?? footerCopyByLang['pl'];
 const statsBase = homeStatsByLang[lang] ?? homeStatsByLang['pl'];
@@ -60,6 +64,7 @@ const statsCopy = statsBase.map((item, i) => {
 });
 
 const partnersRaw = await getCollection('partnerzy');
+const homepageCards = await getCollection('homepage_cards');
 const stripPartners = partnersRaw
 	.filter((p) => p.data.name && !p.data.draft)
 	.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
@@ -70,6 +75,15 @@ const stripPartners = partnersRaw
 	}));
 const programCopy = programSectionByLang[lang] ?? programSectionByLang['pl'];
 const locationsCopy = locationsSectionByLang[lang] ?? locationsSectionByLang['pl'];
+const programCards = homepageCards
+	.filter((c) => c.data.active !== false)
+	.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
+	.map((c) => ({
+		category: c.data.category,
+		title: lang === 'pl' ? c.data.title_pl : (c.data.title_en ?? c.data.title_pl),
+		description: lang === 'pl' ? c.data.description_pl : (c.data.description_en ?? c.data.description_pl),
+		badge: lang === 'pl' ? (c.data.badge_pl ?? '') : (c.data.badge_en ?? c.data.badge_pl ?? ''),
+	}));
 const videoCopy = videoSectionByLang[lang] ?? videoSectionByLang['pl'];
 const newsCopy = latestNewsByLang[lang] ?? latestNewsByLang['pl'];
 const partnersCopy = partnersStripByLang[lang] ?? partnersStripByLang['pl'];
@@ -94,9 +108,9 @@ const eventSchema = {
 	organizer: {
 		'@type': 'Organization',
 		name: 'Fundacja PACTA K9',
-		url: 'https://cerberusk9.org',
+		url: s?.site_url ?? 'https://cerberusk9.org',
 	},
-	description: seo.description,
+	description: seoDescription,
 	image: [new URL(HOME_OG_IMAGE, Astro.site ?? Astro.url).toString()],
 	url: Astro.url.toString(),
 };
@@ -104,10 +118,10 @@ const eventSchema = {
 
 <BaseLayout
 	lang={lang}
-	title={seo.title}
-	description={seo.description}
+	title={seoTitle}
+	description={seoDescription}
 	localizedPath=""
-	ogImage={HOME_OG_IMAGE}
+	ogImage={s?.og_image_default ?? '/og-cerberus-k9-2026.jpg'}
 	ogType="website"
 >
 	<script defer data-domain={plausibleDomain} src="https://plausible.io/js/plausible.js"></script>
@@ -123,7 +137,7 @@ const eventSchema = {
 		client:load
 	/>
 	<StatsBar lang={lang} stats={statsCopy} client:load />
-	<ProgramSection lang={lang} copy={programCopy} client:load />
+	<ProgramSection lang={lang} copy={programCopy} cards={programCards} client:load />
 	<LocationsSection lang={lang} copy={locationsCopy} client:load />
 	<VideoSection
 		lang={lang}

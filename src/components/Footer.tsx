@@ -3,6 +3,7 @@ import type { MouseEvent, ReactElement } from "react"
 import type { Lang } from "../i18n/utils"
 import type { FooterCopy } from "../i18n/footer"
 import { footerCopyByLang } from "../i18n/footer"
+import { ui } from "../i18n/ui"
 
 interface FooterProps {
   lang?: Lang
@@ -534,7 +535,7 @@ export function Footer({
               textAlign: "center",
             }}
           >
-            {safeCopy.copyright}
+            {(ui[safeLang] as any)?.footer_rights ?? 'Wszelkie prawa zastrzeżone'}
           </p>
           <p
             style={{
