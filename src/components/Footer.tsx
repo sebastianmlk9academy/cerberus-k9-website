@@ -170,19 +170,19 @@ export function Footer({
       }}
     >
       <div
-        className="mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
+        className="mx-auto grid grid-cols-1 items-center text-center md:grid-cols-2 md:items-stretch md:text-left lg:grid-cols-4"
         style={{
           padding: "56px 5% 32px",
           gap: "40px",
         }}
       >
         {/* Column 1 - Brand */}
-        <div className="flex flex-col">
+        <div className="mx-auto flex flex-col items-center text-center md:mx-0 md:items-start md:text-left">
           <img
             src="/images/cerberus-k9-logo.png"
             alt="CERBERUS K9 Logo"
             style={{ height: "64px", width: "auto", marginBottom: "12px" }}
-            className="object-contain self-start"
+            className="object-contain self-center md:self-start"
           />
           <h2
             className="font-heading"
@@ -240,7 +240,7 @@ export function Footer({
         </div>
 
         {/* Column 2 - Event Navigation */}
-        <div className="flex flex-col">
+        <div className="flex flex-col items-center text-center md:items-start md:text-left">
           <h3
             style={{
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
@@ -254,7 +254,7 @@ export function Footer({
           >
             {safeCopy.colEvent}
           </h3>
-          <nav className="flex flex-col gap-2">
+          <nav className="flex flex-col items-center gap-2 md:items-start">
             {eventLinks.map((link) => (
               <a
                 key={link.label}
@@ -282,7 +282,7 @@ export function Footer({
         </div>
 
         {/* Column 3 - Organization */}
-        <div className="flex flex-col">
+        <div className="flex flex-col items-center text-center md:items-start md:text-left">
           <h3
             style={{
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
@@ -296,7 +296,7 @@ export function Footer({
           >
             {safeCopy.colOrg}
           </h3>
-          <nav className="flex flex-col gap-2">
+          <nav className="flex flex-col items-center gap-2 md:items-start">
             {orgLinks.map((link) => (
               <a
                 key={link.label}
@@ -324,7 +324,7 @@ export function Footer({
         </div>
 
         {/* Column 4 - Media, Contact, Formal Data + Social */}
-        <div className="flex flex-col">
+        <div className="flex flex-col items-center text-center md:items-start md:text-left">
           <h3
             style={{
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
@@ -339,7 +339,7 @@ export function Footer({
             {safeCopy.legalLabel}
           </h3>
           <div
-            className="flex flex-col gap-1"
+            className="flex flex-col items-center gap-1 md:items-start"
             style={{
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
               fontSize: "10px",
@@ -358,7 +358,7 @@ export function Footer({
           </div>
 
           {/* Social Icons */}
-          <div className="mt-6 flex gap-3">
+          <div className="mt-6 flex justify-center gap-3 md:justify-start">
             {socialLinks.map((social) => (
               <a
                 key={social.label}
@@ -429,7 +429,7 @@ export function Footer({
           padding: "20px 5% 0",
         }}
       >
-        <div className="flex flex-col items-center gap-3 pb-6 md:flex-row md:justify-between md:gap-0">
+        <div className="flex flex-col items-center gap-2 pb-6 text-center md:flex-row md:justify-between md:gap-0 md:text-left">
           <p
             style={{
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
@@ -441,17 +441,19 @@ export function Footer({
           >
             {safeCopy.copyright}
           </p>
-          <p
-            style={{
-              fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
-              fontSize: "9px",
-              color: "#FFFFFF",
-              margin: 0,
-              textAlign: "center",
-            }}
-          >
-            {resolvedDomains}
-          </p>
+          <div className="block w-full text-center md:w-auto">
+            <p
+              style={{
+                fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
+                fontSize: "9px",
+                color: "#FFFFFF",
+                margin: 0,
+                textAlign: "center",
+              }}
+            >
+              {resolvedDomains}
+            </p>
+          </div>
           <p
             style={{
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
