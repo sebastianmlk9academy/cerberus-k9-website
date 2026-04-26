@@ -233,8 +233,12 @@ interface PartnersStripProps {
 
 export function PartnersStrip({ copy, partners: partnersProp, partnerCtaHref }: PartnersStripProps) {
   const safeCopy = copy ?? partnersStripByLang.pl
-  const stripPartners =
+  const STRIP_PARTNERS =
     partnersProp && partnersProp.length > 0 ? partnersProp : HARDCODED_STRIP_PARTNERS
+  const cmsMediaPatrons = STRIP_PARTNERS.filter((partner) => partner.type === "Patron Medialny")
+  const cmsPartners = STRIP_PARTNERS.filter((partner) => partner.type !== "Patron Medialny")
+  const mediaPartners = cmsMediaPatrons.length > 0 ? cmsMediaPatrons : mediaPatrons
+  const stripPartners = cmsPartners.length > 0 ? cmsPartners : STRIP_PARTNERS
   const ctaHref = (partnerCtaHref ?? "").trim() || "mailto:sebastian@pactak9.org"
 
   return (
@@ -273,7 +277,7 @@ export function PartnersStrip({ copy, partners: partnersProp, partnerCtaHref }: 
           <SectionHeader accent>{safeCopy.mediaPatronage}</SectionHeader>
           
           <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8">
-            {mediaPatrons.map((patron) => (
+            {mediaPartners.map((patron) => (
               <MediaPatronCard key={patron.name} partner={patron} />
             ))}
           </div>
