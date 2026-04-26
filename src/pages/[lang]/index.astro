@@ -27,6 +27,7 @@ import { PartnersStrip } from '../../components/PartnersStrip';
 import LatestNews from '../../components/LatestNews';
 import { Footer } from '../../components/Footer';
 import { aktualnosciToListingArticles } from '../../lib/aktualnosci';
+import { loadCmsNavLinks } from '../../lib/loadCmsNavLinks';
 
 export const prerender = true;
 
@@ -38,6 +39,7 @@ const lang: Lang = isLang(param) ? param : 'en';
 
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
+const cmsNavLinks = await loadCmsNavLinks();
 
 const allArticles = await getCollection('aktualnosci');
 const latestForListing = aktualnosciToListingArticles(allArticles, lang).slice(0, 3).map((a) => ({
@@ -132,7 +134,7 @@ const eventJsonLd = {
 	<script defer data-domain={plausibleDomain} src="https://plausible.io/js/plausible.js"></script>
 	<script type="application/ld+json" set:html={JSON.stringify(eventJsonLd)} />
 
-	<NavBar lang={lang} client:load />
+	<NavBar lang={lang} client:load navLinks={cmsNavLinks} />
 	<HeroSection
 		lang={lang}
 		copy={heroCopy}

@@ -5,11 +5,13 @@ import { NavBar } from '../../components/NavBar';
 import { PageHero } from '../../components/PageHero';
 import { GalleryGrid } from '../../components/GalleryGrid';
 import { Footer } from '../../components/Footer';
+import { loadCmsNavLinks } from '../../lib/loadCmsNavLinks';
 
 export const prerender = true;
 
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
+const cmsNavLinks = await loadCmsNavLinks();
 
 const lang = 'pl';
 const title = 'Galeria — CERBERUS K9 2025 | Zdjęcia i Wideo z Ćwiczeń K9';
@@ -77,7 +79,7 @@ const ogImage = bestGalleryPhoto?.photo ?? '/images/page_hero_graph.webp';
 	</Fragment>
 
 	<div style="background: linear-gradient(to bottom, #161F28, #1A2530, #161F28); min-height: 100vh;">
-		<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} />
+		<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} />
 		<PageHero
 			category="ARCHIWUM FOTOGRAFICZNE"
 			title="GALERIA"

@@ -6,11 +6,13 @@ import { PageHero } from '../../components/PageHero';
 import RegistrationSection from '../../components/RegistrationSection.astro';
 import { Footer } from '../../components/Footer';
 import { footerCopyByLang } from '../../i18n/footer';
+import { loadCmsNavLinks } from '../../lib/loadCmsNavLinks';
 
 export const prerender = true;
 
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
+const cmsNavLinks = await loadCmsNavLinks();
 
 const lang = 'pl';
 const footerCopy = footerCopyByLang[lang] ?? footerCopyByLang['pl'];
