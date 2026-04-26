@@ -231,7 +231,7 @@ export function HeroSection({ lang, copy, eventDate, heroImage, heroOpacity }: H
           {safeCopy.ctaRegister}
         </a>
         <a
-          href={safeCopy.ctaProgramHref}
+          href={`/${lang}/o-wydarzeniu#agenda`}
           className="inline-block text-center cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-6 sm:py-3.5 no-underline"
           style={{
             backgroundColor: "transparent",
