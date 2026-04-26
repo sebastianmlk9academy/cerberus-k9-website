@@ -52,6 +52,7 @@ export function HeroSection({ lang, copy, eventDate, heroImage, heroOpacity }: H
     seconds: 0,
   });
   const [mounted, setMounted] = useState(false);
+  const [videoOpen, setVideoOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -63,6 +64,19 @@ export function HeroSection({ lang, copy, eventDate, heroImage, heroOpacity }: H
 
     return () => clearInterval(timer);
   }, [eventDateIso]);
+
+  useEffect(() => {
+    document.body.style.overflow = videoOpen ? "hidden" : "";
+    if (!videoOpen) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setVideoOpen(false);
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => {
+      window.removeEventListener("keydown", handleKey);
+      document.body.style.overflow = "";
+    };
+  }, [videoOpen]);
 
   const formatNumber = (num: number) => String(num).padStart(2, "0");
 
@@ -239,10 +253,9 @@ export function HeroSection({ lang, copy, eventDate, heroImage, heroOpacity }: H
         >
           {safeCopy.ctaProgram}
         </a>
-        <a
-          href={safeCopy.ctaVideoHref}
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          type="button"
+          onClick={() => setVideoOpen(true)}
           className="inline-block text-center cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-5 sm:py-3.5 no-underline"
           style={{
             backgroundColor: "transparent",
@@ -263,8 +276,79 @@ export function HeroSection({ lang, copy, eventDate, heroImage, heroOpacity }: H
           }}
         >
           {safeCopy.ctaVideo}
-        </a>
+        </button>
       </div>
+      {videoOpen && (
+        <>
+          {/* Backdrop — blurred dark overlay */}
+          <div
+            onClick={() => setVideoOpen(false)}
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 1000,
+              backgroundColor: "rgba(10, 15, 20, 0.85)",
+              backdropFilter: "blur(8px)",
+              WebkitBackdropFilter: "blur(8px)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {/* Modal container — stop click propagation so clicking video doesn't close */}
+            <div
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                position: "relative",
+                width: "90vw",
+                maxWidth: "960px",
+                aspectRatio: "16 / 9",
+                backgroundColor: "#0F1720",
+                border: "1px solid rgba(196,146,42,0.3)",
+                boxShadow: "0 24px 80px rgba(0,0,0,0.8)",
+              }}
+            >
+              {/* Close button */}
+              <button
+                onClick={() => setVideoOpen(false)}
+                style={{
+                  position: "absolute",
+                  top: "-40px",
+                  right: "0",
+                  background: "transparent",
+                  border: "none",
+                  color: "#E4DDD0",
+                  fontFamily: "var(--font-rajdhani), sans-serif",
+                  fontSize: "12px",
+                  letterSpacing: "3px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                }}
+              >
+                ZAMKNIJ ✕
+              </button>
+
+              {/* YouTube iframe */}
+              <iframe
+                src={`${safeCopy.ctaVideoHref.replace("watch?v=", "embed/").replace("youtu.be/", "www.youtube.com/embed/")}?autoplay=1&rel=0&modestbranding=1`}
+                title="CERBERUS K9 2025 — Relacja"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  border: "none",
+                }}
+              />
+            </div>
+          </div>
+        </>
+      )}
     </section>
   );
 }
