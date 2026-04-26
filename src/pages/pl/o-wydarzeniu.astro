@@ -22,6 +22,7 @@ const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
 const copy = aboutEventPageByLang[lang] ?? aboutEventPageByLang['pl'];
 const plausibleDomain = s?.plausible_domain ?? 'cerberusk9.org';
+const siteOrigin = s?.site_url ?? new URL(Astro.site!).origin;
 const startDate = s?.event_date ?? '2026-06-13';
 const endDate = s?.event_date_end ?? '2026-06-14';
 const formatDay = (dateStr: string, locale: string) => {
@@ -103,7 +104,7 @@ const eventSchema = {
 	organizer: {
 		'@type': 'Organization',
 		name: 'Fundacja PACTA K9',
-		url: s?.site_url ?? 'https://cerberusk9.org',
+		url: siteOrigin,
 	},
 	description: copy.metaDescription,
 	image: [new URL(HOME_OG_IMAGE, Astro.site ?? Astro.url).toString()],
@@ -193,6 +194,10 @@ const eventSchema = {
 	<Footer
 		lang={lang}
 		copy={footerCopyByLang[lang] ?? footerCopyByLang['pl']}
+		logoSrc={s?.nav_logo}
+		logoAlt={s?.nav_logo_alt}
+		brandName={s?.brand_name}
+		brandTagline={s?.brand_tagline}
 		email={s?.footer_email}
 		phone={s?.footer_phone}
 		socialFacebook={s?.social_facebook}

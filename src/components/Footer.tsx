@@ -7,6 +7,10 @@ import { footerCopyByLang } from "../i18n/footer"
 interface FooterProps {
   lang?: Lang
   copy?: FooterCopy
+  logoSrc?: string
+  logoAlt?: string
+  brandName?: string
+  brandTagline?: string
   email?: string
   phone?: string
   socialFacebook?: string
@@ -113,6 +117,10 @@ function buildSocialLinks(
 export function Footer({
   lang,
   copy,
+  logoSrc,
+  logoAlt,
+  brandName,
+  brandTagline,
   socialFacebook,
   socialYoutube,
   socialInstagram,
@@ -125,6 +133,11 @@ export function Footer({
   nipNumber,
   regonNumber,
 }: FooterProps) {
+  const resolvedLogo = logoSrc?.trim() || "/images/cerberus-k9-logo.png"
+  const resolvedLogoAlt = logoAlt?.trim() || "CERBERUS K9 Logo"
+  const resolvedBrandName = brandName?.trim() || "CERBERUS K9"
+  const resolvedBrandTagline = brandTagline?.trim() || "INTERNATIONAL DEFENSE PLATFORM"
+  const brandMatch = resolvedBrandName.match(/^(.+?)(\s+K9)$/i)
   const resolvedAddress = address ?? "ul. Odolanowska 17, 63-400 Topola Mała"
   const resolvedFoundationName = foundationName ?? "Fundacja PACTA K9"
   const resolvedDomains = domains ?? "cerberusk9.org | pactak9.org"
@@ -179,8 +192,8 @@ export function Footer({
         {/* Column 1 - Brand */}
         <div className="mx-auto flex flex-col items-center text-center md:mx-0 md:items-start md:text-left">
           <img
-            src="/images/cerberus-k9-logo.png"
-            alt="CERBERUS K9 Logo"
+            src={resolvedLogo}
+            alt={resolvedLogoAlt}
             style={{ height: "64px", width: "auto", marginBottom: "12px" }}
             className="object-contain self-center md:self-start"
           />
@@ -194,7 +207,14 @@ export function Footer({
               margin: 0,
             }}
           >
-            CERBERUS <span style={{ color: "#B22234" }}>K9</span>
+            {brandMatch ? (
+              <>
+                {brandMatch[1]}
+                <span style={{ color: "#B22234" }}>{brandMatch[2]}</span>
+              </>
+            ) : (
+              resolvedBrandName
+            )}
           </h2>
           <p
             style={{
@@ -206,7 +226,7 @@ export function Footer({
               marginTop: "-1px",
             }}
           >
-            INTERNATIONAL DEFENSE PLATFORM
+            {resolvedBrandTagline}
           </p>
           <div
             style={{

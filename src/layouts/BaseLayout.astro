@@ -19,6 +19,7 @@ interface Props {
 	robots?: string;
 	/** When true, emit only pl + x-default alternates (use with canonicalHref for PL-only routes). */
 	omitLocaleAlternates?: boolean;
+	twitterHandle?: string;
 }
 
 const {
@@ -32,10 +33,12 @@ const {
 	canonicalHref,
 	robots,
 	omitLocaleAlternates = false,
+	twitterHandle: twitterHandleProp,
 } = Astro.props;
 
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
+const twitterHandle = twitterHandleProp ?? s?.twitter_handle ?? '@cerberusk9';
 
 const alternates = omitLocaleAlternates ? [] : getAbsoluteLocaleUrlList(localizedPath);
 const plIndex = locales.indexOf('pl');
@@ -58,6 +61,7 @@ const canonicalAlternateHref = (
 			ogType={ogType}
 			canonicalHref={canonicalHref}
 			robots={robots}
+			twitterHandle={twitterHandle}
 		/>
 		<slot name="head" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />

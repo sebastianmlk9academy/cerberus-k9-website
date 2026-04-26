@@ -53,6 +53,8 @@ const latestForListing = aktualnosciToListingArticles(latestArticles, lang).map(
 }));
 
 const plausibleDomain = s?.plausible_domain ?? 'cerberusk9.org';
+const twitterHandle = s?.twitter_handle ?? '@cerberusk9';
+const siteOrigin = s?.site_url ?? new URL(Astro.site!).origin;
 const seo = homeSeoByLang[lang] ?? homeSeoByLang['pl'];
 const safeUi = ui[lang] ?? ui.pl;
 const seoTitle = safeUi.meta_title_home ?? seo.title;
@@ -106,7 +108,7 @@ const eventSchema = {
 	organizer: {
 		'@type': 'Organization',
 		name: 'Fundacja PACTA K9',
-		url: s?.site_url ?? 'https://cerberusk9.org',
+		url: siteOrigin,
 	},
 	description: seoDescription,
 	image: [new URL(HOME_OG_IMAGE, Astro.site ?? Astro.url).toString()],
@@ -121,6 +123,7 @@ const eventSchema = {
 	localizedPath=""
 	ogImage={s?.og_image_default ?? '/og-cerberus-k9-2026.jpg'}
 	ogType="website"
+	twitterHandle={twitterHandle}
 >
 	<script defer data-domain={plausibleDomain} src="https://plausible.io/js/plausible.js"></script>
 	<script type="application/ld+json" set:html={JSON.stringify(eventSchema)} />
@@ -161,6 +164,10 @@ const eventSchema = {
 	<Footer
 		lang={lang}
 		copy={footerCopy}
+		logoSrc={s?.nav_logo}
+		logoAlt={s?.nav_logo_alt}
+		brandName={s?.brand_name}
+		brandTagline={s?.brand_tagline}
 		email={s?.footer_email}
 		phone={s?.footer_phone}
 		socialFacebook={s?.social_facebook}

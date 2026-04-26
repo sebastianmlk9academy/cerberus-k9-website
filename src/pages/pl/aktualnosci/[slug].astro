@@ -34,6 +34,7 @@ const pageTitle = `${post.data.title} — CERBERUS K9`;
 const description = post.data.lead;
 const canonicalPath = `/pl/aktualnosci/${post.id}/`;
 const canonicalUrl = new URL(canonicalPath, Astro.site ?? Astro.url).href;
+const siteOrigin = s?.site_url ?? new URL(Astro.site!).origin;
 const shareUrl =
 	post.data.share_url?.trim() && /^https?:\/\//i.test(post.data.share_url.trim())
 		? post.data.share_url.trim()
@@ -61,7 +62,7 @@ const jsonLd = {
 	publisher: {
 		'@type': 'Organization',
 		name: 'CERBERUS K9',
-		url: (Astro.site ?? Astro.url).origin,
+		url: siteOrigin,
 	},
 };
 ---
@@ -99,6 +100,10 @@ const jsonLd = {
 	<Footer
 		lang={lang}
 		copy={footerCopy}
+		logoSrc={s?.nav_logo}
+		logoAlt={s?.nav_logo_alt}
+		brandName={s?.brand_name}
+		brandTagline={s?.brand_tagline}
 		email={s?.footer_email}
 		phone={s?.footer_phone}
 		socialFacebook={s?.social_facebook}

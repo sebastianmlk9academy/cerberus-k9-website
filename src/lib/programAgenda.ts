@@ -103,6 +103,6 @@ export function programEntriesToAgendaItems(
 		};
 	});
 
-	const categoryMeta = categories?.length ? buildCategoryMeta(categories) : CATEGORY_META;
+	const categoryMeta = categories?.length ? buildCategoryMeta(categories, lang) : CATEGORY_META;
 	return { days, categoryMeta };
 }

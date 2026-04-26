@@ -9,7 +9,7 @@ import { locales } from './locales.mjs';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://cerberusk9.eu',
+	site: 'https://cerberusk9.org',
 	redirects: {
 		'/fundacja': '/pl/fundacja',
 		'/foundation': '/pl/fundacja',
