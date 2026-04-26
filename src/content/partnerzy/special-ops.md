@@ -6,4 +6,6 @@ logo: "/images/partners/special-ops.svg"
 website: "https://www.special-ops.pl"
 website_label: "special-ops.pl"
 order: 2
+show_in_strip: true
+strip_order: 2
 ---

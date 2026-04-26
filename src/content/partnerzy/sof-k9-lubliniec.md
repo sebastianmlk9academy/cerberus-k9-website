@@ -6,4 +6,6 @@ logo: ""
 website: "https://www.facebook.com/p/SOF-K9-Lubliniec-100088222903375/"
 website_label: "Facebook"
 order: 11
+show_in_strip: true
+strip_order: 11
 ---

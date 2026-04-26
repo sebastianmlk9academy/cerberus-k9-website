@@ -6,4 +6,6 @@ logo: ""
 website: ""
 website_label: ""
 order: 16
+show_in_strip: true
+strip_order: 16
 ---

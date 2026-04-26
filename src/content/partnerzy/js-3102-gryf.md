@@ -6,4 +6,6 @@ logo: ""
 website: "https://www.jsgryf.pl"
 website_label: "jsgryf.pl"
 order: 8
+show_in_strip: true
+strip_order: 8
 ---

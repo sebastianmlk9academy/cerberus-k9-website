@@ -6,4 +6,6 @@ logo: ""
 website: "https://valhallk9.com"
 website_label: "valhallk9.com"
 order: 14
+show_in_strip: true
+strip_order: 14
 ---

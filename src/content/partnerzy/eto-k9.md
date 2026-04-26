@@ -6,4 +6,6 @@ logo: ""
 website: "https://etok9.pl"
 website_label: "etok9.pl"
 order: 12
+show_in_strip: true
+strip_order: 12
 ---

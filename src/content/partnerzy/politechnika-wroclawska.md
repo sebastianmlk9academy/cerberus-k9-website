@@ -6,4 +6,6 @@ logo: "/images/partners/politechnika-wroclawska.png"
 website: "https://pwr.edu.pl"
 website_label: "pwr.edu.pl"
 order: 3
+show_in_strip: true
+strip_order: 3
 ---

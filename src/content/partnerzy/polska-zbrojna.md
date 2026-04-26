@@ -6,4 +6,6 @@ logo: "/images/partners/polska-zbrojna.svg"
 website: "https://polska-zbrojna.pl"
 website_label: "polska-zbrojna.pl"
 order: 1
+show_in_strip: true
+strip_order: 1
 ---

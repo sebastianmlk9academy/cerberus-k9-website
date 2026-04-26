@@ -6,4 +6,6 @@ logo: ""
 website: "https://www.facebook.com/GrupaKMSK9profesjonalneszkoleniepsow/"
 website_label: "Facebook"
 order: 13
+show_in_strip: true
+strip_order: 13
 ---
