@@ -110,7 +110,8 @@ export function NavBar({
                 color: '#E4DDD0',
               }}
             >
-              {resolvedBrandName}
+              {resolvedBrandName.replace('K9', '').trim()}{' '}
+              <span style={{ color: '#C42B2B' }}>K9</span>
             </span>
             <span
               style={{
