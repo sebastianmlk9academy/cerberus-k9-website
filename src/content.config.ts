@@ -225,7 +225,7 @@ const faq = defineCollection({
 });
 
 const team = defineCollection({
-	type: 'content',
+	loader: glob({ base: './src/content/team', pattern: '**/*.{md,mdx}' }),
 	schema: z.object({
 		name: z.string(),
 		role: z.string(),

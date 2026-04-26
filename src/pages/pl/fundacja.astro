@@ -53,7 +53,12 @@ const legalRows: { label: string; value: string }[] = [
 	{ label: 'Status', value: 'Fundacja, osobowość prawna' },
 	{ label: 'Działalność', value: 'Non-profit, art. 3 ustawy o fundacjach' },
 ];
-const teamMembers = await getCollection('team');
+let teamMembers = [];
+try {
+	teamMembers = await getCollection('team');
+} catch (e) {
+	console.warn('team collection:', e instanceof Error ? e.message : String(e));
+}
 const members = teamMembers
 	.sort((a,b) => (a.data.order ?? 99) - (b.data.order ?? 99))
 	.map((m) => ({
