@@ -223,7 +223,7 @@ const contactCopy: Record<string, ContactCopyEntry> = {
 };
 
 const DEFAULT_MAP_EMBED_URL =
-  "https://www.openstreetmap.org/export/embed.html?bbox=17.7986%2C51.6409%2C17.8186%2C51.6609&layer=mapnik&marker=51.6509%2C17.8086";
+  "https://www.openstreetmap.org/export/embed.html?bbox=17.8074%2C51.6365%2C17.8274%2C51.6565&layer=mapnik&marker=51.6465%2C17.8174";
 
 const contactLinkHoverStyle = { transition: "color 0.15s ease" } as const;
 
