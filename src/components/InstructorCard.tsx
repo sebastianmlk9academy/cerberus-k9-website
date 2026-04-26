@@ -174,6 +174,9 @@ export default function InstructorCard({
             width="24"
             height="18"
             alt={country}
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+            }}
             style={{ display: 'inline-block', verticalAlign: 'middle' }}
           />
           {country}

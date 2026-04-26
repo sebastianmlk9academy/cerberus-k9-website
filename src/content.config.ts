@@ -54,7 +54,6 @@ const instruktorzy = defineCollection({
 		role: z.string().optional(),
 		country: z.string(),
 		countryCode: z.string().length(2),
-		countryFlag: z.string().optional(),
 		specializations: z.array(z.string()),
 		unit: z.string().optional(),
 		module: z.string().optional(),

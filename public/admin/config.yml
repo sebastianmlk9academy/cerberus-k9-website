@@ -77,13 +77,24 @@ collections:
     fields:
       - { label: Imię i nazwisko, name: name, widget: string, required: true }
       - { label: Rola / stanowisko, name: role, widget: string, required: false }
-      - { label: Kraj, name: country, widget: string, required: true }
-      - label: Kod kraju (2 litery, np. PL, US, PT)
+      - label: "Kraj (nazwa wyświetlana)"
+        name: country
+        widget: string
+        required: true
+        hint: >
+          Nazwa kraju wyświetlana na karcie instruktora.
+          Np. Polska, USA, Niemcy, Portugalia.
+          Pamiętaj aby zaktualizować też pole Kod kraju.
+      - label: "Kod kraju (ISO 3166-1 alpha-2)"
         name: countryCode
         widget: string
         required: true
-        hint: 'Kod ISO 3166-1 alpha-2, np. PL, US, DE'
-      - { label: Flaga (emoji), name: countryFlag, widget: string, required: false }
+        hint: >
+          Wpisz 2-literowy kod kraju (wielkie litery).
+          Flaga zmieni się automatycznie.
+          NATO/UE: PL, US, DE, FR, GB, IT, ES, PT, NL, BE,
+          CZ, SK, HU, RO, BG, HR, SI, LT, LV, EE, NO, DK,
+          SE, FI, GR, TR, CA, AL, ME, MK, BA, IS, LU, MT.
       - label: Specjalizacje
         name: specializations
         widget: select
