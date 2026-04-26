@@ -490,6 +490,28 @@ const navigateLabels: Record<string, string> = {
   ko: "길 안내",
 };
 
+const noMapLabels: Record<string, string> = {
+  pl: "BRAK PODPIĘTEJ LOKALIZACJI",
+  en: "NO LOCATION LINKED",
+  de: "KEIN STANDORT VERKNÜPFT",
+  fr: "AUCUN LIEU LIÉ",
+  cs: "ŽÁDNÁ POLOHA PROPOJENA",
+  sk: "ŽIADNA POLOHA PREPOJENÁ",
+  hu: "NINCS HELYSZÍN CSATOLVA",
+  hr: "NEMA POVEZANE LOKACIJE",
+  sl: "NI POVEZANE LOKACIJE",
+  lt: "NĖRA SUSIETOS VIETOS",
+  lv: "NAV PIESAISTĪTAS ATRAŠANĀS VIETAS",
+  no: "INGEN PLASSERING TILKOBLET",
+  sv: "INGEN PLATS LÄNKAD",
+  nl: "GEEN LOCATIE GEKOPPELD",
+  es: "SIN UBICACIÓN VINCULADA",
+  pt: "SEM LOCALIZAÇÃO ASSOCIADA",
+  ro: "NICIO LOCAȚIE ASOCIATĂ",
+  it: "NESSUNA POSIZIONE COLLEGATA",
+  ko: "연결된 위치 없음",
+};
+
 interface CalendarEvent {
   id: string;
   title: string;
@@ -851,6 +873,7 @@ export default function InteractiveAgenda({
 }: InteractiveAgendaProps) {
   const langKey: Lang = (lang as Lang) ?? "pl";
   const navigateLabel = navigateLabels[lang ?? "pl"] ?? "NAWIGUJ";
+  const noMapLabel = noMapLabels[lang ?? "pl"] ?? "BRAK PODPIĘTEJ LOKALIZACJI";
   const agendaLabels = AGENDA_LABELS[langKey] ?? DEFAULT_AGENDA_LABELS;
   const DAYS_TO_USE = (items && items.length > 0) ? items : FALLBACK_AGENDA_ITEMS;
   const ACTIVE_CATEGORY_META = categoryMeta ?? CATEGORY_META;
@@ -1284,6 +1307,21 @@ export default function InteractiveAgenda({
                                 >
                                   {navigateLabel} ↗
                                 </a>
+                              )}
+                              {(!item.locationMapUrl || item.locationMapUrl.trim() === "") && (
+                                <span
+                                  style={{
+                                    ...partnerButtonStyle,
+                                    padding: "6px 12px",
+                                    fontSize: 11,
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    opacity: 0.75,
+                                    cursor: "not-allowed",
+                                  }}
+                                >
+                                  {noMapLabel}
+                                </span>
                               )}
                             </div>
 
