@@ -9,6 +9,7 @@ interface AgendaItem {
   end: string;
   title: string;
   location: string;
+  locationMapUrl?: string;
   category: string;
   description: string;
   instructor?: string;
@@ -28,15 +29,15 @@ const FALLBACK_AGENDA_ITEMS: DaySchedule[] = [
     label: "DZIEŃ 1",
     date: "2026-06-13",
     items: [
-      { id: "fallback-d1-1", start: "08:00", end: "08:30", title: "Ceremonia otwarcia", location: "Arena Główna", category: "CEREMONIA", description: "Powitanie uczestników, krótka prezentacja." },
-      { id: "fallback-d1-2", start: "08:30", end: "09:00", title: "Przerwa kawowa", location: "3MK Arena", category: "BREAK", description: "Networking i rejestracja uczestników." },
-      { id: "fallback-d1-3", start: "09:00", end: "10:30", title: "Taktyczne gryzienie K9 — moduł podstawowy", location: "3MK Arena", category: "K9", description: "Demonstracje i warsztaty z zakresu pracy operacyjnej psów." },
-      { id: "fallback-d1-4", start: "10:45", end: "12:15", title: "TCCC dla operatorów", location: "Szkoła Mundurowa", category: "TCCC", description: "Medycyna pola walki i procedury ratunkowe." },
-      { id: "fallback-d1-5", start: "12:15", end: "13:15", title: "Lunch", location: "—", category: "BREAK", description: "" },
-      { id: "fallback-d1-6", start: "13:15", end: "15:00", title: "Detekcja ładunków wybuchowych", location: "Stadion Miejski", category: "K9", description: "Scenariusze wyszukiwania i oznaczania zagrożeń." },
-      { id: "fallback-d1-7", start: "15:15", end: "16:45", title: "Drony rozpoznawcze — wprowadzenie", location: "Stadion Miejski", category: "DRONY", description: "Taktyka UAV i bezpieczeństwo operacji." },
-      { id: "fallback-d1-8", start: "17:00", end: "18:30", title: "Konferencja bezpieczeństwa — sesja I", location: "3MK Arena", category: "KONFERENCJA", description: "Panel ekspertów: interoperacyjność i gotowość." },
-      { id: "fallback-d1-9", start: "18:45", end: "19:00", title: "Zamknięcie dnia", location: "3MK Arena", category: "CEREMONIA", description: "Podsumowanie i komunikaty organizacyjne." },
+      { id: "fallback-d1-1", start: "08:00", end: "08:30", title: "Ceremonia otwarcia", location: "Arena Główna", locationMapUrl: "https://maps.google.com/?q=51.6509,17.8086", category: "CEREMONIA", description: "Powitanie uczestników, krótka prezentacja." },
+      { id: "fallback-d1-2", start: "08:30", end: "09:00", title: "Przerwa kawowa", location: "3MK Arena", locationMapUrl: "", category: "BREAK", description: "Networking i rejestracja uczestników." },
+      { id: "fallback-d1-3", start: "09:00", end: "10:30", title: "Taktyczne gryzienie K9 — moduł podstawowy", location: "3MK Arena", locationMapUrl: "https://maps.google.com/?q=51.6509,17.8086", category: "K9", description: "Demonstracje i warsztaty z zakresu pracy operacyjnej psów." },
+      { id: "fallback-d1-4", start: "10:45", end: "12:15", title: "TCCC dla operatorów", location: "Szkoła Mundurowa", locationMapUrl: "", category: "TCCC", description: "Medycyna pola walki i procedury ratunkowe." },
+      { id: "fallback-d1-5", start: "12:15", end: "13:15", title: "Lunch", location: "—", locationMapUrl: "", category: "BREAK", description: "" },
+      { id: "fallback-d1-6", start: "13:15", end: "15:00", title: "Detekcja ładunków wybuchowych", location: "Stadion Miejski", locationMapUrl: "", category: "K9", description: "Scenariusze wyszukiwania i oznaczania zagrożeń." },
+      { id: "fallback-d1-7", start: "15:15", end: "16:45", title: "Drony rozpoznawcze — wprowadzenie", location: "Stadion Miejski", locationMapUrl: "", category: "DRONY", description: "Taktyka UAV i bezpieczeństwo operacji." },
+      { id: "fallback-d1-8", start: "17:00", end: "18:30", title: "Konferencja bezpieczeństwa — sesja I", location: "3MK Arena", locationMapUrl: "https://maps.google.com/?q=51.6509,17.8086", category: "KONFERENCJA", description: "Panel ekspertów: interoperacyjność i gotowość." },
+      { id: "fallback-d1-9", start: "18:45", end: "19:00", title: "Zamknięcie dnia", location: "3MK Arena", locationMapUrl: "https://maps.google.com/?q=51.6509,17.8086", category: "CEREMONIA", description: "Podsumowanie i komunikaty organizacyjne." },
     ],
   },
   {
@@ -44,12 +45,12 @@ const FALLBACK_AGENDA_ITEMS: DaySchedule[] = [
     label: "DZIEŃ 2",
     date: "2026-06-14",
     items: [
-      { id: "fallback-d2-1", start: "08:30", end: "09:00", title: "Rejestracja drugiego dnia", location: "3MK Arena", category: "CEREMONIA", description: "Wejście i odprawa." },
-      { id: "fallback-d2-2", start: "09:00", end: "11:00", title: "Moduł zaawansowany K9", location: "3MK Arena", category: "K9", description: "Zaawansowane scenariusze operacyjne." },
-      { id: "fallback-d2-3", start: "11:15", end: "12:45", title: "Medycyna pola walki TCCC", location: "Szkoła Mundurowa", category: "TCCC", description: "Procedury dla zespołów taktycznych." },
-      { id: "fallback-d2-4", start: "13:00", end: "14:30", title: "Swarm i taktyka UAV", location: "Stadion Miejski", category: "DRONY", description: "Koordynacja grup dronów w terenie." },
-      { id: "fallback-d2-5", start: "14:45", end: "16:15", title: "Konferencja bezpieczeństwa — sesja II", location: "3MK Arena", category: "KONFERENCJA", description: "Trendy zagrożeń i odporność kryzysowa." },
-      { id: "fallback-d2-6", start: "16:30", end: "17:00", title: "Ceremonia zamknięcia", location: "Arena Główna", category: "CEREMONIA", description: "Podziękowania i oficjalne zakończenie wydarzenia." },
+      { id: "fallback-d2-1", start: "08:30", end: "09:00", title: "Rejestracja drugiego dnia", location: "3MK Arena", locationMapUrl: "https://maps.google.com/?q=51.6509,17.8086", category: "CEREMONIA", description: "Wejście i odprawa." },
+      { id: "fallback-d2-2", start: "09:00", end: "11:00", title: "Moduł zaawansowany K9", location: "3MK Arena", locationMapUrl: "https://maps.google.com/?q=51.6509,17.8086", category: "K9", description: "Zaawansowane scenariusze operacyjne." },
+      { id: "fallback-d2-3", start: "11:15", end: "12:45", title: "Medycyna pola walki TCCC", location: "Szkoła Mundurowa", locationMapUrl: "", category: "TCCC", description: "Procedury dla zespołów taktycznych." },
+      { id: "fallback-d2-4", start: "13:00", end: "14:30", title: "Swarm i taktyka UAV", location: "Stadion Miejski", locationMapUrl: "", category: "DRONY", description: "Koordynacja grup dronów w terenie." },
+      { id: "fallback-d2-5", start: "14:45", end: "16:15", title: "Konferencja bezpieczeństwa — sesja II", location: "3MK Arena", locationMapUrl: "https://maps.google.com/?q=51.6509,17.8086", category: "KONFERENCJA", description: "Trendy zagrożeń i odporność kryzysowa." },
+      { id: "fallback-d2-6", start: "16:30", end: "17:00", title: "Ceremonia zamknięcia", location: "Arena Główna", locationMapUrl: "https://maps.google.com/?q=51.6509,17.8086", category: "CEREMONIA", description: "Podziękowania i oficjalne zakończenie wydarzenia." },
     ],
   },
 ];
@@ -467,6 +468,28 @@ const DEFAULT_AGENDA_LABELS: AgendaLabels = {
   },
 };
 
+const navigateLabels: Record<string, string> = {
+  pl: "NAWIGUJ",
+  en: "NAVIGATE",
+  de: "NAVIGIEREN",
+  fr: "NAVIGUER",
+  cs: "NAVIGOVAT",
+  sk: "NAVIGOVAŤ",
+  hu: "NAVIGÁLÁS",
+  hr: "NAVIGIRAJ",
+  sl: "NAVIGIRAJ",
+  lt: "NARŠYTI",
+  lv: "NAVIGĒT",
+  no: "NAVIGER",
+  sv: "NAVIGERA",
+  nl: "NAVIGEREN",
+  es: "NAVEGAR",
+  pt: "NAVEGAR",
+  ro: "NAVIGAȚI",
+  it: "NAVIGA",
+  ko: "길 안내",
+};
+
 interface CalendarEvent {
   id: string;
   title: string;
@@ -827,6 +850,7 @@ export default function InteractiveAgenda({
   eventName,
 }: InteractiveAgendaProps) {
   const langKey: Lang = (lang as Lang) ?? "pl";
+  const navigateLabel = navigateLabels[lang ?? "pl"] ?? "NAWIGUJ";
   const agendaLabels = AGENDA_LABELS[langKey] ?? DEFAULT_AGENDA_LABELS;
   const DAYS_TO_USE = (items && items.length > 0) ? items : FALLBACK_AGENDA_ITEMS;
   const ACTIVE_CATEGORY_META = categoryMeta ?? CATEGORY_META;
@@ -1206,33 +1230,62 @@ export default function InteractiveAgenda({
                             style={{ position: "relative", marginTop: 14 }}
                             onClick={(e) => e.stopPropagation()}
                           >
-                            <button
-                              onClick={() =>
-                                setCalendarMenuFor(
-                                  calendarMenuFor === item.id ? null : item.id,
-                                )
-                              }
-                              style={{
-                                ...partnerButtonStyle,
-                                backgroundColor: isCalendarMenuOpen
-                                  ? "#C4922A"
-                                  : "transparent",
-                                color: isCalendarMenuOpen ? "#1E2B38" : "#C4922A",
-                                padding: "6px 12px",
-                                fontSize: 11,
-                                display: "inline-flex",
-                                alignItems: "center",
-                                gap: 6,
-                              }}
-                              onMouseEnter={handlePartnerButtonMouseEnter}
-                              onMouseLeave={(e) => {
-                                if (isCalendarMenuOpen) return;
-                                handlePartnerButtonMouseLeave(e);
-                              }}
-                            >
-                              <Calendar size={14} />
-                              {agendaLabels.addToCalendar}
-                            </button>
+                            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                              <button
+                                onClick={() =>
+                                  setCalendarMenuFor(
+                                    calendarMenuFor === item.id ? null : item.id,
+                                  )
+                                }
+                                style={{
+                                  ...partnerButtonStyle,
+                                  backgroundColor: isCalendarMenuOpen
+                                    ? "#C4922A"
+                                    : "transparent",
+                                  color: isCalendarMenuOpen ? "#1E2B38" : "#C4922A",
+                                  padding: "6px 12px",
+                                  fontSize: 11,
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  gap: 6,
+                                }}
+                                onMouseEnter={handlePartnerButtonMouseEnter}
+                                onMouseLeave={(e) => {
+                                  if (isCalendarMenuOpen) return;
+                                  handlePartnerButtonMouseLeave(e);
+                                }}
+                              >
+                                <Calendar size={14} />
+                                {agendaLabels.addToCalendar}
+                              </button>
+                              {item.locationMapUrl && item.locationMapUrl.trim() !== "" && (
+                                <a
+                                  href={item.locationMapUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  onClick={(e) => e.stopPropagation()}
+                                  style={{
+                                    ...partnerButtonStyle,
+                                    padding: "6px 12px",
+                                    fontSize: 11,
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    gap: 6,
+                                    textDecoration: "none",
+                                  }}
+                                  onMouseEnter={(e) => {
+                                    e.currentTarget.style.backgroundColor = "#C4922A";
+                                    e.currentTarget.style.color = "#1E2B38";
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    e.currentTarget.style.backgroundColor = "transparent";
+                                    e.currentTarget.style.color = "#C4922A";
+                                  }}
+                                >
+                                  {navigateLabel} ↗
+                                </a>
+                              )}
+                            </div>
 
                             <CalendarMenu
                               event={itemToEvent(item, activeDay.date, agendaLabels, ACTIVE_CATEGORY_META, agendaUrl, eventName)}

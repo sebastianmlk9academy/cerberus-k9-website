@@ -123,6 +123,7 @@ const program = defineCollection({
 		time_end: z.string().regex(/^\d{2}:\d{2}$/),
 		title: z.string(),
 		location: z.string().optional().default(''),
+		locationMapUrl: z.string().optional().default(''),
 		category: z.string(),
 		description: z.string().optional().default(''),
 		instructor: z.string().optional().default(''),

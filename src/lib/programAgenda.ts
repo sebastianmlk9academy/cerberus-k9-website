@@ -15,6 +15,7 @@ type AgendaItem = {
 	end: string;
 	title: string;
 	location: string;
+	locationMapUrl?: string;
 	category: string;
 	description: string;
 	instructor?: string;
@@ -74,6 +75,7 @@ export function programEntriesToAgendaItems(
 			end: normalizeTime(entry.data.time_end, '10:00'),
 			title: entry.data.title?.trim() || '—',
 			location: entry.data.location?.trim() || '—',
+			locationMapUrl: entry.data.locationMapUrl ?? '',
 			category: categoryFromCms ?? normalizeCategory(rawCategory),
 			description: entry.data.description?.trim() ?? '',
 			instructor: entry.data.instructor?.trim() || undefined,

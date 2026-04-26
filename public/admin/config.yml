@@ -247,6 +247,11 @@ collections:
           - "Sala Konferencyjna"
           - "Infrastruktura Orlen"
           - "—"
+      - name: locationMapUrl
+        label: "Link do nawigacji (Google Maps)"
+        widget: string
+        required: false
+        hint: "Wklej link z Google Maps z pinezką lokalizacji. Np. https://maps.google.com/?q=..."
       - label: Kategoria
         name: category
         widget: string

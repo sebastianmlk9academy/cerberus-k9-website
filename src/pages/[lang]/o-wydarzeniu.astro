@@ -30,19 +30,27 @@ const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
 const copy = aboutEventPageByLang[lang] ?? aboutEventPageByLang['pl'];
 const plausibleDomain = s?.plausible_domain ?? 'cerberusk9.org';
+const startDate = s?.event_date ?? '2026-06-13';
+const endDate = s?.event_date_end ?? '2026-06-14';
+const formatDay = (dateStr: string, locale: string) => {
+	return new Date(dateStr).toLocaleDateString(locale, {
+		day: 'numeric',
+		month: 'long',
+	}).toUpperCase();
+};
 const agendaHeading =
 	lang === 'pl'
 		? `AGENDA WYDARZENIA — ${
-				s?.event_date
-					? new Date(s.event_date).toLocaleDateString('pl-PL', { day: 'numeric', month: 'long' }).toUpperCase()
-					: '13–14 CZERWCA'
-		  } ${new Date(s?.event_date ?? '2026-06-13').getFullYear()}`
+				new Date(startDate).getDate()
+		  }–${formatDay(endDate, 'pl-PL')} ${
+				new Date(startDate).getFullYear()
+		  }`
 		: `EVENT AGENDA — ${
-				s?.event_date
-					? new Date(s.event_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long' }).toUpperCase()
-					: '13–14 JUNE'
-		  } ${new Date(s?.event_date ?? '2026-06-13').getFullYear()}`;
-const eventName = `CERBERUS K9 ${new Date(s?.event_date ?? '2026-06-13').getFullYear()}`;
+				new Date(startDate).getDate()
+		  }–${formatDay(endDate, 'en-GB')} ${
+				new Date(startDate).getFullYear()
+		  }`;
+const eventName = `CERBERUS K9 ${new Date(startDate).getFullYear()}`;
 
 const programEntries = await getCollection('program');
 const categoryEntries = await getCollection('agenda_categories');
