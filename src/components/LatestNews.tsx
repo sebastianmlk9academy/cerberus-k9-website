@@ -61,7 +61,7 @@ function NewsCardComponent({
     <a
       href={articleHref}
       className="block cursor-pointer"
-      style={{ textDecoration: "none" }}
+      style={{ textDecoration: "none", display: "contents" }}
     >
       <article
         className="cursor-pointer overflow-hidden transition-all duration-300"
@@ -69,6 +69,9 @@ function NewsCardComponent({
           backgroundColor: "#1E2B38",
           borderTop: isHovered ? "3px solid #C4922A" : "3px solid transparent",
           transform: isHovered ? "scale(1.005)" : "scale(1)",
+          display: "grid",
+          gridTemplateRows: "subgrid",
+          gridRow: "span 5",
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -111,7 +114,7 @@ function NewsCardComponent({
             style={{
               backgroundColor: "rgba(15, 23, 32, 0.85)",
               color: "#C4922A",
-              fontSize: "8px",
+              fontSize: "10px",
               padding: "4px 8px",
             }}
           >
@@ -120,7 +123,7 @@ function NewsCardComponent({
         </div>
 
         {/* Content Area */}
-        <div style={{ padding: "18px 16px" }}>
+        <div style={{ padding: "18px 16px", display: "contents" }}>
           {/* Category Small Text */}
           <span
             className="block font-[family-name:var(--font-rajdhani)] uppercase"
@@ -130,6 +133,8 @@ function NewsCardComponent({
               color: "#C4922A",
               fontWeight: 700,
               marginBottom: "8px",
+              paddingLeft: "16px",
+              paddingTop: "18px",
             }}
           >
             {card.category}
@@ -144,6 +149,8 @@ function NewsCardComponent({
               fontWeight: 700,
               lineHeight: 1.3,
               marginBottom: "8px",
+              paddingLeft: "16px",
+              paddingRight: "16px",
             }}
           >
             {card.title}
@@ -156,6 +163,8 @@ function NewsCardComponent({
               fontSize: "12px",
               color: "#5A6A7A",
               lineHeight: 1.6,
+              paddingLeft: "16px",
+              paddingRight: "16px",
             }}
           >
             {card.lead}
@@ -169,6 +178,8 @@ function NewsCardComponent({
               letterSpacing: "2px",
               color: "#C4922A",
               marginTop: "12px",
+              paddingLeft: "16px",
+              paddingBottom: "18px",
             }}
           >
             {readMore} →
@@ -181,7 +192,14 @@ function NewsCardComponent({
 
 export default function LatestNews({ lang, copy, articles }: LatestNewsProps) {
   const safeCopy = copy ?? latestNewsByLang[lang] ?? latestNewsByLang.pl;
-  const safeArticles = articles ?? [];
+  const safeArticles = (articles ?? [])
+    .slice()
+    .sort((a, b) => {
+      const dateA = a.date ? new Date(a.date).getTime() : 0;
+      const dateB = b.date ? new Date(b.date).getTime() : 0;
+      return dateB - dateA;
+    })
+    .slice(0, 3);
   return (
     <section
       className="bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28] px-4 sm:px-6 lg:px-[5%]"
