@@ -4,6 +4,7 @@ export type StripPartner = {
   name: string;
   logo?: string | null;
   website?: string | null;
+  type?: string | null;
 };
 
 export function partnerEntriesToStripItems(
@@ -20,6 +21,7 @@ export function partnerEntriesToStripItems(
       name: e.data.name ?? '',
       logo: e.data.logo ?? null,
       website: e.data.website ?? null,
+      type: e.data.type ?? null,
     }))
     .filter((e) => e.name.trim().length > 0);
 }
