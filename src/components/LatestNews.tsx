@@ -103,6 +103,7 @@ function NewsCardComponent({
               fontSize: "8px",
               letterSpacing: "2px",
               padding: "4px 8px",
+              fontWeight: 700,
             }}
           >
             {card.category}
@@ -116,6 +117,7 @@ function NewsCardComponent({
               color: "#C4922A",
               fontSize: "10px",
               padding: "4px 8px",
+              fontWeight: 700,
             }}
           >
             {card.date}
