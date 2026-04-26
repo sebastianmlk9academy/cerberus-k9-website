@@ -117,8 +117,8 @@ const program = defineCollection({
 	loader: glob({ base: './src/content/program', pattern: '**/*.{md,mdx}' }),
 	schema: z.object({
 		day: z.string(),
-		time_start: z.string(),
-		time_end: z.string(),
+		time_start: z.string().regex(/^\d{2}:\d{2}$/),
+		time_end: z.string().regex(/^\d{2}:\d{2}$/),
 		title: z.string(),
 		location: z.string().optional().default(''),
 		category: z.string(),

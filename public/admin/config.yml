@@ -211,8 +211,16 @@ collections:
         widget: string
         required: true
         hint: 'np. 2026-06-13'
-      - { label: Godzina rozpoczęcia, name: time_start, widget: string, required: true, hint: 'np. 09:00' }
-      - { label: Godzina zakończenia, name: time_end, widget: string, required: true, hint: 'np. 10:30' }
+      - name: time_start
+        label: "Godzina rozpoczęcia"
+        widget: string
+        pattern: ['^\d{2}:\d{2}$', "Format HH:MM, np. 09:00"]
+        hint: "Format 24h, np. 09:00"
+      - name: time_end
+        label: "Godzina zakończenia"
+        widget: string
+        pattern: ['^\d{2}:\d{2}$', "Format HH:MM, np. 12:30"]
+        hint: "Format 24h, np. 12:30"
       - { label: Tytuł, name: title, widget: string, required: true }
       - { label: Opis, name: description, widget: text, required: false }
       - label: Lokalizacja
