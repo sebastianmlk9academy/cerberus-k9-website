@@ -1,8 +1,7 @@
 import { Calendar } from "lucide-react";
 import { useMemo, useState } from "react";
 import type { Lang } from "../i18n/utils";
-
-type Category = "K9" | "TCCC" | "DRONY" | "KONFERENCJA" | "CEREMONIA" | "BREAK";
+import { CATEGORY_META, normalizeCategory, type Category } from "../lib/agendaCategories";
 
 interface AgendaItem {
   id: string;
@@ -13,7 +12,6 @@ interface AgendaItem {
   category: Category;
   description: string;
   instructor?: string;
-  dayId?: "day1" | "day2";
 }
 
 interface DaySchedule {
@@ -23,37 +21,37 @@ interface DaySchedule {
   items: AgendaItem[];
 }
 
-const CATEGORY_META: Record<Category, { color: string }> = {
-  K9: { color: "#C4922A" },
-  TCCC: { color: "#8B2020" },
-  DRONY: { color: "#2A5A8A" },
-  KONFERENCJA: { color: "#2A6A3A" },
-  CEREMONIA: { color: "#5A3A8A" },
-  BREAK: { color: "#3A4A5A" },
-};
-
-const DAYS: Omit<DaySchedule, "items" | "label">[] = [
-  { id: "day1", date: "2026-06-13" },
-  { id: "day2", date: "2026-06-14" },
-];
-
 /** Mirrors `src/content/program/*.md` when CMS is empty — keeps the agenda usable offline. */
-const FALLBACK_AGENDA_ITEMS: AgendaItem[] = [
-  { id: "fallback-d1-1", dayId: "day1", start: "08:00", end: "08:30", title: "Ceremonia otwarcia", location: "Arena Główna", category: "CEREMONIA", description: "Powitanie uczestników, krótka prezentacja." },
-  { id: "fallback-d1-2", dayId: "day1", start: "08:30", end: "09:00", title: "Przerwa kawowa", location: "3MK Arena", category: "BREAK", description: "Networking i rejestracja uczestników." },
-  { id: "fallback-d1-3", dayId: "day1", start: "09:00", end: "10:30", title: "Taktyczne gryzienie K9 — moduł podstawowy", location: "3MK Arena", category: "K9", description: "Demonstracje i warsztaty z zakresu pracy operacyjnej psów." },
-  { id: "fallback-d1-4", dayId: "day1", start: "10:45", end: "12:15", title: "TCCC dla operatorów", location: "Szkoła Mundurowa", category: "TCCC", description: "Medycyna pola walki i procedury ratunkowe." },
-  { id: "fallback-d1-5", dayId: "day1", start: "12:15", end: "13:15", title: "Lunch", location: "—", category: "BREAK", description: "" },
-  { id: "fallback-d1-6", dayId: "day1", start: "13:15", end: "15:00", title: "Detekcja ładunków wybuchowych", location: "Stadion Miejski", category: "K9", description: "Scenariusze wyszukiwania i oznaczania zagrożeń." },
-  { id: "fallback-d1-7", dayId: "day1", start: "15:15", end: "16:45", title: "Drony rozpoznawcze — wprowadzenie", location: "Stadion Miejski", category: "DRONY", description: "Taktyka UAV i bezpieczeństwo operacji." },
-  { id: "fallback-d1-8", dayId: "day1", start: "17:00", end: "18:30", title: "Konferencja bezpieczeństwa — sesja I", location: "3MK Arena", category: "KONFERENCJA", description: "Panel ekspertów: interoperacyjność i gotowość." },
-  { id: "fallback-d1-9", dayId: "day1", start: "18:45", end: "19:00", title: "Zamknięcie dnia", location: "3MK Arena", category: "CEREMONIA", description: "Podsumowanie i komunikaty organizacyjne." },
-  { id: "fallback-d2-1", dayId: "day2", start: "08:30", end: "09:00", title: "Rejestracja drugiego dnia", location: "3MK Arena", category: "CEREMONIA", description: "Wejście i odprawa." },
-  { id: "fallback-d2-2", dayId: "day2", start: "09:00", end: "11:00", title: "Moduł zaawansowany K9", location: "3MK Arena", category: "K9", description: "Zaawansowane scenariusze operacyjne." },
-  { id: "fallback-d2-3", dayId: "day2", start: "11:15", end: "12:45", title: "Medycyna pola walki TCCC", location: "Szkoła Mundurowa", category: "TCCC", description: "Procedury dla zespołów taktycznych." },
-  { id: "fallback-d2-4", dayId: "day2", start: "13:00", end: "14:30", title: "Swarm i taktyka UAV", location: "Stadion Miejski", category: "DRONY", description: "Koordynacja grup dronów w terenie." },
-  { id: "fallback-d2-5", dayId: "day2", start: "14:45", end: "16:15", title: "Konferencja bezpieczeństwa — sesja II", location: "3MK Arena", category: "KONFERENCJA", description: "Trendy zagrożeń i odporność kryzysowa." },
-  { id: "fallback-d2-6", dayId: "day2", start: "16:30", end: "17:00", title: "Ceremonia zamknięcia", location: "Arena Główna", category: "CEREMONIA", description: "Podziękowania i oficjalne zakończenie wydarzenia." },
+const FALLBACK_AGENDA_ITEMS: DaySchedule[] = [
+  {
+    id: "day1",
+    label: "DZIEŃ 1",
+    date: "2026-06-13",
+    items: [
+      { id: "fallback-d1-1", start: "08:00", end: "08:30", title: "Ceremonia otwarcia", location: "Arena Główna", category: "CEREMONIA", description: "Powitanie uczestników, krótka prezentacja." },
+      { id: "fallback-d1-2", start: "08:30", end: "09:00", title: "Przerwa kawowa", location: "3MK Arena", category: "BREAK", description: "Networking i rejestracja uczestników." },
+      { id: "fallback-d1-3", start: "09:00", end: "10:30", title: "Taktyczne gryzienie K9 — moduł podstawowy", location: "3MK Arena", category: "K9", description: "Demonstracje i warsztaty z zakresu pracy operacyjnej psów." },
+      { id: "fallback-d1-4", start: "10:45", end: "12:15", title: "TCCC dla operatorów", location: "Szkoła Mundurowa", category: "TCCC", description: "Medycyna pola walki i procedury ratunkowe." },
+      { id: "fallback-d1-5", start: "12:15", end: "13:15", title: "Lunch", location: "—", category: "BREAK", description: "" },
+      { id: "fallback-d1-6", start: "13:15", end: "15:00", title: "Detekcja ładunków wybuchowych", location: "Stadion Miejski", category: "K9", description: "Scenariusze wyszukiwania i oznaczania zagrożeń." },
+      { id: "fallback-d1-7", start: "15:15", end: "16:45", title: "Drony rozpoznawcze — wprowadzenie", location: "Stadion Miejski", category: "DRONY", description: "Taktyka UAV i bezpieczeństwo operacji." },
+      { id: "fallback-d1-8", start: "17:00", end: "18:30", title: "Konferencja bezpieczeństwa — sesja I", location: "3MK Arena", category: "KONFERENCJA", description: "Panel ekspertów: interoperacyjność i gotowość." },
+      { id: "fallback-d1-9", start: "18:45", end: "19:00", title: "Zamknięcie dnia", location: "3MK Arena", category: "CEREMONIA", description: "Podsumowanie i komunikaty organizacyjne." },
+    ],
+  },
+  {
+    id: "day2",
+    label: "DZIEŃ 2",
+    date: "2026-06-14",
+    items: [
+      { id: "fallback-d2-1", start: "08:30", end: "09:00", title: "Rejestracja drugiego dnia", location: "3MK Arena", category: "CEREMONIA", description: "Wejście i odprawa." },
+      { id: "fallback-d2-2", start: "09:00", end: "11:00", title: "Moduł zaawansowany K9", location: "3MK Arena", category: "K9", description: "Zaawansowane scenariusze operacyjne." },
+      { id: "fallback-d2-3", start: "11:15", end: "12:45", title: "Medycyna pola walki TCCC", location: "Szkoła Mundurowa", category: "TCCC", description: "Procedury dla zespołów taktycznych." },
+      { id: "fallback-d2-4", start: "13:00", end: "14:30", title: "Swarm i taktyka UAV", location: "Stadion Miejski", category: "DRONY", description: "Koordynacja grup dronów w terenie." },
+      { id: "fallback-d2-5", start: "14:45", end: "16:15", title: "Konferencja bezpieczeństwa — sesja II", location: "3MK Arena", category: "KONFERENCJA", description: "Trendy zagrożeń i odporność kryzysowa." },
+      { id: "fallback-d2-6", start: "16:30", end: "17:00", title: "Ceremonia zamknięcia", location: "Arena Główna", category: "CEREMONIA", description: "Podziękowania i oficjalne zakończenie wydarzenia." },
+    ],
+  },
 ];
 
 const FILTERS: { key: "ALL" | Category }[] = [
@@ -591,19 +589,21 @@ function getAgendaUrl(agendaUrl?: string) {
 }
 
 function itemToEvent(item: AgendaItem, dayDate: string, labels: AgendaLabels, agendaUrl?: string, eventName?: string): CalendarEvent {
+  const agendaPublicUrl = agendaUrl ?? "https://cerberusk9.org/pl/o-wydarzeniu";
+  const eventNameStr = eventName ?? "CERBERUS K9 2026";
   const location = item.location === "—" ? "" : item.location;
   const category = categoryLabel(item.category, labels);
   const lines = [
     item.description,
     "",
     "— DETAILS —",
-    `Event: ${eventName ?? "CERBERUS K9 2026"}`,
+    `Event: ${eventNameStr}`,
     `Category: ${category}`,
     location && `${labels.location}: ${location}`,
     `Time: ${item.start}-${item.end} (${dayDate})`,
     item.instructor && `${labels.instructor}: ${item.instructor}`,
     "",
-    `Full agenda: ${getAgendaUrl(agendaUrl)}`,
+    `Full agenda: ${getAgendaUrl(agendaPublicUrl)}`,
   ].filter(Boolean) as string[];
 
   return {
@@ -743,6 +743,9 @@ function buildFullEventCalendarEvent(
   city?: string,
   eventName?: string,
 ): CalendarEvent {
+  const eventCity = city ?? "Ostrów Wielkopolski";
+  const agendaPublicUrl = agendaUrl ?? "https://cerberusk9.org/pl/o-wydarzeniu";
+  const eventNameStr = eventName ?? "CERBERUS K9 2026";
   const nonEmptyDays = days.filter((d) => d.items.length > 0);
   const first = nonEmptyDays[0] ?? days[0];
   const last = nonEmptyDays[nonEmptyDays.length - 1] ?? days[days.length - 1];
@@ -766,18 +769,18 @@ function buildFullEventCalendarEvent(
   }).join("\n\n");
 
   const description = [
-    `${eventName ?? "CERBERUS K9 2026"} — full event agenda.`,
+    `${eventNameStr} — full event agenda.`,
     "",
     "— AGENDA —",
     agendaLines,
     "",
-    `Full online agenda: ${getAgendaUrl(agendaUrl)}`,
+    `Full online agenda: ${getAgendaUrl(agendaPublicUrl)}`,
   ].join("\n");
 
   return {
-    id: `${(eventName ?? "cerberus-k9-2026").toLowerCase().replace(/[^a-z0-9]+/g, "-")}-full`,
-    title: `${eventName ?? "CERBERUS K9 2026"} — full event`,
-    location: city ?? "Ostrów Wielkopolski",
+    id: `${eventNameStr.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-full`,
+    title: `${eventNameStr} — full event`,
+    location: eventCity,
     description,
     startDate: first.date,
     startTime: firstStart,
@@ -787,17 +790,18 @@ function buildFullEventCalendarEvent(
 }
 
 interface InteractiveAgendaProps {
-  lang: Lang;
-  items?: AgendaItem[];
-  agendaUrl?: string;
-  city?: string;
+  items?: DaySchedule[];
+  lang?: string;
   agendaHeading?: string;
   eventName?: string;
+  city?: string;
+  agendaUrl?: string;
 }
 
 export default function InteractiveAgenda({ lang, items, agendaUrl, city, agendaHeading, eventName }: InteractiveAgendaProps) {
-  const agendaLabels = AGENDA_LABELS[lang] ?? DEFAULT_AGENDA_LABELS;
-  const agendaItems = items && items.length > 0 ? items : FALLBACK_AGENDA_ITEMS;
+  const langKey: Lang = (lang as Lang) ?? "pl";
+  const agendaLabels = AGENDA_LABELS[langKey] ?? DEFAULT_AGENDA_LABELS;
+  const DAYS_TO_USE = (items && items.length > 0) ? items : FALLBACK_AGENDA_ITEMS;
   const translatedFilters = FILTERS.map((f) => {
     if (f.key === "ALL") return { ...f, label: agendaLabels.all };
     if (f.key === "K9") return { ...f, label: agendaLabels.categories.k9 };
@@ -807,22 +811,12 @@ export default function InteractiveAgenda({ lang, items, agendaUrl, city, agenda
     if (f.key === "CEREMONIA") return { ...f, label: agendaLabels.categories.ceremony };
     return { ...f, label: agendaLabels.categories.break };
   });
-  const [activeDayId, setActiveDayId] = useState<string>(DAYS[0].id);
+  const [activeDayId, setActiveDayId] = useState<string>(DAYS_TO_USE[0]?.id ?? "day1");
   const [filter, setFilter] = useState<"ALL" | Category>("ALL");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [calendarMenuFor, setCalendarMenuFor] = useState<string | null>(null);
   const [fullEventMenuOpen, setFullEventMenuOpen] = useState(false);
-  const scheduleDays = useMemo(
-    () =>
-      DAYS.map((day) => ({
-        ...day,
-        label: day.id === "day1" ? agendaLabels.day1 : agendaLabels.day2,
-        items: agendaItems.filter((item) =>
-          item.dayId ? item.dayId === day.id : item.id.startsWith(day.id === "day1" ? "d1-" : "d2-"),
-        ),
-      })),
-    [agendaItems, agendaLabels.day1, agendaLabels.day2],
-  );
+  const scheduleDays = useMemo(() => DAYS_TO_USE, [DAYS_TO_USE]);
   const fullEvent = useMemo(
     () => buildFullEventCalendarEvent(scheduleDays, agendaLabels, agendaUrl, city, eventName),
     [agendaLabels, scheduleDays, agendaUrl, city, eventName],
@@ -883,9 +877,8 @@ export default function InteractiveAgenda({ lang, items, agendaUrl, city, agenda
             borderBottom: "1px solid #253344",
           }}
         >
-          {DAYS.map((day) => {
+          {DAYS_TO_USE.map((day) => {
             const active = day.id === activeDayId;
-            const tabLabel = day.id === "day1" ? agendaLabels.day1 : agendaLabels.day2;
             return (
               <button
                 key={day.id}
@@ -907,7 +900,7 @@ export default function InteractiveAgenda({ lang, items, agendaUrl, city, agenda
                   transition: "all 0.2s ease",
                 }}
               >
-                {tabLabel}
+                {day.label}
               </button>
             );
           })}
@@ -978,7 +971,8 @@ export default function InteractiveAgenda({ lang, items, agendaUrl, city, agenda
           )}
 
           {visibleItems.map((item) => {
-            const meta = CATEGORY_META[item.category];
+            const normalizedCategory = normalizeCategory(item.category);
+            const meta = CATEGORY_META[normalizedCategory];
             const isOpen = !!expanded[item.id];
             const isCalendarMenuOpen = calendarMenuFor === item.id;
             return (
@@ -1107,7 +1101,7 @@ export default function InteractiveAgenda({ lang, items, agendaUrl, city, agenda
                           fontWeight: 700,
                         }}
                       >
-                        {categoryLabel(item.category, agendaLabels)}
+                        {categoryLabel(normalizedCategory, agendaLabels)}
                       </span>
                     </div>
                     {/* Row 2 */}
@@ -1175,7 +1169,7 @@ export default function InteractiveAgenda({ lang, items, agendaUrl, city, agenda
                           </p>
                         )}
 
-                        {item.category !== "BREAK" && (
+                        {normalizedCategory !== "BREAK" && (
                           <div
                             style={{ position: "relative", marginTop: 14 }}
                             onClick={(e) => e.stopPropagation()}
@@ -1209,7 +1203,7 @@ export default function InteractiveAgenda({ lang, items, agendaUrl, city, agenda
                             </button>
 
                             <CalendarMenu
-                              event={itemToEvent(item, activeDay.date, agendaLabels, agendaUrl, eventName)}
+                              event={itemToEvent({ ...item, category: normalizedCategory }, activeDay.date, agendaLabels, agendaUrl, eventName)}
                               open={calendarMenuFor === item.id}
                               onClose={() => setCalendarMenuFor(null)}
                               labels={agendaLabels}

@@ -200,44 +200,48 @@ collections:
     label_singular: Punkt programu
     folder: src/content/program
     create: true
-    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    delete: true
+    slug: '{{day}}-{{slug}}'
+    preview_path: "pl/o-wydarzeniu"
     extension: md
     format: frontmatter
     fields:
-      - label: Dzień (data YYYY-MM-DD lub Dzień 1 / Dzień 2)
+      - label: Dzień (YYYY-MM-DD)
         name: day
         widget: string
-        required: false
-        hint: 'np. 2026-06-13 lub Dzień 1'
-      - { label: Godzina rozpoczęcia, name: time_start, widget: string, required: false, hint: 'np. 09:00' }
-      - { label: Godzina zakończenia, name: time_end, widget: string, required: false, hint: 'np. 10:30' }
-      - { label: Tytuł, name: title, widget: string, required: false }
+        required: true
+        hint: 'np. 2026-06-13'
+      - { label: Godzina rozpoczęcia, name: time_start, widget: string, required: true, hint: 'np. 09:00' }
+      - { label: Godzina zakończenia, name: time_end, widget: string, required: true, hint: 'np. 10:30' }
+      - { label: Tytuł, name: title, widget: string, required: true }
       - { label: Opis, name: description, widget: text, required: false }
       - label: Lokalizacja
         name: location
         widget: select
         required: false
+        default: "Arena Główna"
         options:
-          - Arena Główna
-          - 3MK Arena
-          - Szkoła Mundurowa
-          - Stadion Miejski
-          - Sala Konferencyjna
-          - Infrastruktura Orlen
+          - "Arena Główna"
+          - "3MK Arena"
+          - "Szkoła Mundurowa"
+          - "Stadion Miejski"
+          - "Sala Konferencyjna"
+          - "Infrastruktura Orlen"
           - "—"
       - label: Kategoria
         name: category
         widget: select
-        required: false
+        required: true
         options:
-          - K9
-          - TCCC
-          - DRONY
-          - KONFERENCJA
-          - CEREMONIA
-          - BREAK
+          - "K9"
+          - "TCCC"
+          - "DRONY"
+          - "KONFERENCJA"
+          - "CEREMONIA"
+          - "BREAK"
       - { label: Instruktor / prowadzący, name: instructor, widget: string, required: false }
-      - { label: Kolejność w agendzie, name: order, widget: number, value_type: int, min: 0, step: 1, required: false }
+      - { label: Kolejność w dniu, name: order, widget: number, default: 99 }
+      - { label: "Aktywny", name: active, widget: boolean, default: true }
 
   # --- 6. Ustawienia serwisu (jeden plik) ---
   - name: ustawienia

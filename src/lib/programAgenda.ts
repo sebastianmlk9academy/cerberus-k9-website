@@ -1,35 +1,5 @@
 import type { CollectionEntry } from 'astro:content';
-
-type AgendaCategory = 'K9' | 'TCCC' | 'DRONY' | 'KONFERENCJA' | 'CEREMONIA' | 'BREAK';
-
-function mapProgramCategory(c?: string): AgendaCategory {
-	switch (c) {
-		case 'K9':
-			return 'K9';
-		case 'TCCC':
-			return 'TCCC';
-		case 'Drony':
-		case 'DRONY':
-			return 'DRONY';
-		case 'Konferencja':
-		case 'KONFERENCJA':
-			return 'KONFERENCJA';
-		case 'Ceremonia':
-		case 'CEREMONIA':
-			return 'CEREMONIA';
-		case 'Przerwa':
-		case 'BREAK':
-			return 'BREAK';
-		default:
-			return 'KONFERENCJA';
-	}
-}
-
-function dayToDayId(day: string | undefined): 'day1' | 'day2' {
-	const d = (day ?? '').trim();
-	if (d === 'Dzień 2' || d === '2026-06-14') return 'day2';
-	return 'day1';
-}
+import { normalizeCategory, type Category } from './agendaCategories';
 
 function normalizeTime(t: string | undefined, fallback: string): string {
 	const raw = (t ?? fallback).trim();
@@ -39,21 +9,49 @@ function normalizeTime(t: string | undefined, fallback: string): string {
 	return `${hh}:${m[2]}`;
 }
 
-/** Map CMS `program` collection entries to InteractiveAgenda `items`. */
-export function programEntriesToAgendaItems(
-	entries: CollectionEntry<'program'>[],
-): {
+type AgendaItem = {
 	id: string;
 	start: string;
 	end: string;
 	title: string;
 	location: string;
-	category: AgendaCategory;
+	category: Category;
 	description: string;
 	instructor?: string;
-	dayId?: 'day1' | 'day2';
-}[] {
-	const sorted = [...entries].sort((a, b) => {
+};
+
+export type DaySchedule = {
+	id: string;
+	label: string;
+	date: string;
+	items: AgendaItem[];
+};
+
+function getLabelPrefix(dayIndex: number, lang: string): string {
+	return lang === 'pl' ? `DZIEŃ ${dayIndex + 1}` : `DAY ${dayIndex + 1}`;
+}
+
+function getLocale(lang: string): string {
+	return lang === 'pl' ? 'pl-PL' : 'en-GB';
+}
+
+function buildDayLabel(dayDate: string, dayIndex: number, lang: string): string {
+	const date = new Date(`${dayDate}T00:00:00`);
+	const locale = getLocale(lang);
+	const weekday = date.toLocaleDateString(locale, { weekday: 'long' }).toUpperCase();
+	const day = String(date.getDate()).padStart(2, '0');
+	const month = String(date.getMonth() + 1).padStart(2, '0');
+	return `${getLabelPrefix(dayIndex, lang)} — ${weekday} ${day}.${month}`;
+}
+
+export function programEntriesToAgendaItems(
+	entries: CollectionEntry<'program'>[],
+	lang: string = 'pl',
+): { days: DaySchedule[] } {
+	const activeEntries = entries.filter((entry) => entry.data.active !== false);
+	const sorted = [...activeEntries].sort((a, b) => {
+		const daySort = (a.data.day ?? '').localeCompare(b.data.day ?? '');
+		if (daySort !== 0) return daySort;
 		const oa = a.data.order ?? 99;
 		const ob = b.data.order ?? 99;
 		if (oa !== ob) return oa - ob;
@@ -61,19 +59,44 @@ export function programEntriesToAgendaItems(
 		const tb = normalizeTime(b.data.time_start, '00:00');
 		return ta.localeCompare(tb);
 	});
-	return sorted.map((e) => {
-		const d = e.data;
-		const dayId = dayToDayId(typeof d.day === 'string' ? d.day : undefined);
+	const uniqueDays = Array.from(new Set(sorted.map((entry) => entry.data.day)));
+	const dayMap = new Map(uniqueDays.map((day, index) => [day, index]));
+	const grouped = new Map<string, AgendaItem[]>();
+
+	for (const entry of sorted) {
+		const day = entry.data.day;
+		const item: AgendaItem = {
+			id: entry.id,
+			start: normalizeTime(entry.data.time_start, '09:00'),
+			end: normalizeTime(entry.data.time_end, '10:00'),
+			title: entry.data.title?.trim() || '—',
+			location: entry.data.location?.trim() || '—',
+			category: normalizeCategory(entry.data.category),
+			description: entry.data.description?.trim() ?? '',
+			instructor: entry.data.instructor?.trim() || undefined,
+		};
+		if (!grouped.has(day)) grouped.set(day, []);
+		grouped.get(day)?.push(item);
+	}
+
+	const days: DaySchedule[] = Array.from(grouped.entries()).map(([dayDate, items]) => {
+		const dayIndex = dayMap.get(dayDate) ?? 0;
+		const dayId = `day${dayIndex + 1}`;
+		const sortedItems = [...items].sort((a, b) => {
+			const entryA = sorted.find((entry) => entry.id === a.id);
+			const entryB = sorted.find((entry) => entry.id === b.id);
+			const orderA = entryA?.data.order ?? 99;
+			const orderB = entryB?.data.order ?? 99;
+			if (orderA !== orderB) return orderA - orderB;
+			return a.start.localeCompare(b.start);
+		});
 		return {
-			id: e.id,
-			start: normalizeTime(d.time_start, '09:00'),
-			end: normalizeTime(d.time_end, '10:00'),
-			title: d.title?.trim() || '—',
-			location: d.location?.trim() || '—',
-			category: mapProgramCategory(d.category),
-			description: d.description?.trim() ?? '',
-			instructor: d.instructor?.trim() || undefined,
-			dayId,
+			id: dayId,
+			label: buildDayLabel(dayDate, dayIndex, lang),
+			date: dayDate,
+			items: sortedItems,
 		};
 	});
+
+	return { days };
 }

@@ -33,8 +33,11 @@ const agendaHeading =
 		  } ${new Date(s?.event_date ?? '2026-06-13').getFullYear()}`;
 const eventName = `CERBERUS K9 ${new Date(s?.event_date ?? '2026-06-13').getFullYear()}`;
 
-const programItems = await getCollection('program');
-const agendaItems = programEntriesToAgendaItems(programItems);
+const programEntries = await getCollection('program');
+const { days: agendaDays } = programEntriesToAgendaItems(
+	programEntries.filter((e) => e.data.active !== false),
+	lang,
+);
 const faqEntries = await getCollection('faq');
 const faqItems = faqEntries
 	.filter((e) => e.data.active !== false)
@@ -136,12 +139,12 @@ const eventSchema = {
 
 	<InteractiveAgenda
 		client:load
+		items={agendaDays}
 		lang={lang}
-		items={agendaItems}
-		agendaUrl={s?.agenda_page_url}
-		city={s?.event_city}
 		agendaHeading={agendaHeading}
 		eventName={eventName}
+		city={s?.event_city}
+		agendaUrl={s?.agenda_page_url}
 	/>
 	<LocationsSection lang={lang} locations={locations} client:load />
 	<FAQAccordion client:load lang={lang} faqItems={faqItems} />

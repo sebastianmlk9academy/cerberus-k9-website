@@ -116,25 +116,16 @@ const aktualnosci = defineCollection({
 const program = defineCollection({
 	loader: glob({ base: './src/content/program', pattern: '**/*.{md,mdx}' }),
 	schema: z.object({
-		/** ISO date (YYYY-MM-DD) or legacy labels `Dzień 1` / `Dzień 2`. */
-		day: z.union([z.enum(['Dzień 1', 'Dzień 2']), z.string()]).optional(),
-		time_start: z.string().optional(),
-		time_end: z.string().optional(),
-		title: z.string().optional(),
-		description: z.string().optional(),
-		location: z.string().optional(),
-		category: z.preprocess(
-			(val) => {
-				if (val === 'Drony') return 'DRONY';
-				if (val === 'Konferencja') return 'KONFERENCJA';
-				if (val === 'Ceremonia') return 'CEREMONIA';
-				if (val === 'Przerwa') return 'BREAK';
-				return val;
-			},
-			z.enum(['K9', 'TCCC', 'DRONY', 'KONFERENCJA', 'CEREMONIA', 'BREAK']).optional(),
-		),
-		instructor: z.string().optional(),
-		order: z.number().int().optional(),
+		day: z.string(),
+		time_start: z.string(),
+		time_end: z.string(),
+		title: z.string(),
+		location: z.string().optional().default(''),
+		category: z.enum(['K9', 'TCCC', 'DRONY', 'KONFERENCJA', 'CEREMONIA', 'BREAK']),
+		description: z.string().optional().default(''),
+		instructor: z.string().optional().default(''),
+		order: z.number().optional().default(99),
+		active: z.boolean().optional().default(true),
 	}),
 });
 
