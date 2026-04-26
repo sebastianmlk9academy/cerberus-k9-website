@@ -150,6 +150,10 @@ export function Footer({
     { label: safeCopy.linkInstructors, href: `/${safeLang}/instruktorzy` },
     { label: safeCopy.linkRegistration, href: `/${safeLang}/rejestracja` },
     { label: safeCopy.linkProgram, href: `/${safeLang}/program` },
+    { label: safeCopy.linkGallery, href: `/${safeLang}/galeria` },
+    { label: safeCopy.linkMedia, href: `/${safeLang}/media` },
+    { label: safeCopy.linkNews, href: `/${safeLang}/aktualnosci` },
+    { label: safeCopy.linkContact, href: `/${safeLang}/kontakt` },
   ]
 
   const orgLinks = [
@@ -158,12 +162,9 @@ export function Footer({
   ]
 
   const mediaLinks = [
-    { label: safeCopy.linkMedia, href: `/${safeLang}/media` },
-    { label: safeCopy.linkNews, href: `/${safeLang}/aktualnosci` },
-    { label: safeCopy.linkGallery, href: `/${safeLang}/galeria` },
   ]
 
-  const contactLinks = [{ label: safeCopy.linkContact, href: `/${safeLang}/kontakt` }]
+  const contactLinks = []
 
   return (
     <footer
@@ -250,7 +251,7 @@ export function Footer({
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
               fontSize: "9px",
               letterSpacing: "3px",
-              color: "#FFFFFF",
+              color: "#C4922A",
               fontWeight: 700,
               marginBottom: "16px",
               textTransform: "uppercase",
@@ -292,7 +293,7 @@ export function Footer({
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
               fontSize: "9px",
               letterSpacing: "3px",
-              color: "#FFFFFF",
+              color: "#C4922A",
               fontWeight: 700,
               marginBottom: "16px",
               textTransform: "uppercase",
@@ -329,19 +330,6 @@ export function Footer({
 
         {/* Column 4 - Media, Contact, Formal Data + Social */}
         <div className="flex flex-col">
-          <h3
-            style={{
-              fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
-              fontSize: "9px",
-              letterSpacing: "3px",
-              color: "#FFFFFF",
-              fontWeight: 700,
-              marginBottom: "16px",
-              textTransform: "uppercase",
-            }}
-          >
-            {safeCopy.colMedia}
-          </h3>
           <nav className="mb-4 flex flex-col gap-2">
             {mediaLinks.map((link) => (
               <a
@@ -368,19 +356,6 @@ export function Footer({
             ))}
           </nav>
 
-          <h3
-            style={{
-              fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
-              fontSize: "9px",
-              letterSpacing: "3px",
-              color: "#FFFFFF",
-              fontWeight: 700,
-              marginBottom: "16px",
-              textTransform: "uppercase",
-            }}
-          >
-            {safeCopy.colContact}
-          </h3>
           <nav className="mb-4 flex flex-col gap-2">
             {contactLinks.map((link) => (
               <a
@@ -412,7 +387,7 @@ export function Footer({
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
               fontSize: "9px",
               letterSpacing: "3px",
-              color: "#FFFFFF",
+              color: "#C4922A",
               fontWeight: 700,
               marginBottom: "16px",
               textTransform: "uppercase",
@@ -512,6 +487,32 @@ export function Footer({
                 {social.icon}
               </a>
             ))}
+            <a
+              href="https://www.instagram.com/pactak9/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="social-icon hover:!text-[#C4922A] hover:scale-[1.2]"
+              style={{
+                width: "32px",
+                height: "32px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#FFFFFF",
+                textDecoration: "none",
+                transition: "color 0.2s ease, transform 0.2s ease",
+                opacity: 0.7,
+              }}
+              onMouseEnter={(e: MouseEvent<HTMLAnchorElement>) => {
+                e.currentTarget.style.color = "#C4922A"
+              }}
+              onMouseLeave={(e: MouseEvent<HTMLAnchorElement>) => {
+                e.currentTarget.style.color = "#FFFFFF"
+              }}
+            >
+              IG
+            </a>
           </div>
         </div>
       </div>
