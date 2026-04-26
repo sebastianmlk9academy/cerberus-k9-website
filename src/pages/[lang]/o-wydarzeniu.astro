@@ -13,8 +13,10 @@ import { LocationsSection } from '../../components/LocationsSection';
 import FAQAccordion from '../../components/FAQAccordion';
 import { Footer } from '../../components/Footer';
 import { footerCopyByLang } from '../../i18n/footer';
+import { locationsSectionByLang } from '../../i18n/locationsSection';
 import { programEntriesToAgendaItems } from '../../lib/programAgenda';
 import type { AgendaCategory } from '../../lib/agendaCategories';
+import { locationEntriesToItems } from '../../lib/eventLocations';
 
 export const prerender = true;
 
@@ -77,17 +79,9 @@ const faqItems = faqEntries
 		answer: lang === 'pl' ? e.data.answer_pl : (e.data.answer_en ?? e.data.answer_pl),
 	}));
 const locationsData = await getCollection('locations');
-const locations = locationsData
-	.filter((l) => l.data.active !== false)
-	.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
-	.map((l) => ({
-		name: l.data.name,
-		address: l.data.address ?? '',
-		description: lang === 'pl' ? l.data.description_pl : (l.data.description_en ?? l.data.description_pl),
-		status: l.data.status ?? 'POTWIERDZONE',
-		modules: l.data.modules_pl ?? '',
-		image: l.data.image ?? '',
-	}));
+const locationItems = locationsData.length > 0
+	? locationEntriesToItems(locationsData, lang)
+	: null;
 
 const eventSchema = {
 	'@context': 'https://schema.org',
@@ -179,7 +173,12 @@ const eventSchema = {
 		city={s?.event_city}
 		agendaUrl={s?.agenda_page_url}
 	/>
-	<LocationsSection lang={lang} locations={locations} client:load />
+	<LocationsSection
+		copy={locationsSectionByLang[lang] ?? locationsSectionByLang['pl']}
+		locations={locationItems ?? undefined}
+		lang={lang}
+		client:load
+	/>
 	<FAQAccordion client:load lang={lang} faqItems={faqItems} />
 	<Footer
 		lang={lang}

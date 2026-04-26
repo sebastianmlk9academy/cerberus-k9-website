@@ -557,9 +557,20 @@ collections:
       - { label: "Adres", name: address, widget: string, required: false }
       - { label: "Opis (PL)", name: description_pl, widget: text }
       - { label: "Opis (EN)", name: description_en, widget: text, required: false }
-      - { label: "Status", name: status, widget: select, options: ["POTWIERDZONE", "W TRAKCIE ROZMÓW", "PLANOWANE"], default: "POTWIERDZONE" }
-      - { label: "Moduły (PL)", name: modules_pl, widget: string, required: false, hint: "Np. Szkolenia K9 · Medycyna · HARDEST HIT" }
+      - { label: "Opis (DE)", name: description_de, widget: text, required: false }
+      - { label: "Opis (FR)", name: description_fr, widget: text, required: false }
+      - { label: "Moduły (PL)", name: modules_pl, widget: string, required: false }
+      - { label: "Moduły (EN)", name: modules_en, widget: string, required: false }
+      - label: "Status"
+        name: status
+        widget: select
+        options:
+          - { label: "Potwierdzone", value: "POTWIERDZONE" }
+          - { label: "W trakcie rozmów", value: "W TRAKCIE ROZMÓW" }
+          - { label: "Planowane", value: "PLANOWANE" }
+        default: "POTWIERDZONE"
       - { label: "Zdjęcie", name: image, widget: image, required: false }
+      - { label: "Link do mapy (Google Maps URL)", name: map_url, widget: string, required: false }
       - { label: "Kolejność", name: order, widget: number, default: 1 }
       - { label: "Aktywna", name: active, widget: boolean, default: true }
 
