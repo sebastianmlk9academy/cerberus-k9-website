@@ -10,6 +10,7 @@ import { isLang } from '../../../i18n/utils';
 import type { Lang } from '../../../i18n/ui';
 import { newsSeoByLang } from '../../../i18n/newsSeo';
 import { categoryBadgeLabel, formatNewsDateLabel } from '../../../lib/aktualnosci';
+import { loadCmsNavLinks } from '../../../lib/loadCmsNavLinks';
 
 export const prerender = true;
 
@@ -32,6 +33,7 @@ const { post, lang: langProp } = Astro.props;
 const lang = langProp ?? langFromParams;
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
+const cmsNavLinks = await loadCmsNavLinks();
 const seoLang = newsSeoByLang[lang] ?? newsSeoByLang['pl'];
 const { Content } = await render(post);
 
@@ -90,7 +92,7 @@ const jsonLd = {
 	canonicalHref={canonicalUrl}
 >
 	<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-	<NavBar client:load lang={lang} />
+	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} />
 	<ArticleLayout
 		lang={lang}
 		breadcrumb={[

@@ -70,6 +70,7 @@ export function NavBar({
   const t = ui[currentLang.code as keyof typeof ui] ?? ui['pl'];
 
   const navLinks = useMemo(() => {
+    const tNav = ui[currentLang.code as keyof typeof ui] ?? ui['pl'];
     const cms = navLinksFromCms?.filter((l) => l.path?.trim());
     if (cms && cms.length > 0) {
       return cms.map((link) => ({
@@ -78,15 +79,15 @@ export function NavBar({
       }));
     }
     return [
-      { label: (t as { nav_event?: string }).nav_event ?? 'O WYDARZENIU', href: `/${currentLang.code}/o-wydarzeniu` },
-      { label: (t as { nav_instructors?: string }).nav_instructors ?? 'INSTRUKTORZY', href: `/${currentLang.code}/instruktorzy` },
-      { label: (t as { nav_partners?: string }).nav_partners ?? 'PARTNERZY', href: `/${currentLang.code}/partnerzy` },
-      { label: (t as { nav_media?: string }).nav_media ?? 'MEDIA', href: `/${currentLang.code}/media` },
-      { label: (t as { nav_foundation?: string }).nav_foundation ?? 'FUNDACJA', href: `/${currentLang.code}/fundacja` },
-      { label: (t as { nav_gallery?: string }).nav_gallery ?? 'GALERIA', href: `/${currentLang.code}/galeria` },
-      { label: (t as { nav_contact?: string }).nav_contact ?? 'KONTAKT', href: `/${currentLang.code}/kontakt` },
+      { label: (tNav as { nav_event?: string }).nav_event ?? 'O WYDARZENIU', href: `/${currentLang.code}/o-wydarzeniu` },
+      { label: (tNav as { nav_instructors?: string }).nav_instructors ?? 'INSTRUKTORZY', href: `/${currentLang.code}/instruktorzy` },
+      { label: (tNav as { nav_partners?: string }).nav_partners ?? 'PARTNERZY', href: `/${currentLang.code}/partnerzy` },
+      { label: (tNav as { nav_media?: string }).nav_media ?? 'MEDIA', href: `/${currentLang.code}/media` },
+      { label: (tNav as { nav_foundation?: string }).nav_foundation ?? 'FUNDACJA', href: `/${currentLang.code}/fundacja` },
+      { label: (tNav as { nav_gallery?: string }).nav_gallery ?? 'GALERIA', href: `/${currentLang.code}/galeria` },
+      { label: (tNav as { nav_contact?: string }).nav_contact ?? 'KONTAKT', href: `/${currentLang.code}/kontakt` },
     ];
-  }, [navLinksFromCms, currentLang.code, t]);
+  }, [navLinksFromCms, currentLang.code]);
 
   const selectLang = (lang: Language) => {
     setCurrentLang(lang);
