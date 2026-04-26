@@ -30,7 +30,7 @@ const description =
 	<div
 		style="background: linear-gradient(to bottom, #161F28, #1A2530, #161F28); min-height: 100vh;"
 	>
-		<NavBar client:load lang={lang} />
+		<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} />
 		<PageHero
 			category="DLA DZIENNIKARZY"
 			title="MEDIA"
@@ -38,7 +38,32 @@ const description =
 			heroImage={s?.hero_background_image}
 			heroOpacity={s?.hero_background_opacity}
 		/>
-		<MediaPage client:load lang={lang} accreditationDeadline={s?.accreditation_deadline} />
+		<MediaPage
+			client:load
+			lang={lang}
+			accreditationDeadline={s?.accreditation_deadline}
+			pressKitItems={[
+				{
+					title: 'Polska Zbrojna — Reportaż CERBERUS K9 2025',
+					description: 'Reportaż Wojskowego Instytutu Wydawniczego',
+					href: s?.press_pdf_polska_zbrojna ?? '#',
+					type: 'pdf' as const,
+				},
+				{
+					title: 'Special Ops — Relacja CERBERUS K9 2025',
+					description: 'Relacja kwartalnika Defence24',
+					href: s?.press_pdf_special_ops ?? '#',
+					type: 'pdf' as const,
+				},
+			]}
+			pressZipHref={s?.press_kit_zip || undefined}
+			pressKitZip={s?.press_kit_zip}
+			pressPdfPolskaZbrojna={s?.press_pdf_polska_zbrojna}
+			pressPdfSpecialOps={s?.press_pdf_special_ops}
+			mediaContactName={s?.media_contact_name}
+			mediaContactPhone={s?.media_contact_phone}
+			mediaContactEmail={s?.media_contact_email}
+		/>
 		<Footer
 			lang={lang}
 			copy={footerCopy}
@@ -49,6 +74,12 @@ const description =
 			socialInstagram={s?.social_instagram}
 			socialLinkedin={s?.social_linkedin}
 			socialTwitter={s?.social_twitter}
+			address={s?.footer_address}
+			foundationName={s?.footer_foundation_name}
+			domains={s?.footer_domains}
+			krsNumber={s?.krs_number}
+			nipNumber={s?.nip_number}
+			regonNumber={s?.regon_number}
 			client:load
 		/>
 	</div>

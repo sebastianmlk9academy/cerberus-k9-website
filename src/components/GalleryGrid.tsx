@@ -30,6 +30,8 @@ type PhotoItem = {
 type GalleryGridProps = {
   lang: Lang;
   photos: PhotoItem[];
+  unlockDate?: string;
+  videoItems?: Array<{ title?: string; url?: string; badge?: string }>;
 };
 
 type GalleryLabels = {
@@ -330,7 +332,7 @@ function resolveGalleryLabels(lang: Lang): GalleryLabels {
   return { ...galleryLabelsEn, ...core };
 }
 
-const videoItems = [
+const fallbackVideoItems = [
   {
     title: "CERBERUS K9 2025 - Główna relacja",
     badge: "POLSKA ZBROJNA · PATRON MEDIALNY",
@@ -434,7 +436,34 @@ const handlePartnerButtonMouseLeave = (e: ReactMouseEvent<HTMLButtonElement | HT
   e.currentTarget.style.color = "#C4922A";
 };
 
-export function GalleryGrid({ photos, lang }: GalleryGridProps) {
+function toYoutubeVideoId(url: string): string | null {
+  try {
+    const parsed = new URL(url);
+    if (parsed.hostname.includes("youtu.be")) return parsed.pathname.replace("/", "") || null;
+    if (parsed.hostname.includes("youtube.com")) return parsed.searchParams.get("v");
+  } catch {
+    return null;
+  }
+  return null;
+}
+
+export function GalleryGrid({ photos, lang, unlockDate, videoItems }: GalleryGridProps) {
+  const releaseDate = unlockDate ? new Date(`${unlockDate}T00:00:00`) : RELEASE_2026_DATE;
+  const normalizedVideoItems =
+    (videoItems && videoItems.length > 0
+      ? videoItems
+          .filter((v) => (v.url ?? "").trim())
+          .map((v) => {
+            const url = (v.url ?? "").trim();
+            const id = toYoutubeVideoId(url) ?? "";
+            return {
+              title: v.title?.trim() || "Video",
+              badge: v.badge?.trim() || "",
+              embedUrl: id ? `https://www.youtube.com/embed/${id}` : url,
+              id: id || url,
+            };
+          })
+      : fallbackVideoItems);
   const galleryLabels = resolveGalleryLabels(lang);
   const safeUi = ui[lang] ?? ui.pl;
 
@@ -542,8 +571,8 @@ export function GalleryGrid({ photos, lang }: GalleryGridProps) {
 
     if (!grid || !loadMoreButton || !loadMoreText || !lockedSection || !countdownText) return;
 
-    const is2026Unlocked = new Date().getTime() >= RELEASE_2026_DATE.getTime();
-    countdownText.textContent = formatCountdown(RELEASE_2026_DATE, galleryLabels);
+    const is2026Unlocked = new Date().getTime() >= releaseDate.getTime();
+    countdownText.textContent = formatCountdown(releaseDate, galleryLabels);
 
     const updateVisibility = () => {
       if (detached) return;
@@ -655,9 +684,9 @@ export function GalleryGrid({ photos, lang }: GalleryGridProps) {
       cleanupFns.forEach((fn) => fn());
       lightboxInstance?.destroy();
     };
-  }, [sortedPhotos, activeCategory, activeLocation, activeEdition, activeView, galleryLabels]);
+  }, [sortedPhotos, activeCategory, activeLocation, activeEdition, activeView, galleryLabels, releaseDate]);
 
-  const is2026Unlocked = new Date().getTime() >= RELEASE_2026_DATE.getTime();
+  const is2026Unlocked = new Date().getTime() >= releaseDate.getTime();
   const handleBackdropClick = (e: ReactMouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       closeModal();
@@ -883,7 +912,7 @@ export function GalleryGrid({ photos, lang }: GalleryGridProps) {
         </div>
         <h3>{galleryLabels.videoSectionTitle}</h3>
         <div className="video-grid">
-          {videoItems.map((video) => (
+          {normalizedVideoItems.map((video) => (
             <button
               key={video.id}
               type="button"

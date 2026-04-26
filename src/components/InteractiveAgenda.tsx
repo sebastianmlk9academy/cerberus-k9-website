@@ -584,12 +584,13 @@ function yahooCalendarLink(ev: CalendarEvent) {
   return `https://calendar.yahoo.com/?${params.toString()}`;
 }
 
-function getAgendaUrl() {
-  if (typeof window === "undefined") return "https://cerberus-k9.pl/agenda";
+function getAgendaUrl(agendaUrl?: string) {
+  if (agendaUrl?.trim()) return agendaUrl;
+  if (typeof window === "undefined") return "https://cerberusk9.org/pl/o-wydarzeniu";
   return `${window.location.origin}${window.location.pathname}`;
 }
 
-function itemToEvent(item: AgendaItem, dayDate: string, labels: AgendaLabels): CalendarEvent {
+function itemToEvent(item: AgendaItem, dayDate: string, labels: AgendaLabels, agendaUrl?: string): CalendarEvent {
   const location = item.location === "—" ? "" : item.location;
   const category = categoryLabel(item.category, labels);
   const lines = [
@@ -602,7 +603,7 @@ function itemToEvent(item: AgendaItem, dayDate: string, labels: AgendaLabels): C
     `Time: ${item.start}-${item.end} (${dayDate})`,
     item.instructor && `${labels.instructor}: ${item.instructor}`,
     "",
-    `Full agenda: ${getAgendaUrl()}`,
+    `Full agenda: ${getAgendaUrl(agendaUrl)}`,
   ].filter(Boolean) as string[];
 
   return {
@@ -735,7 +736,7 @@ function categoryLabel(category: Category, labels: AgendaLabels) {
   }
 }
 
-function buildFullEventCalendarEvent(days: DaySchedule[], labels: AgendaLabels): CalendarEvent {
+function buildFullEventCalendarEvent(days: DaySchedule[], labels: AgendaLabels, agendaUrl?: string, city?: string): CalendarEvent {
   const nonEmptyDays = days.filter((d) => d.items.length > 0);
   const first = nonEmptyDays[0] ?? days[0];
   const last = nonEmptyDays[nonEmptyDays.length - 1] ?? days[days.length - 1];
@@ -764,13 +765,13 @@ function buildFullEventCalendarEvent(days: DaySchedule[], labels: AgendaLabels):
     "— AGENDA —",
     agendaLines,
     "",
-    `Full online agenda: ${getAgendaUrl()}`,
+    `Full online agenda: ${getAgendaUrl(agendaUrl)}`,
   ].join("\n");
 
   return {
     id: "cerberus-k9-2026-full",
     title: "CERBERUS K9 2026 — full event",
-    location: "Ostrów Wielkopolski",
+    location: city ?? "Ostrów Wielkopolski",
     description,
     startDate: first.date,
     startTime: firstStart,
@@ -782,9 +783,11 @@ function buildFullEventCalendarEvent(days: DaySchedule[], labels: AgendaLabels):
 interface InteractiveAgendaProps {
   lang: Lang;
   items?: AgendaItem[];
+  agendaUrl?: string;
+  city?: string;
 }
 
-export default function InteractiveAgenda({ lang, items }: InteractiveAgendaProps) {
+export default function InteractiveAgenda({ lang, items, agendaUrl, city }: InteractiveAgendaProps) {
   const agendaLabels = AGENDA_LABELS[lang] ?? DEFAULT_AGENDA_LABELS;
   const agendaItems = items && items.length > 0 ? items : FALLBACK_AGENDA_ITEMS;
   const translatedFilters = FILTERS.map((f) => {
@@ -793,7 +796,8 @@ export default function InteractiveAgenda({ lang, items }: InteractiveAgendaProp
     if (f.key === "TCCC") return { ...f, label: agendaLabels.categories.tccc };
     if (f.key === "DRONY") return { ...f, label: agendaLabels.categories.drones };
     if (f.key === "KONFERENCJA") return { ...f, label: agendaLabels.categories.conference };
-    return { ...f, label: agendaLabels.categories.ceremony };
+    if (f.key === "CEREMONIA") return { ...f, label: agendaLabels.categories.ceremony };
+    return { ...f, label: agendaLabels.categories.break };
   });
   const [activeDayId, setActiveDayId] = useState<string>(DAYS[0].id);
   const [filter, setFilter] = useState<"ALL" | Category>("ALL");
@@ -812,8 +816,8 @@ export default function InteractiveAgenda({ lang, items }: InteractiveAgendaProp
     [agendaItems, agendaLabels.day1, agendaLabels.day2],
   );
   const fullEvent = useMemo(
-    () => buildFullEventCalendarEvent(scheduleDays, agendaLabels),
-    [agendaLabels, scheduleDays],
+    () => buildFullEventCalendarEvent(scheduleDays, agendaLabels, agendaUrl, city),
+    [agendaLabels, scheduleDays, agendaUrl, city],
   );
 
   const activeDay = useMemo(
@@ -1197,7 +1201,7 @@ export default function InteractiveAgenda({ lang, items }: InteractiveAgendaProp
                             </button>
 
                             <CalendarMenu
-                              event={itemToEvent(item, activeDay.date, agendaLabels)}
+                              event={itemToEvent(item, activeDay.date, agendaLabels, agendaUrl)}
                               open={calendarMenuFor === item.id}
                               onClose={() => setCalendarMenuFor(null)}
                               labels={agendaLabels}

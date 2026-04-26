@@ -14,6 +14,9 @@ interface ContactPageProps {
   email?: string;
   phone?: string;
   address?: string;
+  mapEmbedUrl?: string;
+  venueAddress?: string;
+  presidentEmail?: string;
 }
 
 const DEFAULT_EMAIL = "sebastian@pactak9.org";
@@ -164,7 +167,12 @@ const contactCopy: Record<
   },
 };
 
-export function ContactPage({ lang, email, phone, address }: ContactPageProps) {
+export function ContactPage({ lang, email, phone, address, mapEmbedUrl, venueAddress, presidentEmail }: ContactPageProps) {
+  const resolvedMapEmbedUrl =
+    mapEmbedUrl?.trim() ||
+    "https://www.openstreetmap.org/export/embed.html?bbox=17.7985,51.6409,17.8185,51.6609&layer=mapnik&marker=51.6509,17.8085";
+  const resolvedVenueAddress = venueAddress?.trim() || "3MK Arena, ul. Andrzeja Kowalczyka 1, Ostrów Wielkopolski, Polska";
+  const resolvedPresidentEmail = presidentEmail?.trim() || "mariusz@pactak9.org";
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -475,8 +483,8 @@ export function ContactPage({ lang, email, phone, address }: ContactPageProps) {
             </p>
             <p className="ck9-card-line">
               {(c as any).presidentLabel ?? "President"}:{" "}
-              <a className="ck9-card-link" href="mailto:mariusz@pactak9.org">
-                mariusz@pactak9.org
+              <a className="ck9-card-link" href={`mailto:${resolvedPresidentEmail}`}>
+                {resolvedPresidentEmail}
               </a>
             </p>
             <p className="ck9-card-line">
@@ -492,10 +500,10 @@ export function ContactPage({ lang, email, phone, address }: ContactPageProps) {
             <iframe
               className="ck9-map"
               title={(c as any).eventLocationTitle ?? "EVENT LOCATION — CERBERUS K9 2026"}
-              src="https://www.openstreetmap.org/export/embed.html?bbox=17.7985,51.6409,17.8185,51.6609&layer=mapnik&marker=51.6509,17.8085"
+              src={resolvedMapEmbedUrl}
               loading="lazy"
             />
-            <p className="ck9-card-line">3MK Arena, ul. Andrzeja Kowalczyka 1, Ostrów Wielkopolski, Polska</p>
+            <p className="ck9-card-line">{resolvedVenueAddress}</p>
             <p className="ck9-card-note">
               {(c as any).mapNote ?? "Detailed route map is available in registration materials"}
             </p>

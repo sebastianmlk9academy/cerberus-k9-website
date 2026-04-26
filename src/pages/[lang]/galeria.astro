@@ -85,7 +85,7 @@ const ogImage = bestGalleryPhoto?.photo ?? '/images/page_hero_graph.webp';
 	</Fragment>
 
 	<div style="background: linear-gradient(to bottom, #161F28, #1A2530, #161F28); min-height: 100vh;">
-		<NavBar client:load lang={lang} />
+		<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} />
 		<PageHero
 			category={copy.heroCategory}
 			title={navGallery}
@@ -93,7 +93,18 @@ const ogImage = bestGalleryPhoto?.photo ?? '/images/page_hero_graph.webp';
 			heroImage={s?.hero_background_image}
 			heroOpacity={s?.hero_background_opacity}
 		/>
-		<GalleryGrid client:load lang={lang} photos={photos} />
+		<GalleryGrid
+			client:load
+			lang={lang}
+			photos={photos}
+			unlockDate={s?.gallery_unlock_date}
+			videoItems={[
+				{ title: s?.gallery_video_1_title, url: s?.gallery_video_1_url, badge: s?.gallery_video_1_badge },
+				{ title: s?.gallery_video_2_title, url: s?.gallery_video_2_url, badge: s?.gallery_video_2_badge },
+				{ title: s?.gallery_video_3_title, url: s?.gallery_video_3_url, badge: s?.gallery_video_3_badge },
+				{ title: s?.gallery_video_4_title, url: s?.gallery_video_4_url, badge: s?.gallery_video_4_badge },
+			].filter((v) => v.url)}
+		/>
 		<Footer
 			lang={lang}
 			email={s?.footer_email}
@@ -103,6 +114,12 @@ const ogImage = bestGalleryPhoto?.photo ?? '/images/page_hero_graph.webp';
 			socialInstagram={s?.social_instagram}
 			socialLinkedin={s?.social_linkedin}
 			socialTwitter={s?.social_twitter}
+			address={s?.footer_address}
+			foundationName={s?.footer_foundation_name}
+			domains={s?.footer_domains}
+			krsNumber={s?.krs_number}
+			nipNumber={s?.nip_number}
+			regonNumber={s?.regon_number}
 			client:load
 		/>
 	</div>

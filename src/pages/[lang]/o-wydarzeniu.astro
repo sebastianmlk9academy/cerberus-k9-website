@@ -70,7 +70,7 @@ const eventSchema = {
 	<script defer data-domain={plausibleDomain} src="https://plausible.io/js/plausible.js"></script>
 	<script type="application/ld+json" set:html={JSON.stringify(eventSchema)} />
 
-	<NavBar client:load lang={lang} />
+	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} />
 	<PageHero
 		category={copy.category}
 		title={copy.heroTitle}
@@ -109,7 +109,7 @@ const eventSchema = {
 		</div>
 	</section>
 
-	<InteractiveAgenda client:load lang={lang} items={agendaItems} />
+	<InteractiveAgenda client:load lang={lang} items={agendaItems} agendaUrl={s?.agenda_page_url} city={s?.event_city} />
 	<LocationsSection lang={lang} client:load />
 	<FAQAccordion client:load lang={lang} />
 	<Footer
@@ -122,6 +122,12 @@ const eventSchema = {
 		socialInstagram={s?.social_instagram}
 		socialLinkedin={s?.social_linkedin}
 		socialTwitter={s?.social_twitter}
+		address={s?.footer_address}
+		foundationName={s?.footer_foundation_name}
+		domains={s?.footer_domains}
+		krsNumber={s?.krs_number}
+		nipNumber={s?.nip_number}
+		regonNumber={s?.regon_number}
 		client:load
 	/>
 </BaseLayout>

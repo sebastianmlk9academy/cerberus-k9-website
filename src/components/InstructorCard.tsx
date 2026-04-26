@@ -28,6 +28,7 @@ interface InstructorCardProps {
   module?: string;
   schedule?: string;
   linkedinUrl?: string;
+  placeholderPhoto?: string;
 }
 
 export default function InstructorCard({
@@ -41,9 +42,11 @@ export default function InstructorCard({
   module,
   schedule,
   linkedinUrl,
+  placeholderPhoto,
 }: InstructorCardProps) {
   const [expanded, setExpanded] = useState(false);
-  const photoSrc = photo || '/images/instruktorzy/test_instruktor_photo.webp';
+  const fallbackPhoto = placeholderPhoto || '/images/instruktorzy/test_instruktor_photo.webp';
+  const photoSrc = photo || fallbackPhoto;
 
   return (
     <div
@@ -66,7 +69,7 @@ export default function InstructorCard({
           alt={name}
           className="absolute inset-0 w-full h-full object-cover"
           onError={(e) => {
-            e.currentTarget.src = '/images/instruktorzy/test_instruktor_photo.webp';
+            e.currentTarget.src = fallbackPhoto;
           }}
         />
         {/* Bottom gradient overlay */}

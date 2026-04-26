@@ -4,7 +4,7 @@
  * to the `/fundacja` path (path-based multisite / subdirectory on the same hosting).
  * Primary event site can remain on cerberusk9.org; the foundation microsite uses this page.
  */
-import { getEntry } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { NavBar } from '../../components/NavBar';
 import { PageHero } from '../../components/PageHero';
@@ -53,6 +53,17 @@ const legalRows: { label: string; value: string }[] = [
 	{ label: 'Status', value: 'Fundacja, osobowość prawna' },
 	{ label: 'Działalność', value: 'Non-profit, art. 3 ustawy o fundacjach' },
 ];
+const teamMembers = await getCollection('team');
+const members = teamMembers
+	.sort((a,b) => (a.data.order ?? 99) - (b.data.order ?? 99))
+	.map((m) => ({
+		name: m.data.name,
+		role: m.data.role,
+		photo: m.data.photo ?? s?.instructor_placeholder_photo ?? '',
+		unit: m.data.unit ?? '',
+		bioShort: m.data.bio_short,
+		email: m.data.email ?? '',
+	}));
 ---
 
 <BaseLayout
@@ -63,7 +74,7 @@ const legalRows: { label: string; value: string }[] = [
 	omitLocaleAlternates
 	ogType="website"
 >
-	<NavBar client:load />
+	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} />
 	<PageHero
 		category="O NAS"
 		title="FUNDACJA PACTA K9"
@@ -99,7 +110,7 @@ const legalRows: { label: string; value: string }[] = [
 		</div>
 	</section>
 
-	<TeamSection email={s?.footer_email} client:load />
+	<TeamSection email={s?.footer_email} members={members} client:load />
 
 	<section class="fundacja-legal" aria-labelledby="fundacja-legal-heading">
 		<div class="fundacja-legal__inner">
@@ -145,6 +156,12 @@ const legalRows: { label: string; value: string }[] = [
 		socialInstagram={s?.social_instagram}
 		socialLinkedin={s?.social_linkedin}
 		socialTwitter={s?.social_twitter}
+		address={s?.footer_address}
+		foundationName={s?.footer_foundation_name}
+		domains={s?.footer_domains}
+		krsNumber={s?.krs_number}
+		nipNumber={s?.nip_number}
+		regonNumber={s?.regon_number}
 		client:load
 	/>
 </BaseLayout>

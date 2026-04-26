@@ -83,7 +83,7 @@ const partners: Partner[] = sorted.map((entry, i) => {
 	<div
 		style="background: linear-gradient(to bottom, #161F28, #1A2530, #161F28); min-height: 100vh;"
 	>
-	<NavBar client:load lang={lang} />
+	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} />
 	<PageHero
 		category="WSPÓŁPRACA"
 		title="PARTNERZY"
@@ -91,7 +91,14 @@ const partners: Partner[] = sorted.map((entry, i) => {
 		heroImage={s?.hero_background_image}
 		heroOpacity={s?.hero_background_opacity}
 	/>
-	<PartnersPage client:load lang={lang} partners={partners} embedded />
+	<PartnersPage
+		client:load
+		lang={lang}
+		partners={partners}
+		embedded
+		sponsorOfferPdf={s?.sponsor_offer_pdf}
+		sponsorContactEmail={s?.sponsor_contact_email}
+	/>
 	<Footer
 		lang={lang}
 		copy={footerCopy}
@@ -102,6 +109,12 @@ const partners: Partner[] = sorted.map((entry, i) => {
 		socialInstagram={s?.social_instagram}
 		socialLinkedin={s?.social_linkedin}
 		socialTwitter={s?.social_twitter}
+		address={s?.footer_address}
+		foundationName={s?.footer_foundation_name}
+		domains={s?.footer_domains}
+		krsNumber={s?.krs_number}
+		nipNumber={s?.nip_number}
+		regonNumber={s?.regon_number}
 		client:load
 	/>
 	</div>

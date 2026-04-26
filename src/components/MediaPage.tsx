@@ -2,7 +2,12 @@ import { FileText, Mail, Phone, ExternalLink } from 'lucide-react';
 import { ui } from '../i18n/ui';
 import type { Lang } from '../i18n/utils';
 
-type PressKitItem = string;
+type PressKitItem = {
+  title: string;
+  description: string;
+  href: string;
+  type: 'pdf' | 'zip';
+};
 
 type PressRelease = {
   date: string;
@@ -26,6 +31,13 @@ interface MediaPageProps {
   pressReleases?: PressRelease[];
   mediaArchive?: ArchiveItem[];
   accreditationDeadline?: string | null;
+  pressKitZip?: string;
+  pressPdfPolskaZbrojna?: string;
+  pressPdfSpecialOps?: string;
+  mediaContactName?: string;
+  mediaContactPhone?: string;
+  mediaContactEmail?: string;
+  pressZipHref?: string;
 }
 
 type MediaLabels = {
@@ -133,7 +145,20 @@ export default function MediaPage({
   pressReleases = [],
   mediaArchive = [],
   accreditationDeadline,
+  pressKitZip,
+  pressPdfPolskaZbrojna,
+  pressPdfSpecialOps,
+  mediaContactName,
+  mediaContactPhone,
+  mediaContactEmail,
+  pressZipHref,
 }: MediaPageProps) {
+  const zipHref = pressZipHref || pressKitZip || "/press/cerberus-k9-press-kit-2026.zip";
+  const polskaHref = pressPdfPolskaZbrojna || "/downloads/polska-zbrojna-cerberus-k9-2025.pdf";
+  const specialHref = pressPdfSpecialOps || "/downloads/special-ops-cerberus-k9-2025.pdf";
+  const contactName = mediaContactName || mediaLabels.vicePresident;
+  const contactPhone = mediaContactPhone || "+48 695 637 907";
+  const contactEmail = mediaContactEmail || "sebastian@pactak9.org";
   const sectionTag = (ui[lang] ?? ui.pl).nav_media;
   const englishFallback = mediaLabelsMap.en as MediaLabels;
   const mediaLabels = {
@@ -202,7 +227,7 @@ export default function MediaPage({
         >
           {pressKitItems.map((line) => (
             <li
-              key={line}
+              key={line.title}
               style={{
                 fontFamily: raj,
                 fontSize: '15px',
@@ -211,12 +236,12 @@ export default function MediaPage({
                 paddingLeft: '4px',
               }}
             >
-              {line}
+              {line.title} — {line.description}
             </li>
           ))}
         </ul>
         <a
-          href="/press/cerberus-k9-press-kit-2026.zip"
+          href={zipHref}
           download
           style={{
             display: 'inline-block',
@@ -247,7 +272,7 @@ export default function MediaPage({
           }}
         >
           <a
-            href="/downloads/polska-zbrojna-cerberus-k9-2025.pdf"
+            href={polskaHref}
             download
             target="_blank"
             rel="noopener noreferrer"
@@ -256,7 +281,7 @@ export default function MediaPage({
             {mediaLabels.downloadArticle} — Polska Zbrojna
           </a>
           <a
-            href="/downloads/special-ops-cerberus-k9-2025.pdf"
+            href={specialHref}
             download
             target="_blank"
             rel="noopener noreferrer"
@@ -346,10 +371,10 @@ export default function MediaPage({
             {mediaLabels.contactForMedia}
           </h3>
           <p style={{ margin: '0 0 12px 0', fontSize: '15px', color: '#E4DDD0', fontWeight: 600 }}>
-            {mediaLabels.vicePresident}
+            {contactName}
           </p>
           <a
-            href="mailto:sebastian@pactak9.org"
+            href={`mailto:${contactEmail}`}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -361,7 +386,7 @@ export default function MediaPage({
             }}
           >
             <Mail size={16} aria-hidden />
-            sebastian@pactak9.org
+            {contactEmail}
           </a>
           <p
             style={{
@@ -374,7 +399,7 @@ export default function MediaPage({
             }}
           >
             <Phone size={16} aria-hidden />
-            +48 695 637 907
+            {contactPhone}
           </p>
           <p style={{ margin: 0, fontSize: '13px', color: '#7A8A9A', letterSpacing: '0.5px' }}>
             {mediaLabels.responseTime}
@@ -403,7 +428,7 @@ export default function MediaPage({
             {mediaLabels.accreditationBody}
           </p>
           <a
-            href="mailto:sebastian@pactak9.org"
+            href={`mailto:${contactEmail}`}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -415,7 +440,7 @@ export default function MediaPage({
             }}
           >
             <Mail size={16} aria-hidden />
-            sebastian@pactak9.org
+            {contactEmail}
           </a>
           <p style={{ margin: 0, fontSize: '13px', color: '#7A8A9A' }}>
             {submissionDeadlineLine}

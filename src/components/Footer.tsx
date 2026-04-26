@@ -14,6 +14,12 @@ interface FooterProps {
   socialInstagram?: string
   socialLinkedin?: string
   socialTwitter?: string
+  address?: string
+  foundationName?: string
+  domains?: string
+  krsNumber?: string
+  nipNumber?: string
+  regonNumber?: string
 }
 
 const INSTAGRAM_FALLBACK = "https://instagram.com"
@@ -114,7 +120,19 @@ export function Footer({
   socialInstagram,
   socialLinkedin,
   socialTwitter,
+  address,
+  foundationName,
+  domains,
+  krsNumber,
+  nipNumber,
+  regonNumber,
 }: FooterProps) {
+  const resolvedAddress = address ?? "ul. Odolanowska 17, 63-400 Topola Mała"
+  const resolvedFoundationName = foundationName ?? "Fundacja PACTA K9"
+  const resolvedDomains = domains ?? "cerberusk9.org | pactak9.org"
+  const resolvedKrs = krsNumber ?? "0001219121"
+  const resolvedNip = nipNumber ?? "6222869581"
+  const resolvedRegon = regonNumber ?? "543799847"
   const safeLang = lang ?? "pl";
   const safeCopy = copy ?? footerCopyByLang[safeLang] ?? footerCopyByLang["pl"];
   const contactEmail = emailProp ?? "kontakt@pactak9.org"
@@ -209,7 +227,7 @@ export function Footer({
               margin: 0,
             }}
           >
-            Fundacja PACTA K9
+            {resolvedFoundationName}
           </p>
           <p
             style={{
@@ -220,7 +238,7 @@ export function Footer({
               marginTop: "4px",
             }}
           >
-            ul. Odolanowska 17, 63-400 Topola Mała
+            {resolvedAddress}
           </p>
         </div>
 
@@ -410,13 +428,13 @@ export function Footer({
             }}
           >
             <p style={{ margin: 0 }}>
-              <span style={{ color: "#FFFFFF" }}>KRS:</span> 0001219121
+              <span style={{ color: "#FFFFFF" }}>KRS:</span> {resolvedKrs}
             </p>
             <p style={{ margin: 0 }}>
-              <span style={{ color: "#FFFFFF" }}>NIP:</span> 6222869581
+              <span style={{ color: "#FFFFFF" }}>NIP:</span> {resolvedNip}
             </p>
             <p style={{ margin: 0 }}>
-              <span style={{ color: "#FFFFFF" }}>REGON:</span> 543799847
+              <span style={{ color: "#FFFFFF" }}>REGON:</span> {resolvedRegon}
             </p>
             <p style={{ margin: 0, marginTop: "8px" }}>
               <a
@@ -527,7 +545,7 @@ export function Footer({
               textAlign: "center",
             }}
           >
-            cerberusk9.org | pactak9.org
+            {resolvedDomains}
           </p>
           <p
             style={{

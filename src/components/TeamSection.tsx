@@ -5,11 +5,22 @@ interface TeamMember {
     military: string;
     bio: string;
     initials: string;
+    photo?: string;
   }
+
+interface TeamMemberInput {
+  name: string;
+  role: string;
+  photo?: string;
+  unit?: string;
+  bioShort: string;
+  email?: string;
+}
 
 interface TeamSectionProps {
   lang?: string;
   email?: string | null;
+  members?: TeamMemberInput[];
 }
 
 const teamCopy: Record<string, { sectionTag: string; role1: string; role2: string }> = {
@@ -39,7 +50,7 @@ const teamCopy: Record<string, { sectionTag: string; role1: string; role2: strin
     },
   ];
   
-  function MemberCard({ member }: { member: TeamMember }) {
+  function MemberCard({ member, photoSrc }: { member: TeamMember; photoSrc?: string }) {
     return (
       <article
         className="relative overflow-hidden flex flex-col"
@@ -53,11 +64,10 @@ const teamCopy: Record<string, { sectionTag: string; role1: string; role2: strin
           className="relative w-full aspect-square flex items-center justify-center"
           style={{ backgroundColor: "#151E28" }}
         >
-          {member.name === "Mariusz Lis" ||
-          member.name === "Sebastian Bożek" ? (
+          {photoSrc || member.name === "Mariusz Lis" || member.name === "Sebastian Bożek" ? (
             <div className="absolute inset-0">
               <img
-                src="/images/instruktorzy/test_instruktor_photo.webp"
+                src={photoSrc || "/images/instruktorzy/test_instruktor_photo.webp"}
                 alt={member.name}
                 style={{
                   width: "100%",
@@ -201,9 +211,19 @@ const teamCopy: Record<string, { sectionTag: string; role1: string; role2: strin
     );
   }
   
-  export function TeamSection({ lang, email }: TeamSectionProps) {
+  export function TeamSection({ lang, email, members: membersProp }: TeamSectionProps) {
     const c = teamCopy[lang ?? 'pl'] ?? teamCopy['en'];
-    const members = membersByLang(c);
+    const members = membersProp && membersProp.length > 0
+      ? membersProp.map((m, idx) => ({
+          rank: String(idx + 1).padStart(2, "0"),
+          role: m.role,
+          name: m.name,
+          military: m.unit ?? "",
+          bio: m.bioShort,
+          initials: m.name.split(" ").map((part) => part[0] ?? "").join("").slice(0, 2).toUpperCase(),
+          photo: m.photo ?? "",
+        }))
+      : membersByLang(c).map((m) => ({ ...m, photo: "" }));
     const contactEmail = (email ?? "").trim();
     return (
       <section style={{ backgroundColor: "#151e28", padding: "80px 24px" }}>
@@ -230,7 +250,7 @@ const teamCopy: Record<string, { sectionTag: string; role1: string; role2: strin
   
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {members.map((m) => (
-              <MemberCard key={member_key(m)} member={m} />
+              <MemberCard key={member_key(m)} member={m} photoSrc={m.photo} />
             ))}
           </div>
           {contactEmail ? (

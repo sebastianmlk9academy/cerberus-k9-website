@@ -599,7 +599,7 @@ export function RegistrationAside({
           {c.questionsLabel}
         </p>
         <a
-          href="/kontakt"
+          href={`/${lang ?? 'pl'}/kontakt`}
           className="inline-flex items-center gap-2 transition-colors duration-200"
           style={{
             fontFamily: "'Rajdhani', sans-serif",

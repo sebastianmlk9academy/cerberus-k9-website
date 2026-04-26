@@ -15,6 +15,7 @@ export type ArticleBreadcrumbItem = {
 };
 
 export type ArticleLayoutProps = {
+  lang?: string;
   breadcrumb?: ArticleBreadcrumbItem[];
   category?: string;
   /** Visible date label (e.g. 13.06.2026). */
@@ -83,6 +84,7 @@ const shareBtn: CSSProperties = {
 };
 
 export function ArticleLayout({
+  lang,
   breadcrumb = [],
   category,
   date,
@@ -93,7 +95,7 @@ export function ArticleLayout({
   tags = [],
   shareUrl = '',
   shareTitle = '',
-  backHref = '/pl/blog',
+  backHref = `/${lang ?? 'pl'}/aktualnosci`,
   children,
 }: ArticleLayoutProps) {
   const url = shareUrl;

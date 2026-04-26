@@ -54,7 +54,7 @@ const countriesCount = new Set(visibleInstructors.map((instructor) => instructor
 	localizedPath="instruktorzy"
 	ogType="website"
 >
-	<NavBar client:load lang={lang} />
+	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} />
 	<PageHero
 		category="NASI"
 		title="INSTRUKTORZY"
@@ -75,7 +75,7 @@ const countriesCount = new Set(visibleInstructors.map((instructor) => instructor
 		<p>{instructorsCount} INSTRUKTORÓW Z {countriesCount} KRAJÓW</p>
 	</section>
 
-	<InstructorsGrid client:load lang={lang} instructors={visibleInstructors} />
+	<InstructorsGrid client:load lang={lang} instructors={visibleInstructors} placeholderPhoto={s?.instructor_placeholder_photo} />
 	<Footer
 		lang={lang}
 		copy={footerCopy}
@@ -86,6 +86,12 @@ const countriesCount = new Set(visibleInstructors.map((instructor) => instructor
 		socialInstagram={s?.social_instagram}
 		socialLinkedin={s?.social_linkedin}
 		socialTwitter={s?.social_twitter}
+		address={s?.footer_address}
+		foundationName={s?.footer_foundation_name}
+		domains={s?.footer_domains}
+		krsNumber={s?.krs_number}
+		nipNumber={s?.nip_number}
+		regonNumber={s?.regon_number}
 		client:load
 	/>
 </BaseLayout>

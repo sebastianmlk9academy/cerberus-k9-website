@@ -40,7 +40,7 @@ const countriesCount = new Set(instructors.map((instructor) => instructor.countr
 	localizedPath="instruktorzy"
 	ogType="website"
 >
-	<NavBar lang={lang} client:load />
+	<NavBar lang={lang} client:load logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} />
 	<PageHero
 		category="CERBERUS K9"
 		title={instrCopy.heroTitle}
@@ -57,7 +57,7 @@ const countriesCount = new Set(instructors.map((instructor) => instructor.countr
 		<p>{instructorCount} {instrCopy.countTemplate.replace('{n}', String(countriesCount))}</p>
 	</section>
 
-	<InstructorsGrid instructors={instructors} lang={lang} client:load />
+	<InstructorsGrid instructors={instructors} lang={lang} placeholderPhoto={s?.instructor_placeholder_photo} client:load />
 	<Footer
 		lang={lang}
 		copy={footerCopyByLang[lang] ?? footerCopyByLang['pl']}
@@ -68,6 +68,12 @@ const countriesCount = new Set(instructors.map((instructor) => instructor.countr
 		socialInstagram={s?.social_instagram}
 		socialLinkedin={s?.social_linkedin}
 		socialTwitter={s?.social_twitter}
+		address={s?.footer_address}
+		foundationName={s?.footer_foundation_name}
+		domains={s?.footer_domains}
+		krsNumber={s?.krs_number}
+		nipNumber={s?.nip_number}
+		regonNumber={s?.regon_number}
 		client:load
 	/>
 </BaseLayout>

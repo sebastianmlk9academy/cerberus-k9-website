@@ -481,9 +481,17 @@ type PartnersPageProps = {
   partners?: Partner[];
   /** Omit the built-in page hero when the route already renders `PageHero` above. */
   embedded?: boolean;
+  sponsorOfferPdf?: string;
+  sponsorContactEmail?: string;
 };
 
-export default function PartnersPage({ lang, partners: partnersProp, embedded = false }: PartnersPageProps) {
+export default function PartnersPage({
+  lang,
+  partners: partnersProp,
+  embedded = false,
+  sponsorOfferPdf,
+  sponsorContactEmail,
+}: PartnersPageProps) {
   const englishFallback = partnerLabelsMap.en as PartnerLabels;
   const partnerLabels = {
     ...englishFallback,
@@ -495,6 +503,8 @@ export default function PartnersPage({ lang, partners: partnersProp, embedded = 
   const partners = (partnersProp && partnersProp.length > 0)
     ? partnersProp
     : defaultPartners;
+  const sponsorEmail = (sponsorContactEmail ?? "sebastian@pactak9.org").trim() || "sebastian@pactak9.org";
+  const sponsorPdf = sponsorOfferPdf?.trim() ?? "";
 
   const filtered = activeFilter === 'all' ? partners : partners.filter((p) => p.type === activeFilter);
 
@@ -771,7 +781,8 @@ export default function PartnersPage({ lang, partners: partnersProp, embedded = 
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'flex-start' }}>
               <a
-                href="mailto:sebastian@pactak9.org"
+                href={sponsorPdf || `mailto:${sponsorEmail}`}
+                {...(sponsorPdf ? { download: true } : {})}
                 className="cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-8 sm:py-3.5 inline-flex items-center gap-2 no-underline"
                 style={{
                   backgroundColor: '#C42B2B',
@@ -794,7 +805,7 @@ export default function PartnersPage({ lang, partners: partnersProp, embedded = 
               </a>
 
               <a
-                href="mailto:sebastian@pactak9.org"
+                href={`mailto:${sponsorEmail}`}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -816,7 +827,7 @@ export default function PartnersPage({ lang, partners: partnersProp, embedded = 
                 }}
               >
                 <Mail size={11} />
-                {partnerLabels.orWrite}: sebastian@pactak9.org
+                {partnerLabels.orWrite}: {sponsorEmail}
               </a>
             </div>
           </div>

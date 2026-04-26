@@ -31,9 +31,24 @@ const getFlagUrl = (countryCode: string) =>
 interface NavBarProps {
   activeLink?: string;
   lang?: string;
+  logoSrc?: string;
+  logoAlt?: string;
+  brandName?: string;
+  brandTagline?: string;
 }
 
-export function NavBar({ activeLink, lang = 'pl' }: NavBarProps) {
+export function NavBar({
+  activeLink,
+  lang = 'pl',
+  logoSrc,
+  logoAlt,
+  brandName,
+  brandTagline,
+}: NavBarProps) {
+  const resolvedLogoSrc = logoSrc?.trim() || '/images/cerberus-k9-logo.png';
+  const resolvedLogoAlt = logoAlt?.trim() || 'CERBERUS K9 Logo';
+  const resolvedBrandName = brandName?.trim() || 'CERBERUS K9';
+  const resolvedBrandTagline = brandTagline?.trim() || 'INTERNATIONAL DEFENSE PLATFORM';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentLang, setCurrentLang] = useState<Language>(
     () => languages.find((l) => l.code === lang) ?? languages[0],
@@ -82,8 +97,8 @@ export function NavBar({ activeLink, lang = 'pl' }: NavBarProps) {
         {/* LEFT SIDE — LOGO AREA */}
         <a href={`/${currentLang.code}`} className="flex items-center gap-2 md:gap-3 shrink-0">
           <img
-            src="/images/cerberus-k9-logo.png"
-            alt="CERBERUS K9"
+            src={resolvedLogoSrc}
+            alt={resolvedLogoAlt}
             className="h-10 md:h-12 object-contain"
           />
           <div className="hidden sm:flex flex-col leading-none">
@@ -95,7 +110,7 @@ export function NavBar({ activeLink, lang = 'pl' }: NavBarProps) {
                 color: '#E4DDD0',
               }}
             >
-              CERBERUS <span style={{ color: '#C42B2B' }}>K9</span>
+              {resolvedBrandName}
             </span>
             <span
               style={{
@@ -107,7 +122,7 @@ export function NavBar({ activeLink, lang = 'pl' }: NavBarProps) {
                 marginTop: '-1px',
               }}
             >
-              INTERNATIONAL DEFENSE PLATFORM
+              {resolvedBrandTagline}
             </span>
           </div>
         </a>

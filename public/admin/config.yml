@@ -298,3 +298,71 @@ collections:
           - { label: Deadline akredytacji mediów, name: accreditation_deadline, widget: string }
           - { label: CTA Zostań Partnerem — href, name: partner_cta_href, widget: string }
           - { label: CTA Zostań Partnerem — link pełny (opcjonalnie), name: partner_cta_href_full, widget: string, required: false }
+          - { label: "Logo nawigacji", name: nav_logo, widget: image }
+          - { label: "Logo — tekst alternatywny", name: nav_logo_alt, widget: string }
+          - { label: "Nazwa marki", name: brand_name, widget: string }
+          - { label: "Podtytuł marki", name: brand_tagline, widget: string }
+          - { label: "Adres fundacji", name: footer_address, widget: string }
+          - { label: "Nazwa fundacji", name: footer_foundation_name, widget: string }
+          - { label: "Domeny (stopka)", name: footer_domains, widget: string }
+          - { label: "KRS", name: krs_number, widget: string }
+          - { label: "NIP", name: nip_number, widget: string }
+          - { label: "REGON", name: regon_number, widget: string }
+          - { label: "Domyślne zdjęcie aktualności", name: default_news_image, widget: image, required: false }
+          - { label: "Placeholder zdjęcie instruktora", name: instructor_placeholder_photo, widget: image, required: false }
+          - { label: "Press kit ZIP (URL)", name: press_kit_zip, widget: string, required: false }
+          - { label: "PDF Polska Zbrojna", name: press_pdf_polska_zbrojna, widget: string, required: false }
+          - { label: "PDF Special Ops", name: press_pdf_special_ops, widget: string, required: false }
+          - { label: "Kontakt media — imię i nazwisko", name: media_contact_name, widget: string }
+          - { label: "Kontakt media — telefon", name: media_contact_phone, widget: string }
+          - { label: "Kontakt media — email", name: media_contact_email, widget: string }
+          - { label: "Email Prezesa", name: president_email, widget: string }
+          - { label: "Mapa embed URL", name: map_embed_url, widget: string, required: false }
+          - { label: "Adres lokalizacji (kontakt)", name: venue_address, widget: string }
+          - { label: "URL strony agendy (publiczny)", name: agenda_page_url, widget: string }
+          - { label: "URL strony (główny)", name: site_url, widget: string }
+          - { label: "OG Image domyślny", name: og_image_default, widget: image, required: false }
+          - { label: "Strefa czasowa", name: event_timezone, widget: string, default: "Europe/Warsaw" }
+          - { label: "Data odblokowania galerii 2026", name: gallery_unlock_date, widget: datetime, format: "YYYY-MM-DD", date_format: "DD.MM.YYYY", time_format: false }
+          - { label: "Oferta sponsorska — PDF (URL)", name: sponsor_offer_pdf, widget: string, required: false, hint: "Zostaw puste jeśli nie ma PDF — użyty zostanie kontakt mailowy" }
+          - { label: "Email kontakt sponsoring", name: sponsor_contact_email, widget: string }
+          - { label: "Wideo galerii 1 — tytuł", name: gallery_video_1_title, widget: string, required: false }
+          - { label: "Wideo galerii 1 — URL", name: gallery_video_1_url, widget: string, required: false }
+          - { label: "Wideo galerii 1 — badge", name: gallery_video_1_badge, widget: string, required: false }
+          - { label: "Wideo galerii 2 — tytuł", name: gallery_video_2_title, widget: string, required: false }
+          - { label: "Wideo galerii 2 — URL", name: gallery_video_2_url, widget: string, required: false }
+          - { label: "Wideo galerii 2 — badge", name: gallery_video_2_badge, widget: string, required: false }
+          - { label: "Wideo galerii 3 — tytuł", name: gallery_video_3_title, widget: string, required: false }
+          - { label: "Wideo galerii 3 — URL", name: gallery_video_3_url, widget: string, required: false }
+          - { label: "Wideo galerii 3 — badge", name: gallery_video_3_badge, widget: string, required: false }
+          - { label: "Wideo galerii 4 — tytuł", name: gallery_video_4_title, widget: string, required: false }
+          - { label: "Wideo galerii 4 — URL", name: gallery_video_4_url, widget: string, required: false }
+          - { label: "Wideo galerii 4 — badge", name: gallery_video_4_badge, widget: string, required: false }
+
+  - name: faq
+    label: "FAQ — Najczęstsze pytania"
+    folder: "src/content/faq"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Pytanie (PL)", name: question_pl, widget: string }
+      - { label: "Odpowiedź (PL)", name: answer_pl, widget: text }
+      - { label: "Pytanie (EN)", name: question_en, widget: string, required: false }
+      - { label: "Odpowiedź (EN)", name: answer_en, widget: text, required: false }
+      - { label: "Kolejność", name: order, widget: number, default: 99 }
+      - { label: "Aktywne", name: active, widget: boolean, default: true }
+
+  - name: team_members
+    label: "Zarząd — Członkowie"
+    folder: "src/content/team"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Imię i nazwisko", name: name, widget: string }
+      - { label: "Rola", name: role, widget: string }
+      - { label: "Zdjęcie", name: photo, widget: image, required: false }
+      - { label: "Jednostka / formacja", name: unit, widget: string, required: false }
+      - { label: "Bio (krótkie)", name: bio_short, widget: text }
+      - { label: "Email", name: email, widget: string, required: false }
+      - { label: "LinkedIn", name: linkedin, widget: string, required: false }
+      - { label: "Kolejność", name: order, widget: number, default: 99 }

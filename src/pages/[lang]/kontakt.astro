@@ -60,7 +60,7 @@ const ctHero = contactHero[lang] ?? contactHero.pl;
 	ogType="website"
 	canonicalHref={canonicalHref}
 >
-	<NavBar lang={lang} client:load />
+	<NavBar lang={lang} client:load logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} />
 	<PageHero
 		category={ctHero.title}
 		title={ctHero.title}
@@ -73,6 +73,9 @@ const ctHero = contactHero[lang] ?? contactHero.pl;
 		email={s?.footer_email}
 		phone={s?.footer_phone}
 		address="ul. Odolanowska 17, 63-400 Topola Mała"
+		mapEmbedUrl={s?.map_embed_url}
+		venueAddress={s?.venue_address}
+		presidentEmail={s?.president_email}
 		client:load
 	/>
 	<Footer
@@ -85,6 +88,12 @@ const ctHero = contactHero[lang] ?? contactHero.pl;
 		socialInstagram={s?.social_instagram}
 		socialLinkedin={s?.social_linkedin}
 		socialTwitter={s?.social_twitter}
+		address={s?.footer_address}
+		foundationName={s?.footer_foundation_name}
+		domains={s?.footer_domains}
+		krsNumber={s?.krs_number}
+		nipNumber={s?.nip_number}
+		regonNumber={s?.regon_number}
 		client:load
 	/>
 </BaseLayout>

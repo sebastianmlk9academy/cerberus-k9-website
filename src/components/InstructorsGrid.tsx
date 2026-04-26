@@ -22,6 +22,7 @@ interface Instructor {
 interface InstructorsGridProps {
   lang: Lang;
   instructors?: Instructor[];
+  placeholderPhoto?: string;
 }
 
 const FALLBACK: Instructor[] = [];
@@ -55,7 +56,7 @@ const handlePartnerButtonMouseLeave = (
   e.currentTarget.style.color = '#C4922A';
 };
 
-export default function InstructorsGrid({ instructors, lang }: InstructorsGridProps) {
+export default function InstructorsGrid({ instructors, lang, placeholderPhoto }: InstructorsGridProps) {
   const gridLabels = {
     pl: { all: 'WSZYSCY', decoy: 'POZORANT', noResults: 'BRAK INSTRUKTORÓW', loading: 'ŁADOWANIE...' },
     en: { all: 'ALL', decoy: 'DECOY', noResults: 'NO INSTRUCTORS FOUND', loading: 'LOADING...' },
@@ -205,7 +206,7 @@ export default function InstructorsGrid({ instructors, lang }: InstructorsGridPr
             }}
           >
             {visibleCards.map((instructor, i) => (
-              <InstructorCard key={instructor.name + i} {...instructor as any} />
+              <InstructorCard key={instructor.name + i} {...instructor as any} placeholderPhoto={placeholderPhoto} />
             ))}
           </div>
           {hasMore && (

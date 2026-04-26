@@ -9,10 +9,13 @@ function toAbsolute(linkPath: string, site: URL | undefined): string {
 
 export const GET: APIRoute = async (context) => {
 	const site = context.site;
-	const [blogPosts, news] = await Promise.all([
+	const [blogPosts, news, settings] = await Promise.all([
 		getCollection('blog'),
 		getCollection('aktualnosci'),
+		getCollection('ustawienia'),
 	]);
+	const s = settings[0]?.data;
+	const siteUrl = s?.site_url ?? 'https://cerberusk9.org';
 
 	const blogItems = blogPosts.map((post) => ({
 		title: post.data.title,
@@ -25,7 +28,7 @@ export const GET: APIRoute = async (context) => {
 		title: entry.data.title,
 		description: entry.data.lead,
 		pubDate: entry.data.date,
-		link: toAbsolute(`/pl/aktualnosci/${entry.id}/`, site),
+		link: `${siteUrl}/pl/aktualnosci/${entry.id}/`,
 	}));
 
 	const items = [...blogItems, ...newsItems].sort(
@@ -35,7 +38,7 @@ export const GET: APIRoute = async (context) => {
 	return rss({
 		title: SITE_TITLE,
 		description: SITE_DESCRIPTION,
-		site: site ?? 'https://cerberusk9.eu',
+		site: site ?? siteUrl,
 		items,
 	});
 };
