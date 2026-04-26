@@ -19,7 +19,6 @@ interface TeamMemberInput {
 
 interface TeamSectionProps {
   lang?: string;
-  email?: string | null;
   members?: TeamMemberInput[];
 }
 
@@ -211,7 +210,7 @@ const teamCopy: Record<string, { sectionTag: string; role1: string; role2: strin
     );
   }
   
-  export function TeamSection({ lang, email, members: membersProp }: TeamSectionProps) {
+  export function TeamSection({ lang, members: membersProp }: TeamSectionProps) {
     const c = teamCopy[lang ?? 'pl'] ?? teamCopy['en'];
     const members = membersProp && membersProp.length > 0
       ? membersProp.map((m, idx) => ({
@@ -224,7 +223,6 @@ const teamCopy: Record<string, { sectionTag: string; role1: string; role2: strin
           photo: m.photo ?? "",
         }))
       : membersByLang(c).map((m) => ({ ...m, photo: "" }));
-    const contactEmail = (email ?? "").trim();
     return (
       <section style={{ backgroundColor: "#151e28", padding: "80px 24px" }}>
         <div className="mx-auto max-w-6xl">
@@ -253,16 +251,6 @@ const teamCopy: Record<string, { sectionTag: string; role1: string; role2: strin
               <MemberCard key={member_key(m)} member={m} photoSrc={m.photo} />
             ))}
           </div>
-          {contactEmail ? (
-            <p
-              className="mt-10 text-center text-sm"
-              style={{ fontFamily: "'Rajdhani', sans-serif", color: "#7A8A96" }}
-            >
-              <a href={`mailto:${contactEmail}`} style={{ color: "#C4922A", textDecoration: "none" }}>
-                {contactEmail}
-              </a>
-            </p>
-          ) : null}
         </div>
       </section>
     );
