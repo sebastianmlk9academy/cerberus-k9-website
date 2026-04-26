@@ -19,7 +19,7 @@ export type HomeHeroCopy = {
 export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 	pl: {
 		tagline: 'MIĘDZYNARODOWA PLATFORMA OBRONY · EDYCJA 2026',
-		dateLocation: '13–14 CZERWCA · GDAŃSK · POLSKA',
+		dateLocation: '13–14 CZERWCA · OSTRÓW WIELKOPOLSKI · POLSKA',
 		metaRow1: 'LOKALIZACJE',
 		metaRow2: 'DELEGACJE',
 		metaRow3: 'WSTĘP',
@@ -34,7 +34,7 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 	},
 	en: {
 		tagline: 'INTERNATIONAL DEFENSE PLATFORM · 2026 EDITION',
-		dateLocation: '13–14 JUNE · GDAŃSK · POLAND',
+		dateLocation: '13–14 JUNE · OSTRÓW WIELKOPOLSKI · POLAND',
 		metaRow1: 'LOCATIONS',
 		metaRow2: 'DELEGATIONS',
 		metaRow3: 'ENTRY',
@@ -49,7 +49,7 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 	},
 	de: {
 		tagline: 'INTERNATIONALE VERTEIDIGUNGSPLATTFORM · AUSGABE 2026',
-		dateLocation: '13.–14. JUNI · DANZIG · POLEN',
+		dateLocation: '13.–14. JUNI · OSTRÓW WIELKOPOLSKI · POLEN',
 		metaRow1: 'STANDORTE',
 		metaRow2: 'DELEGATIONEN',
 		metaRow3: 'EINTRITT',
@@ -64,7 +64,7 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 	},
 	fr: {
 		tagline: 'PLATEFORME INTERNATIONALE DE DÉFENSE · ÉDITION 2026',
-		dateLocation: '13–14 JUIN · GDAŃSK · POLOGNE',
+		dateLocation: '13–14 JUIN · OSTRÓW WIELKOPOLSKI · POLOGNE',
 		metaRow1: 'SITES',
 		metaRow2: 'DÉLÉGATIONS',
 		metaRow3: 'ENTRÉE',
@@ -79,7 +79,7 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 	},
 	hr: {
 		tagline: 'MEĐUNARODNA OBRAMBENA PLATFORMA · IZDANJE 2026',
-		dateLocation: '13.–14. LIPNJA · GDAŃSK · POLJSKA',
+		dateLocation: '13.–14. LIPNJA · OSTRÓW WIELKOPOLSKI · POLJSKA',
 		metaRow1: 'LOKACIJE',
 		metaRow2: 'DELEGACIJE',
 		metaRow3: 'ULAZ',
@@ -94,7 +94,7 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 	},
 	cs: {
 		tagline: 'MEZINÁRODNÍ OBRANNÁ PLATFORMA · ROČNÍK 2026',
-		dateLocation: '13.–14. ČERVNA · GDAŃSK · POLSKO',
+		dateLocation: '13.–14. ČERVNA · OSTRÓW WIELKOPOLSKI · POLSKO',
 		metaRow1: 'LOKACE',
 		metaRow2: 'DELEGACE',
 		metaRow3: 'VSTUP',
@@ -109,7 +109,7 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 	},
 	lt: {
 		tagline: 'TARPTAUTINĖ GYNYBOS PLATFORMA · 2026 M. LEIDIMAS',
-		dateLocation: 'BIRŽELIO 13–14 D. · GDAŃSKAS · LENKIJA',
+		dateLocation: 'BIRŽELIO 13–14 D. · OSTRÓW WIELKOPOLSKI · LENKIJA',
 		metaRow1: 'VIETOS',
 		metaRow2: 'DELEGACIJOS',
 		metaRow3: 'ĮĖJIMAS',
@@ -124,7 +124,7 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 	},
 	lv: {
 		tagline: 'STARPTAUTISKĀ AIZSARDZĪBAS PLATFORMA · 2026. GADA IZDEVUMS',
-		dateLocation: '13.–14. JŪNIJS · GDAŅSKA · POLIJA',
+		dateLocation: '13.–14. JŪNIJS · OSTRÓW WIELKOPOLSKI · POLIJA',
 		metaRow1: 'LOKĀCIJAS',
 		metaRow2: 'DELEGĀCIJAS',
 		metaRow3: 'IEEJA',
@@ -139,7 +139,7 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 	},
 	sk: {
 		tagline: 'MEDZINÁRODNÁ OBRANNÁ PLATFORMA · ROČNÍK 2026',
-		dateLocation: '13.–14. JÚNA · GDAŃSK · POĽSKO',
+		dateLocation: '13.–14. JÚNA · OSTRÓW WIELKOPOLSKI · POĽSKO',
 		metaRow1: 'LOKALITY',
 		metaRow2: 'DELEGÁCIE',
 		metaRow3: 'VSTUP',
@@ -154,7 +154,7 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 	},
 	sl: {
 		tagline: 'MEDNARODNA OBRAMBNA PLATFORMA · IZDAJA 2026',
-		dateLocation: '13.–14. JUNIJ · GDAŃSK · POLJSKA',
+		dateLocation: '13.–14. JUNIJ · OSTRÓW WIELKOPOLSKI · POLJSKA',
 		metaRow1: 'LOKACIJE',
 		metaRow2: 'DELEGACIJE',
 		metaRow3: 'VSTOP',
@@ -169,7 +169,7 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 	},
 	hu: {
 		tagline: 'NEMZETKÖZI VÉDELMI PLATFORM · 2026-OS KIADÁS',
-		dateLocation: 'JÚNIUS 13–14. · GDAŃSK · LENGYELORSZÁG',
+		dateLocation: 'JÚNIUS 13–14. · OSTRÓW WIELKOPOLSKI · LENGYELORSZÁG',
 		metaRow1: 'HELYSZÍNEK',
 		metaRow2: 'DELEGÁCIÓK',
 		metaRow3: 'BELÉPÉS',
@@ -184,7 +184,7 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 	},
 	no: {
 		tagline: 'INTERNASJONAL FORSVARSPLATTFORM · 2026-UTGAVEN',
-		dateLocation: '13.–14. JUNI · GDAŃSK · POLEN',
+		dateLocation: '13.–14. JUNI · OSTRÓW WIELKOPOLSKI · POLEN',
 		metaRow1: 'LOKASJONER',
 		metaRow2: 'DELEGASJONER',
 		metaRow3: 'INNGANG',
@@ -199,7 +199,7 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 	},
 	sv: {
 		tagline: 'INTERNATIONELL FÖRSVARSPLATTFORM · 2026 ÅRS UPPLAGA',
-		dateLocation: '13–14 JUNI · GDAŃSK · POLEN',
+		dateLocation: '13–14 JUNI · OSTRÓW WIELKOPOLSKI · POLEN',
 		metaRow1: 'PLATSER',
 		metaRow2: 'DELEGATIONER',
 		metaRow3: 'INTRÄDE',
@@ -214,7 +214,7 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 	},
 	nl: {
 		tagline: 'INTERNATIONAAL DEFENSIEPLATFORM · EDITIE 2026',
-		dateLocation: '13–14 JUNI · GDAŃSK · POLEN',
+		dateLocation: '13–14 JUNI · OSTRÓW WIELKOPOLSKI · POLEN',
 		metaRow1: 'LOCATIES',
 		metaRow2: 'DELEGATIES',
 		metaRow3: 'TOEGANG',
@@ -229,7 +229,7 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 	},
 	es: {
 		tagline: 'PLATAFORMA INTERNACIONAL DE DEFENSA · EDICIÓN 2026',
-		dateLocation: '13–14 DE JUNIO · GDAŃSK · POLONIA',
+		dateLocation: '13–14 DE JUNIO · OSTRÓW WIELKOPOLSKI · POLONIA',
 		metaRow1: 'SEDES',
 		metaRow2: 'DELEGACIONES',
 		metaRow3: 'ACCESO',
@@ -244,7 +244,7 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 	},
 	pt: {
 		tagline: 'PLATAFORMA INTERNACIONAL DE DEFESA · EDIÇÃO 2026',
-		dateLocation: '13–14 DE JUNHO · GDAŃSK · POLÓNIA',
+		dateLocation: '13–14 DE JUNHO · OSTRÓW WIELKOPOLSKI · POLÓNIA',
 		metaRow1: 'LOCAIS',
 		metaRow2: 'DELEGAÇÕES',
 		metaRow3: 'ENTRADA',
@@ -259,7 +259,7 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 	},
 	ro: {
 		tagline: 'PLATFORMĂ INTERNAȚIONALĂ DE APĂRARE · EDIȚIA 2026',
-		dateLocation: '13–14 IUNIE · GDAŃSK · POLONIA',
+		dateLocation: '13–14 IUNIE · OSTRÓW WIELKOPOLSKI · POLONIA',
 		metaRow1: 'LOCAȚII',
 		metaRow2: 'DELEGAȚII',
 		metaRow3: 'ACCES',
@@ -274,7 +274,7 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 	},
 	it: {
 		tagline: 'PIATTAFORMA INTERNAZIONALE DI DIFESA · EDIZIONE 2026',
-		dateLocation: '13–14 GIUGNO · DÀNICA · POLONIA',
+		dateLocation: '13–14 GIUGNO · OSTRÓW WIELKOPOLSKI · POLONIA',
 		metaRow1: 'SEDI',
 		metaRow2: 'DELEGAZIONI',
 		metaRow3: 'INGRESSO',
@@ -289,7 +289,7 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 	},
 	ko: {
 		tagline: '국제 국방 플랫폼 · 2026 에디션',
-		dateLocation: '6월 13–14일 · 그단스크 · 폴란드',
+		dateLocation: '6월 13–14일 · 오스트루프 비엘코폴스키 · 폴란드',
 		metaRow1: '장소',
 		metaRow2: '대표단',
 		metaRow3: '입장',
