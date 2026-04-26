@@ -3,7 +3,6 @@ name: "Brandon M."
 role: "Pozorant Główny / Instruktor K9"
 country: "USA"
 countryCode: "US"
-countryFlag: "🇺🇸"
 specializations: ["Pozorant", "K9 Gryzienie"]
 unit: "US Police K9 / SWAT — aktywny"
 bioShort: "Aktywny pozorant K9 dla departamentów policji USA, SWAT i Straży Granicznej. Specjalista środowisk taktycznych."

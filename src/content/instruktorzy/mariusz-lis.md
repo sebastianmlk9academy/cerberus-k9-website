@@ -3,7 +3,6 @@ name: "Mariusz Lis"
 role: "Dyrektor Programowy CERBERUS K9"
 country: "Polska"
 countryCode: "PL"
-countryFlag: "🇵🇱"
 specializations: ["K9 Gryzienie", "K9 Detekcja", "Konferencja - Prelegent"]
 unit: "JWK — emerytowany operator"
 bioShort: "Wieloletni operator JWK — polskiego Tier 1 Special Forces. Prezes Fundacji PACTA K9. Twórca CERBERUS K9."

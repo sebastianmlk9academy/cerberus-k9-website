@@ -3,7 +3,6 @@ name: "Instruktor TCCC"
 role: "Instruktor Taktycznej Pomocy Medycznej"
 country: "Polska"
 countryCode: "PL"
-countryFlag: "🇵🇱"
 specializations: ["TCCC", "TCCC-K9"]
 unit: "Rescue Team Se.a.l. / były operator JWK"
 bioShort: "Ratownik medyczny z doświadczeniem operacyjnym JWK. Twórca programu TCCC-K9."
