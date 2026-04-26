@@ -1,12 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import type { Lang } from "../i18n/utils"
-import type { PartnersStripCopy } from "../i18n/partnersStrip"
+import { partnersStripByLang, type PartnersStripCopy } from "../i18n/partnersStrip"
+import type { StripPartner } from "../lib/partnersStrip"
 
-interface Partner {
+interface Partner extends StripPartner {
   name: string
-  logo: string | null
+  logo?: string | null
   website?: string | null
   /** @deprecated use website */
   url?: string
@@ -182,8 +182,10 @@ function PartnerCard({ partner }: { partner: Partner }) {
             />
           </div>
         ) : (
-          <div className="w-full h-full flex items-center justify-center rounded-full bg-[#253344]">
-            <span className="text-[#5A6A7A] text-sm font-bold">{partner.name[0]}</span>
+          <div className="w-full h-full flex items-center justify-center">
+            <span className="text-[#4A5A6A] text-[10px] font-bold tracking-[1px] sm:tracking-[2px] text-center leading-tight">
+              {partner.name}
+            </span>
           </div>
         )}
       </div>
@@ -224,13 +226,13 @@ function SectionHeader({ children, accent = false }: { children: React.ReactNode
 }
 
 interface PartnersStripProps {
-  lang: Lang
-  copy: PartnersStripCopy
-  partners?: Partner[]
-  partnerCtaHref?: string | null
+  partners?: StripPartner[]
+  partnerCtaHref?: string
+  copy?: PartnersStripCopy
 }
 
-export function PartnersStrip({ lang, copy, partners: partnersProp, partnerCtaHref }: PartnersStripProps) {
+export function PartnersStrip({ copy, partners: partnersProp, partnerCtaHref }: PartnersStripProps) {
+  const safeCopy = copy ?? partnersStripByLang.pl
   const stripPartners =
     partnersProp && partnersProp.length > 0 ? partnersProp : HARDCODED_STRIP_PARTNERS
   const ctaHref = (partnerCtaHref ?? "").trim() || "mailto:sebastian@pactak9.org"
@@ -238,7 +240,6 @@ export function PartnersStrip({ lang, copy, partners: partnersProp, partnerCtaHr
   return (
     <section
       className="w-full bg-gradient-to-b from-[#161F28] via-[#1A2530] to-[#161F28] px-4 sm:px-6 md:px-8"
-      data-lang={lang}
       style={{ paddingTop: "80px", paddingBottom: "10px" }}
     >
       <div className="max-w-6xl mx-auto">
@@ -251,7 +252,7 @@ export function PartnersStrip({ lang, copy, partners: partnersProp, partnerCtaHr
             <span
               className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]"
             >
-              {copy.sectionTag}
+              {safeCopy.sectionTag}
             </span>
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
           </div>
@@ -263,13 +264,13 @@ export function PartnersStrip({ lang, copy, partners: partnersProp, partnerCtaHr
               letterSpacing: "2px",
             }}
           >
-            {copy.patronage}
+            {(safeCopy as any).sectionTitle ?? safeCopy.patronage}
           </h2>
         </div>
 
         {/* Media Patronage Section */}
         <div className="mb-12 sm:mb-16 md:mb-20">
-          <SectionHeader accent>{copy.mediaPatronage}</SectionHeader>
+          <SectionHeader accent>{safeCopy.mediaPatronage}</SectionHeader>
           
           <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8">
             {mediaPatrons.map((patron) => (
@@ -289,7 +290,7 @@ export function PartnersStrip({ lang, copy, partners: partnersProp, partnerCtaHr
                 letterSpacing: "2px",
               }}
             >
-              {copy.partners}
+              {safeCopy.partners}
             </h2>
           </div>
           
@@ -322,7 +323,7 @@ export function PartnersStrip({ lang, copy, partners: partnersProp, partnerCtaHr
                 e.currentTarget.style.color = "#C4922A";
               }}
             >
-              {copy.becomePartner}
+              {safeCopy.becomePartner}
             </a>
           </div>
         </div>
