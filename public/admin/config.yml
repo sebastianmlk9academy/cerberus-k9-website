@@ -90,15 +90,16 @@ collections:
         multiple: true
         required: true
         options:
-          - K9-Gryzienie
-          - K9-Detekcja
-          - K9-Tropienie-SAR
+          - K9 Gryzienie
+          - K9 Detekcja
+          - K9 Tropienie SAR
           - Pozorant
           - TCCC
           - TCCC-K9
-          - Pierwsza-Pomoc
+          - Pierwsza Pomoc
           - Behawiorysta
-          - Konferencja
+          - Konferencja - Prelegent
+          - Drony
       - { label: Jednostka / formacja, name: unit, widget: string, required: false }
       - { label: Moduł szkoleniowy, name: module, widget: string, required: false }
       - { label: Harmonogram, name: schedule, widget: string, required: false }

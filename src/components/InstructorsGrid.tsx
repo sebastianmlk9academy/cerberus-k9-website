@@ -78,14 +78,47 @@ export default function InstructorsGrid({ instructors, lang, placeholderPhoto }:
     ro: { all: 'TOȚI', decoy: 'FIGURANT', noResults: 'NICIUN INSTRUCTOR', loading: 'SE ÎNCARCĂ...' },
     ko: { all: '전체', decoy: '디코이', noResults: '강사 없음', loading: '로딩 중...' },
   }[lang] ?? { all: 'ALL', decoy: 'DECOY', noResults: 'NO INSTRUCTORS FOUND', loading: 'LOADING...' };
-  const filterLabels: Record<InstructorFilter, string> = {
-    all: gridLabels.all,
-    k9: 'K9',
-    tccc: 'TCCC',
-    drones: 'DRONES',
-    conference: 'CONFERENCE',
-    decoy: gridLabels.decoy,
+  const filterLabelsByLang: Record<string, Record<string, string>> = {
+    pl: { all: 'WSZYSCY', k9: 'K9', tccc: 'TCCC',
+      drones: 'DRONY', conference: 'KONFERENCJA', decoy: 'POZORANT' },
+    en: { all: 'ALL', k9: 'K9', tccc: 'TCCC',
+      drones: 'DRONES', conference: 'CONFERENCE', decoy: 'DECOY' },
+    de: { all: 'ALLE', k9: 'K9', tccc: 'TCCC',
+      drones: 'DROHNEN', conference: 'KONFERENZ', decoy: 'FIGURANT' },
+    fr: { all: 'TOUS', k9: 'K9', tccc: 'TCCC',
+      drones: 'DRONES', conference: 'CONFÉRENCE', decoy: 'FIGURANT' },
+    cs: { all: 'VŠICHNI', k9: 'K9', tccc: 'TCCC',
+      drones: 'DRONY', conference: 'KONFERENCE', decoy: 'FIGURANT' },
+    sk: { all: 'VŠETCI', k9: 'K9', tccc: 'TCCC',
+      drones: 'DRONY', conference: 'KONFERENCIA', decoy: 'FIGURANT' },
+    hu: { all: 'MINDENKI', k9: 'K9', tccc: 'TCCC',
+      drones: 'DRÓNOK', conference: 'KONFERENCIA', decoy: 'FIGURÁNS' },
+    hr: { all: 'SVI', k9: 'K9', tccc: 'TCCC',
+      drones: 'DRONOVI', conference: 'KONFERENCIJA', decoy: 'FIGURANT' },
+    sl: { all: 'VSI', k9: 'K9', tccc: 'TCCC',
+      drones: 'BREZPILOTNIKI', conference: 'KONFERENCA', decoy: 'FIGURANT' },
+    lt: { all: 'VISI', k9: 'K9', tccc: 'TCCC',
+      drones: 'DRONAI', conference: 'KONFERENCIJA', decoy: 'FIGURANTAS' },
+    lv: { all: 'VISI', k9: 'K9', tccc: 'TCCC',
+      drones: 'DRONI', conference: 'KONFERENCE', decoy: 'FIGURANTS' },
+    no: { all: 'ALLE', k9: 'K9', tccc: 'TCCC',
+      drones: 'DRONER', conference: 'KONFERANSE', decoy: 'FIGURANT' },
+    sv: { all: 'ALLA', k9: 'K9', tccc: 'TCCC',
+      drones: 'DRÖNARE', conference: 'KONFERENS', decoy: 'FIGURANT' },
+    nl: { all: 'ALLEN', k9: 'K9', tccc: 'TCCC',
+      drones: 'DRONES', conference: 'CONFERENTIE', decoy: 'FIGURANT' },
+    es: { all: 'TODOS', k9: 'K9', tccc: 'TCCC',
+      drones: 'DRONES', conference: 'CONFERENCIA', decoy: 'FIGURANTE' },
+    pt: { all: 'TODOS', k9: 'K9', tccc: 'TCCC',
+      drones: 'DRONES', conference: 'CONFERÊNCIA', decoy: 'FIGURANTE' },
+    ro: { all: 'TOȚI', k9: 'K9', tccc: 'TCCC',
+      drones: 'DRONE', conference: 'CONFERINȚĂ', decoy: 'FIGURANT' },
+    it: { all: 'TUTTI', k9: 'K9', tccc: 'TCCC',
+      drones: 'DRONI', conference: 'CONFERENZA', decoy: 'FIGURANTE' },
+    ko: { all: '전체', k9: 'K9', tccc: 'TCCC',
+      drones: '드론', conference: '컨퍼런스', decoy: '조력자' },
   };
+  const fl = filterLabelsByLang[lang] ?? filterLabelsByLang['en'];
   const [activeFilter, setActiveFilter] = useState<InstructorFilter>('all');
   const [visibleCount, setVisibleCount] = useState(4);
   const loaderRef = useRef<HTMLDivElement>(null);
@@ -103,7 +136,13 @@ export default function InstructorsGrid({ instructors, lang, placeholderPhoto }:
           );
         }
         if (activeFilter === 'drones') {
-          return specializations.some((s) => s.includes('dron') || s.includes('drone'));
+          return specializations.some((s) =>
+            s.includes('dron') ||
+            s.includes('drone') ||
+            s.includes('drony') ||
+            s.includes('bsp') ||
+            s.includes('uav')
+          );
         }
         if (activeFilter === 'conference') {
           return specializations.some((s) => s.includes('konfer') || s.includes('conference'));
@@ -131,6 +170,28 @@ export default function InstructorsGrid({ instructors, lang, placeholderPhoto }:
 
   const visibleCards = filtered.slice(0, visibleCount);
   const hasMore = visibleCount < filtered.length;
+  const sectionTags: Record<string, string> = {
+    pl: 'TEAM LEADERZY · INSTRUKTORZY · POZORANCI · PRELEGENCI',
+    en: 'TEAM LEADERS · INSTRUCTORS · DECOYS · SPEAKERS',
+    de: 'TEAMLEITER · INSTRUKTEURE · FIGURANTEN · REFERENTEN',
+    fr: 'CHEFS D\'ÉQUIPE · INSTRUCTEURS · FIGURANTS · INTERVENANTS',
+    cs: 'VEDOUCÍ TÝMU · INSTRUKTOŘI · FIGURANTI · PŘEDNÁŠEJÍCÍ',
+    sk: 'VEDÚCI TÍMU · INŠTRUKTORI · FIGURANTI · PREDNÁŠAJÚCI',
+    hu: 'CSAPATVEZETŐK · OKTATÓK · FIGURÁNSOK · ELŐADÓK',
+    hr: 'VOĐE TIMA · INSTRUKTORI · FIGURANTI · PREDAVAČI',
+    sl: 'VODJE EKIPE · INŠTRUKTORJI · FIGURANTI · PREDAVATELJI',
+    lt: 'KOMANDŲ VADOVAI · INSTRUKTORIAI · FIGURANTAI · PRANEŠĖJAI',
+    lv: 'KOMANDAS VADĪTĀJI · INSTRUKTORI · FIGURANTI · LEKTORI',
+    no: 'TEAMLEDERE · INSTRUKTØRER · FIGURANTER · FOREDRAGSHOLDERE',
+    sv: 'TEAMLEDARE · INSTRUKTÖRER · FIGURANTER · FÖRELÄSARE',
+    nl: 'TEAMLEIDERS · INSTRUCTEURS · FIGURANTEN · SPREKERS',
+    es: 'LÍDERES DE EQUIPO · INSTRUCTORES · FIGURANTES · PONENTES',
+    pt: 'LÍDERES DE EQUIPA · INSTRUTORES · FIGURANTES · ORADORES',
+    ro: 'LIDERI DE ECHIPĂ · INSTRUCTORI · FIGURANȚI · VORBITORI',
+    it: 'RESPONSABILI DI TEAM · ISTRUTTORI · FIGURANTI · RELATORI',
+    ko: '팀 리더 · 강사 · 보조훈련사 · 발표자',
+  };
+  const sectionTag = sectionTags[lang] ?? sectionTags['en'];
 
   return (
     <section
@@ -146,7 +207,7 @@ export default function InstructorsGrid({ instructors, lang, placeholderPhoto }:
       <div className="flex items-center justify-center gap-4 mb-4">
         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
         <span className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]">
-          TEAM LEADERZY · INSTRUKTORZY · POZORANCI · PRELEGENCI
+          {sectionTag}
         </span>
         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
       </div>
@@ -178,7 +239,7 @@ export default function InstructorsGrid({ instructors, lang, placeholderPhoto }:
               handlePartnerButtonMouseLeave(e);
             }}
           >
-            {filterLabels[f]}
+            {fl[f]}
           </button>
         ))}
       </div>
@@ -206,7 +267,12 @@ export default function InstructorsGrid({ instructors, lang, placeholderPhoto }:
             }}
           >
             {visibleCards.map((instructor, i) => (
-              <InstructorCard key={instructor.name + i} {...instructor as any} placeholderPhoto={placeholderPhoto} />
+              <InstructorCard
+                key={instructor.name + i}
+                {...instructor as any}
+                placeholderPhoto={placeholderPhoto}
+                lang={lang}
+              />
             ))}
           </div>
           {hasMore && (

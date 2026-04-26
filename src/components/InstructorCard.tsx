@@ -29,6 +29,7 @@ interface InstructorCardProps {
   schedule?: string;
   linkedinUrl?: string;
   placeholderPhoto?: string;
+  lang?: string;
 }
 
 export default function InstructorCard({
@@ -43,10 +44,55 @@ export default function InstructorCard({
   schedule,
   linkedinUrl,
   placeholderPhoto,
+  lang,
 }: InstructorCardProps) {
   const [expanded, setExpanded] = useState(false);
   const fallbackPhoto = placeholderPhoto ?? '/images/instruktorzy/test_instruktor_photo.webp';
   const photoSrc = photo || fallbackPhoto;
+  const cardCopy: Record<string, {
+    expand: string; collapse: string;
+    module: string; schedule: string; linkedin: string;
+  }> = {
+    pl: { expand: 'ROZWIŃ BIO', collapse: 'ZWIŃ BIO',
+      module: 'MODUŁ:', schedule: 'HARMONOGRAM:', linkedin: 'LINKEDIN →' },
+    en: { expand: 'EXPAND BIO', collapse: 'COLLAPSE BIO',
+      module: 'MODULE:', schedule: 'SCHEDULE:', linkedin: 'LINKEDIN →' },
+    de: { expand: 'BIO ERWEITERN', collapse: 'BIO SCHLIESSEN',
+      module: 'MODUL:', schedule: 'ZEITPLAN:', linkedin: 'LINKEDIN →' },
+    fr: { expand: 'DÉVELOPPER LA BIO', collapse: 'RÉDUIRE LA BIO',
+      module: 'MODULE :', schedule: 'PROGRAMME :', linkedin: 'LINKEDIN →' },
+    cs: { expand: 'ROZBALIT BIO', collapse: 'SBALIT BIO',
+      module: 'MODUL:', schedule: 'ROZVRH:', linkedin: 'LINKEDIN →' },
+    sk: { expand: 'ROZBALIŤ BIO', collapse: 'ZBALIŤ BIO',
+      module: 'MODUL:', schedule: 'ROZVRH:', linkedin: 'LINKEDIN →' },
+    hu: { expand: 'BIO MEGJELENÍTÉSE', collapse: 'BIO ELREJTÉSE',
+      module: 'MODUL:', schedule: 'MENETREND:', linkedin: 'LINKEDIN →' },
+    hr: { expand: 'PROŠIRI BIO', collapse: 'SAŽMI BIO',
+      module: 'MODUL:', schedule: 'RASPORED:', linkedin: 'LINKEDIN →' },
+    sl: { expand: 'RAZŠIRI BIO', collapse: 'STRNI BIO',
+      module: 'MODUL:', schedule: 'URNIK:', linkedin: 'LINKEDIN →' },
+    lt: { expand: 'IŠSKLEISTI BIO', collapse: 'SUTRAUKTI BIO',
+      module: 'MODULIS:', schedule: 'TVARKARAŠTIS:', linkedin: 'LINKEDIN →' },
+    lv: { expand: 'IZVĒRST BIO', collapse: 'SAKĻAUT BIO',
+      module: 'MODULIS:', schedule: 'GRAFIKS:', linkedin: 'LINKEDIN →' },
+    no: { expand: 'VIS BIO', collapse: 'SKJUL BIO',
+      module: 'MODUL:', schedule: 'TIDSPLAN:', linkedin: 'LINKEDIN →' },
+    sv: { expand: 'VISA BIO', collapse: 'DÖLJ BIO',
+      module: 'MODUL:', schedule: 'SCHEMA:', linkedin: 'LINKEDIN →' },
+    nl: { expand: 'BIO UITKLAPPEN', collapse: 'BIO INKLAPPEN',
+      module: 'MODULE:', schedule: 'SCHEMA:', linkedin: 'LINKEDIN →' },
+    es: { expand: 'AMPLIAR BIO', collapse: 'CONTRAER BIO',
+      module: 'MÓDULO:', schedule: 'HORARIO:', linkedin: 'LINKEDIN →' },
+    pt: { expand: 'EXPANDIR BIO', collapse: 'RECOLHER BIO',
+      module: 'MÓDULO:', schedule: 'HORÁRIO:', linkedin: 'LINKEDIN →' },
+    ro: { expand: 'EXTINDE BIO', collapse: 'RESTRÂNGE BIO',
+      module: 'MODUL:', schedule: 'PROGRAM:', linkedin: 'LINKEDIN →' },
+    it: { expand: 'ESPANDI BIO', collapse: 'COMPRIMI BIO',
+      module: 'MODULO:', schedule: 'ORARIO:', linkedin: 'LINKEDIN →' },
+    ko: { expand: '바이오 펼치기', collapse: '바이오 접기',
+      module: '모듈:', schedule: '일정:', linkedin: 'LINKEDIN →' },
+  };
+  const t = cardCopy[lang ?? 'pl'] ?? cardCopy['en'];
 
   return (
     <div
@@ -196,7 +242,7 @@ export default function InstructorCard({
                   padding: 0,
                 }}
               >
-                ROZWIŃ BIO
+                {t.expand}
                 <ChevronDown size={12} style={{ transform: 'rotate(0deg)', transition: 'transform 300ms ease' }} />
               </button>
             </div>
@@ -217,7 +263,7 @@ export default function InstructorCard({
                   padding: 0,
                 }}
               >
-                ZWIŃ BIO
+                {t.collapse}
                 <ChevronDown size={12} style={{ transform: 'rotate(180deg)', transition: 'transform 300ms ease' }} />
               </button>
               <p
@@ -243,7 +289,7 @@ export default function InstructorCard({
                     margin: '4px 0 0 0',
                   }}
                 >
-                  MODUŁ: {module}
+                  {t.module} {module}
                 </p>
               )}
               {schedule && (
@@ -256,7 +302,7 @@ export default function InstructorCard({
                     margin: '2px 0 0 0',
                   }}
                 >
-                  HARMONOGRAM: {schedule}
+                  {t.schedule} {schedule}
                 </p>
               )}
               {linkedinUrl && (
@@ -273,7 +319,7 @@ export default function InstructorCard({
                     display: 'block',
                   }}
                 >
-                  LINKEDIN →
+                  {t.linkedin}
                 </a>
               )}
             </div>
