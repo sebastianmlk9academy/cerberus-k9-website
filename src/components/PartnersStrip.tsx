@@ -15,12 +15,12 @@ interface Partner {
 const mediaPatrons: Partner[] = [
   {
     name: "POLSKA ZBROJNA",
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Polska%20Zbrojna-khEyAPmGAkhHX4IAVuiDjYLAqdTuoA.webp",
+    logo: "",
     website: "https://polska-zbrojna.pl",
   },
   {
     name: "SPECIAL OPS",
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/special-ops-logo-1-aKqs9eqCEBoNfiGfXd2COdP8qMZtns.webp",
+    logo: "",
     website: "https://special-ops.pl",
   },
 ]
@@ -28,51 +28,51 @@ const mediaPatrons: Partner[] = [
 const HARDCODED_STRIP_PARTNERS: Partner[] = [
   {
     name: "POLITECHNIKA WROCŁAWSKA",
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Politechnika%20Wroc%C5%82awska-bMf1AU1ZOaGoG2raCdKyyGazQpQI6u.webp",
+    logo: "",
   },
   {
     name: "ASTRIVA",
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/astriva-logo-0p88smYLLCJekxGZrKcWgVzM5HJCj8.webp",
+    logo: "",
   },
   {
     name: "WOPR",
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/wopr-I5BCl7zZm2JTLmXzWMKw3AChpkC4Zg.webp",
+    logo: "",
   },
   {
     name: "PZSO",
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/PZSO-yZgAaGjcQBuj54Ax83d0qlCz4fL46X.webp",
+    logo: "",
   },
   {
     name: "SMART TARGET",
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Smart%20Target-GqsRtYarx3io0nrWEQCWoTOjpm1mLv.webp",
+    logo: "",
   },
   {
     name: "OBRONA POWSZECHNA",
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Obrona%20Powszechna-dmnnCmzvoiFfBRngRmbYdqfeDRa2d7.webp",
+    logo: "",
   },
   {
     name: "JS 3102 GRYF",
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Jednostka%20Strzelecka%203102%20GRYF-IifeMDJr6xPU7yqVkJgy5UKaSjDerI.webp",
+    logo: "",
   },
   {
     name: "RESCUE TEAM SE.A.L.",
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Rescue%20Team%20SE.AL.-mSxq32Jr7TWiiO7jVs0TZzHRjUJWlG.webp",
+    logo: "",
   },
   {
     name: "SOF K9 LUBLINIEC",
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/K9%20SOF%20Lubliniec-artpTknhksLDSxkhJyjN82TuLV4172.webp",
+    logo: "",
   },
   {
     name: "ETO K9",
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/K9%20ETO-cykwJh43PrBIrkyYV0bJOC4AXZRKQV.webp",
+    logo: "",
   },
   {
     name: "GRUPA KMS K9",
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Grupa%20KMS-uQtZha8d8KN8g4Agiz8VbSKYlEyFJ1.webp",
+    logo: "",
   },
   {
     name: "VALHALL K-9",
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Valhall%20K9-qobBFVbFLarEmNDPb2waxfUzwFEiOC.webp",
+    logo: "",
   },
 ]
 
