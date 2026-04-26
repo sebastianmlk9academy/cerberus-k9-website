@@ -11,6 +11,7 @@ import { NavBar } from '../../components/NavBar';
 import { PageHero } from '../../components/PageHero';
 import InstructorsGrid from '../../components/InstructorsGrid';
 import { Footer } from '../../components/Footer';
+import { loadCmsNavLinks } from '../../lib/loadCmsNavLinks';
 
 export const prerender = true;
 
@@ -22,6 +23,7 @@ const param = Astro.params.lang ?? '';
 const lang: Lang = isLang(param) ? param : 'en';
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
+const cmsNavLinks = await loadCmsNavLinks();
 const seo = instructorsSeoByLang[lang] ?? instructorsSeoByLang['pl'];
 const instrCopy = instructorsPageByLang[lang] ?? instructorsPageByLang['pl'];
 
@@ -40,7 +42,7 @@ const countriesCount = new Set(instructors.map((instructor) => instructor.countr
 	localizedPath="instruktorzy"
 	ogType="website"
 >
-	<NavBar lang={lang} client:load logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} />
+	<NavBar lang={lang} client:load logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} />
 	<PageHero
 		category="CERBERUS K9"
 		title={instrCopy.heroTitle}

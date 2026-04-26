@@ -9,11 +9,13 @@ import { NavBar } from '../../components/NavBar';
 import { PageHero } from '../../components/PageHero';
 import RegistrationSection from '../../components/RegistrationSection.astro';
 import { Footer } from '../../components/Footer';
+import { loadCmsNavLinks } from '../../lib/loadCmsNavLinks';
 
 export const prerender = true;
 
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
+const cmsNavLinks = await loadCmsNavLinks();
 
 /** Polish URL is canonical; /pl/rejestracja is defined in `src/pages/pl/rejestracja.astro`. */
 export function getStaticPaths() {
@@ -138,7 +140,7 @@ const regH = regHero[lang] ?? regHero.pl;
 	canonicalHref={canonicalHref}
 	robots="noindex, follow"
 >
-	<NavBar lang={lang} client:load />
+	<NavBar lang={lang} client:load logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} />
 	<PageHero
 		category={regH.category}
 		title={regH.title}
