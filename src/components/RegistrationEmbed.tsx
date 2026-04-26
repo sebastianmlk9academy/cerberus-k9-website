@@ -51,6 +51,8 @@ const regCopy: Record<
     contactLabel: "KONTAKT — REJESTRACJA",
     questionsLabel: "MASZ PYTANIA O REJESTRACJĘ?",
     contactUs: "SKONTAKTUJ SIĘ Z NAMI",
+    admissionNote: "Finansowane z dotacji samorządowych",
+    registerNow: "Zarejestruj się teraz",
   },
   en: {
     title: "Register for Cerberus",
@@ -68,6 +70,8 @@ const regCopy: Record<
     contactLabel: "CONTACT — REGISTRATION",
     questionsLabel: "QUESTIONS ABOUT REGISTRATION?",
     contactUs: "CONTACT US",
+    admissionNote: "Funded by local government grants",
+    registerNow: "Register now",
   },
   de: {
     title: "Anmeldung für Cerberus",
@@ -85,6 +89,8 @@ const regCopy: Record<
     contactLabel: "KONTAKT — ANMELDUNG",
     questionsLabel: "FRAGEN ZUR ANMELDUNG?",
     contactUs: "KONTAKTIEREN SIE UNS",
+    admissionNote: "Finanziert durch kommunale Fördermittel",
+    registerNow: "Jetzt registrieren",
   },
   fr: {
     title: "Inscription à Cerberus",
@@ -102,6 +108,8 @@ const regCopy: Record<
     contactLabel: "CONTACT — INSCRIPTION",
     questionsLabel: "DES QUESTIONS SUR L'INSCRIPTION ?",
     contactUs: "CONTACTEZ-NOUS",
+    admissionNote: "Financé par des subventions des collectivités locales",
+    registerNow: "Inscrivez-vous maintenant",
   },
   cs: {
     title: "Registrace na Cerberus",
@@ -119,6 +127,8 @@ const regCopy: Record<
     contactLabel: "KONTAKT — REGISTRACE",
     questionsLabel: "MÁTE DOTAZY K REGISTRACI?",
     contactUs: "KONTAKTUJTE NÁS",
+    admissionNote: "Financováno z dotací samosprávy",
+    registerNow: "Zaregistrujte se nyní",
   },
   sk: {
     title: "Registrácia na Cerberus",
@@ -136,6 +146,8 @@ const regCopy: Record<
     contactLabel: "KONTAKT — REGISTRÁCIA",
     questionsLabel: "MÁTE OTÁZKY K REGISTRÁCII?",
     contactUs: "KONTAKTUJTE NÁS",
+    admissionNote: "Financované z dotácií samosprávy",
+    registerNow: "Zaregistrujte sa teraz",
   },
   hu: {
     title: "Regisztráció a Cerberusra",
@@ -153,6 +165,8 @@ const regCopy: Record<
     contactLabel: "KAPCSOLAT — REGISZTRÁCIÓ",
     questionsLabel: "KÉRDÉSE VAN A REGISZTRÁCIÓVAL KAPCSOLATBAN?",
     contactUs: "VEGYE FEL VELÜNK A KAPCSOLATOT",
+    admissionNote: "Önkormányzati támogatásból finanszírozva",
+    registerNow: "Regisztráljon most",
   },
   hr: {
     title: "Registracija za Cerberus",
@@ -170,6 +184,8 @@ const regCopy: Record<
     contactLabel: "KONTAKT — REGISTRACIJA",
     questionsLabel: "IMATE PITANJA O REGISTRACIJI?",
     contactUs: "KONTAKTIRAJTE NAS",
+    admissionNote: "Financirano lokalnim državnim bespovratnim sredstvima",
+    registerNow: "Registrirajte se sada",
   },
   sl: {
     title: "Registracija za Cerberus",
@@ -187,6 +203,8 @@ const regCopy: Record<
     contactLabel: "KONTAKT — REGISTRACIJA",
     questionsLabel: "IMATE VPRAŠANJA O REGISTRACIJI?",
     contactUs: "STOPITE V STIK Z NAMI",
+    admissionNote: "Financirano z lokalnimi vladnimi nepovratnimi sredstvi",
+    registerNow: "Registrirajte se zdaj",
   },
   lt: {
     title: "Registracija į Cerberus",
@@ -204,6 +222,8 @@ const regCopy: Record<
     contactLabel: "KONTAKTAI — REGISTRACIJA",
     questionsLabel: "TURITE KLAUSIMŲ APIE REGISTRACIJĄ?",
     contactUs: "SUSISIEKITE SU MUMIS",
+    admissionNote: "Finansuojama iš savivaldybių dotacijų",
+    registerNow: "Užsiregistruokite dabar",
   },
   lv: {
     title: "Reģistrācija Cerberus",
@@ -221,6 +241,8 @@ const regCopy: Record<
     contactLabel: "KONTAKTS — REĢISTRĀCIJA",
     questionsLabel: "IR JAUTĀJUMI PAR REĢISTRĀCIJU?",
     contactUs: "SAZINIETIES AR MUMS",
+    admissionNote: "Finansēts no vietējās pašvaldības dotācijām",
+    registerNow: "Reģistrējieties tagad",
   },
   no: {
     title: "Registrering til Cerberus",
@@ -238,6 +260,8 @@ const regCopy: Record<
     contactLabel: "KONTAKT — REGISTRERING",
     questionsLabel: "SPØRSMÅL OM REGISTRERING?",
     contactUs: "KONTAKT OSS",
+    admissionNote: "Finansiert av lokale tilskudd",
+    registerNow: "Registrer deg nå",
   },
   sv: {
     title: "Registrering för Cerberus",
@@ -255,6 +279,8 @@ const regCopy: Record<
     contactLabel: "KONTAKT — REGISTRERING",
     questionsLabel: "FRÅGOR OM REGISTRERING?",
     contactUs: "KONTAKTA OSS",
+    admissionNote: "Finansierat av lokala bidrag",
+    registerNow: "Registrera dig nu",
   },
   nl: {
     title: "Registratie voor Cerberus",
@@ -272,6 +298,8 @@ const regCopy: Record<
     contactLabel: "CONTACT — REGISTRATIE",
     questionsLabel: "VRAGEN OVER REGISTRATIE?",
     contactUs: "NEEM CONTACT OP",
+    admissionNote: "Gefinancierd door lokale subsidies",
+    registerNow: "Registreer nu",
   },
   es: {
     title: "Registro para Cerberus",
@@ -289,6 +317,8 @@ const regCopy: Record<
     contactLabel: "CONTACTO — REGISTRO",
     questionsLabel: "¿PREGUNTAS SOBRE EL REGISTRO?",
     contactUs: "CONTÁCTENOS",
+    admissionNote: "Financiado con subvenciones del gobierno local",
+    registerNow: "Regístrese ahora",
   },
   pt: {
     title: "Registo no Cerberus",
@@ -306,6 +336,8 @@ const regCopy: Record<
     contactLabel: "CONTACTO — REGISTO",
     questionsLabel: "TEM QUESTÕES SOBRE O REGISTO?",
     contactUs: "CONTACTE-NOS",
+    admissionNote: "Financiado por subsídios do governo local",
+    registerNow: "Registe-se agora",
   },
   ro: {
     title: "Înregistrare la Cerberus",
@@ -323,6 +355,8 @@ const regCopy: Record<
     contactLabel: "CONTACT — ÎNREGISTRARE",
     questionsLabel: "ÎNTREBĂRI DESPRE ÎNREGISTRARE?",
     contactUs: "CONTACTAȚI-NE",
+    admissionNote: "Finanțat prin granturi guvernamentale locale",
+    registerNow: "Înregistrați-vă acum",
   },
   it: {
     title: "Registrazione a Cerberus",
@@ -340,6 +374,8 @@ const regCopy: Record<
     contactLabel: "CONTATTO — REGISTRAZIONE",
     questionsLabel: "DOMANDE SULLA REGISTRAZIONE?",
     contactUs: "CONTATTACI",
+    admissionNote: "Finanziato da sovvenzioni del governo locale",
+    registerNow: "Registrati ora",
   },
   ko: {
     title: "Cerberus 등록",
@@ -357,6 +393,8 @@ const regCopy: Record<
     contactLabel: "문의 — 등록",
     questionsLabel: "등록 관련 문의가 있으신가요?",
     contactUs: "문의하기",
+    admissionNote: "지방 정부 보조금으로 운영",
+    registerNow: "지금 등록하기",
   },
 };
 
@@ -784,7 +822,7 @@ export function RegistrationAside({
             marginTop: "8px",
           }}
         >
-          {(c as any).admissionNote ?? "Funded by local government grants"}
+          {(c as any).admissionNote ?? "Finansowane z dotacji samorządowych"}
         </p>
       </div>
 
@@ -829,7 +867,7 @@ export function RegistrationAside({
             marginTop: "4px",
           }}
         >
-          {(c as any).registerNow ?? "Register now"}
+          {(c as any).registerNow ?? "Zarejestruj się teraz"}
         </p>
       </div>
 
