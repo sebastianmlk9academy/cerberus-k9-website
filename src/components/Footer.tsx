@@ -144,7 +144,7 @@ export function Footer({
     { label: safeCopy.linkAbout, href: `/${safeLang}/o-wydarzeniu` },
     { label: safeCopy.linkInstructors, href: `/${safeLang}/instruktorzy` },
     { label: safeCopy.linkRegistration, href: `/${safeLang}/rejestracja` },
-    { label: safeCopy.linkProgram, href: `/${safeLang}/program` },
+    { label: safeCopy.linkProgram, href: `/${safeLang}/o-wydarzeniu#program` },
     { label: safeCopy.linkGallery, href: `/${safeLang}/galeria` },
     { label: safeCopy.linkMedia, href: `/${safeLang}/media` },
     { label: safeCopy.linkNews, href: `/${safeLang}/aktualnosci` },

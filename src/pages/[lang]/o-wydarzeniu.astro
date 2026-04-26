@@ -179,6 +179,7 @@ const eventSchema = {
 		</div>
 	</section>
 
+	<div id="program">
 	<InteractiveAgenda
 		client:load
 		items={agendaDays}
@@ -191,6 +192,7 @@ const eventSchema = {
 		city={s?.event_city}
 		agendaUrl={s?.agenda_page_url}
 	/>
+	</div>
 	<LocationsSection
 		copy={locationsSectionByLang[lang] ?? locationsSectionByLang['pl']}
 		locations={locationItems ?? undefined}
