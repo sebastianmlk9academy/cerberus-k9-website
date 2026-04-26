@@ -17,6 +17,11 @@ interface ContactPageProps {
   mapEmbedUrl?: string;
   venueAddress?: string;
   presidentEmail?: string;
+  /** Empty string = Netlify Forms (`/` POST). Non-empty = JSON POST to this URL. */
+  contactFormEndpoint?: string;
+  contactFormRecipient?: string;
+  /** Resolved GDPR checkbox label (e.g. from CMS per language). */
+  gdprConsentText?: string;
 }
 
 const DEFAULT_EMAIL = "sebastian@pactak9.org";
@@ -217,7 +222,16 @@ const DEFAULT_MAP_EMBED_URL =
 
 const contactLinkHoverStyle = { transition: "color 0.15s ease" } as const;
 
-export function ContactPage({ lang, email, mapEmbedUrl, venueAddress, presidentEmail }: ContactPageProps) {
+export function ContactPage({
+  lang,
+  email,
+  mapEmbedUrl,
+  venueAddress,
+  presidentEmail,
+  contactFormEndpoint,
+  contactFormRecipient,
+  gdprConsentText,
+}: ContactPageProps) {
   const resolvedMapEmbedUrl = mapEmbedUrl?.trim() || DEFAULT_MAP_EMBED_URL;
   const resolvedVenueAddress = venueAddress?.trim() || "3MK Arena, ul. Andrzeja Kowalczyka 1, Ostrów Wielkopolski, Polska";
   const resolvedPresidentEmail = presidentEmail?.trim() || "mariusz@pactak9.org";
@@ -227,6 +241,13 @@ export function ContactPage({ lang, email, mapEmbedUrl, venueAddress, presidentE
   const c = contactCopy[lang ?? "pl"] ?? contactCopy["pl"];
   const contactEmail = (email ?? "").trim() || DEFAULT_EMAIL;
   const addressCountryLine = ADDRESS_COUNTRY_BY_LANG[lang ?? "pl"] ?? ADDRESS_COUNTRY_BY_LANG.en;
+  const customEndpoint = (contactFormEndpoint ?? "").trim();
+  const useNetlifyForms = !customEndpoint;
+  const resolvedRecipient = (contactFormRecipient ?? "").trim() || DEFAULT_EMAIL;
+  const resolvedGdprText =
+    (gdprConsentText ?? "").trim() ||
+    c.privacyConsent ||
+    "I have read the Privacy Policy and consent to personal data processing";
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -245,14 +266,29 @@ export function ContactPage({ lang, email, mapEmbedUrl, venueAddress, presidentE
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(data as unknown as Record<string, string>).toString(),
-      });
-
-      if (!response.ok) {
-        throw new Error("Form submission failed");
+      if (useNetlifyForms) {
+        const response = await fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams(data as unknown as Record<string, string>).toString(),
+        });
+        if (!response.ok) throw new Error("Form submission failed");
+      } else {
+        const payload = {
+          fullName: String(data.get("fullName") ?? ""),
+          email: String(data.get("email") ?? ""),
+          organization: String(data.get("organization") ?? ""),
+          subject: String(data.get("subject") ?? ""),
+          message: String(data.get("message") ?? ""),
+          privacyConsent: data.get("privacyConsent") === "on",
+          recipient: resolvedRecipient,
+        };
+        const response = await fetch(customEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (!response.ok) throw new Error("Form submission failed");
       }
 
       setIsSuccess(true);
@@ -426,9 +462,10 @@ export function ContactPage({ lang, email, mapEmbedUrl, venueAddress, presidentE
             className="ck9-contact-form"
             name="contact"
             method="POST"
-            action="/kontakt"
-            data-netlify="true"
-            data-netlify-honeypot="company-website"
+            action={useNetlifyForms ? "/" : "#"}
+            {...(useNetlifyForms
+              ? ({ "data-netlify": "true", "data-netlify-honeypot": "company-website" } as const)
+              : {})}
             onSubmit={handleSubmit}
           >
             <input type="hidden" name="form-name" value="contact" />
@@ -480,10 +517,7 @@ export function ContactPage({ lang, email, mapEmbedUrl, venueAddress, presidentE
 
             <label className="ck9-checkbox" htmlFor="privacyConsent">
               <input id="privacyConsent" name="privacyConsent" type="checkbox" required />
-              <span>
-                {c.privacyConsent ??
-                  "I have read the Privacy Policy and consent to personal data processing"}
-              </span>
+              <span>{resolvedGdprText}</span>
             </label>
 
             <button className="ck9-contact-btn" type="submit" disabled={isSubmitting}>

@@ -5,11 +5,12 @@ import type { APIRoute } from 'astro';
 export const GET: APIRoute = async () => {
 	const settings = await getEntry('ustawienia', 'ustawienia');
 	const siteUrl = settings?.data.site_url ?? 'https://cerberusk9.org';
+	const siteTitle = settings?.data.brand_name ?? 'CERBERUS K9';
 
 	const entries = await getCollection('aktualnosci');
 
 	return rss({
-		title: 'CERBERUS K9 — Aktualności',
+		title: `${siteTitle} — Aktualności`,
 		description: 'Najnowsze aktualności CERBERUS K9',
 		site: new URL(siteUrl),
 		items: entries

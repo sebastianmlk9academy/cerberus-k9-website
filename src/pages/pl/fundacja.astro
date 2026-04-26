@@ -5,6 +5,7 @@
  * Primary event site can remain on cerberusk9.org; the foundation microsite uses this page.
  */
 import { getCollection, getEntry } from 'astro:content';
+import { loadCmsNavLinks } from '../../lib/loadCmsNavLinks';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { NavBar } from '../../components/NavBar';
 import { PageHero } from '../../components/PageHero';
@@ -20,38 +21,31 @@ const s = settings?.data;
 const statuteHref = s?.statute_pdf ?? '#';
 const krsHref = s?.krs_url ?? '#';
 
+const fundacjaContent = await getEntry('fundacja_content', 'content');
+const fc = fundacjaContent?.data;
+const cmsNavLinks = await loadCmsNavLinks();
+
 const lang = 'pl';
 const fundacjaCopy = fundacjaPageByLang['pl'];
 const footerCopy = footerCopyByLang[lang] ?? footerCopyByLang['pl'];
 const title = fundacjaCopy.metaTitle;
 const description = fundacjaCopy.metaDescription;
 
-/** Cele szczegółowe wg §5 Statutu — treść zgodna z publikacją zarządu Fundacji (Facebook, styczeń 2025). */
-const statutoryGoals: string[] = [
-	'Edukacja dzieci, młodzieży i dorosłych w zakresie bezpieczeństwa publicznego, reagowania kryzysowego oraz odpowiedzialnej pracy z psem.',
-	'Organizowanie i prowadzenie szkoleń z zakresu szkolenia psów, pracy z psami oraz przygotowania opiekunów i przyszłych instruktorów.',
-	'Organizowanie szkoleń, seminariów i warsztatów dla osób pracujących z psami.',
-	'Organizowanie zawodów, imprez sportowych i wydarzeń, których motywem przewodnim jest pies, obronność i bezpieczeństwo.',
-	'Organizowanie campów, obozów szkoleniowych, spotkań integracyjnych i wydarzeń rodzinnych dla ludzi z psami.',
-	'Prowadzenie działań na rzecz osób z niepełnosprawnościami, z udziałem psów lub bez ich udziału, w szczególności poprzez szkolenia, zajęcia, pokazy, eventy oraz działania aktywizacyjne i rehabilitacyjne.',
-	'Tworzenie, prowadzenie i rozwijanie infrastruktury sportowej, rekreacyjnej i szkoleniowej dostępnej dla osób z niepełnosprawnościami, w tym torów sportowych, obiektów treningowych i terenów rekreacyjnych.',
-	'Prowadzenie działań na rzecz schronisk dla zwierząt oraz psów bezdomnych, w szczególności w zakresie ich szkolenia, socjalizacji, rehabilitacji oraz przygotowania do adopcji.',
-	'Promowanie humanitarnego traktowania zwierząt oraz odpowiedzialnej adopcji.',
-	'Wspieranie weteranów, instruktorów i osób działających na rzecz bezpieczeństwa publicznego.',
-	'Wspieranie współpracy krajowej i międzynarodowej środowisk K9.',
-];
+const statutoryGoals: string[] = (fc?.goals_pl ?? []).map((g) => g.goal);
 
 const legalRows: { label: string; value: string }[] = [
 	{ label: 'KRS', value: '0001219121' },
 	{ label: 'NIP', value: '6222869581' },
 	{ label: 'REGON', value: '543799847' },
+	{ label: 'Sąd rejestrowy', value: fc?.registration_court ?? 'Sąd Rejonowy w Ostrowie Wielkopolskim' },
+	{ label: 'Data rejestracji', value: fc?.registration_date ?? '2024' },
 	{ label: 'Adres', value: 'ul. Odolanowska 17, 63-400 Topola Mała, woj. wielkopolskie' },
 	{
 		label: 'Prezes',
 		value: 'Mariusz Lis',
 	},
 	{ label: 'Wiceprezes', value: 'Sebastian Bożek' },
-	{ label: 'Status', value: 'Fundacja, osobowość prawna' },
+	{ label: 'Status', value: fc?.legal_status_pl ?? 'Fundacja, osobowość prawna' },
 	{ label: 'Działalność', value: 'Non-profit, art. 3 ustawy o fundacjach' },
 ];
 let teamMembers = [];
@@ -80,7 +74,7 @@ const members = teamMembers
 	omitLocaleAlternates
 	ogType="website"
 >
-	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} />
+	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} />
 	<PageHero
 		category="O NAS"
 		title="FUNDACJA PACTA K9"
@@ -95,23 +89,11 @@ const members = teamMembers
 				<h2 id="fundacja-misja-heading" class="fundacja-mission__title fundacja-mission__title--gold">
 					MISJA
 				</h2>
-				<p class="fundacja-mission__body">
-					Fundacja Pacta K9 oraz Międzynarodowa Platforma Obrony CERBERUS K9 integrują służby mundurowe i sektor
-					cywilny poprzez zunifikowany system szkoleniowy, który standaryzuje kompetencje, wzmacnia współpracę
-					cywilno-wojskową na poziomie krajowym i w ramach NATO oraz przygotowuje obywateli do skutecznego
-					działania w warunkach zagrożeń i sytuacji kryzysowych.
-				</p>
+				<p class="fundacja-mission__body">{fc?.mission_pl?.replace(/\s+/g, ' ').trim()}</p>
 			</div>
 			<div class="fundacja-mission__col">
 				<h2 class="fundacja-mission__title fundacja-mission__title--red">WIZJA</h2>
-				<p class="fundacja-mission__body">
-					Największa w Polsce i jedna z wiodących w NATO zintegrowana platforma bezpieczeństwa — łącząca służby
-					mundurowe, struktury obrony cywilnej i sektor prywatny w jeden spójny ekosystem gotowości operacyjnej.
-					Budujemy odporność społeczeństwa nie poprzez deklaracje, lecz poprzez weryfikowalne kompetencje —
-					szkoląc, sprawdzając i certyfikując obywateli zdolnych do działania w warunkach kryzysu, konfliktu i
-					zagrożeń hybrydowych. Dostarczamy służbom mundurowym kandydatów przygotowanych mentalnie i
-					proceduralnie, gotowych do służby od pierwszego dnia.
-				</p>
+				<p class="fundacja-mission__body">{fc?.vision_pl?.replace(/\s+/g, ' ').trim()}</p>
 			</div>
 		</div>
 	</section>

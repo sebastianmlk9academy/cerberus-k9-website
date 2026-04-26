@@ -1,5 +1,6 @@
 ---
 import { getEntry } from 'astro:content';
+import { loadCmsNavLinks } from '../../lib/loadCmsNavLinks';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { locales } from '../../../locales.mjs';
 import { footerCopyByLang } from '../../i18n/footer';
@@ -14,6 +15,7 @@ export const prerender = true;
 
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
+const cmsNavLinks = await loadCmsNavLinks();
 
 /** Polish URL is canonical; /pl/kontakt is defined in `src/pages/pl/kontakt.astro`. */
 export function getStaticPaths() {
@@ -60,7 +62,7 @@ const ctHero = contactHero[lang] ?? contactHero.pl;
 	ogType="website"
 	canonicalHref={canonicalHref}
 >
-	<NavBar lang={lang} client:load logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} />
+	<NavBar lang={lang} client:load logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} />
 	<PageHero
 		category={ctHero.title}
 		title={ctHero.title}
@@ -76,6 +78,9 @@ const ctHero = contactHero[lang] ?? contactHero.pl;
 		mapEmbedUrl={s?.map_embed_url}
 		venueAddress={s?.venue_address}
 		presidentEmail={s?.president_email}
+		contactFormEndpoint={s?.contact_form_endpoint}
+		contactFormRecipient={s?.contact_form_recipient}
+		gdprConsentText={lang === 'pl' ? s?.contact_gdpr_text_pl : s?.contact_gdpr_text_en}
 		client:load
 	/>
 	<Footer

@@ -1,5 +1,6 @@
 ---
 import { getCollection, getEntry } from 'astro:content';
+import { loadCmsNavLinks } from '../../lib/loadCmsNavLinks';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { locales } from '../../../locales.mjs';
 import { isLang } from '../../i18n/utils';
@@ -18,6 +19,10 @@ const s = settings?.data;
 const statuteHref = s?.statute_pdf ?? '#';
 const krsHref = s?.krs_url ?? '#';
 
+const fundacjaContent = await getEntry('fundacja_content', 'content');
+const fc = fundacjaContent?.data;
+const cmsNavLinks = await loadCmsNavLinks();
+
 export function getStaticPaths() {
 	return locales.filter((l) => l !== 'pl').map((lang) => ({ params: { lang } }));
 }
@@ -26,29 +31,20 @@ const { lang: paramLang } = Astro.params;
 const lang: Lang = isLang(paramLang ?? '') ? (paramLang as Lang) : 'en';
 const copy = fundacjaPageByLang[lang] ?? fundacjaPageByLang['pl'];
 
-/** Statutory goals (Article 5) — English for international `[lang]` routes. */
-const statutoryGoals: string[] = [
-	'Education of children, youth, and adults in public safety, crisis response, and responsible work with dogs.',
-	'Organising and running training in dog training, working with dogs, and preparing handlers and future instructors.',
-	'Organising training courses, seminars, and workshops for people who work with dogs.',
-	'Organising competitions, sporting events, and gatherings focused on dogs, protection, and security.',
-	'Organising camps, training camps, integration meetings, and family events for people with dogs.',
-	'Activities for people with disabilities, with or without dogs, including training, classes, demonstrations, events, and activation or rehabilitation programmes.',
-	'Creating, operating, and developing sports, recreational, and training infrastructure accessible to people with disabilities, including sports tracks, training facilities, and recreational areas.',
-	'Activities for animal shelters and homeless dogs, especially training, socialisation, rehabilitation, and adoption readiness.',
-	'Promoting humane treatment of animals and responsible adoption.',
-	'Supporting veterans, instructors, and people working for public safety.',
-	'Supporting national and international cooperation within K9 communities.',
-];
+const statutoryGoals: string[] = (fc?.goals_en?.length ? fc.goals_en : fc?.goals_pl ?? []).map((g) => g.goal);
+const missionBody = (fc?.mission_en?.trim() || fc?.mission_pl || '').replace(/\s+/g, ' ').trim();
+const visionBody = (fc?.vision_en?.trim() || fc?.vision_pl || '').replace(/\s+/g, ' ').trim();
 
 const legalRows: { label: string; value: string }[] = [
 	{ label: 'KRS', value: '0001219121' },
 	{ label: 'NIP', value: '6222869581' },
 	{ label: 'REGON', value: '543799847' },
+	{ label: 'Registry court', value: fc?.registration_court ?? 'Sąd Rejonowy w Ostrowie Wielkopolskim' },
+	{ label: 'Registration date', value: fc?.registration_date ?? '2024' },
 	{ label: 'Registered address', value: 'ul. Odolanowska 17, 63-400 Topola Mała, Greater Poland Voivodeship, Poland' },
 	{ label: 'Chair', value: 'Mariusz Lis' },
 	{ label: 'Vice-Chair', value: 'Sebastian Bożek' },
-	{ label: 'Legal form', value: 'Foundation (non-profit legal entity)' },
+	{ label: 'Legal form', value: fc?.legal_status_pl ?? 'Foundation (non-profit legal entity)' },
 	{ label: 'Activity', value: 'Non-profit under the Polish Act on Foundations' },
 ];
 let teamMembers = [];
@@ -77,7 +73,7 @@ const members = teamMembers
 	ogType="website"
 	canonicalHref={`/${lang}/fundacja`}
 >
-	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} />
+	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} />
 	<PageHero
 		category={copy.heroCategory}
 		title={copy.heroTitle}
@@ -92,23 +88,11 @@ const members = teamMembers
 				<h2 id="fundacja-misja-heading" class="fundacja-mission__title fundacja-mission__title--gold">
 					MISSION
 				</h2>
-				<p class="fundacja-mission__body">
-					The PACTA K9 Foundation and the CERBERUS K9 International Defence Platform connect uniformed services
-					and the civilian sector through a unified training system that standardises skills, strengthens
-					civil–military cooperation nationally and within NATO, and prepares citizens to act effectively under
-					threat and in crisis situations.
-				</p>
+				<p class="fundacja-mission__body">{missionBody}</p>
 			</div>
 			<div class="fundacja-mission__col">
 				<h2 class="fundacja-mission__title fundacja-mission__title--red">VISION</h2>
-				<p class="fundacja-mission__body">
-					To be Poland’s largest and one of NATO’s leading integrated security platforms — combining uniformed
-					services, civil defence structures, and the private sector into one coherent ecosystem of operational
-					readiness. We build societal resilience not through declarations alone, but through verifiable
-					competence — training, assessing, and certifying citizens able to operate in crisis, conflict, and
-					hybrid-threat conditions. We deliver to uniformed services candidates who are mentally and
-					procedurally prepared to serve from day one.
-				</p>
+				<p class="fundacja-mission__body">{visionBody}</p>
 			</div>
 		</div>
 	</section>
