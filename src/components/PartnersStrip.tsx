@@ -89,7 +89,7 @@ function MediaPatronCard({ partner }: { partner: Partner }) {
       onMouseLeave={() => setIsHovered(false)}
       className={`
         group relative flex flex-col items-center justify-center
-        p-4 sm:p-6 md:p-8
+        p-[1.4rem] sm:p-[2.1rem] md:p-[2.8rem]
         bg-gradient-to-b from-[#1E2B38] to-[#161F28]
         border border-[#C4922A]/30
         rounded-lg
@@ -98,8 +98,8 @@ function MediaPatronCard({ partner }: { partner: Partner }) {
         hover:shadow-[0_0_30px_rgba(196,146,42,0.15)]
         hover:scale-[1.02]
         cursor-pointer
-        min-w-[140px] sm:min-w-[180px] md:min-w-[220px]
-        flex-1 max-w-[280px] sm:max-w-[320px]
+        min-w-[196px] sm:min-w-[252px] md:min-w-[308px]
+        flex-1 max-w-[392px] sm:max-w-[448px]
       `}
     >
       {/* Glow effect */}
@@ -110,7 +110,7 @@ function MediaPatronCard({ partner }: { partner: Partner }) {
       `} />
 
       {/* Logo */}
-      <div className="relative flex-1 w-full flex items-center justify-center p-2 mb-3 sm:mb-4 min-h-16 sm:min-h-20 md:min-h-24">
+      <div className="relative flex-1 w-full flex items-center justify-center p-[0.7rem] mb-[1.05rem] sm:mb-[1.4rem] min-h-[5.6rem] sm:min-h-[7rem] md:min-h-[8.4rem]">
         {partner.logo && !imageError ? (
           <div className="flex items-center justify-center w-full h-full">
             <img
@@ -156,7 +156,7 @@ function PartnerCard({ partner }: { partner: Partner }) {
       onMouseLeave={() => setIsHovered(false)}
       className={`
         group relative flex flex-col items-center justify-center
-        p-3 sm:p-4 md:p-5
+        p-[1.05rem] sm:p-[1.4rem] md:p-[1.75rem]
         bg-[#1A2530]/50
         border border-[#253344]/50
         rounded-lg
@@ -164,11 +164,11 @@ function PartnerCard({ partner }: { partner: Partner }) {
         hover:border-[#3A4A5A]
         hover:bg-[#1E2B38]
         cursor-pointer
-        min-w-[100px] sm:min-w-[120px] md:min-w-[140px]
+        min-w-[140px] sm:min-w-[168px] md:min-w-[196px]
       `}
     >
       {/* Logo */}
-      <div className="relative flex-1 w-full flex items-center justify-center p-2 mb-2 sm:mb-3 min-h-12 sm:min-h-14 md:min-h-16">
+      <div className="relative flex-1 w-full flex items-center justify-center p-[0.7rem] mb-[0.7rem] sm:mb-[1.05rem] min-h-[4.2rem] sm:min-h-[4.9rem] md:min-h-[5.6rem]">
         {partner.logo && !imageError ? (
           <div className="flex items-center justify-center w-full h-full">
             <img
