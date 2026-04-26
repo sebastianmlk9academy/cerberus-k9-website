@@ -1,4 +1,35 @@
 {
-  "metaTitle": "CERBERUS K9 | Internationale militärische K9-Veranstaltung der PACTA K9 Foundation",
-  "metaDescription": "CERBERUS K9 ist eine internationale militärische Diensthundeveranstaltung der PACTA K9 Foundation in Polen. Programm, Trainer:innen, Partner und Aktuelles."
+  "metaTitle": "CERBERUS K9 | Internationale K9-Veranstaltung der PACTA K9 Stiftung",
+  "metaDescription": "CERBERUS K9 ist eine internationale militärische K9-Veranstaltung der PACTA K9 Stiftung in Polen. Programm, Ausbilder, Partner und Aktuelles.",
+  "nav": {
+    "event": "ÜBER DIE VERANSTALTUNG",
+    "instructors": "AUSBILDER",
+    "partners": "PARTNER",
+    "media": "MEDIEN",
+    "foundation": "STIFTUNG",
+    "gallery": "GALERIE",
+    "contact": "KONTAKT",
+    "news": "AKTUELLES",
+    "register": "ANMELDUNG"
+  },
+  "buttons": {
+    "register": "JETZT ANMELDEN",
+    "program": "PROGRAMM HERUNTERLADEN",
+    "video": "BERICHT 2025 ANSEHEN",
+    "all_news": "ALLE NEWS",
+    "become_partner": "PARTNER WERDEN",
+    "read_more": "WEITERLESEN →",
+    "load_more": "WEITERE ARTIKEL LADEN"
+  },
+  "labels": {
+    "free_admission": "EINTRITT FREI",
+    "confirmed": "BESTÄTIGT",
+    "expand_bio": "BIO ERWEITERN",
+    "collapse_bio": "BIO EINKLAPPEN",
+    "back_to_news": "← ZURÜCK ZU DEN NEWS",
+    "share": "TEILEN:",
+    "module": "MODUL:",
+    "schedule": "ZEITPLAN:",
+    "instructor_label": "REFERENT:"
+  }
 }

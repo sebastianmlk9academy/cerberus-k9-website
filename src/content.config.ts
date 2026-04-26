@@ -240,6 +240,16 @@ const ustawienia = defineCollection({
 		president_email: z.string().optional().default('mariusz@pactak9.org'),
 		map_embed_url: z.string().optional().default(''),
 		venue_address: z.string().optional().default(''),
+		contact_form_endpoint: z.string().optional().default(''),
+		contact_form_recipient: z.string().optional().default('sebastian@pactak9.org'),
+		contact_gdpr_text_pl: z
+			.string()
+			.optional()
+			.default('Wyrażam zgodę na przetwarzanie danych osobowych zgodnie z RODO.'),
+		contact_gdpr_text_en: z
+			.string()
+			.optional()
+			.default('I consent to processing of personal data in accordance with GDPR.'),
 		agenda_page_url: z.string().optional().default('https://cerberusk9.org/pl/o-wydarzeniu'),
 		site_url: z.string().optional().default('https://cerberusk9.org'),
 		pwa_name: z.string().optional().default('CERBERUS K9'),
@@ -439,6 +449,43 @@ const agenda_ui = defineCollection({
 	}),
 });
 
+const fundacjaGoalRow = z.object({ goal: z.string() });
+const fundacjaGoalsList = z.preprocess((val) => {
+	if (!Array.isArray(val)) return [];
+	return val.map((item) => (typeof item === 'string' ? { goal: item } : item));
+}, z.array(fundacjaGoalRow));
+
+const fundacja_content = defineCollection({
+	loader: glob({ base: './src/content/fundacja_content', pattern: '*.{yml,yaml}' }),
+	schema: z.object({
+		mission_pl: z.string(),
+		mission_en: z.string().optional(),
+		vision_pl: z.string(),
+		vision_en: z.string().optional(),
+		goals_pl: fundacjaGoalsList,
+		goals_en: fundacjaGoalsList.optional(),
+		registration_court: z.string(),
+		registration_date: z.string(),
+		legal_status_pl: z.string(),
+	}),
+});
+
+const nav_links = defineCollection({
+	loader: glob({ base: './src/content/nav_links', pattern: '*.{yml,yaml}' }),
+	schema: z.object({
+		links: z.array(
+			z.object({
+				key: z.string(),
+				label_pl: z.string(),
+				label_en: z.string(),
+				path: z.string(),
+				order: z.number(),
+				active: z.boolean().optional().default(true),
+			}),
+		),
+	}),
+});
+
 const locations = defineCollection({
 	loader: glob({ base: './src/content/locations', pattern: '**/*.{md,mdx}' }),
 	schema: z.object({
@@ -491,4 +538,6 @@ export const collections = {
 	locations,
 	agenda_categories,
 	agenda_ui,
+	fundacja_content,
+	nav_links,
 };

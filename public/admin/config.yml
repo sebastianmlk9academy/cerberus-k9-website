@@ -457,6 +457,15 @@ collections:
           - { label: "Email Prezesa", name: president_email, widget: string }
           - { label: "Mapa embed URL", name: map_embed_url, widget: string, required: false }
           - { label: "Adres lokalizacji (kontakt)", name: venue_address, widget: string }
+          - label: "Formularz kontaktowy — endpoint (POST)"
+            name: contact_form_endpoint
+            widget: string
+            required: false
+            default: ""
+            hint: "Zostaw puste dla Netlify Forms. Wpisz URL dla własnego endpointu."
+          - { label: "Formularz kontaktowy — odbiorca (email)", name: contact_form_recipient, widget: string, default: "sebastian@pactak9.org" }
+          - { label: "Formularz — zgoda RODO (PL)", name: contact_gdpr_text_pl, widget: string, default: "Wyrażam zgodę na przetwarzanie danych osobowych zgodnie z RODO." }
+          - { label: "Formularz — zgoda RODO (EN)", name: contact_gdpr_text_en, widget: string, default: "I consent to processing of personal data in accordance with GDPR." }
           - { label: "URL strony agendy (publiczny)", name: agenda_page_url, widget: string }
           - { label: "URL strony (główny)", name: site_url, widget: string }
           - { label: "PWA — nazwa pełna", name: pwa_name, widget: string, default: "CERBERUS K9", required: false }
@@ -718,6 +727,176 @@ collections:
               - { label: "Moduł", name: module, widget: string }
               - { label: "Harmonogram", name: schedule, widget: string }
               - { label: "Prowadzący", name: instructor_label, widget: string }
+      - name: en
+        label: "English (EN)"
+        file: "src/content/i18n/en.json"
+        fields:
+          - label: "Navigation"
+            name: nav
+            widget: object
+            fields:
+              - { label: "About Event", name: event, widget: string }
+              - { label: "Instructors", name: instructors, widget: string }
+              - { label: "Partners", name: partners, widget: string }
+              - { label: "Media", name: media, widget: string }
+              - { label: "Foundation", name: foundation, widget: string }
+              - { label: "Gallery", name: gallery, widget: string }
+              - { label: "Contact", name: contact, widget: string }
+              - { label: "News", name: news, widget: string }
+              - { label: "Register", name: register, widget: string }
+          - label: "Buttons"
+            name: buttons
+            widget: object
+            fields:
+              - { label: "Register now", name: register, widget: string }
+              - { label: "Download program", name: program, widget: string }
+              - { label: "Watch coverage", name: video, widget: string }
+              - { label: "All news", name: all_news, widget: string }
+              - { label: "Become partner", name: become_partner, widget: string }
+              - { label: "Read more", name: read_more, widget: string }
+              - { label: "Load more", name: load_more, widget: string }
+          - label: "Labels"
+            name: labels
+            widget: object
+            fields:
+              - { label: "Free admission", name: free_admission, widget: string }
+              - { label: "Confirmed", name: confirmed, widget: string }
+              - { label: "Expand bio", name: expand_bio, widget: string }
+              - { label: "Collapse bio", name: collapse_bio, widget: string }
+              - { label: "Back to news", name: back_to_news, widget: string }
+              - { label: "Share", name: share, widget: string }
+              - { label: "Module", name: module, widget: string }
+              - { label: "Schedule", name: schedule, widget: string }
+              - { label: "Instructor", name: instructor_label, widget: string }
+      - name: de
+        label: "Deutsch (DE)"
+        file: "src/content/i18n/de.json"
+        fields:
+          - label: "Navigation"
+            name: nav
+            widget: object
+            fields:
+              - { label: "Über die Veranstaltung", name: event, widget: string }
+              - { label: "Ausbilder", name: instructors, widget: string }
+              - { label: "Partner", name: partners, widget: string }
+              - { label: "Medien", name: media, widget: string }
+              - { label: "Stiftung", name: foundation, widget: string }
+              - { label: "Galerie", name: gallery, widget: string }
+              - { label: "Kontakt", name: contact, widget: string }
+              - { label: "Aktuelles", name: news, widget: string }
+              - { label: "Anmeldung", name: register, widget: string }
+          - label: "Schaltflächen"
+            name: buttons
+            widget: object
+            fields:
+              - { label: "Jetzt anmelden", name: register, widget: string }
+              - { label: "Programm herunterladen", name: program, widget: string }
+              - { label: "Bericht ansehen", name: video, widget: string }
+              - { label: "Alle News", name: all_news, widget: string }
+              - { label: "Partner werden", name: become_partner, widget: string }
+              - { label: "Mehr lesen", name: read_more, widget: string }
+              - { label: "Mehr laden", name: load_more, widget: string }
+          - label: "Beschriftungen"
+            name: labels
+            widget: object
+            fields:
+              - { label: "Freier Eintritt", name: free_admission, widget: string }
+              - { label: "Bestätigt", name: confirmed, widget: string }
+              - { label: "Bio erweitern", name: expand_bio, widget: string }
+              - { label: "Bio einklappen", name: collapse_bio, widget: string }
+              - { label: "Zurück zu den News", name: back_to_news, widget: string }
+              - { label: "Teilen", name: share, widget: string }
+              - { label: "Modul", name: module, widget: string }
+              - { label: "Zeitplan", name: schedule, widget: string }
+              - { label: "Referent", name: instructor_label, widget: string }
+      - name: fr
+        label: "Français (FR)"
+        file: "src/content/i18n/fr.json"
+        fields:
+          - label: "Navigation"
+            name: nav
+            widget: object
+            fields:
+              - { label: "À propos de l'événement", name: event, widget: string }
+              - { label: "Instructeurs", name: instructors, widget: string }
+              - { label: "Partenaires", name: partners, widget: string }
+              - { label: "Médias", name: media, widget: string }
+              - { label: "Fondation", name: foundation, widget: string }
+              - { label: "Galerie", name: gallery, widget: string }
+              - { label: "Contact", name: contact, widget: string }
+              - { label: "Actualités", name: news, widget: string }
+              - { label: "Inscription", name: register, widget: string }
+          - label: "Boutons"
+            name: buttons
+            widget: object
+            fields:
+              - { label: "S'inscrire maintenant", name: register, widget: string }
+              - { label: "Télécharger le programme", name: program, widget: string }
+              - { label: "Voir le reportage", name: video, widget: string }
+              - { label: "Toutes les actualités", name: all_news, widget: string }
+              - { label: "Devenir partenaire", name: become_partner, widget: string }
+              - { label: "Lire la suite", name: read_more, widget: string }
+              - { label: "Charger plus", name: load_more, widget: string }
+          - label: "Libellés"
+            name: labels
+            widget: object
+            fields:
+              - { label: "Entrée gratuite", name: free_admission, widget: string }
+              - { label: "Confirmé", name: confirmed, widget: string }
+              - { label: "Développer la bio", name: expand_bio, widget: string }
+              - { label: "Réduire la bio", name: collapse_bio, widget: string }
+              - { label: "Retour aux actualités", name: back_to_news, widget: string }
+              - { label: "Partager", name: share, widget: string }
+              - { label: "Module", name: module, widget: string }
+              - { label: "Planning", name: schedule, widget: string }
+              - { label: "Instructeur", name: instructor_label, widget: string }
+
+  - name: fundacja_content
+    label: "Fundacja — Treści strony"
+    files:
+      - name: content
+        label: "Treści strony Fundacja"
+        file: "src/content/fundacja_content/content.yml"
+        format: yaml
+        fields:
+          - { label: "Misja (PL)", name: mission_pl, widget: text }
+          - { label: "Misja (EN)", name: mission_en, widget: text, required: false }
+          - { label: "Wizja (PL)", name: vision_pl, widget: text }
+          - { label: "Wizja (EN)", name: vision_en, widget: text, required: false }
+          - label: "Cele statutowe (PL)"
+            name: goals_pl
+            widget: list
+            fields:
+              - { label: "Cel", name: goal, widget: text }
+          - label: "Cele statutowe (EN)"
+            name: goals_en
+            widget: list
+            required: false
+            fields:
+              - { label: "Goal", name: goal, widget: text }
+          - { label: "Dane rejestrowe — sąd", name: registration_court, widget: string, default: "Sąd Rejonowy w Ostrowie Wielkopolskim" }
+          - { label: "Data rejestracji", name: registration_date, widget: string, default: "2024" }
+          - { label: "Status prawny (PL)", name: legal_status_pl, widget: string, default: "Fundacja" }
+
+  - name: nav_links
+    label: "Nawigacja — Linki"
+    files:
+      - name: links
+        label: "Linki nawigacyjne"
+        file: "src/content/nav_links/links.yml"
+        format: yaml
+        fields:
+          - label: "Linki"
+            name: links
+            widget: list
+            fields:
+              - { label: "Klucz (unikalny)", name: key, widget: string }
+              - { label: "Etykieta (PL)", name: label_pl, widget: string }
+              - { label: "Etykieta (EN)", name: label_en, widget: string }
+              - { label: "Ścieżka (bez języka)", name: path, widget: string,
+                  hint: "Np. o-wydarzeniu, instruktorzy, kontakt" }
+              - { label: "Kolejność", name: order, widget: number }
+              - { label: "Aktywny", name: active, widget: boolean, default: true }
 
   - name: agenda_ui
     label: "Agenda — Napisy interfejsu"

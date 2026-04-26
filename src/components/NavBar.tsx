@@ -1,5 +1,6 @@
-import { useEffect, useState, type MouseEvent } from 'react';
+import { useEffect, useMemo, useState, type MouseEvent } from 'react';
 import { ui } from '../i18n/ui';
+import type { CmsNavBarLink } from '../lib/loadCmsNavLinks';
 
 const languages = [
   { code: 'pl', name: 'Polski', countryCode: 'pl' },
@@ -35,6 +36,8 @@ interface NavBarProps {
   logoAlt?: string;
   brandName?: string;
   brandTagline?: string;
+  /** When set (non-empty), replaces hardcoded nav links from `ui`. */
+  navLinks?: CmsNavBarLink[] | null;
 }
 
 export function NavBar({
@@ -44,6 +47,7 @@ export function NavBar({
   logoAlt,
   brandName,
   brandTagline,
+  navLinks: navLinksFromCms,
 }: NavBarProps) {
   const resolvedLogoSrc = logoSrc?.trim() || '/images/cerberus-k9-logo.png';
   const resolvedLogoAlt = logoAlt?.trim() || 'CERBERUS K9 Logo';
@@ -65,15 +69,24 @@ export function NavBar({
 
   const t = ui[currentLang.code as keyof typeof ui] ?? ui['pl'];
 
-  const navLinks = [
-    { label: (t as any).nav_event ?? 'O WYDARZENIU', href: `/${currentLang.code}/o-wydarzeniu` },
-    { label: (t as any).nav_instructors ?? 'INSTRUKTORZY', href: `/${currentLang.code}/instruktorzy` },
-    { label: (t as any).nav_partners ?? 'PARTNERZY', href: `/${currentLang.code}/partnerzy` },
-    { label: (t as any).nav_media ?? 'MEDIA', href: `/${currentLang.code}/media` },
-    { label: (t as any).nav_foundation ?? 'FUNDACJA', href: `/${currentLang.code}/fundacja` },
-    { label: (t as any).nav_gallery ?? 'GALERIA', href: `/${currentLang.code}/galeria` },
-    { label: (t as any).nav_contact ?? 'KONTAKT', href: `/${currentLang.code}/kontakt` },
-  ];
+  const navLinks = useMemo(() => {
+    const cms = navLinksFromCms?.filter((l) => l.path?.trim());
+    if (cms && cms.length > 0) {
+      return cms.map((link) => ({
+        label: currentLang.code === 'pl' ? link.label_pl : link.label_en,
+        href: `/${currentLang.code}/${link.path}`,
+      }));
+    }
+    return [
+      { label: (t as { nav_event?: string }).nav_event ?? 'O WYDARZENIU', href: `/${currentLang.code}/o-wydarzeniu` },
+      { label: (t as { nav_instructors?: string }).nav_instructors ?? 'INSTRUKTORZY', href: `/${currentLang.code}/instruktorzy` },
+      { label: (t as { nav_partners?: string }).nav_partners ?? 'PARTNERZY', href: `/${currentLang.code}/partnerzy` },
+      { label: (t as { nav_media?: string }).nav_media ?? 'MEDIA', href: `/${currentLang.code}/media` },
+      { label: (t as { nav_foundation?: string }).nav_foundation ?? 'FUNDACJA', href: `/${currentLang.code}/fundacja` },
+      { label: (t as { nav_gallery?: string }).nav_gallery ?? 'GALERIA', href: `/${currentLang.code}/galeria` },
+      { label: (t as { nav_contact?: string }).nav_contact ?? 'KONTAKT', href: `/${currentLang.code}/kontakt` },
+    ];
+  }, [navLinksFromCms, currentLang.code, t]);
 
   const selectLang = (lang: Language) => {
     setCurrentLang(lang);
