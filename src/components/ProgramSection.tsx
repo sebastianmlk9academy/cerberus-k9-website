@@ -1,7 +1,8 @@
 "use client"
 
 import type { Lang } from "../i18n/utils"
-import type { ProgramCard, ProgramSectionCopy } from "../i18n/programSection"
+import type { ProgramCard } from "../lib/homepageCards"
+import type { ProgramSectionCopy } from "../i18n/programSection"
 
 interface ProgramSectionProps {
   lang: Lang
@@ -49,13 +50,14 @@ export function ProgramSection({ lang, copy, cards }: ProgramSectionProps) {
         {resolvedCards.map((card, index) => (
           <div
             key={index}
-            className="group flex flex-col bg-[#0F1720] min-h-[400px] pt-5 pb-9 px-6 border-l-[3px] border-l-transparent hover:border-l-[#C4922A] hover:bg-[#151E28] transition-all duration-300"
+            className="group flex flex-col bg-[#0F1720] min-h-[400px] pt-5 pb-9 px-6 border-l-[3px] border-l-transparent hover:border-l-[color:var(--card-accent)] hover:bg-[#151E28] transition-all duration-300"
+            style={{ ["--card-accent" as string]: card.color ?? "#C4922A" }}
           >
             {/* Category Tag */}
             <div className="h-[40px] flex items-center gap-4">
-              <div className="w-4 h-px bg-[#C4922A]" />
+              <div className="w-4 h-px bg-[color:var(--card-accent)]" />
               <span 
-                className="font-[family-name:var(--font-rajdhani)] text-[8px] font-bold tracking-[4px] text-[#C4922A]"
+                className="font-[family-name:var(--font-rajdhani)] text-[8px] font-bold tracking-[4px] text-[color:var(--card-accent)]"
               >
                 {card.category}
               </span>

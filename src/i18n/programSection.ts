@@ -1,11 +1,7 @@
 import type { Lang } from './utils';
+import type { ProgramCard } from '../lib/homepageCards';
 
-export type ProgramCard = {
-	badge: string;
-	category: string;
-	title: string;
-	description: string;
-};
+export type { ProgramCard } from '../lib/homepageCards';
 
 export type ProgramSectionCopy = {
 	sectionTag: string;

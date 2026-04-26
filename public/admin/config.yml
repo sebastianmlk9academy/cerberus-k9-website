@@ -423,15 +423,69 @@ collections:
     label: "Strona główna — karty programu"
     folder: "src/content/homepage_cards"
     create: true
+    delete: true
     slug: "{{slug}}"
     fields:
       - { label: "Kategoria", name: category, widget: select, options: ["K9", "TCCC", "DRONY", "KONFERENCJA"] }
+      - { label: "Ikona (opcjonalnie)", name: icon, widget: string, required: false, hint: "Nazwa ikony lucide-react np. Shield, Target, Crosshair" }
+      - { label: "Kolor akcentu (hex)", name: color, widget: color, default: "#C4922A", required: false }
       - { label: "Tytuł (PL)", name: title_pl, widget: string }
       - { label: "Opis (PL)", name: description_pl, widget: text }
       - { label: "Badge (PL)", name: badge_pl, widget: string, required: false }
       - { label: "Tytuł (EN)", name: title_en, widget: string, required: false }
       - { label: "Opis (EN)", name: description_en, widget: text, required: false }
       - { label: "Badge (EN)", name: badge_en, widget: string, required: false }
+      - { label: "Tytuł (DE)", name: title_de, widget: string, required: false }
+      - { label: "Opis (DE)", name: description_de, widget: text, required: false }
+      - { label: "Badge (DE)", name: badge_de, widget: string, required: false }
+      - { label: "Tytuł (FR)", name: title_fr, widget: string, required: false }
+      - { label: "Opis (FR)", name: description_fr, widget: text, required: false }
+      - { label: "Badge (FR)", name: badge_fr, widget: string, required: false }
+      - { label: "Tytuł (HR)", name: title_hr, widget: string, required: false }
+      - { label: "Opis (HR)", name: description_hr, widget: text, required: false }
+      - { label: "Badge (HR)", name: badge_hr, widget: string, required: false }
+      - { label: "Tytuł (CS)", name: title_cs, widget: string, required: false }
+      - { label: "Opis (CS)", name: description_cs, widget: text, required: false }
+      - { label: "Badge (CS)", name: badge_cs, widget: string, required: false }
+      - { label: "Tytuł (LT)", name: title_lt, widget: string, required: false }
+      - { label: "Opis (LT)", name: description_lt, widget: text, required: false }
+      - { label: "Badge (LT)", name: badge_lt, widget: string, required: false }
+      - { label: "Tytuł (LV)", name: title_lv, widget: string, required: false }
+      - { label: "Opis (LV)", name: description_lv, widget: text, required: false }
+      - { label: "Badge (LV)", name: badge_lv, widget: string, required: false }
+      - { label: "Tytuł (SK)", name: title_sk, widget: string, required: false }
+      - { label: "Opis (SK)", name: description_sk, widget: text, required: false }
+      - { label: "Badge (SK)", name: badge_sk, widget: string, required: false }
+      - { label: "Tytuł (SL)", name: title_sl, widget: string, required: false }
+      - { label: "Opis (SL)", name: description_sl, widget: text, required: false }
+      - { label: "Badge (SL)", name: badge_sl, widget: string, required: false }
+      - { label: "Tytuł (HU)", name: title_hu, widget: string, required: false }
+      - { label: "Opis (HU)", name: description_hu, widget: text, required: false }
+      - { label: "Badge (HU)", name: badge_hu, widget: string, required: false }
+      - { label: "Tytuł (NO)", name: title_no, widget: string, required: false }
+      - { label: "Opis (NO)", name: description_no, widget: text, required: false }
+      - { label: "Badge (NO)", name: badge_no, widget: string, required: false }
+      - { label: "Tytuł (SV)", name: title_sv, widget: string, required: false }
+      - { label: "Opis (SV)", name: description_sv, widget: text, required: false }
+      - { label: "Badge (SV)", name: badge_sv, widget: string, required: false }
+      - { label: "Tytuł (NL)", name: title_nl, widget: string, required: false }
+      - { label: "Opis (NL)", name: description_nl, widget: text, required: false }
+      - { label: "Badge (NL)", name: badge_nl, widget: string, required: false }
+      - { label: "Tytuł (ES)", name: title_es, widget: string, required: false }
+      - { label: "Opis (ES)", name: description_es, widget: text, required: false }
+      - { label: "Badge (ES)", name: badge_es, widget: string, required: false }
+      - { label: "Tytuł (PT)", name: title_pt, widget: string, required: false }
+      - { label: "Opis (PT)", name: description_pt, widget: text, required: false }
+      - { label: "Badge (PT)", name: badge_pt, widget: string, required: false }
+      - { label: "Tytuł (RO)", name: title_ro, widget: string, required: false }
+      - { label: "Opis (RO)", name: description_ro, widget: text, required: false }
+      - { label: "Badge (RO)", name: badge_ro, widget: string, required: false }
+      - { label: "Tytuł (IT)", name: title_it, widget: string, required: false }
+      - { label: "Opis (IT)", name: description_it, widget: text, required: false }
+      - { label: "Badge (IT)", name: badge_it, widget: string, required: false }
+      - { label: "Tytuł (KO)", name: title_ko, widget: string, required: false }
+      - { label: "Opis (KO)", name: description_ko, widget: text, required: false }
+      - { label: "Badge (KO)", name: badge_ko, widget: string, required: false }
       - { label: "Kolejność", name: order, widget: number, default: 1 }
       - { label: "Aktywna", name: active, widget: boolean, default: true }
 

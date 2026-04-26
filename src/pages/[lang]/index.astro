@@ -10,6 +10,7 @@ import { footerCopyByLang } from '../../i18n/footer';
 import { homeStatsByLang } from '../../i18n/homeStats';
 import { statsEntriesToStatItems } from '../../lib/homepageStats';
 import { programSectionByLang } from '../../i18n/programSection';
+import { cardEntriesToProgramCards } from '../../lib/homepageCards';
 import { locationsSectionByLang } from '../../i18n/locationsSection';
 import { videoSectionByLang } from '../../i18n/videoSection';
 import { latestNewsByLang } from '../../i18n/latestNews';
@@ -75,7 +76,7 @@ const statsCopy =
 			}));
 
 const partnersRaw = await getCollection('partnerzy');
-const homepageCards = await getCollection('homepage_cards');
+const cardEntries = await getCollection('homepage_cards');
 const stripPartners = partnersRaw
 	.filter((p) => p.data.name && !p.data.draft)
 	.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
@@ -86,15 +87,8 @@ const stripPartners = partnersRaw
 	}));
 const programCopy = programSectionByLang[lang] ?? programSectionByLang['pl'];
 const locationsCopy = locationsSectionByLang[lang] ?? locationsSectionByLang['pl'];
-const programCards = homepageCards
-	.filter((c) => c.data.active !== false)
-	.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
-	.map((c) => ({
-		category: c.data.category,
-		title: lang === 'pl' ? c.data.title_pl : (c.data.title_en ?? c.data.title_pl),
-		description: lang === 'pl' ? c.data.description_pl : (c.data.description_en ?? c.data.description_pl),
-		badge: lang === 'pl' ? (c.data.badge_pl ?? '') : (c.data.badge_en ?? c.data.badge_pl ?? ''),
-	}));
+const programCards =
+	cardEntries.length > 0 ? cardEntriesToProgramCards(cardEntries, lang) : null;
 const videoCopy = videoSectionByLang[lang] ?? videoSectionByLang['pl'];
 const newsCopy = latestNewsByLang[lang] ?? latestNewsByLang['pl'];
 const partnersCopy = partnersStripByLang[lang] ?? partnersStripByLang['pl'];
@@ -148,7 +142,7 @@ const eventSchema = {
 		client:load
 	/>
 	<StatsBar lang={lang} stats={statsCopy} client:load />
-	<ProgramSection lang={lang} copy={programCopy} cards={programCards} client:load />
+	<ProgramSection lang={lang} copy={programCopy} cards={programCards ?? undefined} client:load />
 	<LocationsSection lang={lang} copy={locationsCopy} client:load />
 	<VideoSection
 		lang={lang}
