@@ -20,16 +20,6 @@ interface ContactPageProps {
 }
 
 const DEFAULT_EMAIL = "sebastian@pactak9.org";
-const DEFAULT_PHONE_DISPLAY = "788 929 200";
-const DEFAULT_PHONE_TEL = "+48788929200";
-
-function toTelHref(display: string): string {
-  const digits = display.replace(/\D/g, "");
-  if (!digits) return DEFAULT_PHONE_TEL;
-  if (digits.length >= 11 && digits.startsWith("48")) return `tel:+${digits}`;
-  if (digits.length === 9) return `tel:+48${digits}`;
-  return `tel:+${digits}`;
-}
 /** Country line for the contact mailing address (street/city stay Polish). */
 const ADDRESS_COUNTRY_BY_LANG: Record<string, string> = {
   pl: "Polska.",
@@ -227,7 +217,7 @@ const DEFAULT_MAP_EMBED_URL =
 
 const contactLinkHoverStyle = { transition: "color 0.15s ease" } as const;
 
-export function ContactPage({ lang, email, phone, mapEmbedUrl, venueAddress, presidentEmail }: ContactPageProps) {
+export function ContactPage({ lang, email, mapEmbedUrl, venueAddress, presidentEmail }: ContactPageProps) {
   const resolvedMapEmbedUrl = mapEmbedUrl?.trim() || DEFAULT_MAP_EMBED_URL;
   const resolvedVenueAddress = venueAddress?.trim() || "3MK Arena, ul. Andrzeja Kowalczyka 1, Ostrów Wielkopolski, Polska";
   const resolvedPresidentEmail = presidentEmail?.trim() || "mariusz@pactak9.org";
@@ -236,9 +226,6 @@ export function ContactPage({ lang, email, phone, mapEmbedUrl, venueAddress, pre
   const [hasError, setHasError] = useState(false);
   const c = contactCopy[lang ?? "pl"] ?? contactCopy["pl"];
   const contactEmail = (email ?? "").trim() || DEFAULT_EMAIL;
-  const phoneDisplay = (phone ?? "").trim() || DEFAULT_PHONE_DISPLAY;
-  const phoneTel = toTelHref(phoneDisplay);
-  const phoneHref = phoneTel.startsWith("tel:") ? phoneTel : `tel:${phoneTel}`;
   const addressCountryLine = ADDRESS_COUNTRY_BY_LANG[lang ?? "pl"] ?? ADDRESS_COUNTRY_BY_LANG.en;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -529,29 +516,7 @@ export function ContactPage({ lang, email, phone, mapEmbedUrl, venueAddress, pre
           <article className="ck9-info-card">
             <h3 className="ck9-card-title">{c.directContactTitle ?? "DIRECT CONTACT"}</h3>
             <p className="ck9-card-line">
-              {c.emailTitle}:{" "}
-              <a
-                className="ck9-card-link"
-                href={`mailto:${contactEmail}`}
-                style={contactLinkHoverStyle}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = "#C4922A";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = "";
-                }}
-                onFocus={(e) => {
-                  e.currentTarget.style.color = "#C4922A";
-                }}
-                onBlur={(e) => {
-                  e.currentTarget.style.color = "";
-                }}
-              >
-                {contactEmail}
-              </a>
-            </p>
-            <p className="ck9-card-line">
-              {c.presidentLabel ?? "President"}:{" "}
+              MARIUSZ:{" "}
               <a
                 className="ck9-card-link"
                 href={`mailto:${resolvedPresidentEmail}`}
@@ -573,10 +538,10 @@ export function ContactPage({ lang, email, phone, mapEmbedUrl, venueAddress, pre
               </a>
             </p>
             <p className="ck9-card-line">
-              {c.phoneTitle}:{" "}
+              TELEFON:{" "}
               <a
                 className="ck9-card-link"
-                href={phoneHref}
+                href="tel:+48788929200"
                 style={contactLinkHoverStyle}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.color = "#C4922A";
@@ -591,7 +556,51 @@ export function ContactPage({ lang, email, phone, mapEmbedUrl, venueAddress, pre
                   e.currentTarget.style.color = "";
                 }}
               >
-                {phoneDisplay}
+                +48 788 929 200
+              </a>
+            </p>
+            <p className="ck9-card-line">
+              SEBASTIAN:{" "}
+              <a
+                className="ck9-card-link"
+                href={`mailto:${contactEmail}`}
+                style={contactLinkHoverStyle}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = "#C4922A";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = "";
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.color = "#C4922A";
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.color = "";
+                }}
+              >
+                {contactEmail}
+              </a>
+            </p>
+            <p className="ck9-card-line">
+              TELEFON:{" "}
+              <a
+                className="ck9-card-link"
+                href="tel:+48695637907"
+                style={contactLinkHoverStyle}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = "#C4922A";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = "";
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.color = "#C4922A";
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.color = "";
+                }}
+              >
+                +48 695 637 907
               </a>
             </p>
           </article>
