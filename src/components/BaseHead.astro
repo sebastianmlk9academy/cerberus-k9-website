@@ -23,9 +23,8 @@ const { title, description, image = FallbackImage, ogImage, ogType = 'website', 
 const canonicalURL = canonicalHref
 	? new URL(canonicalHref, Astro.site)
 	: new URL(Astro.url.pathname, Astro.site);
-const resolvedOgImage = ogImage
-	? new URL(ogImage, Astro.site ?? Astro.url).toString()
-	: new URL(image.src, Astro.url).toString();
+const safeOgImage = ogImage ?? image?.src ?? '/og-cerberus-k9-2026.jpg';
+const resolvedOgImage = new URL(safeOgImage, Astro.site ?? Astro.url).toString();
 ---
 
 <!-- Global Metadata -->

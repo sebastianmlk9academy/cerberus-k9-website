@@ -3,12 +3,11 @@ import rss from '@astrojs/rss';
 import type { APIRoute } from 'astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
-function toAbsolute(linkPath: string, site: URL | undefined): string {
+function toAbsolute(linkPath: string, site: string): string {
 	return new URL(linkPath, site).href;
 }
 
 export const GET: APIRoute = async (context) => {
-	const site = context.site;
 	const [blogPosts, news, settings] = await Promise.all([
 		getCollection('blog'),
 		getCollection('aktualnosci'),
@@ -21,7 +20,7 @@ export const GET: APIRoute = async (context) => {
 		title: post.data.title,
 		description: post.data.description,
 		pubDate: post.data.pubDate,
-		link: toAbsolute(`/blog/${post.id}/`, site),
+		link: toAbsolute(`/blog/${post.id}/`, siteUrl),
 	}));
 
 	const newsItems = news.map((entry) => ({
@@ -38,7 +37,7 @@ export const GET: APIRoute = async (context) => {
 	return rss({
 		title: SITE_TITLE,
 		description: SITE_DESCRIPTION,
-		site: site ?? siteUrl,
+		site: new URL(siteUrl),
 		items,
 	});
 };

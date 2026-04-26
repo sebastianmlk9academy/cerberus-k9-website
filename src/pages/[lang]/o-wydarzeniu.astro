@@ -30,6 +30,14 @@ const plausibleDomain = s?.plausible_domain ?? 'cerberusk9.org';
 
 const programItems = await getCollection('program');
 const agendaItems = programEntriesToAgendaItems(programItems);
+const faqEntries = await getCollection('faq');
+const faqItems = faqEntries
+	.filter((e) => e.data.active !== false)
+	.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
+	.map((e) => ({
+		question: lang === 'pl' ? e.data.question_pl : (e.data.question_en ?? e.data.question_pl),
+		answer: lang === 'pl' ? e.data.answer_pl : (e.data.answer_en ?? e.data.answer_pl),
+	}));
 
 const eventSchema = {
 	'@context': 'https://schema.org',
@@ -111,7 +119,7 @@ const eventSchema = {
 
 	<InteractiveAgenda client:load lang={lang} items={agendaItems} agendaUrl={s?.agenda_page_url} city={s?.event_city} />
 	<LocationsSection lang={lang} client:load />
-	<FAQAccordion client:load lang={lang} />
+	<FAQAccordion client:load lang={lang} faqItems={faqItems} />
 	<Footer
 		lang={lang}
 		copy={footerCopyByLang[lang] ?? footerCopyByLang['pl']}

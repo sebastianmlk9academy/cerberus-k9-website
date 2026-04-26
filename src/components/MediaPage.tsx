@@ -17,7 +17,10 @@ type PressRelease = {
 
 type ArchiveItem = {
   outlet: string;
-  type: string;
+  type?: string;
+  description?: string;
+  date?: string;
+  badge?: string;
   href: string;
   isPlaceholder?: boolean;
 };
@@ -153,6 +156,56 @@ export default function MediaPage({
   mediaContactEmail,
   pressZipHref,
 }: MediaPageProps) {
+  const defaultPressItems = [
+    {
+      title: 'Polska Zbrojna — Reportaż CERBERUS K9 2025',
+      description: 'Reportaż Wojskowego Instytutu Wydawniczego — patrona medialnego CERBERUS K9.',
+      href: '/downloads/polska-zbrojna-cerberus-k9-2025.pdf',
+      type: 'pdf' as const,
+    },
+    {
+      title: 'Special Ops — Relacja CERBERUS K9 2025',
+      description: 'Relacja kwartalnika Defence24 o tematyce jednostek specjalnych.',
+      href: '/downloads/special-ops-cerberus-k9-2025.pdf',
+      type: 'pdf' as const,
+    },
+  ];
+  const safeItems = (pressKitItems && pressKitItems.length > 0)
+    ? pressKitItems : defaultPressItems;
+
+  const defaultArchive = [
+    {
+      outlet: 'TVP — Panorama',
+      description: 'Reportaż telewizyjny z CERBERUS K9 2025',
+      date: '2025',
+      href: 'https://youtu.be/Fo-j5vGI0m4',
+      badge: 'VIDEO',
+    },
+    {
+      outlet: 'Polska Zbrojna (WIW MON)',
+      description: 'Patron medialny CERBERUS K9 2025 i 2026',
+      date: '2025',
+      href: 'https://polska-zbrojna.pl',
+      badge: 'ARTYKUŁ',
+    },
+    {
+      outlet: 'TVN — Fakty',
+      description: 'Reportaż TVN z edycji 2025',
+      date: '2025',
+      href: '#',
+      badge: 'VIDEO',
+    },
+    {
+      outlet: 'Polskie Radio',
+      description: 'Wywiad i reportaż z CERBERUS K9 2025',
+      date: '2025',
+      href: '#',
+      badge: 'AUDIO',
+    },
+  ];
+  const safeArchive = (mediaArchive && mediaArchive.length > 0)
+    ? mediaArchive : defaultArchive;
+
   const zipHref = pressZipHref || pressKitZip || "/press/cerberus-k9-press-kit-2026.zip";
   const polskaHref = pressPdfPolskaZbrojna || "/downloads/polska-zbrojna-cerberus-k9-2025.pdf";
   const specialHref = pressPdfSpecialOps || "/downloads/special-ops-cerberus-k9-2025.pdf";
@@ -225,7 +278,7 @@ export default function MediaPage({
             gap: '10px',
           }}
         >
-          {pressKitItems.map((line) => (
+          {safeItems.map((line) => (
             <li
               key={line.title}
               style={{
@@ -533,7 +586,7 @@ export default function MediaPage({
           gap: '20px',
         }}
       >
-        {mediaArchive.map((item) => {
+        {safeArchive.map((item) => {
           const isExternal = item.href.startsWith('http');
           const linkStyle = {
             marginTop: '16px',
@@ -585,7 +638,7 @@ export default function MediaPage({
                   marginBottom: 'auto',
                 }}
               >
-                {item.type}
+                {item.badge ?? item.type ?? 'MEDIA'}
               </span>
               {item.isPlaceholder ? (
                 <span

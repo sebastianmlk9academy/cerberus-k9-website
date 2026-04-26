@@ -20,9 +20,9 @@ const { lang, pretixUrl, dateValue, prepDay, venues, city, contactEmail, contact
 	<div class="mx-auto max-w-7xl">
 		<div class="grid grid-cols-1 gap-10 lg:grid-cols-[65%_35%] lg:gap-8">
 			<div>
-				<RegistrationIntro lang={lang} client:only="react" />
+				<RegistrationIntro lang={lang} pretixUrl={pretixUrl} client:only="react" />
 				<PretixWidgetEmbed pretixUrl={pretixUrl} />
-				<RegistrationTip lang={lang} client:only="react" />
+				<RegistrationTip lang={lang} pretixUrl={pretixUrl} client:only="react" />
 			</div>
 			<RegistrationAside
 				lang={lang}

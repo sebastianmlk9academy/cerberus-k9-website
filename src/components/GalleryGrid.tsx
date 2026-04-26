@@ -61,8 +61,6 @@ type GalleryLabels = {
   countdownHour: string;
 };
 
-const RELEASE_2026_DATE = new Date("2026-06-14T00:00:00");
-
 const categoryBadgeClass: Record<Category, string> = {
   "HARDEST HIT": "badge-hardest-hit",
   "SZKOLENIA K9": "badge-szkolenia-k9",
@@ -448,7 +446,9 @@ function toYoutubeVideoId(url: string): string | null {
 }
 
 export function GalleryGrid({ photos, lang, unlockDate, videoItems }: GalleryGridProps) {
-  const releaseDate = unlockDate ? new Date(`${unlockDate}T00:00:00`) : RELEASE_2026_DATE;
+  const releaseDate = unlockDate
+    ? new Date(unlockDate)
+    : new Date('2026-06-14T00:00:00');
   const normalizedVideoItems =
     (videoItems && videoItems.length > 0
       ? videoItems

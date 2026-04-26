@@ -45,7 +45,7 @@ export default function InstructorCard({
   placeholderPhoto,
 }: InstructorCardProps) {
   const [expanded, setExpanded] = useState(false);
-  const fallbackPhoto = placeholderPhoto || '/images/instruktorzy/test_instruktor_photo.webp';
+  const fallbackPhoto = placeholderPhoto ?? '/images/instruktorzy/test_instruktor_photo.webp';
   const photoSrc = photo || fallbackPhoto;
 
   return (

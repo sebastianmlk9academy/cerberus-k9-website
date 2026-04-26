@@ -11,6 +11,7 @@ import { PageHero } from '../../components/PageHero';
 import TeamSection from '../../components/TeamSection';
 import { Footer } from '../../components/Footer';
 import { footerCopyByLang } from '../../i18n/footer';
+import { fundacjaPageByLang } from '../../i18n/plOnlyPagesCopy';
 
 export const prerender = true;
 
@@ -20,10 +21,10 @@ const statuteHref = s?.statute_pdf ?? '#';
 const krsHref = s?.krs_url ?? '#';
 
 const lang = 'pl';
+const fundacjaCopy = fundacjaPageByLang['pl'];
 const footerCopy = footerCopyByLang[lang] ?? footerCopyByLang['pl'];
-const title = 'Fundacja PACTA K9 — KRS 0001219121 | Misja, Wizja, Zarząd';
-const description =
-	'Fundacja PACTA K9: misja i wizja, zarząd, dane rejestrowe (KRS, NIP, REGON), cele statutowe wg §5 oraz odnośniki do statutu i KRS.';
+const title = fundacjaCopy.metaTitle;
+const description = fundacjaCopy.metaDescription;
 
 /** Cele szczegółowe wg §5 Statutu — treść zgodna z publikacją zarządu Fundacji (Facebook, styczeń 2025). */
 const statutoryGoals: string[] = [

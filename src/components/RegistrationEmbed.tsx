@@ -3,6 +3,7 @@ import { Calendar, MapPin, Ticket, AlertCircle, Mail, Phone, ExternalLink, Chevr
 
 interface RegistrationEmbedProps {
   lang?: string;
+  pretixUrl?: string;
   dateValue?: string;
   prepDay?: string;
   venues?: string;
@@ -94,7 +95,7 @@ function setPartnerCtaLeave(e: MouseEvent<HTMLAnchorElement>) {
 }
 
 /** Left column: heading + registration steps (Pretix widget is rendered between this and RegistrationTip via Astro). */
-export function RegistrationIntro({ lang }: RegistrationEmbedProps) {
+export function RegistrationIntro({ lang, pretixUrl }: RegistrationEmbedProps) {
   const [showInstructions, setShowInstructions] = useState(false);
   const c = regCopy[lang ?? "pl"] ?? regCopy["en"];
 
@@ -257,7 +258,7 @@ export function RegistrationIntro({ lang }: RegistrationEmbedProps) {
         </ol>
 
         <a
-          href="https://pretix.eu/MLK9-LLK9/CERBERUS/"
+          href={pretixUrl ?? 'https://pretix.eu/MLK9-LLK9/CERBERUS/'}
           target="_blank"
           rel="noopener noreferrer"
           className="mt-3 inline-flex items-center gap-2 sm:mt-4"
@@ -275,7 +276,7 @@ export function RegistrationIntro({ lang }: RegistrationEmbedProps) {
   );
 }
 
-export function RegistrationTip({ lang }: RegistrationEmbedProps) {
+export function RegistrationTip({ lang, pretixUrl }: RegistrationEmbedProps) {
   const c = regCopy[lang ?? "pl"] ?? regCopy["en"];
   return (
     <div
@@ -298,7 +299,7 @@ export function RegistrationTip({ lang }: RegistrationEmbedProps) {
         <strong style={{ color: "#C4922A" }}>Tip:</strong> {c.tip}
       </p>
       <a
-        href="https://pretix.eu/MLK9-LLK9/CERBERUS/"
+        href={pretixUrl ?? 'https://pretix.eu/MLK9-LLK9/CERBERUS/'}
         target="_blank"
         rel="noopener noreferrer"
         className="inline-flex items-center gap-2"

@@ -83,11 +83,13 @@ function AccordionItem({ item, isOpen, onToggle }: { item: FAQItem; isOpen: bool
 
 interface FAQAccordionProps {
   lang: Lang;
+  faqItems?: FAQItem[];
 }
 
-export default function FAQAccordion({ lang }: FAQAccordionProps) {
+export default function FAQAccordion({ lang, faqItems }: FAQAccordionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const faqItems = faqByLang[lang] ?? faqByLang.pl;
+  const resolvedFaqItems =
+    faqItems && faqItems.length > 0 ? faqItems : (faqByLang[lang] ?? faqByLang.pl);
   const localizedFaqBadge = ((ui[lang] ?? ui.pl) as Record<string, string>).faq ?? 'FAQ';
   const t = {
     pl: { title: 'NAJCZĘSTSZE PYTANIA' },
@@ -145,7 +147,7 @@ export default function FAQAccordion({ lang }: FAQAccordionProps) {
           {t.title}
         </h2>
         <div>
-          {faqItems.map((item, index) => (
+          {resolvedFaqItems.map((item, index) => (
             <AccordionItem
               key={index}
               item={item}

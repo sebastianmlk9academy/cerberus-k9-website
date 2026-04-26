@@ -3,8 +3,9 @@ interface Props {
 	pretixUrl?: string;
 }
 
-const { pretixUrl = 'https://pretix.eu/MLK9-LLK9/CERBERUS/' } = Astro.props;
-const base = pretixUrl.replace(/\/$/, '');
+const { pretixUrl } = Astro.props;
+const safePretixUrl = pretixUrl ?? 'https://pretix.eu/MLK9-LLK9/CERBERUS/';
+const base = safePretixUrl.replace(/\/$/, '');
 ---
 
 <link rel="stylesheet" type="text/css" href={`${base}/widget/v1.css`} crossorigin />
@@ -47,11 +48,11 @@ const base = pretixUrl.replace(/\/$/, '');
 	class="pretix-widget-wrapper"
 	style="background: #ffffff; min-height: 400px; width: 100%; opacity: 1 !important; filter: none !important; color: #000000 !important;"
 >
-	<pretix-widget event={pretixUrl}></pretix-widget>
+	<pretix-widget event={safePretixUrl}></pretix-widget>
 	<noscript>
 		<div style="padding: 20px; font-family: Rajdhani, sans-serif;">
 			Zarejestruj się na:
-			<a href={pretixUrl} style="color: #C4922A;">{pretixUrl}</a>
+			<a href={safePretixUrl} style="color: #C4922A;">{safePretixUrl}</a>
 		</div>
 	</noscript>
 </div>
