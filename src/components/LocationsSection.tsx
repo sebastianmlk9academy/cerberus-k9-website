@@ -22,7 +22,7 @@ function LocationBlock({
 }) {
   return (
     <div
-      className="relative flex h-full flex-col overflow-hidden p-[18px] sm:p-[20px]"
+      className="relative flex h-full w-full flex-col overflow-hidden p-[18px] sm:p-[20px] min-[400px]:w-[calc(50%-1px)] lg:w-[calc(25%-1px)]"
       style={{ backgroundColor: "#1E2B38" }}
     >
       {image ? (
@@ -47,7 +47,7 @@ function LocationBlock({
         {name}
       </span>
       <span
-        className="block text-[10px] sm:text-[11px]"
+        className="block flex-1 text-[10px] sm:text-[11px]"
         style={{ color: "#5A6A7A" }}
       >
         {description}
@@ -59,7 +59,7 @@ function LocationBlock({
         {detail}
       </span>
       <span
-        className="mt-[10px] inline-block h-[18px] self-start px-[10px] py-[3px] text-[7px] font-bold tracking-[3px] sm:h-[20px]"
+        className="mt-auto inline-block h-[18px] self-start px-[10px] py-[3px] text-[7px] font-bold tracking-[3px] sm:h-[20px]"
         style={{
           backgroundColor: "rgba(196,146,42,0.12)",
           border: "1px solid rgba(196,146,42,0.35)",
@@ -138,7 +138,7 @@ export function LocationsSection({ lang, copy, locations }: LocationsSectionProp
         style={{ backgroundColor: "#253344" }}
       >
         <div
-          className="grid grid-cols-1 gap-[1px] min-[400px]:grid-cols-2 lg:grid-cols-4"
+          className="flex flex-wrap items-stretch gap-[1px]"
           style={{ backgroundColor: "#253344" }}
         >
           {resolvedLocations.map((loc, i) => (
