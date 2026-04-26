@@ -99,7 +99,7 @@ function ArticleCard({ article, lang }: { article: NewsListingArticle; lang: Lan
         borderTop: isHovered ? "3px solid #C4922A" : "3px solid transparent",
         transform: isHovered ? "scale(1.005)" : "scale(1)",
         display: "grid",
-        gridTemplateRows: "auto auto auto auto auto",
+        gridTemplateRows: "subgrid",
         gridRow: "span 5",
       }}
       onMouseEnter={() => setIsHovered(true)}
@@ -454,7 +454,7 @@ export function NewsListing({
 
       <div
         className="mx-auto grid max-w-7xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-        style={{ gap: "2px", backgroundColor: "transparent", gridAutoRows: "auto" }}
+        style={{ gap: "2px", backgroundColor: "transparent", gridAutoRows: "auto auto auto auto auto" }}
       >
         {visibleArticles.map((article) => (
           <ArticleCard key={article.id} article={article} lang={lang} />
