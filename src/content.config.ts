@@ -151,6 +151,7 @@ const ustawienia = defineCollection({
 		event_date: z.string(),
 		event_date_end: z.string(),
 		event_time_start: z.string().regex(/^\d{2}:\d{2}$/).optional().default('09:00'),
+		event_time_end: z.string().regex(/^\d{2}:\d{2}$/).optional().default('18:00'),
 		event_city: z.string(),
 		event_venue: z.string(),
 		participants_count: z.string(),
@@ -219,6 +220,15 @@ const ustawienia = defineCollection({
 		venue_address: z.string().optional().default(''),
 		agenda_page_url: z.string().optional().default('https://cerberusk9.org/pl/o-wydarzeniu'),
 		site_url: z.string().optional().default('https://cerberusk9.org'),
+		pwa_name: z.string().optional().default('CERBERUS K9'),
+		pwa_short_name: z.string().optional().default('CERBERUS K9'),
+		pwa_description: z
+			.string()
+			.optional()
+			.default('Międzynarodowa Platforma Obrony K9'),
+		pwa_theme_color: z.string().optional().default('#0F1720'),
+		pwa_background_color: z.string().optional().default('#0F1720'),
+		cookie_consent_active: z.boolean().optional().default(false),
 		apple_touch_icon: z.string().optional().default('/apple-touch-icon.png'),
 		favicon_svg: z.string().optional().default('/favicon.svg'),
 		favicon_ico: z.string().optional().default('/favicon.ico'),

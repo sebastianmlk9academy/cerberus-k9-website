@@ -1,0 +1,114 @@
+---
+interface CookieCopy {
+	title: string;
+	desc: string;
+	accept: string;
+	reject: string;
+}
+
+interface Props {
+	lang?: string;
+	active?: boolean;
+}
+
+const { lang = 'pl', active = true } = Astro.props;
+if (!active) {
+	return;
+}
+
+const texts: Record<string, CookieCopy> = {
+	pl: {
+		title: 'PLIKI COOKIE',
+		desc: 'Ta strona używa plików cookie w celu poprawy komfortu korzystania.',
+		accept: 'AKCEPTUJ',
+		reject: 'ODRZUĆ',
+	},
+	en: {
+		title: 'COOKIES',
+		desc: 'This site uses cookies to improve your experience.',
+		accept: 'ACCEPT',
+		reject: 'REJECT',
+	},
+	de: {
+		title: 'COOKIES',
+		desc: 'Diese Website verwendet Cookies.',
+		accept: 'AKZEPTIEREN',
+		reject: 'ABLEHNEN',
+	},
+	fr: {
+		title: 'COOKIES',
+		desc: 'Ce site utilise des cookies pour améliorer votre expérience.',
+		accept: 'ACCEPTER',
+		reject: 'REFUSER',
+	},
+	cs: {
+		title: 'COOKIES',
+		desc: 'Tento web používá cookies ke zlepšení vašeho zážitku.',
+		accept: 'PŘIJMOUT',
+		reject: 'ODMITNOUT',
+	},
+	hr: {
+		title: 'KOLAČIĆI',
+		desc: 'Ova stranica koristi kolačiće radi boljeg iskustva.',
+		accept: 'PRIHVATI',
+		reject: 'ODBIJ',
+	},
+};
+
+const t = texts[lang] ?? texts['en'];
+---
+
+<div
+	id="cookie-banner"
+	class="fixed bottom-0 left-0 right-0 z-[100] border-t border-goldMuted/40 bg-navyDeep/95 px-4 py-4 text-bone shadow-lg backdrop-blur-sm md:px-8"
+	role="dialog"
+	aria-labelledby="cookie-banner-title"
+	aria-live="polite"
+>
+	<div class="mx-auto flex max-w-5xl flex-col gap-4 md:flex-row md:items-center md:justify-between">
+		<div class="min-w-0">
+			<p id="cookie-banner-title" class="font-heading text-sm font-semibold tracking-wide text-gold">
+				{t.title}
+			</p>
+			<p class="mt-1 text-sm text-bone/90">{t.desc}</p>
+		</div>
+		<div class="flex shrink-0 flex-wrap gap-2">
+			<button
+				type="button"
+				class="rounded border border-gold bg-gold px-4 py-2 text-xs font-semibold uppercase tracking-wide text-navyDeep transition hover:bg-gold/90"
+				data-cookie-accept
+			>
+				{t.accept}
+			</button>
+			<button
+				type="button"
+				class="rounded border border-bone/40 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-bone transition hover:border-bone hover:bg-bone/10"
+				data-cookie-reject
+			>
+				{t.reject}
+			</button>
+		</div>
+	</div>
+</div>
+
+<script is:inline>
+	function cookieConsentRemoveBanner() {
+		document.getElementById('cookie-banner')?.remove();
+	}
+	function cookieConsentCheck() {
+		if (localStorage.getItem('cookie-consent')) {
+			cookieConsentRemoveBanner();
+		}
+	}
+	function cookieConsentAccept() {
+		localStorage.setItem('cookie-consent', 'accepted');
+		cookieConsentRemoveBanner();
+	}
+	function cookieConsentReject() {
+		localStorage.setItem('cookie-consent', 'rejected');
+		cookieConsentRemoveBanner();
+	}
+	cookieConsentCheck();
+	document.querySelector('[data-cookie-accept]')?.addEventListener('click', cookieConsentAccept);
+	document.querySelector('[data-cookie-reject]')?.addEventListener('click', cookieConsentReject);
+</script>

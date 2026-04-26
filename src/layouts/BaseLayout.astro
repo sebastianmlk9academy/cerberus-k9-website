@@ -1,6 +1,7 @@
 ---
 import { getEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
+import CookieConsent from '../components/CookieConsent.astro';
 import AnnouncementBar from '../components/AnnouncementBar.astro';
 import type { ImageMetadata } from 'astro';
 import FallbackImage from '../assets/blog-placeholder-1.jpg';
@@ -118,5 +119,6 @@ const canonicalAlternateHref = (
 		<slot name="header" />
 		<slot />
 		<slot name="footer" />
+		<CookieConsent lang={lang} active={s?.cookie_consent_active ?? false} />
 	</body>
 </html>

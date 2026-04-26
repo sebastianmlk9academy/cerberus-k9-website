@@ -328,7 +328,8 @@ collections:
         fields:
           - { label: Data wydarzenia (start), name: event_date, widget: datetime, format: YYYY-MM-DD, date_format: DD.MM.YYYY, time_format: false }
           - { label: Data wydarzenia (koniec), name: event_date_end, widget: datetime, format: YYYY-MM-DD, date_format: DD.MM.YYYY, time_format: false }
-          - { label: "Godzina rozpoczęcia wydarzenia (JSON-LD, HH:MM)", name: event_time_start, widget: string, default: "09:00", pattern: ['^\\d{2}:\\d{2}$', "Format HH:MM, np. 09:00"] }
+          - { label: "Godzina rozpoczęcia (HH:MM)", name: event_time_start, widget: string, default: "09:00", pattern: ['^\\d{2}:\\d{2}$', "Format 24h np. 09:00"], hint: "Format 24h np. 09:00. Używane w odliczaniu i ICS." }
+          - { label: "Godzina zakończenia (HH:MM)", name: event_time_end, widget: string, default: "18:00", pattern: ['^\\d{2}:\\d{2}$', "Format 24h np. 18:00"], hint: "Format 24h np. 18:00." }
           - { label: Miasto, name: event_city, widget: string }
           - { label: Główna lokalizacja, name: event_venue, widget: string }
           - { label: Liczba uczestników (wyświetlana), name: participants_count, widget: string, default: "250+" }
@@ -403,6 +404,12 @@ collections:
           - { label: "Adres lokalizacji (kontakt)", name: venue_address, widget: string }
           - { label: "URL strony agendy (publiczny)", name: agenda_page_url, widget: string }
           - { label: "URL strony (główny)", name: site_url, widget: string }
+          - { label: "PWA — nazwa pełna", name: pwa_name, widget: string, default: "CERBERUS K9", required: false }
+          - { label: "PWA — krótka nazwa", name: pwa_short_name, widget: string, default: "CERBERUS K9", required: false }
+          - { label: "PWA — opis", name: pwa_description, widget: string, default: "Międzynarodowa Platforma Obrony K9", required: false }
+          - { label: "PWA — kolor motywu (theme)", name: pwa_theme_color, widget: string, default: "#0F1720", required: false }
+          - { label: "PWA — kolor tła", name: pwa_background_color, widget: string, default: "#0F1720", required: false }
+          - { label: "Baner zgody na cookies (RODO)", name: cookie_consent_active, widget: boolean, default: false, hint: "Włącz gdy polityka cookies jest gotowa." }
           - { label: "Apple Touch Icon (180x180)", name: apple_touch_icon, widget: image, required: false, hint: "Ikona dla iPhone gdy dodajesz stronę do home screen" }
           - { label: "Favicon SVG", name: favicon_svg, widget: image, required: false }
           - { label: "Favicon ICO", name: favicon_ico, widget: string, required: false }

@@ -38,6 +38,10 @@ interface Props {
 	orgLogo?: string;
 	socialFacebook?: string;
 	socialYoutube?: string;
+	/** PWA / browser UI accent (`<meta name="theme-color" />`). */
+	themeColor?: string;
+	/** Web app manifest URL (default `/manifest.json`). */
+	manifestHref?: string;
 }
 
 const {
@@ -66,6 +70,8 @@ const {
 	orgLogo = '/images/cerberus-k9-logo.png',
 	socialFacebook,
 	socialYoutube,
+	themeColor = '#0F1720',
+	manifestHref = '/manifest.json',
 } = Astro.props;
 
 const canonicalURL = canonicalHref
@@ -102,6 +108,8 @@ if (sameAs.length > 0) {
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="theme-color" content={themeColor} />
+<link rel="manifest" href={manifestHref} />
 <link rel="icon" type="image/svg+xml" href={faviconSvg} />
 <link rel="icon" href={faviconIco} />
 <link rel="apple-touch-icon" href={appleTouchIcon} />
