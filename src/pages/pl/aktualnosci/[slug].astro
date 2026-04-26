@@ -7,6 +7,7 @@ import { Footer } from '../../../components/Footer';
 import { newsSeoByLang } from '../../../i18n/newsSeo';
 import { footerCopyByLang } from '../../../i18n/footer';
 import { categoryBadgeLabel, formatNewsDateLabel } from '../../../lib/aktualnosci';
+import { loadCmsNavLinks } from '../../../lib/loadCmsNavLinks';
 
 export const prerender = true;
 
@@ -23,6 +24,7 @@ type Props = { post: CollectionEntry<'aktualnosci'> };
 const lang = 'pl';
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
+const cmsNavLinks = await loadCmsNavLinks();
 const footerCopy = footerCopyByLang[lang] ?? footerCopyByLang['pl'];
 const seoLang = newsSeoByLang[lang] ?? newsSeoByLang['pl'];
 const { post } = Astro.props;
@@ -83,7 +85,7 @@ const jsonLd = {
 	canonicalHref={canonicalUrl}
 >
 	<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-	<NavBar client:load lang={lang} />
+	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} />
 	<ArticleLayout
 		lang="pl"
 		breadcrumb={[
