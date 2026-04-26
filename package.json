@@ -20,14 +20,13 @@
     "@fontsource/bebas-neue": "^5.2.7",
     "@fontsource/libre-baskerville": "^5.2.10",
     "@fontsource/rajdhani": "^5.2.7",
+    "@tailwindcss/postcss": "^4.2.4",
     "astro": "^6.1.8",
-    "autoprefixer": "^10.5.0",
     "lucide-react": "^1.9.0",
-    "postcss": "^8.5.10",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "sharp": "^0.34.3",
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "^4.2.4"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.8",
