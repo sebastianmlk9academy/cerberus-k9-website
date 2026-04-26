@@ -435,6 +435,64 @@ collections:
       - { label: "Kolejność", name: order, widget: number, default: 1 }
       - { label: "Aktywna", name: active, widget: boolean, default: true }
 
+  - name: homepage_stats
+    label: "Strona główna — Statystyki"
+    folder: "src/content/homepage_stats"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    sortable_fields: ['order']
+    fields:
+      - name: stat_key
+        label: "Klucz (unikalny, np. participants)"
+        widget: string
+        hint: "Identyfikator statystyki, np. participants, countries, k9"
+      - name: value
+        label: "Wartość (globalna, np. 250+)"
+        widget: string
+        hint: "Wyświetlana liczba np. 250+, 15+, 8, 2"
+      - name: labels
+        label: "Etykiety wg języka"
+        widget: object
+        fields:
+          - { label: "Polski", name: pl, widget: string }
+          - { label: "English", name: en, widget: string }
+          - { label: "Deutsch", name: de, widget: string }
+          - { label: "Français", name: fr, widget: string }
+          - { label: "Hrvatski", name: hr, widget: string }
+          - { label: "Čeština", name: cs, widget: string }
+          - { label: "Lietuvių", name: lt, widget: string }
+          - { label: "Latviešu", name: lv, widget: string }
+          - { label: "Slovenčina", name: sk, widget: string }
+          - { label: "Slovenščina", name: sl, widget: string }
+          - { label: "Magyar", name: hu, widget: string }
+          - { label: "Norsk", name: no, widget: string }
+          - { label: "Svenska", name: sv, widget: string }
+          - { label: "Nederlands", name: nl, widget: string }
+          - { label: "Español", name: es, widget: string }
+          - { label: "Português", name: pt, widget: string }
+          - { label: "Română", name: ro, widget: string }
+          - { label: "Italiano", name: it, widget: string }
+          - { label: "한국어", name: ko, widget: string }
+      - name: accent
+        label: "Kolor akcentu"
+        widget: select
+        options:
+          - label: "Złoty"
+            value: "gold"
+          - label: "Czerwony"
+            value: "red"
+        default: "gold"
+        hint: "Naprzemiennie złoty/czerwony dla wizualnego rytmu"
+      - name: order
+        label: "Kolejność"
+        widget: number
+        default: 99
+      - name: active
+        label: "Aktywna"
+        widget: boolean
+        default: true
+
   - name: locations
     label: "Lokalizacje CERBERUS K9"
     folder: "src/content/locations"

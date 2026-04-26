@@ -8,6 +8,7 @@ import { HOME_OG_IMAGE, homeSeoByLang } from '../../i18n/homeSeo';
 import { homeHeroCopyByLang } from '../../i18n/homeHero';
 import { footerCopyByLang } from '../../i18n/footer';
 import { homeStatsByLang } from '../../i18n/homeStats';
+import { statsEntriesToStatItems } from '../../lib/homepageStats';
 import { programSectionByLang } from '../../i18n/programSection';
 import { locationsSectionByLang } from '../../i18n/locationsSection';
 import { videoSectionByLang } from '../../i18n/videoSection';
@@ -56,12 +57,22 @@ const seoTitle = safeUi.meta_title_home ?? seo.title;
 const seoDescription = safeUi.meta_desc_home ?? seo.description;
 const heroCopy = homeHeroCopyByLang[lang] ?? homeHeroCopyByLang['pl'];
 const footerCopy = footerCopyByLang[lang] ?? footerCopyByLang['pl'];
-const statsBase = homeStatsByLang[lang] ?? homeStatsByLang['pl'];
-const statsCopy = statsBase.map((item, i) => {
-	if (i === 0) return { ...item, value: s?.participants_count ?? item.value };
-	if (i === 1) return { ...item, value: s?.countries_count ?? item.value };
-	return item;
-});
+const statsEntries = await getCollection('homepage_stats');
+const statsCopy =
+	statsEntries.length > 0
+		? statsEntriesToStatItems(statsEntries, lang, {
+				participants_count: s?.participants_count,
+				countries_count: s?.countries_count,
+			})
+		: (homeStatsByLang[lang] ?? homeStatsByLang['pl']).map((item, i) => ({
+				...item,
+				value:
+					i === 0
+						? (s?.participants_count ?? item.value)
+						: i === 1
+							? (s?.countries_count ?? item.value)
+							: item.value,
+			}));
 
 const partnersRaw = await getCollection('partnerzy');
 const homepageCards = await getCollection('homepage_cards');

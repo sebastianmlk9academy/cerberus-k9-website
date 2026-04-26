@@ -292,6 +292,38 @@ const homepage_cards = defineCollection({
 	}),
 });
 
+const homepage_stats = defineCollection({
+	loader: glob({ base: './src/content/homepage_stats', pattern: '**/*.{md,mdx}' }),
+	schema: z.object({
+		stat_key: z.string(),
+		value: z.string(),
+		labels: z.object({
+			pl: z.string(),
+			en: z.string(),
+			de: z.string().optional(),
+			fr: z.string().optional(),
+			hr: z.string().optional(),
+			cs: z.string().optional(),
+			lt: z.string().optional(),
+			lv: z.string().optional(),
+			sk: z.string().optional(),
+			sl: z.string().optional(),
+			hu: z.string().optional(),
+			no: z.string().optional(),
+			sv: z.string().optional(),
+			nl: z.string().optional(),
+			es: z.string().optional(),
+			pt: z.string().optional(),
+			ro: z.string().optional(),
+			it: z.string().optional(),
+			ko: z.string().optional(),
+		}),
+		accent: z.enum(['gold', 'red']).optional().default('gold'),
+		order: z.number().optional().default(99),
+		active: z.boolean().optional().default(true),
+	}),
+});
+
 const locations = defineCollection({
 	loader: glob({ base: './src/content/locations', pattern: '**/*.{md,mdx}' }),
 	schema: z.object({
@@ -318,6 +350,7 @@ export const collections = {
 	faq,
 	team,
 	homepage_cards,
+	homepage_stats,
 	locations,
 	agenda_categories,
 };

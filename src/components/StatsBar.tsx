@@ -6,6 +6,7 @@ import type { Lang } from "../i18n/utils"
 interface StatItem {
   value: string
   label: string
+  accent?: "gold" | "red"
 }
 
 interface StatsBarProps {
@@ -61,8 +62,14 @@ function StatItem({
   const suffix = valueMatch ? valueMatch[3] : ""
   const hasNumericValue = valueMatch !== null
   const count = useCountUp(numericValue, 1500, isVisible)
-  const isGold = index % 2 === 0
-  const accentColor = isGold ? "#C4922A" : "#C42B2B"
+  const accentColor =
+    stat.accent === "red"
+      ? "#C42B2B"
+      : stat.accent === "gold"
+        ? "#C4922A"
+        : index % 2 === 0
+          ? "#C4922A"
+          : "#C42B2B"
 
   return (
     <div
