@@ -55,121 +55,127 @@ function NewsCardComponent({
   readMore: string;
 }) {
   const [isHovered, setIsHovered] = useState(false);
+  const articleHref = `/${lang}/aktualnosci/${card.slug}`;
 
   return (
-    <article
-      className="cursor-pointer overflow-hidden transition-all duration-300"
-      style={{
-        backgroundColor: "#1E2B38",
-        borderTop: isHovered ? "3px solid #C4922A" : "3px solid transparent",
-        transform: isHovered ? "scale(1.005)" : "scale(1)",
-      }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+    <a
+      href={articleHref}
+      className="block cursor-pointer"
+      style={{ textDecoration: "none" }}
     >
-      {/* Image Area */}
-      <div
-        className="relative overflow-hidden w-full"
+      <article
+        className="cursor-pointer overflow-hidden transition-all duration-300"
         style={{
-          backgroundColor: "#151E28",
-          aspectRatio: "16 / 9",
+          backgroundColor: "#1E2B38",
+          borderTop: isHovered ? "3px solid #C4922A" : "3px solid transparent",
+          transform: isHovered ? "scale(1.005)" : "scale(1)",
         }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
-        {/* Article Image */}
-        <img
-          src={card.image}
-          alt={card.title}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500"
+        {/* Image Area */}
+        <div
+          className="relative overflow-hidden w-full"
           style={{
-            transform: isHovered ? "scale(1.05)" : "scale(1)",
-          }}
-        />
-
-        {/* Category Badge Top-Left */}
-        <span
-          className="absolute top-3 left-3 font-[family-name:var(--font-rajdhani)] uppercase"
-          style={{
-            backgroundColor: "rgba(196, 43, 43, 0.85)",
-            color: "white",
-            fontSize: "8px",
-            letterSpacing: "2px",
-            padding: "4px 8px",
+            backgroundColor: "#151E28",
+            aspectRatio: "16 / 9",
           }}
         >
-          {card.category}
-        </span>
+          {/* Article Image */}
+          <img
+            src={card.image}
+            alt={card.title}
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500"
+            style={{
+              transform: isHovered ? "scale(1.05)" : "scale(1)",
+            }}
+          />
 
-        {/* Date Badge Top-Right */}
-        <span
-          className="absolute top-3 right-3 font-[family-name:var(--font-rajdhani)]"
-          style={{
-            backgroundColor: "rgba(15, 23, 32, 0.85)",
-            color: "#C4922A",
-            fontSize: "8px",
-            padding: "4px 8px",
-          }}
-        >
-          {card.date}
-        </span>
-      </div>
+          {/* Category Badge Top-Left */}
+          <span
+            className="absolute top-3 left-3 font-[family-name:var(--font-rajdhani)] uppercase"
+            style={{
+              backgroundColor: "rgba(196, 43, 43, 0.85)",
+              color: "white",
+              fontSize: "8px",
+              letterSpacing: "2px",
+              padding: "4px 8px",
+            }}
+          >
+            {card.category}
+          </span>
 
-      {/* Content Area */}
-      <div style={{ padding: "18px 16px" }}>
-        {/* Category Small Text */}
-        <span
-          className="block font-[family-name:var(--font-rajdhani)] uppercase"
-          style={{
-            fontSize: "8px",
-            letterSpacing: "3px",
-            color: "#C4922A",
-            fontWeight: 700,
-            marginBottom: "8px",
-          }}
-        >
-          {card.category}
-        </span>
+          {/* Date Badge Top-Right */}
+          <span
+            className="absolute top-3 right-3 font-[family-name:var(--font-rajdhani)]"
+            style={{
+              backgroundColor: "rgba(15, 23, 32, 0.85)",
+              color: "#C4922A",
+              fontSize: "8px",
+              padding: "4px 8px",
+            }}
+          >
+            {card.date}
+          </span>
+        </div>
 
-        {/* Title */}
-        <h3
-          className="font-[family-name:var(--font-rajdhani)]"
-          style={{
-            fontSize: "17px",
-            color: "#E4DDD0",
-            fontWeight: 700,
-            lineHeight: 1.3,
-            marginBottom: "8px",
-          }}
-        >
-          {card.title}
-        </h3>
+        {/* Content Area */}
+        <div style={{ padding: "18px 16px" }}>
+          {/* Category Small Text */}
+          <span
+            className="block font-[family-name:var(--font-rajdhani)] uppercase"
+            style={{
+              fontSize: "8px",
+              letterSpacing: "3px",
+              color: "#C4922A",
+              fontWeight: 700,
+              marginBottom: "8px",
+            }}
+          >
+            {card.category}
+          </span>
 
-        {/* Lead Text */}
-        <p
-          className="font-[family-name:var(--font-libre)]"
-          style={{
-            fontSize: "12px",
-            color: "#5A6A7A",
-            lineHeight: 1.6,
-          }}
-        >
-          {card.lead}
-        </p>
+          {/* Title */}
+          <h3
+            className="font-[family-name:var(--font-rajdhani)]"
+            style={{
+              fontSize: "17px",
+              color: "#E4DDD0",
+              fontWeight: 700,
+              lineHeight: 1.3,
+              marginBottom: "8px",
+            }}
+          >
+            {card.title}
+          </h3>
 
-        {/* Read More Link */}
-        <a
-          href={`/${lang}/aktualnosci/${card.slug}`}
-          className="font-[family-name:var(--font-rajdhani)] uppercase inline-block transition-opacity hover:opacity-80"
-          style={{
-            fontSize: "9px",
-            letterSpacing: "2px",
-            color: "#C4922A",
-            marginTop: "12px",
-          }}
-        >
-          {readMore} →
-        </a>
-      </div>
-    </article>
+          {/* Lead Text */}
+          <p
+            className="font-[family-name:var(--font-libre)]"
+            style={{
+              fontSize: "12px",
+              color: "#5A6A7A",
+              lineHeight: 1.6,
+            }}
+          >
+            {card.lead}
+          </p>
+
+          {/* Read More Link */}
+          <span
+            className="font-[family-name:var(--font-rajdhani)] uppercase inline-block transition-opacity hover:opacity-80"
+            style={{
+              fontSize: "9px",
+              letterSpacing: "2px",
+              color: "#C4922A",
+              marginTop: "12px",
+            }}
+          >
+            {readMore} →
+          </span>
+        </div>
+      </article>
+    </a>
   );
 }
 
