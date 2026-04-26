@@ -60,11 +60,35 @@ function LocationBlock({
   )
 }
 
-interface LocationsSectionProps { lang?: Lang; copy?: LocationsSectionCopy; }
+interface CmsLocationItem {
+  name: string
+  address: string
+  description: string
+  status: string
+  modules: string
+  image: string
+}
 
-export function LocationsSection({ lang, copy }: LocationsSectionProps) {
+interface LocationsSectionProps {
+  lang?: Lang
+  copy?: LocationsSectionCopy
+  locations?: CmsLocationItem[]
+}
+
+export function LocationsSection({ lang, copy, locations }: LocationsSectionProps) {
   const safeLang = lang ?? "pl";
   const safeCopy = copy ?? locationsSectionByLang[safeLang] ?? locationsSectionByLang.pl;
+  const resolvedLocations = locations && locations.length > 0
+    ? locations.map((loc) => ({
+      name: loc.name,
+      description: loc.description,
+      detail: [loc.address, loc.modules].filter(Boolean).join(" · "),
+      status: loc.status || safeCopy.statusConfirmed,
+    }))
+    : safeCopy.locations.map((loc) => ({
+      ...loc,
+      status: safeCopy.statusConfirmed,
+    }));
   return (
     <section
       className="w-full"
@@ -111,14 +135,14 @@ export function LocationsSection({ lang, copy }: LocationsSectionProps) {
           className="grid grid-cols-1 gap-[1px] min-[400px]:grid-cols-2 lg:grid-cols-4"
           style={{ backgroundColor: "#253344" }}
         >
-          {safeCopy.locations.map((loc, i) => (
+          {resolvedLocations.map((loc, i) => (
             <LocationBlock
               key={`${i + 1}-${loc.name}`}
               number={String(i + 1).padStart(2, "0")}
               name={loc.name}
               description={loc.description}
               detail={loc.detail}
-              status={safeCopy.statusConfirmed}
+              status={loc.status}
             />
           ))}
         </div>

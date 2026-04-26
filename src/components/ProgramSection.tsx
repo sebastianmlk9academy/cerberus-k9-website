@@ -1,15 +1,17 @@
 "use client"
 
 import type { Lang } from "../i18n/utils"
-import type { ProgramSectionCopy } from "../i18n/programSection"
+import type { ProgramCard, ProgramSectionCopy } from "../i18n/programSection"
 
 interface ProgramSectionProps {
   lang: Lang
   copy: ProgramSectionCopy
+  cards?: ProgramCard[]
 }
 
-export function ProgramSection({ lang, copy }: ProgramSectionProps) {
+export function ProgramSection({ lang, copy, cards }: ProgramSectionProps) {
   void lang
+  const resolvedCards = cards && cards.length > 0 ? cards : copy.cards
   return (
     <section
       id="program"
@@ -44,7 +46,7 @@ export function ProgramSection({ lang, copy }: ProgramSectionProps) {
 
       {/* Cards Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-0.5 bg-[#1A2230] max-w-7xl mx-auto">
-        {copy.cards.map((card, index) => (
+        {resolvedCards.map((card, index) => (
           <div
             key={index}
             className="group flex flex-col bg-[#0F1720] min-h-[400px] pt-5 pb-9 px-6 border-l-[3px] border-l-transparent hover:border-l-[#C4922A] hover:bg-[#151E28] transition-all duration-300"
