@@ -46,20 +46,22 @@ function LocationBlock({
       >
         {name}
       </span>
+      <div className="flex-1">
+        <span
+          className="block text-[10px] sm:text-[11px]"
+          style={{ color: "#5A6A7A" }}
+        >
+          {description}
+        </span>
+        <span
+          className="mt-[2px] block h-[14px] overflow-hidden text-ellipsis whitespace-nowrap text-[10px] sm:h-[16px] sm:text-[11px]"
+          style={{ color: "#5A6A7A" }}
+        >
+          {detail}
+        </span>
+      </div>
       <span
-        className="block flex-1 text-[10px] sm:text-[11px]"
-        style={{ color: "#5A6A7A" }}
-      >
-        {description}
-      </span>
-      <span
-        className="mt-[2px] block h-[14px] overflow-hidden text-ellipsis whitespace-nowrap text-[10px] sm:h-[16px] sm:text-[11px]"
-        style={{ color: "#5A6A7A" }}
-      >
-        {detail}
-      </span>
-      <span
-        className="mt-auto inline-block h-[18px] self-start px-[10px] py-[3px] text-[7px] font-bold tracking-[3px] sm:h-[20px]"
+        className="mt-4 inline-block h-[18px] self-start px-[10px] py-[3px] text-[7px] font-bold tracking-[3px] sm:h-[20px]"
         style={{
           backgroundColor: "rgba(196,146,42,0.12)",
           border: "1px solid rgba(196,146,42,0.35)",
