@@ -1,0 +1,56 @@
+---
+import { getEntry } from 'astro:content';
+import { loadCmsNavLinks } from '../../lib/loadCmsNavLinks';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { NavBar } from '../../components/NavBar';
+import { Footer } from '../../components/Footer';
+import { footerCopyByLang } from '../../i18n/footer';
+
+export const prerender = true;
+
+const settings = await getEntry('ustawienia', 'ustawienia');
+const s = settings?.data;
+const cmsNavLinks = await loadCmsNavLinks();
+
+const lang = 'pl';
+const footerCopy = footerCopyByLang[lang] ?? footerCopyByLang['pl'];
+const title = '404 — Strona nie znaleziona | CERBERUS K9';
+const description = 'Szukana strona nie istnieje lub została przeniesiona.';
+---
+
+<BaseLayout lang={lang} title={title} description={description} localizedPath="" robots="noindex, follow">
+	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} />
+	<main class="flex min-h-[60vh] flex-col items-center justify-center px-4 py-24 text-center">
+		<p class="font-heading text-7xl font-bold text-gold md:text-8xl">404</p>
+		<h1 class="mt-4 font-heading text-2xl uppercase tracking-wide text-bone md:text-3xl">Strona nie znaleziona</h1>
+		<p class="mt-4 max-w-md text-bone/80">{description}</p>
+		<a
+			href="/pl/"
+			class="mt-10 inline-flex items-center justify-center rounded border border-gold bg-gold px-8 py-3 text-sm font-semibold uppercase tracking-wide text-navyDeep transition hover:bg-gold/90"
+		>
+			Wróć na stronę główną
+		</a>
+	</main>
+	<Footer
+		lang={lang}
+		copy={footerCopy}
+		logoSrc={s?.nav_logo}
+		logoAlt={s?.nav_logo_alt}
+		brandName={s?.brand_name}
+		brandTagline={s?.brand_tagline}
+		email={s?.footer_email}
+		phone={s?.footer_phone}
+		socialFacebook={s?.social_facebook}
+		socialYoutube={s?.social_youtube}
+		socialInstagram={s?.social_instagram}
+		socialLinkedin={s?.social_linkedin}
+		socialTwitter={s?.social_twitter}
+		address={s?.footer_address}
+		foundationName={s?.footer_foundation_name}
+		domains={s?.footer_domains}
+		krsNumber={s?.krs_number}
+		nipNumber={s?.nip_number}
+		regonNumber={s?.regon_number}
+		client:load
+	/>
+</BaseLayout>
