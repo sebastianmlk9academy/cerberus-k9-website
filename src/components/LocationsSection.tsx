@@ -3,6 +3,7 @@
 import type { Lang } from "../i18n/utils"
 import type { LocationsSectionCopy } from "../i18n/locationsSection"
 import { locationsSectionByLang } from "../i18n/locationsSection"
+import type { LocationItem } from "../lib/eventLocations"
 
 function LocationBlock({
   number,
@@ -10,18 +11,29 @@ function LocationBlock({
   description,
   detail,
   status,
+  image,
 }: {
   number: string
   name: string
   description: string
   detail: string
   status: string
+  image?: string
 }) {
   return (
     <div
-      className="flex h-full flex-col p-[18px] sm:p-[20px]"
+      className="relative flex h-full flex-col overflow-hidden p-[18px] sm:p-[20px]"
       style={{ backgroundColor: "#1E2B38" }}
     >
+      {image ? (
+        <img
+          src={image}
+          alt={name}
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-20"
+          loading="lazy"
+        />
+      ) : null}
+      <div className="relative z-[1] flex h-full flex-col">
       <span
         className="block font-bebas text-[28px] sm:text-[32px] md:text-[36px] leading-none"
         style={{ color: "#253344" }}
@@ -56,23 +68,15 @@ function LocationBlock({
       >
         {status}
       </span>
+      </div>
     </div>
   )
-}
-
-interface CmsLocationItem {
-  name: string
-  address: string
-  description: string
-  status: string
-  modules: string
-  image: string
 }
 
 interface LocationsSectionProps {
   lang?: Lang
   copy?: LocationsSectionCopy
-  locations?: CmsLocationItem[]
+  locations?: LocationItem[]
 }
 
 export function LocationsSection({ lang, copy, locations }: LocationsSectionProps) {
@@ -84,10 +88,12 @@ export function LocationsSection({ lang, copy, locations }: LocationsSectionProp
       description: loc.description,
       detail: [loc.address, loc.modules].filter(Boolean).join(" · "),
       status: loc.status || safeCopy.statusConfirmed,
+      image: loc.image,
     }))
     : safeCopy.locations.map((loc) => ({
       ...loc,
       status: safeCopy.statusConfirmed,
+      image: undefined,
     }));
   return (
     <section
@@ -143,6 +149,7 @@ export function LocationsSection({ lang, copy, locations }: LocationsSectionProp
               description={loc.description}
               detail={loc.detail}
               status={loc.status}
+              image={loc.image}
             />
           ))}
         </div>
