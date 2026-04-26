@@ -310,7 +310,7 @@ function PartnerCard({ partner, labels }: { partner: Partner; labels: PartnerLab
       style={{
         background: '#0F1720',
         border: '1px solid #253344',
-        padding: '24px',
+        padding: '33.6px',
         display: 'flex',
         flexDirection: 'column',
         gap: '0',
@@ -326,21 +326,21 @@ function PartnerCard({ partner, labels }: { partner: Partner; labels: PartnerLab
       {/* Logo area */}
       <div
         style={{
-          height: '80px',
+          height: '112px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           background: '#0F1720',
           borderBottom: '1px solid #253344',
-          margin: '0 -24px 16px',
-          padding: '0 24px',
+          margin: '0 -33.6px 22.4px',
+          padding: '0 33.6px',
         }}
       >
         {partner.logo ? (
           <img
             src={partner.logo}
             alt={partner.name}
-            style={{ maxHeight: '64px', maxWidth: '160px', width: 'auto', objectFit: 'contain' }}
+            style={{ maxHeight: '89.6px', maxWidth: '224px', width: 'auto', objectFit: 'contain' }}
           />
         ) : (
           <span
