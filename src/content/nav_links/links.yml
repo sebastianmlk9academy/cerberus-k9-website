@@ -1,0 +1,43 @@
+links:
+  - key: event
+    label_pl: O WYDARZENIU
+    label_en: ABOUT EVENT
+    path: o-wydarzeniu
+    order: 1
+    active: true
+  - key: instructors
+    label_pl: INSTRUKTORZY
+    label_en: INSTRUCTORS
+    path: instruktorzy
+    order: 2
+    active: true
+  - key: partners
+    label_pl: PARTNERZY
+    label_en: PARTNERS
+    path: partnerzy
+    order: 3
+    active: true
+  - key: media
+    label_pl: MEDIA
+    label_en: MEDIA
+    path: media
+    order: 4
+    active: true
+  - key: foundation
+    label_pl: FUNDACJA
+    label_en: FOUNDATION
+    path: fundacja
+    order: 5
+    active: true
+  - key: gallery
+    label_pl: GALERIA
+    label_en: GALLERY
+    path: galeria
+    order: 6
+    active: true
+  - key: contact
+    label_pl: KONTAKT
+    label_en: CONTACT
+    path: kontakt
+    order: 7
+    active: true
