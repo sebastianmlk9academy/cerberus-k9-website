@@ -54,11 +54,13 @@ export function NavBar({
     () => languages.find((l) => l.code === lang) ?? languages[0],
   );
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
+  const [currentPath, setCurrentPath] = useState('');
 
   useEffect(() => {
     const pathLang = window.location.pathname.split('/')[1];
     const found = languages.find((l) => l.code === pathLang);
     if (found) setCurrentLang(found);
+    setCurrentPath(window.location.pathname);
   }, []);
 
   const t = ui[currentLang.code as keyof typeof ui] ?? ui['pl'];
@@ -131,7 +133,9 @@ export function NavBar({
         {/* CENTER — NAVIGATION LINKS (desktop only) */}
         <div className="hidden lg:flex items-center gap-4 xl:gap-6" style={{ alignItems: 'center', height: '100%' }}>
           {navLinks.map((link) => {
-            const isActive = activeLink === link.href;
+            const isActive = activeLink
+              ? activeLink === link.href
+              : currentPath === link.href || currentPath === `${link.href}/`;
             return (
               <a
                 key={link.href}
@@ -179,14 +183,15 @@ export function NavBar({
                 fontSize: '10px',
                 letterSpacing: '2px',
                 fontWeight: 700,
-                color: langDropdownOpen ? '#C4922A' : '#4A5A6A',
+                color: langDropdownOpen ? '#C4922A' : '#FFFFFF',
+                boxShadow: langDropdownOpen ? 'inset 0 -2px 0 #C4922A' : 'none',
               }}
               onMouseEnter={(e: MouseEvent<HTMLButtonElement>) => {
                 e.currentTarget.style.color = '#C4922A';
               }}
               onMouseLeave={(e: MouseEvent<HTMLButtonElement>) => {
                 if (!langDropdownOpen) {
-                  e.currentTarget.style.color = '#4A5A6A';
+                  e.currentTarget.style.color = '#FFFFFF';
                 }
               }}
             >
@@ -195,9 +200,7 @@ export function NavBar({
                 alt={currentLang.name}
                 className="w-4 h-3 object-cover"
               />
-              <span className="hidden sm:inline" style={{ color: '#FFFFFF' }}>
-                {currentLang.name.toUpperCase()}
-              </span>
+              <span className="hidden sm:inline">{currentLang.name.toUpperCase()}</span>
               <svg
                 className="w-3 h-3 transition-transform duration-150"
                 style={{
@@ -223,37 +226,61 @@ export function NavBar({
                   className="absolute top-full right-0 mt-3 py-2 min-w-[160px] border z-50 max-h-[70vh] overflow-y-auto"
                   style={{
                     backgroundColor: '#0F1720',
-                    borderColor: '#253344',
+                    borderColor: '#C4922A',
+                    borderTop: '2px solid #C4922A',
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
                   }}
                 >
-                  {languages.map((lang) => (
-                    <button
-                      type="button"
-                      key={lang.code}
-                      onClick={() => selectLang(lang)}
-                      className="w-full flex items-center gap-2.5 px-4 py-2 transition-colors duration-150"
-                      style={{
-                        fontFamily: "'Rajdhani', sans-serif",
-                        fontSize: '10px',
-                        letterSpacing: '2px',
-                        fontWeight: 700,
-                        color: '#FFFFFF',
-                      }}
-                      onMouseEnter={(e: MouseEvent<HTMLButtonElement>) => {
-                        e.currentTarget.style.color = '#FFFFFF';
-                      }}
-                      onMouseLeave={(e: MouseEvent<HTMLButtonElement>) => {
-                        e.currentTarget.style.color = '#FFFFFF';
-                      }}
-                    >
-                      <img
-                        src={getFlagUrl(lang.countryCode)}
-                        alt={lang.name}
-                        className="w-4 h-3 object-cover"
-                      />
-                      <span>{lang.name.toUpperCase()}</span>
-                    </button>
-                  ))}
+                  {languages.map((lang) => {
+                    const isCurrentLang = lang.code === currentLang.code;
+                    return (
+                      <button
+                        type="button"
+                        key={lang.code}
+                        onClick={() => selectLang(lang)}
+                        className="w-full flex items-center gap-2 px-4 py-2 transition-colors duration-150"
+                        style={{
+                          fontFamily: "'Rajdhani', sans-serif",
+                          fontSize: '10px',
+                          letterSpacing: '2px',
+                          fontWeight: 700,
+                          color: isCurrentLang ? '#C4922A' : '#7A8A96',
+                          backgroundColor: isCurrentLang ? '#1A2530' : 'transparent',
+                          transition: 'background-color 0.15s, color 0.15s',
+                        }}
+                        onMouseEnter={(e: MouseEvent<HTMLButtonElement>) => {
+                          e.currentTarget.style.backgroundColor = '#1E2B38';
+                          e.currentTarget.style.color = '#C4922A';
+                        }}
+                        onMouseLeave={(e: MouseEvent<HTMLButtonElement>) => {
+                          const current = lang.code === currentLang.code;
+                          e.currentTarget.style.backgroundColor = current ? '#1A2530' : 'transparent';
+                          e.currentTarget.style.color = current ? '#C4922A' : '#7A8A96';
+                        }}
+                      >
+                        {isCurrentLang && (
+                          <span
+                            style={{
+                              width: '4px',
+                              height: '4px',
+                              borderRadius: '50%',
+                              backgroundColor: '#C4922A',
+                              flexShrink: 0,
+                            }}
+                          />
+                        )}
+                        {!isCurrentLang && (
+                          <span style={{ width: '4px', flexShrink: 0 }} aria-hidden />
+                        )}
+                        <img
+                          src={getFlagUrl(lang.countryCode)}
+                          alt={lang.name}
+                          className="w-4 h-3 object-cover"
+                        />
+                        <span>{lang.name.toUpperCase()}</span>
+                      </button>
+                    );
+                  })}
                 </div>
               </>
             )}
@@ -324,7 +351,9 @@ export function NavBar({
           }}
         >
           {navLinks.map((link) => {
-            const isActive = activeLink === link.href;
+            const isActive = activeLink
+              ? activeLink === link.href
+              : currentPath === link.href || currentPath === `${link.href}/`;
             return (
               <a
                 key={link.href}
@@ -332,13 +361,15 @@ export function NavBar({
                 onClick={() => setMobileMenuOpen(false)}
                 className="flex items-center h-12 border-b"
                 style={{
-                  paddingLeft: '16px',
+                  paddingLeft: '13px',
                   borderBottomColor: '#253344',
+                  borderLeft: isActive ? '3px solid #C4922A' : '3px solid transparent',
                   fontFamily: "'Rajdhani', sans-serif",
                   fontSize: '11px',
                   letterSpacing: '3px',
                   fontWeight: 700,
                   color: isActive ? '#C4922A' : '#FFFFFF',
+                  transition: 'border-color 0.15s, color 0.15s',
                 }}
               >
                 {link.label}
