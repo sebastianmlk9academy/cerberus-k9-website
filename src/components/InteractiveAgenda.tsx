@@ -1,4 +1,4 @@
-import { Calendar } from "lucide-react";
+import { Calendar, MapPin } from "lucide-react";
 import { useMemo, useState } from "react";
 import type { Lang } from "../i18n/utils";
 import { CATEGORY_META, normalizeCategory, type AgendaCategory, type Category } from "../lib/agendaCategories";
@@ -1305,7 +1305,8 @@ export default function InteractiveAgenda({
                                     e.currentTarget.style.color = "#C4922A";
                                   }}
                                 >
-                                  {navigateLabel} ↗
+                                  <MapPin size={14} />
+                                  {navigateLabel}
                                 </a>
                               )}
                               {(!item.locationMapUrl || item.locationMapUrl.trim() === "") && (
