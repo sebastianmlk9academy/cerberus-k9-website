@@ -523,6 +523,33 @@ interface CalendarEvent {
   endTime: string;
 }
 
+export interface AgendaUILabels {
+  addToCalendar?: string;
+  navigate?: string;
+  noLocation?: string;
+  noEvents?: string;
+  googleCalendar?: string;
+  appleIcal?: string;
+  instructorLabel?: string;
+  icsOrganizerName?: string;
+  icsOrganizerEmail?: string;
+  icsProdid?: string;
+}
+
+interface ICSBuildOptions {
+  prodid?: string;
+  organizerName?: string;
+  organizerEmail?: string;
+}
+
+function icsTextEscape(s: string) {
+  return s
+    .replace(/\\/g, "\\\\")
+    .replace(/\n/g, "\\n")
+    .replace(/;/g, "\\;")
+    .replace(/,/g, "\\,");
+}
+
 function formatICSDateTime(date: string, time: string) {
   // date: YYYY-MM-DD, time: HH:MM, treat as Europe/Warsaw local floating (no Z)
   const [y, m, d] = date.split("-");
@@ -541,7 +568,7 @@ function formatUTCStamp(date: string, time: string) {
   return `${dt.getUTCFullYear()}${pad(dt.getUTCMonth() + 1)}${pad(dt.getUTCDate())}T${pad(dt.getUTCHours())}${pad(dt.getUTCMinutes())}00Z`;
 }
 
-function buildICSEvent(ev: CalendarEvent) {
+function buildICSEvent(ev: CalendarEvent, ics?: ICSBuildOptions) {
   const uid = `${ev.id}@cerberus-k9-2026`;
   const dtStart = formatICSDateTime(ev.startDate, ev.startTime);
   const dtEnd = formatICSDateTime(ev.endDate, ev.endTime);
@@ -549,15 +576,24 @@ function buildICSEvent(ev: CalendarEvent) {
   const dtStamp =
     now.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
   const desc = ev.description.replace(/\n/g, "\\n");
+  const prodid = ics?.prodid ?? "-//CERBERUS K9//PL";
+  const orgName = ics?.organizerName?.trim();
+  const orgEmailRaw = ics?.organizerEmail?.trim();
+  const orgEmail = orgEmailRaw?.replace(/^mailto:/i, "");
+  const organizerLine =
+    orgName && orgEmail && orgEmail.includes("@")
+      ? `ORGANIZER;CN=${icsTextEscape(orgName)}:mailto:${orgEmail}`
+      : null;
 
   return [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//CERBERUS K9 2026//PL",
+    `PRODID:${icsTextEscape(prodid)}`,
     "CALSCALE:GREGORIAN",
     "BEGIN:VEVENT",
     `UID:${uid}`,
     `DTSTAMP:${dtStamp}`,
+    ...(organizerLine ? [organizerLine] : []),
     `DTSTART;TZID=Europe/Warsaw:${dtStart}`,
     `DTEND;TZID=Europe/Warsaw:${dtEnd}`,
     `SUMMARY:${ev.title}`,
@@ -568,8 +604,8 @@ function buildICSEvent(ev: CalendarEvent) {
   ].join("\r\n");
 }
 
-function downloadICSEvent(ev: CalendarEvent) {
-  const blob = new Blob([buildICSEvent(ev)], {
+function downloadICSEvent(ev: CalendarEvent, ics?: ICSBuildOptions) {
+  const blob = new Blob([buildICSEvent(ev, ics)], {
     type: "text/calendar;charset=utf-8",
   });
   const url = URL.createObjectURL(blob);
@@ -702,12 +738,18 @@ function CalendarMenu({
   onClose,
   labels,
   align = "left",
+  googleCalendarLabel,
+  appleIcalLabel,
+  icsOptions,
 }: {
   event: CalendarEvent;
   open: boolean;
   onClose: () => void;
   labels: AgendaLabels;
   align?: "left" | "center";
+  googleCalendarLabel?: string;
+  appleIcalLabel?: string;
+  icsOptions?: ICSBuildOptions;
 }) {
   if (!open) return null;
   const itemStyle: React.CSSProperties = {
@@ -747,20 +789,20 @@ function CalendarMenu({
         onClick={onClose}
         style={itemStyle}
       >
-        ↗ GOOGLE CALENDAR ({labels.share})
+        ↗ {googleCalendarLabel ?? "GOOGLE CALENDAR"} ({labels.share})
       </a>
       <button
         onClick={() => {
-          downloadICSEvent(event);
+          downloadICSEvent(event, icsOptions);
           onClose();
         }}
         style={itemStyle}
       >
-        ↗ APPLE / ICAL ({labels.download})
+        ↗ {appleIcalLabel ?? "APPLE / ICAL"} ({labels.download})
       </button>
       <button
         onClick={() => {
-          downloadICSEvent(event);
+          downloadICSEvent(event, icsOptions);
           onClose();
         }}
         style={itemStyle}
@@ -858,6 +900,7 @@ interface InteractiveAgendaProps {
   eventName?: string;
   city?: string;
   agendaUrl?: string;
+  uiLabels?: AgendaUILabels;
 }
 
 export default function InteractiveAgenda({
@@ -870,17 +913,36 @@ export default function InteractiveAgenda({
   city,
   agendaHeading,
   eventName,
+  uiLabels,
 }: InteractiveAgendaProps) {
   const langKey: Lang = (lang as Lang) ?? "pl";
-  const navigateLabel = navigateLabels[lang ?? "pl"] ?? "NAWIGUJ";
-  const noMapLabel = noMapLabels[lang ?? "pl"] ?? "BRAK PODPIĘTEJ LOKALIZACJI";
+  const navigateLabel =
+    uiLabels?.navigate ?? navigateLabels[lang ?? "pl"] ?? "NAWIGUJ";
+  const noMapLabel =
+    uiLabels?.noLocation ?? noMapLabels[lang ?? "pl"] ?? "BRAK PODPIĘTEJ LOKALIZACJI";
   const agendaLabels = AGENDA_LABELS[langKey] ?? DEFAULT_AGENDA_LABELS;
+  const instructorPrefix = (
+    uiLabels?.instructorLabel ?? `${agendaLabels.instructor}:`
+  ).replace(/:+\s*$/, "");
+  const effectiveLabels: AgendaLabels = {
+    ...agendaLabels,
+    addToCalendar: uiLabels?.addToCalendar ?? agendaLabels.addToCalendar,
+    noEvents: uiLabels?.noEvents ?? agendaLabels.noEvents,
+    instructor: instructorPrefix,
+  };
+  const icsBuildOptions: ICSBuildOptions = {
+    prodid: uiLabels?.icsProdid ?? "-//CERBERUS K9//PL",
+    organizerName: uiLabels?.icsOrganizerName,
+    organizerEmail: uiLabels?.icsOrganizerEmail,
+  };
+  const googleCalendarMenuLabel = uiLabels?.googleCalendar ?? "GOOGLE CALENDAR";
+  const appleIcalMenuLabel = uiLabels?.appleIcal ?? "APPLE / ICAL";
   const DAYS_TO_USE = (items && items.length > 0) ? items : FALLBACK_AGENDA_ITEMS;
   const ACTIVE_CATEGORY_META = categoryMeta ?? CATEGORY_META;
   const ACTIVE_FILTERS = filters ?? FILTERS;
   const translatedFilters = ACTIVE_FILTERS.map((f) =>
     f.key === "ALL"
-      ? { ...f, label: f.label || agendaLabels.all }
+      ? { ...f, label: f.label || effectiveLabels.all }
       : { ...f, label: f.label || ACTIVE_CATEGORY_META[f.key]?.label || f.key },
   );
   const [activeDayId, setActiveDayId] = useState<string>(DAYS_TO_USE[0]?.id ?? "day1");
@@ -890,8 +952,16 @@ export default function InteractiveAgenda({
   const [fullEventMenuOpen, setFullEventMenuOpen] = useState(false);
   const scheduleDays = useMemo(() => DAYS_TO_USE, [DAYS_TO_USE]);
   const fullEvent = useMemo(
-    () => buildFullEventCalendarEvent(scheduleDays, agendaLabels, ACTIVE_CATEGORY_META, agendaUrl, city, eventName),
-    [agendaLabels, scheduleDays, ACTIVE_CATEGORY_META, agendaUrl, city, eventName],
+    () =>
+      buildFullEventCalendarEvent(
+        scheduleDays,
+        effectiveLabels,
+        ACTIVE_CATEGORY_META,
+        agendaUrl,
+        city,
+        eventName,
+      ),
+    [effectiveLabels, scheduleDays, ACTIVE_CATEGORY_META, agendaUrl, city, eventName],
   );
 
   const activeDay = useMemo(
@@ -1041,7 +1111,7 @@ export default function InteractiveAgenda({
                 letterSpacing: 2,
               }}
             >
-              {agendaLabels.noEvents}
+              {effectiveLabels.noEvents}
             </div>
           )}
 
@@ -1180,7 +1250,7 @@ export default function InteractiveAgenda({
                           fontWeight: 700,
                         }}
                       >
-                        {categoryLabel(item.category, agendaLabels, ACTIVE_CATEGORY_META)}
+                        {categoryLabel(item.category, effectiveLabels, ACTIVE_CATEGORY_META)}
                       </span>
                     </div>
                     {/* Row 2 */}
@@ -1244,7 +1314,7 @@ export default function InteractiveAgenda({
                               fontWeight: 700,
                             }}
                           >
-                            {agendaLabels.instructor}: {item.instructor.toUpperCase()}
+                            {instructorPrefix}: {item.instructor.toUpperCase()}
                           </p>
                         )}
 
@@ -1279,7 +1349,7 @@ export default function InteractiveAgenda({
                                 }}
                               >
                                 <Calendar size={14} />
-                                {agendaLabels.addToCalendar}
+                                {effectiveLabels.addToCalendar}
                               </button>
                               {item.locationMapUrl && item.locationMapUrl.trim() !== "" && (
                                 <a
@@ -1377,14 +1447,17 @@ export default function InteractiveAgenda({
               }}
             >
               <Calendar size={14} />
-              {agendaLabels.addToCalendar}
+              {effectiveLabels.addToCalendar}
             </button>
             <CalendarMenu
               event={fullEvent}
               open={fullEventMenuOpen}
               onClose={() => setFullEventMenuOpen(false)}
-              labels={agendaLabels}
+              labels={effectiveLabels}
               align="center"
+              googleCalendarLabel={googleCalendarMenuLabel}
+              appleIcalLabel={appleIcalMenuLabel}
+              icsOptions={icsBuildOptions}
             />
           </div>
         </div>

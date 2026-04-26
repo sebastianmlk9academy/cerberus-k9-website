@@ -391,6 +391,22 @@ const homepage_stats = defineCollection({
 	}),
 });
 
+const agenda_ui = defineCollection({
+	loader: glob({ base: './src/content/agenda_ui', pattern: '*.{yml,yaml}' }),
+	schema: z.object({
+		add_to_calendar: z.record(z.string(), z.string()).optional(),
+		navigate: z.record(z.string(), z.string()).optional(),
+		no_location: z.record(z.string(), z.string()).optional(),
+		no_events: z.record(z.string(), z.string()).optional(),
+		google_calendar: z.record(z.string(), z.string()).optional(),
+		apple_ical: z.record(z.string(), z.string()).optional(),
+		instructor_label: z.record(z.string(), z.string()).optional(),
+		ics_organizer_name: z.string().optional(),
+		ics_organizer_email: z.string().optional(),
+		ics_prodid: z.string().optional(),
+	}),
+});
+
 const locations = defineCollection({
 	loader: glob({ base: './src/content/locations', pattern: '**/*.{md,mdx}' }),
 	schema: z.object({
@@ -441,4 +457,5 @@ export const collections = {
 	homepage_stats,
 	locations,
 	agenda_categories,
+	agenda_ui,
 };

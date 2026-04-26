@@ -28,6 +28,20 @@ const { lang: paramLang } = Astro.params;
 const lang: Lang = isLang(paramLang ?? '') ? (paramLang as Lang) : 'pl';
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
+const agendaUiEntry = await getEntry('agenda_ui', 'labels');
+const agendaUi = agendaUiEntry?.data;
+const agendaUILabels = {
+	addToCalendar: (agendaUi?.add_to_calendar as Record<string, string> | undefined)?.[lang] ?? 'DODAJ DO KALENDARZA',
+	navigate: (agendaUi?.navigate as Record<string, string> | undefined)?.[lang] ?? 'NAWIGUJ',
+	noLocation: (agendaUi?.no_location as Record<string, string> | undefined)?.[lang] ?? 'BRAK PODPIĘTEJ LOKALIZACJI',
+	noEvents: (agendaUi?.no_events as Record<string, string> | undefined)?.[lang] ?? 'BRAK WYDARZEŃ',
+	googleCalendar: (agendaUi?.google_calendar as Record<string, string> | undefined)?.[lang] ?? 'GOOGLE CALENDAR',
+	appleIcal: (agendaUi?.apple_ical as Record<string, string> | undefined)?.[lang] ?? 'APPLE / ICAL',
+	instructorLabel: (agendaUi?.instructor_label as Record<string, string> | undefined)?.[lang] ?? 'PROWADZĄCY:',
+	icsOrganizerName: agendaUi?.ics_organizer_name ?? 'Fundacja PACTA K9',
+	icsOrganizerEmail: agendaUi?.ics_organizer_email ?? 'sebastian@pactak9.org',
+	icsProdid: agendaUi?.ics_prodid ?? '-//CERBERUS K9//PL',
+};
 const copy = aboutEventPageByLang[lang] ?? aboutEventPageByLang['pl'];
 const plausibleDomain = s?.plausible_domain ?? 'cerberusk9.org';
 const siteOrigin = s?.site_url ?? new URL(Astro.site!).origin;
@@ -192,6 +206,7 @@ const eventSchema = {
 		eventName={eventName}
 		city={s?.event_city}
 		agendaUrl={s?.agenda_page_url}
+		uiLabels={agendaUILabels}
 	/>
 	</div>
 	<LocationsSection

@@ -656,3 +656,104 @@ collections:
               - { label: "Moduł", name: module, widget: string }
               - { label: "Harmonogram", name: schedule, widget: string }
               - { label: "Prowadzący", name: instructor_label, widget: string }
+
+  - name: agenda_ui
+    label: "Agenda — Napisy interfejsu"
+    files:
+      - name: labels
+        label: "Etykiety agendy"
+        file: "src/content/agenda_ui/labels.yml"
+        format: yaml
+        fields:
+          - label: "Dodaj do kalendarza"
+            name: add_to_calendar
+            widget: object
+            fields:
+              - { label: "Polski", name: pl, widget: string, default: "DODAJ DO KALENDARZA" }
+              - { label: "English", name: en, widget: string, default: "ADD TO CALENDAR" }
+              - { label: "Deutsch", name: de, widget: string, default: "ZUM KALENDER HINZUFÜGEN" }
+              - { label: "Français", name: fr, widget: string, default: "AJOUTER AU CALENDRIER" }
+              - { label: "Čeština", name: cs, widget: string, default: "PŘIDAT DO KALENDÁŘE" }
+              - { label: "Slovenčina", name: sk, widget: string, default: "PRIDAŤ DO KALENDÁRA" }
+              - { label: "Magyar", name: hu, widget: string, default: "HOZZÁADÁS NAPTÁRHOZ" }
+              - { label: "Hrvatski", name: hr, widget: string, default: "DODAJ U KALENDAR" }
+              - { label: "Slovenščina", name: sl, widget: string, default: "DODAJ V KOLEDAR" }
+              - { label: "Lietuvių", name: lt, widget: string, default: "PRIDĖTI Į KALENDORIŲ" }
+              - { label: "Latviešu", name: lv, widget: string, default: "PIEVIENOT KALENDĀRAM" }
+              - { label: "Norsk", name: "no", widget: string, default: "LEGG TIL I KALENDER" }
+              - { label: "Svenska", name: sv, widget: string, default: "LÄGG TILL I KALENDER" }
+              - { label: "Nederlands", name: nl, widget: string, default: "AAN KALENDER TOEVOEGEN" }
+              - { label: "Español", name: es, widget: string, default: "AGREGAR AL CALENDARIO" }
+              - { label: "Português", name: pt, widget: string, default: "ADICIONAR AO CALENDÁRIO" }
+              - { label: "Română", name: ro, widget: string, default: "ADĂUGAȚI LA CALENDAR" }
+              - { label: "Italiano", name: it, widget: string, default: "AGGIUNGI AL CALENDARIO" }
+              - { label: "한국어", name: ko, widget: string, default: "캘린더에 추가" }
+          - label: "Nawiguj"
+            name: navigate
+            widget: object
+            fields:
+              - { label: "Polski", name: pl, widget: string, default: "NAWIGUJ" }
+              - { label: "English", name: en, widget: string, default: "NAVIGATE" }
+              - { label: "Deutsch", name: de, widget: string, default: "NAVIGIEREN" }
+              - { label: "Français", name: fr, widget: string, default: "NAVIGUER" }
+              - { label: "Čeština", name: cs, widget: string, default: "NAVIGOVAT" }
+              - { label: "Slovenčina", name: sk, widget: string, default: "NAVIGOVAŤ" }
+              - { label: "Magyar", name: hu, widget: string, default: "NAVIGÁLÁS" }
+              - { label: "Hrvatski", name: hr, widget: string, default: "NAVIGIRAJ" }
+              - { label: "Slovenščina", name: sl, widget: string, default: "NAVIGIRAJ" }
+              - { label: "Lietuvių", name: lt, widget: string, default: "NARŠYTI" }
+              - { label: "Latviešu", name: lv, widget: string, default: "NAVIGĒT" }
+              - { label: "Norsk", name: "no", widget: string, default: "NAVIGER" }
+              - { label: "Svenska", name: sv, widget: string, default: "NAVIGERA" }
+              - { label: "Nederlands", name: nl, widget: string, default: "NAVIGEREN" }
+              - { label: "Español", name: es, widget: string, default: "NAVEGAR" }
+              - { label: "Português", name: pt, widget: string, default: "NAVEGAR" }
+              - { label: "Română", name: ro, widget: string, default: "NAVIGAȚI" }
+              - { label: "Italiano", name: it, widget: string, default: "NAVIGA" }
+              - { label: "한국어", name: ko, widget: string, default: "길 안내" }
+          - label: "Brak lokalizacji"
+            name: no_location
+            widget: object
+            fields:
+              - { label: "Polski", name: pl, widget: string, default: "BRAK PODPIĘTEJ LOKALIZACJI" }
+              - { label: "English", name: en, widget: string, default: "NO LOCATION LINKED" }
+              - { label: "Deutsch", name: de, widget: string, default: "KEIN STANDORT VERKNÜPFT" }
+              - { label: "Français", name: fr, widget: string, default: "AUCUN LIEU LIÉ" }
+          - label: "Brak wydarzeń"
+            name: no_events
+            widget: object
+            fields:
+              - { label: "Polski", name: pl, widget: string, default: "BRAK WYDARZEŃ DLA WYBRANEGO FILTRA" }
+              - { label: "English", name: en, widget: string, default: "NO EVENTS FOR SELECTED FILTER" }
+          - label: "Google Calendar"
+            name: google_calendar
+            widget: object
+            fields:
+              - { label: "Polski", name: pl, widget: string, default: "GOOGLE CALENDAR" }
+              - { label: "English", name: en, widget: string, default: "GOOGLE CALENDAR" }
+          - label: "Apple/iCal"
+            name: apple_ical
+            widget: object
+            fields:
+              - { label: "Polski", name: pl, widget: string, default: "APPLE / ICAL" }
+              - { label: "English", name: en, widget: string, default: "APPLE / ICAL" }
+          - label: "Prowadzący"
+            name: instructor_label
+            widget: object
+            fields:
+              - { label: "Polski", name: pl, widget: string, default: "PROWADZĄCY:" }
+              - { label: "English", name: en, widget: string, default: "INSTRUCTOR:" }
+              - { label: "Deutsch", name: de, widget: string, default: "KURSLEITER:" }
+              - { label: "Français", name: fr, widget: string, default: "INSTRUCTEUR :" }
+          - label: "ICS — Nazwa organizatora"
+            name: ics_organizer_name
+            widget: string
+            default: "Fundacja PACTA K9"
+          - label: "ICS — Email organizatora"
+            name: ics_organizer_email
+            widget: string
+            default: "sebastian@pactak9.org"
+          - label: "ICS — PRODID"
+            name: ics_prodid
+            widget: string
+            default: "-//CERBERUS K9//PL"
