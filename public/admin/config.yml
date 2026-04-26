@@ -148,6 +148,16 @@ collections:
       - { label: Etykieta linku WWW, name: website_label, widget: string, required: false }
       - { label: Opis, name: description, widget: text, required: false }
       - { label: Kolejność sortowania, name: order, widget: number, value_type: int, min: 0, step: 1, default: 0 }
+      - name: show_in_strip
+        label: "Pokaż w pasku partnerów (strona główna)"
+        widget: boolean
+        default: true
+        hint: "Czy partner ma się wyświetlać w scrollującym pasku na stronie głównej"
+      - name: strip_order
+        label: "Kolejność w pasku"
+        widget: number
+        default: 99
+        hint: "Kolejność wyświetlania w scrollującym pasku na stronie głównej"
 
   # --- 4. Galeria ---
   - name: galeria

@@ -11,6 +11,7 @@ import { homeStatsByLang } from '../../i18n/homeStats';
 import { statsEntriesToStatItems } from '../../lib/homepageStats';
 import { programSectionByLang } from '../../i18n/programSection';
 import { cardEntriesToProgramCards } from '../../lib/homepageCards';
+import { partnerEntriesToStripItems } from '../../lib/partnersStrip';
 import { locationsSectionByLang } from '../../i18n/locationsSection';
 import { videoSectionByLang } from '../../i18n/videoSection';
 import { latestNewsByLang } from '../../i18n/latestNews';
@@ -75,23 +76,15 @@ const statsCopy =
 							: item.value,
 			}));
 
-const partnersRaw = await getCollection('partnerzy');
+const partnersData = await getCollection('partnerzy');
 const cardEntries = await getCollection('homepage_cards');
-const stripPartners = partnersRaw
-	.filter((p) => p.data.name && !p.data.draft)
-	.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
-	.map((p) => ({
-		name: p.data.name as string,
-		logo: p.data.logo ?? null,
-		website: p.data.website ?? null,
-	}));
+const stripPartners = partnerEntriesToStripItems(partnersData);
 const programCopy = programSectionByLang[lang] ?? programSectionByLang['pl'];
 const locationsCopy = locationsSectionByLang[lang] ?? locationsSectionByLang['pl'];
 const programCards =
 	cardEntries.length > 0 ? cardEntriesToProgramCards(cardEntries, lang) : null;
 const videoCopy = videoSectionByLang[lang] ?? videoSectionByLang['pl'];
 const newsCopy = latestNewsByLang[lang] ?? latestNewsByLang['pl'];
-const partnersCopy = partnersStripByLang[lang] ?? partnersStripByLang['pl'];
 
 const eventSchema = {
 	'@context': 'https://schema.org',
@@ -158,7 +151,12 @@ const eventSchema = {
 		video4Badge={s?.video_badge_4}
 		client:load
 	/>
-	<PartnersStrip lang={lang} copy={partnersCopy} partners={stripPartners} partnerCtaHref={s?.partner_cta_href} client:load />
+	<PartnersStrip
+		copy={partnersStripByLang[lang] ?? partnersStripByLang['pl']}
+		partners={stripPartners}
+		partnerCtaHref={s?.partner_cta_href}
+		client:load
+	/>
 	<LatestNews lang={lang} copy={newsCopy} articles={latestForListing} client:load />
 	<Footer
 		lang={lang}

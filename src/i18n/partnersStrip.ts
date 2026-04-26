@@ -2,6 +2,7 @@ import type { Lang } from './utils';
 
 export type PartnersStripCopy = {
 	sectionTag: string;
+	sectionTitle?: string;
 	patronage: string;
 	mediaPatronage: string;
 	partners: string;

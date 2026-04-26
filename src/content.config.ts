@@ -85,6 +85,8 @@ const partnerzy = defineCollection({
 		website_label: z.string().optional(),
 		description: z.string().optional(),
 		order: z.number().int().optional(),
+		show_in_strip: z.boolean().optional().default(true),
+		strip_order: z.number().optional().default(99),
 		/** When true, entry is kept for tooling/CMS but excluded from the public partners page. */
 		draft: z.boolean().optional(),
 	}),
