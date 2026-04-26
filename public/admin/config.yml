@@ -4,9 +4,9 @@
 
 backend:
   name: github
-  repo: '[YOUR_GITHUB_USERNAME]/cerberus-k9-website'
-  branch: main
-  base_url: https://api.netlify.com
+  repo: 'sebastianmlk9academy/cerberus-k9-website'
+  branch: master
+  auth_type: pkce
 
 # Media uploaded from the CMS lands in the repo under public/uploads
 media_folder: public/uploads
