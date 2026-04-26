@@ -153,12 +153,12 @@ export function Footer({
     { label: safeCopy.linkGallery, href: `/${safeLang}/galeria` },
     { label: safeCopy.linkMedia, href: `/${safeLang}/media` },
     { label: safeCopy.linkNews, href: `/${safeLang}/aktualnosci` },
-    { label: safeCopy.linkContact, href: `/${safeLang}/kontakt` },
   ]
 
   const orgLinks = [
     { label: safeCopy.linkFoundation, href: `/${safeLang}/fundacja` },
     { label: safeCopy.linkPartners, href: `/${safeLang}/partnerzy` },
+    { label: safeCopy.linkContact, href: `/${safeLang}/kontakt` },
   ]
 
   const mediaLinks = [
