@@ -11,6 +11,7 @@ import FAQAccordion from '../../components/FAQAccordion';
 import { Footer } from '../../components/Footer';
 import { footerCopyByLang } from '../../i18n/footer';
 import { programEntriesToAgendaItems } from '../../lib/programAgenda';
+import type { AgendaCategory } from '../../lib/agendaCategories';
 
 export const prerender = true;
 
@@ -34,10 +35,31 @@ const agendaHeading =
 const eventName = `CERBERUS K9 ${new Date(s?.event_date ?? '2026-06-13').getFullYear()}`;
 
 const programEntries = await getCollection('program');
-const { days: agendaDays } = programEntriesToAgendaItems(
+const categoryEntries = await getCollection('agenda_categories');
+const agendaCategories: AgendaCategory[] = categoryEntries
+	.filter((c) => c.data.active !== false)
+	.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
+	.map((c) => ({
+		key: c.data.key,
+		label_pl: c.data.label_pl,
+		label_en: c.data.label_en ?? c.data.label_pl,
+		color: c.data.color,
+		show_in_filter: c.data.show_in_filter ?? true,
+		show_calendar_button: c.data.show_calendar_button ?? true,
+		order: c.data.order ?? 99,
+	}));
+const { days: agendaDays, categoryMeta } = programEntriesToAgendaItems(
 	programEntries.filter((e) => e.data.active !== false),
 	lang,
+	agendaCategories,
 );
+const agendaFilters = [
+	{ key: 'ALL', label: lang === 'pl' ? 'WSZYSTKO' : 'ALL' },
+	...agendaCategories.filter((c) => c.show_in_filter).map((c) => ({
+		key: c.key,
+		label: lang === 'pl' ? c.label_pl : (c.label_en ?? c.label_pl),
+	})),
+];
 const faqEntries = await getCollection('faq');
 const faqItems = faqEntries
 	.filter((e) => e.data.active !== false)
@@ -140,6 +162,9 @@ const eventSchema = {
 	<InteractiveAgenda
 		client:load
 		items={agendaDays}
+		categoryMeta={categoryMeta}
+		filters={agendaFilters}
+		categories={agendaCategories}
 		lang={lang}
 		agendaHeading={agendaHeading}
 		eventName={eventName}

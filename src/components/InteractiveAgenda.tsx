@@ -1,7 +1,7 @@
 import { Calendar } from "lucide-react";
 import { useMemo, useState } from "react";
 import type { Lang } from "../i18n/utils";
-import { CATEGORY_META, normalizeCategory, type Category } from "../lib/agendaCategories";
+import { CATEGORY_META, normalizeCategory, type AgendaCategory, type Category } from "../lib/agendaCategories";
 
 interface AgendaItem {
   id: string;
@@ -9,7 +9,7 @@ interface AgendaItem {
   end: string;
   title: string;
   location: string;
-  category: Category;
+  category: string;
   description: string;
   instructor?: string;
 }
@@ -54,13 +54,13 @@ const FALLBACK_AGENDA_ITEMS: DaySchedule[] = [
   },
 ];
 
-const FILTERS: { key: "ALL" | Category }[] = [
-  { key: "ALL" },
-  { key: "K9" },
-  { key: "TCCC" },
-  { key: "DRONY" },
-  { key: "KONFERENCJA" },
-  { key: "CEREMONIA" },
+const FILTERS: { key: "ALL" | string; label: string }[] = [
+  { key: "ALL", label: "ALL" },
+  { key: "K9", label: "K9" },
+  { key: "TCCC", label: "TCCC" },
+  { key: "DRONY", label: "DRONY" },
+  { key: "KONFERENCJA", label: "KONFERENCJA" },
+  { key: "CEREMONIA", label: "CEREMONIA" },
 ];
 
 type AgendaLabels = {
@@ -588,11 +588,18 @@ function getAgendaUrl(agendaUrl?: string) {
   return `${window.location.origin}${window.location.pathname}`;
 }
 
-function itemToEvent(item: AgendaItem, dayDate: string, labels: AgendaLabels, agendaUrl?: string, eventName?: string): CalendarEvent {
+function itemToEvent(
+  item: AgendaItem,
+  dayDate: string,
+  labels: AgendaLabels,
+  categoryMeta: Record<string, { color: string; label: string }>,
+  agendaUrl?: string,
+  eventName?: string,
+): CalendarEvent {
   const agendaPublicUrl = agendaUrl ?? "https://cerberusk9.org/pl/o-wydarzeniu";
   const eventNameStr = eventName ?? "CERBERUS K9 2026";
   const location = item.location === "—" ? "" : item.location;
-  const category = categoryLabel(item.category, labels);
+  const category = categoryLabel(item.category, labels, categoryMeta);
   const lines = [
     item.description,
     "",
@@ -719,8 +726,14 @@ function CalendarMenu({
   );
 }
 
-function categoryLabel(category: Category, labels: AgendaLabels) {
-  switch (category) {
+function categoryLabel(
+  category: string,
+  labels: AgendaLabels,
+  categoryMeta: Record<string, { color: string; label: string }>,
+) {
+  if (categoryMeta[category]?.label) return categoryMeta[category].label;
+  const normalizedCategory = normalizeCategory(category);
+  switch (normalizedCategory) {
     case "K9":
       return labels.categories.k9;
     case "TCCC":
@@ -739,6 +752,7 @@ function categoryLabel(category: Category, labels: AgendaLabels) {
 function buildFullEventCalendarEvent(
   days: DaySchedule[],
   labels: AgendaLabels,
+  categoryMeta: Record<string, { color: string; label: string }>,
   agendaUrl?: string,
   city?: string,
   eventName?: string,
@@ -760,7 +774,7 @@ function buildFullEventCalendarEvent(
   const agendaLines = days.map((d) => {
     const lines = d.items
       .map((i) => {
-        const tag = categoryLabel(i.category, labels);
+        const tag = categoryLabel(i.category, labels, categoryMeta);
         const loc = i.location !== "—" ? ` — ${i.location}` : "";
         return `  ${i.start}–${i.end}  [${tag}] ${i.title}${loc}${i.instructor ? ` (${i.instructor})` : ""}`;
       })
@@ -791,6 +805,9 @@ function buildFullEventCalendarEvent(
 
 interface InteractiveAgendaProps {
   items?: DaySchedule[];
+  categoryMeta?: Record<string, { color: string; label: string }>;
+  filters?: { key: string; label: string }[];
+  categories?: AgendaCategory[];
   lang?: string;
   agendaHeading?: string;
   eventName?: string;
@@ -798,28 +815,36 @@ interface InteractiveAgendaProps {
   agendaUrl?: string;
 }
 
-export default function InteractiveAgenda({ lang, items, agendaUrl, city, agendaHeading, eventName }: InteractiveAgendaProps) {
+export default function InteractiveAgenda({
+  lang,
+  items,
+  categoryMeta,
+  filters,
+  categories,
+  agendaUrl,
+  city,
+  agendaHeading,
+  eventName,
+}: InteractiveAgendaProps) {
   const langKey: Lang = (lang as Lang) ?? "pl";
   const agendaLabels = AGENDA_LABELS[langKey] ?? DEFAULT_AGENDA_LABELS;
   const DAYS_TO_USE = (items && items.length > 0) ? items : FALLBACK_AGENDA_ITEMS;
-  const translatedFilters = FILTERS.map((f) => {
-    if (f.key === "ALL") return { ...f, label: agendaLabels.all };
-    if (f.key === "K9") return { ...f, label: agendaLabels.categories.k9 };
-    if (f.key === "TCCC") return { ...f, label: agendaLabels.categories.tccc };
-    if (f.key === "DRONY") return { ...f, label: agendaLabels.categories.drones };
-    if (f.key === "KONFERENCJA") return { ...f, label: agendaLabels.categories.conference };
-    if (f.key === "CEREMONIA") return { ...f, label: agendaLabels.categories.ceremony };
-    return { ...f, label: agendaLabels.categories.break };
-  });
+  const ACTIVE_CATEGORY_META = categoryMeta ?? CATEGORY_META;
+  const ACTIVE_FILTERS = filters ?? FILTERS;
+  const translatedFilters = ACTIVE_FILTERS.map((f) =>
+    f.key === "ALL"
+      ? { ...f, label: f.label || agendaLabels.all }
+      : { ...f, label: f.label || ACTIVE_CATEGORY_META[f.key]?.label || f.key },
+  );
   const [activeDayId, setActiveDayId] = useState<string>(DAYS_TO_USE[0]?.id ?? "day1");
-  const [filter, setFilter] = useState<"ALL" | Category>("ALL");
+  const [filter, setFilter] = useState<string>("ALL");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [calendarMenuFor, setCalendarMenuFor] = useState<string | null>(null);
   const [fullEventMenuOpen, setFullEventMenuOpen] = useState(false);
   const scheduleDays = useMemo(() => DAYS_TO_USE, [DAYS_TO_USE]);
   const fullEvent = useMemo(
-    () => buildFullEventCalendarEvent(scheduleDays, agendaLabels, agendaUrl, city, eventName),
-    [agendaLabels, scheduleDays, agendaUrl, city, eventName],
+    () => buildFullEventCalendarEvent(scheduleDays, agendaLabels, ACTIVE_CATEGORY_META, agendaUrl, city, eventName),
+    [agendaLabels, scheduleDays, ACTIVE_CATEGORY_META, agendaUrl, city, eventName],
   );
 
   const activeDay = useMemo(
@@ -829,7 +854,9 @@ export default function InteractiveAgenda({ lang, items, agendaUrl, city, agenda
 
   const visibleItems = useMemo(() => {
     if (filter === "ALL") return activeDay.items;
-    return activeDay.items.filter((i) => i.category === filter);
+    return activeDay.items.filter(
+      (i) => i.category === filter || normalizeCategory(i.category) === normalizeCategory(filter),
+    );
   }, [activeDay, filter]);
 
   const toggle = (id: string) =>
@@ -972,7 +999,11 @@ export default function InteractiveAgenda({ lang, items, agendaUrl, city, agenda
 
           {visibleItems.map((item) => {
             const normalizedCategory = normalizeCategory(item.category);
-            const meta = CATEGORY_META[normalizedCategory];
+            const meta = ACTIVE_CATEGORY_META[item.category] ?? ACTIVE_CATEGORY_META[normalizedCategory] ?? CATEGORY_META[normalizedCategory];
+            const catData = categories?.find((c) => c.key === item.category);
+            const showCalendarBtn = catData
+              ? catData.show_calendar_button
+              : item.category !== "BREAK";
             const isOpen = !!expanded[item.id];
             const isCalendarMenuOpen = calendarMenuFor === item.id;
             return (
@@ -1101,7 +1132,7 @@ export default function InteractiveAgenda({ lang, items, agendaUrl, city, agenda
                           fontWeight: 700,
                         }}
                       >
-                        {categoryLabel(normalizedCategory, agendaLabels)}
+                        {categoryLabel(item.category, agendaLabels, ACTIVE_CATEGORY_META)}
                       </span>
                     </div>
                     {/* Row 2 */}
@@ -1169,7 +1200,7 @@ export default function InteractiveAgenda({ lang, items, agendaUrl, city, agenda
                           </p>
                         )}
 
-                        {normalizedCategory !== "BREAK" && (
+                        {showCalendarBtn && (
                           <div
                             style={{ position: "relative", marginTop: 14 }}
                             onClick={(e) => e.stopPropagation()}
@@ -1203,7 +1234,7 @@ export default function InteractiveAgenda({ lang, items, agendaUrl, city, agenda
                             </button>
 
                             <CalendarMenu
-                              event={itemToEvent({ ...item, category: normalizedCategory }, activeDay.date, agendaLabels, agendaUrl, eventName)}
+                              event={itemToEvent(item, activeDay.date, agendaLabels, ACTIVE_CATEGORY_META, agendaUrl, eventName)}
                               open={calendarMenuFor === item.id}
                               onClose={() => setCalendarMenuFor(null)}
                               labels={agendaLabels}

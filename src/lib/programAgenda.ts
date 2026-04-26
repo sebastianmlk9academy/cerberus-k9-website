@@ -1,5 +1,5 @@
 import type { CollectionEntry } from 'astro:content';
-import { normalizeCategory, type Category } from './agendaCategories';
+import { buildCategoryMeta, CATEGORY_META, normalizeCategory, type AgendaCategory } from './agendaCategories';
 
 function normalizeTime(t: string | undefined, fallback: string): string {
 	const raw = (t ?? fallback).trim();
@@ -15,7 +15,7 @@ type AgendaItem = {
 	end: string;
 	title: string;
 	location: string;
-	category: Category;
+	category: string;
 	description: string;
 	instructor?: string;
 };
@@ -47,7 +47,8 @@ function buildDayLabel(dayDate: string, dayIndex: number, lang: string): string 
 export function programEntriesToAgendaItems(
 	entries: CollectionEntry<'program'>[],
 	lang: string = 'pl',
-): { days: DaySchedule[] } {
+	categories?: AgendaCategory[],
+): { days: DaySchedule[]; categoryMeta: Record<string, { color: string; label: string }> } {
 	const activeEntries = entries.filter((entry) => entry.data.active !== false);
 	const sorted = [...activeEntries].sort((a, b) => {
 		const daySort = (a.data.day ?? '').localeCompare(b.data.day ?? '');
@@ -65,13 +66,15 @@ export function programEntriesToAgendaItems(
 
 	for (const entry of sorted) {
 		const day = entry.data.day;
+		const rawCategory = (entry.data.category ?? 'K9').trim().toUpperCase();
+		const categoryFromCms = categories?.find((c) => c.key === rawCategory)?.key;
 		const item: AgendaItem = {
 			id: entry.id,
 			start: normalizeTime(entry.data.time_start, '09:00'),
 			end: normalizeTime(entry.data.time_end, '10:00'),
 			title: entry.data.title?.trim() || '—',
 			location: entry.data.location?.trim() || '—',
-			category: normalizeCategory(entry.data.category),
+			category: categoryFromCms ?? normalizeCategory(rawCategory),
 			description: entry.data.description?.trim() ?? '',
 			instructor: entry.data.instructor?.trim() || undefined,
 		};
@@ -98,5 +101,6 @@ export function programEntriesToAgendaItems(
 		};
 	});
 
-	return { days };
+	const categoryMeta = categories?.length ? buildCategoryMeta(categories) : CATEGORY_META;
+	return { days, categoryMeta };
 }

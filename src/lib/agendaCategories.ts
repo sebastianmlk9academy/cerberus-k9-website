@@ -1,5 +1,15 @@
 export type Category = 'K9' | 'TCCC' | 'DRONY' | 'KONFERENCJA' | 'CEREMONIA' | 'BREAK';
 
+export type AgendaCategory = {
+  key: string;
+  label_pl: string;
+  label_en: string;
+  color: string;
+  show_in_filter: boolean;
+  show_calendar_button: boolean;
+  order: number;
+};
+
 export const CATEGORY_META: Record<Category, { color: string; label: string }> = {
   K9: { color: '#C4922A', label: 'K9' },
   TCCC: { color: '#8B2020', label: 'TCCC / MEDYCYNA' },
@@ -24,4 +34,17 @@ export function normalizeCategory(raw: string): Category {
     PRZERWA: 'BREAK',
   };
   return map[upper] ?? 'K9';
+}
+
+export function buildCategoryMeta(
+  categories: AgendaCategory[]
+): Record<string, { color: string; label: string }> {
+  const meta: Record<string, { color: string; label: string }> = {};
+  for (const cat of categories) {
+    meta[cat.key] = {
+      color: cat.color,
+      label: cat.label_pl,
+    };
+  }
+  return meta;
 }

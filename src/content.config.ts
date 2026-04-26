@@ -121,9 +121,23 @@ const program = defineCollection({
 		time_end: z.string(),
 		title: z.string(),
 		location: z.string().optional().default(''),
-		category: z.enum(['K9', 'TCCC', 'DRONY', 'KONFERENCJA', 'CEREMONIA', 'BREAK']),
+		category: z.string(),
 		description: z.string().optional().default(''),
 		instructor: z.string().optional().default(''),
+		order: z.number().optional().default(99),
+		active: z.boolean().optional().default(true),
+	}),
+});
+
+const agenda_categories = defineCollection({
+	loader: glob({ base: './src/content/agenda_categories', pattern: '**/*.{md,mdx}' }),
+	schema: z.object({
+		key: z.string(),
+		label_pl: z.string(),
+		label_en: z.string().optional(),
+		color: z.string().default('#C4922A'),
+		show_in_filter: z.boolean().default(true),
+		show_calendar_button: z.boolean().default(true),
 		order: z.number().optional().default(99),
 		active: z.boolean().optional().default(true),
 	}),
@@ -305,4 +319,5 @@ export const collections = {
 	team,
 	homepage_cards,
 	locations,
+	agenda_categories,
 };

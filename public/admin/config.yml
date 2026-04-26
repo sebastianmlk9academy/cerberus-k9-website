@@ -230,18 +230,55 @@ collections:
           - "—"
       - label: Kategoria
         name: category
-        widget: select
-        required: true
-        options:
-          - "K9"
-          - "TCCC"
-          - "DRONY"
-          - "KONFERENCJA"
-          - "CEREMONIA"
-          - "BREAK"
+        widget: string
+        hint: "Wpisz klucz kategorii z kolekcji 'Agenda — Kategorie i filtry', np. K9, TCCC, DRONY"
+        default: "K9"
       - { label: Instruktor / prowadzący, name: instructor, widget: string, required: false }
       - { label: Kolejność w dniu, name: order, widget: number, default: 99 }
       - { label: "Aktywny", name: active, widget: boolean, default: true }
+
+  - name: agenda_categories
+    label: "Agenda — Kategorie i filtry"
+    folder: "src/content/agenda_categories"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    fields:
+      - name: key
+        label: "Klucz (unikalny, wielkie litery, np. K9)"
+        widget: string
+        hint: "Użyty jako wartość w polu category w programie. Np. K9, TCCC, DRONY"
+        pattern: ['^[A-Z0-9_]+$', "Tylko wielkie litery, cyfry i podkreślniki"]
+      - name: label_pl
+        label: "Etykieta (PL)"
+        widget: string
+      - name: label_en
+        label: "Etykieta (EN)"
+        widget: string
+        required: false
+      - name: color
+        label: "Kolor (hex)"
+        widget: color
+        default: "#C4922A"
+        hint: "Kolor tagu i akcentu na osi czasu"
+      - name: show_in_filter
+        label: "Pokaż w filtrach"
+        widget: boolean
+        default: true
+        hint: "Czy ta kategoria ma być widoczna jako przycisk filtra"
+      - name: show_calendar_button
+        label: "Pokaż przycisk kalendarza"
+        widget: boolean
+        default: true
+        hint: "Wyłącz dla kategorii PRZERWA"
+      - name: order
+        label: "Kolejność w filtrach"
+        widget: number
+        default: 99
+      - name: active
+        label: "Aktywna"
+        widget: boolean
+        default: true
 
   # --- 6. Ustawienia serwisu (jeden plik) ---
   - name: ustawienia
