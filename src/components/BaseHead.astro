@@ -25,6 +25,19 @@ const canonicalURL = canonicalHref
 	: new URL(Astro.url.pathname, Astro.site);
 const safeOgImage = ogImage ?? image?.src ?? '/og-cerberus-k9-2026.jpg';
 const resolvedOgImage = new URL(safeOgImage, Astro.site ?? Astro.url).toString();
+const orgJsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'Organization',
+	name: 'Fundacja PACTA K9',
+	url: 'https://pactak9.org',
+	logo: '/images/cerberus-k9-logo.png',
+	contactPoint: {
+		'@type': 'ContactPoint',
+		telephone: '+48-695-637-907',
+		contactType: 'general',
+		email: 'sebastian@pactak9.org',
+	},
+};
 ---
 
 <!-- Global Metadata -->
@@ -40,6 +53,7 @@ const resolvedOgImage = new URL(safeOgImage, Astro.site ?? Astro.url).toString()
 	href={new URL('rss.xml', Astro.site)}
 />
 <meta name="generator" content={Astro.generator} />
+<script type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} />
 
 <Font cssVariable="--font-atkinson" preload />
 
@@ -61,7 +75,8 @@ const resolvedOgImage = new URL(safeOgImage, Astro.site ?? Astro.url).toString()
 <meta property="og:image" content={resolvedOgImage} />
 
 <!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@cerberusk9" />
 <meta property="twitter:url" content={Astro.url} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />

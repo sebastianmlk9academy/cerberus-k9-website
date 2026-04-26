@@ -590,14 +590,14 @@ function getAgendaUrl(agendaUrl?: string) {
   return `${window.location.origin}${window.location.pathname}`;
 }
 
-function itemToEvent(item: AgendaItem, dayDate: string, labels: AgendaLabels, agendaUrl?: string): CalendarEvent {
+function itemToEvent(item: AgendaItem, dayDate: string, labels: AgendaLabels, agendaUrl?: string, eventName?: string): CalendarEvent {
   const location = item.location === "—" ? "" : item.location;
   const category = categoryLabel(item.category, labels);
   const lines = [
     item.description,
     "",
     "— DETAILS —",
-    "Event: CERBERUS K9 2026",
+    `Event: ${eventName ?? "CERBERUS K9 2026"}`,
     `Category: ${category}`,
     location && `${labels.location}: ${location}`,
     `Time: ${item.start}-${item.end} (${dayDate})`,
@@ -736,7 +736,13 @@ function categoryLabel(category: Category, labels: AgendaLabels) {
   }
 }
 
-function buildFullEventCalendarEvent(days: DaySchedule[], labels: AgendaLabels, agendaUrl?: string, city?: string): CalendarEvent {
+function buildFullEventCalendarEvent(
+  days: DaySchedule[],
+  labels: AgendaLabels,
+  agendaUrl?: string,
+  city?: string,
+  eventName?: string,
+): CalendarEvent {
   const nonEmptyDays = days.filter((d) => d.items.length > 0);
   const first = nonEmptyDays[0] ?? days[0];
   const last = nonEmptyDays[nonEmptyDays.length - 1] ?? days[days.length - 1];
@@ -760,7 +766,7 @@ function buildFullEventCalendarEvent(days: DaySchedule[], labels: AgendaLabels, 
   }).join("\n\n");
 
   const description = [
-    "CERBERUS K9 2026 — full event agenda.",
+    `${eventName ?? "CERBERUS K9 2026"} — full event agenda.`,
     "",
     "— AGENDA —",
     agendaLines,
@@ -769,8 +775,8 @@ function buildFullEventCalendarEvent(days: DaySchedule[], labels: AgendaLabels, 
   ].join("\n");
 
   return {
-    id: "cerberus-k9-2026-full",
-    title: "CERBERUS K9 2026 — full event",
+    id: `${(eventName ?? "cerberus-k9-2026").toLowerCase().replace(/[^a-z0-9]+/g, "-")}-full`,
+    title: `${eventName ?? "CERBERUS K9 2026"} — full event`,
     location: city ?? "Ostrów Wielkopolski",
     description,
     startDate: first.date,
@@ -785,9 +791,11 @@ interface InteractiveAgendaProps {
   items?: AgendaItem[];
   agendaUrl?: string;
   city?: string;
+  agendaHeading?: string;
+  eventName?: string;
 }
 
-export default function InteractiveAgenda({ lang, items, agendaUrl, city }: InteractiveAgendaProps) {
+export default function InteractiveAgenda({ lang, items, agendaUrl, city, agendaHeading, eventName }: InteractiveAgendaProps) {
   const agendaLabels = AGENDA_LABELS[lang] ?? DEFAULT_AGENDA_LABELS;
   const agendaItems = items && items.length > 0 ? items : FALLBACK_AGENDA_ITEMS;
   const translatedFilters = FILTERS.map((f) => {
@@ -816,8 +824,8 @@ export default function InteractiveAgenda({ lang, items, agendaUrl, city }: Inte
     [agendaItems, agendaLabels.day1, agendaLabels.day2],
   );
   const fullEvent = useMemo(
-    () => buildFullEventCalendarEvent(scheduleDays, agendaLabels, agendaUrl, city),
-    [agendaLabels, scheduleDays, agendaUrl, city],
+    () => buildFullEventCalendarEvent(scheduleDays, agendaLabels, agendaUrl, city, eventName),
+    [agendaLabels, scheduleDays, agendaUrl, city, eventName],
   );
 
   const activeDay = useMemo(
@@ -851,7 +859,7 @@ export default function InteractiveAgenda({ lang, items, agendaUrl, city }: Inte
           <div className="flex items-center justify-center gap-4 mb-4">
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
             <span className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]">
-              AGENDA WYDARZENIA — 13–14 CZERWCA 2026
+              {agendaHeading ?? "AGENDA WYDARZENIA — 13–14 CZERWCA 2026"}
             </span>
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
           </div>
@@ -1201,7 +1209,7 @@ export default function InteractiveAgenda({ lang, items, agendaUrl, city }: Inte
                             </button>
 
                             <CalendarMenu
-                              event={itemToEvent(item, activeDay.date, agendaLabels, agendaUrl)}
+                              event={itemToEvent(item, activeDay.date, agendaLabels, agendaUrl, eventName)}
                               open={calendarMenuFor === item.id}
                               onClose={() => setCalendarMenuFor(null)}
                               labels={agendaLabels}

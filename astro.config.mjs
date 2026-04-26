@@ -14,7 +14,14 @@ export default defineConfig({
 		'/fundacja': '/pl/fundacja',
 		'/foundation': '/pl/fundacja',
 	},
-	integrations: [mdx(), sitemap(), tailwind(), react()],
+	integrations: [
+		mdx(),
+		sitemap({
+			filter: (page) => !page.includes('/blog/') && !page.includes('/about'),
+		}),
+		tailwind(),
+		react(),
+	],
 	i18n: {
 		locales: [...locales],
 		defaultLocale: 'pl',

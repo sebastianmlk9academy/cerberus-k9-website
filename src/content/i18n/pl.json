@@ -1,4 +1,79 @@
 {
   "metaTitle": "CERBERUS K9 | Międzynarodowe wydarzenie K9 Fundacji PACTA K9",
-  "metaDescription": "CERBERUS K9 to międzynarodowe wydarzenie wojskowe K9 organizowane przez Fundację PACTA K9 w Polsce. Poznaj program, instruktorów, partnerów i aktualności."
+  "metaDescription": "CERBERUS K9 to międzynarodowe wydarzenie wojskowe K9 organizowane przez Fundację PACTA K9 w Polsce. Poznaj program, instruktorów, partnerów i aktualności.",
+  "nav": {
+    "event": "O WYDARZENIU",
+    "instructors": "INSTRUKTORZY",
+    "partners": "PARTNERZY",
+    "media": "MEDIA",
+    "foundation": "FUNDACJA",
+    "gallery": "GALERIA",
+    "contact": "KONTAKT",
+    "news": "AKTUALNOŚCI",
+    "register": "REJESTRACJA"
+  },
+  "hero": {
+    "tag": "MIĘDZYNARODOWA PLATFORMA OBRONY",
+    "free": "WSTĘP BEZPŁATNY",
+    "edition": "EDYCJA 2026"
+  },
+  "countdown": {
+    "days": "DNI",
+    "hours": "GODZIN",
+    "minutes": "MINUT",
+    "seconds": "SEKUND"
+  },
+  "footer": {
+    "rights": "Wszelkie prawa zastrzeżone",
+    "event_col": "CERBERUS K9",
+    "foundation_col": "FUNDACJA PACTA K9",
+    "legal_col": "DANE REJESTROWE",
+    "col_event": "WYDARZENIE",
+    "col_org": "ORGANIZACJA",
+    "col_media": "MEDIA I PARTNERZY",
+    "col_contact": "KONTAKT",
+    "date_location": "13–14 CZERWCA 2026 · GDAŃSK",
+    "copyright": "CERBERUS K9 © 2026. Wszelkie prawa zastrzeżone."
+  },
+  "buttons": {
+    "register": "ZAREJESTRUJ SIĘ TERAZ",
+    "program": "POBIERZ PROGRAM",
+    "video": "OBEJRZYJ RELACJĘ 2025",
+    "all_news": "WSZYSTKIE AKTUALNOŚCI",
+    "become_partner": "ZOSTAŃ PARTNEREM",
+    "read_more": "CZYTAJ WIĘCEJ →",
+    "load_more": "ZAŁADUJ WIĘCEJ ARTYKUŁÓW"
+  },
+  "labels": {
+    "free_admission": "BEZPŁATNY",
+    "confirmed": "POTWIERDZONE",
+    "expand_bio": "ROZWIŃ BIO",
+    "collapse_bio": "ZWIŃ BIO",
+    "back_to_news": "← POWRÓT DO AKTUALNOŚCI",
+    "share": "UDOSTĘPNIJ:",
+    "module": "MODUŁ:",
+    "schedule": "HARMONOGRAM:",
+    "instructor_label": "PROWADZĄCY:"
+  },
+  "latest_news": {
+    "section_tag": "AKTUALNOŚCI",
+    "section_title": "NAJNOWSZE INFORMACJE",
+    "read_more": "CZYTAJ WIĘCEJ",
+    "all_news": "WSZYSTKIE AKTUALNOŚCI"
+  },
+  "partners_strip": {
+    "section_tag": "PATRONATY I PARTNERSTWA",
+    "patronage": "PATRONATY",
+    "media_patronage": "PATRONAT MEDIALNY",
+    "partners": "PARTNERZY",
+    "become_partner": "ZOSTAŃ PARTNEREM"
+  },
+  "about_event_page": {
+    "category": "INFORMACJE",
+    "hero_title": "O WYDARZENIU",
+    "hero_subtitle": "CERBERUS K9 2026 · 13–14 CZERWCA · OSTRÓW WIELKOPOLSKI",
+    "section_title": "CZYM JEST CERBERUS K9?",
+    "body_p1": "CERBERUS K9 to największa w Polsce i jedna z największych w regionie NATO bezpłatna platforma wymiany wiedzy i doświadczeń w zakresie kynologii, bezpieczeństwa publicznego i obronności. Wydarzenie łączy profesjonalne służby mundurowe z cywilami, instruktorów z całego świata z polskimi specjalistami, teorię z intensywną praktyką.",
+    "body_p2": "W 2025 roku zebraliśmy ponad 150 uczestników z 7 krajów — policję, wojsko, straż, organizacje proobronne i cywilnych przewodników psów. W 2026 roku wychodzimy na poziom europejski: potwierdzony udział US Police K9 SWAT, Marynarka Wojenna Portugalii i 15+ delegacji z krajów NATO."
+  }
 }

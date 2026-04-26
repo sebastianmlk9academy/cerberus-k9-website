@@ -19,6 +19,19 @@ const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
 const copy = aboutEventPageByLang[lang] ?? aboutEventPageByLang['pl'];
 const plausibleDomain = s?.plausible_domain ?? 'cerberusk9.org';
+const agendaHeading =
+	lang === 'pl'
+		? `AGENDA WYDARZENIA — ${
+				s?.event_date
+					? new Date(s.event_date).toLocaleDateString('pl-PL', { day: 'numeric', month: 'long' }).toUpperCase()
+					: '13–14 CZERWCA'
+		  } ${new Date(s?.event_date ?? '2026-06-13').getFullYear()}`
+		: `EVENT AGENDA — ${
+				s?.event_date
+					? new Date(s.event_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long' }).toUpperCase()
+					: '13–14 JUNE'
+		  } ${new Date(s?.event_date ?? '2026-06-13').getFullYear()}`;
+const eventName = `CERBERUS K9 ${new Date(s?.event_date ?? '2026-06-13').getFullYear()}`;
 
 const programItems = await getCollection('program');
 const agendaItems = programEntriesToAgendaItems(programItems);
@@ -121,7 +134,15 @@ const eventSchema = {
 		</div>
 	</section>
 
-	<InteractiveAgenda client:load lang={lang} items={agendaItems} agendaUrl={s?.agenda_page_url} city={s?.event_city} />
+	<InteractiveAgenda
+		client:load
+		lang={lang}
+		items={agendaItems}
+		agendaUrl={s?.agenda_page_url}
+		city={s?.event_city}
+		agendaHeading={agendaHeading}
+		eventName={eventName}
+	/>
 	<LocationsSection lang={lang} locations={locations} client:load />
 	<FAQAccordion client:load lang={lang} faqItems={faqItems} />
 	<Footer

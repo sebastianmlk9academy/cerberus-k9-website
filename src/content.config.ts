@@ -2,27 +2,49 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
-const i18nMessages = defineCollection({
+const i18n_strings = defineCollection({
 	loader: glob({ base: './src/content/i18n', pattern: '*.json' }),
 	schema: z.object({
-		metaTitle: z.string(),
-		metaDescription: z.string(),
+		metaTitle: z.string().optional().default(''),
+		metaDescription: z.string().optional().default(''),
+		nav: z
+			.object({
+				event: z.string(),
+				instructors: z.string(),
+				partners: z.string(),
+				media: z.string(),
+				foundation: z.string(),
+				gallery: z.string(),
+				contact: z.string(),
+				news: z.string(),
+				register: z.string(),
+			})
+			.optional(),
+		buttons: z
+			.object({
+				register: z.string(),
+				program: z.string(),
+				video: z.string(),
+				all_news: z.string(),
+				become_partner: z.string(),
+				read_more: z.string(),
+				load_more: z.string(),
+			})
+			.optional(),
+		labels: z
+			.object({
+				free_admission: z.string(),
+				confirmed: z.string(),
+				expand_bio: z.string(),
+				collapse_bio: z.string(),
+				back_to_news: z.string(),
+				share: z.string(),
+				module: z.string(),
+				schedule: z.string(),
+				instructor_label: z.string(),
+			})
+			.optional(),
 	}),
-});
-
-const blog = defineCollection({
-	// Load Markdown and MDX files in the `src/content/blog/` directory.
-	loader: glob({ base: './src/content/blog', pattern: '**/*.{md,mdx}' }),
-	// Type-check frontmatter using a schema
-	schema: ({ image }) =>
-		z.object({
-			title: z.string(),
-			description: z.string(),
-			// Transform string to Date object
-			pubDate: z.coerce.date(),
-			updatedDate: z.coerce.date().optional(),
-			heroImage: z.optional(image()),
-		}),
 });
 
 const instruktorzy = defineCollection({
@@ -145,6 +167,7 @@ const ustawienia = defineCollection({
 		social_instagram: z.string().optional().default(''),
 		social_linkedin: z.string().optional().default(''),
 		social_twitter: z.string().optional().default(''),
+		twitter_handle: z.string().optional().default('@cerberusk9'),
 		statute_pdf: z.string(),
 		krs_url: z.string(),
 		main_video_youtube: z.string().optional(),
@@ -280,8 +303,7 @@ const locations = defineCollection({
 });
 
 export const collections = {
-	blog,
-	i18nMessages,
+	i18n_strings,
 	instruktorzy,
 	partnerzy,
 	aktualnosci,

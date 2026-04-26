@@ -111,14 +111,14 @@ collections:
       - { label: LinkedIn URL, name: linkedinUrl, widget: string, required: false }
       - { label: Pokaż na stronie głównej, name: showOnHomepage, widget: boolean, default: true }
       - label: Bio krótkie
-        name: bio_short
+        name: bioShort
         widget: text
         required: true
         hint: 'Maksymalnie 200 znaków.'
         pattern:
           - '^.{1,200}$'
           - 'Maksymalnie 200 znaków.'
-      - { label: Bio pełne, name: bio_full, widget: markdown, required: true }
+      - { label: Bio pełne, name: bioFull, widget: markdown, required: true }
       - { label: Zdjęcie, name: photo, widget: image, required: true, choose_url: true }
       - { label: Kolejność sortowania, name: order, widget: number, value_type: int, min: 0, step: 1, default: 0 }
 
@@ -280,6 +280,7 @@ collections:
           - { label: Instagram URL, name: social_instagram, widget: string, required: false }
           - { label: LinkedIn URL, name: social_linkedin, widget: string, required: false }
           - { label: Twitter/X URL, name: social_twitter, widget: string, required: false }
+          - { label: "Twitter/X handle", name: twitter_handle, widget: string, default: "@cerberusk9", required: false }
           - { label: Statut fundacji (PDF), name: statute_pdf, widget: string }
           - { label: KRS — link do rejestru, name: krs_url, widget: string }
           - { label: Główne wideo YouTube URL, name: main_video_youtube, widget: string }
@@ -354,7 +355,7 @@ collections:
       - { label: "Kolejność", name: order, widget: number, default: 99 }
       - { label: "Aktywne", name: active, widget: boolean, default: true }
 
-  - name: team_members
+  - name: team
     label: "Zarząd — Członkowie"
     folder: "src/content/team"
     create: true
@@ -400,3 +401,48 @@ collections:
       - { label: "Zdjęcie", name: image, widget: image, required: false }
       - { label: "Kolejność", name: order, widget: number, default: 1 }
       - { label: "Aktywna", name: active, widget: boolean, default: true }
+
+  - name: i18n_strings
+    label: "Tłumaczenia interfejsu"
+    files:
+      - name: pl
+        label: "Polski (PL)"
+        file: "src/content/i18n/pl.json"
+        fields:
+          - label: "Nawigacja"
+            name: nav
+            widget: object
+            fields:
+              - { label: "O wydarzeniu", name: event, widget: string }
+              - { label: "Instruktorzy", name: instructors, widget: string }
+              - { label: "Partnerzy", name: partners, widget: string }
+              - { label: "Media", name: media, widget: string }
+              - { label: "Fundacja", name: foundation, widget: string }
+              - { label: "Galeria", name: gallery, widget: string }
+              - { label: "Kontakt", name: contact, widget: string }
+              - { label: "Aktualności", name: news, widget: string }
+              - { label: "Rejestracja", name: register, widget: string }
+          - label: "Przyciski"
+            name: buttons
+            widget: object
+            fields:
+              - { label: "Zarejestruj się", name: register, widget: string }
+              - { label: "Pobierz program", name: program, widget: string }
+              - { label: "Obejrzyj relację", name: video, widget: string }
+              - { label: "Wszystkie aktualności", name: all_news, widget: string }
+              - { label: "Zostań partnerem", name: become_partner, widget: string }
+              - { label: "Czytaj więcej", name: read_more, widget: string }
+              - { label: "Załaduj więcej", name: load_more, widget: string }
+          - label: "Etykiety"
+            name: labels
+            widget: object
+            fields:
+              - { label: "Bezpłatny", name: free_admission, widget: string }
+              - { label: "Potwierdzone", name: confirmed, widget: string }
+              - { label: "Rozwiń bio", name: expand_bio, widget: string }
+              - { label: "Zwiń bio", name: collapse_bio, widget: string }
+              - { label: "Powrót do aktualności", name: back_to_news, widget: string }
+              - { label: "Udostępnij", name: share, widget: string }
+              - { label: "Moduł", name: module, widget: string }
+              - { label: "Harmonogram", name: schedule, widget: string }
+              - { label: "Prowadzący", name: instructor_label, widget: string }
