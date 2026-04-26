@@ -3,7 +3,6 @@ import type { MouseEvent, ReactElement } from "react"
 import type { Lang } from "../i18n/utils"
 import type { FooterCopy } from "../i18n/footer"
 import { footerCopyByLang } from "../i18n/footer"
-import { ui } from "../i18n/ui"
 
 interface FooterProps {
   lang?: Lang
@@ -114,8 +113,6 @@ function buildSocialLinks(
 export function Footer({
   lang,
   copy,
-  email: emailProp,
-  phone: phoneProp,
   socialFacebook,
   socialYoutube,
   socialInstagram,
@@ -136,8 +133,6 @@ export function Footer({
   const resolvedRegon = regonNumber ?? "543799847"
   const safeLang = lang ?? "pl";
   const safeCopy = copy ?? footerCopyByLang[safeLang] ?? footerCopyByLang["pl"];
-  const contactEmail = emailProp ?? "kontakt@pactak9.org"
-  const contactPhone = phoneProp?.trim() ?? ""
   const socialLinks = buildSocialLinks(
     socialFacebook ?? "https://facebook.com",
     socialYoutube ?? "https://youtube.com",
@@ -360,48 +355,6 @@ export function Footer({
             <p style={{ margin: 0 }}>
               <span style={{ color: "#FFFFFF" }}>REGON:</span> {resolvedRegon}
             </p>
-            <p style={{ margin: 0, marginTop: "8px" }}>
-              <a
-                href={`mailto:${contactEmail}`}
-                className="footer-link"
-                style={{
-                  color: "#FFFFFF",
-                  textDecoration: "none",
-                  transition: "color 0.2s ease",
-                }}
-                onMouseEnter={(e: MouseEvent<HTMLAnchorElement>) => {
-                  e.currentTarget.style.color = "#C4922A"
-                }}
-                onMouseLeave={(e: MouseEvent<HTMLAnchorElement>) => {
-                  e.currentTarget.style.color = "#FFFFFF"
-                }}
-              >
-                {contactEmail}
-              </a>
-            </p>
-            {contactPhone ? (
-              <p style={{ margin: 0, marginTop: "6px" }}>
-                <a
-                  href={`tel:${contactPhone.replace(/\s+/g, "")}`}
-                  className="footer-link"
-                  style={{
-                    color: "#FFFFFF",
-                    textDecoration: "none",
-                    transition: "color 0.2s ease",
-                    fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
-                    fontSize: "10px",
-                  }}
-                  onMouseEnter={(e: MouseEvent<HTMLAnchorElement>) => {
-                    e.currentTarget.style.color = "#C4922A"
-                  }}
-                  onMouseLeave={(e: MouseEvent<HTMLAnchorElement>) => {
-                    e.currentTarget.style.color = "#FFFFFF"
-                  }}
-                >
-                  {contactPhone}
-                </a>
-              </p>
-            ) : null}
           </div>
 
           {/* Social Icons */}
@@ -486,7 +439,7 @@ export function Footer({
               textAlign: "center",
             }}
           >
-            {(ui[safeLang] as any)?.footer_rights ?? 'Wszelkie prawa zastrzeżone'}
+            {safeCopy.copyright}
           </p>
           <p
             style={{
