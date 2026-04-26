@@ -14,12 +14,15 @@ interface Props {
 	localizedPath?: string;
 	image?: ImageMetadata;
 	ogImage?: string;
+	/** Overrides CMS `og_image_default` when set; otherwise CMS default is passed to BaseHead. */
+	ogImageDefault?: string;
 	ogType?: string;
 	canonicalHref?: string;
 	robots?: string;
 	/** When true, emit only pl + x-default alternates (use with canonicalHref for PL-only routes). */
 	omitLocaleAlternates?: boolean;
 	twitterHandle?: string;
+	twitterCard?: string;
 }
 
 const {
@@ -29,16 +32,19 @@ const {
 	localizedPath = '',
 	image,
 	ogImage,
+	ogImageDefault: ogImageDefaultProp,
 	ogType,
 	canonicalHref,
 	robots,
 	omitLocaleAlternates = false,
 	twitterHandle: twitterHandleProp,
+	twitterCard,
 } = Astro.props;
 
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
 const twitterHandle = twitterHandleProp ?? s?.twitter_handle ?? '@cerberusk9';
+const ogImageDefaultForHead = ogImageDefaultProp ?? s?.og_image_default;
 
 const alternates = omitLocaleAlternates ? [] : getAbsoluteLocaleUrlList(localizedPath);
 const plIndex = locales.indexOf('pl');
@@ -58,10 +64,27 @@ const canonicalAlternateHref = (
 			description={description}
 			image={image ?? FallbackImage}
 			ogImage={ogImage}
+			ogImageDefault={ogImageDefaultForHead}
 			ogType={ogType}
 			canonicalHref={canonicalHref}
 			robots={robots}
 			twitterHandle={twitterHandle}
+			twitterCard={twitterCard}
+			appleTouchIcon={s?.apple_touch_icon}
+			faviconSvg={s?.favicon_svg}
+			faviconIco={s?.favicon_ico}
+			ogImageWidth={s?.og_image_width}
+			ogImageHeight={s?.og_image_height}
+			ogImageAlt={s?.og_image_alt}
+			ogSiteName={s?.og_site_name}
+			ogLocale={s?.og_locale}
+			orgName={s?.footer_foundation_name}
+			orgUrl={s?.site_url}
+			orgPhone={s?.footer_phone}
+			orgEmail={s?.footer_email}
+			orgLogo={s?.nav_logo}
+			socialFacebook={s?.social_facebook}
+			socialYoutube={s?.social_youtube}
 		/>
 		<slot name="head" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />

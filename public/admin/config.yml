@@ -328,6 +328,7 @@ collections:
         fields:
           - { label: Data wydarzenia (start), name: event_date, widget: datetime, format: YYYY-MM-DD, date_format: DD.MM.YYYY, time_format: false }
           - { label: Data wydarzenia (koniec), name: event_date_end, widget: datetime, format: YYYY-MM-DD, date_format: DD.MM.YYYY, time_format: false }
+          - { label: "Godzina rozpoczęcia wydarzenia (JSON-LD, HH:MM)", name: event_time_start, widget: string, default: "09:00", pattern: ['^\\d{2}:\\d{2}$', "Format HH:MM, np. 09:00"] }
           - { label: Miasto, name: event_city, widget: string }
           - { label: Główna lokalizacja, name: event_venue, widget: string }
           - { label: Liczba uczestników (wyświetlana), name: participants_count, widget: string, default: "250+" }
@@ -402,7 +403,15 @@ collections:
           - { label: "Adres lokalizacji (kontakt)", name: venue_address, widget: string }
           - { label: "URL strony agendy (publiczny)", name: agenda_page_url, widget: string }
           - { label: "URL strony (główny)", name: site_url, widget: string }
+          - { label: "Apple Touch Icon (180x180)", name: apple_touch_icon, widget: image, required: false, hint: "Ikona dla iPhone gdy dodajesz stronę do home screen" }
+          - { label: "Favicon SVG", name: favicon_svg, widget: image, required: false }
+          - { label: "Favicon ICO", name: favicon_ico, widget: string, required: false }
           - { label: "OG Image domyślny", name: og_image_default, widget: image, required: false }
+          - { label: "OG Image szerokość (px)", name: og_image_width, widget: string, default: "1200" }
+          - { label: "OG Image wysokość (px)", name: og_image_height, widget: string, default: "630" }
+          - { label: "OG Image alt text", name: og_image_alt, widget: string }
+          - { label: "OG Site Name", name: og_site_name, widget: string, default: "CERBERUS K9" }
+          - { label: "OG Locale", name: og_locale, widget: string, default: "pl_PL" }
           - { label: "Strefa czasowa", name: event_timezone, widget: string, default: "Europe/Warsaw" }
           - { label: "Data odblokowania galerii 2026", name: gallery_unlock_date, widget: datetime, format: "YYYY-MM-DD", date_format: "DD.MM.YYYY", time_format: false }
           - { label: "Oferta sponsorska — PDF (URL)", name: sponsor_offer_pdf, widget: string, required: false, hint: "Zostaw puste jeśli nie ma PDF — użyty zostanie kontakt mailowy" }

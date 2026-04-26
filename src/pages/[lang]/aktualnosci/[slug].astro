@@ -54,6 +54,9 @@ const hero =
 			? { src: post.data.image.trim(), alt: post.data.title }
 			: undefined;
 
+const ogImage =
+	post.data.image?.trim() ?? s?.og_image_default ?? '/og-cerberus-k9-2026.jpg';
+
 const jsonLd = {
 	'@context': 'https://schema.org',
 	'@type': 'NewsArticle',
@@ -79,7 +82,9 @@ const jsonLd = {
 	title={pageTitle}
 	description={description}
 	localizedPath={`aktualnosci/${post.id}`}
+	ogImage={ogImage}
 	ogType="article"
+	twitterCard="summary_large_image"
 	canonicalHref={canonicalUrl}
 >
 	<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

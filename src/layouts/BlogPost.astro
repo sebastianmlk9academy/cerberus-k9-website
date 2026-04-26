@@ -10,12 +10,33 @@ type Props = CollectionEntry<'blog'>['data'] & { noindex?: boolean };
 
 const { title, description, pubDate, updatedDate, heroImage, noindex } = Astro.props;
 const settings = await getEntry('ustawienia', 'ustawienia');
-const twitterHandle = settings?.data.twitter_handle ?? '@cerberusk9';
+const s = settings?.data;
+const twitterHandle = s?.twitter_handle ?? '@cerberusk9';
 ---
 
 <html lang="en">
 	<head>
-		<BaseHead title={title} description={description} twitterHandle={twitterHandle} />
+		<BaseHead
+			title={title}
+			description={description}
+			twitterHandle={twitterHandle}
+			ogImageDefault={s?.og_image_default}
+			appleTouchIcon={s?.apple_touch_icon}
+			faviconSvg={s?.favicon_svg}
+			faviconIco={s?.favicon_ico}
+			ogImageWidth={s?.og_image_width}
+			ogImageHeight={s?.og_image_height}
+			ogImageAlt={s?.og_image_alt}
+			ogSiteName={s?.og_site_name}
+			ogLocale={s?.og_locale}
+			orgName={s?.footer_foundation_name}
+			orgUrl={s?.site_url}
+			orgPhone={s?.footer_phone}
+			orgEmail={s?.footer_email}
+			orgLogo={s?.nav_logo}
+			socialFacebook={s?.social_facebook}
+			socialYoutube={s?.social_youtube}
+		/>
 		{noindex ? <meta name="robots" content="noindex, nofollow" /> : null}
 		<style>
 			main {

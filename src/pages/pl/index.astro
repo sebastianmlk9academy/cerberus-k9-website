@@ -10,7 +10,7 @@ import { VideoSection } from '../../components/VideoSection';
 import { PartnersStrip } from '../../components/PartnersStrip';
 import LatestNews from '../../components/LatestNews';
 import { Footer } from '../../components/Footer';
-import { HOME_OG_IMAGE, homeSeoByLang } from '../../i18n/homeSeo';
+import { homeSeoByLang } from '../../i18n/homeSeo';
 import { homeHeroCopyByLang } from '../../i18n/homeHero';
 import { footerCopyByLang } from '../../i18n/footer';
 import { homeStatsByLang } from '../../i18n/homeStats';
@@ -45,7 +45,6 @@ const latestForListing = aktualnosciToListingArticles(latestArticles, 'pl').map(
 
 const plausibleDomain = s?.plausible_domain ?? 'cerberusk9.org';
 const twitterHandle = s?.twitter_handle ?? '@cerberusk9';
-const siteOrigin = s?.site_url ?? new URL(Astro.site!).origin;
 
 const lang = 'pl';
 const seo = homeSeoByLang[lang] ?? homeSeoByLang['pl'];
@@ -81,31 +80,39 @@ const programCards =
 const videoCopy = videoSectionByLang[lang] ?? videoSectionByLang['pl'];
 const newsCopy = latestNewsByLang[lang] ?? latestNewsByLang['pl'];
 
-const eventSchema = {
+const eventImagePath = s?.og_image_default ?? '/og-cerberus-k9-2026.jpg';
+const eventJsonLd = {
 	'@context': 'https://schema.org',
 	'@type': 'Event',
-	name: seo.eventName,
-	startDate: s?.event_date ?? '2026-06-13',
-	endDate: s?.event_date_end ?? '2026-06-14',
-	eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+	name: `CERBERUS K9 ${new Date(s?.event_date ?? '2026-06-13').getFullYear()}`,
+	startDate: `${s?.event_date ?? '2026-06-13'}T${s?.event_time_start ?? '09:00'}:00`,
+	endDate: `${s?.event_date_end ?? '2026-06-14'}T18:00:00`,
 	eventStatus: 'https://schema.org/EventScheduled',
+	eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
 	location: {
 		'@type': 'Place',
 		name: s?.event_venue ?? '3MK Arena',
 		address: {
 			'@type': 'PostalAddress',
+			streetAddress: s?.venue_address ?? '',
 			addressLocality: s?.event_city ?? 'Ostrów Wielkopolski',
 			addressCountry: 'PL',
 		},
 	},
 	organizer: {
 		'@type': 'Organization',
-		name: 'Fundacja PACTA K9',
-		url: siteOrigin,
+		name: s?.footer_foundation_name ?? 'Fundacja PACTA K9',
+		url: s?.site_url ?? 'https://cerberusk9.org',
 	},
-	description: seoDescription,
-	image: [new URL(HOME_OG_IMAGE, Astro.site ?? Astro.url).toString()],
-	url: Astro.url.toString(),
+	offers: {
+		'@type': 'Offer',
+		price: '0',
+		priceCurrency: 'PLN',
+		availability: 'https://schema.org/InStock',
+		url: s?.pretix_url ?? '',
+	},
+	image: new URL(eventImagePath, Astro.site ?? Astro.url).href,
+	url: s?.site_url ?? 'https://cerberusk9.org',
 };
 ---
 
@@ -119,7 +126,7 @@ const eventSchema = {
 	twitterHandle={twitterHandle}
 >
 	<script defer data-domain={plausibleDomain} src="https://plausible.io/js/plausible.js"></script>
-	<script type="application/ld+json" set:html={JSON.stringify(eventSchema)} />
+	<script type="application/ld+json" set:html={JSON.stringify(eventJsonLd)} />
 
 	<NavBar lang={lang} client:load />
 	<HeroSection

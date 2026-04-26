@@ -150,6 +150,7 @@ const ustawienia = defineCollection({
 	schema: z.object({
 		event_date: z.string(),
 		event_date_end: z.string(),
+		event_time_start: z.string().regex(/^\d{2}:\d{2}$/).optional().default('09:00'),
 		event_city: z.string(),
 		event_venue: z.string(),
 		participants_count: z.string(),
@@ -218,7 +219,18 @@ const ustawienia = defineCollection({
 		venue_address: z.string().optional().default(''),
 		agenda_page_url: z.string().optional().default('https://cerberusk9.org/pl/o-wydarzeniu'),
 		site_url: z.string().optional().default('https://cerberusk9.org'),
+		apple_touch_icon: z.string().optional().default('/apple-touch-icon.png'),
+		favicon_svg: z.string().optional().default('/favicon.svg'),
+		favicon_ico: z.string().optional().default('/favicon.ico'),
 		og_image_default: z.string().optional().default('/og-cerberus-k9-2026.jpg'),
+		og_image_width: z.string().optional().default('1200'),
+		og_image_height: z.string().optional().default('630'),
+		og_image_alt: z
+			.string()
+			.optional()
+			.default('CERBERUS K9 2026 — Międzynarodowa Platforma Obrony'),
+		og_site_name: z.string().optional().default('CERBERUS K9'),
+		og_locale: z.string().optional().default('pl_PL'),
 		event_timezone: z.string().optional().default('Europe/Warsaw'),
 		gallery_unlock_date: z.string().optional().default('2026-06-14'),
 		sponsor_offer_pdf: z.string().optional().default(''),
