@@ -30,32 +30,87 @@ function toTelHref(display: string): string {
   if (digits.length === 9) return `tel:+48${digits}`;
   return `tel:+${digits}`;
 }
-const DEFAULT_ADDRESS_LINES = [
-  "Fundacja PACTA K9",
-  "ul. Odolanowska 17",
-  "63-400 Topola Mała",
-  "woj. Wielkopolskie",
-] as const;
+/** Country line for the contact mailing address (street/city stay Polish). */
+const ADDRESS_COUNTRY_BY_LANG: Record<string, string> = {
+  pl: "Polska.",
+  en: "Poland.",
+  de: "Polen.",
+  fr: "Pologne.",
+  cs: "Polsko.",
+  sk: "Poľsko.",
+  hu: "Lengyelország.",
+  hr: "Poljska.",
+  sl: "Poljska.",
+  lt: "Lenkija.",
+  lv: "Polija.",
+  no: "Polen.",
+  sv: "Polen.",
+  nl: "Polen.",
+  es: "Polonia.",
+  pt: "Polónia.",
+  ro: "Polonia.",
+  it: "Polonia.",
+  ko: "폴란드.",
+};
 
-const contactCopy: Record<
-  string,
-  {
-    title: string;
-    subtitle: string;
-    nameLabel: string;
-    emailLabel: string;
-    messageLabel: string;
-    sendBtn: string;
-    addressTitle: string;
-    phoneTitle: string;
-    emailTitle: string;
-  }
-> = {
+type ContactCopyEntry = {
+  title: string;
+  subtitle: string;
+  nameLabel: string;
+  emailLabel: string;
+  messageLabel: string;
+  sendBtn: string;
+  addressTitle: string;
+  phoneTitle: string;
+  emailTitle: string;
+  organizationLabel?: string;
+  subjectLabel?: string;
+  subjectRegistration?: string;
+  subjectSponsoring?: string;
+  subjectMediaPatronage?: string;
+  subjectInstructors?: string;
+  subjectPress?: string;
+  subjectOther?: string;
+  privacyConsent?: string;
+  sending?: string;
+  successMessage?: string;
+  errorMessage?: string;
+  directContactTitle?: string;
+  presidentLabel?: string;
+  eventLocationTitle?: string;
+  mapNote?: string;
+  honeypotLabel?: string;
+};
+
+const contactCopy: Record<string, ContactCopyEntry> = {
   pl: {
-    title: "KONTAKT", subtitle: "Skontaktuj się z nami",
-    nameLabel: "IMIĘ I NAZWISKO", emailLabel: "ADRES E-MAIL",
-    messageLabel: "TREŚĆ WIADOMOŚCI", sendBtn: "WYŚLIJ WIADOMOŚĆ",
-    addressTitle: "ADRES", phoneTitle: "TELEFON", emailTitle: "E-MAIL"
+    title: "KONTAKT",
+    subtitle: "Skontaktuj się z nami",
+    nameLabel: "IMIĘ I NAZWISKO",
+    emailLabel: "ADRES E-MAIL",
+    messageLabel: "TREŚĆ WIADOMOŚCI",
+    sendBtn: "WYŚLIJ WIADOMOŚĆ",
+    addressTitle: "ADRES",
+    phoneTitle: "TELEFON",
+    emailTitle: "E-MAIL",
+    organizationLabel: "ORGANIZACJA / JEDNOSTKA",
+    subjectLabel: "TEMAT",
+    subjectRegistration: "Rejestracja",
+    subjectSponsoring: "Sponsorowanie",
+    subjectMediaPatronage: "Patronat medialny",
+    subjectInstructors: "Instruktorzy",
+    subjectPress: "Prasa i media",
+    subjectOther: "Inne",
+    privacyConsent:
+      "Zapoznałem(am) się z Polityką prywatności i wyrażam zgodę na przetwarzanie danych osobowych",
+    sending: "WYSYŁANIE...",
+    successMessage: "Dziękujemy! Odpowiemy w ciągu 24 godzin.",
+    errorMessage: "Nie udało się wysłać formularza. Spróbuj ponownie za chwilę.",
+    directContactTitle: "BEZPOŚREDNI KONTAKT",
+    presidentLabel: "Prezes",
+    eventLocationTitle: "MIEJSCE WYDARZENIA — CERBERUS K9 2026",
+    mapNote: "Szczegółowa mapa dojazdu znajduje się w materiałach rejestracyjnych",
+    honeypotLabel: "Nie wypełniaj tego pola",
   },
   en: {
     title: "CONTACT", subtitle: "Get in touch with us",
@@ -167,10 +222,13 @@ const contactCopy: Record<
   },
 };
 
-export function ContactPage({ lang, email, phone, address, mapEmbedUrl, venueAddress, presidentEmail }: ContactPageProps) {
-  const resolvedMapEmbedUrl =
-    mapEmbedUrl?.trim() ||
-    "https://www.openstreetmap.org/export/embed.html?bbox=17.7985,51.6409,17.8185,51.6609&layer=mapnik&marker=51.6509,17.8085";
+const DEFAULT_MAP_EMBED_URL =
+  "https://www.openstreetmap.org/export/embed.html?bbox=17.8074%2C51.6365%2C17.8274%2C51.6565&layer=mapnik&marker=51.6465%2C17.8174";
+
+const contactLinkHoverStyle = { transition: "color 0.15s ease" } as const;
+
+export function ContactPage({ lang, email, phone, mapEmbedUrl, venueAddress, presidentEmail }: ContactPageProps) {
+  const resolvedMapEmbedUrl = mapEmbedUrl?.trim() || DEFAULT_MAP_EMBED_URL;
   const resolvedVenueAddress = venueAddress?.trim() || "3MK Arena, ul. Andrzeja Kowalczyka 1, Ostrów Wielkopolski, Polska";
   const resolvedPresidentEmail = presidentEmail?.trim() || "mariusz@pactak9.org";
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -180,12 +238,8 @@ export function ContactPage({ lang, email, phone, address, mapEmbedUrl, venueAdd
   const contactEmail = (email ?? "").trim() || DEFAULT_EMAIL;
   const phoneDisplay = (phone ?? "").trim() || DEFAULT_PHONE_DISPLAY;
   const phoneTel = toTelHref(phoneDisplay);
-  const addressBlock =
-    (address ?? "").trim() ||
-    DEFAULT_ADDRESS_LINES.join("\n");
-  const addressLines = addressBlock.includes("\n")
-    ? addressBlock.split("\n").filter(Boolean)
-    : [addressBlock];
+  const phoneHref = phoneTel.startsWith("tel:") ? phoneTel : `tel:${phoneTel}`;
+  const addressCountryLine = ADDRESS_COUNTRY_BY_LANG[lang ?? "pl"] ?? ADDRESS_COUNTRY_BY_LANG.en;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -361,7 +415,6 @@ export function ContactPage({ lang, email, phone, address, mapEmbedUrl, venueAdd
           text-decoration-thickness: 1px;
           text-underline-offset: 2px;
         }
-        .ck9-card-link:hover { color: #ffffff; }
         .ck9-map {
           width: 100%;
           height: 190px;
@@ -394,7 +447,7 @@ export function ContactPage({ lang, email, phone, address, mapEmbedUrl, venueAdd
             <input type="hidden" name="form-name" value="contact" />
             <p className="ck9-honeypot" aria-hidden>
               <label>
-                Do not fill this field
+                {c.honeypotLabel ?? "Do not fill this field"}
                 <input name="company-website" tabIndex={-1} autoComplete="off" />
               </label>
             </p>
@@ -417,19 +470,19 @@ export function ContactPage({ lang, email, phone, address, mapEmbedUrl, venueAdd
             </div>
 
             <div>
-              <label htmlFor="organization">{(c as any).organizationLabel ?? "ORGANIZATION / UNIT"}</label>
+              <label htmlFor="organization">{c.organizationLabel ?? "ORGANIZATION / UNIT"}</label>
               <input id="organization" className="ck9-contact-input" name="organization" type="text" />
             </div>
 
             <div>
-              <label htmlFor="subject">{(c as any).subjectLabel ?? "SUBJECT"}</label>
+              <label htmlFor="subject">{c.subjectLabel ?? "SUBJECT"}</label>
               <select id="subject" className="ck9-contact-select" name="subject">
-                <option>{(c as any).subjectRegistration ?? "Registration"}</option>
-                <option>{(c as any).subjectSponsoring ?? "Sponsoring"}</option>
-                <option>{(c as any).subjectMediaPatronage ?? "Media Partnership"}</option>
-                <option>{(c as any).subjectInstructors ?? "Instructors"}</option>
-                <option>{(c as any).subjectPress ?? "Press & Media"}</option>
-                <option>{(c as any).subjectOther ?? "Other"}</option>
+                <option>{c.subjectRegistration ?? "Registration"}</option>
+                <option>{c.subjectSponsoring ?? "Sponsoring"}</option>
+                <option>{c.subjectMediaPatronage ?? "Media Partnership"}</option>
+                <option>{c.subjectInstructors ?? "Instructors"}</option>
+                <option>{c.subjectPress ?? "Press & Media"}</option>
+                <option>{c.subjectOther ?? "Other"}</option>
               </select>
             </div>
 
@@ -441,23 +494,23 @@ export function ContactPage({ lang, email, phone, address, mapEmbedUrl, venueAdd
             <label className="ck9-checkbox" htmlFor="privacyConsent">
               <input id="privacyConsent" name="privacyConsent" type="checkbox" required />
               <span>
-                {(c as any).privacyConsent ??
+                {c.privacyConsent ??
                   "I have read the Privacy Policy and consent to personal data processing"}
               </span>
             </label>
 
             <button className="ck9-contact-btn" type="submit" disabled={isSubmitting}>
-              {isSubmitting ? ((c as any).sending ?? "SENDING...") : `${c.sendBtn} →`}
+              {isSubmitting ? (c.sending ?? "SENDING...") : `${c.sendBtn} →`}
             </button>
 
             {isSuccess ? (
               <p className="ck9-contact-status ck9-contact-status--ok">
-                {(c as any).successMessage ?? "Thank you! We will reply within 24 hours."}
+                {c.successMessage ?? "Thank you! We will reply within 24 hours."}
               </p>
             ) : null}
             {hasError ? (
               <p className="ck9-contact-status ck9-contact-status--err">
-                {(c as any).errorMessage ?? "Failed to send the form. Please try again shortly."}
+                {c.errorMessage ?? "Failed to send the form. Please try again shortly."}
               </p>
             ) : null}
           </form>
@@ -466,46 +519,94 @@ export function ContactPage({ lang, email, phone, address, mapEmbedUrl, venueAdd
         <aside className="ck9-info-column" aria-label="Dane kontaktowe">
           <article className="ck9-info-card">
             <h3 className="ck9-card-title">{c.addressTitle}</h3>
-            {addressLines.map((line) => (
-              <p key={line} className="ck9-card-line">
-                {line}
-              </p>
-            ))}
+            <p className="ck9-card-line">
+              <span style={{ display: "block" }}>ul. Odolanowska 17,</span>
+              <span style={{ display: "block" }}>63-400 Topola Mała,</span>
+              <span style={{ display: "block" }}>{addressCountryLine}</span>
+            </p>
           </article>
 
           <article className="ck9-info-card">
-            <h3 className="ck9-card-title">{(c as any).directContactTitle ?? "DIRECT CONTACT"}</h3>
+            <h3 className="ck9-card-title">{c.directContactTitle ?? "DIRECT CONTACT"}</h3>
             <p className="ck9-card-line">
               {c.emailTitle}:{" "}
-              <a className="ck9-card-link" href={`mailto:${contactEmail}`}>
+              <a
+                className="ck9-card-link"
+                href={`mailto:${contactEmail}`}
+                style={contactLinkHoverStyle}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = "#C4922A";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = "";
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.color = "#C4922A";
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.color = "";
+                }}
+              >
                 {contactEmail}
               </a>
             </p>
             <p className="ck9-card-line">
-              {(c as any).presidentLabel ?? "President"}:{" "}
-              <a className="ck9-card-link" href={`mailto:${resolvedPresidentEmail}`}>
+              {c.presidentLabel ?? "President"}:{" "}
+              <a
+                className="ck9-card-link"
+                href={`mailto:${resolvedPresidentEmail}`}
+                style={contactLinkHoverStyle}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = "#C4922A";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = "";
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.color = "#C4922A";
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.color = "";
+                }}
+              >
                 {resolvedPresidentEmail}
               </a>
             </p>
             <p className="ck9-card-line">
               {c.phoneTitle}:{" "}
-              <a className="ck9-card-link" href={`tel:${phoneTel}`}>
+              <a
+                className="ck9-card-link"
+                href={phoneHref}
+                style={contactLinkHoverStyle}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = "#C4922A";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = "";
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.color = "#C4922A";
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.color = "";
+                }}
+              >
                 {phoneDisplay}
               </a>
             </p>
           </article>
 
           <article className="ck9-info-card">
-            <h3 className="ck9-card-title">{(c as any).eventLocationTitle ?? "EVENT LOCATION — CERBERUS K9 2026"}</h3>
+            <h3 className="ck9-card-title">{c.eventLocationTitle ?? "EVENT LOCATION — CERBERUS K9 2026"}</h3>
             <iframe
               className="ck9-map"
-              title={(c as any).eventLocationTitle ?? "EVENT LOCATION — CERBERUS K9 2026"}
+              title={c.eventLocationTitle ?? "EVENT LOCATION — CERBERUS K9 2026"}
               src={resolvedMapEmbedUrl}
               loading="lazy"
             />
             <p className="ck9-card-line">{resolvedVenueAddress}</p>
             <p className="ck9-card-note">
-              {(c as any).mapNote ?? "Detailed route map is available in registration materials"}
+              {c.mapNote ?? "Detailed route map is available in registration materials"}
             </p>
           </article>
 
