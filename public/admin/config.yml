@@ -77,14 +77,15 @@ collections:
     fields:
       - { label: Imię i nazwisko, name: name, widget: string, required: true }
       - { label: Rola / stanowisko, name: role, widget: string, required: false }
-      - label: "Kraj (nazwa wyświetlana)"
+      - label: "Kraj (fallback — wypełniany automatycznie)"
         name: country
         widget: string
         required: true
         hint: >
-          Nazwa kraju wyświetlana na karcie instruktora.
-          Np. Polska, USA, Niemcy, Portugalia.
-          Pamiętaj aby zaktualizować też pole Kod kraju.
+          Nazwa kraju — używana jako fallback gdy kod kraju
+          nie jest w słowniku. Normalnie nazwa tłumaczona
+          jest automatycznie na podstawie kodu kraju.
+          Wpisz nazwę po polsku np. Polska, USA, Niemcy.
       - label: "Kod kraju (ISO 3166-1 alpha-2)"
         name: countryCode
         widget: string
