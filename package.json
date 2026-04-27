@@ -12,7 +12,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/mdx": "^5.0.3",
+    "@astrojs/mdx": "^5.0.4",
     "@astrojs/react": "^5.0.3",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.2",
@@ -21,12 +21,12 @@
     "@fontsource/libre-baskerville": "^5.2.10",
     "@fontsource/rajdhani": "^5.2.7",
     "@tailwindcss/postcss": "^4.2.4",
-    "astro": "^6.1.8",
+    "astro": "^6.1.9",
     "lucide-react": "^1.9.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "sharp": "^0.34.3",
-    "tailwindcss": "^4.2.4"
+    "tailwindcss": "^3.4.19"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.8",
