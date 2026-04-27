@@ -13,8 +13,14 @@ interface TimeLeft {
   seconds: number;
 }
 
-function calculateTimeLeft(eventDateIso: string): TimeLeft {
-  const targetDate = new Date(`${eventDateIso}T10:00:00+02:00`);
+function calculateTimeLeft(
+  eventDateIso: string | undefined,
+  timeStr: string,
+  tzOffset: string
+): TimeLeft {
+  const targetDate = eventDateIso
+    ? new Date(`${eventDateIso}T${timeStr}:00${tzOffset}`)
+    : new Date("2026-06-13T10:00:00+02:00");
   const now = new Date();
   const difference = targetDate.getTime() - now.getTime();
 
@@ -33,15 +39,46 @@ function calculateTimeLeft(eventDateIso: string): TimeLeft {
 interface HeroSectionProps {
   lang: Lang;
   copy: HomeHeroCopy;
-  /** ISO date `YYYY-MM-DD` for countdown (event start 10:00 Europe/Warsaw). */
   eventDate?: string;
+  eventTimeStart?: string;
+  eventTimezone?: string;
   heroImage?: string;
   heroOpacity?: number;
+  heroTitle?: string;
+  heroSubtitle?: string;
+  heroYear?: string;
+  heroVideoHref?: string;
+  heroVideoTitle?: string;
+  heroCloseLabelPl?: string;
+  ctaRegistrationHref?: string;
+  ctaProgramHref?: string;
+  registrationActive?: boolean;
 }
 
-export function HeroSection({ lang, copy, eventDate, heroImage, heroOpacity }: HeroSectionProps) {
+export function HeroSection(props: HeroSectionProps) {
+  const {
+    lang,
+    copy,
+    eventDate,
+    eventTimeStart = "10:00",
+    eventTimezone = "Europe/Warsaw",
+    heroImage,
+    heroOpacity,
+    heroTitle,
+    heroSubtitle,
+    heroYear,
+    heroVideoHref,
+    heroVideoTitle,
+    heroCloseLabelPl = "ZAMKNIJ",
+    ctaRegistrationHref,
+    ctaProgramHref,
+    registrationActive = true,
+  } = props;
+
   const safeCopy: HomeHeroCopy = copy ?? homeHeroCopyByLang.pl;
-  const eventDateIso = eventDate?.trim() || "2026-06-13";
+  const timeStr = eventTimeStart ?? "10:00";
+  const tzOffset = eventTimezone === "Europe/Warsaw" ? "+02:00" : "+00:00";
+  const eventDateIso = eventDate?.trim() || undefined;
   const bgUrl = heroImage?.trim() || "/images/page_hero_graph.webp";
   const bgOpacity = heroOpacity ?? 0.4;
   const safeUi = ui[lang] ?? ui.pl;
@@ -56,14 +93,14 @@ export function HeroSection({ lang, copy, eventDate, heroImage, heroOpacity }: H
 
   useEffect(() => {
     setMounted(true);
-    setTimeLeft(calculateTimeLeft(eventDateIso));
+    setTimeLeft(calculateTimeLeft(eventDateIso, timeStr, tzOffset));
 
     const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft(eventDateIso));
+      setTimeLeft(calculateTimeLeft(eventDateIso, timeStr, tzOffset));
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [eventDateIso]);
+  }, [eventDateIso, timeStr, tzOffset]);
 
   useEffect(() => {
     document.body.style.overflow = videoOpen ? "hidden" : "";
@@ -140,7 +177,7 @@ export function HeroSection({ lang, copy, eventDate, heroImage, heroOpacity }: H
             margin: 0,
           }}
         >
-          CERBERUS
+          {heroTitle ?? "CERBERUS"}
         </h1>
         <h1
           className="text-[clamp(40px,12vw,96px)] sm:text-[clamp(56px,10vw,96px)]"
@@ -151,8 +188,8 @@ export function HeroSection({ lang, copy, eventDate, heroImage, heroOpacity }: H
             margin: 0,
           }}
         >
-          <span style={{ color: "#C42B2B" }}>K9</span>
-          <span style={{ color: "#E4DDD0" }}> 2026</span>
+          <span style={{ color: "#C42B2B" }}>{heroSubtitle ?? "K9"}</span>
+          <span style={{ color: "#E4DDD0" }}> {heroYear ?? "2026"}</span>
         </h1>
       </div>
 
@@ -213,25 +250,27 @@ export function HeroSection({ lang, copy, eventDate, heroImage, heroOpacity }: H
 
       {/* Section 6: CTA Buttons Row */}
       <div className="relative z-10 flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-2 sm:gap-3">
+        {registrationActive !== false && (
+          <a
+            href={ctaRegistrationHref || `/${lang}/rejestracja`}
+            className="inline-block text-center cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-8 sm:py-3.5 no-underline"
+            style={{
+              backgroundColor: "#C42B2B",
+              color: "white",
+              fontFamily: "var(--font-rajdhani), sans-serif",
+              letterSpacing: "3px",
+              fontWeight: 700,
+              borderRadius: 0,
+              border: "none",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#9E1F1F")}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#C42B2B")}
+          >
+            {safeCopy.ctaRegister}
+          </a>
+        )}
         <a
-          href={`/${lang}/rejestracja`}
-          className="inline-block text-center cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-8 sm:py-3.5 no-underline"
-          style={{
-            backgroundColor: "#C42B2B",
-            color: "white",
-            fontFamily: "var(--font-rajdhani), sans-serif",
-            letterSpacing: "3px",
-            fontWeight: 700,
-            borderRadius: 0,
-            border: "none",
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#9E1F1F")}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#C42B2B")}
-        >
-          {safeCopy.ctaRegister}
-        </a>
-        <a
-          href={`/${lang}/o-wydarzeniu#agenda`}
+          href={ctaProgramHref || `/${lang}/o-wydarzeniu#agenda`}
           className="inline-block text-center cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-6 sm:py-3.5 no-underline"
           style={{
             backgroundColor: "transparent",
@@ -328,13 +367,13 @@ export function HeroSection({ lang, copy, eventDate, heroImage, heroOpacity }: H
                   gap: "8px",
                 }}
               >
-                ZAMKNIJ ✕
+                {heroCloseLabelPl ?? "ZAMKNIJ"} ✕
               </button>
 
               {/* YouTube iframe */}
               <iframe
-                src={`${safeCopy.ctaVideoHref.replace("watch?v=", "embed/").replace("youtu.be/", "www.youtube.com/embed/")}?autoplay=1&rel=0&modestbranding=1`}
-                title="CERBERUS K9 2025 — Relacja"
+                src={`${(heroVideoHref ?? safeCopy.ctaVideoHref).replace("watch?v=", "embed/").replace("youtu.be/", "www.youtube.com/embed/")}?autoplay=1&rel=0&modestbranding=1`}
+                title={heroVideoTitle ?? "CERBERUS K9 2026 — Relacja"}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 style={{
