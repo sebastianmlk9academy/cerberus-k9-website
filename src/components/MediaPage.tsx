@@ -174,7 +174,7 @@ export default function MediaPage({
   const safeItems = (pressKitItems && pressKitItems.length > 0)
     ? pressKitItems : defaultPressItems;
 
-  const defaultArchive = [
+  const defaultArchive: ArchiveItem[] = [
     {
       outlet: 'TVP — Panorama',
       description: 'Reportaż telewizyjny z CERBERUS K9 2025',
@@ -204,9 +204,14 @@ export default function MediaPage({
       badge: 'AUDIO',
     },
   ];
-  const safeArchive = (mediaArchive && mediaArchive.length > 0)
-    ? mediaArchive : defaultArchive;
+  const safeArchive: ArchiveItem[] =
+    mediaArchive && mediaArchive.length > 0 ? mediaArchive : defaultArchive;
 
+  const englishFallback = mediaLabelsMap.en as MediaLabels;
+  const mediaLabels = {
+    ...englishFallback,
+    ...(mediaLabelsMap[lang] ?? {}),
+  };
   const zipHref = pressZipHref || pressKitZip || "/press/cerberus-k9-press-kit-2026.zip";
   const polskaHref = pressPdfPolskaZbrojna || "/downloads/polska-zbrojna-cerberus-k9-2025.pdf";
   const specialHref = pressPdfSpecialOps || "/downloads/special-ops-cerberus-k9-2025.pdf";
@@ -214,11 +219,6 @@ export default function MediaPage({
   const contactPhone = mediaContactPhone || "+48 695 637 907";
   const contactEmail = mediaContactEmail || "sebastian@pactak9.org";
   const sectionTag = (ui[lang] ?? ui.pl).nav_media;
-  const englishFallback = mediaLabelsMap.en as MediaLabels;
-  const mediaLabels = {
-    ...englishFallback,
-    ...(mediaLabelsMap[lang] ?? {}),
-  };
   const deadlineDate = (accreditationDeadline ?? '').trim() || '30.05.2026';
   const submissionDeadlineLine = mediaLabels.submissionDeadline.replace(
     /30\.05\.2026/g,

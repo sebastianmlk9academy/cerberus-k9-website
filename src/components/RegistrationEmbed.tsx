@@ -28,8 +28,10 @@ const regCopy: Record<
     placeLabel: string;
     admissionLabel: string;
     admissionValue: string;
+    admissionNote?: string;
     limitLabel: string;
     limitValue: string;
+    registerNow?: string;
     contactLabel: string;
     questionsLabel: string;
     contactUs: string;
@@ -822,7 +824,7 @@ export function RegistrationAside({
             marginTop: "8px",
           }}
         >
-          {(c as any).admissionNote ?? "Finansowane z dotacji samorządowych"}
+          {c.admissionNote ?? "Finansowane z dotacji samorządowych"}
         </p>
       </div>
 
@@ -867,7 +869,7 @@ export function RegistrationAside({
             marginTop: "4px",
           }}
         >
-          {(c as any).registerNow ?? "Zarejestruj się teraz"}
+          {c.registerNow ?? "Zarejestruj się teraz"}
         </p>
       </div>
 

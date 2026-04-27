@@ -943,7 +943,7 @@ export default function InteractiveAgenda({
   const translatedFilters = ACTIVE_FILTERS.map((f) =>
     f.key === "ALL"
       ? { ...f, label: f.label || effectiveLabels.all }
-      : { ...f, label: f.label || ACTIVE_CATEGORY_META[f.key]?.label || f.key },
+      : { ...f, label: f.label || ACTIVE_CATEGORY_META[f.key as Category]?.label || f.key },
   );
   const [activeDayId, setActiveDayId] = useState<string>(DAYS_TO_USE[0]?.id ?? "day1");
   const [filter, setFilter] = useState<string>("ALL");
@@ -1117,7 +1117,10 @@ export default function InteractiveAgenda({
 
           {visibleItems.map((item) => {
             const normalizedCategory = normalizeCategory(item.category);
-            const meta = ACTIVE_CATEGORY_META[item.category] ?? ACTIVE_CATEGORY_META[normalizedCategory] ?? CATEGORY_META[normalizedCategory];
+            const meta =
+              ACTIVE_CATEGORY_META[item.category as Category] ??
+              ACTIVE_CATEGORY_META[normalizedCategory] ??
+              CATEGORY_META[normalizedCategory];
             const catData = categories?.find((c) => c.key === item.category);
             const showCalendarBtn = catData
               ? catData.show_calendar_button

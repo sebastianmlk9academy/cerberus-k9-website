@@ -1,9 +1,10 @@
 import { locales } from '../../locales.mjs';
-import type { Lang, UiKey, UiStrings } from './ui';
+import type { Lang, UiKey } from './ui';
 import { ui } from './ui';
 
 export { locales };
 export type { Lang };
+export type UiStrings = (typeof ui)[Lang];
 
 export function getLangFromUrl(url: URL): Lang {
 	const segment = url.pathname.split('/').filter(Boolean)[0];
