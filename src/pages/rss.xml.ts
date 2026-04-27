@@ -7,7 +7,7 @@ export const GET: APIRoute = async () => {
 	const siteUrl = settings?.data.site_url ?? 'https://cerberusk9.org';
 	const siteTitle = settings?.data.brand_name ?? 'CERBERUS K9';
 
-	const entries = await getCollection('aktualnosci');
+	const entries = await getCollection('aktualnosci', ({ data }) => data.draft !== true);
 
 	return rss({
 		title: `${siteTitle} — Aktualności`,
