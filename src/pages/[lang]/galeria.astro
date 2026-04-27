@@ -26,7 +26,16 @@ const cmsNavLinks = await loadCmsNavLinks();
 const copy = galeriaPageByLang[lang] ?? galeriaPageByLang['pl'];
 const navGallery = (ui[lang] ?? ui['pl']).nav_gallery;
 
-const categoryPriority = ['HARDEST HIT', 'SZKOLENIA K9', 'TCCC', 'KONFERENCJA', 'DRONY'] as const;
+const categoryPriority = [
+	'HARDEST_HIT',
+	'SZKOLENIA_K9',
+	'TCCC',
+	'KONFERENCJA',
+	'DRONY',
+	'CEREMONIA',
+	'SAR',
+	'OGOLNE',
+] as const;
 
 const scorePhoto = (photo: {
 	tags?: string[];

@@ -18,7 +18,16 @@ const title = 'Galeria — CERBERUS K9 2025 | Zdjęcia i Wideo z Ćwiczeń K9';
 const description =
 	'Galeria zdjęć i wideo z CERBERUS K9 2025 — Terminal LPG, Stena Line, Muzeum Gryf. 300+ profesjonalnych fotografii.';
 
-const categoryPriority = ['HARDEST HIT', 'SZKOLENIA K9', 'TCCC', 'KONFERENCJA', 'DRONY'] as const;
+const categoryPriority = [
+	'HARDEST_HIT',
+	'SZKOLENIA_K9',
+	'TCCC',
+	'KONFERENCJA',
+	'DRONY',
+	'CEREMONIA',
+	'SAR',
+	'OGOLNE',
+] as const;
 
 const scorePhoto = (photo: {
 	tags?: string[];

@@ -318,12 +318,46 @@ const team = defineCollection({
 	}),
 });
 
+const galleryCategoryValues = [
+	'HARDEST_HIT',
+	'SZKOLENIA_K9',
+	'TCCC',
+	'KONFERENCJA',
+	'DRONY',
+	'CEREMONIA',
+	'SAR',
+	'OGOLNE',
+] as const;
+
+type GalleryCategoryValue = (typeof galleryCategoryValues)[number];
+
+/** Maps legacy frontmatter (pre-canonical) and CMS values to the canonical enum. */
+function preprocessGalleryCategory(val: unknown): GalleryCategoryValue | undefined {
+	if (val === undefined || val === null) return undefined;
+	const raw = String(val).trim();
+	if (!raw) return undefined;
+	if ((galleryCategoryValues as readonly string[]).includes(raw)) {
+		return raw as GalleryCategoryValue;
+	}
+	const legacy: Record<string, GalleryCategoryValue> = {
+		'HARDEST HIT': 'HARDEST_HIT',
+		'SZKOLENIA K9': 'SZKOLENIA_K9',
+		'OGÓLNE': 'OGOLNE',
+	};
+	return legacy[raw];
+}
+
+const galleryCategorySchema = z.preprocess(
+	preprocessGalleryCategory,
+	z.enum(galleryCategoryValues).optional(),
+);
+
 const galeria = defineCollection({
 	loader: glob({ base: './src/content/galeria', pattern: '**/*.{md,mdx}' }),
 	schema: z.object({
 		title: z.string(),
 		date: z.string().optional(),
-		category: z.enum(['SZKOLENIA K9', 'HARDEST HIT', 'CEREMONIA', 'KONFERENCJA', 'DRONY', 'SAR', 'OGÓLNE']),
+		category: galleryCategorySchema,
 		location: z.string(),
 		edition: z.enum(['2025', '2026']),
 		photo: z.string(),

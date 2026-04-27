@@ -4,14 +4,25 @@ import type { CSSProperties, MouseEvent as ReactMouseEvent } from "react";
 import { ui } from "../i18n/ui";
 import type { Lang } from "../i18n/utils";
 
-type Category =
-  | "HARDEST HIT"
-  | "SZKOLENIA K9"
+/** Canonical gallery category values (aligned with CMS + content schema). */
+type GalleryCategory =
+  | "HARDEST_HIT"
+  | "SZKOLENIA_K9"
+  | "TCCC"
+  | "KONFERENCJA"
+  | "DRONY"
+  | "CEREMONIA"
+  | "SAR"
+  | "OGOLNE";
+
+/** Categories exposed as filter pills (unchanged count — no new pills). */
+type MainCategoryFilter =
+  | "all"
+  | "HARDEST_HIT"
+  | "SZKOLENIA_K9"
   | "TCCC"
   | "KONFERENCJA"
   | "DRONY";
-
-type MainCategoryFilter = "all" | Category;
 
 type LocationFilterId = "all" | "lpg" | "gryf" | "stena" | "arena" | "school" | "stadium";
 
@@ -19,7 +30,7 @@ type ViewModeId = "grid" | "masonry";
 
 type PhotoItem = {
   title: string;
-  category: Category;
+  category?: GalleryCategory;
   location: string;
   edition: "2025" | "2026";
   photo: string;
@@ -61,30 +72,67 @@ type GalleryLabels = {
   countdownHour: string;
 };
 
-const categoryBadgeClass: Record<Category, string> = {
-  "HARDEST HIT": "badge-hardest-hit",
-  "SZKOLENIA K9": "badge-szkolenia-k9",
+const categoryBadgeClass: Record<GalleryCategory, string> = {
+  HARDEST_HIT: "badge-hardest-hit",
+  SZKOLENIA_K9: "badge-szkolenia-k9",
   TCCC: "badge-tccc",
   KONFERENCJA: "badge-konferencja",
   DRONY: "badge-drony",
+  CEREMONIA: "badge-ceremonia",
+  SAR: "badge-sar",
+  OGOLNE: "badge-ogolne",
 };
 
-const CATEGORY_VALUES: Category[] = [
-  "HARDEST HIT",
-  "SZKOLENIA K9",
+const CATEGORY_VALUES: GalleryCategory[] = [
+  "HARDEST_HIT",
+  "SZKOLENIA_K9",
   "TCCC",
   "KONFERENCJA",
   "DRONY",
+  "CEREMONIA",
+  "SAR",
+  "OGOLNE",
 ];
 
-function resolveCategoryForBadge(category: string): Category | null {
-  return CATEGORY_VALUES.find((c) => normalize(c) === normalize(category)) ?? null;
+/** Visible badge / branding text (stored value is canonical). */
+const galleryCategoryDisplayText: Record<GalleryCategory, string> = {
+  HARDEST_HIT: "HARDEST HIT",
+  SZKOLENIA_K9: "SZKOLENIA K9",
+  TCCC: "TCCC",
+  KONFERENCJA: "KONFERENCJA",
+  DRONY: "DRONY",
+  CEREMONIA: "CEREMONIA",
+  SAR: "SAR",
+  OGOLNE: "OGÓLNE",
+};
+
+const MAIN_FILTER_CATEGORY_LABEL: Record<Exclude<MainCategoryFilter, "all">, string> = {
+  HARDEST_HIT: "HARDEST HIT",
+  SZKOLENIA_K9: "SZKOLENIA K9",
+  TCCC: "TCCC",
+  KONFERENCJA: "KONFERENCJA",
+  DRONY: "DRONY",
+};
+
+function resolveCategoryForBadge(category: string): GalleryCategory | null {
+  const n = normalize(category);
+  return CATEGORY_VALUES.find((c) => normalize(c) === n) ?? null;
+}
+
+function categoryPillLabel(filterId: MainCategoryFilter): string {
+  if (filterId === "all") return "";
+  return MAIN_FILTER_CATEGORY_LABEL[filterId];
+}
+
+function categoryBadgeLabel(category: string): string {
+  const key = resolveCategoryForBadge(category);
+  return key ? galleryCategoryDisplayText[key] : category;
 }
 
 const MAIN_FILTER_IDS: MainCategoryFilter[] = [
   "all",
-  "HARDEST HIT",
-  "SZKOLENIA K9",
+  "HARDEST_HIT",
+  "SZKOLENIA_K9",
   "TCCC",
   "KONFERENCJA",
   "DRONY",
@@ -470,7 +518,7 @@ export function GalleryGrid({ photos, lang, unlockDate, videoItems }: GalleryGri
   const translatedMainFilterLabels = MAIN_FILTER_IDS.map((filterId) =>
     filterId === "all"
       ? ((safeUi as Record<string, string>).filter_all ?? galleryLabels.all)
-      : filterId,
+      : categoryPillLabel(filterId),
   );
 
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -588,7 +636,8 @@ export function GalleryGrid({ photos, lang, unlockDate, videoItems }: GalleryGri
           const edition = item.dataset.edition || "";
 
           const categoryMatch =
-            activeCategory === "all" || normalize(category) === normalize(activeCategory);
+            activeCategory === "all" ||
+            (category && normalize(category) === normalize(activeCategory));
           const locationMatch = locationMatchesFilter(location, activeLocation);
           const editionMatch = edition === activeEdition;
 
@@ -857,14 +906,14 @@ export function GalleryGrid({ photos, lang, unlockDate, videoItems }: GalleryGri
         {sortedPhotos.map((item, index) => {
           const isWide = index % 9 === 0 || item.tags?.some((tag) => normalize(tag) === "wide");
           const jpgFallback = toJpgFallback(item.photo);
-          const categoryKey = resolveCategoryForBadge(item.category);
+          const categoryKey = resolveCategoryForBadge(item.category ?? "");
           const badgeClass = categoryKey ? categoryBadgeClass[categoryKey] : "badge-hardest-hit";
           return (
             <article
               key={item.id}
               className={`photo-item ${isWide ? "wide" : ""}`}
               data-photo-item
-              data-category={item.category}
+              data-category={item.category ?? ""}
               data-location={item.location}
               data-edition={item.edition}
             >
@@ -885,7 +934,9 @@ export function GalleryGrid({ photos, lang, unlockDate, videoItems }: GalleryGri
                   <p className="photo-location">{item.location}</p>
                   <span className="photo-zoom">{galleryLabels.enlarge}</span>
                 </div>
-                <span className={`category-badge ${badgeClass}`}>{item.category}</span>
+                <span className={`category-badge ${badgeClass}`}>
+                  {categoryBadgeLabel(item.category ?? "")}
+                </span>
                 <span className="webp-badge">WebP</span>
               </a>
             </article>
@@ -1210,6 +1261,18 @@ export function GalleryGrid({ photos, lang, unlockDate, videoItems }: GalleryGri
         .badge-drony {
           background: #1f4f8a;
           color: #d9ecff;
+        }
+        .badge-ceremonia {
+          background: #4a2d6e;
+          color: #efe5ff;
+        }
+        .badge-sar {
+          background: #2d5a4e;
+          color: #dff5ec;
+        }
+        .badge-ogolne {
+          background: #3d4550;
+          color: #e4ddd0;
         }
         .webp-badge {
           position: absolute;

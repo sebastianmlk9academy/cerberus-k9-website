@@ -245,13 +245,14 @@ collections:
         widget: select
         required: false
         options:
-          - HARDEST HIT
-          - SZKOLENIA K9
-          - CEREMONIA
-          - KONFERENCJA
-          - DRONY
-          - SAR
-          - OGÓLNE
+          - { label: "Hardest Hit", value: "HARDEST_HIT" }
+          - { label: "Szkolenia K9", value: "SZKOLENIA_K9" }
+          - { label: "TCCC / Medycyna", value: "TCCC" }
+          - { label: "Konferencja", value: "KONFERENCJA" }
+          - { label: "Drony", value: "DRONY" }
+          - { label: "Ceremonia", value: "CEREMONIA" }
+          - { label: "SAR / Ratownictwo", value: "SAR" }
+          - { label: "Ogólne", value: "OGOLNE" }
       - label: Edycja
         name: edition
         widget: select
