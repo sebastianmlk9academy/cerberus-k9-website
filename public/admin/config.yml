@@ -6,7 +6,8 @@ backend:
   name: github
   repo: 'sebastianmlk9academy/cerberus-k9-website'
   branch: master
-  auth_type: pkce
+  base_url: https://netlify-cms-github-oauth-provider-phi.vercel.app
+  auth_endpoint: /auth
 
 # Media uploaded from the CMS lands in the repo under public/uploads
 media_folder: public/uploads
