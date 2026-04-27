@@ -115,8 +115,8 @@ const partners: Partner[] = sorted.map((entry, i) => {
 			logoAlt={s?.nav_logo_alt}
 			brandName={s?.brand_name}
 			brandTagline={s?.brand_tagline}
-			email={s?.footer_email}
-			phone={s?.footer_phone}
+			email={s?.footer_email ?? s?.registration_contact_email}
+			phone={s?.footer_phone ?? s?.contact_phone_sebastian}
 			socialFacebook={s?.social_facebook}
 			socialYoutube={s?.social_youtube}
 			socialInstagram={s?.social_instagram}
