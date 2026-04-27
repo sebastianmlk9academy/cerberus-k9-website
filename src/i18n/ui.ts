@@ -497,3 +497,4 @@ export const ui = {
 
 export type Lang = keyof typeof ui;
 export type UiKey = keyof (typeof ui)[Lang];
+export type UiStrings = (typeof ui)[Lang];
