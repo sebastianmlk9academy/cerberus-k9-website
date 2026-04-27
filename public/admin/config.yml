@@ -278,6 +278,15 @@ collections:
           label: Tag
           name: tag
           widget: string
+      - name: order
+        label: "Kolejność wyświetlania"
+        widget: number
+        value_type: int
+        min: 0
+        max: 9999
+        default: 100
+        required: false
+        hint: "Niższy numer = wyżej w galerii. Domyślnie 100."
 
   # --- 5. Program (agenda) ---
   - name: program
