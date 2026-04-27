@@ -7,16 +7,25 @@
     <title>CMS — Cerberus K9</title>
   </head>
   <body>
-    <script src="https://unpkg.com/decap-cms@3.12.2/dist/decap-cms.js"></script>
-    <script src="https://unpkg.com/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
     <script>
-      window.addEventListener('load', function() {
-        fetch('/admin/config.yml')
-          .then(function(r) { return r.text(); })
-          .then(function(yaml) {
-            var config = jsyaml.load(yaml);
-            CMS.init({ config: config });
-          });
+      window.CMS_MANUAL_INIT = true;
+    </script>
+    <script src="https://unpkg.com/decap-cms@3.12.2/dist/decap-cms.js"></script>
+    <script>
+      CMS.init({
+        config: {
+          backend: {
+            name: 'github',
+            repo: 'sebastianmlk9academy/cerberus-k9-website',
+            branch: 'master',
+            base_url: 'https://cerberus-oauth-proxy.vercel.app',
+            auth_endpoint: '/auth'
+          },
+          media_folder: 'public/uploads',
+          public_folder: '/uploads',
+          locale: 'pl',
+          collections: []
+        }
       });
     </script>
   </body>
