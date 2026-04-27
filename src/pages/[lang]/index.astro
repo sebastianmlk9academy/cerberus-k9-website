@@ -57,7 +57,6 @@ const seo = homeSeoByLang[lang] ?? homeSeoByLang['pl'];
 const safeUi = ui[lang] ?? ui.pl;
 const seoTitle = safeUi.meta_title_home ?? seo.title;
 const seoDescription = safeUi.meta_desc_home ?? seo.description;
-const heroCopy = homeHeroCopyByLang[lang] ?? homeHeroCopyByLang['pl'];
 const footerCopy = footerCopyByLang[lang] ?? footerCopyByLang['pl'];
 const statsEntries = await getCollection('homepage_stats');
 const statsCopy =
@@ -137,7 +136,7 @@ const eventJsonLd = {
 	<NavBar lang={lang} client:load navLinks={cmsNavLinks} />
 	<HeroSection
 		lang={lang}
-		copy={heroCopy}
+		copy={homeHeroCopyByLang[lang] ?? homeHeroCopyByLang['pl']}
 		eventDate={s?.event_date}
 		heroImage={s?.hero_background_image}
 		heroOpacity={s?.hero_background_opacity}
@@ -174,8 +173,8 @@ const eventJsonLd = {
 		logoAlt={s?.nav_logo_alt}
 		brandName={s?.brand_name}
 		brandTagline={s?.brand_tagline}
-		email={s?.footer_email}
-		phone={s?.footer_phone}
+		email={s?.footer_email ?? s?.registration_contact_email}
+		phone={s?.footer_phone ?? s?.contact_phone_sebastian}
 		socialFacebook={s?.social_facebook}
 		socialYoutube={s?.social_youtube}
 		socialInstagram={s?.social_instagram}
