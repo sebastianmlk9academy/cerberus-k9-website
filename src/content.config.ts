@@ -327,6 +327,7 @@ const team = defineCollection({
 		bio_short: z.string(),
 		email: z.string().optional(),
 		linkedin: z.string().optional(),
+		active: z.boolean().optional().default(true),
 		order: z.number().optional().default(99),
 	}),
 });

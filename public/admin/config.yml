@@ -164,6 +164,11 @@ collections:
           - 'Maksymalnie 200 znaków.'
       - { label: Bio pełne, name: bioFull, widget: markdown, required: true }
       - { label: Zdjęcie, name: photo, widget: image, required: true, choose_url: true }
+      - name: active
+        label: "Aktywny (widoczny na stronie)"
+        widget: boolean
+        default: true
+        hint: "Odznacz aby ukryć bez usuwania wpisu"
       - { label: Kolejność sortowania, name: order, widget: number, value_type: int, min: 0, step: 1, default: 0 }
 
   # --- 3. Partnerzy ---
@@ -527,6 +532,11 @@ collections:
       - { label: "Bio (krótkie)", name: bio_short, widget: text }
       - { label: "Email", name: email, widget: string, required: false }
       - { label: "LinkedIn", name: linkedin, widget: string, required: false }
+      - name: active
+        label: "Aktywny (widoczny na stronie)"
+        widget: boolean
+        default: true
+        hint: "Odznacz aby ukryć bez usuwania wpisu"
       - { label: "Kolejność", name: order, widget: number, default: 99 }
 
   - name: homepage_cards
