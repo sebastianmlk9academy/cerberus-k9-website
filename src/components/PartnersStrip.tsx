@@ -89,7 +89,7 @@ function MediaPatronCard({ partner }: { partner: Partner }) {
       onMouseLeave={() => setIsHovered(false)}
       className={`
         group relative flex flex-col items-center justify-center
-        p-[1.4rem] sm:p-[2.1rem] md:p-[2.8rem]
+        p-[0.98rem] sm:p-[1.47rem] md:p-[1.96rem]
         bg-gradient-to-b from-[#1E2B38] to-[#161F28]
         border border-[#C4922A]/30
         rounded-lg
@@ -98,8 +98,8 @@ function MediaPatronCard({ partner }: { partner: Partner }) {
         hover:shadow-[0_0_30px_rgba(196,146,42,0.15)]
         hover:scale-[1.02]
         cursor-pointer
-        min-w-[196px] sm:min-w-[252px] md:min-w-[308px]
-        flex-1 max-w-[392px] sm:max-w-[448px]
+        min-w-[137px] sm:min-w-[176px] md:min-w-[216px]
+        flex-1 max-w-[274px] sm:max-w-[314px]
       `}
     >
       {/* Glow effect */}
@@ -151,7 +151,10 @@ function PartnerCard({ partner }: { partner: Partner }) {
   const [isHovered, setIsHovered] = useState(false)
 
   return (
-    <div
+    <a
+      href={partner.website ?? partner.url ?? '#'}
+      target={partner.website || partner.url ? '_blank' : undefined}
+      rel="noopener noreferrer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={`
@@ -165,24 +168,26 @@ function PartnerCard({ partner }: { partner: Partner }) {
         hover:bg-[#1E2B38]
         cursor-pointer
         w-full
+        no-underline
       `}
     >
       {/* Logo */}
-      <div className="relative flex-1 w-full flex items-center justify-center p-[0.7rem] mb-[0.7rem] sm:mb-[1.05rem] min-h-[4.2rem] sm:min-h-[4.9rem] md:min-h-[5.6rem]">
+      <div className="relative w-full mb-[0.7rem] sm:mb-[1.05rem]" style={{aspectRatio:'1', position:'relative'}}>
         {partner.logo && !imageError ? (
-          <div className="flex items-center justify-center w-full h-full">
+          <div style={{position:'absolute', inset:0, display:'flex', alignItems:'center', justifyContent:'center'}}>
             <img
               src={partner.logo}
               alt={partner.name}
               className={`
-                w-full h-full object-contain transition-all duration-300
+                object-contain transition-all duration-300
                 ${isHovered ? "opacity-100 scale-[1.05]" : "opacity-90 scale-100"}
               `}
+              style={{width:'95%', height:'95%', objectFit:'contain', display:'block', margin:'auto'}}
               onError={() => setImageError(true)}
             />
           </div>
         ) : (
-          <div className="w-full h-full flex items-center justify-center">
+          <div style={{position:'absolute', inset:0, display:'flex', alignItems:'center', justifyContent:'center'}}>
             <span className="text-[#4A5A6A] text-[10px] font-bold tracking-[1px] sm:tracking-[2px] text-center leading-tight">
               {partner.name}
             </span>
@@ -204,7 +209,7 @@ function PartnerCard({ partner }: { partner: Partner }) {
       `}>
         {partner.name}
       </span>
-    </div>
+    </a>
   )
 }
 
