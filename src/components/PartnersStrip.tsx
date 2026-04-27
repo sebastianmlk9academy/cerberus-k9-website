@@ -164,7 +164,7 @@ function PartnerCard({ partner }: { partner: Partner }) {
         hover:border-[#3A4A5A]
         hover:bg-[#1E2B38]
         cursor-pointer
-        min-w-[140px] sm:min-w-[168px] md:min-w-[196px]
+        w-full
       `}
     >
       {/* Logo */}
@@ -298,7 +298,7 @@ export function PartnersStrip({ copy, partners: partnersProp, partnerCtaHref }: 
             </h2>
           </div>
           
-          <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 sm:gap-4 md:gap-5">
+          <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6" style={{rowGap:'12px',columnGap:'12px'}}>
             {stripPartners.map((partner) => (
               <PartnerCard key={partner.name} partner={partner} />
             ))}
