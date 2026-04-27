@@ -26,6 +26,8 @@ const languages = [
 
 type Language = (typeof languages)[number];
 
+type ResolvedNavLink = { label: string; href: string; target?: boolean };
+
 const getFlagUrl = (countryCode: string) =>
   `https://flagcdn.com/16x12/${countryCode}.png`;
 
@@ -38,6 +40,8 @@ interface NavBarProps {
   brandTagline?: string;
   /** When set (non-empty), replaces hardcoded nav links from `ui`. */
   navLinks?: CmsNavBarLink[] | null;
+  registrationActive?: boolean;
+  registrationHref?: string;
 }
 
 export function NavBar({
@@ -48,6 +52,8 @@ export function NavBar({
   brandName,
   brandTagline,
   navLinks: navLinksFromCms,
+  registrationActive = true,
+  registrationHref,
 }: NavBarProps) {
   const resolvedLogoSrc = logoSrc?.trim() || '/images/cerberus-k9-logo.png';
   const resolvedLogoAlt = logoAlt?.trim() || 'CERBERUS K9 Logo';
@@ -69,14 +75,18 @@ export function NavBar({
 
   const t = ui[currentLang.code as keyof typeof ui] ?? ui['pl'];
 
-  const navLinks = useMemo(() => {
+  const navLinks = useMemo((): ResolvedNavLink[] => {
     const tNav = ui[currentLang.code as keyof typeof ui] ?? ui['pl'];
     const cms = navLinksFromCms?.filter((l) => l.path?.trim());
     if (cms && cms.length > 0) {
-      return cms.map((link) => ({
-        label: currentLang.code === 'pl' ? link.label_pl : link.label_en,
-        href: `/${currentLang.code}/${link.path}`,
-      }));
+      return cms.map((link) => {
+        const cmsTarget = (link as CmsNavBarLink & { target?: boolean }).target;
+        return {
+          label: currentLang.code === 'pl' ? link.label_pl : link.label_en,
+          href: `/${currentLang.code}/${link.path}`,
+          target: cmsTarget,
+        };
+      });
     }
     return [
       { label: (tNav as { nav_event?: string }).nav_event ?? 'O WYDARZENIU', href: `/${currentLang.code}/o-wydarzeniu` },
@@ -154,6 +164,8 @@ export function NavBar({
               <a
                 key={link.href}
                 href={link.href}
+                target={link.target ? '_blank' : undefined}
+                rel={link.target ? 'noopener noreferrer' : undefined}
                 className="transition-colors duration-150 whitespace-nowrap"
                 style={{
                   fontFamily: "'Rajdhani', sans-serif",
@@ -300,28 +312,30 @@ export function NavBar({
             )}
           </div>
 
-          {/* CTA Button - Always visible */}
-          <a
-            href={`/${currentLang.code}/rejestracja`}
-            className="block transition-colors duration-150 shrink-0"
-            style={{
-              backgroundColor: '#C42B2B',
-              color: 'white',
-              fontFamily: "'Rajdhani', sans-serif",
-              fontSize: 'clamp(8px, 2vw, 10px)',
-              letterSpacing: 'clamp(1px, 0.5vw, 2px)',
-              fontWeight: 700,
-              padding: '8px 14px',
-            }}
-            onMouseEnter={(e: MouseEvent<HTMLAnchorElement>) => {
-              e.currentTarget.style.backgroundColor = '#A82424';
-            }}
-            onMouseLeave={(e: MouseEvent<HTMLAnchorElement>) => {
-              e.currentTarget.style.backgroundColor = '#C42B2B';
-            }}
-          >
-            {(t as any).nav_registration ?? 'REJESTRACJA'}
-          </a>
+          {/* CTA Button - registration */}
+          {registrationActive !== false && (
+            <a
+              href={registrationHref || `/${currentLang.code}/rejestracja`}
+              className="block transition-colors duration-150 shrink-0"
+              style={{
+                backgroundColor: '#C42B2B',
+                color: 'white',
+                fontFamily: "'Rajdhani', sans-serif",
+                fontSize: 'clamp(8px, 2vw, 10px)',
+                letterSpacing: 'clamp(1px, 0.5vw, 2px)',
+                fontWeight: 700,
+                padding: '8px 14px',
+              }}
+              onMouseEnter={(e: MouseEvent<HTMLAnchorElement>) => {
+                e.currentTarget.style.backgroundColor = '#A82424';
+              }}
+              onMouseLeave={(e: MouseEvent<HTMLAnchorElement>) => {
+                e.currentTarget.style.backgroundColor = '#C42B2B';
+              }}
+            >
+              {(t as any).nav_registration ?? 'REJESTRACJA'}
+            </a>
+          )}
 
           {/* Mobile Hamburger Menu */}
           <button
@@ -372,6 +386,8 @@ export function NavBar({
               <a
                 key={link.href}
                 href={link.href}
+                target={link.target ? '_blank' : undefined}
+                rel={link.target ? 'noopener noreferrer' : undefined}
                 onClick={() => setMobileMenuOpen(false)}
                 className="flex items-center h-12 border-b"
                 style={{
