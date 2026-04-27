@@ -1,12 +1,23 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta name="robots" content="noindex, nofollow" />
-		<title>CMS — Cerberus K9</title>
-	</head>
-	<body>
-		<script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>CMS — Cerberus K9</title>
+  </head>
+  <body>
+    <script src="https://unpkg.com/decap-cms@3.12.2/dist/decap-cms.js"></script>
+    <script src="https://unpkg.com/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script>
+      window.addEventListener('load', function() {
+        fetch('/admin/config.yml')
+          .then(function(r) { return r.text(); })
+          .then(function(yaml) {
+            var config = jsyaml.load(yaml);
+            CMS.init({ config: config });
+          });
+      });
+    </script>
+  </body>
 </html>
