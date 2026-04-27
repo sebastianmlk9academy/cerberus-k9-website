@@ -17,10 +17,8 @@
         .then(function(r) { return r.text(); })
         .then(function(text) {
           var config = jsyaml.load(text);
+          config.load_config_file = false;
           CMS.init({ config: config });
-        })
-        .catch(function(err) {
-          console.error('Config load error:', err);
         });
     </script>
   </body>
