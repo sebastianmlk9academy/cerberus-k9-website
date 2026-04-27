@@ -407,8 +407,37 @@ collections:
           - { label: Liczba krajów (wyświetlana), name: countries_count, widget: string, default: "15+" }
           - { label: Liczba psów (wyświetlana), name: dogs_count, widget: string, default: "80+" }
           - { label: Liczba modułów (wyświetlana), name: modules_count, widget: string, default: "8" }
+          - name: hero_title
+            label: "Hero — Nazwa (np. CERBERUS)"
+            widget: string
+            default: "CERBERUS"
+            hint: "Pierwsza linia nagłówka h1 na stronie głównej"
+          - name: hero_subtitle
+            label: "Hero — Podtytuł (np. K9)"
+            widget: string
+            default: "K9"
+          - name: hero_year
+            label: "Hero — Rok edycji"
+            widget: string
+            default: "2026"
+            hint: "Wyświetlany przy nazwie w nagłówku h1"
           - { label: URL Pretix (rejestracja), name: pretix_url, widget: string }
           - { label: URL video hero (opcjonalnie), name: hero_video_url, widget: string, required: false }
+          - name: hero_video_href
+            label: "Hero — URL wideo YouTube"
+            widget: string
+            required: false
+            hint: "Link do relacji wideo otwierany w iframe"
+            pattern: ['^https?://.*', "Musi zaczynać się od https://"]
+          - name: hero_video_title
+            label: "Hero — Tytuł iframe wideo"
+            widget: string
+            required: false
+            default: "CERBERUS K9 2026 — Relacja"
+          - name: hero_close_label_pl
+            label: "Hero — Etykieta przycisku zamknięcia"
+            widget: string
+            default: "ZAMKNIJ"
           - { label: "Tło Hero — zdjęcie", name: hero_background_image, widget: image, required: false }
           - label: "Tło Hero — przezroczystość (0.1–1.0)"
             name: hero_background_opacity
@@ -419,6 +448,16 @@ collections:
             step: 0.05
           - { label: Domena Plausible, name: plausible_domain, widget: string }
           - { label: Rejestracja aktywna, name: registration_active, widget: boolean, default: true }
+          - name: hero_cta_registration_href
+            label: "Hero CTA — URL rejestracji (nadpisuje pretix_url)"
+            widget: string
+            required: false
+            hint: "Jeśli puste — używa pretix_url. Np. /pl/rejestracja"
+          - name: hero_cta_program_href
+            label: "Hero CTA — URL programu"
+            widget: string
+            required: false
+            default: "/pl/o-wydarzeniu#agenda"
           - { label: HARDEST HIT aktywny, name: hardest_hit_active, widget: boolean, default: true }
           - { label: Pasek powiadomień aktywny, name: notification_bar_active, widget: boolean, default: false }
           - { label: Tekst paska powiadomień, name: notification_bar_text, widget: string, required: false }
@@ -471,6 +510,41 @@ collections:
           - { label: "Kontakt media — telefon", name: media_contact_phone, widget: string }
           - { label: "Kontakt media — email", name: media_contact_email, widget: string }
           - { label: "Email Prezesa", name: president_email, widget: string }
+          - name: contact_phone_sebastian
+            label: "Kontakt — Telefon Sebastian"
+            widget: string
+            required: false
+            pattern: ['^\+?[0-9 ()-]{7,}$', "Nieprawidłowy numer telefonu"]
+          - name: contact_phone_mariusz
+            label: "Kontakt — Telefon Mariusz (Prezes)"
+            widget: string
+            required: false
+          - name: contact_president_email
+            label: "Kontakt — Email Prezesa (Mariusz)"
+            widget: string
+            required: false
+            pattern: ['^[^@]+@[^@]+\.[^@]+$', "Nieprawidłowy email"]
+          - name: contact_address_street
+            label: "Kontakt — Ulica i numer"
+            widget: string
+            required: false
+          - name: contact_address_city
+            label: "Kontakt — Miasto"
+            widget: string
+            required: false
+          - name: contact_address_zip
+            label: "Kontakt — Kod pocztowy"
+            widget: string
+            required: false
+          - name: contact_map_embed_url
+            label: "Kontakt — URL mapy (embed)"
+            widget: string
+            required: false
+            hint: "URL OpenStreetMap lub Google Maps embed"
+          - name: contact_venue_address
+            label: "Kontakt — Adres miejsca wydarzenia (pod mapą)"
+            widget: string
+            required: false
           - { label: "Mapa embed URL", name: map_embed_url, widget: string, required: false }
           - { label: "Adres lokalizacji (kontakt)", name: venue_address, widget: string }
           - label: "Formularz kontaktowy — endpoint (POST)"
@@ -916,6 +990,24 @@ collections:
               - { label: "Etykieta (EN)", name: label_en, widget: string }
               - { label: "Ścieżka (bez języka)", name: path, widget: string,
                   hint: "Np. o-wydarzeniu, instruktorzy, kontakt" }
+              - name: target
+                label: "Otwórz w nowej karcie?"
+                widget: boolean
+                default: false
+                hint: "true = target='_blank' rel='noopener noreferrer'"
+              - name: icon
+                label: "Ikona (opcjonalna, nazwa z Lucide)"
+                widget: string
+                required: false
+                hint: "Np. Shield, Star, Calendar — pusta = brak ikony"
+              - name: label_de
+                label: "Etykieta DE"
+                widget: string
+                required: false
+              - name: label_fr
+                label: "Etykieta FR"
+                widget: string
+                required: false
               - { label: "Kolejność", name: order, widget: number }
               - { label: "Aktywny", name: active, widget: boolean, default: true }
 
