@@ -105,3 +105,28 @@ gallery_video_3_badge: ""
 gallery_video_4_title: ""
 gallery_video_4_url: ""
 gallery_video_4_badge: ""
+
+# --- Hero / Countdown ---
+hero_title: "CERBERUS"
+hero_subtitle: "K9"
+hero_year: "2026"
+hero_cta_registration_href: ""
+hero_cta_program_href: ""
+hero_video_href: ""
+hero_video_title: "CERBERUS K9 2026 — Relacja"
+hero_close_label_pl: "ZAMKNIJ"
+# --- Rejestracja ---
+# --- Kontakt ---
+contact_phone_sebastian: ""
+contact_phone_mariusz: ""
+contact_address_street: "ul. Odolanowska 8"
+contact_address_city: "Ostrów Wielkopolski"
+contact_address_zip: "63-400"
+contact_address_country_pl: "Polska"
+contact_address_country_en: "Poland"
+contact_map_embed_url: ""
+contact_venue_address: ""
+contact_president_email: ""
+# --- Footer / Nav ---
+footer_instagram_url: ""
+nav_registration_active: true
