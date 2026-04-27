@@ -318,6 +318,52 @@ const ustawienia = defineCollection({
 		gallery_video_4_title: z.string().optional().default(''),
 		gallery_video_4_url: z.string().optional().default(''),
 		gallery_video_4_badge: z.string().optional().default(''),
+		hero_tagline: z.string().optional(),
+		hero_meta_locations: z.string().optional(),
+		hero_meta_delegations: z.string().optional(),
+		hero_meta_entry: z.string().optional(),
+		participants_registered: z.number().optional(),
+		registration_deadline_text: z.string().optional(),
+		current_competitor: z.string().optional(),
+		grants_approved: z.number().optional(),
+		volunteers_count: z.number().optional(),
+	}),
+});
+
+const registration_info = defineCollection({
+	loader: glob({ base: './src/content', pattern: 'registration_info.{yml,yaml}' }),
+	schema: z.object({
+		reg_date_display: z.string(),
+		reg_prep_day: z.string().optional().default(''),
+		reg_venues: z.string(),
+		reg_city: z.string(),
+		reg_contact_email: z.string(),
+		reg_contact_phone: z.string(),
+		reg_entry_text: z.string().optional().default(''),
+		reg_deadline_text: z.string().optional().default(''),
+		reg_limit_text: z.string().optional().default(''),
+	}),
+});
+
+const kontakt_content = defineCollection({
+	loader: glob({ base: './src/content', pattern: 'kontakt_content.{yml,yaml}' }),
+	schema: z.object({
+		contact_address: z.string(),
+		contact_email: z.string(),
+		contact_phone: z.string(),
+		contact_map_embed_url: z.string().optional().default(''),
+		contact_gdpr_text_pl: z.string(),
+		contact_gdpr_text_en: z.string(),
+		contact_form_endpoint: z.string().optional().default(''),
+		contact_form_recipient: z.string(),
+		media_contact_name: z.string().optional().default(''),
+		media_contact_phone: z.string().optional().default(''),
+		media_contact_email: z.string().optional().default(''),
+		president_email: z.string().optional().default(''),
+		accreditation_deadline: z.string().optional().default(''),
+		partner_cta_href: z.string().optional().default(''),
+		sponsor_offer_pdf: z.string().optional().default(''),
+		sponsor_contact_email: z.string().optional().default(''),
 	}),
 });
 
@@ -385,7 +431,7 @@ const galleryCategorySchema = z.preprocess(
 const galeria = defineCollection({
 	loader: glob({ base: './src/content/galeria', pattern: '**/*.{md,mdx}' }),
 	schema: z.object({
-		title: z.string(),
+		title: z.string().optional().default(''),
 		date: z.string().optional(),
 		category: galleryCategorySchema,
 		location: z.string(),
@@ -394,6 +440,7 @@ const galeria = defineCollection({
 		alt: z.string(),
 		tags: z.array(z.string()).optional(),
 		order: z.number().int().optional(),
+		active: z.boolean().optional().default(true),
 	}),
 });
 
@@ -609,4 +656,6 @@ export const collections = {
 	agenda_ui,
 	fundacja_content,
 	nav_links,
+	registration_info,
+	kontakt_content,
 };

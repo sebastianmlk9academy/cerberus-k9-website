@@ -1,0 +1,1045 @@
+/**
+ * Generates public/admin/config.yml — page-first Decap architecture.
+ * Run: node scripts/build-cms-config.mjs
+ */
+import { writeFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+import { stringify } from 'yaml';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const root = join(__dirname, '..');
+
+const H = (s) => s; // hint
+
+function f(name, label, widget, hint, extra = {}) {
+  const o = { name, label, widget, hint: H(hint), ...extra };
+  if (o.required === undefined) delete o.required;
+  return o;
+}
+
+function countFields(x) {
+  if (Array.isArray(x)) return x.reduce((a, b) => a + countFields(b), 0);
+  if (x && typeof x === 'object') {
+    if (x.widget) return 1 + (x.fields ? countFields(x.fields) : 0);
+    if (x.fields) return countFields(x.fields);
+  }
+  return 0;
+}
+
+const boolHint =
+  'true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany.';
+
+const imgHint = (w, h, where) =>
+  `Zalecany format: WebP. Rozmiar: ${w}×${h}px. ${where}`;
+
+const urlHint = 'Wklej pełny adres URL z https://';
+
+const ustawieniaFields = [
+  f('event_date', '📅 Data startu wydarzenia', 'datetime', 'Używana w odliczaniu na stronie głównej i w JSON-LD wydarzenia.', {
+    required: true,
+    format: 'YYYY-MM-DD',
+    date_format: 'DD.MM.YYYY',
+    time_format: false,
+  }),
+  f('event_date_end', '📅 Data końca wydarzenia', 'datetime', 'Data zakończenia — JSON-LD i nagłówki agendy.', {
+    required: true,
+    format: 'YYYY-MM-DD',
+    date_format: 'DD.MM.YYYY',
+    time_format: false,
+  }),
+  f('event_time_start', '⏰ Godzina startu (HH:MM)', 'string', 'Start pierwszego dnia — licznik czasu na stronie głównej.', {
+    required: true,
+    default: '09:00',
+    pattern: ['^\\d{2}:\\d{2}$', 'Format 24h np. 09:00'],
+  }),
+  f('event_time_end', '⏰ Godzina końca (HH:MM)', 'string', 'Koniec ostatniego dnia — metadane wydarzenia.', {
+    required: true,
+    default: '18:00',
+    pattern: ['^\\d{2}:\\d{2}$', 'Format 24h np. 18:00'],
+  }),
+  f('event_city', '🏙️ Miasto wydarzenia', 'string', 'Miasto w schemacie wydarzenia i treściach kontaktowych.', { required: true }),
+  f('event_venue', '🏟️ Główna lokalizacja (nazwa)', 'string', 'Nazwa miejsca w JSON-LD i komunikatach.', { required: true }),
+  f('event_timezone', '🌍 Strefa czasowa (IANA)', 'string', 'Strefa odliczania hero; np. Europe/Warsaw.', { required: false, default: 'Europe/Warsaw' }),
+  f('hero_tagline', '✨ Tekst nad tytułem (tag-line)', 'string', 'Krótka linia nad H1 na stronie głównej (gdy podłączysz pole w szablonie).', { required: false }),
+  f('hero_title', '🦁 Pierwsza linia tytułu H1', 'string', 'Pierwsza linia dużego nagłówka hero.', { required: false, default: 'CERBERUS' }),
+  f('hero_subtitle', '🎯 Akcent w tytule (np. K9)', 'string', 'Drugie słowo w drugiej linii H1.', { required: false, default: 'K9' }),
+  f('hero_year', '📆 Rok w nagłówku', 'string', 'Rok edycji przy drugiej linii H1.', { required: false, default: '2026' }),
+  f('hero_meta_locations', '📍 Meta hero — lokalizacje', 'text', 'Rezerwa pod spięcie trzech meta-bloków hero z CMS.', { required: false }),
+  f('hero_meta_delegations', '🤝 Meta hero — delegacje', 'text', 'Rezerwa pod treść meta wiersza o delegacjach.', { required: false }),
+  f('hero_meta_entry', '🎫 Meta hero — wejście', 'text', 'Rezerwa pod treść meta wiersza o wejściu/wstępie.', { required: false }),
+  f('participants_count', '👥 Uczestnicy (tekst statystyki)', 'string', 'Wartość w pasku statystyk gdy brak wpisów homepage_stats.', { required: true, default: '250+' }),
+  f('countries_count', '🌐 Kraje (tekst statystyki)', 'string', 'Wartość w pasku statystyk — fallback.', { required: true, default: '15+' }),
+  f('dogs_count', '🐕 Psy K9 (tekst)', 'string', 'Tekst liczby psów w statystykach.', { required: true, default: '80+' }),
+  f('modules_count', '📚 Moduły (tekst)', 'string', 'Tekst liczby modułów w statystykach.', { required: true, default: '8' }),
+  f('participants_registered', '🔢 Zarejestrowani (liczba)', 'number', 'Opcjonalna liczba pod kampanie lub banery po podpięciu.', { required: false, value_type: 'int', min: 0, max: 100000, default: 0 }),
+  f('pretix_url', '🎟️ URL sklepu Pretix', 'string', 'Rejestracja — przyciski i embed na /rejestracja.', { required: true, pattern: ['^https?://.*', urlHint] }),
+  f('registration_active', '✅ Rejestracja w menu', 'boolean', boolHint, { required: true, default: true }),
+  f('registration_deadline_text', '⏳ Deadline rejestracji (tekst)', 'string', 'Tekst terminu zapisów w panelu rejestracji.', { required: false }),
+  f('notification_bar_active', '📣 Pasek powiadomień', 'boolean', boolHint, { required: false, default: false }),
+  f('notification_bar_text', '📣 Tekst paska', 'string', 'Treść paska nad stroną gdy aktywny.', { required: false }),
+  f('notification_bar_url', '📣 Link paska', 'string', 'URL po kliknięciu paska; ' + urlHint, { required: false, pattern: ['^https?://.*', urlHint] }),
+  f('live_mode_active', '🔴 Tryb LIVE', 'boolean', boolHint, { required: false, default: false }),
+  f('current_competitor', '🏅 Aktualny uczestnik (LIVE)', 'string', 'Tekst relacji na żywo po podpięciu UI.', { required: false }),
+  f('social_facebook', '📘 Facebook URL', 'string', 'Ikona Facebook w stopce.', { required: true, pattern: ['^https?://.*', urlHint] }),
+  f('social_youtube', '📺 YouTube URL', 'string', 'Ikona YouTube w stopce.', { required: true, pattern: ['^https?://.*', urlHint] }),
+  f('social_instagram', '📸 Instagram URL', 'string', 'Ikona Instagram w stopce; puste = fallback.', { required: false, pattern: ['^https?://.*', urlHint] }),
+  f('social_linkedin', '💼 LinkedIn URL', 'string', 'Ikona LinkedIn w stopce.', { required: false, pattern: ['^https?://.*', urlHint] }),
+  f('social_twitter', '🐦 X / Twitter URL', 'string', 'Ikona X w stopce.', { required: false, pattern: ['^https?://.*', urlHint] }),
+  f('footer_email', '✉️ E-mail w stopce', 'string', 'Kontakt w stopce każdej podstrony.', { required: true }),
+  f('footer_phone', '📞 Telefon w stopce', 'string', 'Telefon w stopce i blokach kontaktowych.', { required: true }),
+  f('footer_address', '🏠 Adres fundacji', 'string', 'Adres w stopce i danych prawnych.', { required: true }),
+  f('footer_foundation_name', '🏛️ Nazwa fundacji', 'string', 'Nazwa organizacji w stopce.', { required: true }),
+  f('footer_domains', '🌐 Domeny (tekst stopki)', 'string', 'Lista domen w stopce.', { required: false }),
+  f('krs_number', '📋 KRS', 'string', 'Numer KRS w stopce.', { required: true }),
+  f('nip_number', '📋 NIP', 'string', 'NIP w stopce.', { required: true }),
+  f('regon_number', '📋 REGON', 'string', 'REGON w stopce.', { required: true }),
+  f('site_url', '🔗 Kanoniczny URL strony', 'string', 'SEO, Open Graph i JSON-LD.', { required: true, pattern: ['^https?://.*', urlHint] }),
+  f('og_image_default', '🖼️ Domyślny obraz Open Graph', 'image', imgHint(1200, 630, 'Udostępnianie linków w social media.'), { required: false, choose_url: true }),
+  f('og_site_name', '🏷️ OG — nazwa witryny', 'string', 'Pole og:site_name.', { required: false, default: 'CERBERUS K9' }),
+  f('plausible_domain', '📊 Domena Plausible', 'string', 'Śledzenie ruchu — atrybut data-domain skryptu.', { required: true }),
+  f('pwa_name', '📱 PWA — pełna nazwa', 'string', 'Nazwa przy dodaniu do ekranu głównego.', { required: false, default: 'CERBERUS K9' }),
+  f('pwa_short_name', '📱 PWA — krótka nazwa', 'string', 'Krótka nazwa pod ikoną.', { required: false, default: 'CERBERUS K9' }),
+  f('pwa_theme_color', '🎨 PWA — kolor motywu', 'string', 'Kolor motywu (hex).', { required: false, default: '#0F1720' }),
+  f('main_video_youtube', '🎬 Główne wideo YouTube', 'string', 'Główny film w sekcji wideo na stronie głównej.', { required: false, pattern: ['^https?://.*', urlHint] }),
+  f('main_video_title', '🎬 Tytuł głównego wideo', 'string', 'Tytuł przy odtwarzaczu głównym.', { required: false }),
+  f('video_url_2', '🎬 Wideo 2 — URL', 'string', 'Drugi film w siatce wideo.', { required: false, pattern: ['^https?://.*', urlHint] }),
+  f('video_badge_2', '🏷️ Wideo 2 — odznaka', 'string', 'Etykieta przy drugim filmie.', { required: false }),
+  f('video_url_3', '🎬 Wideo 3 — URL', 'string', 'Trzeci film w siatce.', { required: false, pattern: ['^https?://.*', urlHint] }),
+  f('video_badge_3', '🏷️ Wideo 3 — odznaka', 'string', 'Etykieta przy trzecim filmie.', { required: false }),
+  f('video_url_4', '🎬 Wideo 4 — URL', 'string', 'Czwarty film (dolny rząd).', { required: false, pattern: ['^https?://.*', urlHint] }),
+  f('video_badge_4', '🏷️ Wideo 4 — odznaka', 'string', 'Etykieta przy czwartym filmie.', { required: false }),
+  f('video_badge_1', '🏷️ Główne wideo — odznaka', 'string', 'Linia tekstu nad głównym odtwarzaczem.', { required: false }),
+  f('nav_logo', '🖼️ Logo w nawigacji', 'image', imgHint(240, 80, 'Lewy górny róg nawigacji.'), { required: false, choose_url: true }),
+  f('nav_logo_alt', '♿ Logo — tekst alt', 'string', 'Dostępność — opis logo.', { required: true, default: 'CERBERUS K9 Logo' }),
+  f('hero_background_image', '🖼️ Tło sekcji Hero', 'image', imgHint(1920, 1080, 'Tło za treścią hero na stronie głównej.'), { required: false, choose_url: true }),
+  f('hero_background_opacity', '🌫️ Tło Hero — krycie', 'number', 'Nieprzezroczystość zdjęcia tła (0.1–1).', { required: false, default: 0.4, min: 0.1, max: 1, step: 0.05 }),
+  f('apple_touch_icon', '🍎 Apple Touch Icon', 'image', imgHint(180, 180, 'iOS — dodanie do ekranu głównego.'), { required: false, choose_url: true }),
+  f('favicon_svg', '⭐ Favicon SVG', 'image', imgHint(64, 64, 'Ikona zakładki przeglądarki.'), { required: false, choose_url: true }),
+  f('grants_approved', '💶 Zatwierdzone dotacje (liczba)', 'number', 'Opcjonalnie pod banery grantowe.', { required: false, value_type: 'int', min: 0, default: 0 }),
+  f('volunteers_count', '🙋 Wolontariusze (liczba)', 'number', 'Liczba wolontariuszy po podpięciu UI.', { required: false, value_type: 'int', min: 0, default: 0 }),
+  f('gallery_unlock_date', '🔓 Data odblokowania galerii', 'datetime', 'Po tej dacie widoczna galeria edycji bieżącej na /galeria.', { required: false, format: 'YYYY-MM-DD', date_format: 'DD.MM.YYYY', time_format: false }),
+  f('brand_name', '✒️ Nazwa marki (nav)', 'string', 'Tekst obok logo w pasku nawigacji.', { required: false, default: 'CERBERUS K9' }),
+  f('brand_tagline', '✒️ Podtytuł marki', 'string', 'Mały tekst pod marką w nawigacji.', { required: false, default: 'INTERNATIONAL DEFENSE PLATFORM' }),
+  f('hero_cta_registration_href', '🔗 CTA hero — rejestracja', 'string', 'Nadpisuje link przycisku rejestracji na hero.', { required: false }),
+  f('hero_cta_program_href', '🔗 CTA hero — program', 'string', 'Link przycisku programu na hero.', { required: false, default: '/pl/o-wydarzeniu#agenda' }),
+  f('hero_video_href', '🎥 Hero — URL wideo (modal)', 'string', 'YouTube z przycisku relacji na hero.', { required: false, pattern: ['^https?://.*', urlHint] }),
+  f('hero_video_title', '🎥 Hero — tytuł iframe', 'string', 'Tytuł dostępnościowy iframe wideo.', { required: false }),
+  f('hero_close_label_pl', '❎ Hero — przycisk zamknięcia', 'string', 'Etykieta zamykania modala wideo.', { required: false, default: 'ZAMKNIJ' }),
+  f('registration_date_display', '📅 Rejestracja — wyświetlany termin', 'string', 'Termin obok widgetu Pretix.', { required: false }),
+  f('registration_prep_day', '📅 Dzień przygotowawczy', 'string', 'Tekst dnia przygotowawczego przy rejestracji.', { required: false }),
+  f('registration_venues', '🏟️ Lokalizacje (tekst)', 'string', 'Lista miejsc przy panelu rejestracji.', { required: false }),
+  f('registration_city', '🏙️ Miasto (rejestracja)', 'string', 'Miasto przy danych rejestracyjnych.', { required: false }),
+  f('registration_contact_email', '✉️ E-mail do rejestracji', 'string', 'Kontakt przy pytaniach o zapisy.', { required: false }),
+  f('registration_contact_phone', '📞 Telefon do rejestracji', 'string', 'Telefon przy pytaniach o zapisy.', { required: false }),
+  f('partner_cta_href', '🤝 CTA „Zostań partnerem”', 'string', 'Link w sekcji partnerów na stronie głównej.', { required: false }),
+  f('twitter_handle', '🐦 Handle X (meta)', 'string', 'Twitter Card — handle.', { required: false, default: '@cerberusk9' }),
+  f('statute_pdf', '📄 Statut fundacji (URL)', 'string', 'PDF statutu — link na /fundacja.', { required: true }),
+  f('krs_url', '🔗 KRS — rejestr', 'string', 'Link weryfikacji KRS.', { required: true, pattern: ['^https?://.*', urlHint] }),
+  f('default_news_image', '🖼️ Domyślne zdjęcie aktualności', 'image', imgHint(1200, 675, 'Lista aktualności przy braku obrazka.'), { required: false, choose_url: true }),
+  f('instructor_placeholder_photo', '🖼️ Placeholder instruktora', 'image', imgHint(800, 800, 'Karta instruktora przy braku zdjęcia.'), { required: false, choose_url: true }),
+  f('press_kit_zip', '🗜️ Press kit (ZIP URL)', 'string', 'Archiwum materiałów prasowych /media.', { required: false }),
+  f('press_pdf_polska_zbrojna', '📰 PDF Polska Zbrojna', 'string', 'Link do artykułu PDF.', { required: false }),
+  f('press_pdf_special_ops', '📰 PDF Special Ops', 'string', 'Link do artykułu PDF.', { required: false }),
+  f('media_contact_name', '👤 Kontakt media — nazwa', 'string', 'Blok dla mediów na /media.', { required: false }),
+  f('media_contact_phone', '📞 Kontakt media — telefon', 'string', 'Telefon dla dziennikarzy.', { required: false }),
+  f('media_contact_email', '✉️ Kontakt media — e-mail', 'string', 'E-mail akredytacji.', { required: false }),
+  f('president_email', '✉️ E-mail prezesa', 'string', 'Kontakt do prezesa fundacji.', { required: false }),
+  f('accreditation_deadline', '📅 Deadline akredytacji mediów', 'string', 'Termin zgłoszeń akredytacyjnych.', { required: false }),
+  f('sponsor_offer_pdf', '📎 Oferta sponsorska (PDF)', 'string', 'PDF oferty dla sponsorów /partnerzy.', { required: false }),
+  f('sponsor_contact_email', '✉️ E-mail sponsoring', 'string', 'Kontakt ds. sponsorowania.', { required: false }),
+  f('contact_map_embed_url', '🗺️ Kontakt — embed mapy', 'string', 'Iframe mapy na /kontakt.', { required: false, pattern: ['^https?://.*', urlHint] }),
+  f('contact_form_endpoint', '📮 Formularz — endpoint POST', 'string', 'Pusty = Netlify Forms; inny URL = własny backend.', { required: false }),
+  f('contact_form_recipient', '📮 Formularz — odbiorca', 'string', 'E-mail odbiorcy zgłoszeń.', { required: false }),
+  f('contact_gdpr_text_pl', '⚖️ Zgoda RODO (PL)', 'string', 'Tekst zgody przy formularzu PL.', { required: false }),
+  f('contact_gdpr_text_en', '⚖️ Zgoda RODO (EN)', 'string', 'Tekst zgody przy formularzu EN.', { required: false }),
+  f('venue_address', '🏟️ Adres miejsca wydarzenia', 'string', 'Ulica w JSON-LD wydarzenia.', { required: false }),
+  f('map_embed_url', '🗺️ Mapa embed (legacy)', 'string', 'Alternatywne pole mapy w szablonach.', { required: false }),
+  f('contact_phone_sebastian', '📞 Telefon — Sebastian', 'string', 'Dodatkowy numer kontaktowy.', { required: false }),
+  f('contact_phone_mariusz', '📞 Telefon — Mariusz', 'string', 'Telefon prezesa.', { required: false }),
+  f('contact_president_email', '✉️ E-mail prezesa (Mariusz)', 'string', 'Bezpośredni e-mail prezesa.', { required: false }),
+  f('contact_address_street', '🏠 Kontakt — ulica', 'string', 'Część adresu na /kontakt.', { required: false }),
+  f('contact_address_city', '🏠 Kontakt — miasto', 'string', 'Miasto w adresie kontaktowym.', { required: false }),
+  f('contact_address_zip', '🏠 Kontakt — kod pocztowy', 'string', 'Kod pocztowy w adresie.', { required: false }),
+  f('contact_venue_address', '🏟️ Adres pod mapą', 'string', 'Adres pod mapą na stronie kontakt.', { required: false }),
+  f('agenda_page_url', '🔗 Publiczny URL agendy', 'string', 'Kanoniczny link do strony z programem.', { required: false }),
+  f('og_image_width', '📐 OG — szerokość (px)', 'string', 'Meta szerokość obrazu OG.', { required: false, default: '1200' }),
+  f('og_image_height', '📐 OG — wysokość (px)', 'string', 'Meta wysokość obrazu OG.', { required: false, default: '630' }),
+  f('og_image_alt', '♿ OG — opis obrazu', 'string', 'Tekst alternatywny grafiki OG.', { required: false }),
+  f('og_locale', '🌍 OG — locale', 'string', 'np. pl_PL.', { required: false, default: 'pl_PL' }),
+  f('pwa_description', '📱 PWA — opis', 'string', 'Opis aplikacji PWA.', { required: false }),
+  f('pwa_background_color', '🎨 PWA — kolor tła', 'string', 'Kolor tła splash PWA.', { required: false, default: '#0F1720' }),
+  f('cookie_consent_active', '🍪 Baner cookies', 'boolean', boolHint, { required: false, default: false }),
+  f('favicon_ico', '⭐ Favicon ICO (ścieżka)', 'string', 'Ścieżka do favicon.ico.', { required: false, default: '/favicon.ico' }),
+  f('partner_cta_href_full', '🔗 CTA partner — URL pełny', 'string', 'Alternatywny pełny link CTA.', { required: false }),
+  f('hardest_hit_active', '🎯 HARDEST HIT aktywny', 'boolean', boolHint, { required: false, default: true }),
+  f('hero_video_url', '🎥 Hero wideo (legacy)', 'string', 'Starsze pole — kompatybilność.', { required: false }),
+  f('gallery_video_1_title', '🎬 Galeria wideo 1 — tytuł', 'string', 'Tytuł pierwszego wideo w galerii.', { required: false }),
+  f('gallery_video_1_url', '🎬 Galeria wideo 1 — URL', 'string', 'Link pierwszego wideo w galerii.', { required: false, pattern: ['^https?://.*', urlHint] }),
+  f('gallery_video_1_badge', '🏷️ Galeria wideo 1 — odznaka', 'string', 'Etykieta przy pierwszym wideo.', { required: false }),
+  f('gallery_video_2_title', '🎬 Galeria wideo 2 — tytuł', 'string', 'Tytuł drugiego wideo w galerii.', { required: false }),
+  f('gallery_video_2_url', '🎬 Galeria wideo 2 — URL', 'string', 'Link drugiego wideo.', { required: false, pattern: ['^https?://.*', urlHint] }),
+  f('gallery_video_2_badge', '🏷️ Galeria wideo 2 — odznaka', 'string', 'Etykieta przy drugim wideo.', { required: false }),
+  f('gallery_video_3_title', '🎬 Galeria wideo 3 — tytuł', 'string', 'Tytuł trzeciego wideo.', { required: false }),
+  f('gallery_video_3_url', '🎬 Galeria wideo 3 — URL', 'string', 'Link trzeciego wideo.', { required: false, pattern: ['^https?://.*', urlHint] }),
+  f('gallery_video_3_badge', '🏷️ Galeria wideo 3 — odznaka', 'string', 'Etykieta przy trzecim wideo.', { required: false }),
+  f('gallery_video_4_title', '🎬 Galeria wideo 4 — tytuł', 'string', 'Tytuł czwartego wideo.', { required: false }),
+  f('gallery_video_4_url', '🎬 Galeria wideo 4 — URL', 'string', 'Link czwartego wideo.', { required: false, pattern: ['^https?://.*', urlHint] }),
+  f('gallery_video_4_badge', '🏷️ Galeria wideo 4 — odznaka', 'string', 'Etykieta przy czwartym wideo.', { required: false }),
+];
+
+const langCodes = [
+  'pl', 'en', 'de', 'fr', 'hr', 'cs', 'lt', 'lv', 'sk', 'sl', 'hu', 'no', 'sv', 'nl', 'es', 'pt', 'ro', 'it', 'ko',
+];
+const langEmoji = {
+  pl: '🇵🇱',
+  en: '🇬🇧',
+  de: '🇩🇪',
+  fr: '🇫🇷',
+  hr: '🇭🇷',
+  cs: '🇨🇿',
+  lt: '🇱🇹',
+  lv: '🇱🇻',
+  sk: '🇸🇰',
+  sl: '🇸🇮',
+  hu: '🇭🇺',
+  no: '🇳🇴',
+  sv: '🇸🇪',
+  nl: '🇳🇱',
+  es: '🇪🇸',
+  pt: '🇵🇹',
+  ro: '🇷🇴',
+  it: '🇮🇹',
+  ko: '🇰🇷',
+};
+
+function homepageCardFields() {
+  const fields = [
+    f('category', '🏷️ Kategoria karty', 'select', 'Filtr i kolor akcentu karty na stronie głównej.', {
+      required: true,
+      options: ['K9', 'TCCC', 'DRONY', 'KONFERENCJA'],
+    }),
+    f('icon', '✨ Ikona (Lucide)', 'string', 'Opcjonalna nazwa ikony lucide-react.', { required: false }),
+    f('color', '🎨 Kolor akcentu', 'color', 'Kolor lewej krawędzi i nagłówków karty.', { required: false, default: '#C4922A' }),
+  ];
+  for (const code of langCodes) {
+    const e = langEmoji[code] || '🌐';
+    const req = code === 'pl';
+    fields.push(
+      f(`title_${code}`, `${e} Tytuł (${code.toUpperCase()})`, 'string', 'Tytuł karty programu w tym języku — widoczny na stronie głównej.', { required: req }),
+      f(
+        `description_${code}`,
+        `${e} Opis (${code.toUpperCase()})`,
+        'text',
+        'Opis modułu na karcie — sekcja programu na stronie głównej.',
+        { required: req },
+      ),
+      f(`badge_${code}`, `${e} Odznaka (${code.toUpperCase()})`, 'string', 'Krótka etykieta pod opisem karty.', { required: false }),
+    );
+  }
+  fields.push(
+    f('order', '🔢 Kolejność wyświetlania', 'number', 'Niższa liczba = wyżej na stronie. 1 = pierwszy, 99 = ostatni.', {
+      required: false,
+      default: 99,
+      value_type: 'int',
+      min: 0,
+      max: 999,
+    }),
+    f('active', '👁️ Widoczny na stronie', 'boolean', boolHint, { required: false, default: true }),
+  );
+  return fields;
+}
+
+function homepageStatsFields() {
+  return [
+    f('stat_key', '🔑 Klucz statystyki', 'string', 'Unikalny identyfikator wpisu — używany przy mapowaniu fallback.', { required: true }),
+    f('value', '🔢 Wartość (liczba tekst)', 'string', 'Wyświetlana liczba np. 250+, 15+.', { required: true }),
+    {
+      label: '🌐 Etykiety wielojęzyczne',
+      name: 'labels',
+      widget: 'object',
+      hint: 'Podpisy pod liczbami w pasku statystyk — zmiana języka strony wybiera pole.',
+      required: true,
+      fields: langCodes.map((code) =>
+        f(code, `${langEmoji[code] || '🌐'} Etykieta (${code})`, 'string', `Etykieta statystyki w języku ${code.toUpperCase()}.`, {
+          required: code === 'pl',
+        }),
+      ),
+    },
+    f('accent', '🎨 Akcent kolorystyczny', 'select', 'Kolor liczby w pasku statystyk.', {
+      required: false,
+      default: 'gold',
+      options: [
+        { label: 'Złoty', value: 'gold' },
+        { label: 'Czerwony', value: 'red' },
+      ],
+    }),
+    f('order', '🔢 Kolejność wyświetlania', 'number', 'Niższa liczba = wyżej na stronie. 1 = pierwszy, 99 = ostatni.', {
+      required: false,
+      default: 99,
+      value_type: 'int',
+    }),
+    f('active', '👁️ Widoczny na stronie', 'boolean', boolHint, { required: false, default: true }),
+  ];
+}
+
+function locationsFields() {
+  return [
+    f('name', '📍 Nazwa lokalizacji', 'string', 'Nagłówek bloku lokalizacji na stronie głównej i /o-wydarzeniu.', { required: true }),
+    f('address', '🏠 Adres', 'string', 'Adres wyświetlany pod opisem bloku.', { required: false }),
+    ...langCodes.map((code) =>
+      f(
+        `description_${code}`,
+        `${langEmoji[code] || '🌐'} Opis (${code})`,
+        'text',
+        'Opis miejsca w danym języku — sekcja lokalizacji.',
+        { required: code === 'pl' },
+      ),
+    ),
+    f('modules_pl', '📚 Moduły (PL)', 'string', 'Krótka lista modułów przy lokalizacji (PL).', { required: false }),
+    f('modules_en', '📚 Moduły (EN)', 'string', 'Krótka lista modułów (EN).', { required: false }),
+    f('modules_de', '📚 Moduły (DE)', 'string', 'Krótka lista modułów (DE).', { required: false }),
+    f('modules_fr', '📚 Moduły (FR)', 'string', 'Krótka lista modułów (FR).', { required: false }),
+    f('status', '📌 Status', 'select', 'Etykieta statusu w kafelku lokalizacji.', {
+      required: false,
+      default: 'POTWIERDZONE',
+      options: [
+        { label: 'Potwierdzone', value: 'POTWIERDZONE' },
+        { label: 'W trakcie rozmów', value: 'W TRAKCIE ROZMÓW' },
+        { label: 'Planowane', value: 'PLANOWANE' },
+      ],
+    }),
+    f('image', '🖼️ Zdjęcie tła', 'image', imgHint(800, 600, 'Delikatne tło kafelka lokalizacji.'), { required: false, choose_url: true }),
+    f('map_url', '🔗 Link do mapy', 'string', 'Google Maps — ikona/link w bloku.', { required: false, pattern: ['^https?://.*', urlHint] }),
+    f('order', '🔢 Kolejność wyświetlania', 'number', 'Niższa liczba = wyżej na stronie. 1 = pierwszy, 99 = ostatni.', {
+      required: false,
+      default: 1,
+      value_type: 'int',
+    }),
+    f('active', '👁️ Widoczny na stronie', 'boolean', boolHint, { required: false, default: true }),
+  ];
+}
+
+const agendaLangs = [
+  'pl', 'en', 'de', 'fr', 'cs', 'sk', 'hu', 'hr', 'sl', 'lt', 'lv', 'no', 'sv', 'nl', 'es', 'pt', 'ro', 'it', 'ko',
+];
+
+function agendaUiLabelsFile() {
+  const mk = (emojiLabel, hint, blockName, defaults) => ({
+    label: emojiLabel,
+    name: blockName,
+    widget: 'object',
+    hint,
+    fields: agendaLangs.map((code) => {
+      const key = code === 'no' ? 'no' : code;
+      return f(key, `${langEmoji[code] || '🌐'} ${emojiLabel.replace(/^[^\s]+\s/, '')} (${code})`, 'string', `${hint} — wariant ${code.toUpperCase()}.`, {
+        required: code === 'pl',
+        default: defaults[key] ?? defaults.pl ?? '',
+      });
+    }),
+  });
+
+  return {
+    label: '📄 Etykiety interfejsu agendy',
+    name: 'labels',
+    file: 'src/content/agenda_ui/labels.yml',
+    format: 'yaml',
+    fields: [
+      mk('📅 Dodaj do kalendarza', 'Przyciski eksportu ICS na osi agendy.', 'add_to_calendar', {
+        pl: 'DODAJ DO KALENDARZA',
+        en: 'ADD TO CALENDAR',
+        de: 'ZUM KALENDER HINZUFÜGEN',
+        fr: 'AJOUTER AU CALENDRIER',
+        cs: 'PŘIDAT DO KALENDÁŘE',
+        sk: 'PRIDAŤ DO KALENDÁRA',
+        hu: 'HOZZÁADÁS NAPTÁRHOZ',
+        hr: 'DODAJ U KALENDAR',
+        sl: 'DODAJ V KOLEDAR',
+        lt: 'PRIDĖTI Į KALENDORIŲ',
+        lv: 'PIEVIENOT KALENDĀRAM',
+        no: 'LEGG TIL I KALENDER',
+        sv: 'LÄGG TILL I KALENDER',
+        nl: 'AAN KALENDER TOEVOEGEN',
+        es: 'AGREGAR AL CALENDARIO',
+        pt: 'ADICIONAR AO CALENDÁRIO',
+        ro: 'ADĂUGAȚI LA CALENDAR',
+        it: 'AGGIUNGI AL CALENDARIO',
+        ko: '캘린더에 추가',
+      }),
+      mk('🧭 Nawiguj', 'Przycisk nawigacji do miejsca w punkcie programu.', 'navigate', {
+        pl: 'NAWIGUJ',
+        en: 'NAVIGATE',
+        de: 'NAVIGIEREN',
+        fr: 'NAVIGUER',
+        cs: 'NAVIGOVAT',
+        sk: 'NAVIGOVAŤ',
+        hu: 'NAVIGÁLÁS',
+        hr: 'NAVIGIRAJ',
+        sl: 'NAVIGIRAJ',
+        lt: 'NARŠYTI',
+        lv: 'NAVIGĒT',
+        no: 'NAVIGER',
+        sv: 'NAVIGERA',
+        nl: 'NAVIGEREN',
+        es: 'NAVEGAR',
+        pt: 'NAVEGAR',
+        ro: 'NAVIGAȚI',
+        it: 'NAVIGA',
+        ko: '길 안내',
+      }),
+      {
+        label: '📍 Brak lokalizacji',
+        name: 'no_location',
+        widget: 'object',
+        hint: 'Komunikat gdy brak URL mapy przy wydarzeniu agendy.',
+        fields: ['pl', 'en', 'de', 'fr'].map((code) =>
+          f(code, `${langEmoji[code]} Tekst (${code})`, 'string', 'Tekst przy braku podpiętej lokalizacji.', { required: code === 'pl' }),
+        ),
+      },
+      {
+        label: '📭 Brak wydarzeń',
+        name: 'no_events',
+        widget: 'object',
+        hint: 'Komunikat gdy filtr agendy nie zwraca punktów.',
+        fields: ['pl', 'en'].map((code) =>
+          f(code, `${langEmoji[code]} Tekst (${code})`, 'string', 'Tekst pustej listy po filtrze.', { required: code === 'pl' }),
+        ),
+      },
+      {
+        label: '📅 Google Calendar',
+        name: 'google_calendar',
+        widget: 'object',
+        hint: 'Etykieta przycisku eksportu do Google Calendar.',
+        fields: ['pl', 'en'].map((code) =>
+          f(code, `${langEmoji[code]} Tekst`, 'string', 'Etykieta przycisku Google Calendar.', { required: code === 'pl', default: 'GOOGLE CALENDAR' }),
+        ),
+      },
+      {
+        label: '🍎 Apple / iCal',
+        name: 'apple_ical',
+        widget: 'object',
+        hint: 'Etykieta przycisku pliku ICS / Apple Calendar.',
+        fields: ['pl', 'en'].map((code) =>
+          f(code, `${langEmoji[code]} Tekst`, 'string', 'Etykieta przycisku Apple / iCal.', { required: code === 'pl', default: 'APPLE / ICAL' }),
+        ),
+      },
+      {
+        label: '👤 Etykieta prowadzącego',
+        name: 'instructor_label',
+        widget: 'object',
+        hint: 'Prefiks przed nazwiskiem instruktora w agendzie.',
+        fields: ['pl', 'en', 'de', 'fr'].map((code) =>
+          f(code, `${langEmoji[code]} Tekst`, 'string', 'Słowo „Prowadzący” / „Instructor” przed nazwą.', { required: code === 'pl' }),
+        ),
+      },
+      f('ics_organizer_name', '📇 ICS — nazwa organizatora', 'string', 'Nazwa organizatora w pliku kalendarza.', { required: false, default: 'Fundacja PACTA K9' }),
+      f('ics_organizer_email', '📇 ICS — e-mail organizatora', 'string', 'E-mail organizatora w ICS.', { required: false, default: 'sebastian@pactak9.org' }),
+      f('ics_prodid', '📇 ICS — PRODID', 'string', 'Identyfikator producenta kalendarza.', { required: false, default: '-//CERBERUS K9//PL' }),
+    ],
+  };
+}
+
+function i18nFile(code, label) {
+  const navKeys = [
+    ['event', '📅 O wydarzeniu'],
+    ['instructors', '🎖️ Instruktorzy'],
+    ['partners', '🤝 Partnerzy'],
+    ['media', '📺 Media'],
+    ['foundation', '🏛️ Fundacja'],
+    ['gallery', '🖼️ Galeria'],
+    ['contact', '✉️ Kontakt'],
+    ['news', '📰 Aktualności'],
+    ['register', '📝 Rejestracja'],
+  ];
+  const btnKeys = [
+    ['register', '✅ Zarejestruj się'],
+    ['program', '📄 Pobierz program'],
+    ['video', '▶️ Obejrzyj relację'],
+    ['all_news', '📰 Wszystkie aktualności'],
+    ['become_partner', '🤝 Zostań partnerem'],
+    ['read_more', '📖 Czytaj więcej'],
+    ['load_more', '⬇️ Załaduj więcej'],
+  ];
+  const lblKeys = [
+    ['free_admission', '🎫 Bezpłatny wstęp'],
+    ['confirmed', '✔️ Potwierdzone'],
+    ['expand_bio', '⬇️ Rozwiń bio'],
+    ['collapse_bio', '⬆️ Zwiń bio'],
+    ['back_to_news', '↩️ Powrót do aktualności'],
+    ['share', '🔗 Udostępnij'],
+    ['module', '📚 Moduł'],
+    ['schedule', '📅 Harmonogram'],
+    ['instructor_label', '👤 Prowadzący'],
+  ];
+  return {
+    name: code,
+    label,
+    file: `src/content/i18n/${code}.json`,
+    fields: [
+      {
+        label: '🧭 Nawigacja',
+        name: 'nav',
+        widget: 'object',
+        hint: 'Nazwy linków w menu — widoczne w pasku nawigacji po wyborze języka.',
+        fields: navKeys.map(([k, lb]) =>
+          f(k, lb, 'string', `Etykieta linku „${k}” w menu górnym.`, { required: true }),
+        ),
+      },
+      {
+        label: '🔘 Przyciski',
+        name: 'buttons',
+        widget: 'object',
+        hint: 'Teksty przycisków na stronie głównej i listach.',
+        fields: btnKeys.map(([k, lb]) => f(k, lb, 'string', `Tekst przycisku „${k}”.`, { required: true })),
+      },
+      {
+        label: '🏷️ Etykiety',
+        name: 'labels',
+        widget: 'object',
+        hint: 'Krótkie etykiety UI (karty, listy, bio).',
+        fields: lblKeys.map(([k, lb]) => f(k, lb, 'string', `Etykieta „${k}” w interfejsie.`, { required: true })),
+      },
+    ],
+  };
+}
+
+const collections = [
+  {
+    name: 'ustawienia_globalne',
+    label: '⚙️ Ustawienia Globalne',
+    description: 'Główne ustawienia całej strony — data wydarzenia, liczby, linki, social media.',
+    files: [{ name: 'ustawienia', label: '📄 Plik ustawień', file: 'src/content/ustawienia.yml', format: 'yaml', fields: ustawieniaFields }],
+  },
+  {
+    name: 'homepage_cards',
+    label: '🏠 Strona Główna — Karty Programu',
+    description: 'Trzy karty sekcji programu na stronie głównej (K9, TCCC, Drony).',
+    folder: 'src/content/homepage_cards',
+    create: true,
+    delete: true,
+    slug: '{{slug}}',
+    extension: 'md',
+    format: 'frontmatter',
+    fields: homepageCardFields(),
+  },
+  {
+    name: 'homepage_stats',
+    label: '🏠 Strona Główna — Statystyki',
+    description: 'Cztery liczby w pasku statystyk (250+, 15+ krajów itd.).',
+    folder: 'src/content/homepage_stats',
+    create: true,
+    delete: true,
+    slug: '{{slug}}',
+    extension: 'md',
+    format: 'frontmatter',
+    fields: homepageStatsFields(),
+  },
+  {
+    name: 'locations',
+    label: '🏠 Strona Główna — Lokalizacje',
+    description: 'Cztery bloki lokalizacji (3MK Arena, Szkoła Mundurowa, Stadion, Orlen).',
+    folder: 'src/content/locations',
+    create: true,
+    slug: '{{slug}}',
+    extension: 'md',
+    format: 'frontmatter',
+    fields: locationsFields(),
+  },
+  {
+    name: 'program',
+    label: '📅 O Wydarzeniu — Program / Agenda',
+    description: 'Każdy punkt programu w interaktywnej agendzie (godzina, miejsce, kategoria).',
+    folder: 'src/content/program',
+    create: true,
+    delete: true,
+    slug: '{{day}}-{{slug}}',
+    preview_path: 'pl/o-wydarzeniu',
+    extension: 'md',
+    format: 'frontmatter',
+    fields: [
+      f('day', '📅 Dzień (YYYY-MM-DD)', 'string', 'Data dnia agendy — grupowanie punktów.', { required: true }),
+      f('time_start', '⏰ Godzina startu', 'string', 'Godzina rozpoczęcia bloku na osi czasu.', {
+        required: true,
+        pattern: ['^\\d{2}:\\d{2}$', 'Format HH:MM'],
+      }),
+      f('time_end', '⏰ Godzina końca', 'string', 'Godzina zakończenia bloku.', {
+        required: true,
+        pattern: ['^\\d{2}:\\d{2}$', 'Format HH:MM'],
+      }),
+      f('title', '📝 Tytuł punktu', 'string', 'Tytuł w agendzie i w eksporcie kalendarza.', { required: true }),
+      f('description', '📄 Opis (opcjonalnie)', 'text', 'Rozwinięcie punktu — tooltip lub szczegóły.', { required: false }),
+      f('location', '📍 Lokalizacja', 'select', 'Miejsce wydarzenia — wyświetlane przy punkcie agendy.', {
+        required: false,
+        default: 'Arena Główna',
+        options: [
+          'Arena Główna',
+          '3MK Arena',
+          'Szkoła Mundurowa',
+          'Stadion Miejski',
+          'Sala Konferencyjna',
+          'Infrastruktura Orlen',
+          '—',
+        ],
+      }),
+      f('locationMapUrl', '🔗 URL mapy (Google)', 'string', 'Link „Nawiguj” przy punkcie programu.', { required: false, pattern: ['^https?://.*', urlHint] }),
+      f('category', '🏷️ Klucz kategorii', 'string', 'Musi zgadzać się z kluczem w „Kategorie Agendy” (np. K9, TCCC).', { required: true, default: 'K9' }),
+      f('instructor', '👤 Instruktor / prowadzący', 'string', 'Opcjonalne nazwisko przy punkcie programu.', { required: false }),
+      f('order', '🔢 Kolejność wyświetlania', 'number', 'Niższa liczba = wyżej w obrębie dnia.', { required: false, default: 99, value_type: 'int' }),
+      f('active', '👁️ Widoczny na stronie', 'boolean', boolHint, { required: false, default: true }),
+    ],
+  },
+  {
+    name: 'agenda_categories',
+    label: '📅 O Wydarzeniu — Kategorie Agendy',
+    description: 'Kolory i nazwy filtrów agendy (K9, TCCC, Drony itd.).',
+    folder: 'src/content/agenda_categories',
+    create: true,
+    delete: true,
+    slug: '{{slug}}',
+    fields: [
+      f('key', '🔑 Klucz kategorii', 'string', 'Unikalny klucz — powiązany z polem category w programie.', {
+        required: true,
+        pattern: ['^[A-Z0-9_]+$', 'Wielkie litery, cyfry i podkreślniki'],
+      }),
+      f('label_pl', '🇵🇱 Etykieta PL', 'string', 'Nazwa filtra agendy po polsku.', { required: true }),
+      f('label_en', '🇬🇧 Etykieta EN', 'string', 'Nazwa filtra po angielsku.', { required: false }),
+      f('color', '🎨 Kolor (hex)', 'color', 'Kolor paska kategorii na osi czasu.', { required: true, default: '#C4922A' }),
+      f('show_in_filter', '🔘 Pokaż w filtrach', 'boolean', boolHint, { required: false, default: true }),
+      f('show_calendar_button', '📅 Przycisk kalendarza', 'boolean', 'Wyłącz dla przerw bez eksportu ICS.', { required: false, default: true }),
+      f('order', '🔢 Kolejność wyświetlania', 'number', 'Kolejność przycisków filtrów.', { required: false, default: 99 }),
+      f('active', '👁️ Widoczny na stronie', 'boolean', boolHint, { required: false, default: true }),
+    ],
+  },
+  {
+    name: 'agenda_ui',
+    label: '📅 O Wydarzeniu — Napisy Agendy',
+    description: 'Przyciski i etykiety interfejsu agendy w wielu językach.',
+    files: [agendaUiLabelsFile()],
+  },
+  {
+    name: 'faq',
+    label: '📅 O Wydarzeniu — FAQ',
+    description: 'Pytania i odpowiedzi w sekcji Najczęstsze Pytania na /o-wydarzeniu.',
+    folder: 'src/content/faq',
+    create: true,
+    slug: '{{slug}}',
+    extension: 'md',
+    format: 'frontmatter',
+    fields: [
+      f('question_pl', '❓ Pytanie (PL)', 'string', 'Nagłówek akordeonu FAQ po polsku.', { required: true }),
+      f('answer_pl', '💬 Odpowiedź (PL)', 'text', 'Treść odpowiedzi pod spodem akordeonu.', { required: true }),
+      f('question_en', '❓ Pytanie (EN)', 'string', 'Wersja angielska pytania.', { required: false }),
+      f('answer_en', '💬 Odpowiedź (EN)', 'text', 'Wersja angielska odpowiedzi.', { required: false }),
+      f('order', '🔢 Kolejność wyświetlania', 'number', 'Kolejność pytań na stronie.', { required: false, default: 99 }),
+      f('active', '👁️ Widoczny na stronie', 'boolean', boolHint, { required: false, default: true }),
+    ],
+  },
+  {
+    name: 'instruktorzy',
+    label: '🎖️ Instruktorzy — Profile',
+    description: 'Karty instruktorów: zdjęcie, kraj, specjalizacje, bio. Dodaj wpis = nowa karta na /instruktorzy.',
+    folder: 'src/content/instruktorzy',
+    create: true,
+    slug: '{{slug}}',
+    identifier_field: 'name',
+    extension: 'md',
+    format: 'frontmatter',
+    fields: [
+      f('name', '✒️ Imię i nazwisko', 'string', 'Wyświetlane jako tytuł karty instruktora.', { required: true }),
+      f('role', '⭐ Rola / stanowisko', 'string', 'Podtytuł pod nazwiskiem na karcie.', { required: false }),
+      f('country', '🌍 Kraj (nazwa)', 'string', 'Fallback nazwy kraju gdy brak tłumaczenia z kodu.', { required: true }),
+      f('countryCode', '🏴 Kod kraju ISO', 'string', 'Dwuliterowy kod ISO 3166-1 alpha-2 — flaga na karcie.', { required: true }),
+      {
+        label: '🎯 Specjalizacje',
+        name: 'specializations',
+        widget: 'select',
+        multiple: true,
+        required: true,
+        hint: 'Tagi specjalizacji na karcie instruktora — wielokrotny wybór.',
+        options: [
+          'K9 Gryzienie',
+          'K9 Detekcja',
+          'K9 Tropienie SAR',
+          'Pozorant',
+          'TCCC',
+          'TCCC-K9',
+          'Pierwsza Pomoc',
+          'Behawiorysta',
+          'Konferencja - Prelegent',
+          'Drony',
+        ],
+      },
+      f('unit', '🛡️ Jednostka / formacja', 'string', 'Opcjonalna jednostka pod nazwiskiem.', { required: false }),
+      f('module', '📚 Moduł szkoleniowy', 'string', 'Opcjonalny moduł przypisany do instruktora.', { required: false }),
+      f('schedule', '📅 Harmonogram', 'string', 'Opcjonalny opis terminów.', { required: false }),
+      f('languages', '🗣️ Języki', 'string', 'Lista języków prowadzenia.', { required: false, default: 'Polski' }),
+      {
+        label: '👤 Typ uczestnika',
+        name: 'type',
+        widget: 'select',
+        required: false,
+        default: 'Instruktor',
+        hint: 'Typ widoczny w metadanych karty.',
+        options: ['Instruktor', 'Pozorant', 'Lider Grupy', 'Prelegent', 'VIP'],
+      },
+      f('linkedinUrl', '🔗 LinkedIn URL', 'string', 'Opcjonalny link do profilu LinkedIn.', { required: false, pattern: ['^https?://.*', urlHint] }),
+      f('showOnHomepage', '🏠 Pokaż na stronie głównej', 'boolean', 'true = może być promowany na home po logice strony.', { required: false, default: true }),
+      f('bioShort', '📄 Bio krótkie', 'text', 'Skrócony opis na karcie instruktora — maksymalnie 200 znaków.', {
+        required: true,
+        pattern: ['^.{1,200}$', 'Maksymalnie 200 znaków'],
+      }),
+      f('bioFull', '📖 Bio pełne', 'markdown', 'Pełna biografia po rozwinięciu karty.', { required: true }),
+      f('photo', '📸 Zdjęcie', 'image', imgHint(800, 800, 'Zdjęcie portretowe na karcie instruktora.'), { required: true, choose_url: true }),
+      f('order', '🔢 Kolejność wyświetlania', 'number', 'Niższa liczba = wyżej na stronie.', { required: true, default: 0, value_type: 'int', min: 0 }),
+      f('active', '👁️ Widoczny na stronie', 'boolean', boolHint, { required: false, default: true }),
+    ],
+  },
+  {
+    name: 'registration_info',
+    label: '📋 Rejestracja — Informacje Boczne',
+    description: 'Sidebar obok formularza Pretix: termin, miejsce, deadline, kontakt.',
+    files: [
+      {
+        name: 'registration_info',
+        label: '📄 Informacje rejestracji',
+        file: 'src/content/registration_info.yml',
+        format: 'yaml',
+        fields: [
+          f('reg_date_display', '📅 Wyświetlany termin', 'string', 'Tekst terminu w panelu obok formularza.', { required: true }),
+          f('reg_prep_day', '📅 Dzień przygotowawczy', 'string', 'Opis dnia przygotowawczego w sidebarze.', { required: false }),
+          f('reg_venues', '🏟️ Lokalizacje', 'string', 'Lista miejsc wydarzenia w panelu bocznym.', { required: true }),
+          f('reg_city', '🏙️ Miasto', 'string', 'Miasto przy danych rejestracji.', { required: true }),
+          f('reg_contact_email', '✉️ E-mail kontaktowy', 'string', 'Kontakt przy pytaniach o zapisy.', { required: true }),
+          f('reg_contact_phone', '📞 Telefon kontaktowy', 'string', 'Telefon przy pytaniach o zapisy.', { required: true }),
+          f('reg_entry_text', '🎫 Tekst o wstępie', 'text', 'Opis wstępu / zasad udziału obok formularza.', { required: false }),
+          f('reg_deadline_text', '⏳ Tekst deadline', 'string', 'Komunikat o końcu zapisów.', { required: false }),
+          f('reg_limit_text', '⚠️ Tekst limitu miejsc', 'string', 'Ostrzeżenie o limitowanych miejscach.', { required: false }),
+        ],
+      },
+    ],
+  },
+  {
+    name: 'team',
+    label: '🏛️ Fundacja — Zarząd',
+    description: 'Karty członków zarządu Fundacji PACTA K9 na /fundacja.',
+    folder: 'src/content/team',
+    create: true,
+    slug: '{{slug}}',
+    extension: 'md',
+    format: 'frontmatter',
+    fields: [
+      f('name', '✒️ Imię i nazwisko', 'string', 'Nagłówek karty członka zarządu.', { required: true }),
+      f('role', '⭐ Rola', 'string', 'Funkcja w zarządzie na karcie.', { required: true }),
+      f('photo', '📸 Zdjęcie', 'image', imgHint(600, 600, 'Portret w sekcji zarządu.'), { required: false, choose_url: true }),
+      f('unit', '🛡️ Jednostka / organizacja', 'string', 'Opcjonalna linia pod nazwiskiem.', { required: false }),
+      f('bio_short', '📄 Bio krótkie', 'text', 'Krótki opis na karcie członka zarządu.', { required: true }),
+      f('email', '✉️ E-mail', 'string', 'Opcjonalny kontakt na karcie.', { required: false }),
+      f('linkedin', '🔗 LinkedIn', 'string', 'Opcjonalny link LinkedIn.', { required: false, pattern: ['^https?://.*', urlHint] }),
+      f('order', '🔢 Kolejność wyświetlania', 'number', 'Kolejność kart na stronie fundacji.', { required: false, default: 99 }),
+      f('active', '👁️ Widoczny na stronie', 'boolean', boolHint, { required: false, default: true }),
+    ],
+  },
+  {
+    name: 'fundacja_content',
+    label: '🏛️ Fundacja — Treści',
+    description: 'Misja, Wizja, Cele statutowe, Dane rejestrowe na /fundacja.',
+    files: [
+      {
+        name: 'content',
+        label: '📄 Treści strony Fundacja',
+        file: 'src/content/fundacja_content/content.yml',
+        format: 'yaml',
+        fields: [
+          f('mission_pl', '🎯 Misja (PL)', 'text', 'Blok misji po polsku.', { required: true }),
+          f('mission_en', '🎯 Misja (EN)', 'text', 'Blok misji po angielsku.', { required: false }),
+          f('vision_pl', '🔭 Wizja (PL)', 'text', 'Blok wizji po polsku.', { required: true }),
+          f('vision_en', '🔭 Wizja (EN)', 'text', 'Blok wizji po angielsku.', { required: false }),
+          {
+            label: '📋 Cele statutowe (PL)',
+            name: 'goals_pl',
+            widget: 'list',
+            hint: 'Lista punktów celów — lista na stronie fundacji.',
+            fields: [f('goal', '📝 Cel', 'text', 'Jeden punkt listy celów statutowych.', { required: true })],
+          },
+          {
+            label: '📋 Cele statutowe (EN)',
+            name: 'goals_en',
+            widget: 'list',
+            required: false,
+            hint: 'Angielska lista celów — opcjonalnie.',
+            fields: [f('goal', '📝 Goal', 'text', 'Jeden punkt listy (EN).', { required: true })],
+          },
+          f('registration_court', '⚖️ Sąd rejestrowy', 'string', 'Nazwa sądu w tabeli danych rejestrowych.', { required: true }),
+          f('registration_date', '📅 Data rejestracji', 'string', 'Rok lub data wpisu do KRS.', { required: true }),
+          f('legal_status_pl', '📜 Status prawny (PL)', 'string', 'Forma prawna w sekcji danych.', { required: true }),
+        ],
+      },
+    ],
+  },
+  {
+    name: 'partnerzy',
+    label: '🤝 Partnerzy — Lista',
+    description: 'Logo, typ, opis i link każdego partnera — /partnerzy i pasek na stronie głównej.',
+    folder: 'src/content/partnerzy',
+    create: true,
+    slug: '{{slug}}',
+    identifier_field: 'name',
+    extension: 'md',
+    format: 'frontmatter',
+    fields: [
+      f('name', '✒️ Nazwa partnera', 'string', 'Nagłówek karty i pasek partnerów.', { required: true }),
+      {
+        label: '🏷️ Typ partnera',
+        name: 'type',
+        widget: 'select',
+        required: true,
+        hint: 'Typ decyduje o kolorze etykiety na karcie.',
+        options: ['Strategiczny', 'Sponsor', 'Patron Medialny', 'Technologiczny'],
+      },
+      f('logo', '🖼️ Logo', 'image', imgHint(300, 120, 'Logo partnera na karcie i w pasku partnerów.'), { required: false, choose_url: true }),
+      f('website', '🔗 Strona WWW', 'string', 'Link do strony partnera.', { required: false, pattern: ['^https?://.*', urlHint] }),
+      f('website_label', '🏷️ Etykieta linku WWW', 'string', 'Tekst linku zamiast „strona www”.', { required: false }),
+      f('description', '📄 Opis', 'text', 'Krótki opis działalności partnera na karcie.', { required: false }),
+      f('order', '🔢 Kolejność wyświetlania', 'number', 'Kolejność na stronie /partnerzy.', { required: false, default: 0, value_type: 'int', min: 0 }),
+      f('show_in_strip', '📜 Pokaż w pasku na stronie głównej', 'boolean', 'true = logo w scrollującym pasku partnerów na home.', { required: false, default: true }),
+      f('strip_order', '🔢 Kolejność w pasku', 'number', 'Kolejność w poziomym pasku na stronie głównej.', { required: false, default: 99 }),
+      f('active', '👁️ Widoczny na stronie', 'boolean', boolHint, { required: false, default: true }),
+    ],
+  },
+  {
+    name: 'media_archive',
+    label: '📺 Media — Archiwum Relacji',
+    description: 'Relacje medialne: TV, radio, prasa — sekcja archiwum na /media.',
+    folder: 'src/content/media_archive',
+    create: true,
+    delete: true,
+    slug: '{{slug}}',
+    extension: 'md',
+    format: 'frontmatter',
+    fields: [
+      f('outlet', '📰 Outlet / redakcja', 'string', 'Nazwa medium wyświetlana na kafelku archiwum.', { required: true }),
+      f('description', '📄 Opis', 'text', 'Krótki opis relacji pod tytułem.', { required: false }),
+      f('date', '📅 Data (tekst)', 'string', 'Np. 2025-06 — metadane kafelka.', { required: false }),
+      f('link', '🔗 Link do materiału', 'string', 'URL artykułu lub nagrania.', { required: false, pattern: ['^https?://.*', urlHint] }),
+      {
+        label: '🏷️ Rodzaj materiału',
+        name: 'badge',
+        widget: 'select',
+        required: true,
+        default: 'VIDEO',
+        hint: 'Ikona typu materiału na kafelku archiwum.',
+        options: ['VIDEO', 'ARTYKUŁ', 'AUDIO', 'PODCAST', 'REPORTAŻ'],
+      },
+      f('outlet_logo', '🖼️ Logo outletu', 'image', imgHint(200, 80, 'Opcjonalne logo redakcji przy kafelku.'), { required: false, choose_url: true }),
+      f('order', '🔢 Kolejność wyświetlania', 'number', 'Kolejność wpisów w archiwum.', { required: false, default: 99 }),
+      f('active', '👁️ Widoczny na stronie', 'boolean', boolHint, { required: false, default: true }),
+    ],
+  },
+  {
+    name: 'aktualnosci',
+    label: '📰 Aktualności — Artykuły',
+    description: 'Blog CERBERUS K9 — każdy wpis to artykuł na /aktualnosci.',
+    folder: 'src/content/aktualnosci',
+    create: true,
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}',
+    preview_path: '{lang}/aktualnosci/{{slug}}',
+    extension: 'md',
+    format: 'frontmatter',
+    fields: [
+      f('title', '📝 Tytuł artykułu', 'string', 'Główny nagłówek artykułu i listy aktualności.', { required: true }),
+      f('date', '📅 Data publikacji', 'datetime', 'Data widoczna na karcie i w artykule.', { required: true, date_format: 'YYYY-MM-DD', time_format: 'HH:mm' }),
+      {
+        label: '🏷️ Kategoria',
+        name: 'category',
+        widget: 'select',
+        required: true,
+        hint: 'Filtr kategorii na liście aktualności.',
+        options: ['Aktualności', 'Instruktorzy', 'Partnerzy', 'Rejestracja', 'Media', 'HARDEST HIT'],
+      },
+      f('lead', '📄 Lead (max 500 znaków)', 'text', 'Wstęp na karcie listy i w meta description.', {
+        required: true,
+        pattern: ['^.{1,500}$', 'Maksymalnie 500 znaków'],
+      }),
+      f('body', '📖 Treść artykułu', 'markdown', 'Pełna treść artykułu na stronie wpisu.', { required: true }),
+      f('image', '📸 Zdjęcie wyróżniające', 'image', imgHint(1200, 675, 'Obraz na karcie listy i nagłówku artykułu.'), { required: false, choose_url: true }),
+      f('image_alt', '♿ Opis zdjęcia (alt)', 'string', 'Tekst alternatywny dla SEO i dostępności.', { required: false }),
+      f('heroImageFocalX', '↔️ Punkt centralny zdjęcia X (%)', 'number', 'Poziome centrum kadru nagłówka 0–100.', { required: false, default: 50, min: 0, max: 100 }),
+      f('heroImageFocalY', '↕️ Punkt centralny zdjęcia Y (%)', 'number', 'Pionowe centrum kadru nagłówka 0–100.', { required: false, default: 50, min: 0, max: 100 }),
+      { label: '🏷️ Tagi', name: 'tags', widget: 'list', required: false, hint: 'Tagi filtrowania i SEO.', field: f('tag', '📝 Tag', 'string', 'Pojedynczy tag.', { required: true }) },
+      f('draft', '📝 Szkic (niepublikowany)', 'boolean', 'true = szkic ukryty z listy publikowanych.', { required: false, default: false }),
+      f('featured', '⭐ Wyróżniony', 'boolean', 'Wyróżnienie przy sortowaniu / promocji na listach.', { required: false, default: false }),
+      f('seo_title', '🔍 SEO — tytuł', 'string', 'Nadpisuje tag title — widoczne w wynikach Google.', { required: false }),
+      f('seo_description', '🔍 SEO — opis', 'text', 'Nadpisuje meta description — snippet w Google.', { required: false }),
+      f('og_image_override', '🖼️ OG — obraz', 'image', imgHint(1200, 630, 'Grafika udostępnień tego artykułu.'), { required: false, choose_url: true }),
+      f('reading_time_override', '⏱️ Czas czytania (min)', 'number', 'Nadpisuje automatyczny czas czytania.', { required: false }),
+      f('share_url', '🔗 URL udostępniania', 'string', 'Opcjonalny kanoniczny URL udostępnień.', { required: false }),
+    ],
+  },
+  {
+    name: 'galeria',
+    label: '🖼️ Galeria — Zdjęcia',
+    description: 'Zdjęcia z edycji — siatka na /galeria.',
+    folder: 'src/content/galeria',
+    create: true,
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}',
+    extension: 'md',
+    format: 'frontmatter',
+    fields: [
+      f('title', '📝 Tytuł zdjęcia', 'string', 'Opcjonalny tytuł podglądu w lightboxie.', { required: false }),
+      f('date', '📅 Data zdjęcia', 'date', 'Data w sortowaniu i filtrach galerii.', { required: false, format: 'YYYY-MM-DD' }),
+      f('photo', '📸 Zdjęcie', 'image', imgHint(1600, 900, 'Główne zdjęcie w siatce galerii.'), { required: true, choose_url: true }),
+      f('alt', '♿ Opis zdjęcia (alt)', 'string', 'Opis dla SEO i czytników ekranu — wymagany sens opisu.', { required: true }),
+      {
+        label: '🏷️ Kategoria',
+        name: 'category',
+        widget: 'select',
+        required: false,
+        hint: 'Filtr i plakietka kategorii na zdjęciu w galerii.',
+        options: [
+          { label: 'HARDEST HIT', value: 'HARDEST_HIT' },
+          { label: 'SZKOLENIA K9', value: 'SZKOLENIA_K9' },
+          { label: 'CEREMONIA', value: 'CEREMONIA' },
+          { label: 'KONFERENCJA', value: 'KONFERENCJA' },
+          { label: 'DRONY', value: 'DRONY' },
+          { label: 'SAR', value: 'SAR' },
+          { label: 'TCCC / Medycyna', value: 'TCCC' },
+          { label: 'OGÓLNE', value: 'OGOLNE' },
+        ],
+      },
+      {
+        label: '📆 Edycja',
+        name: 'edition',
+        widget: 'select',
+        required: true,
+        default: '2026',
+        hint: 'Rok edycji — filtr 2025/2026 w galerii.',
+        options: ['2025', '2026'],
+      },
+      f('location', '📍 Lokalizacja (tekst)', 'string', 'Opcjonalny opis miejsca kadru.', { required: false }),
+      { label: '🏷️ Tagi', name: 'tags', widget: 'list', required: false, hint: 'Tagi pomocnicze do filtrowania.', field: f('tag', '📝 Tag', 'string', 'Pojedynczy tag zdjęcia.', { required: true }) },
+      f('order', '🔢 Kolejność wyświetlania', 'number', 'Sortowanie w obrębie kategorii / roku.', { required: false, default: 100, value_type: 'int', min: 0, max: 9999 }),
+      f('active', '👁️ Widoczny na stronie', 'boolean', boolHint, { required: false, default: true }),
+    ],
+  },
+  {
+    name: 'kontakt_content',
+    label: '✉️ Kontakt — Treści',
+    description: 'Adres, mapa, dane kontaktowe i formularz na /kontakt.',
+    files: [
+      {
+        name: 'kontakt',
+        label: '📄 Treści strony Kontakt',
+        file: 'src/content/kontakt_content.yml',
+        format: 'yaml',
+        fields: [
+          f('contact_address', '🏠 Adres (pełny)', 'text', 'Adres wyświetlany na stronie kontakt.', { required: true }),
+          f('contact_email', '✉️ E-mail kontaktowy', 'string', 'Główny e-mail na /kontakt.', { required: true }),
+          f('contact_phone', '📞 Telefon kontaktowy', 'string', 'Telefon na stronie kontakt.', { required: true }),
+          f('contact_map_embed_url', '🗺️ URL mapy (embed)', 'string', 'Iframe mapy na stronie kontakt.', { required: false, pattern: ['^https?://.*', urlHint] }),
+          f('contact_gdpr_text_pl', '⚖️ Zgoda RODO (PL)', 'string', 'Tekst zgody przy formularzu PL.', { required: true }),
+          f('contact_gdpr_text_en', '⚖️ Zgoda RODO (EN)', 'string', 'Tekst zgody przy formularzu EN.', { required: true }),
+          f('contact_form_endpoint', '📮 Endpoint formularza', 'string', 'URL POST formularza; pusty = Netlify Forms.', { required: false }),
+          f('contact_form_recipient', '📮 Odbiorca formularza', 'string', 'E-mail odbiorcy wiadomości z formularza.', { required: true }),
+          f('media_contact_name', '👤 Kontakt media — nazwa', 'string', 'Imię i funkcja w bloku dla mediów.', { required: false }),
+          f('media_contact_phone', '📞 Kontakt media — telefon', 'string', 'Telefon dla mediów.', { required: false }),
+          f('media_contact_email', '✉️ Kontakt media — e-mail', 'string', 'E-mail akredytacji.', { required: false }),
+          f('president_email', '✉️ E-mail prezesa', 'string', 'Kontakt do prezesa fundacji.', { required: false }),
+          f('accreditation_deadline', '📅 Deadline akredytacji', 'string', 'Termin zgłoszeń akredytacyjnych.', { required: false }),
+          f('partner_cta_href', '🤝 CTA partner — link', 'string', 'Link przycisku partnerstwa na /kontakt.', { required: false }),
+          f('sponsor_offer_pdf', '📎 Oferta sponsorska PDF', 'string', 'URL pliku PDF oferty sponsorskiej.', { required: false }),
+          f('sponsor_contact_email', '✉️ E-mail sponsoring', 'string', 'Kontakt ds. sponsorów.', { required: false }),
+        ],
+      },
+    ],
+  },
+  {
+    name: 'nav_links',
+    label: '🌐 Nawigacja — Linki',
+    description: 'Kolejność i nazwy linków w górnym menu.',
+    files: [
+      {
+        name: 'links',
+        label: '📄 Lista linków',
+        file: 'src/content/nav_links/links.yml',
+        format: 'yaml',
+        fields: [
+          {
+            label: '🔗 Linki nawigacyjne',
+            name: 'links',
+            widget: 'list',
+            hint: 'Kolejność wpisów = kolejność pozycji w menu (po sortowaniu wg order).',
+            fields: [
+              f('key', '🔑 Klucz', 'string', 'Unikalny identyfikator linku w kodzie.', { required: true }),
+              f('label_pl', '🇵🇱 Etykieta PL', 'string', 'Tekst linku w menu dla języka polskiego.', { required: true }),
+              f('label_en', '🇬🇧 Etykieta EN', 'string', 'Tekst linku w menu dla języka angielskiego.', { required: true }),
+              f('path', '📂 Ścieżka (bez języka)', 'string', 'Fragment URL np. o-wydarzeniu, instruktorzy.', { required: true }),
+              f('target', '🪟 Nowa karta', 'boolean', 'true = otwiera link w nowej karcie.', { required: false, default: false }),
+              f('icon', '✨ Ikona Lucide', 'string', 'Opcjonalna nazwa ikony.', { required: false }),
+              f('label_de', '🇩🇪 Etykieta DE', 'string', 'Etykieta menu po niemiecku.', { required: false }),
+              f('label_fr', '🇫🇷 Etykieta FR', 'string', 'Etykieta menu po francusku.', { required: false }),
+              f('order', '🔢 Kolejność', 'number', 'Kolejność pozycji w menu — rosnąco.', { required: true }),
+              f('active', '👁️ Aktywny', 'boolean', boolHint, { required: false, default: true }),
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: 'i18n_strings',
+    label: '🌐 Tłumaczenia Interfejsu',
+    description: 'Napisy przycisków i etykiet w wielu językach (pliki JSON).',
+    files: [
+      i18nFile('pl', '🇵🇱 Polski (PL)'),
+      i18nFile('en', '🇬🇧 English (EN)'),
+      i18nFile('de', '🇩🇪 Deutsch (DE)'),
+      i18nFile('fr', '🇫🇷 Français (FR)'),
+    ],
+  },
+  {
+    name: 'blog',
+    label: '📝 Blog (legacy)',
+    description: 'Stara kolekcja bloga Astro — rzadko używana; wpisy w src/content/blog.',
+    folder: 'src/content/blog',
+    create: true,
+    slug: '{{slug}}',
+    extension: 'md',
+    format: 'frontmatter',
+    fields: [
+      f('title', '📝 Tytuł', 'string', 'Tytuł wpisu blogowego.', { required: true }),
+      f('description', '📄 Opis', 'text', 'Krótki opis wpisu.', { required: true }),
+      f('pubDate', '📅 Data publikacji', 'datetime', 'Data publikacji wpisu.', { required: true }),
+      f('updatedDate', '📅 Data aktualizacji', 'datetime', 'Opcjonalna data ostatniej zmiany.', { required: false }),
+      f('draft', '📝 Szkic', 'boolean', boolHint, { required: false, default: false }),
+    ],
+  },
+];
+
+const doc = {
+  backend: {
+    name: 'github',
+    repo: 'sebastianmlk9academy/cerberus-k9-website',
+    branch: 'master',
+    base_url: 'https://cerberus-oauth-proxy.vercel.app',
+    auth_endpoint: '/auth',
+  },
+  publish_mode: 'editorial_workflow',
+  media_folder: 'public/uploads',
+  public_folder: '/uploads',
+  locale: 'pl',
+  collections,
+};
+
+const yamlText = stringify(doc, { lineWidth: 120, defaultKeyType: 'PLAIN', defaultStringType: 'QUOTE_DOUBLE', minContentWidth: 0 });
+
+const outPath = join(root, 'public', 'admin', 'config.yml');
+writeFileSync(outPath, yamlText, 'utf8');
+
+let nf = 0;
+for (const c of collections) {
+  if (c.fields) nf += countFields(c.fields);
+  if (c.files) for (const file of c.files) if (file.fields) nf += countFields(file.fields);
+}
+console.log('Wrote', outPath);
+console.log('Collections:', collections.length);
+console.log('Fields (approx leaf widgets):', nf);

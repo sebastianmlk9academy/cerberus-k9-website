@@ -1,326 +1,1502 @@
-# Decap CMS — CERBERUS K9
-# Replace [YOUR_GITHUB_USERNAME] in `repo` with your GitHub org or username (remove brackets).
-# Netlify: enable Git Gateway / OAuth and point the site at this repo.
-
 backend:
-  name: github
-  repo: 'sebastianmlk9academy/cerberus-k9-website'
-  branch: master
-  base_url: https://cerberus-oauth-proxy.vercel.app
-  auth_endpoint: /auth
-publish_mode: editorial_workflow
-# Media uploaded from the CMS lands in the repo under public/uploads
-media_folder: public/uploads
-public_folder: /uploads
-
-locale: pl
-
+  name: "github"
+  repo: "sebastianmlk9academy/cerberus-k9-website"
+  branch: "master"
+  base_url: "https://cerberus-oauth-proxy.vercel.app"
+  auth_endpoint: "/auth"
+publish_mode: "editorial_workflow"
+media_folder: "public/uploads"
+public_folder: "/uploads"
+locale: "pl"
 collections:
-  # --- 1. Aktualności (blog posts) ---
-  - name: aktualnosci
-    label: Aktualności
-    label_singular: Wpis
-    folder: src/content/aktualnosci
-    create: true
-    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
-    preview_path: '{lang}/aktualnosci/{{slug}}'
-    extension: md
-    format: frontmatter
-    fields:
-      - { label: Tytuł, name: title, widget: string, required: true }
-      - { label: Data publikacji, name: date, widget: datetime, required: true, date_format: YYYY-MM-DD, time_format: HH:mm }
-      - label: Kategoria
-        name: category
-        widget: select
-        required: true
-        options:
-          - Aktualności
-          - Instruktorzy
-          - Partnerzy
-          - Rejestracja
-          - Media
-          - HARDEST HIT
-      - label: Lead
-        name: lead
-        widget: text
-        required: true
-        hint: 'Krótki opis artykułu, max 500 znaków'
-        pattern:
-          - '^.{1,500}$'
-          - 'Maksymalnie 500 znaków'
-      - { label: Treść, name: body, widget: markdown, required: true }
-      - { label: Obraz wyróżniający, name: image, widget: image, required: false, choose_url: true }
-      - { label: Opis obrazu (alt), name: image_alt, widget: string, required: false }
-      - label: Tagi
-        name: tags
-        widget: list
-        required: false
-        hint: "Np. K9, TCCC, NATO, 2026"
-        field: { label: Tag, name: tag, widget: string }
-      - { label: Punkt centralny zdjęcia — poziomo (%), name: heroImageFocalX, widget: number, default: 50, min: 0, max: 100, required: false }
-      - { label: Punkt centralny zdjęcia — pionowo (%), name: heroImageFocalY, widget: number, default: 50, min: 0, max: 100, required: false }
-      - name: share_url
-        label: "URL do udostępniania (opcjonalnie)"
-        widget: string
-        required: false
-        hint: "Zostaw puste — system uzupełni automatycznie"
-      - name: draft
-        label: "Szkic (niepublikowany)"
-        widget: boolean
-        default: false
-        hint: "Zaznacz aby ukryć artykuł na stronie"
-      - name: featured
-        label: "Wyróżniony artykuł"
-        widget: boolean
-        default: false
-        hint: "Wyróżnione artykuły mogą być wyświetlane na górze listy"
-      - name: seo_title
-        label: "SEO Title (nadpisuje tytuł)"
-        widget: string
-        required: false
-        hint: "Jeśli puste — używany jest tytuł artykułu"
-      - name: seo_description
-        label: "SEO Description (nadpisuje lead)"
-        widget: text
-        required: false
-        hint: "Jeśli puste — używany jest lead artykułu. Max 160 znaków."
-      - name: og_image_override
-        label: "OG Image (nadpisuje zdjęcie artykułu)"
-        widget: image
-        required: false
-        hint: "Grafika do social media. Jeśli puste — używane jest zdjęcie artykułu."
-      - name: reading_time_override
-        label: "Czas czytania (minuty, opcjonalnie)"
-        widget: number
-        required: false
-        hint: "Jeśli puste — czas jest obliczany automatycznie"
-
-  # --- 2. Instruktorzy ---
-  - name: instruktorzy
-    label: Instruktorzy
-    label_singular: Instruktor
-    folder: src/content/instruktorzy
-    create: true
-    slug: '{{slug}}'
-    identifier_field: name
-    extension: md
-    format: frontmatter
-    fields:
-      - { label: Imię i nazwisko, name: name, widget: string, required: true }
-      - { label: Rola / stanowisko, name: role, widget: string, required: false }
-      - label: "Kraj (fallback — wypełniany automatycznie)"
-        name: country
-        widget: string
-        required: true
-        hint: >
-          Nazwa kraju — używana jako fallback gdy kod kraju
-          nie jest w słowniku. Normalnie nazwa tłumaczona
-          jest automatycznie na podstawie kodu kraju.
-          Wpisz nazwę po polsku np. Polska, USA, Niemcy.
-      - label: "Kod kraju (ISO 3166-1 alpha-2)"
-        name: countryCode
-        widget: string
-        required: true
-        hint: >
-          Wpisz 2-literowy kod kraju (wielkie litery).
-          Flaga zmieni się automatycznie.
-          NATO/UE: PL, US, DE, FR, GB, IT, ES, PT, NL, BE,
-          CZ, SK, HU, RO, BG, HR, SI, LT, LV, EE, NO, DK,
-          SE, FI, GR, TR, CA, AL, ME, MK, BA, IS, LU, MT.
-      - label: Specjalizacje
-        name: specializations
-        widget: select
-        multiple: true
-        required: true
-        options:
-          - K9 Gryzienie
-          - K9 Detekcja
-          - K9 Tropienie SAR
-          - Pozorant
-          - TCCC
-          - TCCC-K9
-          - Pierwsza Pomoc
-          - Behawiorysta
-          - Konferencja - Prelegent
-          - Drony
-      - { label: Jednostka / formacja, name: unit, widget: string, required: false }
-      - { label: Moduł szkoleniowy, name: module, widget: string, required: false }
-      - { label: Harmonogram, name: schedule, widget: string, required: false }
-      - { label: Języki, name: languages, widget: string, default: Polski, required: false }
-      - label: Typ uczestnika
-        name: type
-        widget: select
-        options: [Instruktor, Pozorant, Lider Grupy, Prelegent, VIP]
-        default: Instruktor
-        required: false
-      - { label: LinkedIn URL, name: linkedinUrl, widget: string, required: false }
-      - { label: Pokaż na stronie głównej, name: showOnHomepage, widget: boolean, default: true }
-      - label: Bio krótkie
-        name: bioShort
-        widget: text
-        required: true
-        hint: 'Maksymalnie 200 znaków.'
-        pattern:
-          - '^.{1,200}$'
-          - 'Maksymalnie 200 znaków.'
-      - { label: Bio pełne, name: bioFull, widget: markdown, required: true }
-      - { label: Zdjęcie, name: photo, widget: image, required: true, choose_url: true }
-      - name: active
-        label: "Aktywny (widoczny na stronie)"
-        widget: boolean
-        default: true
-        hint: "Odznacz aby ukryć bez usuwania wpisu"
-      - { label: Kolejność sortowania, name: order, widget: number, value_type: int, min: 0, step: 1, default: 0 }
-
-  # --- 3. Partnerzy ---
-  - name: partnerzy
-    label: Partnerzy
-    label_singular: Partner
-    folder: src/content/partnerzy
-    create: true
-    slug: '{{slug}}'
-    identifier_field: name
-    extension: md
-    format: frontmatter
-    fields:
-      - { label: Nazwa, name: name, widget: string, required: false }
-      - label: Typ
-        name: type
-        widget: select
-        required: false
-        options:
-          - Strategiczny
-          - Sponsor
-          - Patron Medialny
-          - Technologiczny
-      - { label: Logo, name: logo, widget: image, required: false, choose_url: true, hint: 'Wgraj logo w formacie WebP. Zalecany rozmiar: 300x120px. Po wgraniu zmień rozszerzenie na .webp' }
-      - { label: Strona WWW, name: website, widget: string, required: false }
-      - { label: Etykieta linku WWW, name: website_label, widget: string, required: false }
-      - { label: Opis, name: description, widget: text, required: false }
-      - { label: Kolejność sortowania, name: order, widget: number, value_type: int, min: 0, step: 1, default: 0 }
-      - name: show_in_strip
-        label: "Pokaż w pasku partnerów (strona główna)"
-        widget: boolean
-        default: true
-        hint: "Czy partner ma się wyświetlać w scrollującym pasku na stronie głównej"
-      - name: strip_order
-        label: "Kolejność w pasku"
-        widget: number
-        default: 99
-        hint: "Kolejność wyświetlania w scrollującym pasku na stronie głównej"
-      - name: active
-        label: "Aktywny (widoczny na stronie)"
-        widget: boolean
-        default: true
-
-  - name: media_archive
-    label: "Archiwum mediów"
-    folder: "src/content/media_archive"
+  - name: "ustawienia_globalne"
+    label: "⚙️ Ustawienia Globalne"
+    description: "Główne ustawienia całej strony — data wydarzenia, liczby, linki, social media."
+    files:
+      - name: "ustawienia"
+        label: "📄 Plik ustawień"
+        file: "src/content/ustawienia.yml"
+        format: "yaml"
+        fields:
+          - name: "event_date"
+            label: "📅 Data startu wydarzenia"
+            widget: "datetime"
+            hint: "Używana w odliczaniu na stronie głównej i w JSON-LD wydarzenia."
+            required: true
+            format: "YYYY-MM-DD"
+            date_format: "DD.MM.YYYY"
+            time_format: false
+          - name: "event_date_end"
+            label: "📅 Data końca wydarzenia"
+            widget: "datetime"
+            hint: "Data zakończenia — JSON-LD i nagłówki agendy."
+            required: true
+            format: "YYYY-MM-DD"
+            date_format: "DD.MM.YYYY"
+            time_format: false
+          - name: "event_time_start"
+            label: "⏰ Godzina startu (HH:MM)"
+            widget: "string"
+            hint: "Start pierwszego dnia — licznik czasu na stronie głównej."
+            required: true
+            default: "09:00"
+            pattern:
+              - "^\\d{2}:\\d{2}$"
+              - "Format 24h np. 09:00"
+          - name: "event_time_end"
+            label: "⏰ Godzina końca (HH:MM)"
+            widget: "string"
+            hint: "Koniec ostatniego dnia — metadane wydarzenia."
+            required: true
+            default: "18:00"
+            pattern:
+              - "^\\d{2}:\\d{2}$"
+              - "Format 24h np. 18:00"
+          - name: "event_city"
+            label: "🏙️ Miasto wydarzenia"
+            widget: "string"
+            hint: "Miasto w schemacie wydarzenia i treściach kontaktowych."
+            required: true
+          - name: "event_venue"
+            label: "🏟️ Główna lokalizacja (nazwa)"
+            widget: "string"
+            hint: "Nazwa miejsca w JSON-LD i komunikatach."
+            required: true
+          - name: "event_timezone"
+            label: "🌍 Strefa czasowa (IANA)"
+            widget: "string"
+            hint: "Strefa odliczania hero; np. Europe/Warsaw."
+            required: false
+            default: "Europe/Warsaw"
+          - name: "hero_tagline"
+            label: "✨ Tekst nad tytułem (tag-line)"
+            widget: "string"
+            hint: "Krótka linia nad H1 na stronie głównej (gdy podłączysz pole w szablonie)."
+            required: false
+          - name: "hero_title"
+            label: "🦁 Pierwsza linia tytułu H1"
+            widget: "string"
+            hint: "Pierwsza linia dużego nagłówka hero."
+            required: false
+            default: "CERBERUS"
+          - name: "hero_subtitle"
+            label: "🎯 Akcent w tytule (np. K9)"
+            widget: "string"
+            hint: "Drugie słowo w drugiej linii H1."
+            required: false
+            default: "K9"
+          - name: "hero_year"
+            label: "📆 Rok w nagłówku"
+            widget: "string"
+            hint: "Rok edycji przy drugiej linii H1."
+            required: false
+            default: "2026"
+          - name: "hero_meta_locations"
+            label: "📍 Meta hero — lokalizacje"
+            widget: "text"
+            hint: "Rezerwa pod spięcie trzech meta-bloków hero z CMS."
+            required: false
+          - name: "hero_meta_delegations"
+            label: "🤝 Meta hero — delegacje"
+            widget: "text"
+            hint: "Rezerwa pod treść meta wiersza o delegacjach."
+            required: false
+          - name: "hero_meta_entry"
+            label: "🎫 Meta hero — wejście"
+            widget: "text"
+            hint: "Rezerwa pod treść meta wiersza o wejściu/wstępie."
+            required: false
+          - name: "participants_count"
+            label: "👥 Uczestnicy (tekst statystyki)"
+            widget: "string"
+            hint: "Wartość w pasku statystyk gdy brak wpisów homepage_stats."
+            required: true
+            default: "250+"
+          - name: "countries_count"
+            label: "🌐 Kraje (tekst statystyki)"
+            widget: "string"
+            hint: "Wartość w pasku statystyk — fallback."
+            required: true
+            default: "15+"
+          - name: "dogs_count"
+            label: "🐕 Psy K9 (tekst)"
+            widget: "string"
+            hint: "Tekst liczby psów w statystykach."
+            required: true
+            default: "80+"
+          - name: "modules_count"
+            label: "📚 Moduły (tekst)"
+            widget: "string"
+            hint: "Tekst liczby modułów w statystykach."
+            required: true
+            default: "8"
+          - name: "participants_registered"
+            label: "🔢 Zarejestrowani (liczba)"
+            widget: "number"
+            hint: "Opcjonalna liczba pod kampanie lub banery po podpięciu."
+            required: false
+            value_type: "int"
+            min: 0
+            max: 100000
+            default: 0
+          - name: "pretix_url"
+            label: "🎟️ URL sklepu Pretix"
+            widget: "string"
+            hint: "Rejestracja — przyciski i embed na /rejestracja."
+            required: true
+            pattern:
+              - "^https?://.*"
+              - "Wklej pełny adres URL z https://"
+          - name: "registration_active"
+            label: "✅ Rejestracja w menu"
+            widget: "boolean"
+            hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+            required: true
+            default: true
+          - name: "registration_deadline_text"
+            label: "⏳ Deadline rejestracji (tekst)"
+            widget: "string"
+            hint: "Tekst terminu zapisów w panelu rejestracji."
+            required: false
+          - name: "notification_bar_active"
+            label: "📣 Pasek powiadomień"
+            widget: "boolean"
+            hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+            required: false
+            default: false
+          - name: "notification_bar_text"
+            label: "📣 Tekst paska"
+            widget: "string"
+            hint: "Treść paska nad stroną gdy aktywny."
+            required: false
+          - name: "notification_bar_url"
+            label: "📣 Link paska"
+            widget: "string"
+            hint: "URL po kliknięciu paska; Wklej pełny adres URL z https://"
+            required: false
+            pattern:
+              - "^https?://.*"
+              - "Wklej pełny adres URL z https://"
+          - name: "live_mode_active"
+            label: "🔴 Tryb LIVE"
+            widget: "boolean"
+            hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+            required: false
+            default: false
+          - name: "current_competitor"
+            label: "🏅 Aktualny uczestnik (LIVE)"
+            widget: "string"
+            hint: "Tekst relacji na żywo po podpięciu UI."
+            required: false
+          - name: "social_facebook"
+            label: "📘 Facebook URL"
+            widget: "string"
+            hint: "Ikona Facebook w stopce."
+            required: true
+            pattern:
+              - "^https?://.*"
+              - "Wklej pełny adres URL z https://"
+          - name: "social_youtube"
+            label: "📺 YouTube URL"
+            widget: "string"
+            hint: "Ikona YouTube w stopce."
+            required: true
+            pattern:
+              - "^https?://.*"
+              - "Wklej pełny adres URL z https://"
+          - name: "social_instagram"
+            label: "📸 Instagram URL"
+            widget: "string"
+            hint: "Ikona Instagram w stopce; puste = fallback."
+            required: false
+            pattern:
+              - "^https?://.*"
+              - "Wklej pełny adres URL z https://"
+          - name: "social_linkedin"
+            label: "💼 LinkedIn URL"
+            widget: "string"
+            hint: "Ikona LinkedIn w stopce."
+            required: false
+            pattern:
+              - "^https?://.*"
+              - "Wklej pełny adres URL z https://"
+          - name: "social_twitter"
+            label: "🐦 X / Twitter URL"
+            widget: "string"
+            hint: "Ikona X w stopce."
+            required: false
+            pattern:
+              - "^https?://.*"
+              - "Wklej pełny adres URL z https://"
+          - name: "footer_email"
+            label: "✉️ E-mail w stopce"
+            widget: "string"
+            hint: "Kontakt w stopce każdej podstrony."
+            required: true
+          - name: "footer_phone"
+            label: "📞 Telefon w stopce"
+            widget: "string"
+            hint: "Telefon w stopce i blokach kontaktowych."
+            required: true
+          - name: "footer_address"
+            label: "🏠 Adres fundacji"
+            widget: "string"
+            hint: "Adres w stopce i danych prawnych."
+            required: true
+          - name: "footer_foundation_name"
+            label: "🏛️ Nazwa fundacji"
+            widget: "string"
+            hint: "Nazwa organizacji w stopce."
+            required: true
+          - name: "footer_domains"
+            label: "🌐 Domeny (tekst stopki)"
+            widget: "string"
+            hint: "Lista domen w stopce."
+            required: false
+          - name: "krs_number"
+            label: "📋 KRS"
+            widget: "string"
+            hint: "Numer KRS w stopce."
+            required: true
+          - name: "nip_number"
+            label: "📋 NIP"
+            widget: "string"
+            hint: "NIP w stopce."
+            required: true
+          - name: "regon_number"
+            label: "📋 REGON"
+            widget: "string"
+            hint: "REGON w stopce."
+            required: true
+          - name: "site_url"
+            label: "🔗 Kanoniczny URL strony"
+            widget: "string"
+            hint: "SEO, Open Graph i JSON-LD."
+            required: true
+            pattern:
+              - "^https?://.*"
+              - "Wklej pełny adres URL z https://"
+          - name: "og_image_default"
+            label: "🖼️ Domyślny obraz Open Graph"
+            widget: "image"
+            hint: "Zalecany format: WebP. Rozmiar: 1200×630px. Udostępnianie linków w social media."
+            required: false
+            choose_url: true
+          - name: "og_site_name"
+            label: "🏷️ OG — nazwa witryny"
+            widget: "string"
+            hint: "Pole og:site_name."
+            required: false
+            default: "CERBERUS K9"
+          - name: "plausible_domain"
+            label: "📊 Domena Plausible"
+            widget: "string"
+            hint: "Śledzenie ruchu — atrybut data-domain skryptu."
+            required: true
+          - name: "pwa_name"
+            label: "📱 PWA — pełna nazwa"
+            widget: "string"
+            hint: "Nazwa przy dodaniu do ekranu głównego."
+            required: false
+            default: "CERBERUS K9"
+          - name: "pwa_short_name"
+            label: "📱 PWA — krótka nazwa"
+            widget: "string"
+            hint: "Krótka nazwa pod ikoną."
+            required: false
+            default: "CERBERUS K9"
+          - name: "pwa_theme_color"
+            label: "🎨 PWA — kolor motywu"
+            widget: "string"
+            hint: "Kolor motywu (hex)."
+            required: false
+            default: "#0F1720"
+          - name: "main_video_youtube"
+            label: "🎬 Główne wideo YouTube"
+            widget: "string"
+            hint: "Główny film w sekcji wideo na stronie głównej."
+            required: false
+            pattern:
+              - "^https?://.*"
+              - "Wklej pełny adres URL z https://"
+          - name: "main_video_title"
+            label: "🎬 Tytuł głównego wideo"
+            widget: "string"
+            hint: "Tytuł przy odtwarzaczu głównym."
+            required: false
+          - name: "video_url_2"
+            label: "🎬 Wideo 2 — URL"
+            widget: "string"
+            hint: "Drugi film w siatce wideo."
+            required: false
+            pattern:
+              - "^https?://.*"
+              - "Wklej pełny adres URL z https://"
+          - name: "video_badge_2"
+            label: "🏷️ Wideo 2 — odznaka"
+            widget: "string"
+            hint: "Etykieta przy drugim filmie."
+            required: false
+          - name: "video_url_3"
+            label: "🎬 Wideo 3 — URL"
+            widget: "string"
+            hint: "Trzeci film w siatce."
+            required: false
+            pattern:
+              - "^https?://.*"
+              - "Wklej pełny adres URL z https://"
+          - name: "video_badge_3"
+            label: "🏷️ Wideo 3 — odznaka"
+            widget: "string"
+            hint: "Etykieta przy trzecim filmie."
+            required: false
+          - name: "video_url_4"
+            label: "🎬 Wideo 4 — URL"
+            widget: "string"
+            hint: "Czwarty film (dolny rząd)."
+            required: false
+            pattern:
+              - "^https?://.*"
+              - "Wklej pełny adres URL z https://"
+          - name: "video_badge_4"
+            label: "🏷️ Wideo 4 — odznaka"
+            widget: "string"
+            hint: "Etykieta przy czwartym filmie."
+            required: false
+          - name: "video_badge_1"
+            label: "🏷️ Główne wideo — odznaka"
+            widget: "string"
+            hint: "Linia tekstu nad głównym odtwarzaczem."
+            required: false
+          - name: "nav_logo"
+            label: "🖼️ Logo w nawigacji"
+            widget: "image"
+            hint: "Zalecany format: WebP. Rozmiar: 240×80px. Lewy górny róg nawigacji."
+            required: false
+            choose_url: true
+          - name: "nav_logo_alt"
+            label: "♿ Logo — tekst alt"
+            widget: "string"
+            hint: "Dostępność — opis logo."
+            required: true
+            default: "CERBERUS K9 Logo"
+          - name: "hero_background_image"
+            label: "🖼️ Tło sekcji Hero"
+            widget: "image"
+            hint: "Zalecany format: WebP. Rozmiar: 1920×1080px. Tło za treścią hero na stronie głównej."
+            required: false
+            choose_url: true
+          - name: "hero_background_opacity"
+            label: "🌫️ Tło Hero — krycie"
+            widget: "number"
+            hint: "Nieprzezroczystość zdjęcia tła (0.1–1)."
+            required: false
+            default: 0.4
+            min: 0.1
+            max: 1
+            step: 0.05
+          - name: "apple_touch_icon"
+            label: "🍎 Apple Touch Icon"
+            widget: "image"
+            hint: "Zalecany format: WebP. Rozmiar: 180×180px. iOS — dodanie do ekranu głównego."
+            required: false
+            choose_url: true
+          - name: "favicon_svg"
+            label: "⭐ Favicon SVG"
+            widget: "image"
+            hint: "Zalecany format: WebP. Rozmiar: 64×64px. Ikona zakładki przeglądarki."
+            required: false
+            choose_url: true
+          - name: "grants_approved"
+            label: "💶 Zatwierdzone dotacje (liczba)"
+            widget: "number"
+            hint: "Opcjonalnie pod banery grantowe."
+            required: false
+            value_type: "int"
+            min: 0
+            default: 0
+          - name: "volunteers_count"
+            label: "🙋 Wolontariusze (liczba)"
+            widget: "number"
+            hint: "Liczba wolontariuszy po podpięciu UI."
+            required: false
+            value_type: "int"
+            min: 0
+            default: 0
+          - name: "gallery_unlock_date"
+            label: "🔓 Data odblokowania galerii"
+            widget: "datetime"
+            hint: "Po tej dacie widoczna galeria edycji bieżącej na /galeria."
+            required: false
+            format: "YYYY-MM-DD"
+            date_format: "DD.MM.YYYY"
+            time_format: false
+          - name: "brand_name"
+            label: "✒️ Nazwa marki (nav)"
+            widget: "string"
+            hint: "Tekst obok logo w pasku nawigacji."
+            required: false
+            default: "CERBERUS K9"
+          - name: "brand_tagline"
+            label: "✒️ Podtytuł marki"
+            widget: "string"
+            hint: "Mały tekst pod marką w nawigacji."
+            required: false
+            default: "INTERNATIONAL DEFENSE PLATFORM"
+          - name: "hero_cta_registration_href"
+            label: "🔗 CTA hero — rejestracja"
+            widget: "string"
+            hint: "Nadpisuje link przycisku rejestracji na hero."
+            required: false
+          - name: "hero_cta_program_href"
+            label: "🔗 CTA hero — program"
+            widget: "string"
+            hint: "Link przycisku programu na hero."
+            required: false
+            default: "/pl/o-wydarzeniu#agenda"
+          - name: "hero_video_href"
+            label: "🎥 Hero — URL wideo (modal)"
+            widget: "string"
+            hint: "YouTube z przycisku relacji na hero."
+            required: false
+            pattern:
+              - "^https?://.*"
+              - "Wklej pełny adres URL z https://"
+          - name: "hero_video_title"
+            label: "🎥 Hero — tytuł iframe"
+            widget: "string"
+            hint: "Tytuł dostępnościowy iframe wideo."
+            required: false
+          - name: "hero_close_label_pl"
+            label: "❎ Hero — przycisk zamknięcia"
+            widget: "string"
+            hint: "Etykieta zamykania modala wideo."
+            required: false
+            default: "ZAMKNIJ"
+          - name: "registration_date_display"
+            label: "📅 Rejestracja — wyświetlany termin"
+            widget: "string"
+            hint: "Termin obok widgetu Pretix."
+            required: false
+          - name: "registration_prep_day"
+            label: "📅 Dzień przygotowawczy"
+            widget: "string"
+            hint: "Tekst dnia przygotowawczego przy rejestracji."
+            required: false
+          - name: "registration_venues"
+            label: "🏟️ Lokalizacje (tekst)"
+            widget: "string"
+            hint: "Lista miejsc przy panelu rejestracji."
+            required: false
+          - name: "registration_city"
+            label: "🏙️ Miasto (rejestracja)"
+            widget: "string"
+            hint: "Miasto przy danych rejestracyjnych."
+            required: false
+          - name: "registration_contact_email"
+            label: "✉️ E-mail do rejestracji"
+            widget: "string"
+            hint: "Kontakt przy pytaniach o zapisy."
+            required: false
+          - name: "registration_contact_phone"
+            label: "📞 Telefon do rejestracji"
+            widget: "string"
+            hint: "Telefon przy pytaniach o zapisy."
+            required: false
+          - name: "partner_cta_href"
+            label: "🤝 CTA „Zostań partnerem”"
+            widget: "string"
+            hint: "Link w sekcji partnerów na stronie głównej."
+            required: false
+          - name: "twitter_handle"
+            label: "🐦 Handle X (meta)"
+            widget: "string"
+            hint: "Twitter Card — handle."
+            required: false
+            default: "@cerberusk9"
+          - name: "statute_pdf"
+            label: "📄 Statut fundacji (URL)"
+            widget: "string"
+            hint: "PDF statutu — link na /fundacja."
+            required: true
+          - name: "krs_url"
+            label: "🔗 KRS — rejestr"
+            widget: "string"
+            hint: "Link weryfikacji KRS."
+            required: true
+            pattern:
+              - "^https?://.*"
+              - "Wklej pełny adres URL z https://"
+          - name: "default_news_image"
+            label: "🖼️ Domyślne zdjęcie aktualności"
+            widget: "image"
+            hint: "Zalecany format: WebP. Rozmiar: 1200×675px. Lista aktualności przy braku obrazka."
+            required: false
+            choose_url: true
+          - name: "instructor_placeholder_photo"
+            label: "🖼️ Placeholder instruktora"
+            widget: "image"
+            hint: "Zalecany format: WebP. Rozmiar: 800×800px. Karta instruktora przy braku zdjęcia."
+            required: false
+            choose_url: true
+          - name: "press_kit_zip"
+            label: "🗜️ Press kit (ZIP URL)"
+            widget: "string"
+            hint: "Archiwum materiałów prasowych /media."
+            required: false
+          - name: "press_pdf_polska_zbrojna"
+            label: "📰 PDF Polska Zbrojna"
+            widget: "string"
+            hint: "Link do artykułu PDF."
+            required: false
+          - name: "press_pdf_special_ops"
+            label: "📰 PDF Special Ops"
+            widget: "string"
+            hint: "Link do artykułu PDF."
+            required: false
+          - name: "media_contact_name"
+            label: "👤 Kontakt media — nazwa"
+            widget: "string"
+            hint: "Blok dla mediów na /media."
+            required: false
+          - name: "media_contact_phone"
+            label: "📞 Kontakt media — telefon"
+            widget: "string"
+            hint: "Telefon dla dziennikarzy."
+            required: false
+          - name: "media_contact_email"
+            label: "✉️ Kontakt media — e-mail"
+            widget: "string"
+            hint: "E-mail akredytacji."
+            required: false
+          - name: "president_email"
+            label: "✉️ E-mail prezesa"
+            widget: "string"
+            hint: "Kontakt do prezesa fundacji."
+            required: false
+          - name: "accreditation_deadline"
+            label: "📅 Deadline akredytacji mediów"
+            widget: "string"
+            hint: "Termin zgłoszeń akredytacyjnych."
+            required: false
+          - name: "sponsor_offer_pdf"
+            label: "📎 Oferta sponsorska (PDF)"
+            widget: "string"
+            hint: "PDF oferty dla sponsorów /partnerzy."
+            required: false
+          - name: "sponsor_contact_email"
+            label: "✉️ E-mail sponsoring"
+            widget: "string"
+            hint: "Kontakt ds. sponsorowania."
+            required: false
+          - name: "contact_map_embed_url"
+            label: "🗺️ Kontakt — embed mapy"
+            widget: "string"
+            hint: "Iframe mapy na /kontakt."
+            required: false
+            pattern:
+              - "^https?://.*"
+              - "Wklej pełny adres URL z https://"
+          - name: "contact_form_endpoint"
+            label: "📮 Formularz — endpoint POST"
+            widget: "string"
+            hint: "Pusty = Netlify Forms; inny URL = własny backend."
+            required: false
+          - name: "contact_form_recipient"
+            label: "📮 Formularz — odbiorca"
+            widget: "string"
+            hint: "E-mail odbiorcy zgłoszeń."
+            required: false
+          - name: "contact_gdpr_text_pl"
+            label: "⚖️ Zgoda RODO (PL)"
+            widget: "string"
+            hint: "Tekst zgody przy formularzu PL."
+            required: false
+          - name: "contact_gdpr_text_en"
+            label: "⚖️ Zgoda RODO (EN)"
+            widget: "string"
+            hint: "Tekst zgody przy formularzu EN."
+            required: false
+          - name: "venue_address"
+            label: "🏟️ Adres miejsca wydarzenia"
+            widget: "string"
+            hint: "Ulica w JSON-LD wydarzenia."
+            required: false
+          - name: "map_embed_url"
+            label: "🗺️ Mapa embed (legacy)"
+            widget: "string"
+            hint: "Alternatywne pole mapy w szablonach."
+            required: false
+          - name: "contact_phone_sebastian"
+            label: "📞 Telefon — Sebastian"
+            widget: "string"
+            hint: "Dodatkowy numer kontaktowy."
+            required: false
+          - name: "contact_phone_mariusz"
+            label: "📞 Telefon — Mariusz"
+            widget: "string"
+            hint: "Telefon prezesa."
+            required: false
+          - name: "contact_president_email"
+            label: "✉️ E-mail prezesa (Mariusz)"
+            widget: "string"
+            hint: "Bezpośredni e-mail prezesa."
+            required: false
+          - name: "contact_address_street"
+            label: "🏠 Kontakt — ulica"
+            widget: "string"
+            hint: "Część adresu na /kontakt."
+            required: false
+          - name: "contact_address_city"
+            label: "🏠 Kontakt — miasto"
+            widget: "string"
+            hint: "Miasto w adresie kontaktowym."
+            required: false
+          - name: "contact_address_zip"
+            label: "🏠 Kontakt — kod pocztowy"
+            widget: "string"
+            hint: "Kod pocztowy w adresie."
+            required: false
+          - name: "contact_venue_address"
+            label: "🏟️ Adres pod mapą"
+            widget: "string"
+            hint: "Adres pod mapą na stronie kontakt."
+            required: false
+          - name: "agenda_page_url"
+            label: "🔗 Publiczny URL agendy"
+            widget: "string"
+            hint: "Kanoniczny link do strony z programem."
+            required: false
+          - name: "og_image_width"
+            label: "📐 OG — szerokość (px)"
+            widget: "string"
+            hint: "Meta szerokość obrazu OG."
+            required: false
+            default: "1200"
+          - name: "og_image_height"
+            label: "📐 OG — wysokość (px)"
+            widget: "string"
+            hint: "Meta wysokość obrazu OG."
+            required: false
+            default: "630"
+          - name: "og_image_alt"
+            label: "♿ OG — opis obrazu"
+            widget: "string"
+            hint: "Tekst alternatywny grafiki OG."
+            required: false
+          - name: "og_locale"
+            label: "🌍 OG — locale"
+            widget: "string"
+            hint: "np. pl_PL."
+            required: false
+            default: "pl_PL"
+          - name: "pwa_description"
+            label: "📱 PWA — opis"
+            widget: "string"
+            hint: "Opis aplikacji PWA."
+            required: false
+          - name: "pwa_background_color"
+            label: "🎨 PWA — kolor tła"
+            widget: "string"
+            hint: "Kolor tła splash PWA."
+            required: false
+            default: "#0F1720"
+          - name: "cookie_consent_active"
+            label: "🍪 Baner cookies"
+            widget: "boolean"
+            hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+            required: false
+            default: false
+          - name: "favicon_ico"
+            label: "⭐ Favicon ICO (ścieżka)"
+            widget: "string"
+            hint: "Ścieżka do favicon.ico."
+            required: false
+            default: "/favicon.ico"
+          - name: "partner_cta_href_full"
+            label: "🔗 CTA partner — URL pełny"
+            widget: "string"
+            hint: "Alternatywny pełny link CTA."
+            required: false
+          - name: "hardest_hit_active"
+            label: "🎯 HARDEST HIT aktywny"
+            widget: "boolean"
+            hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+            required: false
+            default: true
+          - name: "hero_video_url"
+            label: "🎥 Hero wideo (legacy)"
+            widget: "string"
+            hint: "Starsze pole — kompatybilność."
+            required: false
+          - name: "gallery_video_1_title"
+            label: "🎬 Galeria wideo 1 — tytuł"
+            widget: "string"
+            hint: "Tytuł pierwszego wideo w galerii."
+            required: false
+          - name: "gallery_video_1_url"
+            label: "🎬 Galeria wideo 1 — URL"
+            widget: "string"
+            hint: "Link pierwszego wideo w galerii."
+            required: false
+            pattern:
+              - "^https?://.*"
+              - "Wklej pełny adres URL z https://"
+          - name: "gallery_video_1_badge"
+            label: "🏷️ Galeria wideo 1 — odznaka"
+            widget: "string"
+            hint: "Etykieta przy pierwszym wideo."
+            required: false
+          - name: "gallery_video_2_title"
+            label: "🎬 Galeria wideo 2 — tytuł"
+            widget: "string"
+            hint: "Tytuł drugiego wideo w galerii."
+            required: false
+          - name: "gallery_video_2_url"
+            label: "🎬 Galeria wideo 2 — URL"
+            widget: "string"
+            hint: "Link drugiego wideo."
+            required: false
+            pattern:
+              - "^https?://.*"
+              - "Wklej pełny adres URL z https://"
+          - name: "gallery_video_2_badge"
+            label: "🏷️ Galeria wideo 2 — odznaka"
+            widget: "string"
+            hint: "Etykieta przy drugim wideo."
+            required: false
+          - name: "gallery_video_3_title"
+            label: "🎬 Galeria wideo 3 — tytuł"
+            widget: "string"
+            hint: "Tytuł trzeciego wideo."
+            required: false
+          - name: "gallery_video_3_url"
+            label: "🎬 Galeria wideo 3 — URL"
+            widget: "string"
+            hint: "Link trzeciego wideo."
+            required: false
+            pattern:
+              - "^https?://.*"
+              - "Wklej pełny adres URL z https://"
+          - name: "gallery_video_3_badge"
+            label: "🏷️ Galeria wideo 3 — odznaka"
+            widget: "string"
+            hint: "Etykieta przy trzecim wideo."
+            required: false
+          - name: "gallery_video_4_title"
+            label: "🎬 Galeria wideo 4 — tytuł"
+            widget: "string"
+            hint: "Tytuł czwartego wideo."
+            required: false
+          - name: "gallery_video_4_url"
+            label: "🎬 Galeria wideo 4 — URL"
+            widget: "string"
+            hint: "Link czwartego wideo."
+            required: false
+            pattern:
+              - "^https?://.*"
+              - "Wklej pełny adres URL z https://"
+          - name: "gallery_video_4_badge"
+            label: "🏷️ Galeria wideo 4 — odznaka"
+            widget: "string"
+            hint: "Etykieta przy czwartym wideo."
+            required: false
+  - name: "homepage_cards"
+    label: "🏠 Strona Główna — Karty Programu"
+    description: "Trzy karty sekcji programu na stronie głównej (K9, TCCC, Drony)."
+    folder: "src/content/homepage_cards"
     create: true
     delete: true
     slug: "{{slug}}"
-    extension: md
-    format: frontmatter
+    extension: "md"
+    format: "frontmatter"
     fields:
-      - { label: "Outlet (np. TVP, TVN)", name: outlet, widget: string }
-      - { label: "Opis", name: description, widget: text, required: false }
-      - { label: "Data", name: date, widget: string, required: false,
-          hint: "Np. 2025, 2025-06" }
-      - { label: "Link URL", name: link, widget: string, required: false }
-      - { label: "Badge", name: badge, widget: select,
-          options: ["VIDEO", "ARTYKUŁ", "AUDIO", "PODCAST", "REPORTAŻ"],
-          default: "VIDEO" }
-      - { label: "Logo outlet", name: outlet_logo, widget: image, required: false }
-      - { label: "Kolejność", name: order, widget: number, default: 99 }
-      - { label: "Aktywne", name: active, widget: boolean, default: true }
-
-  # --- 4. Galeria ---
-  - name: galeria
-    label: Galeria
-    label_singular: Zdjęcie
-    folder: src/content/galeria
-    create: true
-    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
-    extension: md
-    format: frontmatter
-    fields:
-      - { label: Tytuł, name: title, widget: string, required: false }
-      - { label: Data, name: date, widget: date, required: false, format: YYYY-MM-DD }
-      - label: Kategoria
-        name: category
-        widget: select
-        required: false
+      - name: "category"
+        label: "🏷️ Kategoria karty"
+        widget: "select"
+        hint: "Filtr i kolor akcentu karty na stronie głównej."
+        required: true
         options:
-          - { label: "Hardest Hit", value: "HARDEST_HIT" }
-          - { label: "Szkolenia K9", value: "SZKOLENIA_K9" }
-          - { label: "TCCC / Medycyna", value: "TCCC" }
-          - { label: "Konferencja", value: "KONFERENCJA" }
-          - { label: "Drony", value: "DRONY" }
-          - { label: "Ceremonia", value: "CEREMONIA" }
-          - { label: "SAR / Ratownictwo", value: "SAR" }
-          - { label: "Ogólne", value: "OGOLNE" }
-      - label: Edycja
-        name: edition
-        widget: select
+          - "K9"
+          - "TCCC"
+          - "DRONY"
+          - "KONFERENCJA"
+      - name: "icon"
+        label: "✨ Ikona (Lucide)"
+        widget: "string"
+        hint: "Opcjonalna nazwa ikony lucide-react."
         required: false
-        default: '2026'
-        options:
-          - '2025'
-          - '2026'
-      - { label: Tekst alternatywny (SEO), name: alt, widget: string, required: false }
-      - { label: Lokalizacja, name: location, widget: string, required: false }
-      - { label: Zdjęcie, name: photo, widget: image, required: true, choose_url: true }
-      - label: Tagi
-        name: tags
-        widget: list
+      - name: "color"
+        label: "🎨 Kolor akcentu"
+        widget: "color"
+        hint: "Kolor lewej krawędzi i nagłówków karty."
         required: false
-        summary: '{{fields.tag}}'
-        field:
-          label: Tag
-          name: tag
-          widget: string
-      - name: order
-        label: "Kolejność wyświetlania"
-        widget: number
-        value_type: int
+        default: "#C4922A"
+      - name: "title_pl"
+        label: "🇵🇱 Tytuł (PL)"
+        widget: "string"
+        hint: "Tytuł karty programu w tym języku — widoczny na stronie głównej."
+        required: true
+      - name: "description_pl"
+        label: "🇵🇱 Opis (PL)"
+        widget: "text"
+        hint: "Opis modułu na karcie — sekcja programu na stronie głównej."
+        required: true
+      - name: "badge_pl"
+        label: "🇵🇱 Odznaka (PL)"
+        widget: "string"
+        hint: "Krótka etykieta pod opisem karty."
+        required: false
+      - name: "title_en"
+        label: "🇬🇧 Tytuł (EN)"
+        widget: "string"
+        hint: "Tytuł karty programu w tym języku — widoczny na stronie głównej."
+        required: false
+      - name: "description_en"
+        label: "🇬🇧 Opis (EN)"
+        widget: "text"
+        hint: "Opis modułu na karcie — sekcja programu na stronie głównej."
+        required: false
+      - name: "badge_en"
+        label: "🇬🇧 Odznaka (EN)"
+        widget: "string"
+        hint: "Krótka etykieta pod opisem karty."
+        required: false
+      - name: "title_de"
+        label: "🇩🇪 Tytuł (DE)"
+        widget: "string"
+        hint: "Tytuł karty programu w tym języku — widoczny na stronie głównej."
+        required: false
+      - name: "description_de"
+        label: "🇩🇪 Opis (DE)"
+        widget: "text"
+        hint: "Opis modułu na karcie — sekcja programu na stronie głównej."
+        required: false
+      - name: "badge_de"
+        label: "🇩🇪 Odznaka (DE)"
+        widget: "string"
+        hint: "Krótka etykieta pod opisem karty."
+        required: false
+      - name: "title_fr"
+        label: "🇫🇷 Tytuł (FR)"
+        widget: "string"
+        hint: "Tytuł karty programu w tym języku — widoczny na stronie głównej."
+        required: false
+      - name: "description_fr"
+        label: "🇫🇷 Opis (FR)"
+        widget: "text"
+        hint: "Opis modułu na karcie — sekcja programu na stronie głównej."
+        required: false
+      - name: "badge_fr"
+        label: "🇫🇷 Odznaka (FR)"
+        widget: "string"
+        hint: "Krótka etykieta pod opisem karty."
+        required: false
+      - name: "title_hr"
+        label: "🇭🇷 Tytuł (HR)"
+        widget: "string"
+        hint: "Tytuł karty programu w tym języku — widoczny na stronie głównej."
+        required: false
+      - name: "description_hr"
+        label: "🇭🇷 Opis (HR)"
+        widget: "text"
+        hint: "Opis modułu na karcie — sekcja programu na stronie głównej."
+        required: false
+      - name: "badge_hr"
+        label: "🇭🇷 Odznaka (HR)"
+        widget: "string"
+        hint: "Krótka etykieta pod opisem karty."
+        required: false
+      - name: "title_cs"
+        label: "🇨🇿 Tytuł (CS)"
+        widget: "string"
+        hint: "Tytuł karty programu w tym języku — widoczny na stronie głównej."
+        required: false
+      - name: "description_cs"
+        label: "🇨🇿 Opis (CS)"
+        widget: "text"
+        hint: "Opis modułu na karcie — sekcja programu na stronie głównej."
+        required: false
+      - name: "badge_cs"
+        label: "🇨🇿 Odznaka (CS)"
+        widget: "string"
+        hint: "Krótka etykieta pod opisem karty."
+        required: false
+      - name: "title_lt"
+        label: "🇱🇹 Tytuł (LT)"
+        widget: "string"
+        hint: "Tytuł karty programu w tym języku — widoczny na stronie głównej."
+        required: false
+      - name: "description_lt"
+        label: "🇱🇹 Opis (LT)"
+        widget: "text"
+        hint: "Opis modułu na karcie — sekcja programu na stronie głównej."
+        required: false
+      - name: "badge_lt"
+        label: "🇱🇹 Odznaka (LT)"
+        widget: "string"
+        hint: "Krótka etykieta pod opisem karty."
+        required: false
+      - name: "title_lv"
+        label: "🇱🇻 Tytuł (LV)"
+        widget: "string"
+        hint: "Tytuł karty programu w tym języku — widoczny na stronie głównej."
+        required: false
+      - name: "description_lv"
+        label: "🇱🇻 Opis (LV)"
+        widget: "text"
+        hint: "Opis modułu na karcie — sekcja programu na stronie głównej."
+        required: false
+      - name: "badge_lv"
+        label: "🇱🇻 Odznaka (LV)"
+        widget: "string"
+        hint: "Krótka etykieta pod opisem karty."
+        required: false
+      - name: "title_sk"
+        label: "🇸🇰 Tytuł (SK)"
+        widget: "string"
+        hint: "Tytuł karty programu w tym języku — widoczny na stronie głównej."
+        required: false
+      - name: "description_sk"
+        label: "🇸🇰 Opis (SK)"
+        widget: "text"
+        hint: "Opis modułu na karcie — sekcja programu na stronie głównej."
+        required: false
+      - name: "badge_sk"
+        label: "🇸🇰 Odznaka (SK)"
+        widget: "string"
+        hint: "Krótka etykieta pod opisem karty."
+        required: false
+      - name: "title_sl"
+        label: "🇸🇮 Tytuł (SL)"
+        widget: "string"
+        hint: "Tytuł karty programu w tym języku — widoczny na stronie głównej."
+        required: false
+      - name: "description_sl"
+        label: "🇸🇮 Opis (SL)"
+        widget: "text"
+        hint: "Opis modułu na karcie — sekcja programu na stronie głównej."
+        required: false
+      - name: "badge_sl"
+        label: "🇸🇮 Odznaka (SL)"
+        widget: "string"
+        hint: "Krótka etykieta pod opisem karty."
+        required: false
+      - name: "title_hu"
+        label: "🇭🇺 Tytuł (HU)"
+        widget: "string"
+        hint: "Tytuł karty programu w tym języku — widoczny na stronie głównej."
+        required: false
+      - name: "description_hu"
+        label: "🇭🇺 Opis (HU)"
+        widget: "text"
+        hint: "Opis modułu na karcie — sekcja programu na stronie głównej."
+        required: false
+      - name: "badge_hu"
+        label: "🇭🇺 Odznaka (HU)"
+        widget: "string"
+        hint: "Krótka etykieta pod opisem karty."
+        required: false
+      - name: "title_no"
+        label: "🇳🇴 Tytuł (NO)"
+        widget: "string"
+        hint: "Tytuł karty programu w tym języku — widoczny na stronie głównej."
+        required: false
+      - name: "description_no"
+        label: "🇳🇴 Opis (NO)"
+        widget: "text"
+        hint: "Opis modułu na karcie — sekcja programu na stronie głównej."
+        required: false
+      - name: "badge_no"
+        label: "🇳🇴 Odznaka (NO)"
+        widget: "string"
+        hint: "Krótka etykieta pod opisem karty."
+        required: false
+      - name: "title_sv"
+        label: "🇸🇪 Tytuł (SV)"
+        widget: "string"
+        hint: "Tytuł karty programu w tym języku — widoczny na stronie głównej."
+        required: false
+      - name: "description_sv"
+        label: "🇸🇪 Opis (SV)"
+        widget: "text"
+        hint: "Opis modułu na karcie — sekcja programu na stronie głównej."
+        required: false
+      - name: "badge_sv"
+        label: "🇸🇪 Odznaka (SV)"
+        widget: "string"
+        hint: "Krótka etykieta pod opisem karty."
+        required: false
+      - name: "title_nl"
+        label: "🇳🇱 Tytuł (NL)"
+        widget: "string"
+        hint: "Tytuł karty programu w tym języku — widoczny na stronie głównej."
+        required: false
+      - name: "description_nl"
+        label: "🇳🇱 Opis (NL)"
+        widget: "text"
+        hint: "Opis modułu na karcie — sekcja programu na stronie głównej."
+        required: false
+      - name: "badge_nl"
+        label: "🇳🇱 Odznaka (NL)"
+        widget: "string"
+        hint: "Krótka etykieta pod opisem karty."
+        required: false
+      - name: "title_es"
+        label: "🇪🇸 Tytuł (ES)"
+        widget: "string"
+        hint: "Tytuł karty programu w tym języku — widoczny na stronie głównej."
+        required: false
+      - name: "description_es"
+        label: "🇪🇸 Opis (ES)"
+        widget: "text"
+        hint: "Opis modułu na karcie — sekcja programu na stronie głównej."
+        required: false
+      - name: "badge_es"
+        label: "🇪🇸 Odznaka (ES)"
+        widget: "string"
+        hint: "Krótka etykieta pod opisem karty."
+        required: false
+      - name: "title_pt"
+        label: "🇵🇹 Tytuł (PT)"
+        widget: "string"
+        hint: "Tytuł karty programu w tym języku — widoczny na stronie głównej."
+        required: false
+      - name: "description_pt"
+        label: "🇵🇹 Opis (PT)"
+        widget: "text"
+        hint: "Opis modułu na karcie — sekcja programu na stronie głównej."
+        required: false
+      - name: "badge_pt"
+        label: "🇵🇹 Odznaka (PT)"
+        widget: "string"
+        hint: "Krótka etykieta pod opisem karty."
+        required: false
+      - name: "title_ro"
+        label: "🇷🇴 Tytuł (RO)"
+        widget: "string"
+        hint: "Tytuł karty programu w tym języku — widoczny na stronie głównej."
+        required: false
+      - name: "description_ro"
+        label: "🇷🇴 Opis (RO)"
+        widget: "text"
+        hint: "Opis modułu na karcie — sekcja programu na stronie głównej."
+        required: false
+      - name: "badge_ro"
+        label: "🇷🇴 Odznaka (RO)"
+        widget: "string"
+        hint: "Krótka etykieta pod opisem karty."
+        required: false
+      - name: "title_it"
+        label: "🇮🇹 Tytuł (IT)"
+        widget: "string"
+        hint: "Tytuł karty programu w tym języku — widoczny na stronie głównej."
+        required: false
+      - name: "description_it"
+        label: "🇮🇹 Opis (IT)"
+        widget: "text"
+        hint: "Opis modułu na karcie — sekcja programu na stronie głównej."
+        required: false
+      - name: "badge_it"
+        label: "🇮🇹 Odznaka (IT)"
+        widget: "string"
+        hint: "Krótka etykieta pod opisem karty."
+        required: false
+      - name: "title_ko"
+        label: "🇰🇷 Tytuł (KO)"
+        widget: "string"
+        hint: "Tytuł karty programu w tym języku — widoczny na stronie głównej."
+        required: false
+      - name: "description_ko"
+        label: "🇰🇷 Opis (KO)"
+        widget: "text"
+        hint: "Opis modułu na karcie — sekcja programu na stronie głównej."
+        required: false
+      - name: "badge_ko"
+        label: "🇰🇷 Odznaka (KO)"
+        widget: "string"
+        hint: "Krótka etykieta pod opisem karty."
+        required: false
+      - name: "order"
+        label: "🔢 Kolejność wyświetlania"
+        widget: "number"
+        hint: "Niższa liczba = wyżej na stronie. 1 = pierwszy, 99 = ostatni."
+        required: false
+        default: 99
+        value_type: "int"
         min: 0
-        max: 9999
-        default: 100
+        max: 999
+      - name: "active"
+        label: "👁️ Widoczny na stronie"
+        widget: "boolean"
+        hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
         required: false
-        hint: "Niższy numer = wyżej w galerii. Domyślnie 100."
-
-  # --- 5. Program (agenda) ---
-  - name: program
-    label: Program
-    label_singular: Punkt programu
-    folder: src/content/program
+        default: true
+  - name: "homepage_stats"
+    label: "🏠 Strona Główna — Statystyki"
+    description: "Cztery liczby w pasku statystyk (250+, 15+ krajów itd.)."
+    folder: "src/content/homepage_stats"
     create: true
     delete: true
-    slug: '{{day}}-{{slug}}'
-    preview_path: "pl/o-wydarzeniu"
-    extension: md
-    format: frontmatter
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
     fields:
-      - label: Dzień (YYYY-MM-DD)
-        name: day
-        widget: string
+      - name: "stat_key"
+        label: "🔑 Klucz statystyki"
+        widget: "string"
+        hint: "Unikalny identyfikator wpisu — używany przy mapowaniu fallback."
         required: true
-        hint: 'np. 2026-06-13'
-      - name: time_start
-        label: "Godzina rozpoczęcia"
-        widget: string
-        pattern: ['^\d{2}:\d{2}$', "Format HH:MM, np. 09:00"]
-        hint: "Format 24h, np. 09:00"
-      - name: time_end
-        label: "Godzina zakończenia"
-        widget: string
-        pattern: ['^\d{2}:\d{2}$', "Format HH:MM, np. 12:30"]
-        hint: "Format 24h, np. 12:30"
-      - { label: Tytuł, name: title, widget: string, required: true }
-      - { label: Opis, name: description, widget: text, required: false }
-      - label: Lokalizacja
-        name: location
-        widget: select
+      - name: "value"
+        label: "🔢 Wartość (liczba tekst)"
+        widget: "string"
+        hint: "Wyświetlana liczba np. 250+, 15+."
+        required: true
+      - label: "🌐 Etykiety wielojęzyczne"
+        name: "labels"
+        widget: "object"
+        hint: "Podpisy pod liczbami w pasku statystyk — zmiana języka strony wybiera pole."
+        required: true
+        fields:
+          - name: "pl"
+            label: "🇵🇱 Etykieta (pl)"
+            widget: "string"
+            hint: "Etykieta statystyki w języku PL."
+            required: true
+          - name: "en"
+            label: "🇬🇧 Etykieta (en)"
+            widget: "string"
+            hint: "Etykieta statystyki w języku EN."
+            required: false
+          - name: "de"
+            label: "🇩🇪 Etykieta (de)"
+            widget: "string"
+            hint: "Etykieta statystyki w języku DE."
+            required: false
+          - name: "fr"
+            label: "🇫🇷 Etykieta (fr)"
+            widget: "string"
+            hint: "Etykieta statystyki w języku FR."
+            required: false
+          - name: "hr"
+            label: "🇭🇷 Etykieta (hr)"
+            widget: "string"
+            hint: "Etykieta statystyki w języku HR."
+            required: false
+          - name: "cs"
+            label: "🇨🇿 Etykieta (cs)"
+            widget: "string"
+            hint: "Etykieta statystyki w języku CS."
+            required: false
+          - name: "lt"
+            label: "🇱🇹 Etykieta (lt)"
+            widget: "string"
+            hint: "Etykieta statystyki w języku LT."
+            required: false
+          - name: "lv"
+            label: "🇱🇻 Etykieta (lv)"
+            widget: "string"
+            hint: "Etykieta statystyki w języku LV."
+            required: false
+          - name: "sk"
+            label: "🇸🇰 Etykieta (sk)"
+            widget: "string"
+            hint: "Etykieta statystyki w języku SK."
+            required: false
+          - name: "sl"
+            label: "🇸🇮 Etykieta (sl)"
+            widget: "string"
+            hint: "Etykieta statystyki w języku SL."
+            required: false
+          - name: "hu"
+            label: "🇭🇺 Etykieta (hu)"
+            widget: "string"
+            hint: "Etykieta statystyki w języku HU."
+            required: false
+          - name: "no"
+            label: "🇳🇴 Etykieta (no)"
+            widget: "string"
+            hint: "Etykieta statystyki w języku NO."
+            required: false
+          - name: "sv"
+            label: "🇸🇪 Etykieta (sv)"
+            widget: "string"
+            hint: "Etykieta statystyki w języku SV."
+            required: false
+          - name: "nl"
+            label: "🇳🇱 Etykieta (nl)"
+            widget: "string"
+            hint: "Etykieta statystyki w języku NL."
+            required: false
+          - name: "es"
+            label: "🇪🇸 Etykieta (es)"
+            widget: "string"
+            hint: "Etykieta statystyki w języku ES."
+            required: false
+          - name: "pt"
+            label: "🇵🇹 Etykieta (pt)"
+            widget: "string"
+            hint: "Etykieta statystyki w języku PT."
+            required: false
+          - name: "ro"
+            label: "🇷🇴 Etykieta (ro)"
+            widget: "string"
+            hint: "Etykieta statystyki w języku RO."
+            required: false
+          - name: "it"
+            label: "🇮🇹 Etykieta (it)"
+            widget: "string"
+            hint: "Etykieta statystyki w języku IT."
+            required: false
+          - name: "ko"
+            label: "🇰🇷 Etykieta (ko)"
+            widget: "string"
+            hint: "Etykieta statystyki w języku KO."
+            required: false
+      - name: "accent"
+        label: "🎨 Akcent kolorystyczny"
+        widget: "select"
+        hint: "Kolor liczby w pasku statystyk."
+        required: false
+        default: "gold"
+        options:
+          - label: "Złoty"
+            value: "gold"
+          - label: "Czerwony"
+            value: "red"
+      - name: "order"
+        label: "🔢 Kolejność wyświetlania"
+        widget: "number"
+        hint: "Niższa liczba = wyżej na stronie. 1 = pierwszy, 99 = ostatni."
+        required: false
+        default: 99
+        value_type: "int"
+      - name: "active"
+        label: "👁️ Widoczny na stronie"
+        widget: "boolean"
+        hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+        required: false
+        default: true
+  - name: "locations"
+    label: "🏠 Strona Główna — Lokalizacje"
+    description: "Cztery bloki lokalizacji (3MK Arena, Szkoła Mundurowa, Stadion, Orlen)."
+    folder: "src/content/locations"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - name: "name"
+        label: "📍 Nazwa lokalizacji"
+        widget: "string"
+        hint: "Nagłówek bloku lokalizacji na stronie głównej i /o-wydarzeniu."
+        required: true
+      - name: "address"
+        label: "🏠 Adres"
+        widget: "string"
+        hint: "Adres wyświetlany pod opisem bloku."
+        required: false
+      - name: "description_pl"
+        label: "🇵🇱 Opis (pl)"
+        widget: "text"
+        hint: "Opis miejsca w danym języku — sekcja lokalizacji."
+        required: true
+      - name: "description_en"
+        label: "🇬🇧 Opis (en)"
+        widget: "text"
+        hint: "Opis miejsca w danym języku — sekcja lokalizacji."
+        required: false
+      - name: "description_de"
+        label: "🇩🇪 Opis (de)"
+        widget: "text"
+        hint: "Opis miejsca w danym języku — sekcja lokalizacji."
+        required: false
+      - name: "description_fr"
+        label: "🇫🇷 Opis (fr)"
+        widget: "text"
+        hint: "Opis miejsca w danym języku — sekcja lokalizacji."
+        required: false
+      - name: "description_hr"
+        label: "🇭🇷 Opis (hr)"
+        widget: "text"
+        hint: "Opis miejsca w danym języku — sekcja lokalizacji."
+        required: false
+      - name: "description_cs"
+        label: "🇨🇿 Opis (cs)"
+        widget: "text"
+        hint: "Opis miejsca w danym języku — sekcja lokalizacji."
+        required: false
+      - name: "description_lt"
+        label: "🇱🇹 Opis (lt)"
+        widget: "text"
+        hint: "Opis miejsca w danym języku — sekcja lokalizacji."
+        required: false
+      - name: "description_lv"
+        label: "🇱🇻 Opis (lv)"
+        widget: "text"
+        hint: "Opis miejsca w danym języku — sekcja lokalizacji."
+        required: false
+      - name: "description_sk"
+        label: "🇸🇰 Opis (sk)"
+        widget: "text"
+        hint: "Opis miejsca w danym języku — sekcja lokalizacji."
+        required: false
+      - name: "description_sl"
+        label: "🇸🇮 Opis (sl)"
+        widget: "text"
+        hint: "Opis miejsca w danym języku — sekcja lokalizacji."
+        required: false
+      - name: "description_hu"
+        label: "🇭🇺 Opis (hu)"
+        widget: "text"
+        hint: "Opis miejsca w danym języku — sekcja lokalizacji."
+        required: false
+      - name: "description_no"
+        label: "🇳🇴 Opis (no)"
+        widget: "text"
+        hint: "Opis miejsca w danym języku — sekcja lokalizacji."
+        required: false
+      - name: "description_sv"
+        label: "🇸🇪 Opis (sv)"
+        widget: "text"
+        hint: "Opis miejsca w danym języku — sekcja lokalizacji."
+        required: false
+      - name: "description_nl"
+        label: "🇳🇱 Opis (nl)"
+        widget: "text"
+        hint: "Opis miejsca w danym języku — sekcja lokalizacji."
+        required: false
+      - name: "description_es"
+        label: "🇪🇸 Opis (es)"
+        widget: "text"
+        hint: "Opis miejsca w danym języku — sekcja lokalizacji."
+        required: false
+      - name: "description_pt"
+        label: "🇵🇹 Opis (pt)"
+        widget: "text"
+        hint: "Opis miejsca w danym języku — sekcja lokalizacji."
+        required: false
+      - name: "description_ro"
+        label: "🇷🇴 Opis (ro)"
+        widget: "text"
+        hint: "Opis miejsca w danym języku — sekcja lokalizacji."
+        required: false
+      - name: "description_it"
+        label: "🇮🇹 Opis (it)"
+        widget: "text"
+        hint: "Opis miejsca w danym języku — sekcja lokalizacji."
+        required: false
+      - name: "description_ko"
+        label: "🇰🇷 Opis (ko)"
+        widget: "text"
+        hint: "Opis miejsca w danym języku — sekcja lokalizacji."
+        required: false
+      - name: "modules_pl"
+        label: "📚 Moduły (PL)"
+        widget: "string"
+        hint: "Krótka lista modułów przy lokalizacji (PL)."
+        required: false
+      - name: "modules_en"
+        label: "📚 Moduły (EN)"
+        widget: "string"
+        hint: "Krótka lista modułów (EN)."
+        required: false
+      - name: "modules_de"
+        label: "📚 Moduły (DE)"
+        widget: "string"
+        hint: "Krótka lista modułów (DE)."
+        required: false
+      - name: "modules_fr"
+        label: "📚 Moduły (FR)"
+        widget: "string"
+        hint: "Krótka lista modułów (FR)."
+        required: false
+      - name: "status"
+        label: "📌 Status"
+        widget: "select"
+        hint: "Etykieta statusu w kafelku lokalizacji."
+        required: false
+        default: "POTWIERDZONE"
+        options:
+          - label: "Potwierdzone"
+            value: "POTWIERDZONE"
+          - label: "W trakcie rozmów"
+            value: "W TRAKCIE ROZMÓW"
+          - label: "Planowane"
+            value: "PLANOWANE"
+      - name: "image"
+        label: "🖼️ Zdjęcie tła"
+        widget: "image"
+        hint: "Zalecany format: WebP. Rozmiar: 800×600px. Delikatne tło kafelka lokalizacji."
+        required: false
+        choose_url: true
+      - name: "map_url"
+        label: "🔗 Link do mapy"
+        widget: "string"
+        hint: "Google Maps — ikona/link w bloku."
+        required: false
+        pattern:
+          - "^https?://.*"
+          - "Wklej pełny adres URL z https://"
+      - name: "order"
+        label: "🔢 Kolejność wyświetlania"
+        widget: "number"
+        hint: "Niższa liczba = wyżej na stronie. 1 = pierwszy, 99 = ostatni."
+        required: false
+        default: 1
+        value_type: "int"
+      - name: "active"
+        label: "👁️ Widoczny na stronie"
+        widget: "boolean"
+        hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+        required: false
+        default: true
+  - name: "program"
+    label: "📅 O Wydarzeniu — Program / Agenda"
+    description: "Każdy punkt programu w interaktywnej agendzie (godzina, miejsce, kategoria)."
+    folder: "src/content/program"
+    create: true
+    delete: true
+    slug: "{{day}}-{{slug}}"
+    preview_path: "pl/o-wydarzeniu"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - name: "day"
+        label: "📅 Dzień (YYYY-MM-DD)"
+        widget: "string"
+        hint: "Data dnia agendy — grupowanie punktów."
+        required: true
+      - name: "time_start"
+        label: "⏰ Godzina startu"
+        widget: "string"
+        hint: "Godzina rozpoczęcia bloku na osi czasu."
+        required: true
+        pattern:
+          - "^\\d{2}:\\d{2}$"
+          - "Format HH:MM"
+      - name: "time_end"
+        label: "⏰ Godzina końca"
+        widget: "string"
+        hint: "Godzina zakończenia bloku."
+        required: true
+        pattern:
+          - "^\\d{2}:\\d{2}$"
+          - "Format HH:MM"
+      - name: "title"
+        label: "📝 Tytuł punktu"
+        widget: "string"
+        hint: "Tytuł w agendzie i w eksporcie kalendarza."
+        required: true
+      - name: "description"
+        label: "📄 Opis (opcjonalnie)"
+        widget: "text"
+        hint: "Rozwinięcie punktu — tooltip lub szczegóły."
+        required: false
+      - name: "location"
+        label: "📍 Lokalizacja"
+        widget: "select"
+        hint: "Miejsce wydarzenia — wyświetlane przy punkcie agendy."
         required: false
         default: "Arena Główna"
         options:
@@ -331,783 +1507,1929 @@ collections:
           - "Sala Konferencyjna"
           - "Infrastruktura Orlen"
           - "—"
-      - name: locationMapUrl
-        label: "Link do nawigacji (Google Maps)"
-        widget: string
+      - name: "locationMapUrl"
+        label: "🔗 URL mapy (Google)"
+        widget: "string"
+        hint: "Link „Nawiguj” przy punkcie programu."
         required: false
-        hint: "Wklej link z Google Maps z pinezką lokalizacji. Np. https://maps.google.com/?q=..."
-      - label: Kategoria
-        name: category
-        widget: string
-        hint: "Wpisz klucz kategorii z kolekcji 'Agenda — Kategorie i filtry', np. K9, TCCC, DRONY"
+        pattern:
+          - "^https?://.*"
+          - "Wklej pełny adres URL z https://"
+      - name: "category"
+        label: "🏷️ Klucz kategorii"
+        widget: "string"
+        hint: "Musi zgadzać się z kluczem w „Kategorie Agendy” (np. K9, TCCC)."
+        required: true
         default: "K9"
-      - { label: Instruktor / prowadzący, name: instructor, widget: string, required: false }
-      - { label: Kolejność w dniu, name: order, widget: number, default: 99 }
-      - { label: "Aktywny", name: active, widget: boolean, default: true }
-
-  - name: agenda_categories
-    label: "Agenda — Kategorie i filtry"
+      - name: "instructor"
+        label: "👤 Instruktor / prowadzący"
+        widget: "string"
+        hint: "Opcjonalne nazwisko przy punkcie programu."
+        required: false
+      - name: "order"
+        label: "🔢 Kolejność wyświetlania"
+        widget: "number"
+        hint: "Niższa liczba = wyżej w obrębie dnia."
+        required: false
+        default: 99
+        value_type: "int"
+      - name: "active"
+        label: "👁️ Widoczny na stronie"
+        widget: "boolean"
+        hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+        required: false
+        default: true
+  - name: "agenda_categories"
+    label: "📅 O Wydarzeniu — Kategorie Agendy"
+    description: "Kolory i nazwy filtrów agendy (K9, TCCC, Drony itd.)."
     folder: "src/content/agenda_categories"
     create: true
     delete: true
     slug: "{{slug}}"
     fields:
-      - name: key
-        label: "Klucz (unikalny, wielkie litery, np. K9)"
-        widget: string
-        hint: "Użyty jako wartość w polu category w programie. Np. K9, TCCC, DRONY"
-        pattern: ['^[A-Z0-9_]+$', "Tylko wielkie litery, cyfry i podkreślniki"]
-      - name: label_pl
-        label: "Etykieta (PL)"
-        widget: string
-      - name: label_en
-        label: "Etykieta (EN)"
-        widget: string
+      - name: "key"
+        label: "🔑 Klucz kategorii"
+        widget: "string"
+        hint: "Unikalny klucz — powiązany z polem category w programie."
+        required: true
+        pattern:
+          - "^[A-Z0-9_]+$"
+          - "Wielkie litery, cyfry i podkreślniki"
+      - name: "label_pl"
+        label: "🇵🇱 Etykieta PL"
+        widget: "string"
+        hint: "Nazwa filtra agendy po polsku."
+        required: true
+      - name: "label_en"
+        label: "🇬🇧 Etykieta EN"
+        widget: "string"
+        hint: "Nazwa filtra po angielsku."
         required: false
-      - name: color
-        label: "Kolor (hex)"
-        widget: color
+      - name: "color"
+        label: "🎨 Kolor (hex)"
+        widget: "color"
+        hint: "Kolor paska kategorii na osi czasu."
+        required: true
         default: "#C4922A"
-        hint: "Kolor tagu i akcentu na osi czasu"
-      - name: show_in_filter
-        label: "Pokaż w filtrach"
-        widget: boolean
+      - name: "show_in_filter"
+        label: "🔘 Pokaż w filtrach"
+        widget: "boolean"
+        hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+        required: false
         default: true
-        hint: "Czy ta kategoria ma być widoczna jako przycisk filtra"
-      - name: show_calendar_button
-        label: "Pokaż przycisk kalendarza"
-        widget: boolean
+      - name: "show_calendar_button"
+        label: "📅 Przycisk kalendarza"
+        widget: "boolean"
+        hint: "Wyłącz dla przerw bez eksportu ICS."
+        required: false
         default: true
-        hint: "Wyłącz dla kategorii PRZERWA"
-      - name: order
-        label: "Kolejność w filtrach"
-        widget: number
+      - name: "order"
+        label: "🔢 Kolejność wyświetlania"
+        widget: "number"
+        hint: "Kolejność przycisków filtrów."
+        required: false
         default: 99
-      - name: active
-        label: "Aktywna"
-        widget: boolean
+      - name: "active"
+        label: "👁️ Widoczny na stronie"
+        widget: "boolean"
+        hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+        required: false
         default: true
-
-  # --- 6. Ustawienia serwisu (jeden plik) ---
-  - name: ustawienia
-    label: Ustawienia serwisu
+  - name: "agenda_ui"
+    label: "📅 O Wydarzeniu — Napisy Agendy"
+    description: "Przyciski i etykiety interfejsu agendy w wielu językach."
     files:
-      - name: ustawienia
-        label: Ustawienia globalne
-        file: src/content/ustawienia.yml
-        format: yaml
+      - label: "📄 Etykiety interfejsu agendy"
+        name: "labels"
+        file: "src/content/agenda_ui/labels.yml"
+        format: "yaml"
         fields:
-          - { label: Data wydarzenia (start), name: event_date, widget: datetime, format: YYYY-MM-DD, date_format: DD.MM.YYYY, time_format: false }
-          - { label: Data wydarzenia (koniec), name: event_date_end, widget: datetime, format: YYYY-MM-DD, date_format: DD.MM.YYYY, time_format: false }
-          - { label: "Godzina rozpoczęcia (HH:MM)", name: event_time_start, widget: string, default: "09:00", pattern: ['^\\d{2}:\\d{2}$', "Format 24h np. 09:00"], hint: "Format 24h np. 09:00. Używane w odliczaniu i ICS." }
-          - { label: "Godzina zakończenia (HH:MM)", name: event_time_end, widget: string, default: "18:00", pattern: ['^\\d{2}:\\d{2}$', "Format 24h np. 18:00"], hint: "Format 24h np. 18:00." }
-          - { label: Miasto, name: event_city, widget: string }
-          - { label: Główna lokalizacja, name: event_venue, widget: string }
-          - { label: Liczba uczestników (wyświetlana), name: participants_count, widget: string, default: "250+" }
-          - { label: Liczba krajów (wyświetlana), name: countries_count, widget: string, default: "15+" }
-          - { label: Liczba psów (wyświetlana), name: dogs_count, widget: string, default: "80+" }
-          - { label: Liczba modułów (wyświetlana), name: modules_count, widget: string, default: "8" }
-          - name: hero_title
-            label: "Hero — Nazwa (np. CERBERUS)"
-            widget: string
-            default: "CERBERUS"
-            hint: "Pierwsza linia nagłówka h1 na stronie głównej"
-          - name: hero_subtitle
-            label: "Hero — Podtytuł (np. K9)"
-            widget: string
-            default: "K9"
-          - name: hero_year
-            label: "Hero — Rok edycji"
-            widget: string
-            default: "2026"
-            hint: "Wyświetlany przy nazwie w nagłówku h1"
-          - { label: URL Pretix (rejestracja), name: pretix_url, widget: string }
-          - { label: URL video hero (opcjonalnie), name: hero_video_url, widget: string, required: false }
-          - name: hero_video_href
-            label: "Hero — URL wideo YouTube"
-            widget: string
+          - label: "📅 Dodaj do kalendarza"
+            name: "add_to_calendar"
+            widget: "object"
+            hint: "Przyciski eksportu ICS na osi agendy."
+            fields:
+              - name: "pl"
+                label: "🇵🇱 Dodaj do kalendarza (pl)"
+                widget: "string"
+                hint: "Przyciski eksportu ICS na osi agendy. — wariant PL."
+                required: true
+                default: "DODAJ DO KALENDARZA"
+              - name: "en"
+                label: "🇬🇧 Dodaj do kalendarza (en)"
+                widget: "string"
+                hint: "Przyciski eksportu ICS na osi agendy. — wariant EN."
+                required: false
+                default: "ADD TO CALENDAR"
+              - name: "de"
+                label: "🇩🇪 Dodaj do kalendarza (de)"
+                widget: "string"
+                hint: "Przyciski eksportu ICS na osi agendy. — wariant DE."
+                required: false
+                default: "ZUM KALENDER HINZUFÜGEN"
+              - name: "fr"
+                label: "🇫🇷 Dodaj do kalendarza (fr)"
+                widget: "string"
+                hint: "Przyciski eksportu ICS na osi agendy. — wariant FR."
+                required: false
+                default: "AJOUTER AU CALENDRIER"
+              - name: "cs"
+                label: "🇨🇿 Dodaj do kalendarza (cs)"
+                widget: "string"
+                hint: "Przyciski eksportu ICS na osi agendy. — wariant CS."
+                required: false
+                default: "PŘIDAT DO KALENDÁŘE"
+              - name: "sk"
+                label: "🇸🇰 Dodaj do kalendarza (sk)"
+                widget: "string"
+                hint: "Przyciski eksportu ICS na osi agendy. — wariant SK."
+                required: false
+                default: "PRIDAŤ DO KALENDÁRA"
+              - name: "hu"
+                label: "🇭🇺 Dodaj do kalendarza (hu)"
+                widget: "string"
+                hint: "Przyciski eksportu ICS na osi agendy. — wariant HU."
+                required: false
+                default: "HOZZÁADÁS NAPTÁRHOZ"
+              - name: "hr"
+                label: "🇭🇷 Dodaj do kalendarza (hr)"
+                widget: "string"
+                hint: "Przyciski eksportu ICS na osi agendy. — wariant HR."
+                required: false
+                default: "DODAJ U KALENDAR"
+              - name: "sl"
+                label: "🇸🇮 Dodaj do kalendarza (sl)"
+                widget: "string"
+                hint: "Przyciski eksportu ICS na osi agendy. — wariant SL."
+                required: false
+                default: "DODAJ V KOLEDAR"
+              - name: "lt"
+                label: "🇱🇹 Dodaj do kalendarza (lt)"
+                widget: "string"
+                hint: "Przyciski eksportu ICS na osi agendy. — wariant LT."
+                required: false
+                default: "PRIDĖTI Į KALENDORIŲ"
+              - name: "lv"
+                label: "🇱🇻 Dodaj do kalendarza (lv)"
+                widget: "string"
+                hint: "Przyciski eksportu ICS na osi agendy. — wariant LV."
+                required: false
+                default: "PIEVIENOT KALENDĀRAM"
+              - name: "no"
+                label: "🇳🇴 Dodaj do kalendarza (no)"
+                widget: "string"
+                hint: "Przyciski eksportu ICS na osi agendy. — wariant NO."
+                required: false
+                default: "LEGG TIL I KALENDER"
+              - name: "sv"
+                label: "🇸🇪 Dodaj do kalendarza (sv)"
+                widget: "string"
+                hint: "Przyciski eksportu ICS na osi agendy. — wariant SV."
+                required: false
+                default: "LÄGG TILL I KALENDER"
+              - name: "nl"
+                label: "🇳🇱 Dodaj do kalendarza (nl)"
+                widget: "string"
+                hint: "Przyciski eksportu ICS na osi agendy. — wariant NL."
+                required: false
+                default: "AAN KALENDER TOEVOEGEN"
+              - name: "es"
+                label: "🇪🇸 Dodaj do kalendarza (es)"
+                widget: "string"
+                hint: "Przyciski eksportu ICS na osi agendy. — wariant ES."
+                required: false
+                default: "AGREGAR AL CALENDARIO"
+              - name: "pt"
+                label: "🇵🇹 Dodaj do kalendarza (pt)"
+                widget: "string"
+                hint: "Przyciski eksportu ICS na osi agendy. — wariant PT."
+                required: false
+                default: "ADICIONAR AO CALENDÁRIO"
+              - name: "ro"
+                label: "🇷🇴 Dodaj do kalendarza (ro)"
+                widget: "string"
+                hint: "Przyciski eksportu ICS na osi agendy. — wariant RO."
+                required: false
+                default: "ADĂUGAȚI LA CALENDAR"
+              - name: "it"
+                label: "🇮🇹 Dodaj do kalendarza (it)"
+                widget: "string"
+                hint: "Przyciski eksportu ICS na osi agendy. — wariant IT."
+                required: false
+                default: "AGGIUNGI AL CALENDARIO"
+              - name: "ko"
+                label: "🇰🇷 Dodaj do kalendarza (ko)"
+                widget: "string"
+                hint: "Przyciski eksportu ICS na osi agendy. — wariant KO."
+                required: false
+                default: "캘린더에 추가"
+          - label: "🧭 Nawiguj"
+            name: "navigate"
+            widget: "object"
+            hint: "Przycisk nawigacji do miejsca w punkcie programu."
+            fields:
+              - name: "pl"
+                label: "🇵🇱 Nawiguj (pl)"
+                widget: "string"
+                hint: "Przycisk nawigacji do miejsca w punkcie programu. — wariant PL."
+                required: true
+                default: "NAWIGUJ"
+              - name: "en"
+                label: "🇬🇧 Nawiguj (en)"
+                widget: "string"
+                hint: "Przycisk nawigacji do miejsca w punkcie programu. — wariant EN."
+                required: false
+                default: "NAVIGATE"
+              - name: "de"
+                label: "🇩🇪 Nawiguj (de)"
+                widget: "string"
+                hint: "Przycisk nawigacji do miejsca w punkcie programu. — wariant DE."
+                required: false
+                default: "NAVIGIEREN"
+              - name: "fr"
+                label: "🇫🇷 Nawiguj (fr)"
+                widget: "string"
+                hint: "Przycisk nawigacji do miejsca w punkcie programu. — wariant FR."
+                required: false
+                default: "NAVIGUER"
+              - name: "cs"
+                label: "🇨🇿 Nawiguj (cs)"
+                widget: "string"
+                hint: "Przycisk nawigacji do miejsca w punkcie programu. — wariant CS."
+                required: false
+                default: "NAVIGOVAT"
+              - name: "sk"
+                label: "🇸🇰 Nawiguj (sk)"
+                widget: "string"
+                hint: "Przycisk nawigacji do miejsca w punkcie programu. — wariant SK."
+                required: false
+                default: "NAVIGOVAŤ"
+              - name: "hu"
+                label: "🇭🇺 Nawiguj (hu)"
+                widget: "string"
+                hint: "Przycisk nawigacji do miejsca w punkcie programu. — wariant HU."
+                required: false
+                default: "NAVIGÁLÁS"
+              - name: "hr"
+                label: "🇭🇷 Nawiguj (hr)"
+                widget: "string"
+                hint: "Przycisk nawigacji do miejsca w punkcie programu. — wariant HR."
+                required: false
+                default: "NAVIGIRAJ"
+              - name: "sl"
+                label: "🇸🇮 Nawiguj (sl)"
+                widget: "string"
+                hint: "Przycisk nawigacji do miejsca w punkcie programu. — wariant SL."
+                required: false
+                default: "NAVIGIRAJ"
+              - name: "lt"
+                label: "🇱🇹 Nawiguj (lt)"
+                widget: "string"
+                hint: "Przycisk nawigacji do miejsca w punkcie programu. — wariant LT."
+                required: false
+                default: "NARŠYTI"
+              - name: "lv"
+                label: "🇱🇻 Nawiguj (lv)"
+                widget: "string"
+                hint: "Przycisk nawigacji do miejsca w punkcie programu. — wariant LV."
+                required: false
+                default: "NAVIGĒT"
+              - name: "no"
+                label: "🇳🇴 Nawiguj (no)"
+                widget: "string"
+                hint: "Przycisk nawigacji do miejsca w punkcie programu. — wariant NO."
+                required: false
+                default: "NAVIGER"
+              - name: "sv"
+                label: "🇸🇪 Nawiguj (sv)"
+                widget: "string"
+                hint: "Przycisk nawigacji do miejsca w punkcie programu. — wariant SV."
+                required: false
+                default: "NAVIGERA"
+              - name: "nl"
+                label: "🇳🇱 Nawiguj (nl)"
+                widget: "string"
+                hint: "Przycisk nawigacji do miejsca w punkcie programu. — wariant NL."
+                required: false
+                default: "NAVIGEREN"
+              - name: "es"
+                label: "🇪🇸 Nawiguj (es)"
+                widget: "string"
+                hint: "Przycisk nawigacji do miejsca w punkcie programu. — wariant ES."
+                required: false
+                default: "NAVEGAR"
+              - name: "pt"
+                label: "🇵🇹 Nawiguj (pt)"
+                widget: "string"
+                hint: "Przycisk nawigacji do miejsca w punkcie programu. — wariant PT."
+                required: false
+                default: "NAVEGAR"
+              - name: "ro"
+                label: "🇷🇴 Nawiguj (ro)"
+                widget: "string"
+                hint: "Przycisk nawigacji do miejsca w punkcie programu. — wariant RO."
+                required: false
+                default: "NAVIGAȚI"
+              - name: "it"
+                label: "🇮🇹 Nawiguj (it)"
+                widget: "string"
+                hint: "Przycisk nawigacji do miejsca w punkcie programu. — wariant IT."
+                required: false
+                default: "NAVIGA"
+              - name: "ko"
+                label: "🇰🇷 Nawiguj (ko)"
+                widget: "string"
+                hint: "Przycisk nawigacji do miejsca w punkcie programu. — wariant KO."
+                required: false
+                default: "길 안내"
+          - label: "📍 Brak lokalizacji"
+            name: "no_location"
+            widget: "object"
+            hint: "Komunikat gdy brak URL mapy przy wydarzeniu agendy."
+            fields:
+              - name: "pl"
+                label: "🇵🇱 Tekst (pl)"
+                widget: "string"
+                hint: "Tekst przy braku podpiętej lokalizacji."
+                required: true
+              - name: "en"
+                label: "🇬🇧 Tekst (en)"
+                widget: "string"
+                hint: "Tekst przy braku podpiętej lokalizacji."
+                required: false
+              - name: "de"
+                label: "🇩🇪 Tekst (de)"
+                widget: "string"
+                hint: "Tekst przy braku podpiętej lokalizacji."
+                required: false
+              - name: "fr"
+                label: "🇫🇷 Tekst (fr)"
+                widget: "string"
+                hint: "Tekst przy braku podpiętej lokalizacji."
+                required: false
+          - label: "📭 Brak wydarzeń"
+            name: "no_events"
+            widget: "object"
+            hint: "Komunikat gdy filtr agendy nie zwraca punktów."
+            fields:
+              - name: "pl"
+                label: "🇵🇱 Tekst (pl)"
+                widget: "string"
+                hint: "Tekst pustej listy po filtrze."
+                required: true
+              - name: "en"
+                label: "🇬🇧 Tekst (en)"
+                widget: "string"
+                hint: "Tekst pustej listy po filtrze."
+                required: false
+          - label: "📅 Google Calendar"
+            name: "google_calendar"
+            widget: "object"
+            hint: "Etykieta przycisku eksportu do Google Calendar."
+            fields:
+              - name: "pl"
+                label: "🇵🇱 Tekst"
+                widget: "string"
+                hint: "Etykieta przycisku Google Calendar."
+                required: true
+                default: "GOOGLE CALENDAR"
+              - name: "en"
+                label: "🇬🇧 Tekst"
+                widget: "string"
+                hint: "Etykieta przycisku Google Calendar."
+                required: false
+                default: "GOOGLE CALENDAR"
+          - label: "🍎 Apple / iCal"
+            name: "apple_ical"
+            widget: "object"
+            hint: "Etykieta przycisku pliku ICS / Apple Calendar."
+            fields:
+              - name: "pl"
+                label: "🇵🇱 Tekst"
+                widget: "string"
+                hint: "Etykieta przycisku Apple / iCal."
+                required: true
+                default: "APPLE / ICAL"
+              - name: "en"
+                label: "🇬🇧 Tekst"
+                widget: "string"
+                hint: "Etykieta przycisku Apple / iCal."
+                required: false
+                default: "APPLE / ICAL"
+          - label: "👤 Etykieta prowadzącego"
+            name: "instructor_label"
+            widget: "object"
+            hint: "Prefiks przed nazwiskiem instruktora w agendzie."
+            fields:
+              - name: "pl"
+                label: "🇵🇱 Tekst"
+                widget: "string"
+                hint: "Słowo „Prowadzący” / „Instructor” przed nazwą."
+                required: true
+              - name: "en"
+                label: "🇬🇧 Tekst"
+                widget: "string"
+                hint: "Słowo „Prowadzący” / „Instructor” przed nazwą."
+                required: false
+              - name: "de"
+                label: "🇩🇪 Tekst"
+                widget: "string"
+                hint: "Słowo „Prowadzący” / „Instructor” przed nazwą."
+                required: false
+              - name: "fr"
+                label: "🇫🇷 Tekst"
+                widget: "string"
+                hint: "Słowo „Prowadzący” / „Instructor” przed nazwą."
+                required: false
+          - name: "ics_organizer_name"
+            label: "📇 ICS — nazwa organizatora"
+            widget: "string"
+            hint: "Nazwa organizatora w pliku kalendarza."
             required: false
-            hint: "Link do relacji wideo otwierany w iframe"
-            pattern: ['^https?://.*', "Musi zaczynać się od https://"]
-          - name: hero_video_title
-            label: "Hero — Tytuł iframe wideo"
-            widget: string
+            default: "Fundacja PACTA K9"
+          - name: "ics_organizer_email"
+            label: "📇 ICS — e-mail organizatora"
+            widget: "string"
+            hint: "E-mail organizatora w ICS."
             required: false
-            default: "CERBERUS K9 2026 — Relacja"
-          - name: hero_close_label_pl
-            label: "Hero — Etykieta przycisku zamknięcia"
-            widget: string
-            default: "ZAMKNIJ"
-          - { label: "Tło Hero — zdjęcie", name: hero_background_image, widget: image, required: false }
-          - label: "Tło Hero — przezroczystość (0.1–1.0)"
-            name: hero_background_opacity
-            widget: number
-            default: 0.4
-            min: 0.1
-            max: 1.0
-            step: 0.05
-          - { label: Domena Plausible, name: plausible_domain, widget: string }
-          - { label: Rejestracja aktywna, name: registration_active, widget: boolean, default: true }
-          - name: hero_cta_registration_href
-            label: "Hero CTA — URL rejestracji (nadpisuje pretix_url)"
-            widget: string
+            default: "sebastian@pactak9.org"
+          - name: "ics_prodid"
+            label: "📇 ICS — PRODID"
+            widget: "string"
+            hint: "Identyfikator producenta kalendarza."
             required: false
-            hint: "Jeśli puste — używa pretix_url. Np. /pl/rejestracja"
-          - name: hero_cta_program_href
-            label: "Hero CTA — URL programu"
-            widget: string
-            required: false
-            default: "/pl/o-wydarzeniu#agenda"
-          - { label: HARDEST HIT aktywny, name: hardest_hit_active, widget: boolean, default: true }
-          - { label: Pasek powiadomień aktywny, name: notification_bar_active, widget: boolean, default: false }
-          - { label: Tekst paska powiadomień, name: notification_bar_text, widget: string, required: false }
-          - { label: Link paska powiadomień, name: notification_bar_url, widget: string, required: false }
-          - { label: Tryb LIVE aktywny, name: live_mode_active, widget: boolean, default: false }
-          - { label: Email kontaktowy (stopka/formularz), name: footer_email, widget: string }
-          - { label: Telefon kontaktowy, name: footer_phone, widget: string }
-          - { label: Facebook URL, name: social_facebook, widget: string }
-          - { label: YouTube URL, name: social_youtube, widget: string }
-          - { label: Instagram URL, name: social_instagram, widget: string, required: false }
-          - { label: LinkedIn URL, name: social_linkedin, widget: string, required: false }
-          - { label: Twitter/X URL, name: social_twitter, widget: string, required: false }
-          - { label: "Twitter/X handle", name: twitter_handle, widget: string, default: "@cerberusk9", required: false }
-          - { label: Statut fundacji (PDF), name: statute_pdf, widget: string }
-          - { label: KRS — link do rejestru, name: krs_url, widget: string }
-          - { label: Główne wideo YouTube URL, name: main_video_youtube, widget: string }
-          - { label: Tytuł głównego wideo, name: main_video_title, widget: string }
-          - { label: Główne wideo — badge (linia 1), name: video_badge_1, widget: string, required: false }
-          - { label: Wideo 2 — URL, name: video_url_2, widget: string, required: false }
-          - { label: Wideo 2 — Badge (np. TVP), name: video_badge_2, widget: string, required: false }
-          - { label: Wideo 3 — URL, name: video_url_3, widget: string, required: false }
-          - { label: Wideo 3 — Badge, name: video_badge_3, widget: string, required: false }
-          - { label: Wideo 4 — URL, name: video_url_4, widget: string, required: false }
-          - { label: Wideo 4 — Badge, name: video_badge_4, widget: string, required: false }
-          - { label: Data rejestracji (wyświetlana), name: registration_date_display, widget: string }
-          - { label: Dzień przygotowawczy, name: registration_prep_day, widget: string }
-          - { label: Lokalizacje (przecinek), name: registration_venues, widget: string }
-          - { label: Miasto wydarzenia, name: registration_city, widget: string }
-          - { label: Email rejestracyjny, name: registration_contact_email, widget: string }
-          - { label: Telefon rejestracyjny, name: registration_contact_phone, widget: string }
-          - { label: Deadline akredytacji mediów, name: accreditation_deadline, widget: string }
-          - { label: CTA Zostań Partnerem — href, name: partner_cta_href, widget: string }
-          - { label: CTA Zostań Partnerem — link pełny (opcjonalnie), name: partner_cta_href_full, widget: string, required: false }
-          - { label: "Logo nawigacji", name: nav_logo, widget: image }
-          - { label: "Logo — tekst alternatywny", name: nav_logo_alt, widget: string }
-          - { label: "Nazwa marki", name: brand_name, widget: string }
-          - { label: "Podtytuł marki", name: brand_tagline, widget: string }
-          - { label: "Adres fundacji", name: footer_address, widget: string }
-          - { label: "Nazwa fundacji", name: footer_foundation_name, widget: string }
-          - { label: "Domeny (stopka)", name: footer_domains, widget: string }
-          - { label: "KRS", name: krs_number, widget: string }
-          - { label: "NIP", name: nip_number, widget: string }
-          - { label: "REGON", name: regon_number, widget: string }
-          - { label: "Domyślne zdjęcie aktualności", name: default_news_image, widget: image, required: false }
-          - { label: "Placeholder zdjęcie instruktora", name: instructor_placeholder_photo, widget: image, required: false }
-          - { label: "Press kit ZIP (URL)", name: press_kit_zip, widget: string, required: false }
-          - { label: "PDF Polska Zbrojna", name: press_pdf_polska_zbrojna, widget: string, required: false }
-          - { label: "PDF Special Ops", name: press_pdf_special_ops, widget: string, required: false }
-          - { label: "Kontakt media — imię i nazwisko", name: media_contact_name, widget: string }
-          - { label: "Kontakt media — telefon", name: media_contact_phone, widget: string }
-          - { label: "Kontakt media — email", name: media_contact_email, widget: string }
-          - { label: "Email Prezesa", name: president_email, widget: string }
-          - name: contact_phone_sebastian
-            label: "Kontakt — Telefon Sebastian"
-            widget: string
-            required: false
-            pattern: ['^\+?[0-9 ()-]{7,}$', "Nieprawidłowy numer telefonu"]
-          - name: contact_phone_mariusz
-            label: "Kontakt — Telefon Mariusz (Prezes)"
-            widget: string
-            required: false
-          - name: contact_president_email
-            label: "Kontakt — Email Prezesa (Mariusz)"
-            widget: string
-            required: false
-            pattern: ['^[^@]+@[^@]+\.[^@]+$', "Nieprawidłowy email"]
-          - name: contact_address_street
-            label: "Kontakt — Ulica i numer"
-            widget: string
-            required: false
-          - name: contact_address_city
-            label: "Kontakt — Miasto"
-            widget: string
-            required: false
-          - name: contact_address_zip
-            label: "Kontakt — Kod pocztowy"
-            widget: string
-            required: false
-          - name: contact_map_embed_url
-            label: "Kontakt — URL mapy (embed)"
-            widget: string
-            required: false
-            hint: "URL OpenStreetMap lub Google Maps embed"
-          - name: contact_venue_address
-            label: "Kontakt — Adres miejsca wydarzenia (pod mapą)"
-            widget: string
-            required: false
-          - { label: "Mapa embed URL", name: map_embed_url, widget: string, required: false }
-          - { label: "Adres lokalizacji (kontakt)", name: venue_address, widget: string }
-          - label: "Formularz kontaktowy — endpoint (POST)"
-            name: contact_form_endpoint
-            widget: string
-            required: false
-            default: ""
-            hint: "Zostaw puste dla Netlify Forms. Wpisz URL dla własnego endpointu."
-          - { label: "Formularz kontaktowy — odbiorca (email)", name: contact_form_recipient, widget: string, default: "sebastian@pactak9.org" }
-          - { label: "Formularz — zgoda RODO (PL)", name: contact_gdpr_text_pl, widget: string, default: "Wyrażam zgodę na przetwarzanie danych osobowych zgodnie z RODO." }
-          - { label: "Formularz — zgoda RODO (EN)", name: contact_gdpr_text_en, widget: string, default: "I consent to processing of personal data in accordance with GDPR." }
-          - { label: "URL strony agendy (publiczny)", name: agenda_page_url, widget: string }
-          - { label: "URL strony (główny)", name: site_url, widget: string }
-          - { label: "PWA — nazwa pełna", name: pwa_name, widget: string, default: "CERBERUS K9", required: false }
-          - { label: "PWA — krótka nazwa", name: pwa_short_name, widget: string, default: "CERBERUS K9", required: false }
-          - { label: "PWA — opis", name: pwa_description, widget: string, default: "Międzynarodowa Platforma Obrony K9", required: false }
-          - { label: "PWA — kolor motywu (theme)", name: pwa_theme_color, widget: string, default: "#0F1720", required: false }
-          - { label: "PWA — kolor tła", name: pwa_background_color, widget: string, default: "#0F1720", required: false }
-          - { label: "Baner zgody na cookies (RODO)", name: cookie_consent_active, widget: boolean, default: false, hint: "Włącz gdy polityka cookies jest gotowa." }
-          - { label: "Apple Touch Icon (180x180)", name: apple_touch_icon, widget: image, required: false, hint: "Ikona dla iPhone gdy dodajesz stronę do home screen" }
-          - { label: "Favicon SVG", name: favicon_svg, widget: image, required: false }
-          - { label: "Favicon ICO", name: favicon_ico, widget: string, required: false }
-          - { label: "OG Image domyślny", name: og_image_default, widget: image, required: false }
-          - { label: "OG Image szerokość (px)", name: og_image_width, widget: string, default: "1200" }
-          - { label: "OG Image wysokość (px)", name: og_image_height, widget: string, default: "630" }
-          - { label: "OG Image alt text", name: og_image_alt, widget: string }
-          - { label: "OG Site Name", name: og_site_name, widget: string, default: "CERBERUS K9" }
-          - { label: "OG Locale", name: og_locale, widget: string, default: "pl_PL" }
-          - { label: "Strefa czasowa", name: event_timezone, widget: string, default: "Europe/Warsaw" }
-          - { label: "Data odblokowania galerii 2026", name: gallery_unlock_date, widget: datetime, format: "YYYY-MM-DD", date_format: "DD.MM.YYYY", time_format: false }
-          - { label: "Oferta sponsorska — PDF (URL)", name: sponsor_offer_pdf, widget: string, required: false, hint: "Zostaw puste jeśli nie ma PDF — użyty zostanie kontakt mailowy" }
-          - { label: "Email kontakt sponsoring", name: sponsor_contact_email, widget: string }
-          - { label: "Wideo galerii 1 — tytuł", name: gallery_video_1_title, widget: string, required: false }
-          - { label: "Wideo galerii 1 — URL", name: gallery_video_1_url, widget: string, required: false }
-          - { label: "Wideo galerii 1 — badge", name: gallery_video_1_badge, widget: string, required: false }
-          - { label: "Wideo galerii 2 — tytuł", name: gallery_video_2_title, widget: string, required: false }
-          - { label: "Wideo galerii 2 — URL", name: gallery_video_2_url, widget: string, required: false }
-          - { label: "Wideo galerii 2 — badge", name: gallery_video_2_badge, widget: string, required: false }
-          - { label: "Wideo galerii 3 — tytuł", name: gallery_video_3_title, widget: string, required: false }
-          - { label: "Wideo galerii 3 — URL", name: gallery_video_3_url, widget: string, required: false }
-          - { label: "Wideo galerii 3 — badge", name: gallery_video_3_badge, widget: string, required: false }
-          - { label: "Wideo galerii 4 — tytuł", name: gallery_video_4_title, widget: string, required: false }
-          - { label: "Wideo galerii 4 — URL", name: gallery_video_4_url, widget: string, required: false }
-          - { label: "Wideo galerii 4 — badge", name: gallery_video_4_badge, widget: string, required: false }
-
-  - name: faq
-    label: "FAQ — Najczęstsze pytania"
+            default: "-//CERBERUS K9//PL"
+  - name: "faq"
+    label: "📅 O Wydarzeniu — FAQ"
+    description: "Pytania i odpowiedzi w sekcji Najczęstsze Pytania na /o-wydarzeniu."
     folder: "src/content/faq"
     create: true
     slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
     fields:
-      - { label: "Pytanie (PL)", name: question_pl, widget: string }
-      - { label: "Odpowiedź (PL)", name: answer_pl, widget: text }
-      - { label: "Pytanie (EN)", name: question_en, widget: string, required: false }
-      - { label: "Odpowiedź (EN)", name: answer_en, widget: text, required: false }
-      - { label: "Kolejność", name: order, widget: number, default: 99 }
-      - { label: "Aktywne", name: active, widget: boolean, default: true }
-
-  - name: team
-    label: "Zarząd — Członkowie"
+      - name: "question_pl"
+        label: "❓ Pytanie (PL)"
+        widget: "string"
+        hint: "Nagłówek akordeonu FAQ po polsku."
+        required: true
+      - name: "answer_pl"
+        label: "💬 Odpowiedź (PL)"
+        widget: "text"
+        hint: "Treść odpowiedzi pod spodem akordeonu."
+        required: true
+      - name: "question_en"
+        label: "❓ Pytanie (EN)"
+        widget: "string"
+        hint: "Wersja angielska pytania."
+        required: false
+      - name: "answer_en"
+        label: "💬 Odpowiedź (EN)"
+        widget: "text"
+        hint: "Wersja angielska odpowiedzi."
+        required: false
+      - name: "order"
+        label: "🔢 Kolejność wyświetlania"
+        widget: "number"
+        hint: "Kolejność pytań na stronie."
+        required: false
+        default: 99
+      - name: "active"
+        label: "👁️ Widoczny na stronie"
+        widget: "boolean"
+        hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+        required: false
+        default: true
+  - name: "instruktorzy"
+    label: "🎖️ Instruktorzy — Profile"
+    description: "Karty instruktorów: zdjęcie, kraj, specjalizacje, bio. Dodaj wpis = nowa karta na /instruktorzy."
+    folder: "src/content/instruktorzy"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: "name"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - name: "name"
+        label: "✒️ Imię i nazwisko"
+        widget: "string"
+        hint: "Wyświetlane jako tytuł karty instruktora."
+        required: true
+      - name: "role"
+        label: "⭐ Rola / stanowisko"
+        widget: "string"
+        hint: "Podtytuł pod nazwiskiem na karcie."
+        required: false
+      - name: "country"
+        label: "🌍 Kraj (nazwa)"
+        widget: "string"
+        hint: "Fallback nazwy kraju gdy brak tłumaczenia z kodu."
+        required: true
+      - name: "countryCode"
+        label: "🏴 Kod kraju ISO"
+        widget: "string"
+        hint: "Dwuliterowy kod ISO 3166-1 alpha-2 — flaga na karcie."
+        required: true
+      - label: "🎯 Specjalizacje"
+        name: "specializations"
+        widget: "select"
+        multiple: true
+        required: true
+        hint: "Tagi specjalizacji na karcie instruktora — wielokrotny wybór."
+        options:
+          - "K9 Gryzienie"
+          - "K9 Detekcja"
+          - "K9 Tropienie SAR"
+          - "Pozorant"
+          - "TCCC"
+          - "TCCC-K9"
+          - "Pierwsza Pomoc"
+          - "Behawiorysta"
+          - "Konferencja - Prelegent"
+          - "Drony"
+      - name: "unit"
+        label: "🛡️ Jednostka / formacja"
+        widget: "string"
+        hint: "Opcjonalna jednostka pod nazwiskiem."
+        required: false
+      - name: "module"
+        label: "📚 Moduł szkoleniowy"
+        widget: "string"
+        hint: "Opcjonalny moduł przypisany do instruktora."
+        required: false
+      - name: "schedule"
+        label: "📅 Harmonogram"
+        widget: "string"
+        hint: "Opcjonalny opis terminów."
+        required: false
+      - name: "languages"
+        label: "🗣️ Języki"
+        widget: "string"
+        hint: "Lista języków prowadzenia."
+        required: false
+        default: "Polski"
+      - label: "👤 Typ uczestnika"
+        name: "type"
+        widget: "select"
+        required: false
+        default: "Instruktor"
+        hint: "Typ widoczny w metadanych karty."
+        options:
+          - "Instruktor"
+          - "Pozorant"
+          - "Lider Grupy"
+          - "Prelegent"
+          - "VIP"
+      - name: "linkedinUrl"
+        label: "🔗 LinkedIn URL"
+        widget: "string"
+        hint: "Opcjonalny link do profilu LinkedIn."
+        required: false
+        pattern:
+          - "^https?://.*"
+          - "Wklej pełny adres URL z https://"
+      - name: "showOnHomepage"
+        label: "🏠 Pokaż na stronie głównej"
+        widget: "boolean"
+        hint: "true = może być promowany na home po logice strony."
+        required: false
+        default: true
+      - name: "bioShort"
+        label: "📄 Bio krótkie"
+        widget: "text"
+        hint: "Skrócony opis na karcie instruktora — maksymalnie 200 znaków."
+        required: true
+        pattern:
+          - "^.{1,200}$"
+          - "Maksymalnie 200 znaków"
+      - name: "bioFull"
+        label: "📖 Bio pełne"
+        widget: "markdown"
+        hint: "Pełna biografia po rozwinięciu karty."
+        required: true
+      - name: "photo"
+        label: "📸 Zdjęcie"
+        widget: "image"
+        hint: "Zalecany format: WebP. Rozmiar: 800×800px. Zdjęcie portretowe na karcie instruktora."
+        required: true
+        choose_url: true
+      - name: "order"
+        label: "🔢 Kolejność wyświetlania"
+        widget: "number"
+        hint: "Niższa liczba = wyżej na stronie."
+        required: true
+        default: 0
+        value_type: "int"
+        min: 0
+      - name: "active"
+        label: "👁️ Widoczny na stronie"
+        widget: "boolean"
+        hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+        required: false
+        default: true
+  - name: "registration_info"
+    label: "📋 Rejestracja — Informacje Boczne"
+    description: "Sidebar obok formularza Pretix: termin, miejsce, deadline, kontakt."
+    files:
+      - name: "registration_info"
+        label: "📄 Informacje rejestracji"
+        file: "src/content/registration_info.yml"
+        format: "yaml"
+        fields:
+          - name: "reg_date_display"
+            label: "📅 Wyświetlany termin"
+            widget: "string"
+            hint: "Tekst terminu w panelu obok formularza."
+            required: true
+          - name: "reg_prep_day"
+            label: "📅 Dzień przygotowawczy"
+            widget: "string"
+            hint: "Opis dnia przygotowawczego w sidebarze."
+            required: false
+          - name: "reg_venues"
+            label: "🏟️ Lokalizacje"
+            widget: "string"
+            hint: "Lista miejsc wydarzenia w panelu bocznym."
+            required: true
+          - name: "reg_city"
+            label: "🏙️ Miasto"
+            widget: "string"
+            hint: "Miasto przy danych rejestracji."
+            required: true
+          - name: "reg_contact_email"
+            label: "✉️ E-mail kontaktowy"
+            widget: "string"
+            hint: "Kontakt przy pytaniach o zapisy."
+            required: true
+          - name: "reg_contact_phone"
+            label: "📞 Telefon kontaktowy"
+            widget: "string"
+            hint: "Telefon przy pytaniach o zapisy."
+            required: true
+          - name: "reg_entry_text"
+            label: "🎫 Tekst o wstępie"
+            widget: "text"
+            hint: "Opis wstępu / zasad udziału obok formularza."
+            required: false
+          - name: "reg_deadline_text"
+            label: "⏳ Tekst deadline"
+            widget: "string"
+            hint: "Komunikat o końcu zapisów."
+            required: false
+          - name: "reg_limit_text"
+            label: "⚠️ Tekst limitu miejsc"
+            widget: "string"
+            hint: "Ostrzeżenie o limitowanych miejscach."
+            required: false
+  - name: "team"
+    label: "🏛️ Fundacja — Zarząd"
+    description: "Karty członków zarządu Fundacji PACTA K9 na /fundacja."
     folder: "src/content/team"
     create: true
     slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
     fields:
-      - { label: "Imię i nazwisko", name: name, widget: string }
-      - { label: "Rola", name: role, widget: string }
-      - { label: "Zdjęcie", name: photo, widget: image, required: false }
-      - { label: "Jednostka / formacja", name: unit, widget: string, required: false }
-      - { label: "Bio (krótkie)", name: bio_short, widget: text }
-      - { label: "Email", name: email, widget: string, required: false }
-      - { label: "LinkedIn", name: linkedin, widget: string, required: false }
-      - name: active
-        label: "Aktywny (widoczny na stronie)"
-        widget: boolean
-        default: true
-        hint: "Odznacz aby ukryć bez usuwania wpisu"
-      - { label: "Kolejność", name: order, widget: number, default: 99 }
-
-  - name: homepage_cards
-    label: "Strona główna — karty programu"
-    folder: "src/content/homepage_cards"
-    create: true
-    delete: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Kategoria", name: category, widget: select, options: ["K9", "TCCC", "DRONY", "KONFERENCJA"] }
-      - { label: "Ikona (opcjonalnie)", name: icon, widget: string, required: false, hint: "Nazwa ikony lucide-react np. Shield, Target, Crosshair" }
-      - { label: "Kolor akcentu (hex)", name: color, widget: color, default: "#C4922A", required: false }
-      - { label: "Tytuł (PL)", name: title_pl, widget: string }
-      - { label: "Opis (PL)", name: description_pl, widget: text }
-      - { label: "Badge (PL)", name: badge_pl, widget: string, required: false }
-      - { label: "Tytuł (EN)", name: title_en, widget: string, required: false }
-      - { label: "Opis (EN)", name: description_en, widget: text, required: false }
-      - { label: "Badge (EN)", name: badge_en, widget: string, required: false }
-      - { label: "Tytuł (DE)", name: title_de, widget: string, required: false }
-      - { label: "Opis (DE)", name: description_de, widget: text, required: false }
-      - { label: "Badge (DE)", name: badge_de, widget: string, required: false }
-      - { label: "Tytuł (FR)", name: title_fr, widget: string, required: false }
-      - { label: "Opis (FR)", name: description_fr, widget: text, required: false }
-      - { label: "Badge (FR)", name: badge_fr, widget: string, required: false }
-      - { label: "Tytuł (HR)", name: title_hr, widget: string, required: false }
-      - { label: "Opis (HR)", name: description_hr, widget: text, required: false }
-      - { label: "Badge (HR)", name: badge_hr, widget: string, required: false }
-      - { label: "Tytuł (CS)", name: title_cs, widget: string, required: false }
-      - { label: "Opis (CS)", name: description_cs, widget: text, required: false }
-      - { label: "Badge (CS)", name: badge_cs, widget: string, required: false }
-      - { label: "Tytuł (LT)", name: title_lt, widget: string, required: false }
-      - { label: "Opis (LT)", name: description_lt, widget: text, required: false }
-      - { label: "Badge (LT)", name: badge_lt, widget: string, required: false }
-      - { label: "Tytuł (LV)", name: title_lv, widget: string, required: false }
-      - { label: "Opis (LV)", name: description_lv, widget: text, required: false }
-      - { label: "Badge (LV)", name: badge_lv, widget: string, required: false }
-      - { label: "Tytuł (SK)", name: title_sk, widget: string, required: false }
-      - { label: "Opis (SK)", name: description_sk, widget: text, required: false }
-      - { label: "Badge (SK)", name: badge_sk, widget: string, required: false }
-      - { label: "Tytuł (SL)", name: title_sl, widget: string, required: false }
-      - { label: "Opis (SL)", name: description_sl, widget: text, required: false }
-      - { label: "Badge (SL)", name: badge_sl, widget: string, required: false }
-      - { label: "Tytuł (HU)", name: title_hu, widget: string, required: false }
-      - { label: "Opis (HU)", name: description_hu, widget: text, required: false }
-      - { label: "Badge (HU)", name: badge_hu, widget: string, required: false }
-      - { label: "Tytuł (NO)", name: title_no, widget: string, required: false }
-      - { label: "Opis (NO)", name: description_no, widget: text, required: false }
-      - { label: "Badge (NO)", name: badge_no, widget: string, required: false }
-      - { label: "Tytuł (SV)", name: title_sv, widget: string, required: false }
-      - { label: "Opis (SV)", name: description_sv, widget: text, required: false }
-      - { label: "Badge (SV)", name: badge_sv, widget: string, required: false }
-      - { label: "Tytuł (NL)", name: title_nl, widget: string, required: false }
-      - { label: "Opis (NL)", name: description_nl, widget: text, required: false }
-      - { label: "Badge (NL)", name: badge_nl, widget: string, required: false }
-      - { label: "Tytuł (ES)", name: title_es, widget: string, required: false }
-      - { label: "Opis (ES)", name: description_es, widget: text, required: false }
-      - { label: "Badge (ES)", name: badge_es, widget: string, required: false }
-      - { label: "Tytuł (PT)", name: title_pt, widget: string, required: false }
-      - { label: "Opis (PT)", name: description_pt, widget: text, required: false }
-      - { label: "Badge (PT)", name: badge_pt, widget: string, required: false }
-      - { label: "Tytuł (RO)", name: title_ro, widget: string, required: false }
-      - { label: "Opis (RO)", name: description_ro, widget: text, required: false }
-      - { label: "Badge (RO)", name: badge_ro, widget: string, required: false }
-      - { label: "Tytuł (IT)", name: title_it, widget: string, required: false }
-      - { label: "Opis (IT)", name: description_it, widget: text, required: false }
-      - { label: "Badge (IT)", name: badge_it, widget: string, required: false }
-      - { label: "Tytuł (KO)", name: title_ko, widget: string, required: false }
-      - { label: "Opis (KO)", name: description_ko, widget: text, required: false }
-      - { label: "Badge (KO)", name: badge_ko, widget: string, required: false }
-      - { label: "Kolejność", name: order, widget: number, default: 1 }
-      - { label: "Aktywna", name: active, widget: boolean, default: true }
-
-  - name: homepage_stats
-    label: "Strona główna — Statystyki"
-    folder: "src/content/homepage_stats"
-    create: true
-    delete: true
-    slug: "{{slug}}"
-    sortable_fields: ['order']
-    fields:
-      - name: stat_key
-        label: "Klucz (unikalny, np. participants)"
-        widget: string
-        hint: "Identyfikator statystyki, np. participants, countries, k9"
-      - name: value
-        label: "Wartość (globalna, np. 250+)"
-        widget: string
-        hint: "Wyświetlana liczba np. 250+, 15+, 8, 2"
-      - name: labels
-        label: "Etykiety wg języka"
-        widget: object
-        fields:
-          - { label: "Polski", name: pl, widget: string }
-          - { label: "English", name: en, widget: string }
-          - { label: "Deutsch", name: de, widget: string }
-          - { label: "Français", name: fr, widget: string }
-          - { label: "Hrvatski", name: hr, widget: string }
-          - { label: "Čeština", name: cs, widget: string }
-          - { label: "Lietuvių", name: lt, widget: string }
-          - { label: "Latviešu", name: lv, widget: string }
-          - { label: "Slovenčina", name: sk, widget: string }
-          - { label: "Slovenščina", name: sl, widget: string }
-          - { label: "Magyar", name: hu, widget: string }
-          - { label: "Norsk", name: no, widget: string }
-          - { label: "Svenska", name: sv, widget: string }
-          - { label: "Nederlands", name: nl, widget: string }
-          - { label: "Español", name: es, widget: string }
-          - { label: "Português", name: pt, widget: string }
-          - { label: "Română", name: ro, widget: string }
-          - { label: "Italiano", name: it, widget: string }
-          - { label: "한국어", name: ko, widget: string }
-      - name: accent
-        label: "Kolor akcentu"
-        widget: select
-        options:
-          - label: "Złoty"
-            value: "gold"
-          - label: "Czerwony"
-            value: "red"
-        default: "gold"
-        hint: "Naprzemiennie złoty/czerwony dla wizualnego rytmu"
-      - name: order
-        label: "Kolejność"
-        widget: number
+      - name: "name"
+        label: "✒️ Imię i nazwisko"
+        widget: "string"
+        hint: "Nagłówek karty członka zarządu."
+        required: true
+      - name: "role"
+        label: "⭐ Rola"
+        widget: "string"
+        hint: "Funkcja w zarządzie na karcie."
+        required: true
+      - name: "photo"
+        label: "📸 Zdjęcie"
+        widget: "image"
+        hint: "Zalecany format: WebP. Rozmiar: 600×600px. Portret w sekcji zarządu."
+        required: false
+        choose_url: true
+      - name: "unit"
+        label: "🛡️ Jednostka / organizacja"
+        widget: "string"
+        hint: "Opcjonalna linia pod nazwiskiem."
+        required: false
+      - name: "bio_short"
+        label: "📄 Bio krótkie"
+        widget: "text"
+        hint: "Krótki opis na karcie członka zarządu."
+        required: true
+      - name: "email"
+        label: "✉️ E-mail"
+        widget: "string"
+        hint: "Opcjonalny kontakt na karcie."
+        required: false
+      - name: "linkedin"
+        label: "🔗 LinkedIn"
+        widget: "string"
+        hint: "Opcjonalny link LinkedIn."
+        required: false
+        pattern:
+          - "^https?://.*"
+          - "Wklej pełny adres URL z https://"
+      - name: "order"
+        label: "🔢 Kolejność wyświetlania"
+        widget: "number"
+        hint: "Kolejność kart na stronie fundacji."
+        required: false
         default: 99
-      - name: active
-        label: "Aktywna"
-        widget: boolean
+      - name: "active"
+        label: "👁️ Widoczny na stronie"
+        widget: "boolean"
+        hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+        required: false
         default: true
-
-  - name: locations
-    label: "Lokalizacje CERBERUS K9"
-    folder: "src/content/locations"
+  - name: "fundacja_content"
+    label: "🏛️ Fundacja — Treści"
+    description: "Misja, Wizja, Cele statutowe, Dane rejestrowe na /fundacja."
+    files:
+      - name: "content"
+        label: "📄 Treści strony Fundacja"
+        file: "src/content/fundacja_content/content.yml"
+        format: "yaml"
+        fields:
+          - name: "mission_pl"
+            label: "🎯 Misja (PL)"
+            widget: "text"
+            hint: "Blok misji po polsku."
+            required: true
+          - name: "mission_en"
+            label: "🎯 Misja (EN)"
+            widget: "text"
+            hint: "Blok misji po angielsku."
+            required: false
+          - name: "vision_pl"
+            label: "🔭 Wizja (PL)"
+            widget: "text"
+            hint: "Blok wizji po polsku."
+            required: true
+          - name: "vision_en"
+            label: "🔭 Wizja (EN)"
+            widget: "text"
+            hint: "Blok wizji po angielsku."
+            required: false
+          - label: "📋 Cele statutowe (PL)"
+            name: "goals_pl"
+            widget: "list"
+            hint: "Lista punktów celów — lista na stronie fundacji."
+            fields:
+              - name: "goal"
+                label: "📝 Cel"
+                widget: "text"
+                hint: "Jeden punkt listy celów statutowych."
+                required: true
+          - label: "📋 Cele statutowe (EN)"
+            name: "goals_en"
+            widget: "list"
+            required: false
+            hint: "Angielska lista celów — opcjonalnie."
+            fields:
+              - name: "goal"
+                label: "📝 Goal"
+                widget: "text"
+                hint: "Jeden punkt listy (EN)."
+                required: true
+          - name: "registration_court"
+            label: "⚖️ Sąd rejestrowy"
+            widget: "string"
+            hint: "Nazwa sądu w tabeli danych rejestrowych."
+            required: true
+          - name: "registration_date"
+            label: "📅 Data rejestracji"
+            widget: "string"
+            hint: "Rok lub data wpisu do KRS."
+            required: true
+          - name: "legal_status_pl"
+            label: "📜 Status prawny (PL)"
+            widget: "string"
+            hint: "Forma prawna w sekcji danych."
+            required: true
+  - name: "partnerzy"
+    label: "🤝 Partnerzy — Lista"
+    description: "Logo, typ, opis i link każdego partnera — /partnerzy i pasek na stronie głównej."
+    folder: "src/content/partnerzy"
     create: true
     slug: "{{slug}}"
+    identifier_field: "name"
+    extension: "md"
+    format: "frontmatter"
     fields:
-      - { label: "Nazwa", name: name, widget: string }
-      - { label: "Adres", name: address, widget: string, required: false }
-      - { label: "Opis (PL)", name: description_pl, widget: text }
-      - { label: "Opis (EN)", name: description_en, widget: text, required: false }
-      - { label: "Opis (DE)", name: description_de, widget: text, required: false }
-      - { label: "Opis (FR)", name: description_fr, widget: text, required: false }
-      - { label: "Moduły (PL)", name: modules_pl, widget: string, required: false }
-      - { label: "Moduły (EN)", name: modules_en, widget: string, required: false }
-      - label: "Status"
-        name: status
-        widget: select
+      - name: "name"
+        label: "✒️ Nazwa partnera"
+        widget: "string"
+        hint: "Nagłówek karty i pasek partnerów."
+        required: true
+      - label: "🏷️ Typ partnera"
+        name: "type"
+        widget: "select"
+        required: true
+        hint: "Typ decyduje o kolorze etykiety na karcie."
         options:
-          - { label: "Potwierdzone", value: "POTWIERDZONE" }
-          - { label: "W trakcie rozmów", value: "W TRAKCIE ROZMÓW" }
-          - { label: "Planowane", value: "PLANOWANE" }
-        default: "POTWIERDZONE"
-      - { label: "Zdjęcie", name: image, widget: image, required: false }
-      - { label: "Link do mapy (Google Maps URL)", name: map_url, widget: string, required: false }
-      - { label: "Kolejność", name: order, widget: number, default: 1 }
-      - { label: "Aktywna", name: active, widget: boolean, default: true }
-
-  - name: i18n_strings
-    label: "Tłumaczenia interfejsu"
+          - "Strategiczny"
+          - "Sponsor"
+          - "Patron Medialny"
+          - "Technologiczny"
+      - name: "logo"
+        label: "🖼️ Logo"
+        widget: "image"
+        hint: "Zalecany format: WebP. Rozmiar: 300×120px. Logo partnera na karcie i w pasku partnerów."
+        required: false
+        choose_url: true
+      - name: "website"
+        label: "🔗 Strona WWW"
+        widget: "string"
+        hint: "Link do strony partnera."
+        required: false
+        pattern:
+          - "^https?://.*"
+          - "Wklej pełny adres URL z https://"
+      - name: "website_label"
+        label: "🏷️ Etykieta linku WWW"
+        widget: "string"
+        hint: "Tekst linku zamiast „strona www”."
+        required: false
+      - name: "description"
+        label: "📄 Opis"
+        widget: "text"
+        hint: "Krótki opis działalności partnera na karcie."
+        required: false
+      - name: "order"
+        label: "🔢 Kolejność wyświetlania"
+        widget: "number"
+        hint: "Kolejność na stronie /partnerzy."
+        required: false
+        default: 0
+        value_type: "int"
+        min: 0
+      - name: "show_in_strip"
+        label: "📜 Pokaż w pasku na stronie głównej"
+        widget: "boolean"
+        hint: "true = logo w scrollującym pasku partnerów na home."
+        required: false
+        default: true
+      - name: "strip_order"
+        label: "🔢 Kolejność w pasku"
+        widget: "number"
+        hint: "Kolejność w poziomym pasku na stronie głównej."
+        required: false
+        default: 99
+      - name: "active"
+        label: "👁️ Widoczny na stronie"
+        widget: "boolean"
+        hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+        required: false
+        default: true
+  - name: "media_archive"
+    label: "📺 Media — Archiwum Relacji"
+    description: "Relacje medialne: TV, radio, prasa — sekcja archiwum na /media."
+    folder: "src/content/media_archive"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - name: "outlet"
+        label: "📰 Outlet / redakcja"
+        widget: "string"
+        hint: "Nazwa medium wyświetlana na kafelku archiwum."
+        required: true
+      - name: "description"
+        label: "📄 Opis"
+        widget: "text"
+        hint: "Krótki opis relacji pod tytułem."
+        required: false
+      - name: "date"
+        label: "📅 Data (tekst)"
+        widget: "string"
+        hint: "Np. 2025-06 — metadane kafelka."
+        required: false
+      - name: "link"
+        label: "🔗 Link do materiału"
+        widget: "string"
+        hint: "URL artykułu lub nagrania."
+        required: false
+        pattern:
+          - "^https?://.*"
+          - "Wklej pełny adres URL z https://"
+      - label: "🏷️ Rodzaj materiału"
+        name: "badge"
+        widget: "select"
+        required: true
+        default: "VIDEO"
+        hint: "Ikona typu materiału na kafelku archiwum."
+        options:
+          - "VIDEO"
+          - "ARTYKUŁ"
+          - "AUDIO"
+          - "PODCAST"
+          - "REPORTAŻ"
+      - name: "outlet_logo"
+        label: "🖼️ Logo outletu"
+        widget: "image"
+        hint: "Zalecany format: WebP. Rozmiar: 200×80px. Opcjonalne logo redakcji przy kafelku."
+        required: false
+        choose_url: true
+      - name: "order"
+        label: "🔢 Kolejność wyświetlania"
+        widget: "number"
+        hint: "Kolejność wpisów w archiwum."
+        required: false
+        default: 99
+      - name: "active"
+        label: "👁️ Widoczny na stronie"
+        widget: "boolean"
+        hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+        required: false
+        default: true
+  - name: "aktualnosci"
+    label: "📰 Aktualności — Artykuły"
+    description: "Blog CERBERUS K9 — każdy wpis to artykuł na /aktualnosci."
+    folder: "src/content/aktualnosci"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    preview_path: "{lang}/aktualnosci/{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - name: "title"
+        label: "📝 Tytuł artykułu"
+        widget: "string"
+        hint: "Główny nagłówek artykułu i listy aktualności."
+        required: true
+      - name: "date"
+        label: "📅 Data publikacji"
+        widget: "datetime"
+        hint: "Data widoczna na karcie i w artykule."
+        required: true
+        date_format: "YYYY-MM-DD"
+        time_format: "HH:mm"
+      - label: "🏷️ Kategoria"
+        name: "category"
+        widget: "select"
+        required: true
+        hint: "Filtr kategorii na liście aktualności."
+        options:
+          - "Aktualności"
+          - "Instruktorzy"
+          - "Partnerzy"
+          - "Rejestracja"
+          - "Media"
+          - "HARDEST HIT"
+      - name: "lead"
+        label: "📄 Lead (max 500 znaków)"
+        widget: "text"
+        hint: "Wstęp na karcie listy i w meta description."
+        required: true
+        pattern:
+          - "^.{1,500}$"
+          - "Maksymalnie 500 znaków"
+      - name: "body"
+        label: "📖 Treść artykułu"
+        widget: "markdown"
+        hint: "Pełna treść artykułu na stronie wpisu."
+        required: true
+      - name: "image"
+        label: "📸 Zdjęcie wyróżniające"
+        widget: "image"
+        hint: "Zalecany format: WebP. Rozmiar: 1200×675px. Obraz na karcie listy i nagłówku artykułu."
+        required: false
+        choose_url: true
+      - name: "image_alt"
+        label: "♿ Opis zdjęcia (alt)"
+        widget: "string"
+        hint: "Tekst alternatywny dla SEO i dostępności."
+        required: false
+      - name: "heroImageFocalX"
+        label: "↔️ Punkt centralny zdjęcia X (%)"
+        widget: "number"
+        hint: "Poziome centrum kadru nagłówka 0–100."
+        required: false
+        default: 50
+        min: 0
+        max: 100
+      - name: "heroImageFocalY"
+        label: "↕️ Punkt centralny zdjęcia Y (%)"
+        widget: "number"
+        hint: "Pionowe centrum kadru nagłówka 0–100."
+        required: false
+        default: 50
+        min: 0
+        max: 100
+      - label: "🏷️ Tagi"
+        name: "tags"
+        widget: "list"
+        required: false
+        hint: "Tagi filtrowania i SEO."
+        field:
+          name: "tag"
+          label: "📝 Tag"
+          widget: "string"
+          hint: "Pojedynczy tag."
+          required: true
+      - name: "draft"
+        label: "📝 Szkic (niepublikowany)"
+        widget: "boolean"
+        hint: "true = szkic ukryty z listy publikowanych."
+        required: false
+        default: false
+      - name: "featured"
+        label: "⭐ Wyróżniony"
+        widget: "boolean"
+        hint: "Wyróżnienie przy sortowaniu / promocji na listach."
+        required: false
+        default: false
+      - name: "seo_title"
+        label: "🔍 SEO — tytuł"
+        widget: "string"
+        hint: "Nadpisuje tag title — widoczne w wynikach Google."
+        required: false
+      - name: "seo_description"
+        label: "🔍 SEO — opis"
+        widget: "text"
+        hint: "Nadpisuje meta description — snippet w Google."
+        required: false
+      - name: "og_image_override"
+        label: "🖼️ OG — obraz"
+        widget: "image"
+        hint: "Zalecany format: WebP. Rozmiar: 1200×630px. Grafika udostępnień tego artykułu."
+        required: false
+        choose_url: true
+      - name: "reading_time_override"
+        label: "⏱️ Czas czytania (min)"
+        widget: "number"
+        hint: "Nadpisuje automatyczny czas czytania."
+        required: false
+      - name: "share_url"
+        label: "🔗 URL udostępniania"
+        widget: "string"
+        hint: "Opcjonalny kanoniczny URL udostępnień."
+        required: false
+  - name: "galeria"
+    label: "🖼️ Galeria — Zdjęcia"
+    description: "Zdjęcia z edycji — siatka na /galeria."
+    folder: "src/content/galeria"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - name: "title"
+        label: "📝 Tytuł zdjęcia"
+        widget: "string"
+        hint: "Opcjonalny tytuł podglądu w lightboxie."
+        required: false
+      - name: "date"
+        label: "📅 Data zdjęcia"
+        widget: "date"
+        hint: "Data w sortowaniu i filtrach galerii."
+        required: false
+        format: "YYYY-MM-DD"
+      - name: "photo"
+        label: "📸 Zdjęcie"
+        widget: "image"
+        hint: "Zalecany format: WebP. Rozmiar: 1600×900px. Główne zdjęcie w siatce galerii."
+        required: true
+        choose_url: true
+      - name: "alt"
+        label: "♿ Opis zdjęcia (alt)"
+        widget: "string"
+        hint: "Opis dla SEO i czytników ekranu — wymagany sens opisu."
+        required: true
+      - label: "🏷️ Kategoria"
+        name: "category"
+        widget: "select"
+        required: false
+        hint: "Filtr i plakietka kategorii na zdjęciu w galerii."
+        options:
+          - label: "HARDEST HIT"
+            value: "HARDEST_HIT"
+          - label: "SZKOLENIA K9"
+            value: "SZKOLENIA_K9"
+          - label: "CEREMONIA"
+            value: "CEREMONIA"
+          - label: "KONFERENCJA"
+            value: "KONFERENCJA"
+          - label: "DRONY"
+            value: "DRONY"
+          - label: "SAR"
+            value: "SAR"
+          - label: "TCCC / Medycyna"
+            value: "TCCC"
+          - label: "OGÓLNE"
+            value: "OGOLNE"
+      - label: "📆 Edycja"
+        name: "edition"
+        widget: "select"
+        required: true
+        default: "2026"
+        hint: "Rok edycji — filtr 2025/2026 w galerii."
+        options:
+          - "2025"
+          - "2026"
+      - name: "location"
+        label: "📍 Lokalizacja (tekst)"
+        widget: "string"
+        hint: "Opcjonalny opis miejsca kadru."
+        required: false
+      - label: "🏷️ Tagi"
+        name: "tags"
+        widget: "list"
+        required: false
+        hint: "Tagi pomocnicze do filtrowania."
+        field:
+          name: "tag"
+          label: "📝 Tag"
+          widget: "string"
+          hint: "Pojedynczy tag zdjęcia."
+          required: true
+      - name: "order"
+        label: "🔢 Kolejność wyświetlania"
+        widget: "number"
+        hint: "Sortowanie w obrębie kategorii / roku."
+        required: false
+        default: 100
+        value_type: "int"
+        min: 0
+        max: 9999
+      - name: "active"
+        label: "👁️ Widoczny na stronie"
+        widget: "boolean"
+        hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+        required: false
+        default: true
+  - name: "kontakt_content"
+    label: "✉️ Kontakt — Treści"
+    description: "Adres, mapa, dane kontaktowe i formularz na /kontakt."
     files:
-      - name: pl
-        label: "Polski (PL)"
+      - name: "kontakt"
+        label: "📄 Treści strony Kontakt"
+        file: "src/content/kontakt_content.yml"
+        format: "yaml"
+        fields:
+          - name: "contact_address"
+            label: "🏠 Adres (pełny)"
+            widget: "text"
+            hint: "Adres wyświetlany na stronie kontakt."
+            required: true
+          - name: "contact_email"
+            label: "✉️ E-mail kontaktowy"
+            widget: "string"
+            hint: "Główny e-mail na /kontakt."
+            required: true
+          - name: "contact_phone"
+            label: "📞 Telefon kontaktowy"
+            widget: "string"
+            hint: "Telefon na stronie kontakt."
+            required: true
+          - name: "contact_map_embed_url"
+            label: "🗺️ URL mapy (embed)"
+            widget: "string"
+            hint: "Iframe mapy na stronie kontakt."
+            required: false
+            pattern:
+              - "^https?://.*"
+              - "Wklej pełny adres URL z https://"
+          - name: "contact_gdpr_text_pl"
+            label: "⚖️ Zgoda RODO (PL)"
+            widget: "string"
+            hint: "Tekst zgody przy formularzu PL."
+            required: true
+          - name: "contact_gdpr_text_en"
+            label: "⚖️ Zgoda RODO (EN)"
+            widget: "string"
+            hint: "Tekst zgody przy formularzu EN."
+            required: true
+          - name: "contact_form_endpoint"
+            label: "📮 Endpoint formularza"
+            widget: "string"
+            hint: "URL POST formularza; pusty = Netlify Forms."
+            required: false
+          - name: "contact_form_recipient"
+            label: "📮 Odbiorca formularza"
+            widget: "string"
+            hint: "E-mail odbiorcy wiadomości z formularza."
+            required: true
+          - name: "media_contact_name"
+            label: "👤 Kontakt media — nazwa"
+            widget: "string"
+            hint: "Imię i funkcja w bloku dla mediów."
+            required: false
+          - name: "media_contact_phone"
+            label: "📞 Kontakt media — telefon"
+            widget: "string"
+            hint: "Telefon dla mediów."
+            required: false
+          - name: "media_contact_email"
+            label: "✉️ Kontakt media — e-mail"
+            widget: "string"
+            hint: "E-mail akredytacji."
+            required: false
+          - name: "president_email"
+            label: "✉️ E-mail prezesa"
+            widget: "string"
+            hint: "Kontakt do prezesa fundacji."
+            required: false
+          - name: "accreditation_deadline"
+            label: "📅 Deadline akredytacji"
+            widget: "string"
+            hint: "Termin zgłoszeń akredytacyjnych."
+            required: false
+          - name: "partner_cta_href"
+            label: "🤝 CTA partner — link"
+            widget: "string"
+            hint: "Link przycisku partnerstwa na /kontakt."
+            required: false
+          - name: "sponsor_offer_pdf"
+            label: "📎 Oferta sponsorska PDF"
+            widget: "string"
+            hint: "URL pliku PDF oferty sponsorskiej."
+            required: false
+          - name: "sponsor_contact_email"
+            label: "✉️ E-mail sponsoring"
+            widget: "string"
+            hint: "Kontakt ds. sponsorów."
+            required: false
+  - name: "nav_links"
+    label: "🌐 Nawigacja — Linki"
+    description: "Kolejność i nazwy linków w górnym menu."
+    files:
+      - name: "links"
+        label: "📄 Lista linków"
+        file: "src/content/nav_links/links.yml"
+        format: "yaml"
+        fields:
+          - label: "🔗 Linki nawigacyjne"
+            name: "links"
+            widget: "list"
+            hint: "Kolejność wpisów = kolejność pozycji w menu (po sortowaniu wg order)."
+            fields:
+              - name: "key"
+                label: "🔑 Klucz"
+                widget: "string"
+                hint: "Unikalny identyfikator linku w kodzie."
+                required: true
+              - name: "label_pl"
+                label: "🇵🇱 Etykieta PL"
+                widget: "string"
+                hint: "Tekst linku w menu dla języka polskiego."
+                required: true
+              - name: "label_en"
+                label: "🇬🇧 Etykieta EN"
+                widget: "string"
+                hint: "Tekst linku w menu dla języka angielskiego."
+                required: true
+              - name: "path"
+                label: "📂 Ścieżka (bez języka)"
+                widget: "string"
+                hint: "Fragment URL np. o-wydarzeniu, instruktorzy."
+                required: true
+              - name: "target"
+                label: "🪟 Nowa karta"
+                widget: "boolean"
+                hint: "true = otwiera link w nowej karcie."
+                required: false
+                default: false
+              - name: "icon"
+                label: "✨ Ikona Lucide"
+                widget: "string"
+                hint: "Opcjonalna nazwa ikony."
+                required: false
+              - name: "label_de"
+                label: "🇩🇪 Etykieta DE"
+                widget: "string"
+                hint: "Etykieta menu po niemiecku."
+                required: false
+              - name: "label_fr"
+                label: "🇫🇷 Etykieta FR"
+                widget: "string"
+                hint: "Etykieta menu po francusku."
+                required: false
+              - name: "order"
+                label: "🔢 Kolejność"
+                widget: "number"
+                hint: "Kolejność pozycji w menu — rosnąco."
+                required: true
+              - name: "active"
+                label: "👁️ Aktywny"
+                widget: "boolean"
+                hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+                required: false
+                default: true
+  - name: "i18n_strings"
+    label: "🌐 Tłumaczenia Interfejsu"
+    description: "Napisy przycisków i etykiet w wielu językach (pliki JSON)."
+    files:
+      - name: "pl"
+        label: "🇵🇱 Polski (PL)"
         file: "src/content/i18n/pl.json"
         fields:
-          - label: "Nawigacja"
-            name: nav
-            widget: object
+          - label: "🧭 Nawigacja"
+            name: "nav"
+            widget: "object"
+            hint: "Nazwy linków w menu — widoczne w pasku nawigacji po wyborze języka."
             fields:
-              - { label: "O wydarzeniu", name: event, widget: string }
-              - { label: "Instruktorzy", name: instructors, widget: string }
-              - { label: "Partnerzy", name: partners, widget: string }
-              - { label: "Media", name: media, widget: string }
-              - { label: "Fundacja", name: foundation, widget: string }
-              - { label: "Galeria", name: gallery, widget: string }
-              - { label: "Kontakt", name: contact, widget: string }
-              - { label: "Aktualności", name: news, widget: string }
-              - { label: "Rejestracja", name: register, widget: string }
-          - label: "Przyciski"
-            name: buttons
-            widget: object
+              - name: "event"
+                label: "📅 O wydarzeniu"
+                widget: "string"
+                hint: "Etykieta linku „event” w menu górnym."
+                required: true
+              - name: "instructors"
+                label: "🎖️ Instruktorzy"
+                widget: "string"
+                hint: "Etykieta linku „instructors” w menu górnym."
+                required: true
+              - name: "partners"
+                label: "🤝 Partnerzy"
+                widget: "string"
+                hint: "Etykieta linku „partners” w menu górnym."
+                required: true
+              - name: "media"
+                label: "📺 Media"
+                widget: "string"
+                hint: "Etykieta linku „media” w menu górnym."
+                required: true
+              - name: "foundation"
+                label: "🏛️ Fundacja"
+                widget: "string"
+                hint: "Etykieta linku „foundation” w menu górnym."
+                required: true
+              - name: "gallery"
+                label: "🖼️ Galeria"
+                widget: "string"
+                hint: "Etykieta linku „gallery” w menu górnym."
+                required: true
+              - name: "contact"
+                label: "✉️ Kontakt"
+                widget: "string"
+                hint: "Etykieta linku „contact” w menu górnym."
+                required: true
+              - name: "news"
+                label: "📰 Aktualności"
+                widget: "string"
+                hint: "Etykieta linku „news” w menu górnym."
+                required: true
+              - name: "register"
+                label: "📝 Rejestracja"
+                widget: "string"
+                hint: "Etykieta linku „register” w menu górnym."
+                required: true
+          - label: "🔘 Przyciski"
+            name: "buttons"
+            widget: "object"
+            hint: "Teksty przycisków na stronie głównej i listach."
             fields:
-              - { label: "Zarejestruj się", name: register, widget: string }
-              - { label: "Pobierz program", name: program, widget: string }
-              - { label: "Obejrzyj relację", name: video, widget: string }
-              - { label: "Wszystkie aktualności", name: all_news, widget: string }
-              - { label: "Zostań partnerem", name: become_partner, widget: string }
-              - { label: "Czytaj więcej", name: read_more, widget: string }
-              - { label: "Załaduj więcej", name: load_more, widget: string }
-          - label: "Etykiety"
-            name: labels
-            widget: object
+              - name: "register"
+                label: "✅ Zarejestruj się"
+                widget: "string"
+                hint: "Tekst przycisku „register”."
+                required: true
+              - name: "program"
+                label: "📄 Pobierz program"
+                widget: "string"
+                hint: "Tekst przycisku „program”."
+                required: true
+              - name: "video"
+                label: "▶️ Obejrzyj relację"
+                widget: "string"
+                hint: "Tekst przycisku „video”."
+                required: true
+              - name: "all_news"
+                label: "📰 Wszystkie aktualności"
+                widget: "string"
+                hint: "Tekst przycisku „all_news”."
+                required: true
+              - name: "become_partner"
+                label: "🤝 Zostań partnerem"
+                widget: "string"
+                hint: "Tekst przycisku „become_partner”."
+                required: true
+              - name: "read_more"
+                label: "📖 Czytaj więcej"
+                widget: "string"
+                hint: "Tekst przycisku „read_more”."
+                required: true
+              - name: "load_more"
+                label: "⬇️ Załaduj więcej"
+                widget: "string"
+                hint: "Tekst przycisku „load_more”."
+                required: true
+          - label: "🏷️ Etykiety"
+            name: "labels"
+            widget: "object"
+            hint: "Krótkie etykiety UI (karty, listy, bio)."
             fields:
-              - { label: "Bezpłatny", name: free_admission, widget: string }
-              - { label: "Potwierdzone", name: confirmed, widget: string }
-              - { label: "Rozwiń bio", name: expand_bio, widget: string }
-              - { label: "Zwiń bio", name: collapse_bio, widget: string }
-              - { label: "Powrót do aktualności", name: back_to_news, widget: string }
-              - { label: "Udostępnij", name: share, widget: string }
-              - { label: "Moduł", name: module, widget: string }
-              - { label: "Harmonogram", name: schedule, widget: string }
-              - { label: "Prowadzący", name: instructor_label, widget: string }
-      - name: en
-        label: "English (EN)"
+              - name: "free_admission"
+                label: "🎫 Bezpłatny wstęp"
+                widget: "string"
+                hint: "Etykieta „free_admission” w interfejsie."
+                required: true
+              - name: "confirmed"
+                label: "✔️ Potwierdzone"
+                widget: "string"
+                hint: "Etykieta „confirmed” w interfejsie."
+                required: true
+              - name: "expand_bio"
+                label: "⬇️ Rozwiń bio"
+                widget: "string"
+                hint: "Etykieta „expand_bio” w interfejsie."
+                required: true
+              - name: "collapse_bio"
+                label: "⬆️ Zwiń bio"
+                widget: "string"
+                hint: "Etykieta „collapse_bio” w interfejsie."
+                required: true
+              - name: "back_to_news"
+                label: "↩️ Powrót do aktualności"
+                widget: "string"
+                hint: "Etykieta „back_to_news” w interfejsie."
+                required: true
+              - name: "share"
+                label: "🔗 Udostępnij"
+                widget: "string"
+                hint: "Etykieta „share” w interfejsie."
+                required: true
+              - name: "module"
+                label: "📚 Moduł"
+                widget: "string"
+                hint: "Etykieta „module” w interfejsie."
+                required: true
+              - name: "schedule"
+                label: "📅 Harmonogram"
+                widget: "string"
+                hint: "Etykieta „schedule” w interfejsie."
+                required: true
+              - name: "instructor_label"
+                label: "👤 Prowadzący"
+                widget: "string"
+                hint: "Etykieta „instructor_label” w interfejsie."
+                required: true
+      - name: "en"
+        label: "🇬🇧 English (EN)"
         file: "src/content/i18n/en.json"
         fields:
-          - label: "Navigation"
-            name: nav
-            widget: object
+          - label: "🧭 Nawigacja"
+            name: "nav"
+            widget: "object"
+            hint: "Nazwy linków w menu — widoczne w pasku nawigacji po wyborze języka."
             fields:
-              - { label: "About Event", name: event, widget: string }
-              - { label: "Instructors", name: instructors, widget: string }
-              - { label: "Partners", name: partners, widget: string }
-              - { label: "Media", name: media, widget: string }
-              - { label: "Foundation", name: foundation, widget: string }
-              - { label: "Gallery", name: gallery, widget: string }
-              - { label: "Contact", name: contact, widget: string }
-              - { label: "News", name: news, widget: string }
-              - { label: "Register", name: register, widget: string }
-          - label: "Buttons"
-            name: buttons
-            widget: object
+              - name: "event"
+                label: "📅 O wydarzeniu"
+                widget: "string"
+                hint: "Etykieta linku „event” w menu górnym."
+                required: true
+              - name: "instructors"
+                label: "🎖️ Instruktorzy"
+                widget: "string"
+                hint: "Etykieta linku „instructors” w menu górnym."
+                required: true
+              - name: "partners"
+                label: "🤝 Partnerzy"
+                widget: "string"
+                hint: "Etykieta linku „partners” w menu górnym."
+                required: true
+              - name: "media"
+                label: "📺 Media"
+                widget: "string"
+                hint: "Etykieta linku „media” w menu górnym."
+                required: true
+              - name: "foundation"
+                label: "🏛️ Fundacja"
+                widget: "string"
+                hint: "Etykieta linku „foundation” w menu górnym."
+                required: true
+              - name: "gallery"
+                label: "🖼️ Galeria"
+                widget: "string"
+                hint: "Etykieta linku „gallery” w menu górnym."
+                required: true
+              - name: "contact"
+                label: "✉️ Kontakt"
+                widget: "string"
+                hint: "Etykieta linku „contact” w menu górnym."
+                required: true
+              - name: "news"
+                label: "📰 Aktualności"
+                widget: "string"
+                hint: "Etykieta linku „news” w menu górnym."
+                required: true
+              - name: "register"
+                label: "📝 Rejestracja"
+                widget: "string"
+                hint: "Etykieta linku „register” w menu górnym."
+                required: true
+          - label: "🔘 Przyciski"
+            name: "buttons"
+            widget: "object"
+            hint: "Teksty przycisków na stronie głównej i listach."
             fields:
-              - { label: "Register now", name: register, widget: string }
-              - { label: "Download program", name: program, widget: string }
-              - { label: "Watch coverage", name: video, widget: string }
-              - { label: "All news", name: all_news, widget: string }
-              - { label: "Become partner", name: become_partner, widget: string }
-              - { label: "Read more", name: read_more, widget: string }
-              - { label: "Load more", name: load_more, widget: string }
-          - label: "Labels"
-            name: labels
-            widget: object
+              - name: "register"
+                label: "✅ Zarejestruj się"
+                widget: "string"
+                hint: "Tekst przycisku „register”."
+                required: true
+              - name: "program"
+                label: "📄 Pobierz program"
+                widget: "string"
+                hint: "Tekst przycisku „program”."
+                required: true
+              - name: "video"
+                label: "▶️ Obejrzyj relację"
+                widget: "string"
+                hint: "Tekst przycisku „video”."
+                required: true
+              - name: "all_news"
+                label: "📰 Wszystkie aktualności"
+                widget: "string"
+                hint: "Tekst przycisku „all_news”."
+                required: true
+              - name: "become_partner"
+                label: "🤝 Zostań partnerem"
+                widget: "string"
+                hint: "Tekst przycisku „become_partner”."
+                required: true
+              - name: "read_more"
+                label: "📖 Czytaj więcej"
+                widget: "string"
+                hint: "Tekst przycisku „read_more”."
+                required: true
+              - name: "load_more"
+                label: "⬇️ Załaduj więcej"
+                widget: "string"
+                hint: "Tekst przycisku „load_more”."
+                required: true
+          - label: "🏷️ Etykiety"
+            name: "labels"
+            widget: "object"
+            hint: "Krótkie etykiety UI (karty, listy, bio)."
             fields:
-              - { label: "Free admission", name: free_admission, widget: string }
-              - { label: "Confirmed", name: confirmed, widget: string }
-              - { label: "Expand bio", name: expand_bio, widget: string }
-              - { label: "Collapse bio", name: collapse_bio, widget: string }
-              - { label: "Back to news", name: back_to_news, widget: string }
-              - { label: "Share", name: share, widget: string }
-              - { label: "Module", name: module, widget: string }
-              - { label: "Schedule", name: schedule, widget: string }
-              - { label: "Instructor", name: instructor_label, widget: string }
-      - name: de
-        label: "Deutsch (DE)"
+              - name: "free_admission"
+                label: "🎫 Bezpłatny wstęp"
+                widget: "string"
+                hint: "Etykieta „free_admission” w interfejsie."
+                required: true
+              - name: "confirmed"
+                label: "✔️ Potwierdzone"
+                widget: "string"
+                hint: "Etykieta „confirmed” w interfejsie."
+                required: true
+              - name: "expand_bio"
+                label: "⬇️ Rozwiń bio"
+                widget: "string"
+                hint: "Etykieta „expand_bio” w interfejsie."
+                required: true
+              - name: "collapse_bio"
+                label: "⬆️ Zwiń bio"
+                widget: "string"
+                hint: "Etykieta „collapse_bio” w interfejsie."
+                required: true
+              - name: "back_to_news"
+                label: "↩️ Powrót do aktualności"
+                widget: "string"
+                hint: "Etykieta „back_to_news” w interfejsie."
+                required: true
+              - name: "share"
+                label: "🔗 Udostępnij"
+                widget: "string"
+                hint: "Etykieta „share” w interfejsie."
+                required: true
+              - name: "module"
+                label: "📚 Moduł"
+                widget: "string"
+                hint: "Etykieta „module” w interfejsie."
+                required: true
+              - name: "schedule"
+                label: "📅 Harmonogram"
+                widget: "string"
+                hint: "Etykieta „schedule” w interfejsie."
+                required: true
+              - name: "instructor_label"
+                label: "👤 Prowadzący"
+                widget: "string"
+                hint: "Etykieta „instructor_label” w interfejsie."
+                required: true
+      - name: "de"
+        label: "🇩🇪 Deutsch (DE)"
         file: "src/content/i18n/de.json"
         fields:
-          - label: "Navigation"
-            name: nav
-            widget: object
+          - label: "🧭 Nawigacja"
+            name: "nav"
+            widget: "object"
+            hint: "Nazwy linków w menu — widoczne w pasku nawigacji po wyborze języka."
             fields:
-              - { label: "Über die Veranstaltung", name: event, widget: string }
-              - { label: "Ausbilder", name: instructors, widget: string }
-              - { label: "Partner", name: partners, widget: string }
-              - { label: "Medien", name: media, widget: string }
-              - { label: "Stiftung", name: foundation, widget: string }
-              - { label: "Galerie", name: gallery, widget: string }
-              - { label: "Kontakt", name: contact, widget: string }
-              - { label: "Aktuelles", name: news, widget: string }
-              - { label: "Anmeldung", name: register, widget: string }
-          - label: "Schaltflächen"
-            name: buttons
-            widget: object
+              - name: "event"
+                label: "📅 O wydarzeniu"
+                widget: "string"
+                hint: "Etykieta linku „event” w menu górnym."
+                required: true
+              - name: "instructors"
+                label: "🎖️ Instruktorzy"
+                widget: "string"
+                hint: "Etykieta linku „instructors” w menu górnym."
+                required: true
+              - name: "partners"
+                label: "🤝 Partnerzy"
+                widget: "string"
+                hint: "Etykieta linku „partners” w menu górnym."
+                required: true
+              - name: "media"
+                label: "📺 Media"
+                widget: "string"
+                hint: "Etykieta linku „media” w menu górnym."
+                required: true
+              - name: "foundation"
+                label: "🏛️ Fundacja"
+                widget: "string"
+                hint: "Etykieta linku „foundation” w menu górnym."
+                required: true
+              - name: "gallery"
+                label: "🖼️ Galeria"
+                widget: "string"
+                hint: "Etykieta linku „gallery” w menu górnym."
+                required: true
+              - name: "contact"
+                label: "✉️ Kontakt"
+                widget: "string"
+                hint: "Etykieta linku „contact” w menu górnym."
+                required: true
+              - name: "news"
+                label: "📰 Aktualności"
+                widget: "string"
+                hint: "Etykieta linku „news” w menu górnym."
+                required: true
+              - name: "register"
+                label: "📝 Rejestracja"
+                widget: "string"
+                hint: "Etykieta linku „register” w menu górnym."
+                required: true
+          - label: "🔘 Przyciski"
+            name: "buttons"
+            widget: "object"
+            hint: "Teksty przycisków na stronie głównej i listach."
             fields:
-              - { label: "Jetzt anmelden", name: register, widget: string }
-              - { label: "Programm herunterladen", name: program, widget: string }
-              - { label: "Bericht ansehen", name: video, widget: string }
-              - { label: "Alle News", name: all_news, widget: string }
-              - { label: "Partner werden", name: become_partner, widget: string }
-              - { label: "Mehr lesen", name: read_more, widget: string }
-              - { label: "Mehr laden", name: load_more, widget: string }
-          - label: "Beschriftungen"
-            name: labels
-            widget: object
+              - name: "register"
+                label: "✅ Zarejestruj się"
+                widget: "string"
+                hint: "Tekst przycisku „register”."
+                required: true
+              - name: "program"
+                label: "📄 Pobierz program"
+                widget: "string"
+                hint: "Tekst przycisku „program”."
+                required: true
+              - name: "video"
+                label: "▶️ Obejrzyj relację"
+                widget: "string"
+                hint: "Tekst przycisku „video”."
+                required: true
+              - name: "all_news"
+                label: "📰 Wszystkie aktualności"
+                widget: "string"
+                hint: "Tekst przycisku „all_news”."
+                required: true
+              - name: "become_partner"
+                label: "🤝 Zostań partnerem"
+                widget: "string"
+                hint: "Tekst przycisku „become_partner”."
+                required: true
+              - name: "read_more"
+                label: "📖 Czytaj więcej"
+                widget: "string"
+                hint: "Tekst przycisku „read_more”."
+                required: true
+              - name: "load_more"
+                label: "⬇️ Załaduj więcej"
+                widget: "string"
+                hint: "Tekst przycisku „load_more”."
+                required: true
+          - label: "🏷️ Etykiety"
+            name: "labels"
+            widget: "object"
+            hint: "Krótkie etykiety UI (karty, listy, bio)."
             fields:
-              - { label: "Freier Eintritt", name: free_admission, widget: string }
-              - { label: "Bestätigt", name: confirmed, widget: string }
-              - { label: "Bio erweitern", name: expand_bio, widget: string }
-              - { label: "Bio einklappen", name: collapse_bio, widget: string }
-              - { label: "Zurück zu den News", name: back_to_news, widget: string }
-              - { label: "Teilen", name: share, widget: string }
-              - { label: "Modul", name: module, widget: string }
-              - { label: "Zeitplan", name: schedule, widget: string }
-              - { label: "Referent", name: instructor_label, widget: string }
-      - name: fr
-        label: "Français (FR)"
+              - name: "free_admission"
+                label: "🎫 Bezpłatny wstęp"
+                widget: "string"
+                hint: "Etykieta „free_admission” w interfejsie."
+                required: true
+              - name: "confirmed"
+                label: "✔️ Potwierdzone"
+                widget: "string"
+                hint: "Etykieta „confirmed” w interfejsie."
+                required: true
+              - name: "expand_bio"
+                label: "⬇️ Rozwiń bio"
+                widget: "string"
+                hint: "Etykieta „expand_bio” w interfejsie."
+                required: true
+              - name: "collapse_bio"
+                label: "⬆️ Zwiń bio"
+                widget: "string"
+                hint: "Etykieta „collapse_bio” w interfejsie."
+                required: true
+              - name: "back_to_news"
+                label: "↩️ Powrót do aktualności"
+                widget: "string"
+                hint: "Etykieta „back_to_news” w interfejsie."
+                required: true
+              - name: "share"
+                label: "🔗 Udostępnij"
+                widget: "string"
+                hint: "Etykieta „share” w interfejsie."
+                required: true
+              - name: "module"
+                label: "📚 Moduł"
+                widget: "string"
+                hint: "Etykieta „module” w interfejsie."
+                required: true
+              - name: "schedule"
+                label: "📅 Harmonogram"
+                widget: "string"
+                hint: "Etykieta „schedule” w interfejsie."
+                required: true
+              - name: "instructor_label"
+                label: "👤 Prowadzący"
+                widget: "string"
+                hint: "Etykieta „instructor_label” w interfejsie."
+                required: true
+      - name: "fr"
+        label: "🇫🇷 Français (FR)"
         file: "src/content/i18n/fr.json"
         fields:
-          - label: "Navigation"
-            name: nav
-            widget: object
+          - label: "🧭 Nawigacja"
+            name: "nav"
+            widget: "object"
+            hint: "Nazwy linków w menu — widoczne w pasku nawigacji po wyborze języka."
             fields:
-              - { label: "À propos de l'événement", name: event, widget: string }
-              - { label: "Instructeurs", name: instructors, widget: string }
-              - { label: "Partenaires", name: partners, widget: string }
-              - { label: "Médias", name: media, widget: string }
-              - { label: "Fondation", name: foundation, widget: string }
-              - { label: "Galerie", name: gallery, widget: string }
-              - { label: "Contact", name: contact, widget: string }
-              - { label: "Actualités", name: news, widget: string }
-              - { label: "Inscription", name: register, widget: string }
-          - label: "Boutons"
-            name: buttons
-            widget: object
+              - name: "event"
+                label: "📅 O wydarzeniu"
+                widget: "string"
+                hint: "Etykieta linku „event” w menu górnym."
+                required: true
+              - name: "instructors"
+                label: "🎖️ Instruktorzy"
+                widget: "string"
+                hint: "Etykieta linku „instructors” w menu górnym."
+                required: true
+              - name: "partners"
+                label: "🤝 Partnerzy"
+                widget: "string"
+                hint: "Etykieta linku „partners” w menu górnym."
+                required: true
+              - name: "media"
+                label: "📺 Media"
+                widget: "string"
+                hint: "Etykieta linku „media” w menu górnym."
+                required: true
+              - name: "foundation"
+                label: "🏛️ Fundacja"
+                widget: "string"
+                hint: "Etykieta linku „foundation” w menu górnym."
+                required: true
+              - name: "gallery"
+                label: "🖼️ Galeria"
+                widget: "string"
+                hint: "Etykieta linku „gallery” w menu górnym."
+                required: true
+              - name: "contact"
+                label: "✉️ Kontakt"
+                widget: "string"
+                hint: "Etykieta linku „contact” w menu górnym."
+                required: true
+              - name: "news"
+                label: "📰 Aktualności"
+                widget: "string"
+                hint: "Etykieta linku „news” w menu górnym."
+                required: true
+              - name: "register"
+                label: "📝 Rejestracja"
+                widget: "string"
+                hint: "Etykieta linku „register” w menu górnym."
+                required: true
+          - label: "🔘 Przyciski"
+            name: "buttons"
+            widget: "object"
+            hint: "Teksty przycisków na stronie głównej i listach."
             fields:
-              - { label: "S'inscrire maintenant", name: register, widget: string }
-              - { label: "Télécharger le programme", name: program, widget: string }
-              - { label: "Voir le reportage", name: video, widget: string }
-              - { label: "Toutes les actualités", name: all_news, widget: string }
-              - { label: "Devenir partenaire", name: become_partner, widget: string }
-              - { label: "Lire la suite", name: read_more, widget: string }
-              - { label: "Charger plus", name: load_more, widget: string }
-          - label: "Libellés"
-            name: labels
-            widget: object
+              - name: "register"
+                label: "✅ Zarejestruj się"
+                widget: "string"
+                hint: "Tekst przycisku „register”."
+                required: true
+              - name: "program"
+                label: "📄 Pobierz program"
+                widget: "string"
+                hint: "Tekst przycisku „program”."
+                required: true
+              - name: "video"
+                label: "▶️ Obejrzyj relację"
+                widget: "string"
+                hint: "Tekst przycisku „video”."
+                required: true
+              - name: "all_news"
+                label: "📰 Wszystkie aktualności"
+                widget: "string"
+                hint: "Tekst przycisku „all_news”."
+                required: true
+              - name: "become_partner"
+                label: "🤝 Zostań partnerem"
+                widget: "string"
+                hint: "Tekst przycisku „become_partner”."
+                required: true
+              - name: "read_more"
+                label: "📖 Czytaj więcej"
+                widget: "string"
+                hint: "Tekst przycisku „read_more”."
+                required: true
+              - name: "load_more"
+                label: "⬇️ Załaduj więcej"
+                widget: "string"
+                hint: "Tekst przycisku „load_more”."
+                required: true
+          - label: "🏷️ Etykiety"
+            name: "labels"
+            widget: "object"
+            hint: "Krótkie etykiety UI (karty, listy, bio)."
             fields:
-              - { label: "Entrée gratuite", name: free_admission, widget: string }
-              - { label: "Confirmé", name: confirmed, widget: string }
-              - { label: "Développer la bio", name: expand_bio, widget: string }
-              - { label: "Réduire la bio", name: collapse_bio, widget: string }
-              - { label: "Retour aux actualités", name: back_to_news, widget: string }
-              - { label: "Partager", name: share, widget: string }
-              - { label: "Module", name: module, widget: string }
-              - { label: "Planning", name: schedule, widget: string }
-              - { label: "Instructeur", name: instructor_label, widget: string }
-
-  - name: fundacja_content
-    label: "Fundacja — Treści strony"
-    files:
-      - name: content
-        label: "Treści strony Fundacja"
-        file: "src/content/fundacja_content/content.yml"
-        format: yaml
-        fields:
-          - { label: "Misja (PL)", name: mission_pl, widget: text }
-          - { label: "Misja (EN)", name: mission_en, widget: text, required: false }
-          - { label: "Wizja (PL)", name: vision_pl, widget: text }
-          - { label: "Wizja (EN)", name: vision_en, widget: text, required: false }
-          - label: "Cele statutowe (PL)"
-            name: goals_pl
-            widget: list
-            fields:
-              - { label: "Cel", name: goal, widget: text }
-          - label: "Cele statutowe (EN)"
-            name: goals_en
-            widget: list
-            required: false
-            fields:
-              - { label: "Goal", name: goal, widget: text }
-          - { label: "Dane rejestrowe — sąd", name: registration_court, widget: string, default: "Sąd Rejonowy w Ostrowie Wielkopolskim" }
-          - { label: "Data rejestracji", name: registration_date, widget: string, default: "2024" }
-          - { label: "Status prawny (PL)", name: legal_status_pl, widget: string, default: "Fundacja" }
-
-  - name: nav_links
-    label: "Nawigacja — Linki"
-    files:
-      - name: links
-        label: "Linki nawigacyjne"
-        file: "src/content/nav_links/links.yml"
-        format: yaml
-        fields:
-          - label: "Linki"
-            name: links
-            widget: list
-            fields:
-              - { label: "Klucz (unikalny)", name: key, widget: string }
-              - { label: "Etykieta (PL)", name: label_pl, widget: string }
-              - { label: "Etykieta (EN)", name: label_en, widget: string }
-              - { label: "Ścieżka (bez języka)", name: path, widget: string,
-                  hint: "Np. o-wydarzeniu, instruktorzy, kontakt" }
-              - name: target
-                label: "Otwórz w nowej karcie?"
-                widget: boolean
-                default: false
-                hint: "true = target='_blank' rel='noopener noreferrer'"
-              - name: icon
-                label: "Ikona (opcjonalna, nazwa z Lucide)"
-                widget: string
-                required: false
-                hint: "Np. Shield, Star, Calendar — pusta = brak ikony"
-              - name: label_de
-                label: "Etykieta DE"
-                widget: string
-                required: false
-              - name: label_fr
-                label: "Etykieta FR"
-                widget: string
-                required: false
-              - { label: "Kolejność", name: order, widget: number }
-              - { label: "Aktywny", name: active, widget: boolean, default: true }
-
-  - name: agenda_ui
-    label: "Agenda — Napisy interfejsu"
-    files:
-      - name: labels
-        label: "Etykiety agendy"
-        file: "src/content/agenda_ui/labels.yml"
-        format: yaml
-        fields:
-          - label: "Dodaj do kalendarza"
-            name: add_to_calendar
-            widget: object
-            fields:
-              - { label: "Polski", name: pl, widget: string, default: "DODAJ DO KALENDARZA" }
-              - { label: "English", name: en, widget: string, default: "ADD TO CALENDAR" }
-              - { label: "Deutsch", name: de, widget: string, default: "ZUM KALENDER HINZUFÜGEN" }
-              - { label: "Français", name: fr, widget: string, default: "AJOUTER AU CALENDRIER" }
-              - { label: "Čeština", name: cs, widget: string, default: "PŘIDAT DO KALENDÁŘE" }
-              - { label: "Slovenčina", name: sk, widget: string, default: "PRIDAŤ DO KALENDÁRA" }
-              - { label: "Magyar", name: hu, widget: string, default: "HOZZÁADÁS NAPTÁRHOZ" }
-              - { label: "Hrvatski", name: hr, widget: string, default: "DODAJ U KALENDAR" }
-              - { label: "Slovenščina", name: sl, widget: string, default: "DODAJ V KOLEDAR" }
-              - { label: "Lietuvių", name: lt, widget: string, default: "PRIDĖTI Į KALENDORIŲ" }
-              - { label: "Latviešu", name: lv, widget: string, default: "PIEVIENOT KALENDĀRAM" }
-              - { label: "Norsk", name: "no", widget: string, default: "LEGG TIL I KALENDER" }
-              - { label: "Svenska", name: sv, widget: string, default: "LÄGG TILL I KALENDER" }
-              - { label: "Nederlands", name: nl, widget: string, default: "AAN KALENDER TOEVOEGEN" }
-              - { label: "Español", name: es, widget: string, default: "AGREGAR AL CALENDARIO" }
-              - { label: "Português", name: pt, widget: string, default: "ADICIONAR AO CALENDÁRIO" }
-              - { label: "Română", name: ro, widget: string, default: "ADĂUGAȚI LA CALENDAR" }
-              - { label: "Italiano", name: it, widget: string, default: "AGGIUNGI AL CALENDARIO" }
-              - { label: "한국어", name: ko, widget: string, default: "캘린더에 추가" }
-          - label: "Nawiguj"
-            name: navigate
-            widget: object
-            fields:
-              - { label: "Polski", name: pl, widget: string, default: "NAWIGUJ" }
-              - { label: "English", name: en, widget: string, default: "NAVIGATE" }
-              - { label: "Deutsch", name: de, widget: string, default: "NAVIGIEREN" }
-              - { label: "Français", name: fr, widget: string, default: "NAVIGUER" }
-              - { label: "Čeština", name: cs, widget: string, default: "NAVIGOVAT" }
-              - { label: "Slovenčina", name: sk, widget: string, default: "NAVIGOVAŤ" }
-              - { label: "Magyar", name: hu, widget: string, default: "NAVIGÁLÁS" }
-              - { label: "Hrvatski", name: hr, widget: string, default: "NAVIGIRAJ" }
-              - { label: "Slovenščina", name: sl, widget: string, default: "NAVIGIRAJ" }
-              - { label: "Lietuvių", name: lt, widget: string, default: "NARŠYTI" }
-              - { label: "Latviešu", name: lv, widget: string, default: "NAVIGĒT" }
-              - { label: "Norsk", name: "no", widget: string, default: "NAVIGER" }
-              - { label: "Svenska", name: sv, widget: string, default: "NAVIGERA" }
-              - { label: "Nederlands", name: nl, widget: string, default: "NAVIGEREN" }
-              - { label: "Español", name: es, widget: string, default: "NAVEGAR" }
-              - { label: "Português", name: pt, widget: string, default: "NAVEGAR" }
-              - { label: "Română", name: ro, widget: string, default: "NAVIGAȚI" }
-              - { label: "Italiano", name: it, widget: string, default: "NAVIGA" }
-              - { label: "한국어", name: ko, widget: string, default: "길 안내" }
-          - label: "Brak lokalizacji"
-            name: no_location
-            widget: object
-            fields:
-              - { label: "Polski", name: pl, widget: string, default: "BRAK PODPIĘTEJ LOKALIZACJI" }
-              - { label: "English", name: en, widget: string, default: "NO LOCATION LINKED" }
-              - { label: "Deutsch", name: de, widget: string, default: "KEIN STANDORT VERKNÜPFT" }
-              - { label: "Français", name: fr, widget: string, default: "AUCUN LIEU LIÉ" }
-          - label: "Brak wydarzeń"
-            name: no_events
-            widget: object
-            fields:
-              - { label: "Polski", name: pl, widget: string, default: "BRAK WYDARZEŃ DLA WYBRANEGO FILTRA" }
-              - { label: "English", name: en, widget: string, default: "NO EVENTS FOR SELECTED FILTER" }
-          - label: "Google Calendar"
-            name: google_calendar
-            widget: object
-            fields:
-              - { label: "Polski", name: pl, widget: string, default: "GOOGLE CALENDAR" }
-              - { label: "English", name: en, widget: string, default: "GOOGLE CALENDAR" }
-          - label: "Apple/iCal"
-            name: apple_ical
-            widget: object
-            fields:
-              - { label: "Polski", name: pl, widget: string, default: "APPLE / ICAL" }
-              - { label: "English", name: en, widget: string, default: "APPLE / ICAL" }
-          - label: "Prowadzący"
-            name: instructor_label
-            widget: object
-            fields:
-              - { label: "Polski", name: pl, widget: string, default: "PROWADZĄCY:" }
-              - { label: "English", name: en, widget: string, default: "INSTRUCTOR:" }
-              - { label: "Deutsch", name: de, widget: string, default: "KURSLEITER:" }
-              - { label: "Français", name: fr, widget: string, default: "INSTRUCTEUR :" }
-          - label: "ICS — Nazwa organizatora"
-            name: ics_organizer_name
-            widget: string
-            default: "Fundacja PACTA K9"
-          - label: "ICS — Email organizatora"
-            name: ics_organizer_email
-            widget: string
-            default: "sebastian@pactak9.org"
-          - label: "ICS — PRODID"
-            name: ics_prodid
-            widget: string
-            default: "-//CERBERUS K9//PL"
+              - name: "free_admission"
+                label: "🎫 Bezpłatny wstęp"
+                widget: "string"
+                hint: "Etykieta „free_admission” w interfejsie."
+                required: true
+              - name: "confirmed"
+                label: "✔️ Potwierdzone"
+                widget: "string"
+                hint: "Etykieta „confirmed” w interfejsie."
+                required: true
+              - name: "expand_bio"
+                label: "⬇️ Rozwiń bio"
+                widget: "string"
+                hint: "Etykieta „expand_bio” w interfejsie."
+                required: true
+              - name: "collapse_bio"
+                label: "⬆️ Zwiń bio"
+                widget: "string"
+                hint: "Etykieta „collapse_bio” w interfejsie."
+                required: true
+              - name: "back_to_news"
+                label: "↩️ Powrót do aktualności"
+                widget: "string"
+                hint: "Etykieta „back_to_news” w interfejsie."
+                required: true
+              - name: "share"
+                label: "🔗 Udostępnij"
+                widget: "string"
+                hint: "Etykieta „share” w interfejsie."
+                required: true
+              - name: "module"
+                label: "📚 Moduł"
+                widget: "string"
+                hint: "Etykieta „module” w interfejsie."
+                required: true
+              - name: "schedule"
+                label: "📅 Harmonogram"
+                widget: "string"
+                hint: "Etykieta „schedule” w interfejsie."
+                required: true
+              - name: "instructor_label"
+                label: "👤 Prowadzący"
+                widget: "string"
+                hint: "Etykieta „instructor_label” w interfejsie."
+                required: true
+  - name: "blog"
+    label: "📝 Blog (legacy)"
+    description: "Stara kolekcja bloga Astro — rzadko używana; wpisy w src/content/blog."
+    folder: "src/content/blog"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - name: "title"
+        label: "📝 Tytuł"
+        widget: "string"
+        hint: "Tytuł wpisu blogowego."
+        required: true
+      - name: "description"
+        label: "📄 Opis"
+        widget: "text"
+        hint: "Krótki opis wpisu."
+        required: true
+      - name: "pubDate"
+        label: "📅 Data publikacji"
+        widget: "datetime"
+        hint: "Data publikacji wpisu."
+        required: true
+      - name: "updatedDate"
+        label: "📅 Data aktualizacji"
+        widget: "datetime"
+        hint: "Opcjonalna data ostatniej zmiany."
+        required: false
+      - name: "draft"
+        label: "📝 Szkic"
+        widget: "boolean"
+        hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+        required: false
+        default: false
