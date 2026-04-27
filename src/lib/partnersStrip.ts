@@ -14,8 +14,8 @@ export function partnerEntriesToStripItems(
     .filter((e) => e.data.active !== false)
     .filter(e => e.data.show_in_strip !== false)
     .sort((a, b) => {
-      const aOrder = (a.data as any).strip_order ?? 99;
-      const bOrder = (b.data as any).strip_order ?? 99;
+      const aOrder = a.data.strip_order ?? 99;
+      const bOrder = b.data.strip_order ?? 99;
       return aOrder - bOrder;
     })
     .map(e => ({
