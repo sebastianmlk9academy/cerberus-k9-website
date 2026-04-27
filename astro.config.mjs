@@ -3,7 +3,6 @@
 import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
-import tailwind from '@astrojs/tailwind';
 import { defineConfig, fontProviders } from 'astro/config';
 import { locales } from './locales.mjs';
 
@@ -20,7 +19,6 @@ export default defineConfig({
 		sitemap({
 			filter: (page) => !page.includes('/blog/') && !page.includes('/about'),
 		}),
-		tailwind(),
 		react(),
 	],
 	i18n: {
