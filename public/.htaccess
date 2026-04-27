@@ -1,3 +1,5 @@
+AddType text/yaml .yml
+AddType text/yaml .yaml
 RewriteEngine On
 RewriteBase /
 
