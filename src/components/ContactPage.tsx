@@ -14,9 +14,14 @@ interface ContactPageProps {
   email?: string;
   phone?: string;
   address?: string;
+  foundationName?: string;
+  presidentPhone?: string;
+  presidentEmail?: string;
+  addressStreet?: string;
+  addressCity?: string;
+  addressZip?: string;
   mapEmbedUrl?: string;
   venueAddress?: string;
-  presidentEmail?: string;
   /** Empty string = Netlify Forms (`/` POST). Non-empty = JSON POST to this URL. */
   contactFormEndpoint?: string;
   contactFormRecipient?: string;
@@ -220,21 +225,29 @@ const contactCopy: Record<string, ContactCopyEntry> = {
 const DEFAULT_MAP_EMBED_URL =
   "https://www.openstreetmap.org/export/embed.html?bbox=17.8074%2C51.6365%2C17.8274%2C51.6565&layer=mapnik&marker=51.6465%2C17.8174";
 
+const DEFAULT_VENUE = "3MK Arena, ul. Andrzeja Kowalczyka 1, Ostrów Wielkopolski, Polska";
+
 const contactLinkHoverStyle = { transition: "color 0.15s ease" } as const;
 
 export function ContactPage({
   lang,
   email,
+  phone,
+  foundationName,
+  presidentPhone,
+  presidentEmail,
+  addressStreet,
+  addressCity,
+  addressZip,
   mapEmbedUrl,
   venueAddress,
-  presidentEmail,
   contactFormEndpoint,
   contactFormRecipient,
   gdprConsentText,
 }: ContactPageProps) {
-  const resolvedMapEmbedUrl = mapEmbedUrl?.trim() || DEFAULT_MAP_EMBED_URL;
-  const resolvedVenueAddress = venueAddress?.trim() || "3MK Arena, ul. Andrzeja Kowalczyka 1, Ostrów Wielkopolski, Polska";
-  const resolvedPresidentEmail = presidentEmail?.trim() || "mariusz@pactak9.org";
+  const resolvedMapUrl = mapEmbedUrl ?? DEFAULT_MAP_EMBED_URL;
+  const resolvedVenue = venueAddress ?? DEFAULT_VENUE;
+  const resolvedPresidentEmail = (presidentEmail ?? "mariusz@pactak9.org").trim();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -540,12 +553,12 @@ export function ContactPage({
         <aside className="ck9-info-column" aria-label="Dane kontaktowe">
           <article className="ck9-info-card">
             <h3 className="ck9-card-title">{c.addressTitle}</h3>
+            <p className="ck9-card-line">{foundationName ?? "Fundacja PACTA K9"}</p>
+            <p className="ck9-card-line">{addressStreet ?? "ul. Odolanowska 8"}</p>
             <p className="ck9-card-line">
-              <span style={{ display: "block" }}>Fundacja Pacta K9</span>
-              <span style={{ display: "block" }}>ul. Odolanowska 17</span>
-              <span style={{ display: "block" }}>63-400 Topola Mała</span>
-              <span style={{ display: "block" }}>{addressCountryLine}</span>
+              {addressZip ?? "63-400"} {addressCity ?? "Ostrów Wielkopolski"}
             </p>
+            <p className="ck9-card-line">{addressCountryLine}</p>
           </article>
 
           <article className="ck9-info-card">
@@ -576,7 +589,7 @@ export function ContactPage({
               TELEFON:{" "}
               <a
                 className="ck9-card-link"
-                href="tel:+48788929200"
+                href={`tel:${presidentPhone?.replace(/\s/g, "") ?? "+48788929200"}`}
                 style={contactLinkHoverStyle}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.color = "#C4922A";
@@ -591,7 +604,7 @@ export function ContactPage({
                   e.currentTarget.style.color = "";
                 }}
               >
-                +48 788 929 200
+                {presidentPhone ?? "+48 788 929 200"}
               </a>
             </p>
             <p className="ck9-card-line">
@@ -620,7 +633,7 @@ export function ContactPage({
               TELEFON:{" "}
               <a
                 className="ck9-card-link"
-                href="tel:+48695637907"
+                href={`tel:${phone?.replace(/\s/g, "") ?? "+48695637907"}`}
                 style={contactLinkHoverStyle}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.color = "#C4922A";
@@ -635,7 +648,7 @@ export function ContactPage({
                   e.currentTarget.style.color = "";
                 }}
               >
-                +48 695 637 907
+                {phone ?? "+48 695 637 907"}
               </a>
             </p>
           </article>
@@ -645,10 +658,10 @@ export function ContactPage({
             <iframe
               className="ck9-map"
               title={c.eventLocationTitle ?? "EVENT LOCATION — CERBERUS K9 2026"}
-              src={resolvedMapEmbedUrl}
+              src={resolvedMapUrl}
               loading="lazy"
             />
-            <p className="ck9-card-line">{resolvedVenueAddress}</p>
+            <p className="ck9-card-line">{resolvedVenue}</p>
             <p className="ck9-card-note">
               {c.mapNote ?? "Detailed route map is available in registration materials"}
             </p>
