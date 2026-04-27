@@ -8,7 +8,6 @@ backend:
   branch: master
   base_url: https://cerberus-oauth-proxy.vercel.app
   auth_endpoint: /auth
-
 # Media uploaded from the CMS lands in the repo under public/uploads
 media_folder: public/uploads
 public_folder: /uploads
