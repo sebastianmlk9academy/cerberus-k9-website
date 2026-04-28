@@ -3123,12 +3123,15 @@ collections:
           ✏️ Przykład: Komunikat prasowy CERBERUS K9 2026
         required: true
       - name: "date"
-        label: "📅 Data (tekst)"
-        widget: "string"
+        label: "📅 Data (opcjonalne)"
+        widget: "datetime"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        format: "YYYY-MM-DD"
         hint: >
           📍 Gdzie: data nad tytułem wpisu.
-          ⚠️ Ważne: krótki format tekstowy, np. 2026-04.
-          ✏️ Przykład: 2026-04
+          ⚠️ Ważne: wybierz datę z kalendarza.
+          ✏️ Przykład: 2026-04-29
         required: false
       - name: "file_url"
         label: "🔗 Link do pliku do pobrania"
