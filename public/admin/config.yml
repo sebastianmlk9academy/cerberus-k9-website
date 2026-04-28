@@ -414,39 +414,60 @@ collections:
                   - "^https?://.*"
                   - "Wklej pełny adres URL z https://"
               - name: "registration_deadline_text"
-                label: "⏳ Deadline rejestracji (tekst)"
+                label: "⏳ Deadline rejestracji (legacy)"
                 widget: "string"
-                hint: "Tekst terminu zapisów w panelu rejestracji."
+                hint: >
+                  📍 Gdzie: legacy fallback dla panelu /rejestracja.
+                  ⚠️ Ważne: kanoniczna edycja rejestracji jest w kolekcji „📋 Rejestracja — Informacje Boczne”.
+                  ✏️ Przykład: REJESTRACJA DO 31.05.2026
                 required: false
               - name: "registration_date_display"
-                label: "📅 Rejestracja — wyświetlany termin"
+                label: "📅 Rejestracja — wyświetlany termin (legacy)"
                 widget: "string"
-                hint: "Termin obok widgetu Pretix."
+                hint: >
+                  📍 Gdzie: legacy fallback dla daty obok widgetu Pretix.
+                  ⚠️ Ważne: edytuj kanonicznie w „📋 Rejestracja — Informacje Boczne” (`reg_date_display`).
+                  ✏️ Przykład: 13–14 czerwca 2026
                 required: false
               - name: "registration_prep_day"
-                label: "📅 Dzień przygotowawczy"
+                label: "📅 Dzień przygotowawczy (legacy)"
                 widget: "string"
-                hint: "Tekst dnia przygotowawczego przy rejestracji."
+                hint: >
+                  📍 Gdzie: legacy fallback tekstu przygotowawczego.
+                  ⚠️ Ważne: kanoniczne pole to `reg_prep_day` w kolekcji rejestracji.
+                  ✏️ Przykład: Dzień przygotowawczy: 12 czerwca
                 required: false
               - name: "registration_venues"
-                label: "🏟️ Lokalizacje (tekst)"
+                label: "🏟️ Lokalizacje (tekst, legacy)"
                 widget: "string"
-                hint: "Lista miejsc przy panelu rejestracji."
+                hint: >
+                  📍 Gdzie: legacy fallback listy lokalizacji.
+                  ⚠️ Ważne: kanonicznie edytuj `reg_venues` w „📋 Rejestracja — Informacje Boczne”.
+                  ✏️ Przykład: 3MK Arena, Szkoła Mundurowa, Stadion Miejski
                 required: false
               - name: "registration_city"
-                label: "🏙️ Miasto (rejestracja)"
+                label: "🏙️ Miasto (rejestracja, legacy)"
                 widget: "string"
-                hint: "Miasto przy danych rejestracyjnych."
+                hint: >
+                  📍 Gdzie: legacy fallback miasta przy rejestracji.
+                  ⚠️ Ważne: kanoniczne pole to `reg_city` w kolekcji rejestracji.
+                  ✏️ Przykład: Ostrów Wielkopolski
                 required: false
               - name: "registration_contact_email"
-                label: "✉️ E-mail do rejestracji"
+                label: "✉️ E-mail do rejestracji (legacy)"
                 widget: "string"
-                hint: "Kontakt przy pytaniach o zapisy."
+                hint: >
+                  📍 Gdzie: legacy fallback kontaktu e-mail przy rejestracji.
+                  ⚠️ Ważne: kanonicznie edytuj `reg_contact_email` w kolekcji rejestracji.
+                  ✏️ Przykład: sebastian@pactak9.org
                 required: false
               - name: "registration_contact_phone"
-                label: "📞 Telefon do rejestracji"
+                label: "📞 Telefon do rejestracji (legacy)"
                 widget: "string"
-                hint: "Telefon przy pytaniach o zapisy."
+                hint: >
+                  📍 Gdzie: legacy fallback telefonu przy rejestracji.
+                  ⚠️ Ważne: kanonicznie edytuj `reg_contact_phone` w kolekcji rejestracji.
+                  ✏️ Przykład: +48 695 637 907
                 required: false
               - name: "partner_cta_href"
                 label: "🤝 CTA „Zostań partnerem”"
@@ -454,9 +475,12 @@ collections:
                 hint: "Link w sekcji partnerów na stronie głównej."
                 required: false
               - name: "partner_cta_href_full"
-                label: "🔗 CTA partner — URL pełny"
+                label: "🧪 CTA partner — URL pełny (rezerwa)"
                 widget: "string"
-                hint: "Alternatywny pełny link CTA."
+                hint: >
+                  📍 Gdzie: pole rezerwowe/techniczne, obecnie nieużywane w renderze.
+                  ⚠️ Ważne: aktywny link CTA partnera to `partner_cta_href`.
+                  ✏️ Przykład: zostaw puste, jeśli nie wdrażasz integracji technicznej.
                 required: false
               - name: "accreditation_deadline"
                 label: "📅 Deadline akredytacji mediów"
