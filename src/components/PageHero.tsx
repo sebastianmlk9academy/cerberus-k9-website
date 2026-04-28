@@ -101,7 +101,7 @@ export function PageHero({
           <span
             style={{
               fontFamily: "'Rajdhani', sans-serif",
-              fontSize: "9px",
+              fontSize: "11px",
               fontWeight: 700,
               letterSpacing: "5px",
               color: "#C4922A",
@@ -128,7 +128,7 @@ export function PageHero({
 
         {/* Subtitle */}
         <p
-          className="mt-3 uppercase text-[9px] xs:text-[10px] sm:text-[11px]"
+          className="mt-3 uppercase text-[10px] xs:text-[11px] sm:text-[12px]"
           style={{
             fontFamily: "'Rajdhani', sans-serif",
             letterSpacing: "3px",

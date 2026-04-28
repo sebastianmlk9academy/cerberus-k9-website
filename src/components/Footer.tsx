@@ -198,6 +198,15 @@ export function Footer({
         borderTop: "2px solid #1E2B38",
       }}
     >
+      <style>{`
+        .footer-link:hover {
+          color: #C4922A !important;
+        }
+        .social-icon:hover {
+          color: #C4922A !important;
+          transform: scale(1.2);
+        }
+      `}</style>
       <div
         className="mx-auto grid grid-cols-1 items-center text-center md:grid-cols-2 md:items-stretch md:text-left lg:grid-cols-4"
         style={{
@@ -235,7 +244,7 @@ export function Footer({
           <p
             style={{
               fontFamily: "'Rajdhani', sans-serif",
-              fontSize: "clamp(6px, 0.75vw, 8px)",
+              fontSize: "clamp(8px, 0.9vw, 10px)",
               letterSpacing: "1.8px",
               fontWeight: 700,
               color: "#4A5A6A",
@@ -280,7 +289,7 @@ export function Footer({
           <h3
             style={{
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
-              fontSize: "9px",
+              fontSize: "10px",
               letterSpacing: "3px",
               color: "#C4922A",
               fontWeight: 700,
@@ -298,7 +307,7 @@ export function Footer({
                 className="footer-link"
                 style={{
                   fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
-                  fontSize: "10px",
+                  fontSize: "11px",
                   letterSpacing: "1px",
                   color: "#FFFFFF",
                   textDecoration: "none",
@@ -322,7 +331,7 @@ export function Footer({
           <h3
             style={{
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
-              fontSize: "9px",
+              fontSize: "10px",
               letterSpacing: "3px",
               color: "#C4922A",
               fontWeight: 700,
@@ -340,7 +349,7 @@ export function Footer({
                 className="footer-link"
                 style={{
                   fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
-                  fontSize: "10px",
+                  fontSize: "11px",
                   letterSpacing: "1px",
                   color: "#FFFFFF",
                   textDecoration: "none",
@@ -364,7 +373,7 @@ export function Footer({
           <h3
             style={{
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
-              fontSize: "9px",
+              fontSize: "10px",
               letterSpacing: "3px",
               color: "#C4922A",
               fontWeight: 700,
@@ -378,7 +387,7 @@ export function Footer({
             className="flex flex-col items-center gap-1 md:items-start"
             style={{
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
-              fontSize: "10px",
+              fontSize: "11px",
               color: "#FFFFFF",
             }}
           >
@@ -397,7 +406,7 @@ export function Footer({
                 className="footer-link"
                 style={{
                   fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
-                  fontSize: "10px",
+                  fontSize: "11px",
                   letterSpacing: "1px",
                   color: "#FFFFFF",
                   textDecoration: "none",
@@ -419,7 +428,7 @@ export function Footer({
                 className="footer-link"
                 style={{
                   fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
-                  fontSize: "10px",
+                  fontSize: "11px",
                   letterSpacing: "1px",
                   color: "#FFFFFF",
                   textDecoration: "none",
@@ -485,7 +494,7 @@ export function Footer({
           <p
             style={{
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
-              fontSize: "9px",
+              fontSize: "10px",
               color: "#FFFFFF",
               margin: 0,
               textAlign: "center",
@@ -497,7 +506,7 @@ export function Footer({
             <p
               style={{
                 fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
-                fontSize: "9px",
+                fontSize: "10px",
                 color: "#FFFFFF",
                 margin: 0,
                 textAlign: "center",
@@ -509,7 +518,7 @@ export function Footer({
           <p
             style={{
               fontFamily: "var(--font-rajdhani), 'Rajdhani', sans-serif",
-              fontSize: "9px",
+              fontSize: "10px",
               color: "#FFFFFF",
               margin: 0,
               textAlign: "center",

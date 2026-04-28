@@ -57,7 +57,7 @@ export function ProgramSection({ lang, copy, cards }: ProgramSectionProps) {
             <div className="h-[40px] flex items-center gap-4">
               <div className="w-4 h-px bg-[color:var(--card-accent)]" />
               <span 
-                className="font-[family-name:var(--font-rajdhani)] text-[8px] font-bold tracking-[4px] text-[color:var(--card-accent)]"
+                className="font-[family-name:var(--font-rajdhani)] text-[9px] font-bold tracking-[3px] text-[color:var(--card-accent)]"
               >
                 {card.category}
               </span>
@@ -81,7 +81,7 @@ export function ProgramSection({ lang, copy, cards }: ProgramSectionProps) {
             {/* Badge */}
             <div className="mt-auto pt-[15px]">
               <span 
-                className="flex items-center h-[70px] font-[family-name:var(--font-rajdhani)] text-[8px] font-bold tracking-[3px] text-[#C42B2B] px-3 py-2 bg-[rgba(196,43,43,0.15)] border border-[rgba(196,43,43,0.35)] leading-relaxed"
+                className="flex items-center h-[70px] font-[family-name:var(--font-rajdhani)] text-[9px] font-bold tracking-[2.5px] text-[#C42B2B] px-3 py-2 bg-[rgba(196,43,43,0.15)] border border-[rgba(196,43,43,0.35)] leading-relaxed"
               >
                 {card.badge}
               </span>

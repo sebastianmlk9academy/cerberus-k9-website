@@ -118,7 +118,7 @@ const teamCopy: Record<string, { sectionTag: string; role1: string; role2: strin
               backgroundColor: "rgba(196,146,42,0.85)",
               color: "#0F1720",
               fontFamily: "'Rajdhani', sans-serif",
-              fontSize: "8px",
+              fontSize: "9px",
               letterSpacing: "2px",
               fontWeight: 700,
             }}
@@ -147,7 +147,7 @@ const teamCopy: Record<string, { sectionTag: string; role1: string; role2: strin
             <div
               style={{
                 fontFamily: "'Rajdhani', sans-serif",
-                fontSize: "8px",
+                fontSize: "9px",
                 letterSpacing: "5px",
                 color: "#C42B2B",
                 fontWeight: 700,
@@ -182,7 +182,7 @@ const teamCopy: Record<string, { sectionTag: string; role1: string; role2: strin
           <div
             style={{
               fontFamily: "'Rajdhani', sans-serif",
-              fontSize: "10px",
+                fontSize: "11px",
               letterSpacing: "2px",
               color: "#C4922A",
               marginTop: "8px",

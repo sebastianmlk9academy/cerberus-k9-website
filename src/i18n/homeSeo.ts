@@ -13,7 +13,7 @@ export const homeSeoByLang: Record<Lang, HomeSeo> = {
 		title: 'CERBERUS K9 2026 — Międzynarodowe Ćwiczenia K9 | 13-14 Czerwca | Ostrów Wielkopolski',
 		description:
 			'Największe w Polsce międzynarodowe ćwiczenia K9. 250+ uczestników z 15+ krajów NATO. US Police K9, Marinha Portuguesa. Wstęp bezpłatny.',
-		eventName: 'CERBERUS K9 2026 - Miedzynarodowe Cwiczenia K9',
+		eventName: 'CERBERUS K9 2026 - Międzynarodowe Ćwiczenia K9',
 	},
 	en: {
 		title: 'CERBERUS K9 2026 — International K9 Exercises | June 13-14 | Ostrów Wielkopolski',

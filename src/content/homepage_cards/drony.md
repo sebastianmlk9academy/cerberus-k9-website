@@ -1,7 +1,7 @@
 ---
 category: "DRONY"
 title_pl: "SZKOLENIE DRONOWE"
-description_pl: "Pilotaż dronów BSP i zastosowania w bezpieczeństwie publicznym prowadzone przez Polską Armię Dronów."
+description_pl: "Pilotaż BSP i praktyczne zastosowania dronów w bezpieczeństwie publicznym."
 badge_pl: "SŁUŻBY + CYWILE"
 title_en: "DRONE TRAINING"
 description_en: "UAV piloting and applications in public safety led by the Polish Drone Army Foundation."
