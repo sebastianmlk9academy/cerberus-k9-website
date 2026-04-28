@@ -124,7 +124,7 @@ contact_address_city: "Ostrów Wielkopolski"
 contact_address_zip: "63-400"
 contact_address_country_pl: "Polska"
 contact_address_country_en: "Poland"
-contact_map_embed_url: ""
+contact_map_embed_url: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2468.123!2d17.8086!3d51.6509!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sul.%20Andrzeja%20Kowalczyka%201%2C%2063-400%20Ostr%C3%B3w%20Wielkopolski!5e0!3m2!1spl!2spl!4v1234567890"
 contact_venue_address: ""
 contact_president_email: ""
 # --- Footer / Nav ---
