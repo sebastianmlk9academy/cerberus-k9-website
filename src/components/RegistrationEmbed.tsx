@@ -4,6 +4,17 @@ import { Calendar, MapPin, Ticket, AlertCircle, Mail, Phone, ExternalLink, Chevr
 interface RegistrationEmbedProps {
   lang?: string;
   pretixUrl?: string;
+  /** Alias CMS / spójność z namingiem z zadania */
+  regDateDisplay?: string;
+  regPrepDay?: string;
+  regVenues?: string;
+  regCity?: string;
+  regContactEmail?: string;
+  regContactPhone?: string;
+  regEntryText?: string;
+  regDeadlineText?: string;
+  regLimitText?: string;
+  presidentEmail?: string;
   dateValue?: string;
   prepDay?: string;
   venues?: string;
@@ -678,17 +689,36 @@ export function RegistrationAside({
   city,
   contactEmail,
   contactPhone,
+  regDateDisplay,
+  regPrepDay,
+  regVenues,
+  regCity,
+  regContactEmail,
+  regContactPhone,
+  regEntryText,
+  regDeadlineText,
+  regLimitText,
+  presidentEmail,
 }: RegistrationEmbedProps) {
   const c = regCopy[lang ?? "pl"] ?? regCopy["en"];
   const dateStr =
+    regDateDisplay ??
     dateValue ??
     (lang === "pl" ? "13–14 czerwca 2026" : lang === "de" ? "13.–14. Juni 2026" : "June 13–14, 2026");
-  const prepStr = prepDay ?? c.deadline;
+  const prepStr = regPrepDay ?? prepDay ?? c.deadline;
   const venuesStr =
-    venues ?? "3MK Arena, Szkoła Mundurowa, Stadion Miejski";
-  const cityStr = city ?? (lang === "pl" ? "Ostrów Wielkopolski" : "Ostrow Wielkopolski");
-  const emailStr = contactEmail ?? "rejestracja@cerberusk9.pl";
-  const phoneStr = contactPhone ?? "+48 000 000 000";
+    regVenues ?? venues ?? "3MK Arena, Szkoła Mundurowa, Stadion Miejski";
+  const cityStr =
+    regCity ?? city ?? (lang === "pl" ? "Ostrów Wielkopolski" : "Ostrow Wielkopolski");
+  const emailStr =
+    regContactEmail ?? contactEmail ?? "sebastian@pactak9.org";
+  const phoneStr =
+    regContactPhone ?? contactPhone ?? "+48 695 637 907";
+  const admissionBody =
+    regEntryText ??
+    c.admissionNote ??
+    "Finansowane z dotacji samorządowych";
+  const limitMain = regLimitText ?? c.limitValue;
   return (
     <aside className="flex flex-col gap-4">
       <div
@@ -734,6 +764,21 @@ export function RegistrationAside({
         >
           {prepStr}
         </p>
+        {regDeadlineText ? (
+          <p
+            className="mt-2"
+            style={{
+              fontFamily: "'Rajdhani', sans-serif",
+              fontSize: "11px",
+              letterSpacing: "2px",
+              color: "#C4922A",
+              fontWeight: 700,
+              margin: 0,
+            }}
+          >
+            {regDeadlineText}
+          </p>
+        ) : null}
       </div>
 
       <div
@@ -824,7 +869,7 @@ export function RegistrationAside({
             marginTop: "8px",
           }}
         >
-          {c.admissionNote ?? "Finansowane z dotacji samorządowych"}
+          {admissionBody}
         </p>
       </div>
 
@@ -857,7 +902,7 @@ export function RegistrationAside({
             lineHeight: 1.15,
           }}
         >
-          {c.limitValue}
+          {limitMain}
         </p>
         <p
           className="mt-1"
@@ -925,6 +970,27 @@ export function RegistrationAside({
             <Phone className="h-4 w-4 shrink-0" style={{ color: "#C4922A" }} />
             {phoneStr}
           </a>
+          {presidentEmail ? (
+            <a
+              href={`mailto:${presidentEmail}`}
+              className="flex items-center gap-2 transition-colors duration-200"
+              style={{
+                fontFamily: "'Rajdhani', sans-serif",
+                fontSize: "11px",
+                color: "#E4DDD0",
+                textDecoration: "none",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = "#C4922A";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "#E4DDD0";
+              }}
+            >
+              <Mail className="h-4 w-4 shrink-0" style={{ color: "#C4922A" }} />
+              {presidentEmail}
+            </a>
+          ) : null}
         </div>
       </div>
 

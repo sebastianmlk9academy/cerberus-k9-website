@@ -11,9 +11,38 @@ interface Props {
 	city?: string;
 	contactEmail?: string;
 	contactPhone?: string;
+	regDateDisplay?: string;
+	regPrepDay?: string;
+	regVenues?: string;
+	regCity?: string;
+	regContactEmail?: string;
+	regContactPhone?: string;
+	regEntryText?: string;
+	regDeadlineText?: string;
+	regLimitText?: string;
+	presidentEmail?: string;
 }
 
-const { lang, pretixUrl, dateValue, prepDay, venues, city, contactEmail, contactPhone } = Astro.props as Props;
+const {
+	lang,
+	pretixUrl,
+	dateValue,
+	prepDay,
+	venues,
+	city,
+	contactEmail,
+	contactPhone,
+	regDateDisplay,
+	regPrepDay,
+	regVenues,
+	regCity,
+	regContactEmail,
+	regContactPhone,
+	regEntryText,
+	regDeadlineText,
+	regLimitText,
+	presidentEmail,
+} = Astro.props as Props;
 ---
 
 <section id="rejestracja" class="w-full" style="background-color: #1E2B38; padding: 80px 5%;">
@@ -32,6 +61,16 @@ const { lang, pretixUrl, dateValue, prepDay, venues, city, contactEmail, contact
 				city={city}
 				contactEmail={contactEmail}
 				contactPhone={contactPhone}
+				regDateDisplay={regDateDisplay}
+				regPrepDay={regPrepDay}
+				regVenues={regVenues}
+				regCity={regCity}
+				regContactEmail={regContactEmail}
+				regContactPhone={regContactPhone}
+				regEntryText={regEntryText}
+				regDeadlineText={regDeadlineText}
+				regLimitText={regLimitText}
+				presidentEmail={presidentEmail}
 				client:only="react"
 			/>
 		</div>

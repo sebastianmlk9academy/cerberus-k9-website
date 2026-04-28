@@ -14,6 +14,14 @@ const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
 const cmsNavLinks = await loadCmsNavLinks();
 
+let regInfo = null;
+try {
+	const ri = await getEntry('registration_info', 'registration_info');
+	regInfo = ri?.data ?? null;
+} catch {
+	regInfo = null;
+}
+
 const lang = 'pl';
 const footerCopy = footerCopyByLang[lang] ?? footerCopyByLang['pl'];
 const title = 'Rejestracja — CERBERUS K9 2026 | Bezpłatna rejestracja online';
@@ -48,6 +56,24 @@ const description =
 				city={s?.registration_city}
 				contactEmail={s?.registration_contact_email}
 				contactPhone={s?.registration_contact_phone}
+				regDateDisplay={
+					regInfo?.reg_date_display ?? s?.registration_date_display ?? '13–14 czerwca 2026'
+				}
+				regPrepDay={regInfo?.reg_prep_day ?? s?.registration_prep_day}
+				regVenues={regInfo?.reg_venues ?? s?.registration_venues}
+				regCity={regInfo?.reg_city ?? s?.registration_city ?? 'Ostrów Wielkopolski'}
+				regContactEmail={
+					regInfo?.reg_contact_email ?? s?.registration_contact_email ?? s?.footer_email ?? 'sebastian@pactak9.org'
+				}
+				regContactPhone={regInfo?.reg_contact_phone ?? s?.registration_contact_phone ?? s?.footer_phone}
+				regEntryText={regInfo?.reg_entry_text}
+				regDeadlineText={regInfo?.reg_deadline_text ?? s?.registration_deadline_text}
+				regLimitText={regInfo?.reg_limit_text}
+				presidentEmail={
+					s?.contact_president_email?.trim() ||
+						s?.president_email?.trim() ||
+						'mariusz@pactak9.org'
+				}
 			/>
 		)
 	}
