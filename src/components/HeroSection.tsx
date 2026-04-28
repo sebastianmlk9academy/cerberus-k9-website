@@ -44,6 +44,12 @@ interface HeroSectionProps {
   eventTimezone?: string;
   heroImage?: string;
   heroOpacity?: number;
+  /** Górny tag (nad H1); fallback: i18n / copy. */
+  heroTagline?: string;
+  /** Pierwsza linia H1; fallback: `heroTitle`. */
+  heroTitleLine1?: string;
+  /** Akcent w drugiej linii (np. K9); fallback: `heroSubtitle`. */
+  heroTitleLine2?: string;
   heroTitle?: string;
   heroSubtitle?: string;
   heroYear?: string;
@@ -64,6 +70,9 @@ export function HeroSection(props: HeroSectionProps) {
     eventTimezone = "Europe/Warsaw",
     heroImage,
     heroOpacity,
+    heroTagline,
+    heroTitleLine1,
+    heroTitleLine2,
     heroTitle,
     heroSubtitle,
     heroYear,
@@ -161,7 +170,7 @@ export function HeroSection(props: HeroSectionProps) {
             color: "#C42B2B",
           }}
         >
-          {(ui[lang] as any)?.hero_tag ?? safeCopy.tagline}
+          {heroTagline ?? (ui[lang] as any)?.hero_tag ?? safeCopy.tagline}
         </span>
       </div>
 
@@ -177,7 +186,7 @@ export function HeroSection(props: HeroSectionProps) {
             margin: 0,
           }}
         >
-          {heroTitle ?? "CERBERUS"}
+          {heroTitleLine1 ?? heroTitle ?? "CERBERUS"}
         </h1>
         <h1
           className="text-[clamp(40px,12vw,96px)] sm:text-[clamp(56px,10vw,96px)]"
@@ -188,7 +197,7 @@ export function HeroSection(props: HeroSectionProps) {
             margin: 0,
           }}
         >
-          <span style={{ color: "#C42B2B" }}>{heroSubtitle ?? "K9"}</span>
+          <span style={{ color: "#C42B2B" }}>{heroTitleLine2 ?? heroSubtitle ?? "K9"}</span>
           <span style={{ color: "#E4DDD0" }}> {heroYear ?? "2026"}</span>
         </h1>
       </div>
