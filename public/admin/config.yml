@@ -3101,6 +3101,58 @@ collections:
         hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
         required: false
         default: true
+  - name: "press_releases"
+    label: "📰 Media — Informacje Prasowe"
+    description: "Pliki do pobrania w sekcji „Informacje prasowe” na /media."
+    preview_path: "/pl/media"
+    folder: "src/content/press_releases"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    identifier_field: "title"
+    summary: "{{title}} ({{date}})"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - name: "title"
+        label: "📝 Tytuł wpisu prasowego"
+        widget: "string"
+        hint: >
+          📍 Gdzie: nagłówek pozycji w sekcji „Informacje prasowe”.
+          ⚠️ Ważne: wpis dotyczy materiału do pobrania (PDF/ZIP/DOC).
+          ✏️ Przykład: Komunikat prasowy CERBERUS K9 2026
+        required: true
+      - name: "date"
+        label: "📅 Data (tekst)"
+        widget: "string"
+        hint: >
+          📍 Gdzie: data nad tytułem wpisu.
+          ⚠️ Ważne: krótki format tekstowy, np. 2026-04.
+          ✏️ Przykład: 2026-04
+        required: false
+      - name: "file_url"
+        label: "🔗 Link do pliku do pobrania"
+        widget: "string"
+        required: true
+        pattern:
+          - "^https?://.*"
+          - "Wklej pełny adres URL z https://"
+        hint: >
+          📍 Gdzie: przycisk pobrania po prawej stronie wpisu.
+          ⚠️ Ważne: użyj bezpośredniego linku do pliku.
+          ✏️ Przykład: https://example.com/komunikat-prasowy.pdf
+      - name: "order"
+        label: "🔢 Kolejność wyświetlania"
+        widget: "number"
+        required: false
+        default: 99
+        hint: "Mniejsza liczba = wyżej na liście."
+      - name: "active"
+        label: "👁️ Widoczny na stronie"
+        widget: "boolean"
+        required: false
+        default: true
+        hint: "true = wpis widoczny, false = ukryty."
   - name: "aktualnosci"
     label: "📰 Aktualności — Artykuły"
     description: "Blog CERBERUS K9 — każdy wpis to artykuł na /aktualnosci."

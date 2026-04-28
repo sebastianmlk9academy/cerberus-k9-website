@@ -167,6 +167,17 @@ const media_archive = defineCollection({
 	}),
 });
 
+const press_releases = defineCollection({
+	loader: glob({ base: './src/content/press_releases', pattern: '**/*.{md,mdx}' }),
+	schema: z.object({
+		title: z.string(),
+		date: z.string().optional(),
+		file_url: z.string(),
+		order: z.number().optional().default(99),
+		active: z.boolean().optional().default(true),
+	}),
+});
+
 const program = defineCollection({
 	loader: glob({ base: './src/content/program', pattern: '**/*.{md,mdx}' }),
 	schema: z.object({
@@ -996,6 +1007,7 @@ export const collections = {
 	blog,
 	aktualnosci,
 	media_archive,
+	press_releases,
 	galeria,
 	program,
 	ustawienia,
