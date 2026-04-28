@@ -68,7 +68,8 @@ export function programEntriesToAgendaItems(
 	for (const entry of sorted) {
 		const day = entry.data.day;
 		const rawCategory = (entry.data.category ?? 'K9').trim().toUpperCase();
-		const categoryFromCms = categories?.find((c) => c.key === rawCategory)?.key;
+		const effectiveCategory = entry.data.is_break ? 'BREAK' : rawCategory;
+		const categoryFromCms = categories?.find((c) => c.key === effectiveCategory)?.key;
 		const item: AgendaItem = {
 			id: entry.id,
 			start: normalizeTime(entry.data.time_start, '09:00'),
@@ -76,7 +77,7 @@ export function programEntriesToAgendaItems(
 			title: entry.data.title?.trim() || '—',
 			location: entry.data.location?.trim() || '—',
 			locationMapUrl: entry.data.locationMapUrl ?? '',
-			category: categoryFromCms ?? normalizeCategory(rawCategory),
+			category: categoryFromCms ?? normalizeCategory(effectiveCategory),
 			description: entry.data.description?.trim() ?? '',
 			instructor: entry.data.instructor?.trim() || undefined,
 		};

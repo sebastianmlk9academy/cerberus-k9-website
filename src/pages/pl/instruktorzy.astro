@@ -23,6 +23,7 @@ let visibleInstructors = [];
 try {
 	const all = await getCollection('instruktorzy');
 	visibleInstructors = all
+		.filter((e) => (e.data.confirmed ?? 'confirmed') !== 'hidden')
 		.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
 		.map(i => ({
 			name: i.data.name,

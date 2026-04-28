@@ -28,6 +28,7 @@ const seo = instructorsSeoByLang[lang] ?? instructorsSeoByLang['pl'];
 const instrCopy = instructorsPageByLang[lang] ?? instructorsPageByLang['pl'];
 
 const instructors = (await getCollection('instruktorzy'))
+	.filter((e) => (e.data.confirmed ?? 'confirmed') !== 'hidden')
 	.map((entry) => ({ ...entry.data }))
 	.sort((a, b) => a.order - b.order);
 
