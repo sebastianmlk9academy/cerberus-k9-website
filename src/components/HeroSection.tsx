@@ -94,6 +94,8 @@ export function HeroSection(props: HeroSectionProps) {
   const bgUrl = heroImage?.trim() || "/images/page_hero_graph.webp";
   const bgOpacity = heroOpacity ?? 0.4;
   const safeUi = ui[lang] ?? ui.pl;
+  const registerCtaLabel =
+    (safeUi as { btn_register?: string }).btn_register ?? safeCopy.ctaRegister;
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
     days: 0,
     hours: 0,
@@ -278,7 +280,7 @@ export function HeroSection(props: HeroSectionProps) {
             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#9E1F1F")}
             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#C42B2B")}
           >
-            {safeCopy.ctaRegister}
+            {registerCtaLabel}
           </a>
         )}
         <a

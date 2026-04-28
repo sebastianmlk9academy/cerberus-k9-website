@@ -26,7 +26,7 @@ export const homeHeroCopyByLang: Record<Lang, HomeHeroCopy> = {
 		metaRow1Value: '6',
 		metaRow2Value: '15+',
 		metaRow3Value: 'BEZPŁATNY',
-		ctaRegister: 'ZAREJESTRUJ SIĘ TERAZ',
+		ctaRegister: 'ZAREJESTRUJ SIĘ',
 		ctaProgram: 'POBIERZ PROGRAM',
 		ctaVideo: 'OBEJRZYJ RELACJĘ 2025',
 		ctaProgramHref: '#program',
