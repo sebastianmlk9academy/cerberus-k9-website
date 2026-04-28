@@ -42,6 +42,13 @@ interface MediaPageProps {
   mediaContactPhone?: string;
   mediaContactEmail?: string;
   pressZipHref?: string;
+  mediaLabelsPl?: {
+    fullMaterials?: string;
+    contactAccreditation?: string;
+    pressInfo?: string;
+    mediaArchive?: string;
+    archiveDescription?: string;
+  };
 }
 
 type MediaLabels = {
@@ -156,6 +163,7 @@ export default function MediaPage({
   mediaContactPhone,
   mediaContactEmail,
   pressZipHref,
+  mediaLabelsPl,
 }: MediaPageProps) {
   const defaultPressItems = [
     {
@@ -212,6 +220,18 @@ export default function MediaPage({
     ...englishFallback,
     ...(mediaLabelsMap[lang] ?? {}),
   };
+  const mediaLabelsResolved = {
+    ...mediaLabels,
+    ...(lang === 'pl'
+      ? {
+          fullMaterials: mediaLabelsPl?.fullMaterials ?? mediaLabels.fullMaterials,
+          contactAccreditation: mediaLabelsPl?.contactAccreditation ?? mediaLabels.contactAccreditation,
+          pressInfo: mediaLabelsPl?.pressInfo ?? mediaLabels.pressInfo,
+          mediaArchive: mediaLabelsPl?.mediaArchive ?? mediaLabels.mediaArchive,
+          archiveDescription: mediaLabelsPl?.archiveDescription ?? mediaLabels.archiveDescription,
+        }
+      : {}),
+  };
   const zipHref = pressZipHref || pressKitZip || "/press/cerberus-k9-press-kit-2026.zip";
   const polskaHref = pressPdfPolskaZbrojna || "/downloads/polska-zbrojna-cerberus-k9-2025.pdf";
   const specialHref = pressPdfSpecialOps || "/downloads/special-ops-cerberus-k9-2025.pdf";
@@ -267,7 +287,7 @@ export default function MediaPage({
             fontWeight: 500,
           }}
         >
-          {mediaLabels.fullMaterials}
+          {mediaLabelsResolved.fullMaterials}
         </p>
         <ul
           style={{
@@ -396,7 +416,7 @@ export default function MediaPage({
           margin: '0 0 24px 0',
         }}
       >
-        {mediaLabels.contactAccreditation}
+        {mediaLabelsResolved.contactAccreditation}
       </h2>
       <div
         style={{
@@ -512,7 +532,7 @@ export default function MediaPage({
           margin: '0 0 24px 0',
         }}
       >
-        {mediaLabels.pressInfo}
+        {mediaLabelsResolved.pressInfo}
       </h2>
       <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 56px 0' }}>
         {pressReleases.map((item) => (
@@ -575,10 +595,10 @@ export default function MediaPage({
           margin: '0 0 12px 0',
         }}
       >
-        {mediaLabels.mediaArchive}
+        {mediaLabelsResolved.mediaArchive}
       </h2>
       <p style={{ margin: '0 0 28px 0', fontSize: '14px', color: '#8A9AAA' }}>
-        {mediaLabels.archiveDescription}
+        {mediaLabelsResolved.archiveDescription}
       </p>
       <div
         style={{

@@ -605,6 +605,65 @@ collections:
                 widget: "string"
                 hint: "E-mail akredytacji."
                 required: false
+              - name: "sekcja_media_etykiety_pl"
+                label: "📰 Media — etykiety sekcji (PL)"
+                widget: "object"
+                collapsed: true
+                hint: >
+                  📍 Gdzie: nagłówki i opisy sekcji na stronie /media.
+                  ⚠️ Ważne: pola dotyczą wersji PL; inne języki korzystają z tłumaczeń/fallbacków.
+                  ✏️ Przykład: „KONTAKT I AKREDYTACJA”, „ARCHIWUM MEDIALNE”.
+                fields:
+                  - name: "media_label_full_materials_pl"
+                    label: "📦 Podtytuł sekcji press kit"
+                    widget: "string"
+                    required: false
+                    default: "KOMPLET MATERIAŁÓW"
+                    pattern: ['^.{0,120}$', "❌ Maksymalnie 120 znaków"]
+                    hint: >
+                      📍 Gdzie: pod nagłówkiem PRESS KIT na stronie /media.
+                      ⚠️ Ważne: max 120 znaków.
+                      ✏️ Przykład: KOMPLET MATERIAŁÓW
+                  - name: "media_label_contact_accreditation_pl"
+                    label: "🎙️ Nagłówek: Kontakt i akredytacja"
+                    widget: "string"
+                    required: false
+                    default: "KONTAKT I AKREDYTACJA"
+                    pattern: ['^.{0,140}$', "❌ Maksymalnie 140 znaków"]
+                    hint: >
+                      📍 Gdzie: nagłówek drugiej sekcji na /media.
+                      ⚠️ Ważne: max 140 znaków.
+                      ✏️ Przykład: KONTAKT I AKREDYTACJA
+                  - name: "media_label_press_info_pl"
+                    label: "🗞️ Nagłówek: Informacje prasowe"
+                    widget: "string"
+                    required: false
+                    default: "INFORMACJE PRASOWE"
+                    pattern: ['^.{0,140}$', "❌ Maksymalnie 140 znaków"]
+                    hint: >
+                      📍 Gdzie: nagłówek listy informacji prasowych na /media.
+                      ⚠️ Ważne: max 140 znaków.
+                      ✏️ Przykład: INFORMACJE PRASOWE
+                  - name: "media_label_media_archive_pl"
+                    label: "🗂️ Nagłówek: Archiwum medialne"
+                    widget: "string"
+                    required: false
+                    default: "ARCHIWUM MEDIALNE"
+                    pattern: ['^.{0,140}$', "❌ Maksymalnie 140 znaków"]
+                    hint: >
+                      📍 Gdzie: nagłówek sekcji archiwum na /media.
+                      ⚠️ Ważne: max 140 znaków.
+                      ✏️ Przykład: ARCHIWUM MEDIALNE
+                  - name: "media_label_archive_description_pl"
+                    label: "📝 Opis sekcji archiwum"
+                    widget: "string"
+                    required: false
+                    default: "Wybrane relacje prasowe i materiały z ubiegłorocznej edycji."
+                    pattern: ['^.{0,220}$', "❌ Maksymalnie 220 znaków"]
+                    hint: >
+                      📍 Gdzie: opis pod nagłówkiem „ARCHIWUM MEDIALNE” na /media.
+                      ⚠️ Ważne: max 220 znaków.
+                      ✏️ Przykład: Wybrane relacje prasowe i materiały z ubiegłorocznej edycji.
               - name: "president_email"
                 label: "✉️ E-mail prezesa"
                 widget: "string"

@@ -87,6 +87,13 @@ const navMedia = (ui[lang] ?? ui['pl']).nav_media;
 			mediaContactName={s?.media_contact_name}
 			mediaContactPhone={s?.media_contact_phone}
 			mediaContactEmail={s?.media_contact_email}
+			mediaLabelsPl={{
+				fullMaterials: lang === 'pl' ? s?.media_label_full_materials_pl : undefined,
+				contactAccreditation: lang === 'pl' ? s?.media_label_contact_accreditation_pl : undefined,
+				pressInfo: lang === 'pl' ? s?.media_label_press_info_pl : undefined,
+				mediaArchive: lang === 'pl' ? s?.media_label_media_archive_pl : undefined,
+				archiveDescription: lang === 'pl' ? s?.media_label_archive_description_pl : undefined,
+			}}
 		/>
 		<Footer
 			lang={lang}
