@@ -18,9 +18,11 @@ collections:
         file: src/content/_instrukcja.md
         fields:
           - name: body
-            label: "Treść instrukcji"
+            label: "📝 Treść instrukcji"
             widget: markdown
-            hint: "Ta strona to instrukcja dla redaktorów. Możesz ją edytować."
+            hint: >
+              📍 Gdzie: treść widoczna tylko w panelu CMS (plik _instrukcja) — przewodnik dla redaktorów.
+              ✏️ Edytuj markdown, aby opisać workflow publikacji i zasady treści.
   - name: "ustawienia_globalne"
     label: "⚙️ Ustawienia Globalne"
     description: "Główne ustawienia całej strony — data wydarzenia, liczby, linki, social media."
@@ -94,12 +96,16 @@ collections:
               - name: "hero_tagline"
                 label: "✨ Tekst nad tytułem (tag-line)"
                 widget: "string"
-                hint: "Krótka linia nad H1 na stronie głównej (gdy podłączysz pole w szablonie)."
+                hint: >
+                  📍 Gdzie: czerwona linia nad dużym nagłówkiem hero na stronie głównej (/ i /[lang]).
+                  ✏️ Np. MIĘDZYNARODOWA PLATFORMA OBRONY — krótki, wielkimi literami.
                 required: false
               - name: "hero_title"
                 label: "🦁 Pierwsza linia tytułu H1"
                 widget: "string"
-                hint: "Pierwsza linia dużego nagłówka hero."
+                hint: >
+                  📍 Gdzie: pierwsza linia dużego nagłówka hero na stronie głównej.
+                  ✏️ Np. CERBERUS — główna marka wydarzenia.
                 required: false
                 default: "CERBERUS"
               - name: "hero_subtitle"
@@ -145,16 +151,23 @@ collections:
                 max: 1
                 step: 0.05
               - name: "registration_active"
-                label: "✅ Rejestracja w menu"
+                label: "✅ Rejestracja w menu i hero"
                 widget: "boolean"
-                hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+                hint: >
+                  true = widoczny przycisk REJESTRACJA w pasku nawigacji oraz CTA rejestracji w sekcji hero na stronie głównej.
+                  false = przyciski ukryte; linki w treściach zostają w pliku — nie usuwają wpisów.
                 required: true
                 default: true
               - name: "hero_cta_registration_href"
                 label: "🔗 CTA hero — rejestracja"
                 widget: "string"
-                hint: "Nadpisuje link przycisku rejestracji na hero."
+                hint: >
+                  📍 Gdzie: docelowy URL przycisku rejestracji w hero (gdy wypełnione ma pierwszeństwo przed /rejestracja).
+                  ✏️ Wklej pełny adres z https:// — np. https://pretix.eu/... lub https://www.przyklad.pl
                 required: false
+                pattern:
+                  - "^$|^https?://.*"
+                  - "Pozostaw puste lub wklej pełny adres z https://"
               - name: "hero_cta_program_href"
                 label: "🔗 CTA hero — program"
                 widget: "string"
@@ -894,26 +907,59 @@ collections:
       - { name: label_de, label: "🇩🇪 Etykieta DE", widget: string, required: false }
       - { name: label_fr, label: "🇫🇷 Etykieta FR", widget: string, required: false }
       - name: filter_field
-        label: "Pole filtrowania"
+        label: "🧩 Pole filtrowania"
         widget: select
-        options: [specializations, type, module, languages, all]
         default: specializations
+        hint: >
+          📍 Gdzie: logika filtrów na stronie /instruktorzy — które pole frontmatteru jest porównywane.
+          ✏️ specializations = tagi, type = typ uczestnika, module = moduł, languages = języki, all = dowolne dopasowanie.
+        options:
+          - { label: "🎯 Specjalizacje", value: specializations }
+          - { label: "👤 Typ uczestnika", value: type }
+          - { label: "📚 Moduł", value: module }
+          - { label: "🗣️ Języki", value: languages }
+          - { label: "🌐 Wszystkie pola (all)", value: all }
       - name: filter_match
-        label: "Dopasowanie"
+        label: "⚖️ Sposób dopasowania"
         widget: select
         default: includes
-        options: [includes, equals, any_of, none]
-      - { name: filter_value, label: "Wartość (pojedyncza)", widget: string, required: false }
+        hint: >
+          📍 Gdzie: sposób porównania wartości filtra z danymi instruktora na /instruktorzy.
+          ✏️ includes = zawiera, equals = równe, any_of = jedna z listy, none = wykluczenie.
+        options:
+          - { label: "📎 Zawiera (includes)", value: includes }
+          - { label: "✅ Równe (equals)", value: equals }
+          - { label: "📋 Dowolna z listy (any_of)", value: any_of }
+          - { label: "🚫 Wyklucza (none)", value: none }
+      - name: filter_value
+        label: "✏️ Wartość (pojedyncza)"
+        widget: string
+        required: false
+        hint: "📍 Gdzie: pojedynczy tekst/kod porównywany przez filtr. ✏️ Np. klucz specjalizacji z CMS."
       - name: filter_values
-        label: "Wartości (lista)"
+        label: "📋 Wartości (lista)"
         widget: list
         required: false
-        field: { name: v, label: Wartość, widget: string }
-      - { name: order, label: Kolejność, widget: number, value_type: int, default: 10 }
-      - { name: active, label: Aktywny, widget: boolean, default: true }
+        hint: "📍 Gdzie: wiele wartości dla trybu any_of/none na /instruktorzy."
+        field:
+          name: v
+          label: "✏️ Wartość listy"
+          widget: string
+          hint: "Pojedyncza wartość z listy filtra."
+      - name: order
+        label: "🔢 Kolejność"
+        widget: number
+        value_type: int
+        default: 10
+        hint: "📍 Gdzie: kolejność przycisków filtrów na /instruktorzy — mniejsza = wcześniej."
+      - name: active
+        label: "👁️ Filtr aktywny"
+        widget: boolean
+        default: true
+        hint: "true = filtr widoczny na stronie, false = ukryty w UI (wpis zostaje w repozytorium)."
   - name: partner_sections
     label: "📂 Sekcje Partnerów (filtry)"
-    label_singular: Sekcja
+    label_singular: "📂 Sekcja"
     folder: src/content/partner_sections
     create: true
     delete: true
@@ -925,10 +971,27 @@ collections:
       - { name: label_pl, label: "🇵🇱 Etykieta PL", widget: string, required: true }
       - { name: label_en, label: "🇬🇧 Etykieta EN", widget: string, required: false }
       - { name: label_de, label: "🇩🇪 Etykieta DE", widget: string, required: false }
-      - { name: cms_type_value, label: "Wartość typu partnera (PL)", widget: string, required: false }
-      - { name: show_if_empty, label: Pokaż gdy pusto, widget: boolean, default: false }
-      - { name: order, label: Kolejność, widget: number, value_type: int, default: 10 }
-      - { name: active, label: Aktywny, widget: boolean, default: true }
+      - name: cms_type_value
+        label: "🏷️ Wartość typu partnera (PL)"
+        widget: string
+        required: false
+        hint: "📍 Gdzie: powiązanie sekcji z typem partnera na /partnerzy. ✏️ Musi zgadzać się z polem type w wpisach partnerów."
+      - name: show_if_empty
+        label: "👁️ Pokaż sekcję gdy brak partnerów"
+        widget: boolean
+        default: false
+        hint: "true = nagłówek sekcji widoczny nawet przy pustej liście, false = ukryj pustą sekcję."
+      - name: order
+        label: "🔢 Kolejność sekcji"
+        widget: number
+        value_type: int
+        default: 10
+        hint: "📍 Gdzie: kolejność bloków sekcji na /partnerzy."
+      - name: active
+        label: "👁️ Sekcja aktywna"
+        widget: boolean
+        default: true
+        hint: "true = sekcja używana na stronie, false = pomijana przy budowaniu listy."
   - name: gallery_filters
     label: "🖼️ Filtry Galerii (CMS)"
     label_singular: Filtr
@@ -943,9 +1006,22 @@ collections:
       - { name: label_pl, label: "🇵🇱 Etykieta PL", widget: string, required: true }
       - { name: label_en, label: "🇬🇧 Etykieta EN", widget: string, required: false }
       - { name: label_de, label: "🇩🇪 Etykieta DE", widget: string, required: false }
-      - { name: category_value, label: "Wartość kategorii", widget: string, required: false }
-      - { name: order, label: Kolejność, widget: number, value_type: int, default: 10 }
-      - { name: active, label: Aktywny, widget: boolean, default: true }
+      - name: category_value
+        label: "🏷️ Wartość kategorii (klucz)"
+        widget: string
+        required: false
+        hint: "📍 Gdzie: powiązanie filtra z polem category zdjęć w galerii. ✏️ Np. SZKOLENIA_K9."
+      - name: order
+        label: "🔢 Kolejność filtra"
+        widget: number
+        value_type: int
+        default: 10
+        hint: "📍 Gdzie: kolejność przycisków filtrów na /galeria."
+      - name: active
+        label: "👁️ Filtr aktywny"
+        widget: boolean
+        default: true
+        hint: "true = filtr widoczny w UI galerii, false = ukryty (wpis zostaje w repozytorium)."
   - name: "homepage_cards"
     label: "🏠 Strona Główna — Karty Programu"
     description: "Trzy karty sekcji programu na stronie głównej (K9, TCCC, Drony)."
@@ -1613,12 +1689,16 @@ collections:
       - name: "day"
         label: "📅 Dzień (YYYY-MM-DD)"
         widget: "string"
-        hint: "Data dnia agendy — grupowanie punktów."
+        hint: >
+          📍 Gdzie: grupowanie punktów na stronie /o-wydarzeniu w sekcji agendy.
+          ✏️ Np. 2026-06-13.
         required: true
       - name: "time_start"
         label: "⏰ Godzina startu"
         widget: "string"
-        hint: "Godzina rozpoczęcia bloku na osi czasu."
+        hint: >
+          📍 Gdzie: lewa krawędź bloku na osi czasu agendy.
+          ✏️ Format 24h HH:MM.
         required: true
         pattern:
           - "^\\d{2}:\\d{2}$"
@@ -1626,7 +1706,9 @@ collections:
       - name: "time_end"
         label: "⏰ Godzina końca"
         widget: "string"
-        hint: "Godzina zakończenia bloku."
+        hint: >
+          📍 Gdzie: prawa krawędź bloku na osi czasu agendy.
+          ✏️ Format 24h HH:MM.
         required: true
         pattern:
           - "^\\d{2}:\\d{2}$"
@@ -1634,50 +1716,65 @@ collections:
       - name: "title"
         label: "📝 Tytuł punktu"
         widget: "string"
-        hint: "Tytuł w agendzie i w eksporcie kalendarza."
+        hint: >
+          📍 Gdzie: nagłówek wiersza agendy i eksport kalendarza (ICS).
+          ✏️ Np. Moduł K9 — podstawy.
         required: true
-      - name: "description"
-        label: "📄 Opis (opcjonalnie)"
-        widget: "text"
-        hint: "Rozwinięcie punktu — tooltip lub szczegóły."
-        required: false
-      - name: "location"
-        label: "📍 Lokalizacja"
-        widget: "select"
-        hint: "Miejsce wydarzenia — wyświetlane przy punkcie agendy."
-        required: false
-        default: "Arena Główna"
-        options:
-          - "Arena Główna"
-          - "3MK Arena"
-          - "Szkoła Mundurowa"
-          - "Stadion Miejski"
-          - "Sala Konferencyjna"
-          - "Infrastruktura Orlen"
-          - "—"
-      - name: "locationMapUrl"
-        label: "🔗 URL mapy (Google)"
-        widget: "string"
-        hint: "Link „Nawiguj” przy punkcie programu."
-        required: false
-        pattern:
-          - "^https?://.*"
-          - "Wklej pełny adres URL z https://"
       - name: "category"
         label: "🏷️ Klucz kategorii"
         widget: "string"
-        hint: "Musi zgadzać się z kluczem w „Kategorie Agendy” (np. K9, TCCC)."
+        hint: >
+          📍 Gdzie: kolor paska i filtr na /o-wydarzeniu — musi zgadzać się z kolekcją „Kategorie Agendy”.
+          ✏️ Np. K9, TCCC, BREAK (dla przerw bez flagi is_break).
         required: true
         default: "K9"
+      - name: "location"
+        label: "📍 Lokalizacja"
+        widget: "select"
+        hint: >
+          📍 Gdzie: miejsce przy punkcie programu w agendzie i w szczegółach wydarzenia.
+          ✏️ Wybierz salę lub „—” gdy nie dotyczy.
+        required: false
+        default: "Arena Główna"
+        options:
+          - { label: "🏟️ Arena Główna", value: "Arena Główna" }
+          - { label: "🏟️ 3MK Arena", value: "3MK Arena" }
+          - { label: "🏫 Szkoła Mundurowa", value: "Szkoła Mundurowa" }
+          - { label: "⚽ Stadion Miejski", value: "Stadion Miejski" }
+          - { label: "🪑 Sala Konferencyjna", value: "Sala Konferencyjna" }
+          - { label: "⛽ Infrastruktura Orlen", value: "Infrastruktura Orlen" }
+          - { label: "➖ Nie dotyczy (—)", value: "—" }
+      - name: "description"
+        label: "📄 Opis (opcjonalnie)"
+        widget: "text"
+        hint: "📍 Gdzie: rozwinięcie / tooltip przy punkcie agendy na /o-wydarzeniu."
+        required: false
       - name: "instructor"
         label: "👤 Instruktor / prowadzący"
         widget: "string"
-        hint: "Opcjonalne nazwisko przy punkcie programu."
+        hint: "📍 Gdzie: opcjonalna linia „prowadzący” przy szczegółach punktu agendy."
         required: false
+      - name: "locationMapUrl"
+        label: "🔗 URL mapy (Google)"
+        widget: "string"
+        hint: >
+          📍 Gdzie: przycisk „Nawiguj” przy punkcie programu w agendzie.
+          ✏️ Wklej pełny adres z https:// — np. https://maps.app.goo.gl/...
+        required: false
+        pattern:
+          - "^$|^https?://.*"
+          - "Pozostaw puste lub wklej pełny adres z https://"
+      - name: "is_break"
+        label: "☕ To jest przerwa / lunch?"
+        widget: boolean
+        default: false
+        hint: >
+          true = punkt wyświetlany jak przerwa/lunch w agendzie (styl BREAK).
+          false = zwykły blok programu (kolor wg pola category).
       - name: "order"
         label: "🔢 Kolejność wyświetlania"
         widget: "number"
-        hint: "Niższa liczba = wyżej w obrębie dnia."
+        hint: "📍 Gdzie: kolejność w obrębie tego samego dnia na osi agendy — mniejsza = wyżej."
         required: false
         default: 99
         value_type: "int"
@@ -2173,90 +2270,61 @@ collections:
       - name: "name"
         label: "✒️ Imię i nazwisko"
         widget: "string"
-        hint: "Wyświetlane jako tytuł karty instruktora."
+        hint: >
+          📍 Gdzie: główny tytuł karty instruktora na stronie /instruktorzy.
+          ✏️ Np. Jan Kowalski.
         required: true
       - name: "role"
         label: "⭐ Rola / stanowisko"
         widget: "string"
-        hint: "Podtytuł pod nazwiskiem na karcie."
+        hint: >
+          📍 Gdzie: podtytuł pod nazwiskiem na karcie /instruktorzy.
+          ✏️ Np. Instruktor taktyczny K9.
         required: false
-      - name: "country"
-        label: "🌍 Kraj (nazwa)"
-        widget: "string"
-        hint: "Fallback nazwy kraju gdy brak tłumaczenia z kodu."
-        required: true
       - name: "countryCode"
         label: "🏴 Kod kraju ISO"
         widget: "string"
-        hint: "Dwuliterowy kod ISO 3166-1 alpha-2 — flaga na karcie."
+        hint: >
+          📍 Gdzie: flaga i sortowanie na /instruktorzy — kod ISO 3166-1 alpha-2 (2 litery).
+          ✏️ Np. PL, DE, US.
+        required: true
+      - name: "country"
+        label: "🌍 Kraj (nazwa)"
+        widget: "string"
+        hint: >
+          📍 Gdzie: pełna nazwa kraju na karcie instruktora (fallback przy braku tłumaczenia z kodu).
+          ✏️ Np. Polska.
         required: true
       - name: "specializations"
         label: "🎯 Specjalizacje instruktora"
         widget: "list"
         required: true
         hint: >
-          📍 Gdzie: karta instruktora, filtry na stronie /instruktorzy.
-          ⚠️ Wybieraj z listy — nie wpisuj ręcznie!
-          Nowe specjalizacje dodaj w sekcji 'Filtry Instruktorów' w menu.
+          📍 Gdzie: tagi na karcie i filtry na /instruktorzy.
+          ⚠️ Format: WebP nie dotyczy — wybieraj klucze z relacji; max rozmiar listy wg potrzeb.
+          Nowe specjalizacje dodaj w kolekcji „Filtry Instruktorów”.
         field:
           name: spec
-          label: Specjalizacja
+          label: "🔗 Specjalizacja (relacja)"
           widget: relation
           collection: instructor_filters
           search_fields: [label_pl, key]
           value_field: key
           display_fields: [label_pl]
-      - name: "unit"
-        label: "🛡️ Jednostka / formacja"
-        widget: "string"
-        hint: "Opcjonalna jednostka pod nazwiskiem."
-        required: false
-      - name: "module"
-        label: "📚 Moduł szkoleniowy"
-        widget: "string"
-        hint: "Opcjonalny moduł przypisany do instruktora."
-        required: false
-      - name: "schedule"
-        label: "📅 Harmonogram"
-        widget: "string"
-        hint: "Opcjonalny opis terminów."
-        required: false
-      - name: "languages"
-        label: "🗣️ Języki"
-        widget: "string"
-        hint: "Lista języków prowadzenia."
-        required: false
-        default: "Polski"
-      - label: "👤 Typ uczestnika"
-        name: "type"
-        widget: "select"
-        required: false
-        default: "Instruktor"
-        hint: "Typ widoczny w metadanych karty."
-        options:
-          - "Instruktor"
-          - "Pozorant"
-          - "Lider Grupy"
-          - "Prelegent"
-          - "VIP"
-      - name: "linkedinUrl"
-        label: "🔗 LinkedIn URL"
-        widget: "string"
-        hint: "Opcjonalny link do profilu LinkedIn."
-        required: false
-        pattern:
-          - "^https?://.*"
-          - "Wklej pełny adres URL z https://"
-      - name: "showOnHomepage"
-        label: "🏠 Pokaż na stronie głównej"
-        widget: "boolean"
-        hint: "true = może być promowany na home po logice strony."
-        required: false
-        default: true
+      - name: "photo"
+        label: "📸 Zdjęcie portretowe"
+        widget: "image"
+        hint: >
+          📍 Gdzie: zdjęcie na karcie instruktora na /instruktorzy.
+          ⚠️ Format: WebP, ok. 800×800px, max 300KB.
+        required: true
+        choose_url: true
       - name: "bioShort"
         label: "📄 Bio krótkie"
         widget: "text"
-        hint: "Skrócony opis na karcie instruktora — maksymalnie 200 znaków."
+        hint: >
+          📍 Gdzie: skrócony opis na karcie (lista /instruktorzy) — max 200 znaków.
+          ✏️ Zdanie lub dwa o doświadczeniu.
         required: true
         pattern:
           - "^.{1,200}$"
@@ -2264,18 +2332,78 @@ collections:
       - name: "bioFull"
         label: "📖 Bio pełne"
         widget: "markdown"
-        hint: "Pełna biografia po rozwinięciu karty."
+        hint: >
+          📍 Gdzie: pełna biografia po rozwinięciu „czytaj więcej” na /instruktorzy.
+          ✏️ Markdown: akapity, listy, linki.
         required: true
-      - name: "photo"
-        label: "📸 Zdjęcie"
-        widget: "image"
-        hint: "Zalecany format: WebP. Rozmiar: 800×800px. Zdjęcie portretowe na karcie instruktora."
-        required: true
-        choose_url: true
+      - name: "unit"
+        label: "🛡️ Jednostka / formacja"
+        widget: "string"
+        hint: "📍 Gdzie: opcjonalna linia pod rolami na karcie. ✏️ Np. JWK."
+        required: false
+      - name: "module"
+        label: "📚 Moduł szkoleniowy"
+        widget: "string"
+        hint: "📍 Gdzie: moduł przypisany do instruktora na karcie. ✏️ Np. TCCC podstawowy."
+        required: false
+      - name: "schedule"
+        label: "📅 Harmonogram"
+        widget: "string"
+        hint: "📍 Gdzie: opcjonalne terminy/bloki na karcie instruktora."
+        required: false
+      - name: "languages"
+        label: "🗣️ Języki prowadzenia"
+        widget: "string"
+        hint: "📍 Gdzie: lista języków na karcie. ✏️ Np. Polski, Angielski."
+        required: false
+        default: "Polski"
+      - label: "👤 Typ uczestnika"
+        name: "type"
+        widget: "select"
+        required: false
+        default: "Instruktor"
+        hint: >
+          📍 Gdzie: etykieta typu na karcie /instruktorzy.
+          ✏️ Wybierz rolę w programie wydarzenia.
+        options:
+          - { label: "🎓 Instruktor", value: "Instruktor" }
+          - { label: "🎭 Pozorant", value: "Pozorant" }
+          - { label: "👥 Lider grupy", value: "Lider Grupy" }
+          - { label: "🎤 Prelegent", value: "Prelegent" }
+          - { label: "⭐ VIP", value: "VIP" }
+      - name: "linkedinUrl"
+        label: "🔗 Profil LinkedIn"
+        widget: "string"
+        hint: >
+          📍 Gdzie: opcjonalny link „LinkedIn” na karcie instruktora.
+          ✏️ Wklej pełny adres z https:// — np. https://www.linkedin.com/in/przyklad
+        required: false
+        pattern:
+          - "^$|^https?://.*"
+          - "Pozostaw puste lub wklej pełny adres z https://"
+      - name: "showOnHomepage"
+        label: "🏠 Promocja na stronie głównej"
+        widget: "boolean"
+        hint: >
+          true = instruktor może trafić na sekcje promujące kadry (wg logiki strony).
+          false = tylko lista /instruktorzy, bez promocji na home.
+        required: false
+        default: true
+      - name: "confirmed"
+        label: "✅ Status potwierdzenia udziału"
+        widget: select
+        default: pending
+        hint: >
+          📍 Gdzie: kontroluje czy instruktor jest wyświetlany publicznie na /instruktorzy.
+          ✏️ Ustaw „Potwierdzony” gdy instruktor potwierdził udział.
+        options:
+          - { label: "✅ Potwierdzony — wyświetlaj publicznie", value: confirmed }
+          - { label: "⏳ W trakcie negocjacji", value: pending }
+          - { label: "🔒 Ukryty — nie pokazuj", value: hidden }
       - name: "order"
         label: "🔢 Kolejność wyświetlania"
         widget: "number"
-        hint: "Niższa liczba = wyżej na stronie."
+        hint: "📍 Gdzie: kolejność kart na /instruktorzy — mniejsza liczba = wyżej."
         required: true
         default: 0
         value_type: "int"
@@ -2654,22 +2782,24 @@ collections:
         name: "category"
         widget: "select"
         required: true
-        hint: "Filtr kategorii na liście aktualności."
+        hint: "📍 Gdzie: etykieta kategorii na karcie i filtr na liście /aktualnosci."
         options:
-          - "Aktualności"
-          - "Instruktorzy"
-          - "Partnerzy"
-          - "Rejestracja"
-          - "Media"
-          - "HARDEST HIT"
+          - { label: "📰 Aktualności", value: "Aktualności" }
+          - { label: "🎖️ Instruktorzy", value: "Instruktorzy" }
+          - { label: "🤝 Partnerzy", value: "Partnerzy" }
+          - { label: "🎟️ Rejestracja", value: "Rejestracja" }
+          - { label: "📺 Media", value: "Media" }
+          - { label: "💥 HARDEST HIT", value: "HARDEST HIT" }
       - name: "lead"
         label: "📄 Lead (max 500 znaków)"
         widget: "text"
-        hint: "Wstęp na karcie listy i w meta description."
+        hint: >
+          📍 Gdzie: wstęp na karcie listy /aktualnosci oraz w meta description wpisu.
+          ✏️ Zwięźle: kto, co, dlaczego — max 500 znaków.
         required: true
         pattern:
-          - "^.{1,500}$"
-          - "Maksymalnie 500 znaków"
+          - "^.{0,500}$"
+          - "❌ Maksymalnie 500 znaków"
       - name: "body"
         label: "📖 Treść artykułu"
         widget: "markdown"
@@ -2716,13 +2846,17 @@ collections:
       - name: "draft"
         label: "📝 Szkic (niepublikowany)"
         widget: "boolean"
-        hint: "true = szkic ukryty z listy publikowanych."
+        hint: >
+          true = wpis ukryty z publicznej listy /aktualnosci (tylko redakcja w CMS).
+          false = normalna publikacja zgodnie z datą i innymi polami.
         required: false
         default: false
       - name: "featured"
         label: "⭐ Wyróżniony"
         widget: "boolean"
-        hint: "Wyróżnienie przy sortowaniu / promocji na listach."
+        hint: >
+          true = wyższy priorytet przy sortowaniu i promocji na listach aktualności.
+          false = standardowa kolejność według daty.
         required: false
         default: false
       - name: "seo_title"
