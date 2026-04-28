@@ -57,6 +57,31 @@ if (hasGalleryContent) {
 		// Keep page renderable even if content parsing fails.
 	}
 }
+
+// Filtry galerii z CMS
+let cmsGalleryFilters: {
+	key: string;
+	label_pl: string;
+	label_en: string;
+	label_de: string;
+	category_value: string;
+}[] = [];
+try {
+	const rawGF = await getCollection('gallery_filters');
+	cmsGalleryFilters = rawGF
+		.filter((f) => f.data.active !== false)
+		.sort((a, b) => (a.data.order ?? 10) - (b.data.order ?? 10))
+		.map((f) => ({
+			key: f.data.key,
+			label_pl: f.data.label_pl,
+			label_en: f.data.label_en ?? f.data.label_pl,
+			label_de: f.data.label_de ?? f.data.label_pl,
+			category_value: f.data.category_value ?? '',
+		}));
+} catch {
+	console.warn('gallery_filters not loaded, using hardcode fallback');
+}
+
 const photos = allEntries
 	.map((entry) => ({
 		title: entry.data.title,
@@ -100,6 +125,7 @@ const ogImage = bestGalleryPhoto?.photo ?? '/images/page_hero_graph.webp';
 			client:load
 			lang={lang}
 			photos={photos}
+			cmsFilters={cmsGalleryFilters.length > 0 ? cmsGalleryFilters : undefined}
 			unlockDate={s?.gallery_unlock_date}
 			videoItems={[
 				{ title: s?.gallery_video_1_title, url: s?.gallery_video_1_url, badge: s?.gallery_video_1_badge },

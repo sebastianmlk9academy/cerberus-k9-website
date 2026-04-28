@@ -15,15 +15,6 @@ type GalleryCategory =
   | "SAR"
   | "OGOLNE";
 
-/** Categories exposed as filter pills (unchanged count — no new pills). */
-type MainCategoryFilter =
-  | "all"
-  | "HARDEST_HIT"
-  | "SZKOLENIA_K9"
-  | "TCCC"
-  | "KONFERENCJA"
-  | "DRONY";
-
 type LocationFilterId = "all" | "lpg" | "gryf" | "stena" | "arena" | "school" | "stadium";
 
 type ViewModeId = "grid" | "masonry";
@@ -38,11 +29,20 @@ type PhotoItem = {
   tags?: string[];
 };
 
+export interface CmsGalleryFilter {
+  key: string;
+  label_pl: string;
+  label_en?: string;
+  label_de?: string;
+  category_value?: string;
+}
+
 type GalleryGridProps = {
   lang: Lang;
   photos: PhotoItem[];
   unlockDate?: string;
   videoItems?: Array<{ title?: string; url?: string; badge?: string }>;
+  cmsFilters?: CmsGalleryFilter[];
 };
 
 type GalleryLabels = {
@@ -106,7 +106,7 @@ const galleryCategoryDisplayText: Record<GalleryCategory, string> = {
   OGOLNE: "OGÓLNE",
 };
 
-const MAIN_FILTER_CATEGORY_LABEL: Record<Exclude<MainCategoryFilter, "all">, string> = {
+const MAIN_FILTER_CATEGORY_LABEL: Record<string, string> = {
   HARDEST_HIT: "HARDEST HIT",
   SZKOLENIA_K9: "SZKOLENIA K9",
   TCCC: "TCCC",
@@ -119,9 +119,48 @@ function resolveCategoryForBadge(category: string): GalleryCategory | null {
   return CATEGORY_VALUES.find((c) => normalize(c) === n) ?? null;
 }
 
-function categoryPillLabel(filterId: MainCategoryFilter): string {
-  if (filterId === "all") return "";
-  return MAIN_FILTER_CATEGORY_LABEL[filterId];
+function getGalleryFilterLabel(key: string, lang: Lang, cmsFilters?: CmsGalleryFilter[]): string {
+  if (key === "all" || key === "ALL") {
+    return lang === "pl" ? "WSZYSTKO" : lang === "en" ? "ALL" : lang === "de" ? "ALLE" : "ALL";
+  }
+  if (cmsFilters && cmsFilters.length > 0) {
+    const f = cmsFilters.find((cf) => cf.key === key);
+    if (f) {
+      if (lang === "pl") return f.label_pl;
+      if (lang === "en") return f.label_en ?? f.label_pl;
+      if (lang === "de") return f.label_de ?? f.label_pl;
+      return f.label_pl;
+    }
+  }
+  return MAIN_FILTER_CATEGORY_LABEL[key] ?? key.replace(/_/g, " ");
+}
+
+function categoryMatchesFilter(
+  itemCategory: string,
+  filterKey: string,
+  cmsFilters?: CmsGalleryFilter[],
+): boolean {
+  if (filterKey === "all" || filterKey === "ALL") return true;
+  const cmsDef = cmsFilters?.find((f) => f.key === filterKey);
+  const targetValue =
+    cmsDef && cmsDef.category_value != null && String(cmsDef.category_value).trim() !== ""
+      ? cmsDef.category_value
+      : filterKey;
+  const normalize = (s: string) =>
+    s
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, "_")
+      .replace(/ą/g, "a")
+      .replace(/ę/g, "e")
+      .replace(/ó/g, "o")
+      .replace(/ś/g, "s")
+      .replace(/ł/g, "l")
+      .replace(/ż/g, "z")
+      .replace(/ź/g, "z")
+      .replace(/ć/g, "c")
+      .replace(/ń/g, "n");
+  return normalize(itemCategory) === normalize(String(targetValue));
 }
 
 function categoryBadgeLabel(category: string): string {
@@ -129,14 +168,14 @@ function categoryBadgeLabel(category: string): string {
   return key ? galleryCategoryDisplayText[key] : category;
 }
 
-const MAIN_FILTER_IDS: MainCategoryFilter[] = [
+const MAIN_FILTER_IDS_FALLBACK = [
   "all",
   "HARDEST_HIT",
   "SZKOLENIA_K9",
   "TCCC",
   "KONFERENCJA",
   "DRONY",
-];
+] as const;
 
 const LOCATION_FILTER_IDS: LocationFilterId[] = [
   "all",
@@ -493,7 +532,16 @@ function toYoutubeVideoId(url: string): string | null {
   return null;
 }
 
-export function GalleryGrid({ photos, lang, unlockDate, videoItems }: GalleryGridProps) {
+export function GalleryGrid({ photos, lang, unlockDate, videoItems, cmsFilters }: GalleryGridProps) {
+  const mainFilterIds: string[] =
+    cmsFilters && cmsFilters.length > 0
+      ? cmsFilters.map((f) => f.key)
+      : [...MAIN_FILTER_IDS_FALLBACK];
+
+  const [activeCategory, setActiveCategory] = useState<string>(() => {
+    const allKey = mainFilterIds.find((k) => k === "all" || k === "ALL");
+    return allKey ?? mainFilterIds[0] ?? "all";
+  });
   const releaseDate = unlockDate
     ? new Date(unlockDate)
     : new Date('2026-06-14T00:00:00');
@@ -515,15 +563,14 @@ export function GalleryGrid({ photos, lang, unlockDate, videoItems }: GalleryGri
   const galleryLabels = resolveGalleryLabels(lang);
   const safeUi = ui[lang] ?? ui.pl;
 
-  const translatedMainFilterLabels = MAIN_FILTER_IDS.map((filterId) =>
-    filterId === "all"
+  const translatedMainFilterLabels = mainFilterIds.map((filterId) =>
+    filterId === "all" || filterId === "ALL"
       ? ((safeUi as Record<string, string>).filter_all ?? galleryLabels.all)
-      : categoryPillLabel(filterId),
+      : getGalleryFilterLabel(filterId, lang, cmsFilters),
   );
 
   const rootRef = useRef<HTMLDivElement | null>(null);
   const visibleLimitRef = useRef<number>(12);
-  const [activeCategory, setActiveCategory] = useState<MainCategoryFilter>("all");
   const [activeLocation, setActiveLocation] = useState<LocationFilterId>("all");
   const [activeView, setActiveView] = useState<ViewModeId>("grid");
   const [activeEdition, setActiveEdition] = useState<"2025" | "2026">("2025");
@@ -635,9 +682,7 @@ export function GalleryGrid({ photos, lang, unlockDate, videoItems }: GalleryGri
           const location = item.dataset.location || "";
           const edition = item.dataset.edition || "";
 
-          const categoryMatch =
-            activeCategory === "all" ||
-            (category && normalize(category) === normalize(activeCategory));
+          const categoryMatch = categoryMatchesFilter(category, activeCategory, cmsFilters);
           const locationMatch = locationMatchesFilter(location, activeLocation);
           const editionMatch = edition === activeEdition;
 
@@ -733,7 +778,16 @@ export function GalleryGrid({ photos, lang, unlockDate, videoItems }: GalleryGri
       cleanupFns.forEach((fn) => fn());
       lightboxInstance?.destroy();
     };
-  }, [sortedPhotos, activeCategory, activeLocation, activeEdition, activeView, galleryLabels, releaseDate]);
+  }, [
+    sortedPhotos,
+    activeCategory,
+    activeLocation,
+    activeEdition,
+    activeView,
+    galleryLabels,
+    releaseDate,
+    cmsFilters,
+  ]);
 
   const is2026Unlocked = new Date().getTime() >= releaseDate.getTime();
   const handleBackdropClick = (e: ReactMouseEvent<HTMLDivElement>) => {
@@ -770,7 +824,7 @@ export function GalleryGrid({ photos, lang, unlockDate, videoItems }: GalleryGri
 
       <div className="filter-bar">
         <div className="main-filter-list">
-          {MAIN_FILTER_IDS.map((filterId, index) => (
+          {mainFilterIds.map((filterId, index) => (
             <button
               key={filterId}
               type="button"
