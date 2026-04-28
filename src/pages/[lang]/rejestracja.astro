@@ -169,6 +169,7 @@ const regH = regHero[lang] ?? regHero.pl;
 			</section>
 		) : (
 			<RegistrationSection
+				client:load
 				lang={lang}
 				pretixUrl={s?.pretix_url}
 				dateValue={s?.registration_date_display}

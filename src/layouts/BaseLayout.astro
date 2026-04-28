@@ -113,6 +113,7 @@ const canonicalAlternateHref = (
 	</head>
 	<body class="min-h-screen bg-navyDeep font-sans text-bone antialiased">
 		<AnnouncementBar
+			client:load
 			active={s?.notification_bar_active ?? false}
 			text={s?.notification_bar_text}
 			url={s?.notification_bar_url}
@@ -120,6 +121,6 @@ const canonicalAlternateHref = (
 		<slot name="header" />
 		<slot />
 		<slot name="footer" />
-		<CookieConsent lang={lang} active={s?.cookie_consent_active ?? false} />
+		<CookieConsent client:load lang={lang} active={s?.cookie_consent_active ?? false} />
 	</body>
 </html>

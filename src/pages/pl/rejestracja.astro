@@ -49,6 +49,7 @@ const description =
 			</section>
 		) : (
 			<RegistrationSection
+				client:load
 				pretixUrl={s?.pretix_url}
 				dateValue={s?.registration_date_display}
 				prepDay={s?.registration_prep_day}
