@@ -191,6 +191,9 @@ const regH = regHero[lang] ?? regHero.pl;
 				regEntryText={regInfo?.reg_entry_text}
 				regDeadlineText={regInfo?.reg_deadline_text ?? s?.registration_deadline_text}
 				regLimitText={regInfo?.reg_limit_text}
+				regStep1Pl={lang === 'pl' ? regInfo?.reg_step_1_pl : undefined}
+				regStep2Pl={lang === 'pl' ? regInfo?.reg_step_2_pl : undefined}
+				regStep3Pl={lang === 'pl' ? regInfo?.reg_step_3_pl : undefined}
 				presidentEmail={
 					s?.contact_president_email?.trim() ||
 						s?.president_email?.trim() ||

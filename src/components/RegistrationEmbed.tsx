@@ -14,6 +14,9 @@ interface RegistrationEmbedProps {
   regEntryText?: string;
   regDeadlineText?: string;
   regLimitText?: string;
+  regStep1Pl?: string;
+  regStep2Pl?: string;
+  regStep3Pl?: string;
   presidentEmail?: string;
   dateValue?: string;
   prepDay?: string;
@@ -435,9 +438,12 @@ function setPartnerCtaLeave(e: MouseEvent<HTMLAnchorElement>) {
 }
 
 /** Left column: heading + registration steps (Pretix widget is rendered between this and RegistrationTip via Astro). */
-export function RegistrationIntro({ lang, pretixUrl }: RegistrationEmbedProps) {
+export function RegistrationIntro({ lang, pretixUrl, regStep1Pl, regStep2Pl, regStep3Pl }: RegistrationEmbedProps) {
   const [showInstructions, setShowInstructions] = useState(false);
   const c = regCopy[lang ?? "pl"] ?? regCopy["en"];
+  const step1Text = lang === "pl" ? (regStep1Pl ?? c.step1) : c.step1;
+  const step2Text = lang === "pl" ? (regStep2Pl ?? c.step2) : c.step2;
+  const step3Text = lang === "pl" ? (regStep3Pl ?? c.step3) : c.step3;
 
   return (
     <>
@@ -534,7 +540,7 @@ export function RegistrationIntro({ lang, pretixUrl }: RegistrationEmbedProps) {
                 color: "rgba(228,221,208,0.92)",
               }}
             >
-              {c.step1}
+              {step1Text}
             </span>
           </li>
           <li className="flex gap-2 sm:gap-3">
@@ -563,7 +569,7 @@ export function RegistrationIntro({ lang, pretixUrl }: RegistrationEmbedProps) {
                 color: "rgba(228,221,208,0.92)",
               }}
             >
-              {c.step2}
+              {step2Text}
             </span>
           </li>
           <li className="flex gap-2 sm:gap-3">
@@ -592,7 +598,7 @@ export function RegistrationIntro({ lang, pretixUrl }: RegistrationEmbedProps) {
                 color: "rgba(228,221,208,0.92)",
               }}
             >
-              {c.step3}
+              {step3Text}
             </span>
           </li>
         </ol>

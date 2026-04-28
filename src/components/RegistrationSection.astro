@@ -20,6 +20,9 @@ interface Props {
 	regEntryText?: string;
 	regDeadlineText?: string;
 	regLimitText?: string;
+	regStep1Pl?: string;
+	regStep2Pl?: string;
+	regStep3Pl?: string;
 	presidentEmail?: string;
 }
 
@@ -41,6 +44,9 @@ const {
 	regEntryText,
 	regDeadlineText,
 	regLimitText,
+	regStep1Pl,
+	regStep2Pl,
+	regStep3Pl,
 	presidentEmail,
 } = Astro.props as Props;
 ---
@@ -49,7 +55,7 @@ const {
 	<div class="mx-auto max-w-7xl">
 		<div class="grid grid-cols-1 gap-10 lg:grid-cols-[65%_35%] lg:gap-8">
 			<div>
-				<RegistrationIntro lang={lang} pretixUrl={pretixUrl} client:only="react" />
+				<RegistrationIntro lang={lang} pretixUrl={pretixUrl} regStep1Pl={regStep1Pl} regStep2Pl={regStep2Pl} regStep3Pl={regStep3Pl} client:only="react" />
 				<PretixWidgetEmbed pretixUrl={pretixUrl} />
 				<RegistrationTip lang={lang} pretixUrl={pretixUrl} client:only="react" />
 			</div>

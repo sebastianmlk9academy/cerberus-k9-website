@@ -2487,6 +2487,45 @@ collections:
             widget: "string"
             hint: "Ostrzeżenie o limitowanych miejscach."
             required: false
+          - name: "sekcja_3_kroki_rejestracji"
+            label: "🪜 Rejestracja — treść 3 kroków (PL)"
+            widget: "object"
+            collapsed: true
+            hint: >
+              📍 Gdzie: panel „JAK SIĘ ZAREJESTROWAĆ — 3 KROKI” na stronie /rejestracja.
+              ⚠️ Ważne: pola dotyczą tylko wersji PL; inne języki korzystają z tłumaczeń/fallbacków.
+              ✏️ Przykład: krótkie instrukcje krok po kroku dla formularza Pretix.
+            fields:
+              - name: "reg_step_1_pl"
+                label: "1️⃣ Krok 1 — instrukcja"
+                widget: "string"
+                required: false
+                default: "Wybierz bilet i kliknij „Zarejestruj\" / „Dalej\"."
+                pattern: ['^.{0,180}$', "❌ Maksymalnie 180 znaków"]
+                hint: >
+                  📍 Gdzie: pierwszy wiersz listy 3 kroków na /rejestracja.
+                  ⚠️ Ważne: max 180 znaków, zachowaj prosty język operacyjny.
+                  ✏️ Przykład: Wybierz bilet i kliknij „Zarejestruj\" / „Dalej\".
+              - name: "reg_step_2_pl"
+                label: "2️⃣ Krok 2 — instrukcja"
+                widget: "string"
+                required: false
+                default: "Finalizacja otworzy się w nowym oknie Pretix — zezwól na wyskakujące okna."
+                pattern: ['^.{0,200}$', "❌ Maksymalnie 200 znaków"]
+                hint: >
+                  📍 Gdzie: drugi wiersz listy 3 kroków na /rejestracja.
+                  ⚠️ Ważne: max 200 znaków. Wspomnij o nowym oknie/popup.
+                  ✏️ Przykład: Finalizacja otworzy się w nowym oknie Pretix — zezwól na wyskakujące okna.
+              - name: "reg_step_3_pl"
+                label: "3️⃣ Krok 3 — instrukcja"
+                widget: "string"
+                required: false
+                default: "Jeśli przyciski nie reagują, użyj linku „Otwórz pełny formularz\" pod widgetem."
+                pattern: ['^.{0,220}$', "❌ Maksymalnie 220 znaków"]
+                hint: >
+                  📍 Gdzie: trzeci wiersz listy 3 kroków na /rejestracja.
+                  ⚠️ Ważne: max 220 znaków. To krok awaryjny dla użytkownika.
+                  ✏️ Przykład: Jeśli przyciski nie reagują, użyj linku „Otwórz pełny formularz\" pod widgetem.
   - name: "team"
     label: "🏛️ Fundacja — Zarząd"
     description: "Karty członków zarządu Fundacji PACTA K9 na /fundacja."

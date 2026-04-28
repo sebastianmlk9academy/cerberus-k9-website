@@ -412,6 +412,9 @@ const registration_info = defineCollection({
 		reg_entry_text: z.string().optional().default(''),
 		reg_deadline_text: z.string().optional().default(''),
 		reg_limit_text: z.string().optional().default(''),
+		reg_step_1_pl: z.string().optional().default(''),
+		reg_step_2_pl: z.string().optional().default(''),
+		reg_step_3_pl: z.string().optional().default(''),
 	}),
 });
 
