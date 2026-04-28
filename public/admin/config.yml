@@ -165,9 +165,7 @@ collections:
                   📍 Gdzie: docelowy URL przycisku rejestracji w hero (gdy wypełnione ma pierwszeństwo przed /rejestracja).
                   ✏️ Wklej pełny adres z https:// — np. https://pretix.eu/... lub https://www.przyklad.pl
                 required: false
-                pattern:
-                  - "^$|^https?://.*"
-                  - "Pozostaw puste lub wklej pełny adres z https://"
+                pattern: ['^$|^https?://|^/', "❌ Wklej pełny URL (https://...) lub ścieżkę zaczynającą się od / (np. /pl/rejestracja). Pole może być też puste."]
               - name: "hero_cta_program_href"
                 label: "🔗 CTA hero — program"
                 widget: "string"
