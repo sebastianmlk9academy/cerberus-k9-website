@@ -1,0 +1,12 @@
+key: drones
+label_pl: DRONY
+filter_field: specializations
+filter_match: any_of
+filter_values:
+  - dron
+  - drone
+  - drony
+  - bsp
+  - uav
+order: 3
+active: true

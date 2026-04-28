@@ -66,6 +66,12 @@ function displayName(entry: (typeof sorted)[number]): string {
 		.join(' ');
 }
 
+const rawPS = await getCollection('partner_sections');
+const cmsPartnerSections = rawPS
+	.filter((e) => e.data.active !== false)
+	.sort((a, b) => (a.data.order ?? 10) - (b.data.order ?? 10))
+	.map((e) => ({ ...e.data }));
+
 const partners: Partner[] = sorted.map((entry, i) => {
 	const website = entry.data.website?.trim() || null;
 	const labelFromCms = entry.data.website_label?.trim();
@@ -92,7 +98,7 @@ const partners: Partner[] = sorted.map((entry, i) => {
 	<div
 		style="background: linear-gradient(to bottom, #161F28, #1A2530, #161F28); min-height: 100vh;"
 	>
-		<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} />
+		<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
 		<PageHero
 			category={copy.heroCategory}
 			title={navPartners}
@@ -107,6 +113,7 @@ const partners: Partner[] = sorted.map((entry, i) => {
 			embedded
 			sponsorOfferPdf={s?.sponsor_offer_pdf}
 			sponsorContactEmail={s?.sponsor_contact_email}
+			cmsSections={cmsPartnerSections}
 		/>
 		<Footer
 			lang={lang}

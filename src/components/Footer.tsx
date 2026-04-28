@@ -26,7 +26,7 @@ interface FooterProps {
   regonNumber?: string
 }
 
-const INSTAGRAM_FALLBACK = "https://instagram.com"
+const INSTAGRAM_FALLBACK = "https://www.instagram.com/pactak9"
 const LINKEDIN_FALLBACK = "https://linkedin.com"
 
 /** Empty string = hide; undefined = use fallback (IG/LI only). */

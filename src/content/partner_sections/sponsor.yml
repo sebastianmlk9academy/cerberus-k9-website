@@ -1,0 +1,6 @@
+key: sponsor
+label_pl: SPONSOR
+cms_type_value: Sponsor
+show_if_empty: false
+order: 2
+active: true

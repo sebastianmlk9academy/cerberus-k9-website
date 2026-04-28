@@ -1,4 +1,4 @@
-import { useState, type MouseEvent } from 'react';
+import { useState, useMemo, type MouseEvent } from 'react';
 import { Mail, Download } from 'lucide-react';
 import type { Lang } from '../i18n/utils';
 
@@ -475,6 +475,17 @@ function SectionDivider({ label }: { label: string }) {
   );
 }
 
+export type CmsPartnerSectionRow = {
+  key: string;
+  label_pl: string;
+  label_en?: string;
+  label_de?: string;
+  cms_type_value?: string;
+  show_if_empty?: boolean;
+  order?: number;
+  active?: boolean;
+};
+
 type PartnersPageProps = {
   lang: Lang;
   /** When set, replaces the built-in demo list (e.g. from `getCollection('partnerzy')`). */
@@ -483,7 +494,11 @@ type PartnersPageProps = {
   embedded?: boolean;
   sponsorOfferPdf?: string;
   sponsorContactEmail?: string;
+  /** Z CMS (`partner_sections`); brak = domyślne zakładki i etykiety. */
+  cmsSections?: CmsPartnerSectionRow[];
 };
+
+const FILTER_TAB_KEYS: FilterTab[] = ['all', 'strategic', 'sponsor', 'media', 'technology'];
 
 export default function PartnersPage({
   lang,
@@ -491,13 +506,40 @@ export default function PartnersPage({
   embedded = false,
   sponsorOfferPdf,
   sponsorContactEmail,
+  cmsSections,
 }: PartnersPageProps) {
   const englishFallback = partnerLabelsMap.en as PartnerLabels;
   const partnerLabels = {
     ...englishFallback,
     ...(partnerLabelsMap[lang] ?? {}),
   };
-  const translatedTabs = filterTabs.map((tab) => partnerLabels[tab]);
+  const sortedCmsSections = useMemo(
+    () =>
+      [...(cmsSections ?? [])]
+        .filter((s) => s.active !== false)
+        .sort((a, b) => (a.order ?? 10) - (b.order ?? 10)),
+    [cmsSections],
+  );
+  const useCmsTabs = sortedCmsSections.length > 0;
+  const displayTabs = useMemo(() => {
+    const labels = {
+      ...(partnerLabelsMap.en as PartnerLabels),
+      ...(partnerLabelsMap[lang] ?? {}),
+    };
+    if (!useCmsTabs) {
+      return filterTabs.map((tab) => ({ key: tab, label: labels[tab] }));
+    }
+    return sortedCmsSections
+      .filter((s) => FILTER_TAB_KEYS.includes(s.key as FilterTab))
+      .map((s) => ({
+        key: s.key as FilterTab,
+        label:
+          lang === 'pl'
+            ? s.label_pl
+            : (s.label_en?.trim() || s.label_de?.trim() || s.label_pl),
+      }));
+  }, [useCmsTabs, sortedCmsSections, lang]);
+  const translatedTabs = displayTabs.map((t) => t.label);
   const [activeFilter, setActiveFilter] = useState<FilterTab>('all');
 
   const partners = (partnersProp && partnersProp.length > 0)
@@ -634,13 +676,13 @@ export default function PartnersPage({
               alignItems: 'center',
             }}
           >
-            {filterTabs.map((tab, index) => {
-              const isActive = activeFilter === tab;
+            {displayTabs.map((tab, index) => {
+              const isActive = activeFilter === tab.key;
               return (
                 <button
-                  key={tab}
+                  key={tab.key}
                   type="button"
-                  onClick={() => setActiveFilter(tab)}
+                  onClick={() => setActiveFilter(tab.key)}
                   style={{
                     backgroundColor: isActive ? '#C4922A' : 'transparent',
                     color: isActive ? '#1E2B38' : '#C4922A',

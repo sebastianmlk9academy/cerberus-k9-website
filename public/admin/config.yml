@@ -9,6 +9,18 @@ media_folder: "public/uploads"
 public_folder: "/uploads"
 locale: "pl"
 collections:
+  - name: _start
+    label: "👋 Zacznij tutaj — Instrukcja"
+    description: "Przeczytaj zanim cokolwiek zmienisz. Instrukcja obsługi CMS."
+    files:
+      - name: instrukcja
+        label: "📖 Instrukcja obsługi CMS"
+        file: src/content/_instrukcja.md
+        fields:
+          - name: body
+            label: "Treść instrukcji"
+            widget: markdown
+            hint: "Ta strona to instrukcja dla redaktorów. Możesz ją edytować."
   - name: "ustawienia_globalne"
     label: "⚙️ Ustawienia Globalne"
     description: "Główne ustawienia całej strony — data wydarzenia, liczby, linki, social media."
@@ -801,6 +813,74 @@ collections:
             widget: "string"
             hint: "Etykieta przy czwartym wideo."
             required: false
+  - name: instructor_filters
+    label: "🎯 Filtry Instruktorów (CMS)"
+    label_singular: "Filtr"
+    folder: src/content/instructor_filters
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    extension: yml
+    format: yaml
+    fields:
+      - { name: key, label: "🔑 Klucz", widget: string, required: true }
+      - { name: label_pl, label: "🇵🇱 Etykieta PL", widget: string, required: true }
+      - { name: label_en, label: "🇬🇧 Etykieta EN", widget: string, required: false }
+      - { name: label_de, label: "🇩🇪 Etykieta DE", widget: string, required: false }
+      - { name: label_fr, label: "🇫🇷 Etykieta FR", widget: string, required: false }
+      - name: filter_field
+        label: "Pole filtrowania"
+        widget: select
+        options: [specializations, type, module, languages, all]
+        default: specializations
+      - name: filter_match
+        label: "Dopasowanie"
+        widget: select
+        default: includes
+        options: [includes, equals, any_of, none]
+      - { name: filter_value, label: "Wartość (pojedyncza)", widget: string, required: false }
+      - name: filter_values
+        label: "Wartości (lista)"
+        widget: list
+        required: false
+        field: { name: v, label: Wartość, widget: string }
+      - { name: order, label: Kolejność, widget: number, value_type: int, default: 10 }
+      - { name: active, label: Aktywny, widget: boolean, default: true }
+  - name: partner_sections
+    label: "📂 Sekcje Partnerów (filtry)"
+    label_singular: Sekcja
+    folder: src/content/partner_sections
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    extension: yml
+    format: yaml
+    fields:
+      - { name: key, label: "🔑 Klucz", widget: string, required: true }
+      - { name: label_pl, label: "🇵🇱 Etykieta PL", widget: string, required: true }
+      - { name: label_en, label: "🇬🇧 Etykieta EN", widget: string, required: false }
+      - { name: label_de, label: "🇩🇪 Etykieta DE", widget: string, required: false }
+      - { name: cms_type_value, label: "Wartość typu partnera (PL)", widget: string, required: false }
+      - { name: show_if_empty, label: Pokaż gdy pusto, widget: boolean, default: false }
+      - { name: order, label: Kolejność, widget: number, value_type: int, default: 10 }
+      - { name: active, label: Aktywny, widget: boolean, default: true }
+  - name: gallery_filters
+    label: "🖼️ Filtry Galerii (CMS)"
+    label_singular: Filtr
+    folder: src/content/gallery_filters
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    extension: yml
+    format: yaml
+    fields:
+      - { name: key, label: "🔑 Klucz", widget: string, required: true }
+      - { name: label_pl, label: "🇵🇱 Etykieta PL", widget: string, required: true }
+      - { name: label_en, label: "🇬🇧 Etykieta EN", widget: string, required: false }
+      - { name: label_de, label: "🇩🇪 Etykieta DE", widget: string, required: false }
+      - { name: category_value, label: "Wartość kategorii", widget: string, required: false }
+      - { name: order, label: Kolejność, widget: number, value_type: int, default: 10 }
+      - { name: active, label: Aktywny, widget: boolean, default: true }
   - name: "homepage_cards"
     label: "🏠 Strona Główna — Karty Programu"
     description: "Trzy karty sekcji programu na stronie głównej (K9, TCCC, Drony)."
@@ -1539,6 +1619,14 @@ collections:
         hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
         required: false
         default: true
+      - name: "needs_review"
+        label: "⏳ Wymaga akceptacji przed publikacją"
+        widget: "boolean"
+        default: false
+        hint: >
+          true = wpis oczekuje na sprawdzenie przez redaktora naczelnego.
+          false = wpis zaakceptowany i gotowy do publikacji.
+          Użyj tego pola gdy nie jesteś pewien czy wpis jest gotowy.
   - name: "agenda_categories"
     label: "📅 O Wydarzeniu — Kategorie Agendy"
     description: "Kolory i nazwy filtrów agendy (K9, TCCC, Drony itd.)."
@@ -2030,23 +2118,22 @@ collections:
         widget: "string"
         hint: "Dwuliterowy kod ISO 3166-1 alpha-2 — flaga na karcie."
         required: true
-      - label: "🎯 Specjalizacje"
-        name: "specializations"
-        widget: "select"
-        multiple: true
+      - name: "specializations"
+        label: "🎯 Specjalizacje instruktora"
+        widget: "list"
         required: true
-        hint: "Tagi specjalizacji na karcie instruktora — wielokrotny wybór."
-        options:
-          - "K9 Gryzienie"
-          - "K9 Detekcja"
-          - "K9 Tropienie SAR"
-          - "Pozorant"
-          - "TCCC"
-          - "TCCC-K9"
-          - "Pierwsza Pomoc"
-          - "Behawiorysta"
-          - "Konferencja - Prelegent"
-          - "Drony"
+        hint: >
+          📍 Gdzie: karta instruktora, filtry na stronie /instruktorzy.
+          ⚠️ Wybieraj z listy — nie wpisuj ręcznie!
+          Nowe specjalizacje dodaj w sekcji 'Filtry Instruktorów' w menu.
+        field:
+          name: spec
+          label: Specjalizacja
+          widget: relation
+          collection: instructor_filters
+          search_fields: [label_pl, key]
+          value_field: key
+          display_fields: [label_pl]
       - name: "unit"
         label: "🛡️ Jednostka / formacja"
         widget: "string"
@@ -2127,6 +2214,14 @@ collections:
         hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
         required: false
         default: true
+      - name: "needs_review"
+        label: "⏳ Wymaga akceptacji przed publikacją"
+        widget: "boolean"
+        default: false
+        hint: >
+          true = wpis oczekuje na sprawdzenie przez redaktora naczelnego.
+          false = wpis zaakceptowany i gotowy do publikacji.
+          Użyj tego pola gdy nie jesteś pewien czy wpis jest gotowy.
   - name: "registration_info"
     label: "📋 Rejestracja — Informacje Boczne"
     description: "Sidebar obok formularza Pretix: termin, miejsce, deadline, kontakt."
@@ -2381,6 +2476,14 @@ collections:
         hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
         required: false
         default: true
+      - name: "needs_review"
+        label: "⏳ Wymaga akceptacji przed publikacją"
+        widget: "boolean"
+        default: false
+        hint: >
+          true = wpis oczekuje na sprawdzenie przez redaktora naczelnego.
+          false = wpis zaakceptowany i gotowy do publikacji.
+          Użyj tego pola gdy nie jesteś pewien czy wpis jest gotowy.
   - name: "media_archive"
     label: "📺 Media — Archiwum Relacji"
     description: "Relacje medialne: TV, radio, prasa — sekcja archiwum na /media."
@@ -2567,6 +2670,14 @@ collections:
         widget: "string"
         hint: "Opcjonalny kanoniczny URL udostępnień."
         required: false
+      - name: "needs_review"
+        label: "⏳ Wymaga akceptacji przed publikacją"
+        widget: "boolean"
+        default: false
+        hint: >
+          true = wpis oczekuje na sprawdzenie przez redaktora naczelnego.
+          false = wpis zaakceptowany i gotowy do publikacji.
+          Użyj tego pola gdy nie jesteś pewien czy wpis jest gotowy.
   - name: "galeria"
     label: "🖼️ Galeria — Zdjęcia"
     description: "Zdjęcia z edycji — siatka na /galeria."
@@ -2660,6 +2771,14 @@ collections:
         hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
         required: false
         default: true
+      - name: "needs_review"
+        label: "⏳ Wymaga akceptacji przed publikacją"
+        widget: "boolean"
+        default: false
+        hint: >
+          true = wpis oczekuje na sprawdzenie przez redaktora naczelnego.
+          false = wpis zaakceptowany i gotowy do publikacji.
+          Użyj tego pola gdy nie jesteś pewien czy wpis jest gotowy.
   - name: "kontakt_content"
     label: "✉️ Kontakt — Treści"
     description: "Adres, mapa, dane kontaktowe i formularz na /kontakt."

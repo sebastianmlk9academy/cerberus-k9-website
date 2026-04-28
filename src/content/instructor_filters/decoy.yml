@@ -1,0 +1,10 @@
+key: decoy
+label_pl: POZORANT
+filter_field: specializations
+filter_match: any_of
+filter_values:
+  - pozorant
+  - decoy
+  - figurant
+order: 5
+active: true

@@ -126,7 +126,7 @@ const eventJsonLd = {
 	<script defer data-domain={plausibleDomain} src="https://plausible.io/js/plausible.js"></script>
 	<script type="application/ld+json" set:html={JSON.stringify(eventJsonLd)} />
 
-	<NavBar lang={lang} client:load navLinks={cmsNavLinks} />
+	<NavBar lang={lang} client:load navLinks={cmsNavLinks} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
 	<HeroSection
 		lang={lang}
 		copy={homeHeroCopyByLang[lang] ?? homeHeroCopyByLang['pl']}

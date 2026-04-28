@@ -1,0 +1,7 @@
+key: k9
+label_pl: K9
+filter_field: specializations
+filter_match: includes
+filter_value: k9
+order: 1
+active: true

@@ -47,6 +47,20 @@ const i18n_strings = defineCollection({
 	}),
 });
 
+function normalizeInstructorSpecializations(val: unknown): string[] {
+	if (!Array.isArray(val)) return [];
+	return val
+		.map((x) => {
+			if (typeof x === 'string') return x;
+			if (x && typeof x === 'object' && 'spec' in (x as Record<string, unknown>)) {
+				const s = (x as { spec?: unknown }).spec;
+				return typeof s === 'string' ? s : '';
+			}
+			return '';
+		})
+		.filter(Boolean);
+}
+
 const instruktorzy = defineCollection({
 	loader: glob({ base: './src/content/instruktorzy', pattern: '**/*.{md,mdx,json,yml,yaml}' }),
 	schema: z.object({
@@ -54,7 +68,7 @@ const instruktorzy = defineCollection({
 		role: z.string().optional(),
 		country: z.string(),
 		countryCode: z.string().length(2),
-		specializations: z.array(z.string()),
+		specializations: z.preprocess(normalizeInstructorSpecializations, z.array(z.string())),
 		unit: z.string().optional(),
 		module: z.string().optional(),
 		schedule: z.string().optional(),
@@ -62,6 +76,7 @@ const instruktorzy = defineCollection({
 		type: z.string().optional(),
 		linkedinUrl: z.string().optional(),
 		showOnHomepage: z.boolean().optional(),
+		needs_review: z.boolean().optional().default(false),
 		bioShort: z.string(),
 		bioFull: z.string(),
 		photo: z.string(),
@@ -87,6 +102,7 @@ const partnerzy = defineCollection({
 		show_in_strip: z.boolean().optional().default(true),
 		strip_order: z.number().optional().default(99),
 		active: z.boolean().optional().default(true),
+		needs_review: z.boolean().optional().default(false),
 	}),
 });
 
@@ -129,6 +145,7 @@ const aktualnosci = defineCollection({
 		seo_description: z.string().optional(),
 		og_image_override: z.string().optional(),
 		reading_time_override: z.number().optional(),
+		needs_review: z.boolean().optional().default(false),
 	}),
 });
 
@@ -163,6 +180,7 @@ const program = defineCollection({
 		instructor: z.string().optional().default(''),
 		order: z.number().optional().default(99),
 		active: z.boolean().optional().default(true),
+		needs_review: z.boolean().optional().default(false),
 	}),
 });
 
@@ -180,9 +198,55 @@ const agenda_categories = defineCollection({
 	}),
 });
 
+/** CMS (Decap) grouped `sekcja_*` objects → flat keys expected by the site schema. */
+const USTAWIENIA_SECTION_KEYS = [
+	'sekcja_wydarzenie',
+	'sekcja_hero',
+	'sekcja_statystyki',
+	'sekcja_wideo',
+	'sekcja_rejestracja',
+	'sekcja_live',
+	'sekcja_social',
+	'sekcja_kontakt',
+	'sekcja_dane_rejestrowe',
+	'sekcja_seo',
+	'sekcja_grafika',
+] as const;
+
+function flattenUstawieniaCmsInput(raw: unknown): unknown {
+	if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return raw;
+	const o = { ...(raw as Record<string, unknown>) };
+	const fromSections: Record<string, unknown> = {};
+	for (const sk of USTAWIENIA_SECTION_KEYS) {
+		const nest = o[sk];
+		if (nest && typeof nest === 'object' && !Array.isArray(nest)) {
+			Object.assign(fromSections, nest as Record<string, unknown>);
+			delete o[sk];
+		}
+	}
+	const merged = { ...o, ...fromSections } as Record<string, unknown>;
+	const aliases: [string, string][] = [
+		['video_2_url', 'video_url_2'],
+		['video_3_url', 'video_url_3'],
+		['video_2_badge', 'video_badge_2'],
+		['video_3_badge', 'video_badge_3'],
+	];
+	for (const [from, to] of aliases) {
+		if (merged[to] == null && merged[from] != null) merged[to] = merged[from];
+	}
+	for (const k of ['participants_count', 'countries_count', 'dogs_count', 'modules_count'] as const) {
+		const v = merged[k];
+		if (typeof v === 'number') {
+			const n = v as number;
+			merged[k] = k === 'modules_count' ? String(n) : `${n}+`;
+		}
+	}
+	return merged;
+}
+
 const ustawienia = defineCollection({
 	loader: glob({ base: './src/content', pattern: 'ustawienia.{yml,yaml}' }),
-	schema: z.object({
+	schema: z.preprocess(flattenUstawieniaCmsInput, z.object({
 		event_date: z.string(),
 		event_date_end: z.string(),
 		event_time_start: z.string().regex(/^\d{2}:\d{2}$/).optional().default('09:00'),
@@ -327,7 +391,7 @@ const ustawienia = defineCollection({
 		current_competitor: z.string().optional(),
 		grants_approved: z.number().optional(),
 		volunteers_count: z.number().optional(),
-	}),
+	})),
 });
 
 const registration_info = defineCollection({
@@ -441,6 +505,7 @@ const galeria = defineCollection({
 		tags: z.array(z.string()).optional(),
 		order: z.number().int().optional(),
 		active: z.boolean().optional().default(true),
+		needs_review: z.boolean().optional().default(false),
 	}),
 });
 
@@ -581,6 +646,50 @@ const fundacja_content = defineCollection({
 	}),
 });
 
+const instructor_filters = defineCollection({
+	loader: glob({ base: './src/content/instructor_filters', pattern: '**/*.yml' }),
+	schema: z.object({
+		key: z.string(),
+		label_pl: z.string(),
+		label_en: z.string().optional().default(''),
+		label_de: z.string().optional().default(''),
+		label_fr: z.string().optional().default(''),
+		filter_field: z.enum(['specializations', 'type', 'module', 'languages', 'all']),
+		filter_match: z.enum(['includes', 'equals', 'any_of', 'none']).optional().default('includes'),
+		filter_value: z.string().optional().default(''),
+		filter_values: z.array(z.string()).optional().default([]),
+		order: z.number().optional().default(10),
+		active: z.boolean().optional().default(true),
+	}),
+});
+
+const partner_sections = defineCollection({
+	loader: glob({ base: './src/content/partner_sections', pattern: '**/*.yml' }),
+	schema: z.object({
+		key: z.string(),
+		label_pl: z.string(),
+		label_en: z.string().optional().default(''),
+		label_de: z.string().optional().default(''),
+		cms_type_value: z.string().optional().default(''),
+		show_if_empty: z.boolean().optional().default(false),
+		order: z.number().optional().default(10),
+		active: z.boolean().optional().default(true),
+	}),
+});
+
+const gallery_filters = defineCollection({
+	loader: glob({ base: './src/content/gallery_filters', pattern: '**/*.yml' }),
+	schema: z.object({
+		key: z.string(),
+		label_pl: z.string(),
+		label_en: z.string().optional().default(''),
+		label_de: z.string().optional().default(''),
+		category_value: z.string().optional().default(''),
+		order: z.number().optional().default(10),
+		active: z.boolean().optional().default(true),
+	}),
+});
+
 const nav_links = defineCollection({
 	loader: glob({ base: './src/content/nav_links', pattern: '*.{yml,yaml}' }),
 	schema: z.object({
@@ -639,6 +748,9 @@ const locations = defineCollection({
 
 export const collections = {
 	i18n_strings,
+	instructor_filters,
+	partner_sections,
+	gallery_filters,
 	instruktorzy,
 	partnerzy,
 	blog,

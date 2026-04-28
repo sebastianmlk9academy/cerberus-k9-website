@@ -19,10 +19,10 @@ export function partnerEntriesToStripItems(
       return aOrder - bOrder;
     })
     .map(e => ({
-      name: e.data.name ?? '',
+      name: e.data.name?.trim() || e.id.replace(/-/g, ' ') || 'Partner',
       logo: e.data.logo ?? null,
       website: e.data.website ?? null,
       type: e.data.type ?? null,
     }))
-    .filter((e) => e.name.trim().length > 0);
+    .filter((e) => (e.name?.trim().length ?? 0) > 0 || Boolean(e.logo));
 }

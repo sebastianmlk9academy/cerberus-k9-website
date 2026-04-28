@@ -1,0 +1,9 @@
+key: conference
+label_pl: KONFERENCJA
+filter_field: specializations
+filter_match: any_of
+filter_values:
+  - konfer
+  - conference
+order: 4
+active: true

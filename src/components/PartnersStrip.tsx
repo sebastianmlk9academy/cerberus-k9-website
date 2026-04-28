@@ -25,55 +25,20 @@ const mediaPatrons: Partner[] = [
   },
 ]
 
-const HARDCODED_STRIP_PARTNERS: Partner[] = [
-  {
-    name: "POLITECHNIKA WROCŁAWSKA",
-    logo: "",
-  },
-  {
-    name: "ASTRIVA",
-    logo: "",
-  },
-  {
-    name: "WOPR",
-    logo: "",
-  },
-  {
-    name: "PZSO",
-    logo: "",
-  },
-  {
-    name: "SMART TARGET",
-    logo: "",
-  },
-  {
-    name: "OBRONA POWSZECHNA",
-    logo: "",
-  },
-  {
-    name: "JS 3102 GRYF",
-    logo: "",
-  },
-  {
-    name: "RESCUE TEAM SE.A.L.",
-    logo: "",
-  },
-  {
-    name: "SOF K9 LUBLINIEC",
-    logo: "",
-  },
-  {
-    name: "ETO K9",
-    logo: "",
-  },
-  {
-    name: "GRUPA KMS K9",
-    logo: "",
-  },
-  {
-    name: "VALHALL K-9",
-    logo: "",
-  },
+/** Gdy CMS nie zwraca żadnych pozycji w pasku — zachowanie jak dotychczas (nazwy bez logo). */
+const STRIP_PARTNERS_FALLBACK: Partner[] = [
+  { name: "POLITECHNIKA WROCŁAWSKA", logo: "" },
+  { name: "ASTRIVA", logo: "" },
+  { name: "WOPR", logo: "" },
+  { name: "PZSO", logo: "" },
+  { name: "SMART TARGET", logo: "" },
+  { name: "OBRONA POWSZECHNA", logo: "" },
+  { name: "JS 3102 GRYF", logo: "" },
+  { name: "RESCUE TEAM SE.A.L.", logo: "" },
+  { name: "SOF K9 LUBLINIEC", logo: "" },
+  { name: "ETO K9", logo: "" },
+  { name: "GRUPA KMS K9", logo: "" },
+  { name: "VALHALL K-9", logo: "" },
 ]
 
 function MediaPatronCard({ partner }: { partner: Partner }) {
@@ -238,12 +203,16 @@ interface PartnersStripProps {
 
 export function PartnersStrip({ copy, partners: partnersProp, partnerCtaHref }: PartnersStripProps) {
   const safeCopy = copy ?? partnersStripByLang.pl
-  const STRIP_PARTNERS =
-    partnersProp && partnersProp.length > 0 ? partnersProp : HARDCODED_STRIP_PARTNERS
+  const STRIP_PARTNERS = partnersProp ?? []
   const cmsMediaPatrons = STRIP_PARTNERS.filter((partner) => partner.type === "Patron Medialny")
   const cmsPartners = STRIP_PARTNERS.filter((partner) => partner.type !== "Patron Medialny")
   const mediaPartners = cmsMediaPatrons.length > 0 ? cmsMediaPatrons : mediaPatrons
-  const stripPartners = cmsPartners.length > 0 ? cmsPartners : STRIP_PARTNERS
+  const stripPartners =
+    cmsPartners.length > 0
+      ? cmsPartners
+      : STRIP_PARTNERS.length > 0
+        ? STRIP_PARTNERS
+        : STRIP_PARTNERS_FALLBACK
   const ctaHref = (partnerCtaHref ?? "").trim() || "mailto:sebastian@pactak9.org"
 
   return (

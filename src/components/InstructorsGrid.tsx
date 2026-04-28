@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, type CSSProperties, type MouseEvent } from 'react';
+import { useState, useEffect, useRef, useMemo, type CSSProperties, type MouseEvent } from 'react';
 import InstructorCard from './InstructorCard';
 import type { Lang } from '../i18n/utils';
 
@@ -19,16 +19,91 @@ interface Instructor {
   unit?: string;
 }
 
+export type CmsInstructorFilterRow = {
+  key: string;
+  label_pl: string;
+  label_en?: string;
+  label_de?: string;
+  label_fr?: string;
+  filter_field: 'specializations' | 'type' | 'module' | 'languages' | 'all';
+  filter_match?: 'includes' | 'equals' | 'any_of' | 'none';
+  filter_value?: string;
+  filter_values?: string[];
+  order?: number;
+};
+
 interface InstructorsGridProps {
   lang: Lang;
   instructors?: Instructor[];
   placeholderPhoto?: string;
+  /** Z CMS (`instructor_filters`); brak = dotychczasowe stałe filtry. */
+  cmsFilters?: CmsInstructorFilterRow[];
 }
 
 const FALLBACK: Instructor[] = [];
 
 type InstructorFilter = 'all' | 'k9' | 'tccc' | 'drones' | 'conference' | 'decoy';
-const FILTERS: InstructorFilter[] = ['all', 'k9', 'tccc', 'drones', 'conference', 'decoy'];
+const LEGACY_FILTERS: InstructorFilter[] = ['all', 'k9', 'tccc', 'drones', 'conference', 'decoy'];
+
+function cmsFilterLabel(lang: Lang, def: CmsInstructorFilterRow): string {
+  if (lang === 'pl') return def.label_pl;
+  if (lang === 'de' && def.label_de) return def.label_de;
+  if (lang === 'fr' && def.label_fr) return def.label_fr;
+  return def.label_en?.trim() || def.label_pl;
+}
+
+function applyCmsInstructorFilter(i: Instructor, def: CmsInstructorFilterRow): boolean {
+  if (def.key === 'decoy') {
+    const specializations = (i.specializations || []).map((s) => s.toLowerCase());
+    return (
+      (i.type?.toLowerCase().includes('pozorant') ?? false) ||
+      (i.type?.toLowerCase().includes('decoy') ?? false) ||
+      specializations.some((s) => s.includes('pozorant') || s.includes('decoy') || s.includes('figurant'))
+    );
+  }
+  if (def.filter_field === 'all' || def.filter_match === 'none') return true;
+
+  const specs = (i.specializations || []).map((s) => s.toLowerCase());
+  const needle = (def.filter_value ?? '').toLowerCase();
+  const needles = (def.filter_values ?? []).map((s) => s.toLowerCase()).filter(Boolean);
+  const hayType = (i.type ?? '').toLowerCase();
+  const hayModule = (i.module ?? '').toLowerCase();
+  const hayLang = (i.languages ?? '').toLowerCase();
+  const m = def.filter_match ?? 'includes';
+
+  const haystack = (): string => {
+    switch (def.filter_field) {
+      case 'specializations':
+        return specs.join(' ');
+      case 'type':
+        return hayType;
+      case 'module':
+        return hayModule;
+      case 'languages':
+        return hayLang;
+      default:
+        return '';
+    }
+  };
+  const h = haystack();
+
+  if (m === 'equals') return needle !== '' && h === needle;
+  if (m === 'any_of') {
+    if (!needles.length) return true;
+    if (def.filter_field === 'specializations') {
+      return needles.some((n) => specs.some((s) => s.includes(n)));
+    }
+    return needles.some((n) => h.includes(n));
+  }
+  if (m === 'includes') {
+    if (!needle) return true;
+    if (def.filter_field === 'specializations') {
+      return specs.some((s) => s.includes(needle));
+    }
+    return h.includes(needle);
+  }
+  return true;
+}
 
 const partnerButtonStyle: CSSProperties = {
   backgroundColor: 'transparent',
@@ -56,7 +131,12 @@ const handlePartnerButtonMouseLeave = (
   e.currentTarget.style.color = '#C4922A';
 };
 
-export default function InstructorsGrid({ instructors, lang, placeholderPhoto }: InstructorsGridProps) {
+export default function InstructorsGrid({
+  instructors,
+  lang,
+  placeholderPhoto,
+  cmsFilters,
+}: InstructorsGridProps) {
   const gridLabels = {
     pl: { all: 'WSZYSCY', decoy: 'POZORANT', noResults: 'BRAK INSTRUKTORÓW', loading: 'ŁADOWANIE...' },
     en: { all: 'ALL', decoy: 'DECOY', noResults: 'NO INSTRUCTORS FOUND', loading: 'LOADING...' },
@@ -119,36 +199,53 @@ export default function InstructorsGrid({ instructors, lang, placeholderPhoto }:
       drones: '드론', conference: '컨퍼런스', decoy: '조력자' },
   };
   const fl = filterLabelsByLang[lang] ?? filterLabelsByLang['en'];
-  const [activeFilter, setActiveFilter] = useState<InstructorFilter>('all');
+  const useCms = (cmsFilters?.length ?? 0) > 0;
+  const sortedCms = useMemo(
+    () => [...(cmsFilters ?? [])].sort((a, b) => (a.order ?? 10) - (b.order ?? 10)),
+    [cmsFilters],
+  );
+  const filterKeys = useMemo(
+    () => (useCms ? sortedCms.map((f) => f.key) : [...LEGACY_FILTERS]),
+    [useCms, sortedCms],
+  );
+  const [activeFilter, setActiveFilter] = useState<string>('all');
   const [visibleCount, setVisibleCount] = useState(4);
   const loaderRef = useRef<HTMLDivElement>(null);
   const data = (instructors && instructors.length > 0) ? instructors : FALLBACK;
 
-  const filtered = activeFilter === 'all'
-    ? data
-    : data.filter((i) => {
+  const filtered = useMemo(() => {
+    if (activeFilter === 'all') return data;
+    if (!useCms) {
+      return data.filter((i) => {
         const specializations = i.specializations.map((s) => s.toLowerCase());
-        if (activeFilter === 'decoy') {
+        const legacy = activeFilter as InstructorFilter;
+        if (legacy === 'decoy') {
           return (
             i.type?.toLowerCase().includes('pozorant') ||
             i.type?.toLowerCase().includes('decoy') ||
             specializations.some((s) => s.includes('pozorant') || s.includes('decoy') || s.includes('figurant'))
           );
         }
-        if (activeFilter === 'drones') {
+        if (legacy === 'drones') {
           return specializations.some((s) =>
             s.includes('dron') ||
             s.includes('drone') ||
             s.includes('drony') ||
             s.includes('bsp') ||
-            s.includes('uav')
+            s.includes('uav'),
           );
         }
-        if (activeFilter === 'conference') {
+        if (legacy === 'conference') {
           return specializations.some((s) => s.includes('konfer') || s.includes('conference'));
         }
-        return specializations.some((s) => s.includes(activeFilter));
+        return specializations.some((s) => s.includes(legacy));
       });
+    }
+    const def = sortedCms.find((d) => d.key === activeFilter);
+    if (!def) return data;
+    if (def.filter_field === 'all' || def.filter_match === 'none') return data;
+    return data.filter((i) => applyCmsInstructorFilter(i, def));
+  }, [data, activeFilter, useCms, sortedCms]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -222,26 +319,31 @@ export default function InstructorsGrid({ instructors, lang, placeholderPhoto }:
           marginRight: '8px',
         }}>
         </span>
-        {FILTERS.map((f) => (
-          <button
-            key={f}
-            onClick={() => setActiveFilter(f)}
-            style={{
-              ...partnerButtonStyle,
-              backgroundColor: activeFilter === f ? '#C4922A' : 'transparent',
-              color: activeFilter === f ? '#1E2B38' : '#C4922A',
-              padding: '8px 14px',
-              fontSize: 11,
-            }}
-            onMouseEnter={handlePartnerButtonMouseEnter}
-            onMouseLeave={e => {
-              if (activeFilter === f) return;
-              handlePartnerButtonMouseLeave(e);
-            }}
-          >
-            {fl[f]}
-          </button>
-        ))}
+        {filterKeys.map((f) => {
+          const def = useCms ? sortedCms.find((row) => row.key === f) : undefined;
+          const label = useCms && def ? cmsFilterLabel(lang, def) : fl[f as InstructorFilter];
+          return (
+            <button
+              key={f}
+              type="button"
+              onClick={() => setActiveFilter(f)}
+              style={{
+                ...partnerButtonStyle,
+                backgroundColor: activeFilter === f ? '#C4922A' : 'transparent',
+                color: activeFilter === f ? '#1E2B38' : '#C4922A',
+                padding: '8px 14px',
+                fontSize: 11,
+              }}
+              onMouseEnter={handlePartnerButtonMouseEnter}
+              onMouseLeave={(e) => {
+                if (activeFilter === f) return;
+                handlePartnerButtonMouseLeave(e);
+              }}
+            >
+              {label}
+            </button>
+          );
+        })}
       </div>
 
       {/* Grid */}
