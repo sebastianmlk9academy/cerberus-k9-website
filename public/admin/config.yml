@@ -590,6 +590,115 @@ collections:
                 widget: "string"
                 hint: "Lista domen w stopce."
                 required: false
+              - name: "sekcja_linki_stopki"
+                label: "🔗 Stopka — linki nawigacyjne"
+                widget: "object"
+                collapsed: true
+                hint: >
+                  📍 Gdzie: kolumny linków w stopce każdej podstrony.
+                  ⚠️ Ważne: wpisuj ścieżki bez początkowego „/pl/” (język dodaje się automatycznie).
+                  ✏️ Przykład: o-wydarzeniu, aktualnosci, o-wydarzeniu#program
+                fields:
+                  - name: "footer_link_about"
+                    label: "📅 Link „O wydarzeniu”"
+                    widget: "string"
+                    required: false
+                    default: "o-wydarzeniu"
+                    pattern: ['^.{0,120}$', "❌ Maksymalnie 120 znaków"]
+                    hint: >
+                      📍 Gdzie: link „O wydarzeniu” w stopce.
+                      ⚠️ Ważne: bez prefiksu języka, np. bez /pl/.
+                      ✏️ Przykład: o-wydarzeniu
+                  - name: "footer_link_instructors"
+                    label: "🎓 Link „Instruktorzy”"
+                    widget: "string"
+                    required: false
+                    default: "instruktorzy"
+                    pattern: ['^.{0,120}$', "❌ Maksymalnie 120 znaków"]
+                    hint: >
+                      📍 Gdzie: link „Instruktorzy” w stopce.
+                      ⚠️ Ważne: tylko ścieżka względna.
+                      ✏️ Przykład: instruktorzy
+                  - name: "footer_link_registration"
+                    label: "📝 Link „Rejestracja”"
+                    widget: "string"
+                    required: false
+                    default: "rejestracja"
+                    pattern: ['^.{0,120}$', "❌ Maksymalnie 120 znaków"]
+                    hint: >
+                      📍 Gdzie: link „Rejestracja” w stopce.
+                      ⚠️ Ważne: bez prefiksu języka.
+                      ✏️ Przykład: rejestracja
+                  - name: "footer_link_program"
+                    label: "🧭 Link „Program”"
+                    widget: "string"
+                    required: false
+                    default: "o-wydarzeniu#program"
+                    pattern: ['^.{0,140}$', "❌ Maksymalnie 140 znaków"]
+                    hint: >
+                      📍 Gdzie: link „Program” w stopce.
+                      ⚠️ Ważne: możesz użyć kotwicy #program.
+                      ✏️ Przykład: o-wydarzeniu#program
+                  - name: "footer_link_gallery"
+                    label: "🖼️ Link „Galeria”"
+                    widget: "string"
+                    required: false
+                    default: "galeria"
+                    pattern: ['^.{0,120}$', "❌ Maksymalnie 120 znaków"]
+                    hint: >
+                      📍 Gdzie: link „Galeria” w stopce.
+                      ⚠️ Ważne: bez prefiksu języka.
+                      ✏️ Przykład: galeria
+                  - name: "footer_link_media"
+                    label: "🎥 Link „Media”"
+                    widget: "string"
+                    required: false
+                    default: "media"
+                    pattern: ['^.{0,120}$', "❌ Maksymalnie 120 znaków"]
+                    hint: >
+                      📍 Gdzie: link „Media” w stopce.
+                      ⚠️ Ważne: bez prefiksu języka.
+                      ✏️ Przykład: media
+                  - name: "footer_link_news"
+                    label: "📰 Link „Aktualności”"
+                    widget: "string"
+                    required: false
+                    default: "aktualnosci"
+                    pattern: ['^.{0,120}$', "❌ Maksymalnie 120 znaków"]
+                    hint: >
+                      📍 Gdzie: link „Aktualności” w stopce.
+                      ⚠️ Ważne: bez prefiksu języka.
+                      ✏️ Przykład: aktualnosci
+                  - name: "footer_link_foundation"
+                    label: "🏛️ Link „Fundacja”"
+                    widget: "string"
+                    required: false
+                    default: "fundacja"
+                    pattern: ['^.{0,120}$', "❌ Maksymalnie 120 znaków"]
+                    hint: >
+                      📍 Gdzie: link „Fundacja” w stopce.
+                      ⚠️ Ważne: bez prefiksu języka.
+                      ✏️ Przykład: fundacja
+                  - name: "footer_link_partners"
+                    label: "🤝 Link „Partnerzy”"
+                    widget: "string"
+                    required: false
+                    default: "partnerzy"
+                    pattern: ['^.{0,120}$', "❌ Maksymalnie 120 znaków"]
+                    hint: >
+                      📍 Gdzie: link „Partnerzy” w stopce.
+                      ⚠️ Ważne: bez prefiksu języka.
+                      ✏️ Przykład: partnerzy
+                  - name: "footer_link_contact"
+                    label: "✉️ Link „Kontakt”"
+                    widget: "string"
+                    required: false
+                    default: "kontakt"
+                    pattern: ['^.{0,120}$', "❌ Maksymalnie 120 znaków"]
+                    hint: >
+                      📍 Gdzie: link „Kontakt” w stopce.
+                      ⚠️ Ważne: bez prefiksu języka.
+                      ✏️ Przykład: kontakt
               - name: "media_contact_name"
                 label: "👤 Kontakt media — nazwa"
                 widget: "string"

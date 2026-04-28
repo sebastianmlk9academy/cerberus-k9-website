@@ -24,6 +24,18 @@ interface FooterProps {
   krsNumber?: string
   nipNumber?: string
   regonNumber?: string
+  footerLinks?: {
+    about?: string
+    instructors?: string
+    registration?: string
+    program?: string
+    gallery?: string
+    media?: string
+    news?: string
+    foundation?: string
+    partners?: string
+    contact?: string
+  }
 }
 
 const INSTAGRAM_FALLBACK = "https://www.instagram.com/pactak9"
@@ -134,6 +146,7 @@ export function Footer({
   krsNumber,
   nipNumber,
   regonNumber,
+  footerLinks,
 }: FooterProps) {
   const resolvedLogo = logoSrc?.trim() || "/images/cerberus-k9-logo.png"
   const resolvedLogoAlt = logoAlt?.trim() || "CERBERUS K9 Logo"
@@ -155,20 +168,21 @@ export function Footer({
     socialLinkedin,
     socialTwitter,
   )
+  const linkWithLang = (slug: string) => `/${safeLang}/${slug.replace(/^\/+/, "")}`
   const eventLinks = [
-    { label: safeCopy.linkAbout, href: `/${safeLang}/o-wydarzeniu` },
-    { label: safeCopy.linkInstructors, href: `/${safeLang}/instruktorzy` },
-    { label: safeCopy.linkRegistration, href: `/${safeLang}/rejestracja` },
-    { label: safeCopy.linkProgram, href: `/${safeLang}/o-wydarzeniu#program` },
-    { label: safeCopy.linkGallery, href: `/${safeLang}/galeria` },
-    { label: safeCopy.linkMedia, href: `/${safeLang}/media` },
-    { label: safeCopy.linkNews, href: `/${safeLang}/aktualnosci` },
+    { label: safeCopy.linkAbout, href: linkWithLang(footerLinks?.about ?? "o-wydarzeniu") },
+    { label: safeCopy.linkInstructors, href: linkWithLang(footerLinks?.instructors ?? "instruktorzy") },
+    { label: safeCopy.linkRegistration, href: linkWithLang(footerLinks?.registration ?? "rejestracja") },
+    { label: safeCopy.linkProgram, href: linkWithLang(footerLinks?.program ?? "o-wydarzeniu#program") },
+    { label: safeCopy.linkGallery, href: linkWithLang(footerLinks?.gallery ?? "galeria") },
+    { label: safeCopy.linkMedia, href: linkWithLang(footerLinks?.media ?? "media") },
+    { label: safeCopy.linkNews, href: linkWithLang(footerLinks?.news ?? "aktualnosci") },
   ]
 
   const orgLinks = [
-    { label: safeCopy.linkFoundation, href: `/${safeLang}/fundacja` },
-    { label: safeCopy.linkPartners, href: `/${safeLang}/partnerzy` },
-    { label: safeCopy.linkContact, href: `/${safeLang}/kontakt` },
+    { label: safeCopy.linkFoundation, href: linkWithLang(footerLinks?.foundation ?? "fundacja") },
+    { label: safeCopy.linkPartners, href: linkWithLang(footerLinks?.partners ?? "partnerzy") },
+    { label: safeCopy.linkContact, href: linkWithLang(footerLinks?.contact ?? "kontakt") },
   ]
 
   const mediaLinks = [
