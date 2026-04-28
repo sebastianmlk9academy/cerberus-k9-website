@@ -12,6 +12,8 @@ export const prerender = true;
 
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
+const kontaktContent = await getEntry('kontakt_content', 'kontakt_content');
+const kc = kontaktContent?.data;
 
 const cmsNavLinks = await loadCmsNavLinks();
 
@@ -50,6 +52,18 @@ const description = 'Skontaktuj się z Fundacją PACTA K9 i zespołem CERBERUS K
 		contactFormEndpoint={s?.contact_form_endpoint}
 		contactFormRecipient={s?.contact_form_recipient}
 		gdprConsentText={s?.contact_gdpr_text_pl}
+		formLabels={{
+			name: kc?.form_name_label_pl,
+			email: kc?.form_email_label_pl,
+			subject: kc?.form_subject_label_pl,
+			message: kc?.form_message_label_pl,
+			submit: kc?.form_submit_label_pl,
+			success: kc?.form_success_pl,
+			error: kc?.form_error_pl,
+			subjectOptions: kc?.form_subject_options_pl,
+			sectionMedia: kc?.section_media_title_pl,
+			sectionPartnership: kc?.section_partnership_title_pl,
+		}}
 		client:load
 	/>
 	<Footer

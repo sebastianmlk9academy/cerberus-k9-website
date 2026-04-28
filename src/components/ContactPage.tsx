@@ -27,6 +27,18 @@ interface ContactPageProps {
   contactFormRecipient?: string;
   /** Resolved GDPR checkbox label (e.g. from CMS per language). */
   gdprConsentText?: string;
+  formLabels?: {
+    name?: string;
+    email?: string;
+    subject?: string;
+    message?: string;
+    submit?: string;
+    success?: string;
+    error?: string;
+    subjectOptions?: string;
+    sectionMedia?: string;
+    sectionPartnership?: string;
+  };
 }
 
 const DEFAULT_EMAIL = "sebastian@pactak9.org";
@@ -244,6 +256,7 @@ export function ContactPage({
   contactFormEndpoint,
   contactFormRecipient,
   gdprConsentText,
+  formLabels,
 }: ContactPageProps) {
   const resolvedMapUrl = mapEmbedUrl ?? DEFAULT_MAP_EMBED_URL;
   const resolvedVenue = venueAddress ?? DEFAULT_VENUE;
@@ -261,6 +274,20 @@ export function ContactPage({
     (gdprConsentText ?? "").trim() ||
     c.privacyConsent ||
     "I have read the Privacy Policy and consent to personal data processing";
+  const resolvedSubjectOptions = (
+    formLabels?.subjectOptions ??
+    [
+      c.subjectRegistration ?? "Registration",
+      c.subjectSponsoring ?? "Sponsoring",
+      c.subjectMediaPatronage ?? "Media Partnership",
+      c.subjectInstructors ?? "Instructors",
+      c.subjectPress ?? "Press & Media",
+      c.subjectOther ?? "Other",
+    ].join(",")
+  )
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -490,7 +517,7 @@ export function ContactPage({
             </p>
 
             <div>
-              <label htmlFor="fullName">{c.nameLabel}</label>
+              <label htmlFor="fullName">{formLabels?.name ?? c.nameLabel}</label>
               <input
                 id="fullName"
                 className="ck9-contact-input"
@@ -502,7 +529,7 @@ export function ContactPage({
             </div>
 
             <div>
-              <label htmlFor="email">{c.emailLabel}</label>
+              <label htmlFor="email">{formLabels?.email ?? c.emailLabel}</label>
               <input id="email" className="ck9-contact-input" name="email" type="email" required />
             </div>
 
@@ -512,19 +539,16 @@ export function ContactPage({
             </div>
 
             <div>
-              <label htmlFor="subject">{c.subjectLabel ?? "SUBJECT"}</label>
+              <label htmlFor="subject">{formLabels?.subject ?? c.subjectLabel ?? "SUBJECT"}</label>
               <select id="subject" className="ck9-contact-select" name="subject">
-                <option>{c.subjectRegistration ?? "Registration"}</option>
-                <option>{c.subjectSponsoring ?? "Sponsoring"}</option>
-                <option>{c.subjectMediaPatronage ?? "Media Partnership"}</option>
-                <option>{c.subjectInstructors ?? "Instructors"}</option>
-                <option>{c.subjectPress ?? "Press & Media"}</option>
-                <option>{c.subjectOther ?? "Other"}</option>
+                {resolvedSubjectOptions.map((option) => (
+                  <option key={option}>{option}</option>
+                ))}
               </select>
             </div>
 
             <div>
-              <label htmlFor="message">{c.messageLabel}</label>
+              <label htmlFor="message">{formLabels?.message ?? c.messageLabel}</label>
               <textarea id="message" className="ck9-contact-textarea" name="message" required />
             </div>
 
@@ -534,17 +558,17 @@ export function ContactPage({
             </label>
 
             <button className="ck9-contact-btn" type="submit" disabled={isSubmitting}>
-              {isSubmitting ? (c.sending ?? "SENDING...") : `${c.sendBtn} →`}
+              {isSubmitting ? (c.sending ?? "SENDING...") : `${formLabels?.submit ?? c.sendBtn} →`}
             </button>
 
             {isSuccess ? (
               <p className="ck9-contact-status ck9-contact-status--ok">
-                {c.successMessage ?? "Thank you! We will reply within 24 hours."}
+                {formLabels?.success ?? c.successMessage ?? "Thank you! We will reply within 24 hours."}
               </p>
             ) : null}
             {hasError ? (
               <p className="ck9-contact-status ck9-contact-status--err">
-                {c.errorMessage ?? "Failed to send the form. Please try again shortly."}
+                {formLabels?.error ?? c.errorMessage ?? "Failed to send the form. Please try again shortly."}
               </p>
             ) : null}
           </form>
@@ -562,7 +586,7 @@ export function ContactPage({
           </article>
 
           <article className="ck9-info-card">
-            <h3 className="ck9-card-title">{c.directContactTitle ?? "DIRECT CONTACT"}</h3>
+            <h3 className="ck9-card-title">{formLabels?.sectionMedia ?? c.directContactTitle ?? "DIRECT CONTACT"}</h3>
             <p className="ck9-card-line">
               MARIUSZ:{" "}
               <a

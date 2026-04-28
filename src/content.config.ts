@@ -434,6 +434,16 @@ const kontakt_content = defineCollection({
 		partner_cta_href: z.string().optional().default(''),
 		sponsor_offer_pdf: z.string().optional().default(''),
 		sponsor_contact_email: z.string().optional().default(''),
+		form_name_label_pl: z.string().optional().default('IMIĘ I NAZWISKO'),
+		form_email_label_pl: z.string().optional().default('ADRES E-MAIL'),
+		form_subject_label_pl: z.string().optional().default('TEMAT'),
+		form_message_label_pl: z.string().optional().default('TREŚĆ WIADOMOŚCI'),
+		form_submit_label_pl: z.string().optional().default('WYŚLIJ WIADOMOŚĆ'),
+		form_success_pl: z.string().optional().default('Dziękujemy! Odpowiemy w ciągu 24 godzin.'),
+		form_error_pl: z.string().optional().default('Nie udało się wysłać formularza. Spróbuj ponownie za chwilę.'),
+		form_subject_options_pl: z.string().optional().default('Rejestracja,Sponsorowanie,Patronat medialny,Instruktorzy,Prasa i media,Inne'),
+		section_media_title_pl: z.string().optional().default('BEZPOŚREDNI KONTAKT'),
+		section_partnership_title_pl: z.string().optional().default('Zostań partnerem'),
 	}),
 });
 

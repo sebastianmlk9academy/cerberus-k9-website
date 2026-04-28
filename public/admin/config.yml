@@ -3402,6 +3402,115 @@ collections:
             widget: "string"
             hint: "Kontakt ds. sponsorów."
             required: false
+          - name: "sekcja_formularz"
+            label: "🧾 Formularz kontaktowy — teksty PL"
+            widget: "object"
+            collapsed: true
+            hint: >
+              📍 Gdzie: strona /kontakt, formularz i panel „BEZPOŚREDNI KONTAKT”.
+              ⚠️ Ważne: to są tylko teksty PL. Dla innych języków działają tłumaczenia/fallback.
+              ✏️ Przykład: „Wyślij wiadomość”, „Dziękujemy! Odpowiemy…”.
+            fields:
+              - name: "form_name_label_pl"
+                label: "👤 Etykieta pola: Imię i nazwisko"
+                widget: "string"
+                required: false
+                default: "IMIĘ I NAZWISKO"
+                pattern: ['^.{0,80}$', "❌ Maksymalnie 80 znaków"]
+                hint: >
+                  📍 Gdzie: etykieta pierwszego pola formularza na /kontakt.
+                  ⚠️ Ważne: zalecane krótkie, czytelne słownictwo.
+                  ✏️ Przykład: IMIĘ I NAZWISKO
+              - name: "form_email_label_pl"
+                label: "📧 Etykieta pola: E-mail"
+                widget: "string"
+                required: false
+                default: "ADRES E-MAIL"
+                pattern: ['^.{0,80}$', "❌ Maksymalnie 80 znaków"]
+                hint: >
+                  📍 Gdzie: etykieta pola e-mail w formularzu na /kontakt.
+                  ⚠️ Ważne: max 80 znaków.
+                  ✏️ Przykład: ADRES E-MAIL
+              - name: "form_subject_label_pl"
+                label: "🧷 Etykieta pola: Temat"
+                widget: "string"
+                required: false
+                default: "TEMAT"
+                pattern: ['^.{0,80}$', "❌ Maksymalnie 80 znaków"]
+                hint: >
+                  📍 Gdzie: etykieta listy rozwijanej „Temat”.
+                  ⚠️ Ważne: krótka nazwa pola.
+                  ✏️ Przykład: TEMAT
+              - name: "form_message_label_pl"
+                label: "💬 Etykieta pola: Wiadomość"
+                widget: "string"
+                required: false
+                default: "TREŚĆ WIADOMOŚCI"
+                pattern: ['^.{0,100}$', "❌ Maksymalnie 100 znaków"]
+                hint: >
+                  📍 Gdzie: etykieta pola tekstowego wiadomości.
+                  ⚠️ Ważne: max 100 znaków.
+                  ✏️ Przykład: TREŚĆ WIADOMOŚCI
+              - name: "form_submit_label_pl"
+                label: "🚀 Tekst przycisku wyślij"
+                widget: "string"
+                required: false
+                default: "WYŚLIJ WIADOMOŚĆ"
+                pattern: ['^.{0,80}$', "❌ Maksymalnie 80 znaków"]
+                hint: >
+                  📍 Gdzie: główny przycisk formularza na /kontakt.
+                  ⚠️ Ważne: max 80 znaków. Strona automatycznie doda strzałkę.
+                  ✏️ Przykład: WYŚLIJ WIADOMOŚĆ
+              - name: "form_success_pl"
+                label: "✅ Komunikat sukcesu"
+                widget: "string"
+                required: false
+                default: "Dziękujemy! Odpowiemy w ciągu 24 godzin."
+                pattern: ['^.{0,180}$', "❌ Maksymalnie 180 znaków"]
+                hint: >
+                  📍 Gdzie: tekst po poprawnym wysłaniu formularza.
+                  ⚠️ Ważne: krótko, uspokajająco, konkretnie.
+                  ✏️ Przykład: Dziękujemy! Odpowiemy w ciągu 24 godzin.
+              - name: "form_error_pl"
+                label: "❌ Komunikat błędu"
+                widget: "string"
+                required: false
+                default: "Nie udało się wysłać formularza. Spróbuj ponownie za chwilę."
+                pattern: ['^.{0,180}$', "❌ Maksymalnie 180 znaków"]
+                hint: >
+                  📍 Gdzie: tekst po nieudanym wysłaniu formularza.
+                  ⚠️ Ważne: bez technicznych szczegółów i kodów błędów.
+                  ✏️ Przykład: Nie udało się wysłać formularza. Spróbuj ponownie za chwilę.
+              - name: "form_subject_options_pl"
+                label: "📚 Lista opcji tematu (CSV)"
+                widget: "string"
+                required: false
+                default: "Rejestracja,Sponsorowanie,Patronat medialny,Instruktorzy,Prasa i media,Inne"
+                pattern: ['^.{0,300}$', "❌ Maksymalnie 300 znaków"]
+                hint: >
+                  📍 Gdzie: opcje listy „Temat” w formularzu.
+                  ⚠️ Ważne: oddzielaj opcje przecinkiem, bez średników.
+                  ✏️ Przykład: Rejestracja,Sponsorowanie,Patronat medialny,Instruktorzy,Prasa i media,Inne
+              - name: "section_media_title_pl"
+                label: "🎙️ Tytuł sekcji kontaktowej (media)"
+                widget: "string"
+                required: false
+                default: "BEZPOŚREDNI KONTAKT"
+                pattern: ['^.{0,120}$', "❌ Maksymalnie 120 znaków"]
+                hint: >
+                  📍 Gdzie: nagłówek karty z adresami e-mail/telefonami na /kontakt.
+                  ⚠️ Ważne: max 120 znaków.
+                  ✏️ Przykład: BEZPOŚREDNI KONTAKT
+              - name: "section_partnership_title_pl"
+                label: "🤝 Tytuł sekcji partnerskiej (rezerwa)"
+                widget: "string"
+                required: false
+                default: "Zostań partnerem"
+                pattern: ['^.{0,120}$', "❌ Maksymalnie 120 znaków"]
+                hint: >
+                  📍 Gdzie: pole przygotowane pod sekcję partnerską kontaktu.
+                  ⚠️ Ważne: obecnie nie wpływa na wygląd strony.
+                  ✏️ Przykład: Zostań partnerem
   - name: "nav_links"
     label: "🌐 Nawigacja — Linki"
     description: "Kolejność i nazwy linków w górnym menu."
