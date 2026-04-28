@@ -1,6 +1,6 @@
 key: all
 label_pl: WSZYSCY
-cms_type_value: ""
+cms_type_value: "all"
 show_if_empty: true
 order: 0
 active: true
