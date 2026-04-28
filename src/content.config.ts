@@ -219,6 +219,8 @@ function flattenUstawieniaCmsInput(raw: unknown): unknown {
 	if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return raw;
 	const o = { ...(raw as Record<string, unknown>) };
 	const fromSections: Record<string, unknown> = {};
+	// Netlify CMS writes grouped "sekcja_*" objects. Frontend reads flat keys.
+	// We flatten grouped payload into legacy-compatible flat settings shape.
 	for (const sk of USTAWIENIA_SECTION_KEYS) {
 		const nest = o[sk];
 		if (nest && typeof nest === 'object' && !Array.isArray(nest)) {
@@ -227,6 +229,7 @@ function flattenUstawieniaCmsInput(raw: unknown): unknown {
 		}
 	}
 	const merged = { ...o, ...fromSections } as Record<string, unknown>;
+	// Keep historical aliases used by older YAML snapshots/build scripts.
 	const aliases: [string, string][] = [
 		['video_2_url', 'video_url_2'],
 		['video_3_url', 'video_url_3'],

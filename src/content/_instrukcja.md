@@ -1,67 +1,84 @@
-# 👋 Witaj w panelu CMS CERBERUS K9!
+# Witaj w panelu CMS CERBERUS K9
 
-## Od czego zacząć?
-
-Jesteś tutaj pierwszy raz? Przeczytaj ten przewodnik zanim cokolwiek zmienisz.
-
----
-
-## 🗺️ Mapa panelu — co gdzie znajdziesz
-
-### ⚙️ Ustawienia Globalne
-**Najważniejsza sekcja.** Zmień tu datę wydarzenia, linki social media,
-URL rejestracji, dane kontaktowe w stopce.
-⚠️ Zmiany tutaj wpływają na CAŁĄ stronę.
-
-### 🏠 Strona Główna
-Karty programu (K9, TCCC, Drony), statystyki (250+ uczestników itd.),
-bloki lokalizacji. Zmieniasz co widzą odwiedzający na pierwszej stronie.
-
-### 📅 O Wydarzeniu
-Program agendy (godziny, miejsca), kategorie, FAQ.
-Tu dodajesz nowe punkty programu lub zmieniasz istniejące.
-
-### 🎖️ Instruktorzy
-Karty wszystkich instruktorów. Kliknij "Nowy" aby dodać kolejnego.
-Pamiętaj o zdjęciu w formacie WebP!
-
-### 📋 Rejestracja
-Teksty widoczne obok formularza rejestracji (daty, miejsce, kontakt).
-
-### 🤝 Partnerzy
-Logo i linki partnerów. Pole "Pokaż w pasku" kontroluje czy logo
-pojawia się w scrollującym pasku na stronie głównej.
-
-### 📺 Media
-Archiwum relacji prasowych, TV, radio z poprzednich edycji.
-
-### 📰 Aktualności
-Blog CERBERUS K9. Każdy wpis to jeden artykuł.
-
-### 🖼️ Galeria
-Zdjęcia, filmy YouTube i relacje medialne z wydarzeń.
+Ta instrukcja opisuje aktualny, bezpieczny workflow edycji.
+Cel: jedna ścieżka edycji, brak pomyłek między polami aktywnymi i legacy.
 
 ---
 
-## ✏️ Jak edytować wpis
+## Zasada najważniejsza
 
-1. Kliknij nazwę kolekcji w lewym menu
-2. Kliknij istniejący wpis LUB przycisk "+ Nowy"
-3. Wypełnij pola (każde ma podpowiedź 💡 poniżej)
-4. Kliknij **"Zapisz"** (góra ekranu)
-5. Kliknij **"Opublikuj"** aby zmiana była widoczna na stronie
+Edytuj najpierw pola kanoniczne wskazane poniżej.
+Pola oznaczone jako legacy/rezerwa traktuj jako awaryjne fallbacki.
 
 ---
 
-## ⚠️ Czego NIE robić
+## Mapa kanoniczna: gdzie edytować co
 
-- ❌ Nie usuwaj wpisów jeśli nie masz pewności — użyj pola "Ukryj"
-- ❌ Nie zmieniaj pola "Klucz" w filtrach — zepsuje filtrowanie
-- ❌ Nie wgrywaj zdjęć większych niż 2MB — strona będzie wolna
-- ❌ Nie wpisuj URL bez https:// — linki nie będą działać
+### Rejestracja (strona `/rejestracja`)
+
+- Kanoniczne źródło: kolekcja `Rejestracja — Informacje Boczne` (`registration_info`).
+- Tu edytuj: daty, miejsca, kontakt rejestracji, kroki, teksty sidebara.
+- W `Ustawienia Globalne` pola `registration_*` są fallbackami legacy.
+
+### Kontakt + Media + Partnerzy (dane kontaktowe i sponsoring)
+
+- Kanoniczne źródło: kolekcja `Kontakt — Treści` (`kontakt_content`).
+- Tu edytuj: endpoint i odbiorcę formularza, zgody GDPR, kontakty medialne,
+  deadline akredytacji, PDF sponsoringu, e-mail sponsoring.
+- W `Ustawienia Globalne` odpowiedniki tych pól są fallbackami legacy.
+
+### Hero / stopka / globalne URL i branding
+
+- Kanoniczne źródło: `Ustawienia Globalne` (`ustawienia`).
+- Tu edytuj: logo, sociale, linki stopki, główne URL, SEO globalne.
 
 ---
 
-## 📞 Kontakt techniczny
+## Legacy i rezerwa: jak traktować
 
-Problemy z CMS? Napisz do: sebastian@pactak9.org
+- Jeśli pole ma dopisek `legacy` lub `rezerwa`, nie używaj go do codziennej edycji treści.
+- Takie pole może być puste i to jest poprawne.
+- Najpierw sprawdzaj hint pod polem: zawiera informację, gdzie jest pole kanoniczne.
+
+---
+
+## Checklista przed publikacją
+
+1. Edytowałem właściwą kolekcję kanoniczną (nie fallback legacy).
+2. Uzupełniłem pola wymagane (`required`).
+3. Wszystkie URL zaczynają się od `https://` (chyba że hint mówi inaczej).
+4. Wpis ma poprawną kolejność (`order`) i status widoczności (`active`).
+5. W kolekcjach folderowych sprawdzam podgląd listy (summary) przed zapisem.
+6. Po zapisie sprawdzam stronę docelową (np. `/rejestracja`, `/kontakt`, `/media`).
+
+---
+
+## Jak rozpoznać „puste pole” vs błąd
+
+- Pole puste + hint mówi „opcjonalne/rezerwa” -> stan poprawny.
+- Pole puste + powinno być wymagane biznesowo -> uzupełnij.
+- Jeśli pole nie wpływa na stronę, sprawdź czy nie edytujesz fallbacku legacy.
+
+---
+
+## Czego nie robić
+
+- Nie usuwaj wpisów, jeśli nie musisz; użyj `active: false` (ukrycie).
+- Nie zmieniaj kluczy technicznych (`key`, `value`, `slug`) bez uzgodnienia.
+- Nie mieszaj źródeł: dla jednego obszaru edytuj tylko kolekcję kanoniczną.
+
+---
+
+## Szybka ścieżka pracy redaktora
+
+1. Wybierz kolekcję kanoniczną.
+2. Wprowadź zmiany.
+3. Zapisz.
+4. Sprawdź stronę docelową.
+5. Opublikuj.
+
+---
+
+## Kontakt techniczny
+
+W razie problemów: `sebastian@pactak9.org`

@@ -1101,6 +1101,8 @@ collections:
     create: true
     delete: true
     slug: "{{slug}}"
+    identifier_field: key
+    summary: "{{label_pl}} — {{filter_field}}/{{filter_match}} ({{order}})"
     extension: yml
     format: yaml
     fields:
@@ -1167,6 +1169,8 @@ collections:
     create: true
     delete: true
     slug: "{{slug}}"
+    identifier_field: key
+    summary: "{{label_pl}} — {{cms_type_value}} ({{order}})"
     extension: yml
     format: yaml
     fields:
@@ -1202,6 +1206,8 @@ collections:
     create: true
     delete: true
     slug: "{{slug}}"
+    identifier_field: key
+    summary: "{{label_pl}} — {{category_value}} ({{order}})"
     extension: yml
     format: yaml
     fields:
@@ -1715,7 +1721,7 @@ collections:
     create: true
     slug: "{{slug}}"
     identifier_field: "name"
-    summary: "{{name}} — {{city}} ({{order}})"
+    summary: "{{name}} — {{address}} ({{order}})"
     extension: "md"
     format: "frontmatter"
     fields:
@@ -1891,7 +1897,7 @@ collections:
     create: true
     delete: true
     slug: "{{day}}-{{slug}}"
-    summary: "{{day}} {{time_start}} — {{title_pl}}"
+    summary: "{{day}} {{time_start}} — {{title}}"
     preview_path: "/pl/o-wydarzeniu#agenda"
     extension: "md"
     format: "frontmatter"
@@ -2009,6 +2015,8 @@ collections:
     create: true
     delete: true
     slug: "{{slug}}"
+    identifier_field: "key"
+    summary: "{{label_pl}} — {{key}} ({{order}})"
     fields:
       - name: "key"
         label: "🔑 Klucz kategorii"
@@ -3035,6 +3043,8 @@ collections:
     create: true
     delete: true
     slug: "{{slug}}"
+    identifier_field: "outlet"
+    summary: "{{outlet}} — {{badge}} ({{order}})"
     extension: "md"
     format: "frontmatter"
     fields:
@@ -3100,6 +3110,8 @@ collections:
     folder: "src/content/aktualnosci"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    identifier_field: "title"
+    summary: "{{title}} — {{category}}"
     extension: "md"
     format: "frontmatter"
     fields:
@@ -3239,6 +3251,7 @@ collections:
     delete: true
     slug: "{{value}}"
     identifier_field: "value"
+    summary: "{{label_pl}} — {{value}} ({{order}})"
     description: "Lista edycji w galerii. Nową edycję dodaj tutaj — pojawi się na liście wyboru."
     fields:
       - name: "value"
@@ -3286,6 +3299,7 @@ collections:
     delete: true
     slug: "{{value}}"
     identifier_field: "value"
+    summary: "{{label_pl}} — {{value}} ({{order}})"
     description: "Lista lokalizacji w galerii. Nową lokalizację dodaj tutaj — bez literówek."
     fields:
       - name: "value"
@@ -3334,6 +3348,7 @@ collections:
     delete: true
     slug: "{{key}}"
     identifier_field: "key"
+    summary: "{{label_pl}} — {{key}}"
     description: "Tagi zdjęć galerii. Zmiana etykiety tagu aktualizuje się wszędzie automatycznie."
     fields:
       - name: "key"
@@ -3377,6 +3392,8 @@ collections:
     folder: "src/content/galeria"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    identifier_field: "photo"
+    summary: "{{title}} — {{edition}}/{{location}} ({{order}})"
     extension: "md"
     format: "frontmatter"
     fields:
@@ -4406,6 +4423,8 @@ collections:
     folder: "src/content/blog"
     create: true
     slug: "{{slug}}"
+    identifier_field: "title"
+    summary: "{{title}} — {{pubDate}}"
     extension: "md"
     format: "frontmatter"
     fields:
@@ -4444,6 +4463,8 @@ collections:
     create: true
     delete: true
     slug: "{{slug}}"
+    identifier_field: "name"
+    summary: "{{name}} — {{country}} ({{order}})"
     description: "Ambasadorzy CERBERUS K9 promujący wydarzenie w swoich krajach."
     preview_path: "/pl/ambasadorzy"
     media_folder: "public/uploads/ambasadorzy"
@@ -4587,6 +4608,8 @@ collections:
     create: true
     delete: true
     slug: "{{slug}}"
+    identifier_field: "title"
+    summary: "{{title}} — {{category}} ({{order}})"
     description: "Oferta szkoleń Fundacji PACTA K9 poza CERBERUS K9."
     preview_path: "/pl/szkolenia"
     media_folder: "public/uploads/szkolenia"
@@ -4691,6 +4714,8 @@ collections:
     create: true
     delete: true
     slug: "{{timestamp}}"
+    identifier_field: "timestamp"
+    summary: "{{timestamp}} — {{type}}"
     description: "⚠️ Używaj TYLKO podczas trwania wydarzenia 13-14 czerwca!"
     fields:
       - name: "timestamp"
@@ -4733,6 +4758,8 @@ collections:
     create: true
     delete: true
     slug: "{{slug}}"
+    identifier_field: "competitor_name"
+    summary: "{{competitor_name}} — {{category}} ({{score}})"
     description: "Wyniki zawodów. Aktualizuj na bieżąco podczas zawodów."
     preview_path: "/pl/hardest-hit"
     fields:
@@ -4809,6 +4836,8 @@ collections:
     create: true
     delete: true
     slug: "{{slug}}"
+    identifier_field: "title"
+    summary: "{{title}} — {{language}}/{{edition}}"
     description: "Oferty sponsorskie PDF do pobrania przez potencjalnych partnerów."
     media_folder: "public/uploads/sponsor_materials"
     public_folder: "/uploads/sponsor_materials"
@@ -4863,6 +4892,8 @@ collections:
     create: true
     delete: true
     slug: "{{slug}}"
+    identifier_field: "title"
+    summary: "{{title}} — {{photo_count}} zdjęć"
     description: "Zdjęcia hi-res dla mediów. Widoczne na stronie /media."
     media_folder: "public/uploads/press"
     public_folder: "/uploads/press"
@@ -4941,6 +4972,8 @@ collections:
     create: true
     delete: true
     slug: "{{slug}}"
+    identifier_field: "offer_title"
+    summary: "{{partner_name}} — {{offer_title}}"
     description: "Zniżki i oferty od partnerów dla uczestników CERBERUS K9."
     fields:
       - name: "partner_name"

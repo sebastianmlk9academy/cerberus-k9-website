@@ -113,6 +113,7 @@ const partners: Partner[] = sorted.map((entry, i) => {
 			lang={lang}
 			partners={partners}
 			embedded
+			/* Canonical sponsor source: kontakt_content. Global settings stay as legacy fallback. */
 			sponsorOfferPdf={kc?.sponsor_offer_pdf ?? s?.sponsor_offer_pdf}
 			sponsorContactEmail={kc?.sponsor_contact_email ?? s?.sponsor_contact_email}
 			cmsSections={cmsPartnerSections}
