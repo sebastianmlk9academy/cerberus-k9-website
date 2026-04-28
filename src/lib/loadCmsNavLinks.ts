@@ -5,7 +5,6 @@ export type CmsNavBarLink = {
 	label_pl: string;
 	label_en: string;
 	path: string;
-	target?: boolean;
 };
 
 export async function loadCmsNavLinks(): Promise<CmsNavBarLink[] | null> {
@@ -23,7 +22,6 @@ export async function loadCmsNavLinks(): Promise<CmsNavBarLink[] | null> {
 				path: String(l.path ?? '')
 					.replace(/^\//, '')
 					.replace(/\/$/, ''),
-				target: l.target === true,
 			}))
 			.filter((l) => l.path.length > 0);
 	} catch {
