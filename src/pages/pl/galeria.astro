@@ -155,7 +155,7 @@ const ogImage = bestGalleryPhoto?.photo ?? '/images/page_hero_graph.webp';
 			heroOpacity={s?.hero_background_opacity}
 		/>
 		<GalleryGrid
-			client:load
+			client:visible
 			lang={lang}
 			photos={photos}
 			cmsFilters={cmsGalleryFilters.length > 0 ? cmsGalleryFilters : undefined}
@@ -182,7 +182,6 @@ const ogImage = bestGalleryPhoto?.photo ?? '/images/page_hero_graph.webp';
 			krsNumber={s?.krs_number}
 			nipNumber={s?.nip_number}
 			regonNumber={s?.regon_number}
-			client:load
 		/>
 	</div>
 
