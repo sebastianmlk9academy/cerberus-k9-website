@@ -1205,6 +1205,8 @@ collections:
     label: "🏠 Strona Główna — Karty Programu"
     description: "Trzy karty sekcji programu na stronie głównej (K9, TCCC, Drony)."
     folder: "src/content/homepage_cards"
+    identifier_field: "title_pl"
+    summary: "{{title_pl}} — {{category}} ({{order}})"
     create: true
     delete: true
     slug: "{{slug}}"
@@ -1536,6 +1538,8 @@ collections:
     label: "🏠 Strona Główna — Statystyki"
     description: "Cztery liczby w pasku statystyk (250+, 15+ krajów itd.)."
     folder: "src/content/homepage_stats"
+    identifier_field: "stat_key"
+    summary: "{{stat_key}} — {{value}}"
     create: true
     delete: true
     slug: "{{slug}}"
