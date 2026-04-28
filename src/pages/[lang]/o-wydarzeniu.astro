@@ -189,11 +189,14 @@ const eventSchema = {
 					{(() => {
 						const heading = copy.sectionTitle;
 						const parts = heading.split('K9');
+						const suffix = (parts[1] ?? '').replace(/^\s+([?!:;,.])/u, '$1');
+						const leadingPunctuationMatch = suffix.match(/^[?!:;,.]/u);
+						const leadingPunctuation = leadingPunctuationMatch?.[0] ?? '';
+						const suffixWithoutLeadingPunctuation = leadingPunctuation ? suffix.slice(1) : suffix;
 						return (
 							<>
 								{parts[0]}
-								<span style={{ color: '#C42B2B' }}>K9</span>
-								{parts[1] ?? ''}
+								<span style={{ color: '#C42B2B' }}>K9</span>{`${leadingPunctuation}${suffixWithoutLeadingPunctuation}`}
 							</>
 						);
 					})()}
