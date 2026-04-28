@@ -554,7 +554,7 @@ export function ContactPage({
           <article className="ck9-info-card">
             <h3 className="ck9-card-title">{c.addressTitle}</h3>
             <p className="ck9-card-line">{foundationName ?? "Fundacja PACTA K9"}</p>
-            <p className="ck9-card-line">{addressStreet ?? "ul. Odolanowska 8"}</p>
+            <p className="ck9-card-line">{addressStreet ?? "ul. Odolanowska 17"}</p>
             <p className="ck9-card-line">
               {addressZip ?? "63-400"} {addressCity ?? "Ostrów Wielkopolski"}
             </p>
