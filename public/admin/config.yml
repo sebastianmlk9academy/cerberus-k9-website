@@ -136,17 +136,17 @@ collections:
               - name: "hero_meta_locations"
                 label: "📍 Meta hero — lokalizacje"
                 widget: "text"
-                hint: "Rezerwa pod spięcie trzech meta-bloków hero z CMS."
+                hint: "Pole rezerwowe (obecnie nieużywane w UI). Możesz zostawić puste."
                 required: false
               - name: "hero_meta_delegations"
                 label: "🤝 Meta hero — delegacje"
                 widget: "text"
-                hint: "Rezerwa pod treść meta wiersza o delegacjach."
+                hint: "Pole rezerwowe (obecnie nieużywane w UI). Możesz zostawić puste."
                 required: false
               - name: "hero_meta_entry"
                 label: "🎫 Meta hero — wejście"
                 widget: "text"
-                hint: "Rezerwa pod treść meta wiersza o wejściu/wstępie."
+                hint: "Pole rezerwowe (obecnie nieużywane w UI). Możesz zostawić puste."
                 required: false
               - name: "hero_background_image"
                 label: "🖼️ Tło sekcji Hero"
@@ -207,7 +207,7 @@ collections:
               - name: "hero_video_url"
                 label: "🎥 Hero wideo (legacy)"
                 widget: "string"
-                hint: "Starsze pole — kompatybilność."
+                hint: "Pole legacy/rezerwa. Aktywne źródło to `hero_video_href`. Możesz zostawić puste."
                 required: false
 
           - name: "sekcja_statystyki"
@@ -419,7 +419,7 @@ collections:
                 hint: >
                   📍 Gdzie: legacy fallback dla panelu /rejestracja.
                   ⚠️ Ważne: kanoniczna edycja rejestracji jest w kolekcji „📋 Rejestracja — Informacje Boczne”.
-                  ✏️ Przykład: REJESTRACJA DO 31.05.2026
+                  ✏️ Przykład: REJESTRACJA DO 31.05.2026 (pole może być puste)
                 required: false
               - name: "registration_date_display"
                 label: "📅 Rejestracja — wyświetlany termin (legacy)"
@@ -502,7 +502,7 @@ collections:
               - name: "current_competitor"
                 label: "🏅 Aktualny uczestnik (LIVE)"
                 widget: "string"
-                hint: "Tekst relacji na żywo po podpięciu UI."
+                hint: "Pole dla trybu LIVE; gdy LIVE nieużywany, zostaw puste."
                 required: false
               - name: "notification_bar_active"
                 label: "📣 Pasek powiadomień"
@@ -513,12 +513,12 @@ collections:
               - name: "notification_bar_text"
                 label: "📣 Tekst paska"
                 widget: "string"
-                hint: "Treść paska nad stroną gdy aktywny."
+                hint: "Opcjonalne. Wypełnij tylko gdy `notification_bar_active = true`."
                 required: false
               - name: "notification_bar_url"
                 label: "📣 Link paska"
                 widget: "string"
-                hint: "URL po kliknięciu paska; Wklej pełny adres URL z https://"
+                hint: "Opcjonalne. Wypełnij tylko gdy pasek powiadomień jest aktywny."
                 required: false
                 pattern:
                   - "^https?://.*"
@@ -556,7 +556,7 @@ collections:
               - name: "social_instagram"
                 label: "📸 Instagram URL"
                 widget: "string"
-                hint: "Ikona Instagram w stopce; puste = fallback."
+                hint: "Opcjonalne. Jeśli nie używasz Instagrama, zostaw puste."
                 required: false
                 pattern:
                   - "^https?://.*"
@@ -564,7 +564,7 @@ collections:
               - name: "social_linkedin"
                 label: "💼 LinkedIn URL"
                 widget: "string"
-                hint: "Ikona LinkedIn w stopce."
+                hint: "Opcjonalne. Jeśli nie używasz LinkedIn, zostaw puste."
                 required: false
                 pattern:
                   - "^https?://.*"
@@ -572,7 +572,7 @@ collections:
               - name: "social_twitter"
                 label: "🐦 X / Twitter URL"
                 widget: "string"
-                hint: "Ikona X w stopce."
+                hint: "Opcjonalne. Jeśli nie używasz X/Twitter, zostaw puste."
                 required: false
                 pattern:
                   - "^https?://.*"
@@ -820,7 +820,7 @@ collections:
               - name: "sponsor_offer_pdf"
                 label: "📎 Oferta sponsorska (PDF, legacy)"
                 widget: "string"
-                hint: "Legacy fallback. Kanoniczna edycja: kolekcja „✉️ Kontakt — Treści”."
+                hint: "Legacy fallback. Opcjonalne — zostaw puste, jeśli brak PDF."
                 required: false
               - name: "sponsor_contact_email"
                 label: "✉️ E-mail sponsoring (legacy)"
@@ -838,7 +838,7 @@ collections:
               - name: "contact_form_endpoint"
                 label: "📮 Formularz — endpoint POST (legacy)"
                 widget: "string"
-                hint: "Legacy fallback. Kanoniczna edycja endpointu: kolekcja „✉️ Kontakt — Treści”."
+                hint: "Legacy fallback. Puste = standardowy mechanizm formularza (bez custom endpoint)."
                 required: false
               - name: "contact_form_recipient"
                 label: "📮 Formularz — odbiorca (legacy)"
@@ -873,7 +873,7 @@ collections:
               - name: "contact_phone_mariusz"
                 label: "📞 Telefon — Mariusz"
                 widget: "string"
-                hint: "Telefon prezesa."
+                hint: "Opcjonalne. Zostaw puste, jeśli numer nie ma być publiczny."
                 required: false
               - name: "contact_president_email"
                 label: "✉️ E-mail prezesa (Mariusz)"
