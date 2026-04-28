@@ -1714,6 +1714,8 @@ collections:
     folder: "src/content/locations"
     create: true
     slug: "{{slug}}"
+    identifier_field: "name"
+    summary: "{{name}} — {{city}} ({{order}})"
     extension: "md"
     format: "frontmatter"
     fields:
@@ -1889,6 +1891,7 @@ collections:
     create: true
     delete: true
     slug: "{{day}}-{{slug}}"
+    summary: "{{day}} {{time_start}} — {{title_pl}}"
     preview_path: "/pl/o-wydarzeniu#agenda"
     extension: "md"
     format: "frontmatter"
@@ -2426,6 +2429,7 @@ collections:
     folder: "src/content/faq"
     create: true
     slug: "{{slug}}"
+    summary: "{{question_pl}} ({{order}})"
     extension: "md"
     format: "frontmatter"
     fields:
@@ -2471,6 +2475,7 @@ collections:
     create: true
     slug: "{{slug}}"
     identifier_field: "name"
+    summary: "{{name}} — {{country}} ({{order}})"
     extension: "md"
     format: "frontmatter"
     fields:
@@ -2731,6 +2736,8 @@ collections:
     folder: "src/content/team"
     create: true
     slug: "{{slug}}"
+    identifier_field: "name"
+    summary: "{{name}} — {{role}} ({{order}})"
     extension: "md"
     format: "frontmatter"
     fields:
@@ -2943,6 +2950,7 @@ collections:
     create: true
     slug: "{{slug}}"
     identifier_field: "name"
+    summary: "{{name}} — {{type}} ({{order}})"
     extension: "md"
     format: "frontmatter"
     fields:
