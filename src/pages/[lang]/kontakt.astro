@@ -15,6 +15,8 @@ export const prerender = true;
 
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
+const kontaktContent = await getEntry('kontakt_content', 'kontakt_content');
+const kc = kontaktContent?.data;
 const cmsNavLinks = await loadCmsNavLinks();
 
 /** Polish URL is canonical; /pl/kontakt is defined in `src/pages/pl/kontakt.astro`. */
@@ -77,19 +79,32 @@ const contactAddressLine =
 	/>
 	<ContactPage
 		lang={lang}
-		email={s?.footer_email ?? s?.registration_contact_email}
-		phone={s?.contact_phone_sebastian || '+48 695 637 907'}
+		email={kc?.contact_email ?? s?.footer_email ?? s?.registration_contact_email}
+		phone={(kc?.contact_phone ?? s?.contact_phone_sebastian) || '+48 695 637 907'}
 		address={contactAddressLine}
-		mapEmbedUrl={s?.contact_map_embed_url}
+		mapEmbedUrl={kc?.contact_map_embed_url ?? s?.contact_map_embed_url}
 		venueAddress={s?.contact_venue_address}
 		presidentEmail={
+			kc?.president_email ||
 			s?.contact_president_email ||
 			s?.president_email ||
 			'mariusz@pactak9.org'
 		}
-		contactFormEndpoint={s?.contact_form_endpoint}
-		contactFormRecipient={s?.contact_form_recipient}
-		gdprConsentText={lang === 'pl' ? s?.contact_gdpr_text_pl : s?.contact_gdpr_text_en}
+		contactFormEndpoint={kc?.contact_form_endpoint ?? s?.contact_form_endpoint}
+		contactFormRecipient={kc?.contact_form_recipient ?? s?.contact_form_recipient}
+		gdprConsentText={lang === 'pl' ? (kc?.contact_gdpr_text_pl ?? s?.contact_gdpr_text_pl) : (kc?.contact_gdpr_text_en ?? s?.contact_gdpr_text_en)}
+		formLabels={lang === 'pl' ? {
+			name: kc?.form_name_label_pl,
+			email: kc?.form_email_label_pl,
+			subject: kc?.form_subject_label_pl,
+			message: kc?.form_message_label_pl,
+			submit: kc?.form_submit_label_pl,
+			success: kc?.form_success_pl,
+			error: kc?.form_error_pl,
+			subjectOptions: kc?.form_subject_options_pl,
+			sectionMedia: kc?.section_media_title_pl,
+			sectionPartnership: kc?.section_partnership_title_pl,
+		} : undefined}
 		client:load
 	/>
 	<Footer

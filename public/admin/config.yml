@@ -724,19 +724,19 @@ collections:
                       ⚠️ Ważne: bez prefiksu języka.
                       ✏️ Przykład: kontakt
               - name: "media_contact_name"
-                label: "👤 Kontakt media — nazwa"
+                label: "👤 Kontakt media — nazwa (legacy)"
                 widget: "string"
-                hint: "Blok dla mediów na /media."
+                hint: "Legacy fallback. Kanoniczna edycja: kolekcja „✉️ Kontakt — Treści”."
                 required: false
               - name: "media_contact_phone"
-                label: "📞 Kontakt media — telefon"
+                label: "📞 Kontakt media — telefon (legacy)"
                 widget: "string"
-                hint: "Telefon dla dziennikarzy."
+                hint: "Legacy fallback. Kanoniczna edycja: kolekcja „✉️ Kontakt — Treści”."
                 required: false
               - name: "media_contact_email"
-                label: "✉️ Kontakt media — e-mail"
+                label: "✉️ Kontakt media — e-mail (legacy)"
                 widget: "string"
-                hint: "E-mail akredytacji."
+                hint: "Legacy fallback. Kanoniczna edycja: kolekcja „✉️ Kontakt — Treści”."
                 required: false
               - name: "sekcja_media_etykiety_pl"
                 label: "📰 Media — etykiety sekcji (PL)"
@@ -818,14 +818,14 @@ collections:
                 hint: "Link do artykułu PDF."
                 required: false
               - name: "sponsor_offer_pdf"
-                label: "📎 Oferta sponsorska (PDF)"
+                label: "📎 Oferta sponsorska (PDF, legacy)"
                 widget: "string"
-                hint: "PDF oferty dla sponsorów /partnerzy."
+                hint: "Legacy fallback. Kanoniczna edycja: kolekcja „✉️ Kontakt — Treści”."
                 required: false
               - name: "sponsor_contact_email"
-                label: "✉️ E-mail sponsoring"
+                label: "✉️ E-mail sponsoring (legacy)"
                 widget: "string"
-                hint: "Kontakt ds. sponsorowania."
+                hint: "Legacy fallback. Kanoniczna edycja: kolekcja „✉️ Kontakt — Treści”."
                 required: false
               - name: "contact_map_embed_url"
                 label: "🗺️ Kontakt — embed mapy"
@@ -836,24 +836,24 @@ collections:
                   - "^https?://.*"
                   - "Wklej pełny adres URL z https://"
               - name: "contact_form_endpoint"
-                label: "📮 Formularz — endpoint POST"
+                label: "📮 Formularz — endpoint POST (legacy)"
                 widget: "string"
-                hint: "Pusty = Netlify Forms; inny URL = własny backend."
+                hint: "Legacy fallback. Kanoniczna edycja endpointu: kolekcja „✉️ Kontakt — Treści”."
                 required: false
               - name: "contact_form_recipient"
-                label: "📮 Formularz — odbiorca"
+                label: "📮 Formularz — odbiorca (legacy)"
                 widget: "string"
-                hint: "E-mail odbiorcy zgłoszeń."
+                hint: "Legacy fallback. Kanoniczna edycja odbiorcy: kolekcja „✉️ Kontakt — Treści”."
                 required: false
               - name: "contact_gdpr_text_pl"
-                label: "⚖️ Zgoda RODO (PL)"
+                label: "⚖️ Zgoda RODO (PL, legacy)"
                 widget: "string"
-                hint: "Tekst zgody przy formularzu PL."
+                hint: "Legacy fallback. Kanoniczna edycja: kolekcja „✉️ Kontakt — Treści”."
                 required: false
               - name: "contact_gdpr_text_en"
-                label: "⚖️ Zgoda RODO (EN)"
+                label: "⚖️ Zgoda RODO (EN, legacy)"
                 widget: "string"
-                hint: "Tekst zgody przy formularzu EN."
+                hint: "Legacy fallback. Kanoniczna edycja: kolekcja „✉️ Kontakt — Treści”."
                 required: false
               - name: "venue_address"
                 label: "🏟️ Adres miejsca wydarzenia"

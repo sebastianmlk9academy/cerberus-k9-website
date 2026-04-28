@@ -39,19 +39,20 @@ const description = 'Skontaktuj się z Fundacją PACTA K9 i zespołem CERBERUS K
 	/>
 	<ContactPage
 		lang={lang}
-		email={s?.footer_email ?? s?.registration_contact_email}
-		phone={s?.contact_phone_sebastian || '+48 695 637 907'}
+		email={kc?.contact_email ?? s?.footer_email ?? s?.registration_contact_email}
+		phone={(kc?.contact_phone ?? s?.contact_phone_sebastian) || '+48 695 637 907'}
 		address={contactAddressLine}
-		mapEmbedUrl={s?.contact_map_embed_url}
+		mapEmbedUrl={kc?.contact_map_embed_url ?? s?.contact_map_embed_url}
 		venueAddress={s?.contact_venue_address}
 		presidentEmail={
+			kc?.president_email ||
 			s?.contact_president_email ||
 			s?.president_email ||
 			'mariusz@pactak9.org'
 		}
-		contactFormEndpoint={s?.contact_form_endpoint}
-		contactFormRecipient={s?.contact_form_recipient}
-		gdprConsentText={s?.contact_gdpr_text_pl}
+		contactFormEndpoint={kc?.contact_form_endpoint ?? s?.contact_form_endpoint}
+		contactFormRecipient={kc?.contact_form_recipient ?? s?.contact_form_recipient}
+		gdprConsentText={kc?.contact_gdpr_text_pl ?? s?.contact_gdpr_text_pl}
 		formLabels={{
 			name: kc?.form_name_label_pl,
 			email: kc?.form_email_label_pl,

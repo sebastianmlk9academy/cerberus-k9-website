@@ -23,6 +23,8 @@ const { lang: paramLang } = Astro.params;
 const lang: Lang = isLang(paramLang ?? '') ? (paramLang as Lang) : 'en';
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
+const kontaktContent = await getEntry('kontakt_content', 'kontakt_content');
+const kc = kontaktContent?.data;
 const cmsNavLinks = await loadCmsNavLinks();
 
 const archiveEntries = await getCollection('media_archive');
@@ -65,7 +67,7 @@ const navMedia = (ui[lang] ?? ui['pl']).nav_media;
 			client:load
 			lang={lang}
 			mediaArchive={mediaArchive}
-			accreditationDeadline={s?.accreditation_deadline}
+			accreditationDeadline={kc?.accreditation_deadline ?? s?.accreditation_deadline}
 			pressKitItems={[
 				{
 					title: 'Polska Zbrojna — Reportaż CERBERUS K9 2025',
@@ -84,9 +86,9 @@ const navMedia = (ui[lang] ?? ui['pl']).nav_media;
 			pressKitZip={s?.press_kit_zip}
 			pressPdfPolskaZbrojna={s?.press_pdf_polska_zbrojna}
 			pressPdfSpecialOps={s?.press_pdf_special_ops}
-			mediaContactName={s?.media_contact_name}
-			mediaContactPhone={s?.media_contact_phone}
-			mediaContactEmail={s?.media_contact_email}
+			mediaContactName={kc?.media_contact_name ?? s?.media_contact_name}
+			mediaContactPhone={kc?.media_contact_phone ?? s?.media_contact_phone}
+			mediaContactEmail={kc?.media_contact_email ?? s?.media_contact_email}
 			mediaLabelsPl={{
 				fullMaterials: lang === 'pl' ? s?.media_label_full_materials_pl : undefined,
 				contactAccreditation: lang === 'pl' ? s?.media_label_contact_accreditation_pl : undefined,

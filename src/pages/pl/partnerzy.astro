@@ -12,6 +12,8 @@ export const prerender = true;
 
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
+const kontaktContent = await getEntry('kontakt_content', 'kontakt_content');
+const kc = kontaktContent?.data;
 const cmsNavLinks = await loadCmsNavLinks();
 
 const lang = 'pl';
@@ -104,8 +106,8 @@ const partners: Partner[] = sorted.map((entry, i) => {
 		lang={lang}
 		partners={partners}
 		embedded
-		sponsorOfferPdf={s?.sponsor_offer_pdf}
-		sponsorContactEmail={s?.sponsor_contact_email}
+		sponsorOfferPdf={kc?.sponsor_offer_pdf ?? s?.sponsor_offer_pdf}
+		sponsorContactEmail={kc?.sponsor_contact_email ?? s?.sponsor_contact_email}
 		cmsSections={cmsPartnerSections}
 	/>
 	<Footer
