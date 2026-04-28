@@ -260,7 +260,6 @@ export default function MediaPage({
       {/* SECTION 1 — PRESS KIT */}
       <section
         style={{
-          background: '#0F1720',
           border: '2px solid #C4922A',
           padding: '40px',
           marginBottom: '56px',
@@ -428,7 +427,6 @@ export default function MediaPage({
       >
         <div
           style={{
-            background: '#0F1720',
             border: '1px solid #253344',
             padding: '28px',
           }}
@@ -482,7 +480,6 @@ export default function MediaPage({
 
         <div
           style={{
-            background: '#0F1720',
             border: '1px solid #253344',
             padding: '28px',
           }}
@@ -626,7 +623,6 @@ export default function MediaPage({
             <div
               key={`${item.outlet}-${item.badge ?? item.type ?? 'media'}-${item.href}`}
               style={{
-                background: '#0F1720',
                 border: '1px solid #253344',
                 padding: '22px',
                 display: 'flex',
