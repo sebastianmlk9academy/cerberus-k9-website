@@ -41,7 +41,15 @@ type GalleryGridProps = {
   lang: Lang;
   photos: PhotoItem[];
   unlockDate?: string;
-  videoItems?: Array<{ title?: string; url?: string; badge?: string }>;
+  videoItems?: Array<{ title?: string; url?: string; badge?: string; thumbnail?: string }>;
+  pressItems?: Array<{
+    outlet: string;
+    outlet_logo?: string;
+    url?: string;
+    date?: string;
+    description?: string;
+    title?: string;
+  }>;
   cmsFilters?: CmsGalleryFilter[];
 };
 
@@ -417,30 +425,40 @@ function resolveGalleryLabels(lang: Lang): GalleryLabels {
   return { ...galleryLabelsEn, ...core };
 }
 
-const fallbackVideoItems = [
+const fallbackVideoItems: Array<{
+  title: string;
+  badge: string;
+  embedUrl: string;
+  id: string;
+  thumbUrl: string | null;
+}> = [
   {
     title: "CERBERUS K9 2025 - Główna relacja",
     badge: "POLSKA ZBROJNA · PATRON MEDIALNY",
     embedUrl: "https://www.youtube.com/embed/kUhqmGhrbas",
     id: "kUhqmGhrbas",
+    thumbUrl: null,
   },
   {
     title: "TVP — Relacja z CERBERUS K9 2025",
     badge: "TVP",
     embedUrl: "https://www.youtube.com/embed/Fo-j5vGI0m4",
     id: "Fo-j5vGI0m4",
+    thumbUrl: null,
   },
   {
     title: "Polskie Radio — Reportaż i wywiad",
     badge: "Polskie Radio",
     embedUrl: "https://www.youtube.com/embed/lf-Aek_TSzI",
     id: "lf-Aek_TSzI",
+    thumbUrl: null,
   },
   {
     title: "TVN — Fakty",
     badge: "TVN",
     embedUrl: "https://www.youtube.com/embed/aNG1UVyOqNA",
     id: "aNG1UVyOqNA",
+    thumbUrl: null,
   },
 ];
 
@@ -532,7 +550,14 @@ function toYoutubeVideoId(url: string): string | null {
   return null;
 }
 
-export function GalleryGrid({ photos, lang, unlockDate, videoItems, cmsFilters }: GalleryGridProps) {
+export function GalleryGrid({
+  photos,
+  lang,
+  unlockDate,
+  videoItems,
+  cmsFilters,
+  pressItems = [],
+}: GalleryGridProps) {
   const mainFilterIds: string[] =
     cmsFilters && cmsFilters.length > 0
       ? cmsFilters.map((f) => f.key)
@@ -552,11 +577,13 @@ export function GalleryGrid({ photos, lang, unlockDate, videoItems, cmsFilters }
           .map((v) => {
             const url = (v.url ?? "").trim();
             const id = toYoutubeVideoId(url) ?? "";
+            const thumb = (v.thumbnail ?? "").trim();
             return {
               title: v.title?.trim() || "Video",
               badge: v.badge?.trim() || "",
               embedUrl: id ? `https://www.youtube.com/embed/${id}` : url,
               id: id || url,
+              thumbUrl: thumb || null,
             };
           })
       : fallbackVideoItems);
@@ -1026,7 +1053,12 @@ export function GalleryGrid({ photos, lang, unlockDate, videoItems, cmsFilters }
             >
               <div className="video-thumb">
                 <img
-                  src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
+                  src={
+                    video.thumbUrl ||
+                    (video.id && !String(video.id).includes("/")
+                      ? `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`
+                      : "")
+                  }
                   alt={video.title}
                   loading="lazy"
                 />
@@ -1064,6 +1096,48 @@ export function GalleryGrid({ photos, lang, unlockDate, videoItems, cmsFilters }
           ))}
         </div>
       </section>
+
+      {pressItems.length > 0 && (
+        <div className="press-section">
+          <div className="video-pretitle-wrap">
+            <div className="video-pretitle-line" />
+            <span className="video-pretitle">
+              {lang === "pl" ? "PRASA" : lang === "en" ? "PRESS" : lang === "de" ? "MEDIEN" : "PRESS"}
+            </span>
+            <div className="video-pretitle-line" />
+          </div>
+          <h3 className="press-section-heading">
+            {lang === "pl"
+              ? "RELACJE MEDIALNE"
+              : lang === "en"
+                ? "MEDIA COVERAGE"
+                : lang === "de"
+                  ? "MEDIENBERICHTE"
+                  : "MEDIA COVERAGE"}
+          </h3>
+          <div className="press-grid">
+            {pressItems.map((item, idx) => (
+              <a
+                key={idx}
+                href={item.url?.trim() ? item.url : "#"}
+                target={item.url?.trim() ? "_blank" : undefined}
+                rel="noopener noreferrer"
+                className="press-card"
+              >
+                {item.outlet_logo ? (
+                  <img src={item.outlet_logo} alt={item.outlet} className="press-logo" loading="lazy" />
+                ) : null}
+                <div className="press-info">
+                  {item.outlet ? <span className="press-outlet">{item.outlet}</span> : null}
+                  {item.date ? <span className="press-date">{item.date}</span> : null}
+                  {item.title ? <p className="press-title">{item.title}</p> : null}
+                  {item.description ? <p className="press-description">{item.description}</p> : null}
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
 
       {modalVideo && (
         <div
@@ -1428,6 +1502,70 @@ export function GalleryGrid({ photos, lang, unlockDate, videoItems, cmsFilters }
         .video-badge {
           letter-spacing: 0.2px;
         }
+        .press-section {
+          margin-top: 28px;
+          background: transparent;
+        }
+        .press-section-heading {
+          margin: 0 0 12px;
+          font-family: var(--font-rajdhani), sans-serif;
+          font-size: clamp(1.5rem, 3vw, 32px);
+          font-weight: 700;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          color: #e4ddd0;
+          text-align: center;
+        }
+        .press-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+          gap: clamp(8px, 1.4vw, 16px);
+          width: 100%;
+          min-width: 0;
+        }
+        .press-card {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          padding: 14px;
+          border: 1px solid #253344;
+          background: transparent;
+          color: inherit;
+          text-decoration: none;
+          min-height: 120px;
+        }
+        .press-logo {
+          max-height: 48px;
+          width: auto;
+          object-fit: contain;
+          align-self: flex-start;
+        }
+        .press-info {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+        .press-outlet {
+          font-weight: 700;
+          color: #c4922a;
+          font-size: 12px;
+          letter-spacing: 0.5px;
+        }
+        .press-date {
+          font-size: 11px;
+          color: #9ca9b4;
+        }
+        .press-title {
+          margin: 0;
+          font-size: 13px;
+          color: #e4ddd0;
+        }
+        .press-description {
+          margin: 0;
+          font-size: 11px;
+          color: #b8c0c8;
+          line-height: 1.4;
+        }
         @media (min-width: 1024px) {
           .gallery-grid-wrap {
             width: 100%;
@@ -1442,6 +1580,10 @@ export function GalleryGrid({ photos, lang, unlockDate, videoItems, cmsFilters }
             gap: clamp(8px, 0.9vw, 14px);
           }
           .video-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: clamp(10px, 1vw, 16px);
+          }
+          .press-grid {
             grid-template-columns: repeat(4, minmax(0, 1fr));
             gap: clamp(10px, 1vw, 16px);
           }

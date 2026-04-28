@@ -49,10 +49,10 @@ const scorePhoto = (photo: {
 const galleryContentFiles = import.meta.glob('/src/content/galeria/**/*.{md,mdx,json,yaml,yml}');
 const hasGalleryContent = Object.keys(galleryContentFiles).length > 0;
 
-let allEntries = [];
+let allGalleryItems: Awaited<ReturnType<typeof getCollection<'galeria'>>> = [];
 if (hasGalleryContent) {
 	try {
-		allEntries = await getCollection('galeria');
+		allGalleryItems = await getCollection('galeria', ({ data }) => data.active !== false);
 	} catch {
 		// Keep page renderable even if content parsing fails.
 	}
@@ -82,18 +82,51 @@ try {
 	console.warn('gallery_filters not loaded, using hardcode fallback');
 }
 
-const photos = allEntries
-	.map((entry) => ({
-		title: entry.data.title,
-		category: entry.data.category,
-		location: entry.data.location,
-		edition: entry.data.edition,
-		photo: entry.data.photo,
-		alt: entry.data.alt,
-		tags: entry.data.tags ?? [],
-		order: entry.data.order ?? 99,
+const photos = allGalleryItems
+	.filter((i) => !i.data.media_type || i.data.media_type === 'photo')
+	.sort((a, b) => (a.data.order ?? 100) - (b.data.order ?? 100))
+	.map((i) => ({
+		title: i.data.title ?? '',
+		category: i.data.category ?? 'OGOLNE',
+		location: i.data.location ?? '',
+		edition: i.data.edition ?? '2026',
+		photo: i.data.photo ?? '',
+		alt: i.data.alt ?? i.data.title ?? '',
+		tags: i.data.tags ?? [],
+		order: i.data.order ?? 100,
 	}))
-	.sort((a, b) => a.order - b.order);
+	.filter((p) => p.photo.trim() !== '');
+
+const cmsVideoItems = allGalleryItems
+	.filter((i) => i.data.media_type === 'video' && i.data.video_url)
+	.sort((a, b) => (a.data.order ?? 100) - (b.data.order ?? 100))
+	.map((i) => ({
+		title: i.data.title ?? '',
+		url: i.data.video_url ?? '',
+		thumbnail: i.data.video_thumbnail ?? '',
+		badge: i.data.press_outlet ?? '',
+	}));
+
+const pressItems = allGalleryItems
+	.filter((i) => i.data.media_type === 'press')
+	.sort((a, b) => (a.data.order ?? 100) - (b.data.order ?? 100))
+	.map((i) => ({
+		outlet: i.data.press_outlet ?? '',
+		outlet_logo: i.data.press_outlet_logo ?? '',
+		url: i.data.press_url ?? '',
+		date: i.data.press_date ?? '',
+		description: i.data.press_description ?? '',
+		title: i.data.title ?? '',
+	}));
+
+const existingVideoItemsFromSettings = [
+	{ title: s?.gallery_video_1_title, url: s?.gallery_video_1_url, badge: s?.gallery_video_1_badge },
+	{ title: s?.gallery_video_2_title, url: s?.gallery_video_2_url, badge: s?.gallery_video_2_badge },
+	{ title: s?.gallery_video_3_title, url: s?.gallery_video_3_url, badge: s?.gallery_video_3_badge },
+	{ title: s?.gallery_video_4_title, url: s?.gallery_video_4_url, badge: s?.gallery_video_4_badge },
+].filter((v) => v.url);
+
+const videoItems = cmsVideoItems.length > 0 ? cmsVideoItems : existingVideoItemsFromSettings;
 
 const bestGalleryPhoto = [...photos].sort((a, b) => scorePhoto(b) - scorePhoto(a))[0];
 const ogImage = bestGalleryPhoto?.photo ?? '/images/page_hero_graph.webp';
@@ -127,12 +160,8 @@ const ogImage = bestGalleryPhoto?.photo ?? '/images/page_hero_graph.webp';
 			photos={photos}
 			cmsFilters={cmsGalleryFilters.length > 0 ? cmsGalleryFilters : undefined}
 			unlockDate={s?.gallery_unlock_date}
-			videoItems={[
-				{ title: s?.gallery_video_1_title, url: s?.gallery_video_1_url, badge: s?.gallery_video_1_badge },
-				{ title: s?.gallery_video_2_title, url: s?.gallery_video_2_url, badge: s?.gallery_video_2_badge },
-				{ title: s?.gallery_video_3_title, url: s?.gallery_video_3_url, badge: s?.gallery_video_3_badge },
-				{ title: s?.gallery_video_4_title, url: s?.gallery_video_4_url, badge: s?.gallery_video_4_badge },
-			].filter((v) => v.url)}
+			videoItems={videoItems}
+			pressItems={pressItems}
 		/>
 		<Footer
 			lang={lang}

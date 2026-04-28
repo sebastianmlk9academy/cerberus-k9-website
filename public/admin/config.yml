@@ -2909,6 +2909,72 @@ collections:
           search_fields: ["label_pl", "key"]
           value_field: "key"
           display_fields: ["label_pl"]
+      - name: "media_type"
+        label: "🎬 Typ zawartości"
+        widget: "select"
+        default: "photo"
+        required: true
+        hint: >
+          📸 photo = zdjęcie z wydarzenia
+          🎬 video = film YouTube/Vimeo
+          📰 press = relacja medialna (artykuł, TV, radio)
+          ⚠️ Wypełnij tylko pola odpowiednie dla wybranego typu!
+        options:
+          - { label: "📸 Zdjęcie", value: "photo" }
+          - { label: "🎬 Film wideo", value: "video" }
+          - { label: "📰 Relacja medialna", value: "press" }
+      - name: "video_url"
+        label: "▶️ URL wideo [TYLKO dla: Film wideo]"
+        widget: "string"
+        required: false
+        hint: >
+          ✏️ https://www.youtube.com/watch?v=XXXXX
+          lub https://youtu.be/XXXXX
+          ⚠️ Wypełnij TYLKO jeśli wybrałeś typ 'Film wideo'!
+      - name: "video_platform"
+        label: "📺 Platforma [TYLKO dla: Film wideo]"
+        widget: "select"
+        required: false
+        default: "youtube"
+        options:
+          - { label: "YouTube", value: "youtube" }
+          - { label: "Vimeo", value: "vimeo" }
+      - name: "video_thumbnail"
+        label: "🖼️ Miniatura wideo (opcjonalna)"
+        widget: "image"
+        required: false
+        choose_url: true
+        hint: "Puste = miniatura z YouTube automatycznie. WebP 640x360px."
+        media_folder: "public/uploads/galeria/video"
+        public_folder: "/uploads/galeria/video"
+      - name: "press_outlet"
+        label: "📰 Nazwa medium [TYLKO dla: Relacja]"
+        widget: "string"
+        required: false
+        hint: "✏️ Np. TVP Poznań, Radio Merkury, Polska Zbrojna"
+      - name: "press_outlet_logo"
+        label: "🖼️ Logo medium"
+        widget: "image"
+        required: false
+        choose_url: true
+        hint: "WebP 300x100px."
+        media_folder: "public/uploads/media_logos"
+        public_folder: "/uploads/media_logos"
+      - name: "press_url"
+        label: "🔗 Link do relacji [TYLKO dla: Relacja]"
+        widget: "string"
+        required: false
+        hint: "Pełny URL. Musi zaczynać się od https://"
+      - name: "press_date"
+        label: "📅 Data relacji"
+        widget: "string"
+        required: false
+        hint: "✏️ Np. 2026-06-15"
+      - name: "press_description"
+        label: "📝 Opis relacji"
+        widget: "text"
+        required: false
+        hint: "Krótki opis pod nazwą medium. Max 150 znaków."
       - name: "order"
         label: "🔢 Kolejność wyświetlania"
         widget: "number"
