@@ -46,6 +46,8 @@ interface HeroSectionProps {
   heroOpacity?: number;
   /** Górny tag (nad H1); fallback: i18n / copy. */
   heroTagline?: string;
+  /** Podlinia pod nagłówkiem hero dla PL; fallback: i18n. */
+  heroSublinePl?: string;
   /** Pierwsza linia H1; fallback: `heroTitle`. */
   heroTitleLine1?: string;
   /** Akcent w drugiej linii (np. K9); fallback: `heroSubtitle`. */
@@ -71,6 +73,7 @@ export function HeroSection(props: HeroSectionProps) {
     heroImage,
     heroOpacity,
     heroTagline,
+    heroSublinePl,
     heroTitleLine1,
     heroTitleLine2,
     heroTitle,
@@ -212,7 +215,7 @@ export function HeroSection(props: HeroSectionProps) {
           color: "#7A8A96",
         }}
       >
-        {((ui[lang] as any)?.hero_free ?? safeCopy.dateLocation)}
+        {heroSublinePl ?? (ui[lang] as any)?.hero_free ?? "WSTĘP BEZPŁATNY"}
       </p>
 
       {/* Section 4: Countdown Timer */}

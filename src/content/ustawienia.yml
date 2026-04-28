@@ -108,7 +108,9 @@ gallery_video_4_badge: ""
 
 # --- Hero / Countdown ---
 hero_title: "CERBERUS"
+hero_tagline: "MIĘDZYNARODOWA PLATFORMA OBRONY · EDYCJA 2026"
 hero_subtitle: "K9"
+hero_subline_pl: "WSTĘP BEZPŁATNY · REJESTRACJA WYMAGANA"
 hero_year: "2026"
 hero_cta_registration_href: "https://pretix.eu/MLK9-LLK9/CERBERUS/"
 hero_cta_program_href: "/pl/o-wydarzeniu#agenda"

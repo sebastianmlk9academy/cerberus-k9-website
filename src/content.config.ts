@@ -385,6 +385,7 @@ const ustawienia = defineCollection({
 		gallery_video_4_url: z.string().optional().default(''),
 		gallery_video_4_badge: z.string().optional().default(''),
 		hero_tagline: z.string().optional(),
+		hero_subline_pl: z.string().optional(),
 		/** Opcjonalny podział tytułu H1; gdy puste — użyj `hero_title` z CMS. */
 		hero_title_line1: z.string().optional(),
 		hero_title_line2: z.string().optional(),

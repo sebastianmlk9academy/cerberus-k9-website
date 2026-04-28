@@ -94,12 +94,25 @@ collections:
             collapsed: false
             fields:
               - name: "hero_tagline"
-                label: "✨ Tekst nad tytułem (tag-line)"
+                label: "✨ Tagline nad tytułem hero"
                 widget: "string"
-                hint: >
-                  📍 Gdzie: czerwona linia nad dużym nagłówkiem hero na stronie głównej (/ i /[lang]).
-                  ✏️ Np. MIĘDZYNARODOWA PLATFORMA OBRONY — krótki, wielkimi literami.
                 required: false
+                default: "MIĘDZYNARODOWE ĆWICZENIA K9 · EDYCJA 2026"
+                pattern: ['^.{0,120}$', "❌ Maksymalnie 120 znaków"]
+                hint: >
+                  📍 Gdzie: małe litery nad 'CERBERUS K9' na stronie głównej, widoczne od razu po wejściu na stronę.
+                  ⚠️ Ważne: max 120 znaków — dłuższy tekst może się źle łamać na małych ekranach.
+                  ✏️ Przykład: MIĘDZYNARODOWE ĆWICZENIA K9 · EDYCJA 2026
+              - name: "hero_subline_pl"
+                label: "📝 Podlinia hero — tekst PL (np. WSTĘP BEZPŁATNY)"
+                widget: "string"
+                required: false
+                default: "WSTĘP BEZPŁATNY · REJESTRACJA WYMAGANA"
+                pattern: ['^.{0,100}$', "❌ Maksymalnie 100 znaków"]
+                hint: >
+                  📍 Gdzie: tekst pod głównym tytułem CERBERUS K9 na stronie głównej.
+                  ⚠️ Ważne: max 100 znaków. Używaj separatora · (Alt+0183).
+                  ✏️ Przykład: WSTĘP BEZPŁATNY · REJESTRACJA WYMAGANA
               - name: "hero_title"
                 label: "🦁 Pierwsza linia tytułu H1"
                 widget: "string"
