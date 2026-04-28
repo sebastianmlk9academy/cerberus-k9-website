@@ -17,6 +17,7 @@ const kc = kontaktContent?.data;
 const cmsNavLinks = await loadCmsNavLinks();
 
 const archiveEntries = await getCollection('media_archive');
+const pressReleaseEntries = await getCollection('press_releases');
 const mediaArchive = archiveEntries
 	.filter((e) => e.data.active !== false)
 	.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
@@ -27,6 +28,24 @@ const mediaArchive = archiveEntries
 		href: e.data.link ?? '#',
 		badge: e.data.badge ?? 'VIDEO',
 		outletLogo: e.data.outlet_logo ?? null,
+	}));
+
+const pressReleases = archiveEntries
+	.filter((e) => e.data.active !== false)
+	.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
+	.map((e) => ({
+		date: e.data.date ?? '',
+		title: e.data.outlet,
+		href: e.data.link ?? '#',
+	}));
+
+const cmsPressReleases = pressReleaseEntries
+	.filter((e) => e.data.active !== false)
+	.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
+	.map((e) => ({
+		date: e.data.date ?? '',
+		title: e.data.title,
+		href: e.data.file_url,
 	}));
 
 const lang = 'pl';
@@ -59,6 +78,7 @@ const description =
 			client:load
 			lang={lang}
 			mediaArchive={mediaArchive}
+			pressReleases={cmsPressReleases.length > 0 ? cmsPressReleases : pressReleases}
 			/* Canonical media-contact source: kontakt_content. Global settings stay as legacy fallback. */
 			accreditationDeadline={kc?.accreditation_deadline ?? s?.accreditation_deadline}
 			pressKitItems={[
