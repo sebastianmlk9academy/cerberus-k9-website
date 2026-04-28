@@ -1360,6 +1360,9 @@ collections:
   - name: "locations"
     label: "🏠 Strona Główna — Lokalizacje"
     description: "Cztery bloki lokalizacji (3MK Arena, Szkoła Mundurowa, Stadion, Orlen)."
+    preview_path: "/pl/o-wydarzeniu"
+    media_folder: "public/uploads/locations"
+    public_folder: "/uploads/locations"
     folder: "src/content/locations"
     create: true
     slug: "{{slug}}"
@@ -1538,7 +1541,7 @@ collections:
     create: true
     delete: true
     slug: "{{day}}-{{slug}}"
-    preview_path: "pl/o-wydarzeniu"
+    preview_path: "/pl/o-wydarzeniu#agenda"
     extension: "md"
     format: "frontmatter"
     fields:
@@ -2050,6 +2053,7 @@ collections:
   - name: "faq"
     label: "📅 O Wydarzeniu — FAQ"
     description: "Pytania i odpowiedzi w sekcji Najczęstsze Pytania na /o-wydarzeniu."
+    preview_path: "/pl/o-wydarzeniu#faq"
     folder: "src/content/faq"
     create: true
     slug: "{{slug}}"
@@ -2091,6 +2095,9 @@ collections:
   - name: "instruktorzy"
     label: "🎖️ Instruktorzy — Profile"
     description: "Karty instruktorów: zdjęcie, kraj, specjalizacje, bio. Dodaj wpis = nowa karta na /instruktorzy."
+    preview_path: "/pl/instruktorzy"
+    media_folder: "public/uploads/instruktorzy"
+    public_folder: "/uploads/instruktorzy"
     folder: "src/content/instruktorzy"
     create: true
     slug: "{{slug}}"
@@ -2279,6 +2286,9 @@ collections:
   - name: "team"
     label: "🏛️ Fundacja — Zarząd"
     description: "Karty członków zarządu Fundacji PACTA K9 na /fundacja."
+    preview_path: "/pl/fundacja"
+    media_folder: "public/uploads/team"
+    public_folder: "/uploads/team"
     folder: "src/content/team"
     create: true
     slug: "{{slug}}"
@@ -2404,6 +2414,9 @@ collections:
   - name: "partnerzy"
     label: "🤝 Partnerzy — Lista"
     description: "Logo, typ, opis i link każdego partnera — /partnerzy i pasek na stronie głównej."
+    preview_path: "/pl/partnerzy"
+    media_folder: "public/uploads/partnerzy"
+    public_folder: "/uploads/partnerzy"
     folder: "src/content/partnerzy"
     create: true
     slug: "{{slug}}"
@@ -2487,6 +2500,7 @@ collections:
   - name: "media_archive"
     label: "📺 Media — Archiwum Relacji"
     description: "Relacje medialne: TV, radio, prasa — sekcja archiwum na /media."
+    preview_path: "/pl/media"
     folder: "src/content/media_archive"
     create: true
     delete: true
@@ -2550,10 +2564,12 @@ collections:
   - name: "aktualnosci"
     label: "📰 Aktualności — Artykuły"
     description: "Blog CERBERUS K9 — każdy wpis to artykuł na /aktualnosci."
+    preview_path: "/pl/aktualnosci/{{slug}}"
+    media_folder: "public/uploads/aktualnosci"
+    public_folder: "/uploads/aktualnosci"
     folder: "src/content/aktualnosci"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    preview_path: "{lang}/aktualnosci/{{slug}}"
     extension: "md"
     format: "frontmatter"
     fields:
@@ -2819,6 +2835,9 @@ collections:
   - name: "galeria"
     label: "🖼️ Galeria — Zdjęcia"
     description: "Zdjęcia z edycji — siatka na /galeria."
+    preview_path: "/pl/galeria"
+    media_folder: "public/uploads/galeria"
+    public_folder: "/uploads/galeria"
     folder: "src/content/galeria"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
@@ -3858,6 +3877,7 @@ collections:
     slug: "{{certificate_id}}"
     identifier_field: "certificate_id"
     description: "Certyfikaty dla uczestników. Każdy dostępny pod /certyfikat/[ID]"
+    preview_path: "/pl/certyfikat/{{certificate_id}}"
     fields:
       - name: "certificate_id"
         label: "🔑 ID Certyfikatu"
