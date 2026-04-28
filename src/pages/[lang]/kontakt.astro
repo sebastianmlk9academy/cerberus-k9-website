@@ -79,6 +79,7 @@ const contactAddressLine =
 	/>
 	<ContactPage
 		lang={lang}
+		/* Canonical contact source: kontakt_content. Global settings stay as legacy fallback. */
 		email={kc?.contact_email ?? s?.footer_email ?? s?.registration_contact_email}
 		phone={(kc?.contact_phone ?? s?.contact_phone_sebastian) || '+48 695 637 907'}
 		address={contactAddressLine}
