@@ -2615,6 +2615,89 @@ collections:
             widget: "string"
             hint: "Forma prawna w sekcji danych."
             required: true
+          - name: sekcja_o_wydarzeniu
+            label: "📅 Treści strony — O Wydarzeniu"
+            widget: object
+            collapsed: true
+            hint: >
+              📍 Gdzie: sekcja opisu na stronie /o-wydarzeniu.
+              ⚠️ Ważne: zmiany widoczne na stronie /o-wydarzeniu, nie /fundacja.
+              ✏️ Edytuj teksty opisujące CERBERUS K9 i statystyki edycji.
+            fields:
+              - name: about_body_p1_pl
+                label: "📄 Paragraf opisowy 1 — PL"
+                widget: text
+                required: false
+                hint: >
+                  📍 Gdzie: pierwszy akapit w sekcji opisu na /o-wydarzeniu.
+                  ⚠️ Ważne: ok. 2-4 zdania. Opisuje czym jest CERBERUS K9.
+                  ✏️ Przykład: CERBERUS K9 to...
+              - name: about_body_p2_pl
+                label: "📄 Paragraf opisowy 2 — PL"
+                widget: text
+                required: false
+                hint: >
+                  📍 Gdzie: drugi akapit w sekcji opisu na /o-wydarzeniu.
+                  ⚠️ Ważne: ok. 2-4 zdania. Opisuje program i uczestników.
+                  ✏️ Przykład: W programie znajdziesz...
+              - name: about_stat_1_value
+                label: "🔢 Statystyka 1 — Wartość"
+                widget: string
+                required: false
+                hint: >
+                  📍 Gdzie: pierwsza liczba w bloku statystyk na /o-wydarzeniu.
+                  ⚠️ Ważne: krótko — np. 250+ lub 2500.
+                  ✏️ Przykład: 2500
+              - name: about_stat_1_label_pl
+                label: "🏷️ Statystyka 1 — Etykieta PL"
+                widget: string
+                required: false
+                hint: >
+                  📍 Gdzie: podpis pod pierwszą liczbą statystyki.
+                  ⚠️ Ważne: max 30 znaków, wielkie litery.
+                  ✏️ Przykład: UCZESTNIKÓW OD 2022
+              - name: about_stat_2_value
+                label: "🔢 Statystyka 2 — Wartość"
+                widget: string
+                required: false
+                hint: >
+                  📍 Gdzie: druga liczba w bloku statystyk.
+                  ✏️ Przykład: 15+
+              - name: about_stat_2_label_pl
+                label: "🏷️ Statystyka 2 — Etykieta PL"
+                widget: string
+                required: false
+                hint: >
+                  📍 Gdzie: podpis pod drugą liczbą.
+                  ✏️ Przykład: KRAJÓW
+              - name: about_stat_3_value
+                label: "🔢 Statystyka 3 — Wartość"
+                widget: string
+                required: false
+                hint: >
+                  📍 Gdzie: trzecia liczba w bloku statystyk.
+                  ✏️ Przykład: 8
+              - name: about_stat_3_label_pl
+                label: "🏷️ Statystyka 3 — Etykieta PL"
+                widget: string
+                required: false
+                hint: >
+                  📍 Gdzie: podpis pod trzecią liczbą.
+                  ✏️ Przykład: MODUŁÓW SZKOLENIOWYCH
+              - name: about_stat_4_value
+                label: "🔢 Statystyka 4 — Wartość"
+                widget: string
+                required: false
+                hint: >
+                  📍 Gdzie: czwarta liczba w bloku statystyk.
+                  ✏️ Przykład: 100+
+              - name: about_stat_4_label_pl
+                label: "🏷️ Statystyka 4 — Etykieta PL"
+                widget: string
+                required: false
+                hint: >
+                  📍 Gdzie: podpis pod czwartą liczbą.
+                  ✏️ Przykład: PSÓ K9
   - name: "partnerzy"
     label: "🤝 Partnerzy — Lista"
     description: "Logo, typ, opis i link każdego partnera — /partnerzy i pasek na stronie głównej."

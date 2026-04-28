@@ -24,6 +24,8 @@ const s = settings?.data;
 const cmsNavLinks = await loadCmsNavLinks();
 const agendaUiEntry = await getEntry('agenda_ui', 'labels');
 const agendaUi = agendaUiEntry?.data;
+const fundacjaContent = await getEntry('fundacja_content', 'content');
+const fc = fundacjaContent?.data;
 const agendaUILabels = {
 	addToCalendar: (agendaUi?.add_to_calendar as Record<string, string> | undefined)?.[lang] ?? 'DODAJ DO KALENDARZA',
 	navigate: (agendaUi?.navigate as Record<string, string> | undefined)?.[lang] ?? 'NAWIGUJ',
@@ -37,6 +39,30 @@ const agendaUILabels = {
 	icsProdid: agendaUi?.ics_prodid ?? '-//CERBERUS K9//PL',
 };
 const copy = aboutEventPageByLang[lang] ?? aboutEventPageByLang['pl'];
+const bodyP1 = fc?.about_body_p1_pl ?? copy.bodyP1;
+const bodyP2 = fc?.about_body_p2_pl ?? copy.bodyP2;
+const aboutStats = [
+	{
+		value: fc?.about_stat_1_value ?? copy.stats[0].value,
+		label: fc?.about_stat_1_label_pl ?? copy.stats[0].label,
+		accent: copy.stats[0].accent,
+	},
+	{
+		value: fc?.about_stat_2_value ?? copy.stats[1].value,
+		label: fc?.about_stat_2_label_pl ?? copy.stats[1].label,
+		accent: copy.stats[1].accent,
+	},
+	{
+		value: fc?.about_stat_3_value ?? copy.stats[2].value,
+		label: fc?.about_stat_3_label_pl ?? copy.stats[2].label,
+		accent: copy.stats[2].accent,
+	},
+	{
+		value: fc?.about_stat_4_value ?? copy.stats[3].value,
+		label: fc?.about_stat_4_label_pl ?? copy.stats[3].label,
+		accent: copy.stats[3].accent,
+	},
+];
 const plausibleDomain = s?.plausible_domain ?? 'cerberusk9.org';
 const siteOrigin = s?.site_url ?? new URL(Astro.site!).origin;
 const startDate = s?.event_date ?? '2026-06-13';
@@ -164,13 +190,13 @@ const eventSchema = {
 						);
 					})()}
 				</h2>
-				<p class="event-description__body">{copy.bodyP1}</p>
-				<p class="event-description__body">{copy.bodyP2}</p>
+				<p class="event-description__body">{bodyP1}</p>
+				<p class="event-description__body">{bodyP2}</p>
 			</div>
 			<div class="event-description__col event-description__col--stats">
 				<div class="event-description__grid items-center">
 					{
-						copy.stats.map((stat) => (
+						aboutStats.map((stat) => (
 							<div
 								class:list={[
 									'event-description__stat',

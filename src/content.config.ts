@@ -831,6 +831,16 @@ const fundacja_content = defineCollection({
 		registration_court: z.string(),
 		registration_date: z.string(),
 		legal_status_pl: z.string(),
+		about_body_p1_pl: z.string().optional(),
+		about_body_p2_pl: z.string().optional(),
+		about_stat_1_value: z.string().optional(),
+		about_stat_1_label_pl: z.string().optional(),
+		about_stat_2_value: z.string().optional(),
+		about_stat_2_label_pl: z.string().optional(),
+		about_stat_3_value: z.string().optional(),
+		about_stat_3_label_pl: z.string().optional(),
+		about_stat_4_value: z.string().optional(),
+		about_stat_4_label_pl: z.string().optional(),
 	}),
 });
 
