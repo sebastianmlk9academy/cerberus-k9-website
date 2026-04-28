@@ -333,14 +333,27 @@ function PartnerCard({ partner, labels }: { partner: Partner; labels: PartnerLab
           background: '#0F1720',
           borderBottom: '1px solid #253344',
           margin: '0 -33.6px 22.4px',
-          padding: '0 33.6px',
+          padding: '0',
+          position: 'relative',
         }}
       >
         {partner.logo ? (
           <img
             src={partner.logo}
             alt={partner.name}
-            style={{ maxHeight: '89.6px', maxWidth: '224px', width: 'auto', objectFit: 'contain' }}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              width: 'auto',
+              height: 'auto',
+              maxWidth: '95%',
+              maxHeight: '95%',
+              transform: 'translate(-50%, calc(-50% - 17px)) scale(1.485)',
+              objectFit: 'contain',
+              objectPosition: 'center center',
+              display: 'block',
+            }}
           />
         ) : (
           <span
