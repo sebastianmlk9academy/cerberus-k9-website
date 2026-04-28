@@ -2678,6 +2678,144 @@ collections:
           true = wpis oczekuje na sprawdzenie przez redaktora naczelnego.
           false = wpis zaakceptowany i gotowy do publikacji.
           Użyj tego pola gdy nie jesteś pewien czy wpis jest gotowy.
+  # ─── GALERIA: EDYCJE ──────────────────────────────────
+  - name: "gallery_editions"
+    label: "📅 Galeria — Edycje"
+    label_singular: "Edycja"
+    folder: "src/content/gallery_editions"
+    create: true
+    delete: true
+    slug: "{{value}}"
+    identifier_field: "value"
+    description: "Lista edycji w galerii. Nową edycję dodaj tutaj — pojawi się na liście wyboru."
+    fields:
+      - name: "value"
+        label: "🔑 Wartość (klucz)"
+        widget: "string"
+        required: true
+        pattern: ["^[A-Za-z0-9_-]+$", "❌ Tylko litery, cyfry, myślniki. Np. 2026"]
+        hint: >
+          ⚠️ NIE zmieniaj po dodaniu — wartość jest zapisana w plikach zdjęć!
+          ✏️ Np. 2026, 2025, specjalna
+      - label: "🇵🇱 Etykieta PL"
+        name: "label_pl"
+        widget: "string"
+        required: true
+        hint: "📍 Widoczna w filtrze i na karcie zdjęcia. ✏️ Edycja 2026"
+      - label: "🇬🇧 Etykieta EN"
+        name: "label_en"
+        widget: "string"
+        required: false
+      - name: "date_start"
+        label: "📅 Data rozpoczęcia edycji"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        date_format: "DD.MM.YYYY"
+        time_format: false
+        required: false
+        hint: "Używana do sortowania edycji chronologicznie."
+      - label: "🔢 Kolejność"
+        name: "order"
+        widget: "number"
+        default: 10
+        hint: "Niższa liczba = wcześniej na liście."
+      - label: "👁️ Widoczna na liście"
+        name: "active"
+        widget: "boolean"
+        default: true
+        hint: "true = dostępna do wyboru, false = ukryta bez usuwania."
+
+  # ─── GALERIA: LOKALIZACJE ─────────────────────────────
+  - name: "gallery_locations"
+    label: "📍 Galeria — Lokalizacje"
+    label_singular: "Lokalizacja"
+    folder: "src/content/gallery_locations"
+    create: true
+    delete: true
+    slug: "{{value}}"
+    identifier_field: "value"
+    description: "Lista lokalizacji w galerii. Nową lokalizację dodaj tutaj — bez literówek."
+    fields:
+      - name: "value"
+        label: "🔑 Wartość (klucz)"
+        widget: "string"
+        required: true
+        hint: >
+          ⚠️ NIE zmieniaj po dodaniu — wartość jest zapisana w plikach zdjęć!
+          ✏️ Np. 3MK Arena, Szkoła Mundurowa, Stadion Miejski
+      - label: "🇵🇱 Etykieta PL"
+        name: "label_pl"
+        widget: "string"
+        required: true
+        hint: "📍 Widoczna na karcie zdjęcia i w filtrze lokalizacji."
+      - label: "🇬🇧 Etykieta EN"
+        name: "label_en"
+        widget: "string"
+        required: false
+      - label: "🗺️ Adres"
+        name: "address"
+        widget: "string"
+        required: false
+        hint: "✏️ Np. ul. Odolanowska 17, Ostrów Wielkopolski"
+      - label: "🔗 Link do mapy Google"
+        name: "map_url"
+        widget: "string"
+        required: false
+        hint: "URL do Google Maps dla tej lokalizacji."
+      - label: "🔢 Kolejność"
+        name: "order"
+        widget: "number"
+        default: 10
+        hint: "Kolejność na liście wyboru."
+      - label: "👁️ Widoczna na liście"
+        name: "active"
+        widget: "boolean"
+        default: true
+        hint: "true = dostępna do wyboru, false = ukryta."
+
+  # ─── GALERIA: TAGI ────────────────────────────────────
+  - name: "gallery_tags"
+    label: "🏷️ Galeria — Tagi"
+    label_singular: "Tag"
+    folder: "src/content/gallery_tags"
+    create: true
+    delete: true
+    slug: "{{key}}"
+    identifier_field: "key"
+    description: "Tagi zdjęć galerii. Zmiana etykiety tagu aktualizuje się wszędzie automatycznie."
+    fields:
+      - name: "key"
+        label: "🔑 Klucz tagu (unikalny)"
+        widget: "string"
+        required: true
+        pattern: ["^[a-z0-9_]+$", "❌ Tylko małe litery, cyfry, podkreślnik"]
+        hint: >
+          ✏️ Np. hardest_hit_2026, ceremonia, pokaz_k9
+          ⚠️ NIE zmieniaj po dodaniu do zdjęć — klucz jest zapisany w plikach!
+      - label: "🇵🇱 Etykieta PL"
+        name: "label_pl"
+        widget: "string"
+        required: true
+        hint: "📍 Widoczna na karcie zdjęcia i w filtrach."
+      - label: "🇬🇧 Etykieta EN"
+        name: "label_en"
+        widget: "string"
+        required: false
+      - label: "🇩🇪 Etykieta DE"
+        name: "label_de"
+        widget: "string"
+        required: false
+      - name: "color"
+        label: "🎨 Kolor etykiety"
+        widget: "color"
+        required: false
+        hint: "Kolor tagu na karcie zdjęcia. Puste = domyślny szary."
+      - label: "👁️ Aktywny"
+        name: "active"
+        widget: "boolean"
+        default: true
+        hint: "true = dostępny do wyboru, false = ukryty z listy."
+
   - name: "galeria"
     label: "🖼️ Galeria — Zdjęcia"
     description: "Zdjęcia z edycji — siatka na /galeria."
@@ -2731,31 +2869,46 @@ collections:
             value: "TCCC"
           - label: "OGÓLNE"
             value: "OGOLNE"
-      - label: "📆 Edycja"
-        name: "edition"
-        widget: "select"
+      - name: "edition"
+        label: "📅 Edycja"
+        widget: "relation"
+        collection: "gallery_editions"
+        search_fields: ["label_pl", "value"]
+        value_field: "value"
+        display_fields: ["label_pl"]
         required: true
-        default: "2026"
-        hint: "Rok edycji — filtr 2025/2026 w galerii."
-        options:
-          - "2025"
-          - "2026"
+        hint: >
+          📍 Widoczna w filtrze i na karcie zdjęcia.
+          ⚠️ Wybieraj z listy!
+          Nową edycję dodaj w sekcji '📅 Galeria — Edycje' w menu.
       - name: "location"
-        label: "📍 Lokalizacja (tekst)"
-        widget: "string"
-        hint: "Opcjonalny opis miejsca kadru."
+        label: "📍 Lokalizacja"
+        widget: "relation"
+        collection: "gallery_locations"
+        search_fields: ["label_pl", "value"]
+        value_field: "value"
+        display_fields: ["label_pl"]
         required: false
-      - label: "🏷️ Tagi"
-        name: "tags"
+        hint: >
+          📍 Widoczna na karcie zdjęcia i w filtrze lokalizacji.
+          ⚠️ Wybieraj z listy!
+          Nową lokalizację dodaj w sekcji '📍 Galeria — Lokalizacje' w menu.
+      - name: "tags"
+        label: "🏷️ Tagi zdjęcia"
         widget: "list"
         required: false
-        hint: "Tagi pomocnicze do filtrowania."
+        hint: >
+          📍 Widoczne na karcie zdjęcia, używane w wyszukiwarce.
+          ⚠️ Wybieraj z listy — nie wpisuj ręcznie!
+          Nowy tag dodaj w sekcji '🏷️ Galeria — Tagi' w menu.
         field:
           name: "tag"
-          label: "📝 Tag"
-          widget: "string"
-          hint: "Pojedynczy tag zdjęcia."
-          required: true
+          label: "Tag"
+          widget: "relation"
+          collection: "gallery_tags"
+          search_fields: ["label_pl", "key"]
+          value_field: "key"
+          display_fields: ["label_pl"]
       - name: "order"
         label: "🔢 Kolejność wyświetlania"
         widget: "number"
@@ -3552,3 +3705,568 @@ collections:
         hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
         required: false
         default: false
+
+  # ─── AMBASADORZY ──────────────────────────────────────
+  - name: "ambasadorzy"
+    label: "🌍 Ambasadorzy"
+    label_singular: "Ambasador"
+    folder: "src/content/ambasadorzy"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    description: "Ambasadorzy CERBERUS K9 promujący wydarzenie w swoich krajach."
+    preview_path: "/pl/ambasadorzy"
+    media_folder: "public/uploads/ambasadorzy"
+    public_folder: "/uploads/ambasadorzy"
+    fields:
+      - label: "👤 Imię i Nazwisko"
+        name: "name"
+        widget: "string"
+        required: true
+        hint: "📍 Karta ambasadora na stronie /ambasadorzy."
+      - label: "🌍 Kraj"
+        name: "country"
+        widget: "string"
+        required: true
+        hint: "✏️ Np. Portugalia, Czechy, USA"
+      - name: "countryCode"
+        label: "🏳️ Kod kraju (2 wielkie litery)"
+        widget: "string"
+        required: true
+        pattern: ["^[A-Z]{2}$", "❌ Dwie wielkie litery: PL, US, DE, PT, CZ..."]
+        hint: "📍 Flaga kraju. PL=Polska, US=USA, DE=Niemcy, PT=Portugalia"
+      - label: "🎖️ Rola / Tytuł"
+        name: "role"
+        widget: "string"
+        required: false
+        hint: "✏️ Np. Ambasador Europy Wschodniej, K9 Specialist"
+      - label: "🏛️ Jednostka / Organizacja"
+        name: "unit"
+        widget: "string"
+        required: false
+        hint: "✏️ Np. Policja Krajowa Czechy"
+      - name: "photo"
+        label: "📸 Zdjęcie"
+        widget: "image"
+        required: false
+        choose_url: true
+        hint: "⚠️ Format: WebP, 400x400px (kwadrat), max 200KB."
+      - label: "📝 Krótkie bio"
+        name: "bio"
+        widget: "text"
+        required: false
+        hint: "📍 Karta ambasadora. ⚠️ Max 200 znaków."
+      - label: "💼 LinkedIn URL"
+        name: "linkedinUrl"
+        widget: "string"
+        required: false
+        hint: "✏️ https://www.linkedin.com/in/..."
+      - label: "📸 Instagram URL"
+        name: "instagram_url"
+        widget: "string"
+        required: false
+        hint: "✏️ https://www.instagram.com/..."
+      - label: "🔢 Kolejność"
+        name: "order"
+        widget: "number"
+        default: 99
+        hint: "Niższa liczba = wyżej. 1 = pierwszy."
+      - label: "👁️ Widoczny"
+        name: "active"
+        widget: "boolean"
+        default: true
+        hint: "true = widoczny, false = ukryty bez usuwania."
+      - label: "⏳ Wymaga akceptacji"
+        name: "needs_review"
+        widget: "boolean"
+        default: false
+        hint: "true = oczekuje sprawdzenia, false = zaakceptowany."
+
+  # ─── CERTYFIKATY ──────────────────────────────────────
+  - name: "certyfikaty"
+    label: "🏅 Certyfikaty Uczestnictwa"
+    label_singular: "Certyfikat"
+    folder: "src/content/certyfikaty"
+    create: true
+    delete: true
+    slug: "{{certificate_id}}"
+    identifier_field: "certificate_id"
+    description: "Certyfikaty dla uczestników. Każdy dostępny pod /certyfikat/[ID]"
+    fields:
+      - name: "certificate_id"
+        label: "🔑 ID Certyfikatu"
+        widget: "string"
+        required: true
+        pattern: ["^[A-Z0-9-]+$", "❌ Wielkie litery, cyfry, myślniki. Np. CK9-2026-001"]
+        hint: >
+          📍 URL: cerberusk9.org/certyfikat/[ID]
+          ✏️ Format: CK9-2026-001
+          ⚠️ NIE zmieniaj po utworzeniu — psuje wysłane linki!
+      - label: "👤 Imię i Nazwisko uczestnika"
+        name: "participant_name"
+        widget: "string"
+        required: true
+        hint: "📍 Wydrukowane na certyfikacie."
+      - name: "module"
+        label: "📋 Moduł szkoleniowy"
+        widget: "select"
+        required: true
+        hint: "Moduł za który wystawiany jest certyfikat."
+        options:
+          - { label: "K9 Combat", value: "K9 Combat" }
+          - { label: "K9 Search & Rescue", value: "K9 SAR" }
+          - { label: "TCCC — Medycyna taktyczna", value: "TCCC" }
+          - { label: "Drony ISR / Bojowe", value: "Drony" }
+          - { label: "Hardest Hit", value: "Hardest Hit" }
+          - { label: "Konferencja ZK", value: "Konferencja" }
+          - { label: "Uczestnik Ogólny", value: "Uczestnik" }
+      - name: "event_edition"
+        label: "📅 Edycja"
+        widget: "relation"
+        collection: "gallery_editions"
+        search_fields: ["label_pl", "value"]
+        value_field: "value"
+        display_fields: ["label_pl"]
+        required: true
+        hint: "Wybierz edycję z listy."
+      - name: "issue_date"
+        label: "📅 Data wystawienia"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        date_format: "DD.MM.YYYY"
+        time_format: false
+        required: true
+        hint: "Data widoczna na certyfikacie."
+      - label: "🎖️ Instruktor (opcjonalnie)"
+        name: "instructor_name"
+        widget: "string"
+        required: false
+        hint: "Imię instruktora prowadzącego moduł."
+      - label: "👁️ Certyfikat aktywny"
+        name: "active"
+        widget: "boolean"
+        default: true
+        hint: "true = link /certyfikat/[ID] aktywny, false = strona 404."
+
+  # ─── SZKOLENIA ────────────────────────────────────────
+  - name: "szkolenia"
+    label: "🎓 Szkolenia Komercyjne"
+    label_singular: "Szkolenie"
+    folder: "src/content/szkolenia"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    description: "Oferta szkoleń Fundacji PACTA K9 poza CERBERUS K9."
+    preview_path: "/pl/szkolenia"
+    media_folder: "public/uploads/szkolenia"
+    public_folder: "/uploads/szkolenia"
+    fields:
+      - label: "📝 Tytuł szkolenia"
+        name: "title"
+        widget: "string"
+        required: true
+        hint: "📍 Karta szkolenia na stronie /szkolenia."
+      - name: "category"
+        label: "🏷️ Kategoria"
+        widget: "select"
+        required: true
+        hint: "Używana do filtrowania szkoleń."
+        options:
+          - { label: "🐕 K9 — Praca z psem", value: "k9" }
+          - { label: "🏥 TCCC — Medycyna taktyczna", value: "tccc" }
+          - { label: "🚁 Drony / BSP", value: "drony" }
+          - { label: "🎯 Taktyka i procedury", value: "taktyka" }
+          - { label: "👨‍🏫 Szkolenie przewodników", value: "przewodnicy" }
+      - label: "📋 Opis szkolenia"
+        name: "description"
+        widget: "markdown"
+        required: true
+        hint: "Pełny opis widoczny na stronie szczegółów."
+      - name: "instructor"
+        label: "🎖️ Instruktor"
+        widget: "relation"
+        collection: "instruktorzy"
+        search_fields: ["name", "role"]
+        value_field: "name"
+        display_fields: ["name", "role"]
+        required: false
+        hint: "Wybierz z listy — zostanie podlinkowany profil instruktora."
+      - name: "date_start"
+        label: "📅 Data rozpoczęcia"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        date_format: "DD.MM.YYYY"
+        time_format: false
+        required: false
+        hint: "Zostaw puste jeśli szkolenie jest 'na żądanie'."
+      - name: "date_end"
+        label: "📅 Data zakończenia"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        date_format: "DD.MM.YYYY"
+        time_format: false
+        required: false
+      - label: "📍 Miejsce"
+        name: "location"
+        widget: "string"
+        required: false
+        hint: "✏️ Ostrów Wielkopolski / Online / Do uzgodnienia"
+      - label: "💰 Cena (PLN)"
+        name: "price"
+        widget: "number"
+        value_type: "float"
+        min: 0
+        default: 0
+        required: false
+        hint: "Wpisz 0 jeśli bezpłatne lub do uzgodnienia."
+      - label: "👥 Limit miejsc"
+        name: "places_total"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        required: false
+        hint: "Zostaw puste jeśli brak limitu."
+      - label: "🔗 Link rejestracji"
+        name: "registration_url"
+        widget: "string"
+        required: false
+        hint: "URL formularza. Puste = rejestracja przez email."
+      - name: "image"
+        label: "📸 Zdjęcie szkolenia"
+        widget: "image"
+        required: false
+        choose_url: true
+        hint: "⚠️ Format: WebP, 800x450px, max 300KB."
+      - label: "⭐ Wyróżnione"
+        name: "featured"
+        widget: "boolean"
+        default: false
+        hint: "true = wyróżnione szkolenie wyświetlane jako pierwsze."
+      - label: "🔢 Kolejność"
+        name: "order"
+        widget: "number"
+        default: 99
+      - label: "👁️ Widoczne"
+        name: "active"
+        widget: "boolean"
+        default: true
+        hint: "true = widoczne, false = ukryte bez usuwania."
+
+  # ─── LIVE UPDATES ─────────────────────────────────────
+  - name: "live_updates"
+    label: "🔴 Live Event — Komunikaty"
+    label_singular: "Komunikat live"
+    folder: "src/content/live_updates"
+    create: true
+    delete: true
+    slug: "{{timestamp}}"
+    description: "⚠️ Używaj TYLKO podczas trwania wydarzenia 13-14 czerwca!"
+    fields:
+      - name: "timestamp"
+        label: "⏰ Data i godzina"
+        widget: "datetime"
+        format: "YYYY-MM-DD-HH-mm"
+        date_format: "DD.MM.YYYY"
+        time_format: "HH:mm"
+        required: true
+        hint: "Najnowszy komunikat pojawia się na górze strony /live."
+      - name: "message"
+        label: "📢 Treść komunikatu"
+        widget: "text"
+        required: true
+        hint: >
+          📍 Widoczny na stronie /live podczas wydarzenia.
+          ✏️ Np.: Zawody Hardest Hit startują o 14:30 na Arenie Głównej.
+          ⚠️ Pisz krótko i konkretnie. Max 200 znaków.
+      - name: "type"
+        label: "🏷️ Typ komunikatu"
+        widget: "select"
+        default: "info"
+        hint: "Wpływa na kolor i ikonę komunikatu."
+        options:
+          - { label: "ℹ️ Informacja ogólna", value: "info" }
+          - { label: "⚠️ Zmiana w programie", value: "warning" }
+          - { label: "🏆 Wynik / Ogłoszenie", value: "result" }
+          - { label: "🚨 Pilne / Ważne", value: "urgent" }
+      - label: "👁️ Widoczny"
+        name: "active"
+        widget: "boolean"
+        default: true
+        hint: "true = komunikat na /live, false = archiwizowany."
+
+  # ─── HARDEST HIT WYNIKI ───────────────────────────────
+  - name: "hardest_hit_results"
+    label: "🏆 Hardest Hit — Wyniki"
+    label_singular: "Wynik"
+    folder: "src/content/hardest_hit_results"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    description: "Wyniki zawodów. Aktualizuj na bieżąco podczas zawodów."
+    preview_path: "/pl/hardest-hit"
+    fields:
+      - label: "👤 Imię i Nazwisko zawodnika"
+        name: "competitor_name"
+        widget: "string"
+        required: true
+        hint: "📍 Tabela wyników na stronie /hardest-hit."
+      - label: "🌍 Kraj"
+        name: "country"
+        widget: "string"
+        required: true
+        hint: "✏️ Np. Polska, USA, Niemcy"
+      - name: "countryCode"
+        label: "🏳️ Kod kraju"
+        widget: "string"
+        required: true
+        pattern: ["^[A-Z]{2}$", "❌ Dwie wielkie litery: PL, US, DE"]
+        hint: "PL, US, DE, PT, CZ..."
+      - name: "category"
+        label: "🏷️ Kategoria"
+        widget: "select"
+        required: true
+        options:
+          - { label: "Open — Mężczyźni", value: "open_men" }
+          - { label: "Open — Kobiety", value: "open_women" }
+          - { label: "Służby mundurowe", value: "services" }
+          - { label: "K9 Handler", value: "k9_handler" }
+          - { label: "Weterani", value: "veterans" }
+      - label: "🏋️ Wynik (z jednostką)"
+        name: "score"
+        widget: "string"
+        required: true
+        hint: "✏️ Np. 245 kg lub 00:45:23"
+      - label: "🥇 Miejsce"
+        name: "rank"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        required: true
+        hint: "1 = pierwsze miejsce."
+      - name: "round"
+        label: "🔄 Runda"
+        widget: "select"
+        default: "final"
+        options:
+          - { label: "Eliminacje", value: "elimination" }
+          - { label: "Półfinał", value: "semifinal" }
+          - { label: "Finał", value: "final" }
+      - name: "edition"
+        label: "📅 Edycja"
+        widget: "relation"
+        collection: "gallery_editions"
+        search_fields: ["label_pl", "value"]
+        value_field: "value"
+        display_fields: ["label_pl"]
+        default: "2026"
+        hint: "Wybierz edycję z listy."
+      - label: "👁️ Widoczny"
+        name: "active"
+        widget: "boolean"
+        default: true
+      - label: "⏳ Do weryfikacji sędziego"
+        name: "needs_review"
+        widget: "boolean"
+        default: false
+        hint: "true = oczekuje potwierdzenia, false = zatwierdzony."
+
+  # ─── MATERIAŁY SPONSORSKIE ────────────────────────────
+  - name: "sponsor_materials"
+    label: "📄 Materiały dla Sponsorów"
+    label_singular: "Materiał"
+    folder: "src/content/sponsor_materials"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    description: "Oferty sponsorskie PDF do pobrania przez potencjalnych partnerów."
+    media_folder: "public/uploads/sponsor_materials"
+    public_folder: "/uploads/sponsor_materials"
+    fields:
+      - label: "📝 Nazwa dokumentu"
+        name: "title"
+        widget: "string"
+        required: true
+        hint: "📍 Link na stronie /partnerzy."
+      - name: "file"
+        label: "📎 Plik PDF"
+        widget: "file"
+        required: true
+        hint: "⚠️ Format: PDF, max 5MB. Nazwa bez spacji i polskich liter."
+      - label: "📋 Krótki opis"
+        name: "description"
+        widget: "string"
+        required: false
+        hint: "✏️ Np. Pełna oferta sponsorska z pakietami cenowymi"
+      - name: "edition"
+        label: "📅 Edycja"
+        widget: "relation"
+        collection: "gallery_editions"
+        search_fields: ["label_pl", "value"]
+        value_field: "value"
+        display_fields: ["label_pl"]
+        required: false
+        hint: "Edycja której dotyczy dokument."
+      - name: "language"
+        label: "🌍 Język dokumentu"
+        widget: "select"
+        default: "pl"
+        options:
+          - { label: "🇵🇱 Polski", value: "pl" }
+          - { label: "🇬🇧 Angielski", value: "en" }
+          - { label: "🇩🇪 Niemiecki", value: "de" }
+      - label: "🔢 Kolejność"
+        name: "order"
+        widget: "number"
+        default: 10
+      - label: "👁️ Dostępny do pobrania"
+        name: "active"
+        widget: "boolean"
+        default: true
+        hint: "true = link aktywny, false = tymczasowo niedostępny."
+
+  # ─── ZDJĘCIA PRASOWE ──────────────────────────────────
+  - name: "press_photos"
+    label: "📷 Zdjęcia Prasowe"
+    label_singular: "Pakiet zdjęć"
+    folder: "src/content/press_photos"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    description: "Zdjęcia hi-res dla mediów. Widoczne na stronie /media."
+    media_folder: "public/uploads/press"
+    public_folder: "/uploads/press"
+    fields:
+      - label: "📝 Nazwa pakietu"
+        name: "title"
+        widget: "string"
+        required: true
+        hint: "📍 Lista pakietów na stronie /media."
+      - label: "📋 Opis zawartości"
+        name: "description"
+        widget: "text"
+        required: false
+        hint: "✏️ Np. 45 zdjęć z ceremonii otwarcia"
+      - name: "preview_image"
+        label: "🖼️ Miniatura pakietu"
+        widget: "image"
+        required: false
+        choose_url: true
+        hint: "Podgląd na stronie /media. WebP 600x400px."
+      - name: "download_url"
+        label: "🔗 Link do pobrania (ZIP)"
+        widget: "string"
+        required: true
+        hint: >
+          URL do archiwum ZIP.
+          ✏️ Google Drive, Dropbox lub plik na serwerze.
+          ⚠️ Musi zaczynać się od https://
+      - label: "🔢 Liczba zdjęć"
+        name: "photo_count"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        required: false
+      - label: "💾 Rozmiar pliku"
+        name: "file_size"
+        widget: "string"
+        required: false
+        hint: "✏️ Np. 245 MB lub 1.2 GB"
+      - label: "📷 Autor / Fotograf"
+        name: "author"
+        widget: "string"
+        required: false
+        hint: "Imię autora — ważne dla praw autorskich."
+      - name: "license"
+        label: "⚖️ Licencja"
+        widget: "select"
+        default: "press_only"
+        options:
+          - { label: "Tylko dla akredytowanych mediów", value: "press_only" }
+          - { label: "Swobodne z podaniem źródła", value: "cc_attribution" }
+          - { label: "Tylko użytek wewnętrzny", value: "internal" }
+      - name: "edition"
+        label: "📅 Edycja"
+        widget: "relation"
+        collection: "gallery_editions"
+        search_fields: ["label_pl", "value"]
+        value_field: "value"
+        display_fields: ["label_pl"]
+        required: false
+        hint: "Edycja której dotyczą zdjęcia."
+      - label: "🔢 Kolejność"
+        name: "order"
+        widget: "number"
+        default: 10
+      - label: "👁️ Dostępny"
+        name: "active"
+        widget: "boolean"
+        default: true
+
+  # ─── OFERTY DLA UCZESTNIKÓW ───────────────────────────
+  - name: "partner_offers"
+    label: "🎁 Oferty dla Uczestników"
+    label_singular: "Oferta"
+    folder: "src/content/partner_offers"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    description: "Zniżki i oferty od partnerów dla uczestników CERBERUS K9."
+    fields:
+      - name: "partner_name"
+        label: "🤝 Partner"
+        widget: "relation"
+        collection: "partnerzy"
+        search_fields: ["name"]
+        value_field: "name"
+        display_fields: ["name", "type"]
+        required: true
+        hint: "Wybierz z listy. Nowego dodaj w 'Partnerzy — Lista'."
+      - label: "🎁 Tytuł oferty"
+        name: "offer_title"
+        widget: "string"
+        required: true
+        hint: "📍 Karta oferty. ✏️ 15% zniżki na sprzęt K9"
+      - label: "📋 Opis oferty"
+        name: "offer_description"
+        widget: "text"
+        required: true
+        hint: "Szczegóły — warunki, jak użyć kodu rabatowego."
+      - label: "🏷️ Kod rabatowy"
+        name: "discount_code"
+        widget: "string"
+        required: false
+        hint: "✏️ Np. CERBERUS2026"
+      - label: "🔗 Link do oferty"
+        name: "offer_url"
+        widget: "string"
+        required: false
+        hint: "Musi zaczynać się od https://"
+      - name: "valid_until"
+        label: "📅 Ważna do"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        date_format: "DD.MM.YYYY"
+        time_format: false
+        required: false
+        hint: "Data wygaśnięcia. Puste = bezterminowa."
+      - name: "category"
+        label: "🏷️ Kategoria"
+        widget: "select"
+        required: false
+        options:
+          - { label: "🐕 Sprzęt K9", value: "k9_equipment" }
+          - { label: "🏋️ Sprzęt taktyczny", value: "tactical" }
+          - { label: "🏨 Noclegi", value: "accommodation" }
+          - { label: "✈️ Transport", value: "transport" }
+          - { label: "📚 Szkolenia", value: "training" }
+          - { label: "🍽️ Gastronomia", value: "food" }
+          - { label: "🔧 Inne", value: "other" }
+      - label: "🔢 Kolejność"
+        name: "order"
+        widget: "number"
+        default: 99
+      - label: "👁️ Aktywna"
+        name: "active"
+        widget: "boolean"
+        default: true
+        hint: "true = widoczna, false = ukryta po wygaśnięciu."

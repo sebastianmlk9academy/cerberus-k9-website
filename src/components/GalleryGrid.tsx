@@ -23,7 +23,7 @@ type PhotoItem = {
   title: string;
   category?: GalleryCategory;
   location: string;
-  edition: "2025" | "2026";
+  edition: string;
   photo: string;
   alt: string;
   tags?: string[];
@@ -573,7 +573,7 @@ export function GalleryGrid({ photos, lang, unlockDate, videoItems, cmsFilters }
   const visibleLimitRef = useRef<number>(12);
   const [activeLocation, setActiveLocation] = useState<LocationFilterId>("all");
   const [activeView, setActiveView] = useState<ViewModeId>("grid");
-  const [activeEdition, setActiveEdition] = useState<"2025" | "2026">("2025");
+  const [activeEdition, setActiveEdition] = useState<string>("2025");
   const [modalVideo, setModalVideo] = useState<string | null>(null);
 
   const closeModal = useCallback(() => {
@@ -733,7 +733,7 @@ export function GalleryGrid({ photos, lang, unlockDate, videoItems, cmsFilters }
       cleanupFns.push(
         bindClick(button, () => {
           const editionRaw = button.dataset.edition || "2025";
-          const edition: "2025" | "2026" = editionRaw === "2026" ? "2026" : "2025";
+          const edition: string = editionRaw === "2026" ? "2026" : editionRaw === "2025" ? "2025" : editionRaw;
           if (edition === "2026" && !is2026Unlocked) {
             setActiveEdition("2026");
             return;

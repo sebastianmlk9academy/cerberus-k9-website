@@ -492,20 +492,193 @@ const galleryCategorySchema = z.preprocess(
 	z.enum(galleryCategoryValues).optional(),
 );
 
+function normalizeGalleryTags(val: unknown): string[] {
+	if (!Array.isArray(val)) return [];
+	return val
+		.map((item) => {
+			if (typeof item === 'string') return item;
+			if (item && typeof item === 'object' && 'tag' in (item as Record<string, unknown>)) {
+				const t = (item as { tag?: unknown }).tag;
+				return typeof t === 'string' ? t : '';
+			}
+			return '';
+		})
+		.filter(Boolean);
+}
+
 const galeria = defineCollection({
 	loader: glob({ base: './src/content/galeria', pattern: '**/*.{md,mdx}' }),
 	schema: z.object({
 		title: z.string().optional().default(''),
 		date: z.string().optional(),
 		category: galleryCategorySchema,
-		location: z.string(),
-		edition: z.enum(['2025', '2026']),
+		location: z.string().optional().default(''),
+		edition: z.string().default('2026'),
 		photo: z.string(),
 		alt: z.string(),
-		tags: z.array(z.string()).optional(),
+		tags: z.preprocess(normalizeGalleryTags, z.array(z.string()).optional()),
 		order: z.number().int().optional(),
 		active: z.boolean().optional().default(true),
 		needs_review: z.boolean().optional().default(false),
+	}),
+});
+
+const galleryEditions = defineCollection({
+	loader: glob({ pattern: '**/*.yml', base: './src/content/gallery_editions' }),
+	schema: z.object({
+		value: z.string(),
+		label_pl: z.string(),
+		label_en: z.string().optional(),
+		date_start: z.string().optional(),
+		order: z.number().optional().default(10),
+		active: z.boolean().optional().default(true),
+	}),
+});
+
+const galleryLocations = defineCollection({
+	loader: glob({ pattern: '**/*.yml', base: './src/content/gallery_locations' }),
+	schema: z.object({
+		value: z.string(),
+		label_pl: z.string(),
+		label_en: z.string().optional(),
+		address: z.string().optional(),
+		map_url: z.string().optional(),
+		order: z.number().optional().default(10),
+		active: z.boolean().optional().default(true),
+	}),
+});
+
+const galleryTags = defineCollection({
+	loader: glob({ pattern: '**/*.yml', base: './src/content/gallery_tags' }),
+	schema: z.object({
+		key: z.string(),
+		label_pl: z.string(),
+		label_en: z.string().optional(),
+		label_de: z.string().optional(),
+		color: z.string().optional(),
+		active: z.boolean().optional().default(true),
+	}),
+});
+
+const ambasadorzy = defineCollection({
+	loader: glob({ pattern: '**/*.yml', base: './src/content/ambasadorzy' }),
+	schema: z.object({
+		name: z.string(),
+		country: z.string(),
+		countryCode: z.string(),
+		role: z.string().optional(),
+		unit: z.string().optional(),
+		photo: z.string().optional(),
+		bio: z.string().optional(),
+		linkedinUrl: z.string().optional(),
+		instagram_url: z.string().optional(),
+		order: z.number().optional().default(99),
+		active: z.boolean().optional().default(true),
+		needs_review: z.boolean().optional().default(false),
+	}),
+});
+
+const certyfikaty = defineCollection({
+	loader: glob({ pattern: '**/*.yml', base: './src/content/certyfikaty' }),
+	schema: z.object({
+		certificate_id: z.string(),
+		participant_name: z.string(),
+		module: z.string(),
+		event_edition: z.string().default('2026'),
+		issue_date: z.string(),
+		instructor_name: z.string().optional(),
+		active: z.boolean().optional().default(true),
+	}),
+});
+
+const szkolenia = defineCollection({
+	loader: glob({ pattern: '**/*.{md,yml}', base: './src/content/szkolenia' }),
+	schema: z.object({
+		title: z.string(),
+		category: z.string(),
+		description: z.string().optional(),
+		instructor: z.string().optional(),
+		date_start: z.string().optional(),
+		date_end: z.string().optional(),
+		location: z.string().optional(),
+		price: z.number().optional(),
+		places_total: z.number().optional(),
+		registration_url: z.string().optional(),
+		image: z.string().optional(),
+		featured: z.boolean().optional().default(false),
+		order: z.number().optional().default(99),
+		active: z.boolean().optional().default(true),
+	}),
+});
+
+const liveUpdates = defineCollection({
+	loader: glob({ pattern: '**/*.yml', base: './src/content/live_updates' }),
+	schema: z.object({
+		timestamp: z.string(),
+		message: z.string(),
+		type: z.enum(['info', 'warning', 'result', 'urgent']).default('info'),
+		active: z.boolean().optional().default(true),
+	}),
+});
+
+const hardestHitResults = defineCollection({
+	loader: glob({ pattern: '**/*.yml', base: './src/content/hardest_hit_results' }),
+	schema: z.object({
+		competitor_name: z.string(),
+		country: z.string(),
+		countryCode: z.string(),
+		category: z.string(),
+		score: z.string(),
+		rank: z.number(),
+		round: z.enum(['elimination', 'semifinal', 'final']).default('final'),
+		edition: z.string().default('2026'),
+		active: z.boolean().optional().default(true),
+		needs_review: z.boolean().optional().default(false),
+	}),
+});
+
+const sponsorMaterials = defineCollection({
+	loader: glob({ pattern: '**/*.yml', base: './src/content/sponsor_materials' }),
+	schema: z.object({
+		title: z.string(),
+		file: z.string(),
+		description: z.string().optional(),
+		edition: z.string().optional(),
+		language: z.enum(['pl', 'en', 'de']).default('pl'),
+		order: z.number().optional().default(10),
+		active: z.boolean().optional().default(true),
+	}),
+});
+
+const pressPhotos = defineCollection({
+	loader: glob({ pattern: '**/*.yml', base: './src/content/press_photos' }),
+	schema: z.object({
+		title: z.string(),
+		description: z.string().optional(),
+		preview_image: z.string().optional(),
+		download_url: z.string(),
+		photo_count: z.number().optional(),
+		file_size: z.string().optional(),
+		author: z.string().optional(),
+		license: z.string().optional(),
+		edition: z.string().optional(),
+		order: z.number().optional().default(10),
+		active: z.boolean().optional().default(true),
+	}),
+});
+
+const partnerOffers = defineCollection({
+	loader: glob({ pattern: '**/*.yml', base: './src/content/partner_offers' }),
+	schema: z.object({
+		partner_name: z.string(),
+		offer_title: z.string(),
+		offer_description: z.string(),
+		discount_code: z.string().optional(),
+		offer_url: z.string().optional(),
+		valid_until: z.string().optional(),
+		category: z.string().optional(),
+		order: z.number().optional().default(99),
+		active: z.boolean().optional().default(true),
 	}),
 });
 
@@ -751,6 +924,17 @@ export const collections = {
 	instructor_filters,
 	partner_sections,
 	gallery_filters,
+	galleryEditions,
+	galleryLocations,
+	galleryTags,
+	ambasadorzy,
+	certyfikaty,
+	szkolenia,
+	liveUpdates,
+	hardestHitResults,
+	sponsorMaterials,
+	pressPhotos,
+	partnerOffers,
 	instruktorzy,
 	partnerzy,
 	blog,
