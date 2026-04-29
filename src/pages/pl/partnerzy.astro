@@ -101,12 +101,12 @@ const partners: Partner[] = sorted.map((entry, i) => {
 		heroImage={s?.hero_background_image}
 		heroOpacity={s?.hero_background_opacity}
 	/>
+	<!-- Canonical sponsor source: kontakt_content. Global settings stay as legacy fallback. -->
 	<PartnersPage
 		client:load
 		lang={lang}
 		partners={partners}
 		embedded
-		/* Canonical sponsor source: kontakt_content. Global settings stay as legacy fallback. */
 		sponsorOfferPdf={kc?.sponsor_offer_pdf ?? s?.sponsor_offer_pdf}
 		sponsorContactEmail={kc?.sponsor_contact_email ?? s?.sponsor_contact_email}
 		cmsSections={cmsPartnerSections}
