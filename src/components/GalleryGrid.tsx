@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties, MouseEvent as ReactMouseEvent } from "react";
 import { ui } from "../i18n/ui";
 import type { Lang } from "../i18n/utils";
+import { extractThumbnail } from "../lib/extractThumbnail";
 
 /** Canonical gallery category values (aligned with CMS + content schema). */
 type GalleryCategory =
@@ -550,6 +551,11 @@ function toYoutubeVideoId(url: string): string | null {
   return null;
 }
 
+function toVimeoVideoId(url: string): string | null {
+  const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
+  return vimeoMatch ? vimeoMatch[1] : null;
+}
+
 export function GalleryGrid({
   photos,
   lang,
@@ -577,13 +583,19 @@ export function GalleryGrid({
           .map((v) => {
             const url = (v.url ?? "").trim();
             const id = toYoutubeVideoId(url) ?? "";
+            const vimeoId = toVimeoVideoId(url);
             const thumb = (v.thumbnail ?? "").trim();
+            const autoThumb = extractThumbnail(url, thumb || null);
             return {
               title: v.title?.trim() || "Video",
               badge: v.badge?.trim() || "",
-              embedUrl: id ? `https://www.youtube.com/embed/${id}` : url,
-              id: id || url,
-              thumbUrl: thumb || null,
+              embedUrl: id
+                ? `https://www.youtube.com/embed/${id}`
+                : vimeoId
+                  ? `https://player.vimeo.com/video/${vimeoId}`
+                  : url,
+              id: id || vimeoId || url,
+              thumbUrl: autoThumb,
             };
           })
       : fallbackVideoItems);
@@ -1052,16 +1064,16 @@ export function GalleryGrid({
               className="video-card text-left w-full group cursor-pointer"
             >
               <div className="video-thumb">
-                <img
-                  src={
-                    video.thumbUrl ||
-                    (video.id && !String(video.id).includes("/")
-                      ? `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`
-                      : "")
-                  }
-                  alt={video.title}
-                  loading="lazy"
-                />
+                {video.thumbUrl ? (
+                  <img
+                    src={video.thumbUrl}
+                    alt={video.title}
+                    loading="lazy"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).style.display = "none";
+                    }}
+                  />
+                ) : null}
                 <div className="video-play-overlay">
                   <div
                     className="flex items-center justify-center transition-transform group-hover:scale-110"
