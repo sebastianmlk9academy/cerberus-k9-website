@@ -5,6 +5,7 @@ label_de: TCCC-K9
 label_fr: TCCC-K9
 filter_field: specializations
 filter_match: includes
+filter_value: tccc-k9
 filter_values:
   - TCCC-K9
 order: 6
