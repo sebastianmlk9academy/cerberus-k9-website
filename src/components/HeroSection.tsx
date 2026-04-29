@@ -58,6 +58,9 @@ interface HeroSectionProps {
   heroVideoHref?: string;
   heroVideoTitle?: string;
   heroCloseLabelPl?: string;
+  heroMetaLocations?: string;
+  heroMetaDelegations?: string;
+  heroMetaEntry?: string;
   ctaRegistrationHref?: string;
   ctaProgramHref?: string;
   registrationActive?: boolean;
@@ -82,12 +85,18 @@ export function HeroSection(props: HeroSectionProps) {
     heroVideoHref,
     heroVideoTitle,
     heroCloseLabelPl = "ZAMKNIJ",
+    heroMetaLocations,
+    heroMetaDelegations,
+    heroMetaEntry,
     ctaRegistrationHref,
     ctaProgramHref,
     registrationActive = true,
   } = props;
 
   const safeCopy: HomeHeroCopy = copy ?? homeHeroCopyByLang.pl;
+  const metaRow1Value = heroMetaLocations?.trim() || safeCopy.metaRow1Value;
+  const metaRow2Value = heroMetaDelegations?.trim() || safeCopy.metaRow2Value;
+  const metaRow3Value = heroMetaEntry?.trim() || safeCopy.metaRow3Value;
   const timeStr = eventTimeStart ?? "10:00";
   const tzOffset = eventTimezone === "Europe/Warsaw" ? "+02:00" : "+00:00";
   const eventDateIso = eventDate?.trim() || undefined;
@@ -250,15 +259,15 @@ export function HeroSection(props: HeroSectionProps) {
       <div className="relative z-10 flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-6 md:gap-8 mb-6 sm:mb-8">
         <MetaInfoItem
           label={safeCopy.metaRow1}
-          value={safeCopy.metaRow1Value}
+          value={metaRow1Value}
         />
         <MetaInfoItem
           label={safeCopy.metaRow2}
-          value={safeCopy.metaRow2Value}
+          value={metaRow2Value}
         />
         <MetaInfoItem
           label={safeCopy.metaRow3}
-          value={safeCopy.metaRow3Value}
+          value={metaRow3Value}
         />
       </div>
 
