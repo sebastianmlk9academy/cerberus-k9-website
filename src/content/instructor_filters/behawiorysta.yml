@@ -1,0 +1,9 @@
+key: behawiorysta
+label_pl: BEHAWIORYSTA
+filter_field: specializations
+filter_match: includes
+filter_value: behawiorysta
+filter_values:
+  - BEHAWIORYSTA
+order: 8
+active: true
