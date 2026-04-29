@@ -1,0 +1,103 @@
+CLAUDE RESPONSE VS REPO — FACT VERIFICATION
+Date: 2026-04-29
+Scope: Verification of claims from provided Claude response against current repository state.
+
+====================================================================
+1) HIGH-LEVEL VERDICT
+====================================================================
+
+Summary:
+- Claude response is directionally useful but mixes:
+  - correct architecture-level observations
+  - unverified assumptions phrased as facts
+  - details not fully backed by repo evidence
+
+Reliability score (practical): 6.5/10
+
+====================================================================
+2) VERIFIED CLAIMS (TRUE)
+====================================================================
+
+- "No src/pages/api endpoints currently present"
+  STATUS: TRUE
+  EVIDENCE: src/pages/api glob => 0 files
+
+- "i18n layer is broad/multilingual"
+  STATUS: TRUE
+  EVIDENCE: src/i18n has 17 TS files and ui language map includes 19 locales
+
+- "Core lib functions exist: aktualnosciToListingArticles, buildCategoryMeta, formatNewsDateLabel"
+  STATUS: TRUE
+  EVIDENCE: src/lib/aktualnosci.ts, src/lib/agendaCategories.ts
+
+- "Hydration warnings exist around Astro components"
+  STATUS: TRUE
+  EVIDENCE: build output and layout usage include client:load on .astro components (AnnouncementBar, CookieConsent, RegistrationSection)
+
+- "Pretix URL currently points to CERBERUS slug under MLK9-LLK9"
+  STATUS: TRUE
+  EVIDENCE: src/content/ustawienia.yml pretix_url
+
+- "Workflows deploy/preview exist and run npm build"
+  STATUS: TRUE
+  EVIDENCE: .github/workflows/deploy.yml + preview.yml
+
+====================================================================
+3) PARTIALLY TRUE / NEEDS QUALIFICATION
+====================================================================
+
+- "Exact 45-phase mega prompt fully complete"
+  STATUS: PARTIAL
+  NOTE: high coverage exists, but strict line-by-line completeness not fully evidenced in one run.
+
+- "CMS canonical mapping fully validated"
+  STATUS: PARTIAL
+  NOTE: schema/config reviewed broadly, but not every field pair was diff-validated exhaustively.
+
+- "All link hover behaviors fully audited"
+  STATUS: PARTIAL
+  NOTE: patterns identified; full per-link matrix not generated yet.
+
+- "Accessibility/CWV/security deep audit complete"
+  STATUS: PARTIAL
+  NOTE: heuristic checks done; no full Lighthouse/automated accessibility report was run.
+
+====================================================================
+4) UNVERIFIED OR OVERSTATED CLAIMS
+====================================================================
+
+- Any exact typography/spacing/hex assertions not tied to direct extracted snippets
+  STATUS: OVERSTATED when stated as definitive
+  NOTE: Some were inferred from recurring patterns, not globally canonicalized values.
+
+- "Blue hero button canonical system"
+  STATUS: UNVERIFIED as stable design-system primitive
+  NOTE: outline->fill pattern exists in places; no single canonical blue token system was confirmed.
+
+- "Full per-collection parameter compliance matrix complete"
+  STATUS: UNVERIFIED
+  NOTE: partial matrixing done; full exhaustive table pending.
+
+====================================================================
+5) CRITICAL FACTS FOR NEXT STEPS (CONFIRMED)
+====================================================================
+
+1. Build and TypeScript pass.
+2. npm audit returns moderate vulns and exit 1.
+3. Astro hydration misuse should be corrected first.
+4. Several v7.1 collections exist in schema but have no content files.
+5. Missing strategic pages still not implemented (/ambasadorzy, /international, /live, /hardest-hit, etc.).
+6. Pretix organizer endpoint requires auth for event listing call.
+
+====================================================================
+6) ACTIONABLE CORRECTION STRATEGY
+====================================================================
+
+Immediate order:
+1) Fix hydration misuse and re-run build
+2) Lock canonical design tokens/components via extracted JSX blocks
+3) Populate missing content collections required by v7.1 roadmap
+4) Define Pretix 2026 event migration decision (clone vs new)
+5) Execute prompt pack R01-R42 in guarded sequence
+
+END

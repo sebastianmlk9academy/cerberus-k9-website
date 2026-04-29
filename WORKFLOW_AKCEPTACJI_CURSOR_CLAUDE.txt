@@ -1,0 +1,91 @@
+WORKFLOW AKCEPTACJI — CURSOR -> CLAUDE -> AKCEPTACJA -> WYKONANIE
+
+====================================================================
+CEL
+====================================================================
+Utrzymac pelna spojność stylistyczna, CMS i i18n przy wdrazaniu v7.1,
+bez przypadkowych regresji w UI/UX i bez "dryfowania" promptów.
+
+====================================================================
+PETLA OPERACYJNA (ZAWSZE TA SAMA)
+====================================================================
+
+KROK 1 — CURSOR OUTPUT
+- Wklejasz do Claude:
+  - raport diagnostyczny LUB
+  - wynik prompta wykonawczego (diff/sumaryczny output)
+
+KROK 2 — ANALIZA CLAUDE (OBOWIAZKOWE BLOKI)
+Claude musi zwrocic:
+1) Proces myslenia (co wynika z danych)
+2) Co osiagniemy nastepnym krokiem
+3) Diagnoza stanu obecnego
+4) Etapy wykonania (kolejnosc)
+5) Jak etapy zadzialaja w Cursorze
+6) Ryzyka i ostrzezenia
+7) Spojnosc z design system cheatsheet
+
+KROK 3 — TWOJA DECYZJA
+Odpowiedz jednym z:
+- AKCEPTUJE
+- ZMIEN
+- WYJASNIJ
+
+KROK 4 — PROMPT WYKONAWCZY DO CURSORA
+Claude generuje gotowy prompt do Ctrl+L, ktory:
+- zaczyna od "READ THESE FILES FIRST"
+- zawiera "DO NOT change existing styles"
+- ma test plan (build + typecheck)
+- ma jasne kryteria done
+
+KROK 5 — WALIDACJA
+Po wykonaniu przez Cursor:
+- build
+- typecheck
+- smoke check stron krytycznych
+- wracasz do KROK 1
+
+====================================================================
+SZABLON PYTANIA DO CLAUDE (UNIWERSALNY)
+====================================================================
+
+Uzyj tego po kazdym outputcie z Cursora:
+
+"Przeanalizuj output. Daj:
+1) proces myslenia,
+2) co osiagniemy,
+3) diagnoze,
+4) plan krokow,
+5) jak kroki zadzialaja w Cursorze,
+6) ryzyka,
+7) check spójnosci z design system.
+Na koniec czekaj na moja decyzje: AKCEPTUJE / ZMIEN / WYJASNIJ."
+
+====================================================================
+REGULY JAKOSCI DLA KAZDEGO PROMPTA WYKONAWCZEGO
+====================================================================
+
+Musi zawierac:
+- zakres (co zmieniamy)
+- czego nie wolno ruszac
+- pliki docelowe
+- kroki implementacji
+- testy
+- expected output
+
+Musi NIE zawierac:
+- ogolnikow bez plikow
+- zmian wizualnych bez uzasadnienia
+- "refactor all" bez granic
+
+====================================================================
+TRYB KRYZYSOWY (gdy Cursor odjezdza stylistycznie)
+====================================================================
+1) Stop wdrozenia
+2) Re-run MEGA_PROMPT_V7_1_VERIFIED
+3) Popros Claude o:
+   - diff od design system
+   - minimalny prompt naprawczy
+4) Dopiero potem kontynuuj roadmape
+
+END

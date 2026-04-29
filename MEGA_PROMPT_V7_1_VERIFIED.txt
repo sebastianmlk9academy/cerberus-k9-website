@@ -1,0 +1,207 @@
+CERBERUS K9 — MEGA DIAGNOSTIC PROMPT v7.1 VERIFIED
+READ-ONLY AUDIT | CURSOR ONLY | NO FILE CHANGES
+
+Fundacja PACTA K9 | KRS: 0001219121 | NIP: 6222869581
+Event target: CERBERUS K9 2026 | June 13-14 | Ostrow Wielkopolski
+
+====================================================================
+RULES (MANDATORY)
+====================================================================
+1. DO NOT edit any file.
+2. Report exact values from code/content (no guessing).
+3. If missing, write: FILE NOT FOUND: <path>.
+4. Mark each result with status icon: ✅ ⚠ ❌.
+5. Keep all outputs in final report context for follow-up prompts.
+
+====================================================================
+PHASE A — PROJECT SNAPSHOT
+====================================================================
+- Read and report:
+  - package.json
+  - astro.config.mjs
+  - tsconfig.json
+  - tailwind.config.mjs or tailwind.config.js
+  - postcss.config.mjs
+  - .gitignore
+  - README.md
+  - .env.example (if exists)
+
+- Full path inventory (excluding node_modules/.git/.astro/dist).
+
+====================================================================
+PHASE B — FULL CODE/CONTENT INVENTORY
+====================================================================
+- Read all files in:
+  - src/layouts/*
+  - src/components/*
+  - src/pages/*
+  - src/lib/*
+  - src/i18n/*
+  - src/content.config.ts
+  - public/admin/config.yml
+  - src/content/ustawienia.yml
+  - .github/workflows/*
+
+- For src/content collections:
+  - list files for each collection
+  - for program/instruktorzy/agenda_categories: include first 3 lines per file
+  - count-only for large media lists where practical
+
+====================================================================
+PHASE C — DESIGN SYSTEM CANONICAL EXTRACTION
+====================================================================
+Extract from real code (exact hex + JSX snippets):
+
+1) Typography
+- font families used
+- where loaded
+- weight/size/letter-spacing/line-height patterns per heading/body/UI
+
+2) Buttons (MANDATORY, 3 types)
+- GOLD primary
+- RED CTA
+- Hero outline/transparent -> filled variant (identify exact implementation and color token used)
+
+3) Links and hover animation
+- internal links
+- external links target+rel
+- tel:
+- mailto:
+- anchor links
+- transition duration/curve per pattern
+
+4) Section heading pattern
+- exact JSX for red-line heading pattern
+
+5) Icons
+- library + sample imports/usages
+- color + size + stroke behavior
+
+====================================================================
+PHASE D — CMS / SCHEMA / MAPPING AUDIT
+====================================================================
+From public/admin/config.yml + src/content.config.ts:
+- list all collections
+- list all field names for: ustawienia, aktualnosci, instruktorzy, program, partnerzy
+- confirm existence of: agenda_ui, fundacja_content, nav_links, media_archive
+- map schema-vs-config mismatches (if any)
+- flag missing collections content files
+
+====================================================================
+PHASE E — I18N AUDIT
+====================================================================
+- languages in src/i18n/ui.ts
+- nav/countdown keys presence
+- list src/content/i18n/*.json languages
+- top-level keys in pl.json
+- identify hardcoded PL/EN strings in components/pages that should be i18n/CMS
+
+====================================================================
+PHASE F — INTEGRATIONS / ENV / API
+====================================================================
+- src/pages/api/* existence and list
+- pretix_url / plausible_domain / event dates / cookie/livemode flags from ustawienia
+- env variable usage scan in src
+- .env.example variable names (if file exists)
+- deps + Astro version from package.json
+
+====================================================================
+PHASE G — BUILD / QUALITY / SECURITY
+====================================================================
+Run and report:
+- npm run build
+- npx tsc --noEmit
+- npm audit --audit-level=moderate
+- scans:
+  - TODO/FIXME/HACK/placeholder/lorem
+  - console.
+  - as any / @ts-ignore
+  - target="_blank" without rel noopener
+
+====================================================================
+PHASE H — GITHUB ACTIONS / DEPLOY
+====================================================================
+For each workflow:
+- trigger
+- jobs and step order
+- Node version
+- build steps
+- deploy action and destination
+- referenced secrets
+
+====================================================================
+PHASE I — PAGE + COMPONENT OPERATING MAP
+====================================================================
+For each page in src/pages:
+- route
+- [lang] variant exists?
+- SEO/meta present?
+- reads ustawienia CMS?
+- key components used
+
+For each component in src/components:
+- purpose
+- CMS-driven? (YES/NO/PARTIAL)
+- client:load/client:only/static
+- accepts lang prop?
+
+====================================================================
+PHASE J — MISSING V7.1 FEATURES
+====================================================================
+Check and mark YES/NO:
+- Components:
+  LiveRegistrationCounter, NotificationBar, WallOfFame, ScheduleBuilder,
+  ParticipantBadge, RegistrationPaths, NewsletterSignup, InstagramFeed,
+  OperationsPanel, LiveScoring, CalendarMenu
+- Pages:
+  /ambasadorzy, /international, /dla-sluzb, /hardest-hit, /live,
+  /certyfikat/[id], /szkolenia
+
+For each missing item:
+- chapter reference
+- priority HIGH/MEDIUM/LOW
+- dependency chain
+
+====================================================================
+PHASE K — PRETIX AGENT BLUEPRINT (API + CHROME)
+====================================================================
+Define:
+1) API-capable tasks:
+   event create/clone, items, quotas, questions, webhooks
+2) Browser-UI tasks:
+   template visual config, email content QA, PDF layout QA, publish/check-in UI checks
+3) Inputs required from operator:
+   slug, dates, ticket matrix, quotas, questions, payment settings, templates
+4) Verification:
+   end-to-end registration, email, PDF, tracking
+
+====================================================================
+PHASE L — PERSONA-COMPONENT MAPPING
+====================================================================
+Classify each key component for personas:
+P1 Visitor | P2 Candidate participant | P3 Registered participant
+P4 Government/Ministry | P5 Defense attache | P6 Media | P7 Sponsor
+
+Output:
+- primary persona
+- secondary persona
+- action/decision supported
+- optimized YES/NO
+- gap
+
+====================================================================
+PHASE M — FINAL OUTPUT FORMAT
+====================================================================
+Return:
+1. Executive summary (top findings)
+2. Design System Cheatsheet block (copy-paste ready)
+3. Content/CMS gaps matrix
+4. Pretix readiness + agent blueprint
+5. Persona-component matrix
+6. Severity list:
+   🔴 critical | 🟠 warning | 🟡 i18n gaps | 🟢 nice-to-have
+7. Build order recommendation for v7.1 execution
+8. Countdown to 2026-06-13 (days remaining)
+9. Final readiness score /100
+
+END OF PROMPT

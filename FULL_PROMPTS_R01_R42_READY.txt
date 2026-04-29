@@ -1,0 +1,523 @@
+FULL READY PROMPTS — R01-R42
+Use each block directly in Cursor (Ctrl+L).
+Global non-negotiable for each task:
+- DO NOT change existing styles, colors, spacing, typography, layout structure.
+- Keep all user-facing strings CMS/i18n-driven.
+- Run: npm run build && npx tsc --noEmit
+
+====================================================================
+R01
+====================================================================
+TASK: Populate missing core CMS entries (agenda/partners/instructors gaps).
+READ: src/content.config.ts, public/admin/config.yml, src/content/program/*, src/content/instruktorzy/*, src/content/partnerzy/*, src/lib/programAgenda.ts.
+DO: Fill required missing fields only; keep frontmatter schema-aligned; no visual code edits.
+RETURN: changed files + gap table + build/typecheck.
+
+R02
+TASK: Seed ambasadorzy content aligned with schema.
+READ: src/content.config.ts, src/content/ambasadorzy/* (if exists), public/admin/config.yml.
+DO: Add initial valid entries with required fields and realistic placeholders from known data model.
+RETURN: files + validation.
+
+R03
+TASK: Build /ambasadorzy page wired to CMS and i18n.
+READ: src/pages/*, src/components/*, src/content/ambasadorzy/*, src/i18n/*.
+DO: Create page + language variant flow, reuse existing layout/component patterns.
+RETURN: files + routing notes + validation.
+
+R04
+TASK: Wire NotificationBar fully to CMS flags.
+READ: src/layouts/BaseLayout.astro, src/components/AnnouncementBar.astro, src/content/ustawienia.yml.
+DO: Ensure safe rendering and no hydration misuse.
+RETURN: files + behavior matrix + validation.
+
+R05
+TASK: Add LiveRegistrationCounter component (non-disruptive).
+READ: src/components/HeroSection.tsx, src/components/StatsBar.tsx, src/content/ustawienia.yml.
+DO: Add optional counter block controlled by CMS flag/data.
+RETURN: files + fallback behavior + validation.
+
+R06
+TASK: Add RegistrationPaths section for persona routing.
+READ: src/pages/pl/rejestracja.astro, src/components/RegistrationSection.astro, src/i18n/*.
+DO: Add CMS/i18n-based route options (participant/media/partner).
+RETURN: files + i18n key list + validation.
+
+R07
+TASK: Add WallOfFame scaffold (CMS-ready, hidden by default).
+READ: src/components/*, src/content.config.ts, src/content/ustawienia.yml.
+DO: Implement component and toggle, no style drift.
+RETURN: files + toggle docs + validation.
+
+R08
+TASK: Add NewsletterSignup shell ready for Brevo.
+READ: src/components/Footer.tsx, src/pages/pl/index.astro, src/content.config.ts.
+DO: Add form UI + typed payload contract only.
+RETURN: files + integration contract + validation.
+
+R09
+TASK: Normalize Pretix settings resolution logic.
+READ: src/content/ustawienia.yml, src/components/PretixWidgetEmbed.astro, src/components/RegistrationEmbed.tsx.
+DO: Centralize URL fallback chain and strict null safety.
+RETURN: files + resolved precedence + validation.
+
+R10
+TASK: Improve registration error/loading/no-script states.
+READ: src/components/PretixWidgetEmbed.astro, src/components/RegistrationSection.astro.
+DO: Robust UX states without design changes.
+RETURN: files + state table + validation.
+
+R11
+TASK: Generate ticket model from agenda content.
+READ: src/content/program/*, src/lib/programAgenda.ts.
+DO: Produce typed ticket-module mapping artifact in src/lib.
+RETURN: files + mapping summary + validation.
+
+R12
+TASK: Generate quotas/questions config artifact for Pretix agent.
+READ: R11 output + src/content/ustawienia.yml.
+DO: Create JSON/TS config for items/quotas/questions.
+RETURN: files + schema docs + validation.
+
+R13
+TASK: Align Pretix widget styling hooks to site tokens.
+READ: src/components/PretixWidgetEmbed.astro, src/styles/global.css, tailwind.config.mjs.
+DO: tokenized color refs where possible, no redesign.
+RETURN: files + before/after mapping + validation.
+
+R14
+TASK: Add consent-aware registration analytics events.
+READ: src/components/RegistrationEmbed.tsx, src/components/CookieConsent.astro, src/content/ustawienia.yml.
+DO: Gate events behind consent flags.
+RETURN: files + event list + validation.
+
+R15
+TASK: Create Pretix verification checklist artifact.
+READ: docs-like location (create if absent), integration files.
+DO: Add checklist for E2E register/email/pdf/check-in/tracking.
+RETURN: files + checklist summary.
+
+R16
+TASK: Create /international page.
+READ: src/pages/[lang]/*, src/components/PageHero.tsx, src/content/ustawienia.yml.
+DO: Add page and locale-safe copy path.
+RETURN: files + route list + validation.
+
+R17
+TASK: Create /dla-sluzb page.
+READ: same patterns as existing top-level content pages.
+DO: Add services-focused page with CMS/i18n copy.
+RETURN: files + validation.
+
+R18
+TASK: Create /hardest-hit page.
+READ: src/content/hardest_hit_results/*, src/content.config.ts.
+DO: Display results with safe empty-state.
+RETURN: files + data handling notes + validation.
+
+R19
+TASK: Create /live page shell with CMS toggle.
+READ: src/content/ustawienia.yml, live-related components/files.
+DO: Implement gated live shell and fallback.
+RETURN: files + flag behavior + validation.
+
+R20
+TASK: Add ScheduleBuilder component.
+READ: src/components/InteractiveAgenda.tsx, src/lib/programAgenda.ts.
+DO: Add planner builder logic while preserving current agenda UI.
+RETURN: files + compatibility notes + validation.
+
+R21
+TASK: Add ParticipantBadge component baseline.
+READ: src/components/*, cert flow files.
+DO: Reusable badge component with typed props only.
+RETURN: files + usage notes + validation.
+
+R22
+TASK: Seed certyfikaty collection entries.
+READ: src/content.config.ts, src/content/certyfikaty/*.
+DO: Add valid sample records.
+RETURN: files + field completeness + validation.
+
+R23
+TASK: Implement /certyfikat/[id] route.
+READ: cert data + routing patterns from aktualnosci/[slug].
+DO: Add lookup, not-found handling, locale-safe labels.
+RETURN: files + routing behavior + validation.
+
+R24
+TASK: Add Brevo integration adapter (typed, env-safe).
+READ: src/lib/*, env usage points.
+DO: Add adapter module only; no secret hardcoding.
+RETURN: files + env var list + validation.
+
+R25
+TASK: Add HubSpot adapter (private app token model).
+READ: src/lib/*, contact flows.
+DO: typed client wrapper with retries and safe errors.
+RETURN: files + envs + validation.
+
+R26
+TASK: Add Airtable adapter with rate-limit strategy.
+READ: src/lib/*.
+DO: wrapper with backoff for 429.
+RETURN: files + policy notes + validation.
+
+R27
+TASK: Define n8n webhook payload contracts.
+READ: src/lib/*, registration/contact models.
+DO: add typed payload schemas and serializer.
+RETURN: files + contract examples + validation.
+
+R28
+TASK: Add KSeF/Fakturownia handoff payload docs artifact.
+READ: existing integration docs/files.
+DO: create concise integration reference file.
+RETURN: files + scope notes.
+
+R29
+TASK: Add media automation hooks scaffold.
+READ: src/pages/pl/media.astro, src/components/MediaPage.tsx.
+DO: non-breaking hook points for webhook-driven updates.
+RETURN: files + event points + validation.
+
+R30
+TASK: Add integration observability/retry standard.
+READ: all adapters created in R24-R29.
+DO: standardize logging/error envelopes (no console spam).
+RETURN: files + standard summary + validation.
+
+R31
+TASK: Add OperationsPanel shell.
+READ: live page + admin-facing data points.
+DO: role-gated panel scaffold hidden unless enabled.
+RETURN: files + gating rules + validation.
+
+R32
+TASK: Add LiveScoring data renderer.
+READ: hardest hit/live structures.
+DO: typed scoreboard with empty/loading/error states.
+RETURN: files + validation.
+
+R33
+TASK: Harden CalendarMenu behaviors.
+READ: src/components/InteractiveAgenda.tsx.
+DO: improve menu close/focus/aria and link safety.
+RETURN: files + a11y notes + validation.
+
+R34
+TASK: Orchestrate live mode switches from CMS.
+READ: src/content/ustawienia.yml + pages using live flags.
+DO: centralize live flag behavior with consistent fallbacks.
+RETURN: files + flow map + validation.
+
+R35
+TASK: Expand media archive workflow.
+READ: src/content/media_archive/*, media page files.
+DO: improve ingest/render pipeline for archive entries.
+RETURN: files + validation.
+
+R36
+TASK: Implement gallery unlock-by-date behavior.
+READ: ustawienia.gallery_unlock_date + gallery pages.
+DO: lock/unlock logic with clear fallback.
+RETURN: files + date logic notes + validation.
+
+R37
+TASK: Add post-event recap module.
+READ: home/media/news pages and components.
+DO: CMS-driven recap block reusable on key pages.
+RETURN: files + validation.
+
+R38
+TASK: Add partner outcome/reporting section.
+READ: partner pages/content.
+DO: structured section for sponsor/partner post-event metrics.
+RETURN: files + validation.
+
+R39
+TASK: Remove remaining hardcoded PL/EN strings from UI.
+READ: src/components/*, src/pages/*, src/i18n/*, src/content/i18n/*.
+DO: move to i18n/CMS where appropriate.
+RETURN: files + moved-keys list + validation.
+
+R40
+TASK: Accessibility and safety pass (non-visual).
+READ: components/pages with forms, nav, modals, interactive controls.
+DO: aria labels, keyboard/focus, secure external links, no style changes.
+RETURN: files + checklist + validation.
+
+R41
+TASK: SEO/JSON-LD/canonical consistency pass.
+READ: BaseHead, BaseLayout, major page templates.
+DO: ensure canonical/hreflang/og/twitter/json-ld consistency.
+RETURN: files + per-page matrix + validation.
+
+R42
+TASK: Final release readiness gate.
+READ: full project + prior R outputs.
+DO: run full validations, produce release checklist artifact.
+RETURN: files + final blockers + go/no-go recommendation.
+
+END OF FILE
+
+====================================================================
+STRICT PRODUCTION ADDON (R01-R42)
+====================================================================
+Use this addon together with each R-task above.
+
+GLOBAL FORBIDDEN CHANGES (ALL R01-R42):
+- No redesign: no changes to spacing, colors, typography, visual hierarchy, breakpoints, shadows, borders, radii, motion style.
+- No hardcoded new user-facing text in components/pages.
+- No refactor outside current task scope.
+- No deleting existing content without explicit reason in report.
+- No bypass of schema/types with `as any` or silent `try/catch`.
+- No secrets/tokens in code.
+
+MANDATORY OUTPUT SCHEMA (ALL R01-R42):
+1) Scope
+- Task ID:
+- Goal:
+- In-scope files:
+- Out-of-scope files touched (must be empty or justified):
+
+2) Changes
+- Changed files (exact list):
+- What changed and why (max 8 bullets):
+- CMS/i18n keys added/updated:
+
+3) Definition of Done Check
+- [ ] Functional target completed
+- [ ] No visual drift confirmed
+- [ ] CMS/schema compatibility confirmed
+- [ ] i18n compatibility confirmed
+- [ ] `npm run build` passed
+- [ ] `npx tsc --noEmit` passed
+
+4) Validation Logs
+- Build result:
+- Typecheck result:
+- Manual sanity checks executed:
+
+5) Risks / Decisions Needed
+- Remaining risks:
+- Requires business decision (yes/no):
+- If yes, decision options:
+
+R01 DOD:
+- Complete CRITICAL/WARNING gap audit for program/instruktorzy/partnerzy.
+- Fill required missing schema fields only.
+- No placeholder/lorem in launch-critical records.
+R01 FORBIDDEN:
+- No component/layout/style edits.
+- No schema structure changes.
+
+R02 DOD:
+- `ambasadorzy` entries exist and validate against schema.
+- Frontmatter consistent with project conventions.
+R02 FORBIDDEN:
+- No page/component visual edits.
+
+R03 DOD:
+- `/ambasadorzy` page renders and is locale-compatible.
+- Uses existing layout patterns and CMS/i18n sources.
+R03 FORBIDDEN:
+- No custom inline style system changes.
+
+R04 DOD:
+- Announcement/notification fully controlled by CMS flags.
+- No Astro hydration misuse introduced.
+R04 FORBIDDEN:
+- No unrelated layout logic changes.
+
+R05 DOD:
+- `LiveRegistrationCounter` optional, CMS-toggle driven, safe fallback.
+R05 FORBIDDEN:
+- No Hero redesign or CTA style change.
+
+R06 DOD:
+- Registration persona paths available and i18n-driven.
+R06 FORBIDDEN:
+- No registration layout redesign.
+
+R07 DOD:
+- WallOfFame scaffold added and hidden by default via CMS toggle.
+R07 FORBIDDEN:
+- No visible UI change when toggle is off.
+
+R08 DOD:
+- Newsletter form shell with typed payload contract exists.
+R08 FORBIDDEN:
+- No unapproved external API calls in UI runtime.
+
+R09 DOD:
+- Pretix URL resolution precedence centralized and documented.
+R09 FORBIDDEN:
+- No behavior-breaking fallback removal.
+
+R10 DOD:
+- Loading/error/no-script states robust and non-visual-breaking.
+R10 FORBIDDEN:
+- No widget styling overhaul.
+
+R11 DOD:
+- Ticket model artifact generated from agenda content with types.
+R11 FORBIDDEN:
+- No manual hardcoded ticket map detached from CMS.
+
+R12 DOD:
+- Quotas/questions config artifact created and typed.
+R12 FORBIDDEN:
+- No direct production API mutation scripts.
+
+R13 DOD:
+- Pretix styling hooks align with existing design tokens.
+R13 FORBIDDEN:
+- No new color palette introduction.
+
+R14 DOD:
+- Analytics events gated by consent state.
+R14 FORBIDDEN:
+- No tracking before consent.
+
+R15 DOD:
+- Pretix verification checklist artifact complete and actionable.
+R15 FORBIDDEN:
+- No fake verification results.
+
+R16 DOD:
+- `/international` route works with locale-safe content path.
+R16 FORBIDDEN:
+- No inconsistent SEO metadata vs existing patterns.
+
+R17 DOD:
+- `/dla-sluzb` page works and reads CMS/i18n content.
+R17 FORBIDDEN:
+- No style divergence from page templates.
+
+R18 DOD:
+- `/hardest-hit` renders data with empty-state safety.
+R18 FORBIDDEN:
+- No crash on missing/partial content.
+
+R19 DOD:
+- `/live` shell obeys CMS toggle and fallback state.
+R19 FORBIDDEN:
+- No forced live mode without flag.
+
+R20 DOD:
+- ScheduleBuilder introduced without breaking existing agenda UX.
+R20 FORBIDDEN:
+- No removal of current agenda features.
+
+R21 DOD:
+- ParticipantBadge reusable typed baseline created.
+R21 FORBIDDEN:
+- No certificate flow coupling to hardcoded values.
+
+R22 DOD:
+- `certyfikaty` sample records exist and validate.
+R22 FORBIDDEN:
+- No invalid IDs that break future route lookup.
+
+R23 DOD:
+- `/certyfikat/[id]` route resolves valid IDs and handles not-found.
+R23 FORBIDDEN:
+- No leakage of internal errors to UI.
+
+R24 DOD:
+- Brevo adapter typed, env-driven, error-safe.
+R24 FORBIDDEN:
+- No secret in repository.
+
+R25 DOD:
+- HubSpot adapter typed with safe retry/error policy.
+R25 FORBIDDEN:
+- No direct token exposure or console dump.
+
+R26 DOD:
+- Airtable adapter includes 429 handling/backoff.
+R26 FORBIDDEN:
+- No unbounded retry loops.
+
+R27 DOD:
+- n8n webhook payload contracts defined and serialized consistently.
+R27 FORBIDDEN:
+- No schema-less payload writes.
+
+R28 DOD:
+- KSeF/Fakturownia handoff docs artifact added and scoped.
+R28 FORBIDDEN:
+- No legal/business claims presented as guaranteed.
+
+R29 DOD:
+- Media automation hook points added without breaking current media page.
+R29 FORBIDDEN:
+- No destructive change to existing archive rendering.
+
+R30 DOD:
+- Standard observability envelope applied across integrations.
+R30 FORBIDDEN:
+- No noisy `console.log` spam in production paths.
+
+R31 DOD:
+- OperationsPanel shell gated by role/feature flag.
+R31 FORBIDDEN:
+- No public exposure by default.
+
+R32 DOD:
+- LiveScoring renderer handles loading/error/empty/data states.
+R32 FORBIDDEN:
+- No runtime crash on null values.
+
+R33 DOD:
+- CalendarMenu keyboard/focus/aria behaviors hardened.
+R33 FORBIDDEN:
+- No regression in existing link outputs.
+
+R34 DOD:
+- Live-mode switches centralized and consistent across pages.
+R34 FORBIDDEN:
+- No contradictory flag logic between components.
+
+R35 DOD:
+- Media archive workflow expanded and stable.
+R35 FORBIDDEN:
+- No format changes that orphan old entries.
+
+R36 DOD:
+- Gallery unlock-by-date behavior implemented with clear fallback.
+R36 FORBIDDEN:
+- No timezone-unsafe date comparison logic.
+
+R37 DOD:
+- Post-event recap module CMS-driven and reusable.
+R37 FORBIDDEN:
+- No hardcoded final recap text in component.
+
+R38 DOD:
+- Partner outcomes/reporting section exists and is structured.
+R38 FORBIDDEN:
+- No fabricated metrics in seeded content.
+
+R39 DOD:
+- Remaining hardcoded PL/EN UI strings moved to i18n/CMS.
+R39 FORBIDDEN:
+- No key duplication with conflicting meanings.
+
+R40 DOD:
+- A11y and link safety pass completed without visual changes.
+R40 FORBIDDEN:
+- No tabindex traps or broken focus sequence.
+
+R41 DOD:
+- SEO canonical/hreflang/OG/Twitter/JSON-LD consistency confirmed.
+R41 FORBIDDEN:
+- No locale canonical conflicts.
+
+R42 DOD:
+- Final release checklist artifact complete with go/no-go and blockers.
+R42 FORBIDDEN:
+- No "go" decision when hard blockers remain unresolved.
+
+END OF STRICT PRODUCTION ADDON

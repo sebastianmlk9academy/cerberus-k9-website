@@ -1,0 +1,123 @@
+PROMPT PACK v7.1 — R01-R42 (CURSOR EXECUTION ORDER)
+Context: Use with MEGA_PROMPT_V7_1_VERIFIED + WORKFLOW_AKCEPTACJI
+
+GLOBAL HEADER FOR EVERY EXECUTION PROMPT:
+- READ THESE FILES FIRST: [list exact target files]
+- DO NOT change existing styles, colors, spacing, typography, layout structure.
+- Keep existing design system intact.
+- All user-facing strings must be CMS/i18n-driven.
+- Run: npm run build && npx tsc --noEmit
+- Return: changed files + why + test output.
+
+====================================================================
+PART A — CONTENT & AMBASSADORS
+====================================================================
+R01: Populate missing core CMS entries (agenda/partners/instructors gaps)
+R02: Create ambasadorzy collection content seed (schema-aligned)
+R03: Build /ambasadorzy page with CMS data and i18n
+
+====================================================================
+PART B — HOMEPAGE EXTENSIONS
+====================================================================
+R04: Add NotificationBar wiring (CMS controlled)
+R05: Add LiveRegistrationCounter (read-only counter UI, no style drift)
+R06: Add RegistrationPaths section (persona-targeted)
+R07: Add WallOfFame placeholder section (CMS-ready)
+R08: Add NewsletterSignup block (integration-ready shell)
+
+====================================================================
+PART C — PRETIX COMPLETE CONFIG
+====================================================================
+R09: Normalize pretix settings keys and fallback logic
+R10: Add robust registration state handling (loading/error/no-script)
+R11: Ticket model extraction from agenda (config artifact)
+R12: Quota/question config artifact generation (JSON for Pretix agent)
+R13: Widget style alignment pass (non-destructive)
+R14: Registration analytics hooks (consent-aware)
+R15: Pretix verification checklist page/internal doc
+
+====================================================================
+PART D — NEW SUBPAGES
+====================================================================
+R16: /international page (P5-focused narrative)
+R17: /dla-sluzb page (P4/P5 mission framing)
+R18: /hardest-hit page (results + rules + CTA)
+R19: /live page shell (CMS flags + safe fallback)
+
+====================================================================
+PART E — SCHEDULE & CERTIFICATES
+====================================================================
+R20: ScheduleBuilder component (agenda + filters + export)
+R21: ParticipantBadge component baseline
+R22: certyfikaty collection population starter
+R23: /certyfikat/[id] route + validation/fallback
+
+====================================================================
+PART F — AUTOMATIONS / INTEGRATIONS
+====================================================================
+R24: Brevo integration adapter (safe env handling)
+R25: HubSpot integration adapter (private app token)
+R26: Airtable integration adapter (rate-limit aware)
+R27: n8n webhook payload contracts (typed)
+R28: KSeF/Fakturownia handoff payload docs
+R29: Media/press automation hooks
+R30: Integration observability notes + retries
+
+====================================================================
+PART G — LIVE EVENT OPERATIONS
+====================================================================
+R31: OperationsPanel UI shell (role-based visibility)
+R32: LiveScoring data structure + rendering
+R33: CalendarMenu hardening and UX final
+R34: Live mode switch orchestration from CMS
+
+====================================================================
+PART H — POST-EVENT
+====================================================================
+R35: Media archive expansion workflow
+R36: Gallery unlock automation by date
+R37: Post-event recap module and CTA routing
+R38: Partner/sponsor outcomes reporting section
+
+====================================================================
+PART I — FINALIZATION
+====================================================================
+R39: i18n hardcoded strings elimination pass
+R40: accessibility/security/focus pass (no visual redesign)
+R41: SEO/JSON-LD/canonical consistency pass
+R42: release readiness gate (build/typecheck/checklist export)
+
+====================================================================
+PROMPT TEMPLATE (COPY FOR ANY RXX)
+====================================================================
+
+TASK: <RXX name>
+
+READ THESE FILES FIRST:
+- <file 1>
+- <file 2>
+- <file 3>
+
+CONSTRAINTS:
+1) DO NOT change existing styles, colors, spacing, typography, layout structure.
+2) Preserve current visual design and component identity.
+3) Use CMS/i18n for strings; no hardcoded user-facing text.
+4) Keep changes minimal and scoped to task.
+
+IMPLEMENTATION:
+- Step 1: <targeted change>
+- Step 2: <targeted change>
+- Step 3: <targeted change>
+
+VALIDATION:
+- npm run build
+- npx tsc --noEmit
+- report any warnings/errors with root cause
+
+OUTPUT FORMAT:
+- Changed files list
+- Why each change was needed
+- Test results
+- Remaining risks / follow-up
+
+END

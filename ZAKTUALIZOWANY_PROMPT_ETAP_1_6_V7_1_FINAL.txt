@@ -1,0 +1,1212 @@
+═══════════════════════════════════════════════════════════════════════
+  CERBERUS K9 — ZAKTUALIZOWANY PROMPT ETAP 1-6 v7.1 FINAL
+  Wersja po weryfikacji Cursora — kanoniczna baza dla całego projektu
+  Fundacja PACTA K9 | KRS: 0001219121 | NIP: 6222869581
+  Event: CERBERUS K9 2026 | 13-14 czerwca | Ostrów Wielkopolski
+  Data aktualizacji: 2026-04-29
+═══════════════════════════════════════════════════════════════════════
+
+INSTRUKCJA UŻYCIA:
+
+Ten dokument jest jedną zaktualizowaną wersją oryginalnego prompta ETAP 1-6,
+poprawioną o WSZYSTKIE ustalenia z raportu diagnostycznego Cursora oraz
+samodzielnie wygenerowanych przez Cursor frameworków:
+  - MEGA_PROMPT_V7_1_VERIFIED (Phase A-M)
+  - WORKFLOW_AKCEPTACJI (Krok 1-5)
+  - PROMPT_PACK R01-R42 z DOD i FORBIDDEN
+  - STRICT PRODUCTION ADDON
+
+Używaj tego pliku jako BAZY przez cały okres budowy do 13 czerwca 2026.
+Aktualizuj go gdy zmienią się ustalenia. Workflow akceptacji powtarzaj
+dla każdego nowego komponentu.
+
+═══════════════════════════════════════════════════════════════════════
+ETAP 1 — DIAGNOSTYKA PROJEKTU (MEGA PROMPT v7.1 VERIFIED)
+═══════════════════════════════════════════════════════════════════════
+
+CEL ETAPU 1:
+Przeprowadzenie kompletnej diagnostyki projektu cerberus-k9-website
+poprzez wklejenie poniższego mega promptu do Cursora. Raport stanie się
+kanoniczną bazą dla wszystkich kolejnych prompty wykonawczych.
+
+KIEDY URUCHOMIĆ:
+- Po każdym dużym uzupełnieniu CMS (instruktorzy, partnerzy, agenda)
+- Po każdej fazie R01-R42 zakończonej przez Cursor
+- W trybie kryzysowym gdy Cursor "odjeżdża" stylistycznie
+- Przed każdą decyzją architektoniczną
+
+INSTRUKCJA:
+1. Otwórz Cursor → projekt D:/STRONA_WWW_CERBERUS_K9/cerberus-k9-website
+2. Naciśnij Ctrl+L
+3. Wklej cały blok poniżej (od "═══ START MEGA PROMPT ═══" do "═══ END ═══")
+4. Czekaj 30-45 minut na pełny raport
+5. Zapisz raport jako: cursor_diagnostic_report_YYYY-MM-DD.txt
+6. Wklej raport Claudie w nowej rozmowie lub kontynuacji
+7. Workflow akceptacji aktywuje się automatycznie
+
+═══ START MEGA PROMPT ═══
+
+CERBERUS K9 — MEGA DIAGNOSTIC PROMPT v7.1 VERIFIED
+READ-ONLY AUDIT | CURSOR ONLY | NO FILE CHANGES
+
+Fundacja PACTA K9 | KRS: 0001219121 | NIP: 6222869581
+Event target: CERBERUS K9 2026 | 13-14 czerwca | Ostrów Wielkopolski
+
+═══════════════════════════════════════════════════════════════════════
+RULES (MANDATORY)
+═══════════════════════════════════════════════════════════════════════
+1. DO NOT edit any file. EVER.
+2. Report exact values from code/content (no guessing, no inference).
+3. If file missing write: FILE NOT FOUND: <path>
+4. Mark each result with status icon: ✅ OK | ⚠ WARNING | ❌ MISSING | — N/A
+5. Keep all outputs in final report context for follow-up prompts.
+6. Take as long as needed. Quality over speed.
+7. Save complete report — it becomes foundation of v7.1 instruction.
+
+═══════════════════════════════════════════════════════════════════════
+PHASE A — PROJECT SNAPSHOT
+═══════════════════════════════════════════════════════════════════════
+Read and report (full content):
+  - package.json
+  - astro.config.mjs
+  - tsconfig.json
+  - tailwind.config.mjs (or .js)
+  - postcss.config.mjs
+  - .gitignore
+  - README.md
+  - .env.example (if exists, otherwise mark NOT FOUND)
+
+Full path inventory (excluding node_modules/.git/.astro/dist):
+  find . -type f \
+    -not -path '*/node_modules/*' -not -path '*/.git/*' \
+    -not -path '*/.astro/*' -not -path '*/dist/*' | sort
+
+Report:
+- Astro version (exact semver)
+- React/React DOM versions
+- TypeScript version
+- Node engine requirement
+- All @astrojs/* integrations with config
+- Tailwind status + version + custom config presence
+- Decap CMS version + backend type (test-repo/git-gateway/github)
+- Output mode (static/server/hybrid)
+- Site URL setting
+- i18n config (default locale, prefix, all locales)
+
+═══════════════════════════════════════════════════════════════════════
+PHASE B — FULL CODE/CONTENT INVENTORY
+═══════════════════════════════════════════════════════════════════════
+Read all files in:
+  - src/layouts/* (full content)
+  - src/components/*.tsx + *.astro (full content)
+  - src/pages/* (full content)
+  - src/lib/* (full content)
+  - src/i18n/* (full content)
+  - src/content.config.ts (full)
+  - public/admin/config.yml (full)
+  - src/content/ustawienia.yml (full)
+  - .github/workflows/* (full)
+
+For src/content collections:
+  - list files for each collection with count
+  - for program/instruktorzy/agenda_categories: include first 3 lines per file
+  - for partnerzy/locations/team: list filenames
+  - count-only for galeria/aktualnosci
+
+For each component (.tsx + .astro):
+  - filename
+  - what it renders (1 sentence)
+  - is it CMS-driven? YES/NO/PARTIAL
+  - hydration: client:load / client:idle / client:visible / static
+  - accepts lang prop? YES/NO
+  - uses i18n? YES/NO
+
+For each page in src/pages:
+  - route path
+  - exists for [lang]? YES/NO
+  - has SEO meta? YES/NO
+  - reads ustawienia from CMS? YES/NO
+  - main components used (top 5)
+
+═══════════════════════════════════════════════════════════════════════
+PHASE C — DESIGN SYSTEM CANONICAL EXTRACTION
+═══════════════════════════════════════════════════════════════════════
+
+C.1 TYPOGRAPHY
+For each font family used in codebase:
+- Exact name (e.g. 'Bebas Neue', 'Rajdhani', 'Libre Baskerville', 'Atkinson')
+- Where loaded (CDN URL? local file via Astro Fonts? @font-face?)
+- font-display strategy
+- All weights used (400/500/600/700/etc)
+- Where used (which components, which elements)
+- For each usage: font-size, letter-spacing, line-height, color
+
+Categorize:
+- DISPLAY font (large headings, stats, countdowns)
+- UI font (nav, buttons, labels, tags)
+- BODY font (paragraphs, articles, bios)
+- LOCAL font (variable, lokalna ładowana przez Astro Fonts)
+
+For each heading style (h1-h6):
+- Font family, size (clamp/px), weight, letter-spacing, color
+- Where used
+
+C.2 BUTTONS — 3 TYPES (CRITICAL)
+Sebastian customized 3 button types. Show EXACT JSX for each:
+
+BUTTON_GOLD_OUTLINE (primary):
+- Default: transparent bg + border #C4922A + text #C4922A
+- Hover: filled bg #C4922A + text #1E2B38
+- Padding, font-family, font-size, letter-spacing
+- Transition timing
+- Where used (find ALL instances)
+
+BUTTON_RED_CTA (REJESTRACJA / urgent CTA):
+- Background #C42B2B → hover #9E1F1F
+- Text white
+- Where used
+- Padding, font, transitions
+
+HERO BUTTON OUTLINE→FILLED (Phase C requirement — investigate exact pattern):
+- Where in HeroSection / PageHero is this implemented?
+- Default state: transparent + border + text
+- Hover state: filled + text color change
+- Exact color tokens used (note: BLUE_HERO is NOT canonical token —
+  show whatever pattern actually exists)
+- Transition curve and duration
+
+For ANY other button types (secondary, ghost, link-style):
+- List all
+- Show JSX
+
+C.3 LINKS AND HOVER ANIMATIONS
+For each link pattern in codebase:
+
+INTERNAL NAV LINKS:
+- Default color
+- Hover color
+- Active page indicator (boxShadow inset?)
+- Transition duration
+
+CONTENT LINKS (in articles, descriptions):
+- Default color, hover color
+- Underline strategy (always? on hover only?)
+- Animation timing
+
+FOOTER LINKS:
+- Default color, hover color, animation
+
+TEL: LINKS (e.g. href="tel:+48...")
+- Default color, hover color
+- Mobile-specific behavior
+
+MAILTO: LINKS (e.g. href="mailto:...")
+- Default color, hover color
+- Whether text wrapped or shown raw
+
+EXTERNAL LINKS (https://):
+- target="_blank"? rel="noopener noreferrer"?
+- Visual indicator (icon? color?)
+- Hover behavior
+
+ANCHOR LINKS (#id):
+- Smooth scroll enabled?
+- Highlight on hover
+
+C.4 SECTION HEADING PATTERN (red-line + title)
+Find this pattern in ProgramSection, VideoSection, LatestNews,
+InteractiveAgenda header, and show EXACT JSX:
+- Section tag with red line
+- Red line: width, height, color, position
+- Heading text: font, size, color, letter-spacing
+- Subtitle: font, size, color
+- Spacing between elements
+- Show from at least 3 different components
+
+C.5 ICONS
+- Library used (lucide-react confirmed?)
+- Sample imports/usages
+- Color (currentColor? hardcoded?)
+- Size values (all sizes used)
+- Stroke-width
+
+C.6 CARDS, SECTIONS, GRIDS
+For each card type show JSX:
+- Instructor card
+- News/article card
+- Partner card
+- Module/program card
+- Location card
+- Stats card
+
+For section wrapper:
+- Max-width, padding, background, margin between sections
+
+For grid pattern:
+- Background color (line-style separator?)
+- Gap value, item background, item padding
+
+C.7 COLORS (every hex value)
+Group by purpose with where each is used:
+- Navy/dark backgrounds (5 shades)
+- Gold accents (default + hover)
+- Red CTA (default + hover)
+- Blue tones (HeroSection — investigate)
+- Text colors (primary/muted/disabled)
+- Status colors (success/warning/error)
+
+═══════════════════════════════════════════════════════════════════════
+PHASE D — CMS / SCHEMA / MAPPING AUDIT
+═══════════════════════════════════════════════════════════════════════
+
+From public/admin/config.yml + src/content.config.ts:
+- list ALL collections with type (folder/files)
+- for each: every field name, label, widget, required, options, hint, default
+- map schema-vs-config mismatches if any
+- flag missing collections content files
+
+Verify existence (YES/NO + file count):
+ustawienia, aktualnosci, instruktorzy, program, agenda_categories,
+partnerzy, galeria, faq, team, locations, homepage_stats,
+homepage_cards, i18n_strings, agenda_ui, fundacja_content,
+nav_links, media_archive, ambasadorzy, hardest_hit_results,
+certyfikaty, szkolenia, live_updates, sponsor_materials,
+press_photos, partner_offers, gallery_tags
+
+CMS Editor UX audit:
+- Field hints completeness
+- Label language (PL for editors?)
+- Required marked correctly
+- Field order (important first?)
+- Widget choices (select vs string for enums?)
+- Preview path configured?
+- Collections logical order
+
+═══════════════════════════════════════════════════════════════════════
+PHASE E — I18N AUDIT
+═══════════════════════════════════════════════════════════════════════
+
+Languages in src/i18n/ui.ts — list all 19:
+pl en de fr cs sk hu hr sl lt lv no sv nl es pt ro it ko
+
+For every key in ui.ts check 19 languages presence:
+Matrix: ✅/❌ per key per language
+- Total keys count
+- 100% complete languages list
+- Top 10 most-missing keys
+
+JSON i18n files:
+- src/content/i18n/*.json — list languages present
+- pl.json top-level keys
+- en.json top-level keys
+- Diff PL vs EN keys (any missing in EN?)
+
+Hardcoded PL/EN strings audit:
+- Find strings in components/pages that should be i18n/CMS
+- Format: file:line → "string" → should be in [location]
+
+═══════════════════════════════════════════════════════════════════════
+PHASE F — INTEGRATIONS / ENV / API
+═══════════════════════════════════════════════════════════════════════
+
+Detect references in code:
+  grep -rn "pretix\|MLK9\|plausible\|gtag\|GA_\|GTM-\|fbq\
+    \|brevo\|sendinblue\|hubspot\|n8n\|webhook\|airtable\
+    \|ksef\|fakturownia\|instagram" \
+    src/ public/ --include="*.tsx" --include="*.astro" \
+    --include="*.ts" --include="*.yml"
+
+For each integration found: where used + current value.
+
+src/pages/api/* — list all endpoints (currently 0 files expected).
+
+Critical settings in ustawienia.yml:
+- pretix_url (exact value — verify slug for 2026)
+- plausible_domain (exact value)
+- google_analytics_id
+- event_date (must be 2026-06-13)
+- event_date_end (must be 2026-06-14)
+- event_time_start
+- event_city (Ostrów Wielkopolski)
+- event_venue
+- cookie_consent_active
+- notification_bar_active
+- gallery_unlock_date
+- All social_* URLs (which empty?)
+
+Env variables scan:
+  grep -rn "import\.meta\.env\.\|process\.env\." src/ \
+    --include="*.ts" --include="*.tsx" --include="*.astro"
+
+For each: name, file:line, required?, in .env.example?, in GitHub Secrets?
+
+PRETIX API public test:
+  curl -s --max-time 10 \
+    "https://pretix.eu/api/v1/organizers/MLK9-LLK9/events/" \
+    | python3 -m json.tool 2>/dev/null | head -50
+
+═══════════════════════════════════════════════════════════════════════
+PHASE G — BUILD / QUALITY / SECURITY
+═══════════════════════════════════════════════════════════════════════
+
+Run and report:
+  npm run build 2>&1
+  npx tsc --noEmit 2>&1
+  npm audit --audit-level=moderate 2>&1 | head -40
+
+Hydration audit (CRITICAL — Cursor previously found bugs):
+  grep -rn "client:load\|client:idle\|client:visible\|client:only" \
+    src/ --include="*.astro"
+
+  Check specifically:
+  - AnnouncementBar: hydration directive on .astro? (BUG if YES)
+  - CookieConsent: hydration directive on .astro? (BUG if YES)
+  - RegistrationSection: hydration directive on .astro? (BUG if YES)
+  - Any other .astro file with client:* directive
+
+Code quality scans:
+  grep -rn "TODO\|FIXME\|HACK\|placeholder\|lorem\|dummy" \
+    src/ --include="*.tsx" --include="*.ts" --include="*.astro"
+
+  grep -rn "console\." src/ --include="*.tsx" --include="*.ts"
+  grep -rn "as any\|@ts-ignore" src/
+  grep -rn 'target="_blank"' src/ | grep -v 'noopener'
+
+Security audit:
+  grep -rn "sk_\|pk_\|api_key\|secret\|password\|token" \
+    src/ public/ | grep -v node_modules | grep -v ".env" \
+    | grep -v "process\.env\|import\.meta\.env"
+
+  git ls-files .env* 2>/dev/null  # CRITICAL if real .env in git
+
+Performance:
+  du -sh dist/ 2>/dev/null
+  find dist/_astro/ -name "*.js" 2>/dev/null \
+    | xargs ls -lh | sort -k5 -hr | head -10
+  find public/ -type f \( -name "*.jpg" -o -name "*.png" \
+    -o -name "*.webp" \) | xargs ls -lhs \
+    | awk '{if($1+0 > 200) print}' | head -10
+
+═══════════════════════════════════════════════════════════════════════
+PHASE H — GITHUB ACTIONS / DEPLOY
+═══════════════════════════════════════════════════════════════════════
+
+For each workflow file:
+- Trigger: branches, events
+- Jobs and step order
+- Node version (CRITICAL: Cursor previously found mismatch
+  between label "20" and value "22")
+- npm commands
+- Build steps
+- Deploy action (SamKirkland/FTP-Deploy-Action expected)
+- FTP local-dir, server-dir (/www/ expected)
+- Referenced secrets (list names)
+- Timeout, cache config
+
+═══════════════════════════════════════════════════════════════════════
+PHASE I — PAGE + COMPONENT OPERATING MAP
+═══════════════════════════════════════════════════════════════════════
+
+For each page show data flow:
+- getCollection/getEntry calls
+- Props passed to each component
+- CMS → component pipeline
+
+Full pipeline for:
+- pl/index.astro + [lang]/index.astro
+- pl/o-wydarzeniu.astro + [lang]/o-wydarzeniu.astro
+- pl/instruktorzy.astro
+- pl/aktualnosci/[slug].astro
+- pl/rejestracja.astro
+- pl/partnerzy.astro
+
+Component dependency tree:
+- Map: Component → imports → used-in-pages → used-in-components
+- Identify circular deps, unused components, leaf nodes
+
+═══════════════════════════════════════════════════════════════════════
+PHASE J — MISSING v7.1 FEATURES
+═══════════════════════════════════════════════════════════════════════
+
+Days until 2026-06-13: calculate.
+
+Check each (YES/NO + path if exists):
+
+COMPONENTS:
+- LiveRegistrationCounter
+- NotificationBar (different from AnnouncementBar?)
+- WallOfFame
+- ScheduleBuilder
+- ParticipantBadge
+- RegistrationPaths
+- NewsletterSignup
+- InstagramFeed
+- OperationsPanel
+- LiveScoring
+- CalendarMenu
+
+PAGES:
+- /ambasadorzy
+- /international
+- /dla-sluzb
+- /hardest-hit
+- /live
+- /certyfikat/[id]
+- /szkolenia
+
+For each missing item:
+- What it is
+- Priority HIGH/MEDIUM/LOW
+- Dependencies (what must exist first)
+- Persona served (P1-P7 — see Phase L)
+
+═══════════════════════════════════════════════════════════════════════
+PHASE K — PRETIX AGENT BLUEPRINT (API + CHROME)
+═══════════════════════════════════════════════════════════════════════
+
+This phase determines what an automation agent needs to build out
+Pretix configuration via API + Chrome browser.
+
+K.1 PRETIX API CAPABILITIES NEEDED:
+1. Authentication: token type, scope, where stored
+2. Event creation/clone: POST /organizers/{org}/events/
+   - Required fields, optional fields
+   - Clone from existing event YES/NO
+3. Item (ticket) creation: POST .../items/
+4. Quota creation: POST .../quotas/
+5. Question creation: POST .../questions/
+   - Question types available
+6. Email template configuration (API or UI only?)
+7. PDF ticket layout (API or UI only?)
+8. Widget customization (API or UI only?)
+
+K.2 CHROME BROWSER AUTOMATION TASKS (what API can't do):
+1. Login to pretix.eu admin panel
+2. Upload PDF ticket template HTML (Jinja2)
+3. Upload custom widget CSS
+4. Configure email templates (HTML)
+5. Test event preview before publishing
+6. Switch event from draft to live
+7. Configure check-in app settings
+
+K.3 EVENT MIGRATION STRATEGY (TEST 2025 → LIVE 2026):
+Current pretix_url = https://pretix.eu/MLK9-LLK9/CERBERUS/ (old 2025).
+
+Option A: Duplicate existing event (preserves settings)
+Option B: Create new event from scratch (clean slate)
+Test API endpoint: GET /events/CERBERUS/ (current test)
+Confirm: which option API supports.
+
+K.4 AGENT INPUTS NEEDED:
+- New event slug (e.g. CERBERUS2026)
+- Event dates (from ustawienia.event_date)
+- Ticket types (from agenda + Sebastian decisions)
+- Quotas per ticket
+- Registration questions
+- Email template content (from Sebastian)
+- PDF ticket HTML template (from Claude)
+- Widget custom CSS (from Claude)
+- Bank account / payment settings (manual)
+
+K.5 VERIFICATION STEPS:
+- Test registration end-to-end
+- Verify email delivery
+- Verify PDF generation
+- Test check-in app
+- Verify Plausible/GA tracking on Pretix pages
+
+K.6 CRITICAL CONSTRAINTS (Sebastian decisions):
+- All tickets FREE (0.00 PLN, dotacja art. 19a UPPP)
+- Photos ONLY on Pretix event page (NOT in tickets PDF, NOT in emails)
+- Ticket types determined AFTER CMS is filled
+- Visual style must match website Design System Cheatsheet
+
+═══════════════════════════════════════════════════════════════════════
+PHASE L — PERSONA-COMPONENT MAPPING
+═══════════════════════════════════════════════════════════════════════
+
+L.1 PERSONA DEFINITIONS:
+
+P1 — VISITOR (general user)
+   Goal: Quick understanding what CERBERUS K9 is
+   Decision time: 30 seconds before bouncing
+
+P2 — POTENTIAL PARTICIPANT
+   Goal: Understand if event is for them
+   Decision time: 2-5 minutes browsing
+   Decision factors: dates, location, modules, level required
+
+P3 — REGISTERED PARTICIPANT
+   Goal: Find practical info before/during event
+   Needs: agenda details, location maps, contact
+
+P4 — MINISTRY / GOVERNMENT
+   Goal: Decide on patronage / delegation / official support
+   Decision time: weeks (committee process)
+   Decision factors: legitimacy (KRS/NIP), scale, alignment
+
+P5 — DEFENSE ATTACHÉ (Embassy)
+   Goal: Decide on diplomatic delegation participation
+   Decision factors: NATO alignment, security level, protocol
+
+P6 — PRESS / MEDIA
+   Goal: Decide if event is newsworthy
+   Decision factors: scale, exclusivity, story angle, media patron
+
+P7 — SPONSOR / PARTNER
+   Goal: Decide on financial / material partnership
+   Decision factors: ROI, audience reach, brand fit, media value
+
+L.2 COMPONENT CLASSIFICATION:
+
+For EACH component classify:
+- Primary persona served (P1-P7)
+- Secondary personas
+- What decision/action the component drives
+- Currently optimized for that persona? YES/NO
+- What's missing?
+
+Examples (verify in code):
+- HeroSection → P1 + P2 (first impression + value prop)
+- StatsBar → P1 + P4 + P7 (legitimacy/scale)
+- InstructorsGrid → P2 + P5 (credibility/expertise)
+- LocationsSection → P3 + P5 (practical + security)
+- Footer (KRS/NIP) → P4 + P7 (legitimacy)
+- VideoSection → P1 + P6 (story hook)
+- PartnersStrip → P4 + P7 (validation/social proof)
+- RegistrationSection → P2 + P3
+
+L.3 PAGE-PERSONA MAPPING:
+
+/dla-sluzb → P4 + P5 (mission-specific landing page)
+/international → P5 (English-only diplomatic)
+/media → P6 (press kit, materials)
+/partnerzy/oferta → P7 (sponsorship deck)
+/ambasadorzy → P5 + P7 (international validation)
+
+L.4 GAP ANALYSIS:
+- Which personas are underserved currently?
+- Recommend which v7.1 components address each gap.
+- Map R01-R42 tasks to personas served.
+
+═══════════════════════════════════════════════════════════════════════
+PHASE M — FINAL OUTPUT FORMAT
+═══════════════════════════════════════════════════════════════════════
+
+Return ALL of the following:
+
+1. EXECUTIVE SUMMARY (top findings, 1 page max):
+   - Tech stack (3 bullets)
+   - What works
+   - Top 10 critical issues
+   - Top 5 missing features
+   - Days to event readiness %
+
+2. DESIGN SYSTEM CHEATSHEET (copy-paste ready block):
+   === CERBERUS K9 DESIGN SYSTEM — DO NOT DEVIATE ===
+   COLORS:
+     NAVY_DARKEST:   #0F1720
+     NAVY_DARK:      #161F28
+     NAVY_MID:       #1A2530
+     NAVY_CARD:      #1E2B38
+     NAVY_BORDER:    #253344
+     GOLD:           #C4922A
+     GOLD_HOVER:     #C4922A
+     RED_CTA:        #C42B2B
+     RED_HOVER:      #9E1F1F
+     BLUE_HERO:      NOT CANONICAL — investigate before use
+     TEXT_PRIMARY:   #E4DDD0
+     TEXT_MUTED:     #7A8A96
+     TEXT_DISABLED:  #5A6A7A
+   FONTS:
+     FONT_DISPLAY: 'Bebas Neue'
+     FONT_UI:      'Rajdhani'
+     FONT_BODY:    'Libre Baskerville'
+     FONT_LOCAL:   'Atkinson' (variable, local)
+     FONT_MONO:    N/A
+   BUTTONS:
+     RED_CTA:      bg #C42B2B / hover #9E1F1F / text white
+     GOLD_OUTLINE: default transparent + border #C4922A + text #C4922A
+                   hover bg #C4922A + text #1E2B38
+     SECONDARY:    transparent + border #253344 + muted text
+   NAV_ACTIVE:     color #C4922A + boxShadow inset 0 -2px 0 #C4922A
+   DROPDOWN:       bg #0F1720, border #C4922A, active bg #1A2530,
+                   active text #C4922A
+   === END DESIGN SYSTEM ===
+
+3. CMS GAPS MATRIX:
+   Per content type: have / need / gap / priority order.
+
+4. PRETIX AGENT BLUEPRINT (Phase K):
+   API tasks list, Chrome automation list, agent inputs.
+
+5. PERSONA-COMPONENT MATRIX (Phase L):
+   Each component → primary/secondary persona, gaps.
+
+6. SEVERITY LIST:
+   🔴 CRITICAL (blocks launch)
+   🟠 WARNING (degrades experience)
+   🟡 i18n GAPS (missing translations)
+   🟢 NICE TO HAVE (improvements)
+
+7. BUILD ORDER FOR v7.1 (R01-R42 logical sequence):
+   PART A — Content & ambassadors (R01-R03)
+   PART B — Homepage extensions (R04-R08)
+   PART C — Pretix complete config (R09-R15)
+   PART D — New subpages (R16-R19)
+   PART E — Schedule & certificates (R20-R23)
+   PART F — Automations (R24-R30)
+   PART G — Live event (R31-R34)
+   PART H — Post-event (R35-R38)
+   PART I — Finalization (R39-R42)
+
+8. COUNTDOWN:
+   Days remaining to 2026-06-13: X
+   Must complete this week: list
+   Must complete in 30 days: list
+
+9. FINAL READINESS SCORE /100:
+   Technical: X/30 | Content: X/30 | Integrations: X/20 |
+   UX: X/10 | Legal: X/10
+
+10. R00 PREREQUISITE (if not done yet):
+    Check if hydration misuse exists on .astro components.
+    If YES — flag as MUST FIX BEFORE R01.
+
+═══ END MEGA PROMPT ═══
+
+═══════════════════════════════════════════════════════════════════════
+ETAP 2 — AUDYT KOMPLETNOŚCI ODPOWIEDZI CURSORA
+═══════════════════════════════════════════════════════════════════════
+
+CEL ETAPU 2:
+Po otrzymaniu raportu z Cursora — Claude weryfikuje czy raport zawiera
+wszystko o czym mówiliśmy. Jeśli brakuje — uzupełnia do swojej pamięci.
+
+PROCES (wykonuje Claude automatycznie):
+
+1. Porównuje raport z listą wymagań z Phase A-M
+2. Identyfikuje braki — co Cursor pominął lub potraktował powierzchownie
+3. Klasyfikuje braki:
+   - KRYTYCZNE (blokujące dalszą pracę) → osobny prompt uzupełniający
+   - ISTOTNE (warto uzupełnić) → dopytanie w trakcie pracy
+   - NICE TO HAVE → odnotowane na później
+4. Zapisuje wszystkie ustalenia jako kanoniczną bazę:
+   - Design System Cheatsheet (z exact JSX z kodu)
+   - CMS structure map
+   - Component-persona mapping
+   - Pretix agent inputs needed
+   - Build order priorytetów
+5. Notuje co wymaga decyzji Sebastiana (Pretix slug, ambasadorzy lista, etc.)
+
+OUTPUT ETAPU 2:
+- Confirmed canonical facts (kanoniczne fakty)
+- Pending decisions (czekające decyzje)
+- Gap fill prompt (jeśli potrzeba dodatkowego promptu do Cursora)
+
+═══════════════════════════════════════════════════════════════════════
+ETAP 3 — AUDYT WIZUALNY I CMS (zapis kanoniczny)
+═══════════════════════════════════════════════════════════════════════
+
+Ten etap jest zawarty wewnątrz Phase C i Phase D mega prompta.
+Tutaj precyzyjnie zdefiniowane co audytujemy:
+
+3.1 — TYPOGRAPHY (Phase C.1):
+- Każda czcionka — gdzie ładowana, w jakich rozmiarach, w jakich kolorach
+- Kiedy stosujemy Bebas Neue (display): nagłówki, statystyki, countdowny
+- Kiedy stosujemy Rajdhani (UI): nawigacja, przyciski, etykiety, tagi
+- Kiedy stosujemy Libre Baskerville (body): artykuły, biografie, opisy
+- Atkinson (local variable): gdzie używana
+- Hierarchia nagłówków h1-h6 z exact values
+
+3.2 — BUTTONS (Phase C.2) — 3 TYPY:
+
+A) PRZYCISK ZŁOTY (gold-outline → gold-filled):
+   Default: transparent bg + border #C4922A + text #C4922A
+   Hover:   filled bg #C4922A + text #1E2B38
+   Stosowanie: główne CTA, "POBIERZ PROGRAM", "WIĘCEJ INFO"
+   Animacja: smooth transition (~0.15s)
+   Typografia: Rajdhani 700, letter-spacing 2-3px
+
+B) PRZYCISK CZERWONY (red-cta):
+   Default: bg #C42B2B + text white
+   Hover:   bg #9E1F1F + text white
+   Stosowanie: "REJESTRACJA", alerty, urgent CTA
+   Animacja: smooth color transition
+
+C) PRZYCISK NIEBIESKI (Hero pattern — wymaga weryfikacji):
+   UWAGA: Cursor potwierdził że BLUE_HERO NIE jest kanonicznym tokenem.
+   Wzorzec outline→fill istnieje w niektórych miejscach ale bez
+   jednolitego niebieskiego tokena.
+   AKCJA: W każdym nowym komponencie używamy GOLD_OUTLINE lub RED_CTA.
+   BLUE_HERO badamy osobno przed użyciem w nowych komponentach.
+
+3.3 — KOMPONENTY (Phase C.4-C.7):
+Wszystkie elementy stylistyczne:
+- Section headings z czerwoną linią
+- Cards (instructor, news, partner, module, location, stats)
+- Section wrappers (max-width, padding, background)
+- Grids (line-style separators, gaps)
+- Icons (lucide-react: size, color, stroke)
+- Backgrounds, layouts, spacing
+
+3.4 — CMS (Phase D):
+- Struktura: 18+ kolekcji w schema
+- Budowa: type folder/files, fields, widgets
+- Opisy/hinty: kompletność dla redaktora
+- Boolean fields (active, draft, featured)
+- UI/UX redaktora w Decap admin
+- Workflow: GitHub backend → commit → build → deploy
+- Macierze: schema (.ts) ↔ CMS config (.yml) zgodność
+- Kanoniczność: każde pole w obu plikach
+- Mapowanie: collection → page consumer
+
+═══════════════════════════════════════════════════════════════════════
+ETAP 4 — AUDYT LINKÓW (zapis kanoniczny)
+═══════════════════════════════════════════════════════════════════════
+
+Ten etap jest zawarty w Phase C.3 mega prompta.
+Tutaj precyzyjnie zdefiniowane co audytujemy:
+
+4.1 — LINKI WEWNĘTRZNE (internal):
+   Format: <a href="/pl/instruktorzy">
+   Default color: muted/text primary
+   Hover: zmiana na gold (#C4922A)
+   Animacja: transition 0.15s
+
+4.2 — LINKI ZEWNĘTRZNE (external):
+   Format: <a href="https://..." target="_blank" rel="noopener noreferrer">
+   Default color: gold lub muted
+   Hover: brighter gold
+   Wymaganie: rel="noopener noreferrer" (security)
+   Audyt: Cursor sprawdza czy WSZYSTKIE external mają rel
+
+4.3 — LINKI TELEFONICZNE (tel:):
+   Format: <a href="tel:+48695637907">
+   Default color: muted
+   Hover: gold transition
+   Mobile: otwiera dialer
+   Audyt: właściwy format międzynarodowy +48...
+
+4.4 — LINKI EMAIL (mailto:):
+   Format: <a href="mailto:sebastian@pactak9.org">
+   Default color: gold lub muted
+   Hover: brighter gold
+   Otwiera klienta poczty
+   Audyt: poprawny format email
+
+4.5 — LINKI KOTWICE (anchor):
+   Format: <a href="#section-id">
+   Smooth scroll do elementu
+   Audyt: czy target #id istnieje na stronie
+
+4.6 — STAN ACTIVE NAV:
+   Po kliknięciu w nawigacji:
+   - Color: #C4922A (gold)
+   - Underline: boxShadow inset 0 -2px 0 #C4922A
+
+═══════════════════════════════════════════════════════════════════════
+ETAP 5 — MEGA PROMPT (BAZA WSZYSTKIEGO)
+═══════════════════════════════════════════════════════════════════════
+
+Mega prompt z ETAPU 1 jest BAZĄ. Jego odpowiedź pozwoli zbudować:
+
+5.1 — INTEGRACJA Z PRETIX (AGENT API + CHROME):
+
+Phase K mega prompta zbiera wszystkie informacje potrzebne do
+zbudowania agenta. Po raporcie Claude generuje:
+
+a) PRETIX AGENT API SCRIPT:
+   - Node.js script używający Pretix REST API
+   - Tworzy event (clone CERBERUS lub nowy CERBERUS2026)
+   - Tworzy items (typy biletów)
+   - Tworzy quotas (limity)
+   - Tworzy questions (pytania rejestracyjne)
+   - Konfiguruje webhooks
+   - Wszystkie inputy z ustawienia.yml + decyzji Sebastiana
+
+b) PRETIX AGENT CHROME AUTOMATION:
+   - Skrypt Playwright/Selenium dla zadań UI-only:
+     - Login do pretix.eu admin
+     - Upload szablonu PDF biletu (Jinja2 HTML)
+     - Upload custom widget CSS
+     - Konfiguracja email templates
+     - Preview event przed publikacją
+     - Switch event z draft na live
+     - Konfiguracja check-in app
+
+c) WYGLĄD BILETÓW I EMAILI:
+   - Style zgodne z Design System Cheatsheet (Phase M.2)
+   - Złoto + navy + Bebas Neue + Rajdhani
+   - WAŻNE: Zdjęcia TYLKO na Pretix event page,
+     NIE w tickets PDF, NIE w emails
+
+d) BILETY (po uzupełnieniu CMS przez Sebastiana):
+   - Wszystkie FREE (0.00 PLN, dotacja art. 19a UPPP)
+   - Typy biletów wynikają z agendy w CMS
+   - Pytania rejestracyjne specyficzne per typ biletu
+
+5.2 — DESIGN SYSTEM ZAPISANY NA STAŁE:
+
+Po raporcie Claude generuje:
+
+a) DESIGN_SYSTEM.md (w repo) — kanoniczna referencja
+b) DESIGN_TOKENS.ts (w src/lib/) — TypeScript constants
+c) Każdy nowy prompt do Cursora ma na górze Design System Cheatsheet
+d) Wszystkie nowe komponenty muszą używać tokens, nie hardcoded values
+
+GWARANCJE SPÓJNOŚCI:
+- Każdy nowy moduł kontynuuje styl poprzednich
+- Design System nie ulega zmianie bez explicit decyzji
+- Cursor ma constraint "DO NOT change existing styles"
+- Code review przez Claude przed każdym promptem wykonawczym
+
+5.3 — INSTRUKCJA v7.1 SPEŁNIA CELE PER PERSONA:
+
+Phase L mapuje każdy komponent na persony P1-P7. v7.1 zapewnia że:
+
+P1 (Visitor): HeroSection + StatsBar + VideoSection — szybkie zrozumienie
+P2 (Candidate): InstructorsGrid + ProgramSection + RegistrationPaths
+P3 (Registered): InteractiveAgenda + LocationsSection + LiveScoring
+P4 (Ministry): Footer (KRS/NIP) + PartnersStrip + /dla-sluzb
+P5 (Defense Attaché): /international + /ambasadorzy + InstructorsGrid
+P6 (Press): /media + VideoSection + WallOfFame + press kit
+P7 (Sponsor): /partnerzy/oferta + PartnersStrip + Footer
+            + RegistrationPaths
+
+KAŻDY R01-R42 task w build order ma określone persony które obsługuje.
+
+5.4 — INSTRUKCJA v7.1 BEZ POPRAWEK W CURSORZE:
+
+- Tylko Cursor (bez v0.dev by Vercel)
+- Każdy prompt R01-R42 zawiera STRICT PRODUCTION ADDON
+- DOD (Definition of Done) per każdy task
+- FORBIDDEN rules per każdy task
+- Mandatory output schema (Scope/Changes/DOD/Validation/Risks)
+- Build + typecheck po każdym task
+- No visual drift confirmed
+
+═══════════════════════════════════════════════════════════════════════
+ETAP 6 — WORKFLOW AKCEPTACJI (PĘTLA OPERACYJNA)
+═══════════════════════════════════════════════════════════════════════
+
+CEL ETAPU 6:
+Utrzymać pełną spójność stylistyczną, CMS i i18n przy wdrażaniu v7.1,
+bez przypadkowych regresji w UI/UX i bez "dryfowania" promptów.
+
+PĘTLA OPERACYJNA — POWTARZAJ DLA KAŻDEGO ZADANIA:
+
+═══════════════════════════════════════════════════════════════════════
+KROK 1 — CURSOR OUTPUT
+═══════════════════════════════════════════════════════════════════════
+Wklejasz do Claude:
+- Raport diagnostyczny (po Etapie 1) LUB
+- Wynik prompta wykonawczego R01-R42 (diff/summary output) LUB
+- Stan po uzupełnieniu CMS
+
+═══════════════════════════════════════════════════════════════════════
+KROK 2 — ANALIZA CLAUDE (7 OBOWIĄZKOWYCH BLOKÓW)
+═══════════════════════════════════════════════════════════════════════
+Claude ZAWSZE zwraca:
+
+1. PROCES MYŚLENIA
+   Co wynika z danych — kluczowe obserwacje
+
+2. CO OSIĄGNIEMY NASTĘPNYM KROKIEM
+   Konkretny rezultat po wykonaniu propozycji
+
+3. DIAGNOZA STANU OBECNEGO
+   Co działa (zielone), co krytyczne (czerwone),
+   co istotne (pomarańczowe), co opcjonalne (żółte)
+
+4. ETAPY WYKONANIA (KOLEJNOŚĆ)
+   Lista konkretnych kroków z czasem
+
+5. JAK ETAPY ZADZIAŁAJĄ W CURSORZE
+   Co Cursor zrobi, jakie pliki zmieni, ile czasu zajmie
+
+6. RYZYKA I OSTRZEŻENIA
+   Co może pójść źle, czego unikać, decyzje czekające
+
+7. SPÓJNOŚĆ Z DESIGN SYSTEM
+   Czy propozycja używa tokens z Cheatsheet,
+   czy nie wprowadza nowych kolorów/fontów
+
+═══════════════════════════════════════════════════════════════════════
+KROK 3 — TWOJA DECYZJA
+═══════════════════════════════════════════════════════════════════════
+Odpowiedz JEDNYM słowem:
+
+AKCEPTUJĘ — Claude generuje prompt wykonawczy
+ZMIEŃ     — Claude koryguje plan według Twoich uwag
+WYJAŚNIJ  — Claude doprecyzowuje dowolny element
+
+═══════════════════════════════════════════════════════════════════════
+KROK 4 — PROMPT WYKONAWCZY DO CURSORA (po AKCEPTUJĘ)
+═══════════════════════════════════════════════════════════════════════
+Claude generuje prompt zawierający:
+
+NAGŁÓWEK GLOBALNY (każdy prompt):
+- READ THESE FILES FIRST: [lista konkretnych plików]
+- DO NOT change existing styles, colors, spacing, typography, layout
+- Keep existing design system intact
+- All user-facing strings must be CMS/i18n-driven
+- Run: npm run build && npx tsc --noEmit
+- Return: changed files + why + test output
+
+DESIGN SYSTEM CHEATSHEET (zawsze na górze):
+[Skopiowany blok z Phase M.2]
+
+ZADANIE (R00-R42):
+- Task ID
+- Goal
+- In-scope files
+- Implementation steps
+- Validation steps
+- Output format
+
+DOD CHECK (Definition of Done):
+- [ ] Functional target completed
+- [ ] No visual drift confirmed
+- [ ] CMS/schema compatibility confirmed
+- [ ] i18n compatibility confirmed
+- [ ] npm run build passed
+- [ ] npx tsc --noEmit passed
+
+FORBIDDEN (per zadanie + globalne):
+- No redesign
+- No hardcoded user-facing text
+- No refactor outside scope
+- No deleting content without reason
+- No `as any` shortcuts
+- No secrets in code
+
+═══════════════════════════════════════════════════════════════════════
+KROK 5 — WALIDACJA PO WYKONANIU
+═══════════════════════════════════════════════════════════════════════
+Po wykonaniu przez Cursor:
+- npm run build (musi pass)
+- npx tsc --noEmit (musi pass)
+- Smoke check stron krytycznych
+- Sprawdzenie że nie ma visual drift
+- Powrót do KROKU 1 z wynikiem
+
+═══════════════════════════════════════════════════════════════════════
+SZABLON UNIWERSALNY DO CLAUDE
+═══════════════════════════════════════════════════════════════════════
+Po każdym output z Cursora wklej do Claude:
+
+"Przeanalizuj output z Cursora. Daj:
+1) proces myślenia,
+2) co osiągniemy,
+3) diagnozę stanu,
+4) plan kroków,
+5) jak kroki zadziałają w Cursorze,
+6) ryzyka i ostrzeżenia,
+7) check spójności z Design System.
+Na koniec czekaj na moją decyzję: AKCEPTUJĘ / ZMIEŃ / WYJAŚNIJ."
+
+═══════════════════════════════════════════════════════════════════════
+TRYB KRYZYSOWY (gdy Cursor odjeżdża stylistycznie)
+═══════════════════════════════════════════════════════════════════════
+
+1. STOP wdrożenia
+2. Re-run MEGA PROMPT v7.1 VERIFIED (Etap 1)
+3. Poproś Claude o:
+   - Diff od Design System (co się zmieniło)
+   - Minimalny prompt naprawczy
+4. Wykonaj prompt naprawczy
+5. Walidacja
+6. Dopiero potem kontynuuj roadmapę
+
+═══════════════════════════════════════════════════════════════════════
+KOLEJNOŚĆ WYKONANIA (HARMONOGRAM DO 13 CZERWCA 2026)
+═══════════════════════════════════════════════════════════════════════
+
+PRIORYTET ZEROWY (NATYCHMIAST):
+R00 — Hydration Fix
+  AnnouncementBar: client:load → client:idle
+  CookieConsent: client:load → client:idle
+  RegistrationSection: usuń client:load (.astro static)
+  Czas: 10 minut Cursor
+
+PRIORYTET KRYTYCZNY (TYDZIEŃ 1: 30.04-06.05):
+- R00 (Hydration)
+- TY: Uzupełnij CMS priorytet 1+2 (instruktorzy, agenda)
+- Decyzja Pretix: clone CERBERUS vs nowy CERBERUS2026
+
+PRIORYTET WYSOKI (TYDZIEŃ 2: 07.05-13.05):
+- TY: CMS priorytet 3+4 (partnerzy, ambasadorzy)
+- R01 — CMS gap verification
+- R02+R03 — Ambasadorzy seed + strona
+- R09-R10 — Pretix normalizacja settings
+
+PRIORYTET WYSOKI (TYDZIEŃ 3: 14.05-20.05):
+- R04-R08 — Nowe komponenty homepage
+- R11-R15 — Pretix pełna konfiguracja + ticket model
+- Pierwsze testy rejestracji end-to-end
+
+PRIORYTET ŚREDNI (TYDZIEŃ 4: 21.05-27.05):
+- R16-R19 — Nowe strony (international, dla-sluzb, hardest-hit, live shell)
+- R24-R27 — Brevo + n8n podstawy
+- Testy emaili automatycznych
+
+PRIORYTET ŚREDNI (TYDZIEŃ 5: 28.05-03.06):
+- R20-R23 — Harmonogram + certyfikaty
+- R39-R41 — i18n + SEO + a11y pass
+- Performance audit
+
+PRIORYTET FINALNY (TYDZIEŃ 6: 04.06-12.06):
+- R31-R34 — Live event features
+- R42 — Release readiness gate
+- Przełączenie Pretix na live
+- Finalne testy end-to-end
+
+13-14 CZERWCA — EVENT 🎯
+
+═══════════════════════════════════════════════════════════════════════
+DECYZJE BIZNESOWE WYMAGANE OD SEBASTIANA
+═══════════════════════════════════════════════════════════════════════
+
+DECYZJA 1 — PRETIX 2026 STRATEGY:
+□ CLONE — kopiuje stary event CERBERUS, zmieniam daty/slug/opisy
+   Zalety: szybciej, zachowuje sprawdzone settings
+   Czas: 1h pracy
+□ NOWY — tworzę event CERBERUS2026 od zera
+   Zalety: czyste slate, bez balastu z 2025
+   Czas: 2h pracy
+
+DECYZJA 2 — AMBASADORZY LISTA:
+Lista ambasadorów do seed content w CMS:
+- Imię nazwisko
+- Kraj + kod kraju (PL, DE, US, LT, etc.)
+- Rola (np. "Ambasador CERBERUS K9 w Niemczech")
+- Bio krótkie (~50 słów PL+EN)
+- LinkedIn (opcjonalne)
+
+DECYZJA 3 — TYPY BILETÓW:
+Po uzupełnieniu agendy w CMS Sebastian decyduje:
+- Ile typów biletów (sugerowane 5-7)
+- Każdy typ: nazwa PL+EN, target, dostęp do modułów,
+  quota, pytania rejestracyjne
+- Wszystkie FREE (0.00 PLN — dotacja)
+
+DECYZJA 4 — DOMENY EMAIL:
+- Sender: @cerberusk9.org czy @pactak9.org?
+- Reply-to address
+- SPF/DKIM/DMARC records (gdy ustalimy domenę)
+
+═══════════════════════════════════════════════════════════════════════
+KANONICZNE FAKTY (potwierdzone z raportu Cursora 2026-04-29)
+═══════════════════════════════════════════════════════════════════════
+
+STACK:
+- Astro ^6.1.9 + React ^19.2.5 + TypeScript ^6.0.3
+- Node engine >=20 (workflow używa 22)
+- Output: static
+- Site: https://cerberusk9.org
+- i18n: 19 languages, default pl, prefixDefaultLocale: true
+
+DESIGN SYSTEM (verified):
+- COLORS: NAVY 5 shades, GOLD #C4922A, RED #C42B2B/#9E1F1F,
+  TEXT #E4DDD0/#7A8A96/#5A6A7A
+- FONTS: Bebas Neue (display), Rajdhani (UI), Libre Baskerville (body),
+  Atkinson (local variable)
+- BLUE_HERO: NOT CANONICAL — do not use until investigated
+- BUTTONS: GOLD_OUTLINE, RED_CTA confirmed; trzeci niebieski wymaga audytu
+
+CMS (verified):
+- Decap CMS in public/admin/
+- 18+ collections in schema (.ts)
+- Brakujący content w: ambasadorzy, certyfikaty, szkolenia,
+  hardest_hit_results, live_updates, sponsor_materials, press_photos,
+  partner_offers, gallery_tags
+- Wenue 4 obecne: 3MK Arena, Szkoła Mundurowa, Stadion Miejski,
+  Infrastruktura Orlen
+- Core instruktorzy: brandon-m, marinha-portuguesa, mariusz-lis, etc.
+- Core partnerzy: polska-zbrojna, wopr-ostrow, politechnika-wroclawska,
+  astriva, smart-target, etc.
+
+INTEGRACJE:
+- Pretix: URL stary 2025 /CERBERUS/ — wymaga decyzji
+- Plausible: skonfigurowane
+- Brevo, HubSpot, n8n, Airtable, KSeF, Fakturownia: niezaimplementowane
+- Instagram Basic Display: deprecated → potrzeba Graph API
+
+GITHUB ACTIONS:
+- deploy.yml: push to master → npm build → FTP /www/
+- preview.yml: PR to master
+- Node 22 (label "20" mismatch w deploy.yml — do naprawy)
+
+KRYTYCZNE BUGI:
+🔴 client:load na .astro: AnnouncementBar, CookieConsent, RegistrationSection
+🔴 Pretix URL stary 2025
+🟠 5 moderate npm vulnerabilities (yaml toolchain)
+🟠 as any w komponentach
+🟠 console.warn w route-level files
+🟡 Hardcoded strings w niektórych komponentach
+🟡 README starter template (nie project-specific)
+
+READINESS SCORE: 64/100
+- Technical: 22/30
+- Content: 16/30
+- Integrations: 12/20
+- UX: 7/10
+- Legal: 7/10
+
+DAYS TO EVENT: ~45 (od 2026-04-29 do 2026-06-13)
+
+═══════════════════════════════════════════════════════════════════════
+KOŃCOWE NOTATKI
+═══════════════════════════════════════════════════════════════════════
+
+CO TEN ZAKTUALIZOWANY PROMPT ZAWIERA POZA ORYGINAŁEM:
+
+✅ MEGA PROMPT v7.1 VERIFIED (Phase A-M zamiast Section A-I)
+✅ Phase A — Project snapshot (rozszerzony o full inventory)
+✅ Phase B — Full code/content inventory (kompletny)
+✅ Phase C — Design System canonical (z C.1-C.7 podsekcjami)
+✅ Phase D — CMS audit z editor UX
+✅ Phase E — i18n z macierzą 19 języków
+✅ Phase F — Integracje + env + API
+✅ Phase G — Build + quality + security z hydration audit
+✅ Phase H — GitHub Actions
+✅ Phase I — Page + component map
+✅ Phase J — Missing v7.1 features
+✅ Phase K — Pretix Agent Blueprint (API + Chrome) — NOWE
+✅ Phase L — Persona-Component Mapping (P1-P7) — NOWE
+✅ Phase M — Final output format z Cheatsheet
+
+✅ R00 — Hydration Fix jako prerekwizyt
+✅ R01-R42 PROMPT PACK z DOD i FORBIDDEN
+✅ STRICT PRODUCTION ADDON (mandatory output schema)
+✅ WORKFLOW AKCEPTACJI (Krok 1-5 explicit)
+✅ Tryb kryzysowy
+✅ Harmonogram do 13 czerwca 2026 (6 tygodni)
+✅ Decyzje biznesowe wymagane
+✅ Kanoniczne fakty z raportu Cursora
+
+CO ZACHOWANE Z ORYGINAŁU:
+
+✅ ETAP 1-6 struktura
+✅ Audyt czcionek, przycisków, komponentów, CMS
+✅ Audyt linków (internal/external/tel/mailto/anchor)
+✅ Cursor-only podejście (bez v0.dev)
+✅ CMS-driven + 19 języków
+✅ Workflow odpowiedź Cursor → analiza → akceptacja → prompt
+
+CO ZMIENIONE (na podstawie raportu Cursora):
+
+⚠ BLUE_HERO usunięty z kanonicznego Design System
+   (nie istnieje jako stable token)
+⚠ FONT_BODY potwierdzony jako Libre Baskerville (nie założenie)
+⚠ Atkinson dodany jako 4-ty font (lokalny variable)
+⚠ R00 Hydration Fix dodany jako prerekwizyt
+⚠ Phase K i Phase L jako nowe sekcje
+
+═══════════════════════════════════════════════════════════════════════
+KONIEC ZAKTUALIZOWANEGO PROMPTA ETAP 1-6 v7.1 FINAL
+Fundacja PACTA K9 | 2026
+KRS: 0001219121 | NIP: 6222869581
+cerberusk9.org | pactak9.org
+═══════════════════════════════════════════════════════════════════════

@@ -1,0 +1,78 @@
+FINALNY SKRYPT DZIALANIA — CERBERUS K9 v7.1
+Cel: doprowadzic projekt do stanu wdrozeniowego bez poprawek ad-hoc.
+
+====================================================================
+0) START
+====================================================================
+1. Uruchom diagnostyke: MEGA_PROMPT_V7_1_VERIFIED.txt
+2. Wklej wynik do Claude.
+3. Przejdz workflow: WORKFLOW_AKCEPTACJI_CURSOR_CLAUDE.txt
+
+====================================================================
+1) PRIORYTET KRYTYCZNY (TYDZIEN 1)
+====================================================================
+A. Naprawa stabilnosci:
+- R39 (hardcoded strings)
+- R40 (a11y/security)
+- R42 (release gate)
+
+B. Naprawa build hygiene:
+- usun zle uzycia client:load na .astro komponentach
+- upewnij sie, ze build i typecheck sa czyste
+
+C. Decyzja Pretix:
+- potwierdz slug eventu 2026
+- wybierz strategia: clone vs new event
+
+====================================================================
+2) BLOK FUNKCJONALNY (TYDZIEN 2-3)
+====================================================================
+1. Content + ambassadors:
+   - R01, R02, R03
+2. New pages:
+   - R16, R17, R18, R19
+3. Schedule + certificates:
+   - R20, R21, R22, R23
+
+====================================================================
+3) INTEGRACJE (TYDZIEN 3-4)
+====================================================================
+- R09 -> R15 (Pretix)
+- R24 -> R30 (Brevo/HubSpot/Airtable/n8n/KSeF handoffs)
+
+====================================================================
+4) LIVE + POST-EVENT (TYDZIEN 4+)
+====================================================================
+- R31 -> R34 (live ops)
+- R35 -> R38 (post-event)
+
+====================================================================
+5) RYTM WYKONANIA (NA KAZDY RXX)
+====================================================================
+1. Claude analiza + plan
+2. Twoja decyzja: AKCEPTUJE/ZMIEN/WYJASNIJ
+3. Prompt wykonawczy do Cursor
+4. Cursor implementation
+5. Build + typecheck + smoke check
+6. Raport i decyzja kolejnego kroku
+
+====================================================================
+6) BRAMKI JAKOSCI (MUSZA BYC ZIELONE)
+====================================================================
+- [ ] npm run build
+- [ ] npx tsc --noEmit
+- [ ] Brak regresji stylu
+- [ ] Brak nowych hardcoded stringow
+- [ ] i18n/CMS mapowanie zgodne
+- [ ] Krytyczne strony dzialaja: home, o-wydarzeniu, rejestracja, partnerzy, kontakt
+
+====================================================================
+7) OSTATECZNY OUTPUT
+====================================================================
+Po R42 przygotuj:
+1) release summary
+2) lista remaining risks
+3) lista decyzji biznesowych pozostalych (Pretix ceny/kwoty/teksty)
+4) final prompt package do utrzymania i dalszej rozbudowy
+
+END
