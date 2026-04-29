@@ -1,0 +1,9 @@
+key: team leader
+label_pl: LIDER GRUPY
+filter_field: specializations
+filter_match: includes
+filter_value: team leader
+filter_values:
+  - LIDER GRUPY
+order: 11
+active: true
