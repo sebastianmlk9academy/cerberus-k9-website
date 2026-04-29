@@ -8,5 +8,5 @@ filter_match: includes
 filter_value: tccc-k9
 filter_values:
   - TCCC-K9
-order: 10
+order: 6
 active: true
