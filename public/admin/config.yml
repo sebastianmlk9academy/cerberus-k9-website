@@ -70,8 +70,8 @@ collections:
                 required: true
                 default: "09:00"
                 pattern:
-                  - "^\\d{2}:\\d{2}$"
-                  - "Format 24h np. 09:00"
+                  - "^([01]\\d|2[0-3]):[0-5]\\d$"
+                  - "Format HH:MM, np. 09:00"
               - name: "event_time_end"
                 label: "⏰ Godzina końca (HH:MM)"
                 widget: "string"
@@ -79,8 +79,8 @@ collections:
                 required: true
                 default: "18:00"
                 pattern:
-                  - "^\\d{2}:\\d{2}$"
-                  - "Format 24h np. 18:00"
+                  - "^([01]\\d|2[0-3]):[0-5]\\d$"
+                  - "Format HH:MM, np. 09:00"
               - name: "event_timezone"
                 label: "🌍 Strefa czasowa (IANA)"
                 widget: "string"
@@ -311,7 +311,7 @@ collections:
                 hint: "YouTube z przycisku relacji na hero."
                 required: false
                 pattern:
-                  - "^https?://.*"
+                  - "^https?://.+$"
                   - "Wklej pełny adres URL z https://"
               - name: "hero_video_title"
                 label: "🎥 Hero — tytuł iframe"
@@ -327,6 +327,9 @@ collections:
               - name: "hero_video_url"
                 label: "🎥 Hero wideo (legacy)"
                 widget: "string"
+                pattern:
+                  - "^https?://.+$"
+                  - "URL musi zaczyna? si? od https://"
                 hint: "Pole legacy/rezerwa. Aktywne źródło to `hero_video_href`. Możesz zostawić puste."
                 required: false
 
@@ -396,7 +399,7 @@ collections:
                 hint: "Główny film w sekcji wideo na stronie głównej."
                 required: false
                 pattern:
-                  - "^https?://.*"
+                  - "^https?://.+$"
                   - "Wklej pełny adres URL z https://"
               - name: "main_video_title"
                 label: "🎬 Tytuł głównego wideo"
@@ -409,7 +412,7 @@ collections:
                 hint: "Drugi film w siatce wideo."
                 required: false
                 pattern:
-                  - "^https?://.*"
+                  - "^https?://.+$"
                   - "Wklej pełny adres URL z https://"
               - name: "video_badge_2"
                 label: "🏷️ Wideo 2 — odznaka"
@@ -422,7 +425,7 @@ collections:
                 hint: "Trzeci film w siatce."
                 required: false
                 pattern:
-                  - "^https?://.*"
+                  - "^https?://.+$"
                   - "Wklej pełny adres URL z https://"
               - name: "video_badge_3"
                 label: "🏷️ Wideo 3 — odznaka"
@@ -435,7 +438,7 @@ collections:
                 hint: "Czwarty film (dolny rząd)."
                 required: false
                 pattern:
-                  - "^https?://.*"
+                  - "^https?://.+$"
                   - "Wklej pełny adres URL z https://"
               - name: "video_badge_4"
                 label: "🏷️ Wideo 4 — odznaka"
@@ -458,7 +461,7 @@ collections:
                 hint: "Link pierwszego wideo w galerii."
                 required: false
                 pattern:
-                  - "^https?://.*"
+                  - "^https?://.+$"
                   - "Wklej pełny adres URL z https://"
               - name: "gallery_video_1_badge"
                 label: "🏷️ Galeria wideo 1 — odznaka"
@@ -476,7 +479,7 @@ collections:
                 hint: "Link drugiego wideo."
                 required: false
                 pattern:
-                  - "^https?://.*"
+                  - "^https?://.+$"
                   - "Wklej pełny adres URL z https://"
               - name: "gallery_video_2_badge"
                 label: "🏷️ Galeria wideo 2 — odznaka"
@@ -494,7 +497,7 @@ collections:
                 hint: "Link trzeciego wideo."
                 required: false
                 pattern:
-                  - "^https?://.*"
+                  - "^https?://.+$"
                   - "Wklej pełny adres URL z https://"
               - name: "gallery_video_3_badge"
                 label: "🏷️ Galeria wideo 3 — odznaka"
@@ -512,7 +515,7 @@ collections:
                 hint: "Link czwartego wideo."
                 required: false
                 pattern:
-                  - "^https?://.*"
+                  - "^https?://.+$"
                   - "Wklej pełny adres URL z https://"
               - name: "gallery_video_4_badge"
                 label: "🏷️ Galeria wideo 4 — odznaka"
@@ -531,7 +534,7 @@ collections:
                 hint: "Rejestracja — przyciski i embed na /rejestracja."
                 required: true
                 pattern:
-                  - "^https?://.*"
+                  - "^https?://.+$"
                   - "Wklej pełny adres URL z https://"
               - name: "registration_deadline_text"
                 label: "⏳ Deadline rejestracji (legacy)"
@@ -576,6 +579,9 @@ collections:
               - name: "registration_contact_email"
                 label: "✉️ E-mail do rejestracji (legacy)"
                 widget: "string"
+                pattern:
+                  - "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                  - "Wpisz poprawny adres e-mail"
                 hint: >
                   📍 Gdzie: legacy fallback kontaktu e-mail przy rejestracji.
                   ⚠️ Ważne: kanonicznie edytuj `reg_contact_email` w kolekcji rejestracji.
@@ -641,7 +647,7 @@ collections:
                 hint: "Opcjonalne. Wypełnij tylko gdy pasek powiadomień jest aktywny."
                 required: false
                 pattern:
-                  - "^https?://.*"
+                  - "^https?://.+$"
                   - "Wklej pełny adres URL z https://"
               - name: "gallery_unlock_date"
                 label: "🔓 Data odblokowania galerii"
@@ -663,7 +669,7 @@ collections:
                 hint: "Ikona Facebook w stopce."
                 required: true
                 pattern:
-                  - "^https?://.*"
+                  - "^https?://.+$"
                   - "Wklej pełny adres URL z https://"
               - name: "social_youtube"
                 label: "📺 YouTube URL"
@@ -671,7 +677,7 @@ collections:
                 hint: "Ikona YouTube w stopce."
                 required: true
                 pattern:
-                  - "^https?://.*"
+                  - "^https?://.+$"
                   - "Wklej pełny adres URL z https://"
               - name: "social_instagram"
                 label: "📸 Instagram URL"
@@ -679,7 +685,7 @@ collections:
                 hint: "Opcjonalne. Jeśli nie używasz Instagrama, zostaw puste."
                 required: false
                 pattern:
-                  - "^https?://.*"
+                  - "^https?://.+$"
                   - "Wklej pełny adres URL z https://"
               - name: "social_linkedin"
                 label: "💼 LinkedIn URL"
@@ -687,7 +693,7 @@ collections:
                 hint: "Opcjonalne. Jeśli nie używasz LinkedIn, zostaw puste."
                 required: false
                 pattern:
-                  - "^https?://.*"
+                  - "^https?://.+$"
                   - "Wklej pełny adres URL z https://"
               - name: "social_twitter"
                 label: "🐦 X / Twitter URL"
@@ -695,7 +701,7 @@ collections:
                 hint: "Opcjonalne. Jeśli nie używasz X/Twitter, zostaw puste."
                 required: false
                 pattern:
-                  - "^https?://.*"
+                  - "^https?://.+$"
                   - "Wklej pełny adres URL z https://"
               - name: "twitter_handle"
                 label: "🐦 Handle X (meta)"
@@ -712,6 +718,9 @@ collections:
               - name: "footer_email"
                 label: "✉️ E-mail w stopce"
                 widget: "string"
+                pattern:
+                  - "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                  - "Wpisz poprawny adres e-mail"
                 hint: "Kontakt w stopce każdej podstrony."
                 required: true
               - name: "footer_phone"
@@ -856,6 +865,9 @@ collections:
               - name: "media_contact_email"
                 label: "✉️ Kontakt media — e-mail (legacy)"
                 widget: "string"
+                pattern:
+                  - "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                  - "Wpisz poprawny adres e-mail"
                 hint: "Legacy fallback. Kanoniczna edycja: kolekcja „✉️ Kontakt — Treści”."
                 required: false
               - name: "sekcja_media_etykiety_pl"
@@ -920,6 +932,9 @@ collections:
               - name: "president_email"
                 label: "✉️ E-mail prezesa"
                 widget: "string"
+                pattern:
+                  - "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                  - "Wpisz poprawny adres e-mail"
                 hint: "Kontakt do prezesa fundacji."
                 required: false
               - name: "press_kit_zip"
@@ -945,6 +960,9 @@ collections:
               - name: "sponsor_contact_email"
                 label: "✉️ E-mail sponsoring (legacy)"
                 widget: "string"
+                pattern:
+                  - "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                  - "Wpisz poprawny adres e-mail"
                 hint: "Legacy fallback. Kanoniczna edycja: kolekcja „✉️ Kontakt — Treści”."
                 required: false
               - name: "contact_map_embed_url"
@@ -953,7 +971,7 @@ collections:
                 hint: "Iframe mapy na /kontakt."
                 required: false
                 pattern:
-                  - "^https?://.*"
+                  - "^https?://.+$"
                   - "Wklej pełny adres URL z https://"
               - name: "contact_form_endpoint"
                 label: "📮 Formularz — endpoint POST (legacy)"
@@ -983,6 +1001,9 @@ collections:
               - name: "map_embed_url"
                 label: "🗺️ Mapa embed (legacy)"
                 widget: "string"
+                pattern:
+                  - "^https?://.+$"
+                  - "URL musi zaczyna? si? od https://"
                 hint: "Alternatywne pole mapy w szablonach."
                 required: false
               - name: "contact_phone_sebastian"
@@ -998,6 +1019,9 @@ collections:
               - name: "contact_president_email"
                 label: "✉️ E-mail prezesa (Mariusz)"
                 widget: "string"
+                pattern:
+                  - "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                  - "Wpisz poprawny adres e-mail"
                 hint: "Bezpośredni e-mail prezesa."
                 required: false
               - name: "contact_address_street"
@@ -1023,6 +1047,9 @@ collections:
               - name: "agenda_page_url"
                 label: "🔗 Publiczny URL agendy"
                 widget: "string"
+                pattern:
+                  - "^https?://.+$"
+                  - "URL musi zaczyna? si? od https://"
                 hint: "Kanoniczny link do strony z programem."
                 required: false
 
@@ -1057,7 +1084,7 @@ collections:
                 hint: "Link weryfikacji KRS."
                 required: true
                 pattern:
-                  - "^https?://.*"
+                  - "^https?://.+$"
                   - "Wklej pełny adres URL z https://"
 
           - name: "sekcja_seo"
@@ -1071,7 +1098,7 @@ collections:
                 hint: "SEO, Open Graph i JSON-LD."
                 required: true
                 pattern:
-                  - "^https?://.*"
+                  - "^https?://.+$"
                   - "Wklej pełny adres URL z https://"
               - name: "og_image_default"
                 label: "🖼️ Domyślny obraz Open Graph"
@@ -1995,7 +2022,7 @@ collections:
         hint: "Google Maps — ikona/link w bloku."
         required: false
         pattern:
-          - "^https?://.*"
+          - "^https?://.+$"
           - "Wklej pełny adres URL z https://"
       - name: "order"
         label: "🔢 Kolejność wyświetlania"
@@ -2098,7 +2125,7 @@ collections:
           ✏️ Wklej pełny adres z https:// — np. https://maps.app.goo.gl/...
         required: false
         pattern:
-          - "^$|^https?://.*"
+          - "^$|^https?://.+$"
           - "Pozostaw puste lub wklej pełny adres z https://"
       - name: "is_break"
         label: "☕ To jest przerwa / lunch?"
@@ -2541,6 +2568,9 @@ collections:
           - name: "ics_organizer_email"
             label: "📇 ICS — e-mail organizatora"
             widget: "string"
+            pattern:
+              - "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+              - "Wpisz poprawny adres e-mail"
             hint: "E-mail organizatora w ICS."
             required: false
             default: "sebastian@pactak9.org"
@@ -2621,9 +2651,12 @@ collections:
           📍 Gdzie: podtytuł pod nazwiskiem na karcie /instruktorzy.
           ✏️ Np. Instruktor taktyczny K9.
         required: false
-      - name: "countryCode"
+      - name: "country_code"
         label: "🏴 Kod kraju ISO"
         widget: "string"
+        pattern:
+          - "^[A-Z]{2}$"
+          - "Wpisz dok?adnie dwie wielkie litery"
         hint: >
           📍 Gdzie: flaga i sortowanie na /instruktorzy — kod ISO 3166-1 alpha-2 (2 litery).
           ✏️ Np. PL, DE, US.
@@ -2719,7 +2752,7 @@ collections:
           ✏️ Wklej pełny adres z https:// — np. https://www.linkedin.com/in/przyklad
         required: false
         pattern:
-          - "^$|^https?://.*"
+          - "^$|^https?://.+$"
           - "Pozostaw puste lub wklej pełny adres z https://"
       - name: "showOnHomepage"
         label: "🏠 Promocja na stronie głównej"
@@ -2794,6 +2827,9 @@ collections:
           - name: "reg_contact_email"
             label: "✉️ E-mail kontaktowy"
             widget: "string"
+            pattern:
+              - "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+              - "Wpisz poprawny adres e-mail"
             hint: "Kontakt przy pytaniach o zapisy."
             required: true
           - name: "reg_contact_phone"
@@ -2906,7 +2942,7 @@ collections:
         hint: "Opcjonalny link LinkedIn."
         required: false
         pattern:
-          - "^https?://.*"
+          - "^https?://.+$"
           - "Wklej pełny adres URL z https://"
       - name: "order"
         label: "🔢 Kolejność wyświetlania"
@@ -3109,7 +3145,7 @@ collections:
         hint: "Link do strony partnera."
         required: false
         pattern:
-          - "^https?://.*"
+          - "^https?://.+$"
           - "Wklej pełny adres URL z https://"
       - name: "website_label"
         label: "🏷️ Etykieta linku WWW"
@@ -3189,7 +3225,7 @@ collections:
         hint: "URL artykułu lub nagrania."
         required: false
         pattern:
-          - "^https?://.*"
+          - "^https?://.+$"
           - "Wklej pełny adres URL z https://"
       - label: "🏷️ Rodzaj materiału"
         name: "badge"
@@ -3258,7 +3294,7 @@ collections:
         widget: "string"
         required: true
         pattern:
-          - "^https?://.*"
+          - "^https?://.+$"
           - "Wklej pełny adres URL z https://"
         hint: >
           📍 Gdzie: przycisk pobrania po prawej stronie wpisu.
@@ -3407,6 +3443,9 @@ collections:
       - name: "share_url"
         label: "🔗 URL udostępniania"
         widget: "string"
+        pattern:
+          - "^https?://.+$"
+          - "URL musi zaczyna? si? od https://"
         hint: "Opcjonalny kanoniczny URL udostępnień."
         required: false
       - name: "needs_review"
@@ -3681,6 +3720,9 @@ collections:
       - name: "video_url"
         label: "▶️ URL wideo [TYLKO dla: Film wideo]"
         widget: "string"
+        pattern:
+          - "^https?://.+$"
+          - "URL musi zaczyna? si? od https://"
         required: false
         hint: >
           ✏️ https://www.youtube.com/watch?v=XXXXX
@@ -3718,6 +3760,9 @@ collections:
       - name: "press_url"
         label: "🔗 Link do relacji [TYLKO dla: Relacja]"
         widget: "string"
+        pattern:
+          - "^https?://.+$"
+          - "URL musi zaczyna? si? od https://"
         required: false
         hint: "Pełny URL. Musi zaczynać się od https://"
       - name: "press_date"
@@ -3770,6 +3815,9 @@ collections:
           - name: "contact_email"
             label: "✉️ E-mail kontaktowy"
             widget: "string"
+            pattern:
+              - "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+              - "Wpisz poprawny adres e-mail"
             hint: "Główny e-mail na /kontakt."
             required: true
           - name: "contact_phone"
@@ -3783,7 +3831,7 @@ collections:
             hint: "Iframe mapy na stronie kontakt."
             required: false
             pattern:
-              - "^https?://.*"
+              - "^https?://.+$"
               - "Wklej pełny adres URL z https://"
           - name: "contact_gdpr_text_pl"
             label: "⚖️ Zgoda RODO (PL)"
@@ -3818,11 +3866,17 @@ collections:
           - name: "media_contact_email"
             label: "✉️ Kontakt media — e-mail"
             widget: "string"
+            pattern:
+              - "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+              - "Wpisz poprawny adres e-mail"
             hint: "E-mail akredytacji."
             required: false
           - name: "president_email"
             label: "✉️ E-mail prezesa"
             widget: "string"
+            pattern:
+              - "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+              - "Wpisz poprawny adres e-mail"
             hint: "Kontakt do prezesa fundacji."
             required: false
           - name: "accreditation_deadline"
@@ -3843,6 +3897,9 @@ collections:
           - name: "sponsor_contact_email"
             label: "✉️ E-mail sponsoring"
             widget: "string"
+            pattern:
+              - "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+              - "Wpisz poprawny adres e-mail"
             hint: "Kontakt ds. sponsorów."
             required: false
           - name: "sekcja_formularz"
@@ -4663,17 +4720,21 @@ collections:
         widget: "string"
         required: true
         hint: "✏️ Np. Portugalia, Czechy, USA"
-      - name: "countryCode"
+      - name: "country_code"
         label: "🏳️ Kod kraju (2 wielkie litery)"
         widget: "string"
         required: true
-        pattern: ["^[A-Z]{2}$", "❌ Dwie wielkie litery: PL, US, DE, PT, CZ..."]
+        pattern: ["^[A-Z]{2}$", "Wpisz dokładnie dwie wielkie litery"]
         hint: "📍 Flaga kraju. PL=Polska, US=USA, DE=Niemcy, PT=Portugalia"
       - label: "🎖️ Rola / Tytuł"
-        name: "role"
+        name: "role_pl"
         widget: "string"
         required: false
-        hint: "✏️ Np. Ambasador Europy Wschodniej, K9 Specialist"
+        hint: "Krótko po polsku, np. 'Były dowódca JW Komandosów'"
+      - label: "🎖️ Rola (EN)"
+        name: "role_en"
+        widget: "string"
+        required: false
       - label: "🏛️ Jednostka / Organizacja"
         name: "unit"
         widget: "string"
@@ -4686,17 +4747,20 @@ collections:
         choose_url: true
         hint: "⚠️ Format: WebP, 400x400px (kwadrat), max 200KB."
       - label: "📝 Krótkie bio"
-        name: "bio"
+        name: "bio_short_pl"
         widget: "text"
         required: false
-        hint: "📍 Karta ambasadora. ⚠️ Max 200 znaków."
+        hint: "1-2 zdania, max 200 znaków"
+      - name: "bio_short_en"
+        widget: "text"
+        required: false
       - label: "💼 LinkedIn URL"
-        name: "linkedinUrl"
+        name: "linkedin_url"
         widget: "string"
         required: false
         hint: "✏️ https://www.linkedin.com/in/..."
       - label: "📸 Instagram URL"
-        name: "instagram_url"
+        name: "social_instagram"
         widget: "string"
         required: false
         hint: "✏️ https://www.instagram.com/..."
@@ -4706,7 +4770,7 @@ collections:
         default: 99
         hint: "Niższa liczba = wyżej. 1 = pierwszy."
       - label: "👁️ Widoczny"
-        name: "active"
+        name: "isVisible"
         widget: "boolean"
         default: true
         hint: "true = widoczny, false = ukryty bez usuwania."
@@ -4715,6 +4779,14 @@ collections:
         widget: "boolean"
         default: false
         hint: "true = oczekuje sprawdzenia, false = zaakceptowany."
+      - name: "social_facebook"
+        label: "Facebook URL"
+        widget: "string"
+        required: false
+      - name: "tags"
+        label: "Tagi"
+        widget: "list"
+        required: false
 
   # ─── CERTYFIKATY ──────────────────────────────────────
   - name: "certyfikaty"
@@ -5020,7 +5092,7 @@ collections:
     delete: true
     slug: "{{slug}}"
     identifier_field: "title"
-    summary: "{{title}} — {{language}}/{{edition}}"
+    summary: "{{title}} — {{language}}"
     description: "Oferty sponsorskie PDF do pobrania przez potencjalnych partnerów."
     media_folder: "public/uploads/sponsor_materials"
     public_folder: "/uploads/sponsor_materials"
@@ -5040,15 +5112,6 @@ collections:
         widget: "string"
         required: false
         hint: "✏️ Np. Pełna oferta sponsorska z pakietami cenowymi"
-      - name: "edition"
-        label: "📅 Edycja"
-        widget: "relation"
-        collection: "gallery_editions"
-        search_fields: ["label_pl", "value"]
-        value_field: "value"
-        display_fields: ["label_pl"]
-        required: false
-        hint: "Edycja której dotyczy dokument."
       - name: "language"
         label: "🌍 Język dokumentu"
         widget: "select"
@@ -5056,16 +5119,23 @@ collections:
         options:
           - { label: "🇵🇱 Polski", value: "pl" }
           - { label: "🇬🇧 Angielski", value: "en" }
-          - { label: "🇩🇪 Niemiecki", value: "de" }
+          - { label: "🌐 Dwujęzyczny", value: "both" }
+      - name: "category"
+        label: "📂 Kategoria materiału"
+        widget: "select"
+        options: ["brief","deck","onepager","logo_pack","case_study"]
+      - name: "target_audience"
+        label: "Odbiorca"
+        widget: "select"
+        options: ["prospect","confirmed","partner"]
+      - name: "file_size_mb"
+        label: "Rozmiar pliku (MB)"
+        widget: "number"
+        required: false
       - label: "🔢 Kolejność"
         name: "order"
         widget: "number"
         default: 10
-      - label: "👁️ Dostępny do pobrania"
-        name: "active"
-        widget: "boolean"
-        default: true
-        hint: "true = link aktywny, false = tymczasowo niedostępny."
 
   # ─── ZDJĘCIA PRASOWE ──────────────────────────────────
   - name: "press_photos"
@@ -5100,6 +5170,9 @@ collections:
       - name: "download_url"
         label: "🔗 Link do pobrania (ZIP)"
         widget: "string"
+        pattern:
+          - "^https?://.+$"
+          - "URL musi zaczyna? si? od https://"
         required: true
         hint: >
           URL do archiwum ZIP.
@@ -5155,8 +5228,8 @@ collections:
     create: true
     delete: true
     slug: "{{slug}}"
-    identifier_field: "offer_title"
-    summary: "{{partner_name}} — {{offer_title}}"
+    identifier_field: "offer_title_pl"
+    summary: "{{partner_name}} — {{offer_title_pl}}"
     description: "Zniżki i oferty od partnerów dla uczestników CERBERUS K9."
     fields:
       - name: "partner_name"
@@ -5168,34 +5241,56 @@ collections:
         display_fields: ["name", "type"]
         required: true
         hint: "Wybierz z listy. Nowego dodaj w 'Partnerzy — Lista'."
+      - name: "partner_id"
+        label: "ID partnera (slug)"
+        widget: "string"
+        hint: "Slug z kolekcji partnerzy, np. astriva"
       - label: "🎁 Tytuł oferty"
-        name: "offer_title"
+        name: "offer_title_pl"
         widget: "string"
         required: true
         hint: "📍 Karta oferty. ✏️ 15% zniżki na sprzęt K9"
+      - label: "🎁 Tytuł oferty (EN)"
+        name: "offer_title_en"
+        widget: "string"
+        required: false
       - label: "📋 Opis oferty"
-        name: "offer_description"
+        name: "offer_description_pl"
         widget: "text"
         required: true
         hint: "Szczegóły — warunki, jak użyć kodu rabatowego."
+      - label: "📋 Opis oferty (EN)"
+        name: "offer_description_en"
+        widget: "text"
+        required: false
       - label: "🏷️ Kod rabatowy"
         name: "discount_code"
         widget: "string"
         required: false
         hint: "✏️ Np. CERBERUS2026"
       - label: "🔗 Link do oferty"
-        name: "offer_url"
+        name: "claim_link"
         widget: "string"
         required: false
         hint: "Musi zaczynać się od https://"
+      - name: "target_audience"
+        label: "Dla kogo"
+        widget: "select"
+        options: ["sluzby","cywil-z-psem","cywil-bez-psa","delegacja","media","sponsor","wszyscy"]
+      - name: "valid_from"
+        label: "Ważna od"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        dateFormat: true
+        timeFormat: false
       - name: "valid_until"
         label: "📅 Ważna do"
         widget: "datetime"
         format: "YYYY-MM-DD"
         date_format: "DD.MM.YYYY"
         time_format: false
-        required: false
-        hint: "Data wygaśnięcia. Puste = bezterminowa."
+        required: true
+        hint: "Data końca oferty, np. 2026-12-31."
       - name: "category"
         label: "🏷️ Kategoria"
         widget: "select"
