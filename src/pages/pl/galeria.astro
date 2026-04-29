@@ -78,7 +78,9 @@ try {
 			label_en: f.data.label_en ?? f.data.label_pl,
 			label_de: f.data.label_de ?? f.data.label_pl,
 			category_value: f.data.category_value ?? '',
-		}));
+		}))
+		// Defensive dedupe: avoids duplicated React keys if CMS contains repeated filter keys.
+		.filter((item, index, arr) => arr.findIndex((x) => x.key === item.key) === index);
 } catch {
 	console.warn('gallery_filters not loaded, using hardcode fallback');
 }
@@ -92,7 +94,8 @@ try {
 		.map((e) => ({
 			value: e.data.value,
 			label: e.data.label_pl,
-		}));
+		}))
+		.filter((item, index, arr) => arr.findIndex((x) => x.value === item.value) === index);
 } catch {
 	console.warn('gallery_editions not loaded, using fallback');
 }
@@ -106,7 +109,8 @@ try {
 		.map((l) => ({
 			value: l.data.value,
 			label: l.data.label_pl,
-		}));
+		}))
+		.filter((item, index, arr) => arr.findIndex((x) => x.value === item.value) === index);
 } catch {
 	console.warn('gallery_locations not loaded, using fallback');
 }
