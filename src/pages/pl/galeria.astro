@@ -82,6 +82,34 @@ try {
 	console.warn('gallery_filters not loaded, using hardcode fallback');
 }
 
+let cmsGalleryEditions: { value: string; label: string }[] = [];
+try {
+	const rawEditions = await getCollection('galleryEditions');
+	cmsGalleryEditions = rawEditions
+		.filter((e) => e.data.active !== false)
+		.sort((a, b) => (a.data.order ?? 10) - (b.data.order ?? 10))
+		.map((e) => ({
+			value: e.data.value,
+			label: e.data.label_pl,
+		}));
+} catch {
+	console.warn('gallery_editions not loaded, using fallback');
+}
+
+let cmsGalleryLocations: { value: string; label: string }[] = [];
+try {
+	const rawLocations = await getCollection('galleryLocations');
+	cmsGalleryLocations = rawLocations
+		.filter((l) => l.data.active !== false)
+		.sort((a, b) => (a.data.order ?? 10) - (b.data.order ?? 10))
+		.map((l) => ({
+			value: l.data.value,
+			label: l.data.label_pl,
+		}));
+} catch {
+	console.warn('gallery_locations not loaded, using fallback');
+}
+
 const photos = allGalleryItems
 	.filter((i) => !i.data.media_type || i.data.media_type === 'photo')
 	.sort((a, b) => (a.data.order ?? 100) - (b.data.order ?? 100))
@@ -159,6 +187,8 @@ const ogImage = bestGalleryPhoto?.photo ?? '/images/page_hero_graph.webp';
 			lang={lang}
 			photos={photos}
 			cmsFilters={cmsGalleryFilters.length > 0 ? cmsGalleryFilters : undefined}
+			cmsEditions={cmsGalleryEditions.length > 0 ? cmsGalleryEditions : undefined}
+			cmsLocations={cmsGalleryLocations.length > 0 ? cmsGalleryLocations : undefined}
 			unlockDate={s?.gallery_unlock_date}
 			videoItems={videoItems}
 			pressItems={pressItems}

@@ -16,8 +16,6 @@ type GalleryCategory =
   | "SAR"
   | "OGOLNE";
 
-type LocationFilterId = "all" | "lpg" | "gryf" | "stena" | "arena" | "school" | "stadium";
-
 type ViewModeId = "grid" | "masonry";
 
 type PhotoItem = {
@@ -38,6 +36,16 @@ export interface CmsGalleryFilter {
   category_value?: string;
 }
 
+export interface CmsGalleryEditionOption {
+  value: string;
+  label: string;
+}
+
+export interface CmsGalleryLocationOption {
+  value: string;
+  label: string;
+}
+
 type GalleryGridProps = {
   lang: Lang;
   photos: PhotoItem[];
@@ -52,6 +60,8 @@ type GalleryGridProps = {
     title?: string;
   }>;
   cmsFilters?: CmsGalleryFilter[];
+  cmsEditions?: CmsGalleryEditionOption[];
+  cmsLocations?: CmsGalleryLocationOption[];
 };
 
 type GalleryLabels = {
@@ -185,25 +195,6 @@ const MAIN_FILTER_IDS_FALLBACK = [
   "KONFERENCJA",
   "DRONY",
 ] as const;
-
-const LOCATION_FILTER_IDS: LocationFilterId[] = [
-  "all",
-  "lpg",
-  "gryf",
-  "stena",
-  "arena",
-  "school",
-  "stadium",
-];
-
-const CANONICAL_LOCATION_BY_ID: Record<Exclude<LocationFilterId, "all">, string> = {
-  lpg: "Terminal LPG",
-  gryf: "Muzeum Gryf",
-  stena: "Stena Line",
-  arena: "3MK Arena",
-  school: "Szkoła Mundurowa",
-  stadium: "Stadion Miejski",
-};
 
 const galleryLabelsEn: GalleryLabels = {
   allLocations: "ALL LOCATIONS",
@@ -491,31 +482,9 @@ function formatCountdown(targetDate: Date, labels: GalleryLabels): string {
   return `${days} ${labels.countdownDay} ${hours} ${labels.countdownHour}`;
 }
 
-function locationLabelForId(id: LocationFilterId, labels: GalleryLabels): string {
-  switch (id) {
-    case "all":
-      return labels.allLocations;
-    case "lpg":
-      return labels.locationLPG;
-    case "gryf":
-      return labels.locationGryf;
-    case "stena":
-      return labels.locationStena;
-    case "arena":
-      return labels.locationArena;
-    case "school":
-      return labels.locationSchool;
-    case "stadium":
-      return labels.locationStadion;
-    default:
-      return labels.allLocations;
-  }
-}
-
-function locationMatchesFilter(photoLocation: string, filterId: LocationFilterId): boolean {
-  if (filterId === "all") return true;
-  const canonical = CANONICAL_LOCATION_BY_ID[filterId];
-  return normalize(photoLocation) === normalize(canonical);
+function locationMatchesFilter(photoLocation: string, filterValue: string): boolean {
+  if (filterValue === "all") return true;
+  return normalize(photoLocation) === normalize(filterValue);
 }
 
 const partnerButtonStyle: CSSProperties = {
@@ -562,6 +531,8 @@ export function GalleryGrid({
   unlockDate,
   videoItems,
   cmsFilters,
+  cmsEditions,
+  cmsLocations,
   pressItems = [],
 }: GalleryGridProps) {
   const mainFilterIds: string[] =
@@ -600,6 +571,32 @@ export function GalleryGrid({
           })
       : fallbackVideoItems);
   const galleryLabels = resolveGalleryLabels(lang);
+  const editionOptions = useMemo(() => {
+    if (cmsEditions && cmsEditions.length > 0) return cmsEditions;
+    return [
+      { value: "2025", label: galleryLabels.edition2025 },
+      { value: "2026", label: galleryLabels.edition2026 },
+    ];
+  }, [cmsEditions, galleryLabels.edition2025, galleryLabels.edition2026]);
+  const locationOptions = useMemo(() => {
+    if (cmsLocations && cmsLocations.length > 0) return cmsLocations;
+    return [
+      { value: "Terminal LPG", label: galleryLabels.locationLPG },
+      { value: "Muzeum Gryf", label: galleryLabels.locationGryf },
+      { value: "Stena Line", label: galleryLabels.locationStena },
+      { value: "3MK Arena", label: galleryLabels.locationArena },
+      { value: "Szkoła Mundurowa", label: galleryLabels.locationSchool },
+      { value: "Stadion Miejski", label: galleryLabels.locationStadion },
+    ];
+  }, [
+    cmsLocations,
+    galleryLabels.locationLPG,
+    galleryLabels.locationGryf,
+    galleryLabels.locationStena,
+    galleryLabels.locationArena,
+    galleryLabels.locationSchool,
+    galleryLabels.locationStadion,
+  ]);
   const safeUi = ui[lang] ?? ui.pl;
 
   const translatedMainFilterLabels = mainFilterIds.map((filterId) =>
@@ -610,10 +607,11 @@ export function GalleryGrid({
 
   const rootRef = useRef<HTMLDivElement | null>(null);
   const visibleLimitRef = useRef<number>(12);
-  const [activeLocation, setActiveLocation] = useState<LocationFilterId>("all");
+  const [activeLocation, setActiveLocation] = useState<string>("all");
   const [activeView, setActiveView] = useState<ViewModeId>("grid");
-  const [activeEdition, setActiveEdition] = useState<string>("2025");
+  const [activeEdition, setActiveEdition] = useState<string>(() => editionOptions[0]?.value ?? "2025");
   const [modalVideo, setModalVideo] = useState<string | null>(null);
+  const lockedEditionValue = editionOptions.some((option) => option.value === "2026") ? "2026" : null;
 
   const closeModal = useCallback(() => {
     setModalVideo(null);
@@ -636,6 +634,18 @@ export function GalleryGrid({
       document.body.style.overflow = "";
     };
   }, [modalVideo, closeModal]);
+
+  useEffect(() => {
+    if (!editionOptions.some((option) => option.value === activeEdition)) {
+      setActiveEdition(editionOptions[0]?.value ?? "2025");
+    }
+  }, [editionOptions, activeEdition]);
+
+  useEffect(() => {
+    if (activeLocation !== "all" && !locationOptions.some((option) => option.value === activeLocation)) {
+      setActiveLocation("all");
+    }
+  }, [locationOptions, activeLocation]);
 
   const sortedPhotos = useMemo(
     () =>
@@ -705,7 +715,7 @@ export function GalleryGrid({
 
     if (!grid || !loadMoreButton || !loadMoreText || !lockedSection || !countdownText) return;
 
-    const is2026Unlocked = new Date().getTime() >= releaseDate.getTime();
+    const isLockedEditionUnlocked = new Date().getTime() >= releaseDate.getTime();
     countdownText.textContent = formatCountdown(releaseDate, galleryLabels);
 
     const updateVisibility = () => {
@@ -740,7 +750,7 @@ export function GalleryGrid({
         loadMoreText.textContent = String(Math.min(remaining, 12));
         loadMoreButton.style.display = remaining > 0 ? "block" : "none";
 
-        if (activeEdition === "2026" && !is2026Unlocked) {
+        if (lockedEditionValue && activeEdition === lockedEditionValue && !isLockedEditionUnlocked) {
           lockedSection.style.display = "flex";
           grid.style.display = "none";
           loadMoreButton.style.display = "none";
@@ -773,8 +783,8 @@ export function GalleryGrid({
         bindClick(button, () => {
           const editionRaw = button.dataset.edition || "2025";
           const edition: string = editionRaw === "2026" ? "2026" : editionRaw === "2025" ? "2025" : editionRaw;
-          if (edition === "2026" && !is2026Unlocked) {
-            setActiveEdition("2026");
+          if (lockedEditionValue && edition === lockedEditionValue && !isLockedEditionUnlocked) {
+            setActiveEdition(lockedEditionValue);
             return;
           }
           setActiveEdition(edition);
@@ -826,9 +836,10 @@ export function GalleryGrid({
     galleryLabels,
     releaseDate,
     cmsFilters,
+    lockedEditionValue,
   ]);
 
-  const is2026Unlocked = new Date().getTime() >= releaseDate.getTime();
+  const isLockedEditionUnlocked = new Date().getTime() >= releaseDate.getTime();
   const handleBackdropClick = (e: ReactMouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       closeModal();
@@ -847,18 +858,25 @@ export function GalleryGrid({
         </div>
       </div>
       <div className="edition-tabs">
-        <button type="button" className="edition-tab is-active" data-edition="2025">
-          {galleryLabels.edition2025}
-        </button>
-        <button type="button" className="edition-tab" data-edition="2026">
-          {galleryLabels.edition2026}
-          {!is2026Unlocked ? (
-            <Lock
-              size={12}
-              style={{ display: "inline", verticalAlign: "middle", marginLeft: "6px" }}
-            />
-          ) : null}
-        </button>
+        {editionOptions.map((edition) => {
+          const isLockedEdition = lockedEditionValue && edition.value === lockedEditionValue;
+          return (
+            <button
+              key={edition.value}
+              type="button"
+              className={`edition-tab ${activeEdition === edition.value ? "is-active" : ""}`}
+              data-edition={edition.value}
+            >
+              {edition.label}
+              {isLockedEdition && !isLockedEditionUnlocked ? (
+                <Lock
+                  size={12}
+                  style={{ display: "inline", verticalAlign: "middle", marginLeft: "6px" }}
+                />
+              ) : null}
+            </button>
+          );
+        })}
       </div>
 
       <div className="filter-bar">
@@ -936,30 +954,53 @@ export function GalleryGrid({
       </div>
 
       <div className="location-filters">
-        {LOCATION_FILTER_IDS.map((locationId) => (
+        <button
+          type="button"
+          className="location-pill"
+          data-location-filter="all"
+          onClick={() => {
+            setActiveLocation("all");
+            visibleLimitRef.current = 12;
+          }}
+          style={{
+            ...partnerButtonStyle,
+            backgroundColor: activeLocation === "all" ? "#C4922A" : "transparent",
+            color: activeLocation === "all" ? "#1E2B38" : "#C4922A",
+            padding: "8px 14px",
+            fontSize: 11,
+          }}
+          onMouseEnter={handlePartnerButtonMouseEnter}
+          onMouseLeave={(e) => {
+            if (activeLocation === "all") return;
+            handlePartnerButtonMouseLeave(e);
+          }}
+        >
+          {galleryLabels.allLocations}
+        </button>
+        {locationOptions.map((location) => (
           <button
-            key={locationId}
+            key={location.value}
             type="button"
             className="location-pill"
-            data-location-filter={locationId}
+            data-location-filter={location.value}
             onClick={() => {
-              setActiveLocation(locationId);
+              setActiveLocation(location.value);
               visibleLimitRef.current = 12;
             }}
             style={{
               ...partnerButtonStyle,
-              backgroundColor: activeLocation === locationId ? "#C4922A" : "transparent",
-              color: activeLocation === locationId ? "#1E2B38" : "#C4922A",
+              backgroundColor: activeLocation === location.value ? "#C4922A" : "transparent",
+              color: activeLocation === location.value ? "#1E2B38" : "#C4922A",
               padding: "8px 14px",
               fontSize: 11,
             }}
             onMouseEnter={handlePartnerButtonMouseEnter}
             onMouseLeave={(e) => {
-              if (activeLocation === locationId) return;
+              if (activeLocation === location.value) return;
               handlePartnerButtonMouseLeave(e);
             }}
           >
-            {locationLabelForId(locationId, galleryLabels)}
+            {location.label}
           </button>
         ))}
       </div>
