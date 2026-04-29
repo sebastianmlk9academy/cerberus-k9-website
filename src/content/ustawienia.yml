@@ -222,7 +222,7 @@ sekcja_hero:
   hero_cta_program_href: /pl/o-wydarzeniu#agenda
   hero_subtitle: K9
   hero_meta_entry: ""
-  hero_cta_registration_href: ""
+  hero_cta_registration_href: https://cerberusk9.org/pl/rejestracja/
   hero_background_opacity: 0.4
 footer_email: sebastian@pactak9.org
 favicon_svg: /favicon.svg
