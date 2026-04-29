@@ -458,6 +458,10 @@ export default function MediaPage({
           align-self: flex-start;
           gap: 6px;
         }
+        .media-page-press-pdf-link:hover {
+          background-color: #c4922a;
+          color: #1e2b38 !important;
+        }
       `}</style>
 
       {/* SECTION 2 — MEDIA CONTACT */}
@@ -636,9 +640,11 @@ export default function MediaPage({
             <a
               href={item.href}
               download
+              className="media-page-press-pdf-link"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
+                justifyContent: 'center',
                 gap: '8px',
                 fontSize: '12px',
                 fontWeight: 700,
@@ -646,6 +652,9 @@ export default function MediaPage({
                 color: '#C4922A',
                 textDecoration: 'none',
                 textTransform: 'uppercase',
+                border: '1px solid #C4922A',
+                padding: '8px 12px',
+                transition: 'background-color 0.2s ease, color 0.2s ease',
               }}
             >
               <FileText size={16} aria-hidden />
