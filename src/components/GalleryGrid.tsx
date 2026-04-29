@@ -1377,42 +1377,45 @@ export function GalleryGrid({
           top: 8px;
           left: 8px;
           padding: 3px 8px;
-          border-radius: 999px;
+          border-radius: 0;
+          font-family: 'Rajdhani', Trebuchet MS, sans-serif;
           font-size: 10px;
           font-weight: 700;
           letter-spacing: 0.2px;
+          text-transform: uppercase;
+          line-height: 1.2;
         }
         .badge-hardest-hit {
-          background: #8f2430;
-          color: #ffe3e6;
+          background: #c42b2b;
+          color: #0c1018;
         }
         .badge-szkolenia-k9 {
           background: #c4922a;
-          color: #101010;
+          color: #0c1018;
         }
         .badge-tccc {
-          background: #5b1f1f;
-          color: #ffe5e5;
+          background: #8b2020;
+          color: #0c1018;
         }
         .badge-konferencja {
-          background: #1f6a42;
-          color: #d4ffe9;
+          background: #2a6a3a;
+          color: #0c1018;
         }
         .badge-drony {
-          background: #1f4f8a;
-          color: #d9ecff;
+          background: #2a5a8a;
+          color: #0c1018;
         }
         .badge-ceremonia {
-          background: #4a2d6e;
-          color: #efe5ff;
+          background: #5a3a8a;
+          color: #0c1018;
         }
         .badge-sar {
           background: #2d5a4e;
-          color: #dff5ec;
+          color: #0c1018;
         }
         .badge-ogolne {
-          background: #3d4550;
-          color: #e4ddd0;
+          background: #3a4a5a;
+          color: #0c1018;
         }
         .webp-badge {
           position: absolute;
