@@ -1,0 +1,9 @@
+key: weterynarz
+label_pl: WETERYNARZ
+filter_field: specializations
+filter_match: includes
+filter_value: weterynarz
+filter_values:
+  - WETERYNARZ
+order: 9
+active: true
