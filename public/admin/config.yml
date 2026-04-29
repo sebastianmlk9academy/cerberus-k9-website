@@ -3302,6 +3302,8 @@ collections:
     label: "📅 Galeria — Edycje"
     label_singular: "Edycja"
     folder: "src/content/gallery_editions"
+    extension: "yml"
+    format: "yml"
     create: true
     delete: true
     slug: "{{value}}"
@@ -3350,6 +3352,8 @@ collections:
     label: "📍 Galeria — Lokalizacje"
     label_singular: "Lokalizacja"
     folder: "src/content/gallery_locations"
+    extension: "yml"
+    format: "yml"
     create: true
     delete: true
     slug: "{{value}}"
@@ -3399,6 +3403,8 @@ collections:
     label: "🏷️ Galeria — Tagi"
     label_singular: "Tag"
     folder: "src/content/gallery_tags"
+    extension: "yml"
+    format: "yml"
     create: true
     delete: true
     slug: "{{key}}"
