@@ -289,6 +289,8 @@ export default function InstructorsGrid({
     ko: '팀 리더 · 강사 · 보조훈련사 · 발표자',
   };
   const sectionTag = sectionTags[lang] ?? sectionTags['en'];
+  const firstFilterRow = filterKeys.slice(0, 6);
+  const secondFilterRow = filterKeys.slice(6);
 
   return (
     <section
@@ -309,41 +311,63 @@ export default function InstructorsGrid({
         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
       </div>
       {/* Filter bar */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '48px', alignItems: 'center', justifyContent: 'center' }}>
-        <span style={{
-          fontFamily: 'Rajdhani, sans-serif',
-          fontSize: '9px',
-          letterSpacing: '3px',
-          color: '#4A5A6A',
-          fontWeight: 700,
-          marginRight: '8px',
-        }}>
-        </span>
-        {filterKeys.map((f) => {
-          const def = useCms ? sortedCms.find((row) => row.key === f) : undefined;
-          const label = useCms && def ? cmsFilterLabel(lang, def) : fl[f as InstructorFilter];
-          return (
-            <button
-              key={f}
-              type="button"
-              onClick={() => setActiveFilter(f)}
-              style={{
-                ...partnerButtonStyle,
-                backgroundColor: activeFilter === f ? '#C4922A' : 'transparent',
-                color: activeFilter === f ? '#1E2B38' : '#C4922A',
-                padding: '8px 14px',
-                fontSize: 11,
-              }}
-              onMouseEnter={handlePartnerButtonMouseEnter}
-              onMouseLeave={(e) => {
-                if (activeFilter === f) return;
-                handlePartnerButtonMouseLeave(e);
-              }}
-            >
-              {label}
-            </button>
-          );
-        })}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '48px', alignItems: 'center' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', alignItems: 'center', justifyContent: 'center' }}>
+          {firstFilterRow.map((f) => {
+            const def = useCms ? sortedCms.find((row) => row.key === f) : undefined;
+            const label = useCms && def ? cmsFilterLabel(lang, def) : fl[f as InstructorFilter];
+            return (
+              <button
+                key={f}
+                type="button"
+                onClick={() => setActiveFilter(f)}
+                style={{
+                  ...partnerButtonStyle,
+                  backgroundColor: activeFilter === f ? '#C4922A' : 'transparent',
+                  color: activeFilter === f ? '#1E2B38' : '#C4922A',
+                  padding: '8px 14px',
+                  fontSize: 11,
+                }}
+                onMouseEnter={handlePartnerButtonMouseEnter}
+                onMouseLeave={(e) => {
+                  if (activeFilter === f) return;
+                  handlePartnerButtonMouseLeave(e);
+                }}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
+        {secondFilterRow.length > 0 ? (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', alignItems: 'center', justifyContent: 'center' }}>
+            {secondFilterRow.map((f) => {
+              const def = useCms ? sortedCms.find((row) => row.key === f) : undefined;
+              const label = useCms && def ? cmsFilterLabel(lang, def) : fl[f as InstructorFilter];
+              return (
+                <button
+                  key={f}
+                  type="button"
+                  onClick={() => setActiveFilter(f)}
+                  style={{
+                    ...partnerButtonStyle,
+                    backgroundColor: activeFilter === f ? '#C4922A' : 'transparent',
+                    color: activeFilter === f ? '#1E2B38' : '#C4922A',
+                    padding: '8px 14px',
+                    fontSize: 11,
+                  }}
+                  onMouseEnter={handlePartnerButtonMouseEnter}
+                  onMouseLeave={(e) => {
+                    if (activeFilter === f) return;
+                    handlePartnerButtonMouseLeave(e);
+                  }}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+        ) : null}
       </div>
 
       {/* Grid */}
