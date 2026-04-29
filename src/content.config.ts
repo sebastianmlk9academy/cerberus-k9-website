@@ -82,6 +82,7 @@ const instruktorzy = defineCollection({
 		bioFull: z.string(),
 		photo: z.string(),
 		order: z.number().int(),
+		active: z.boolean().optional().default(true),
 	}),
 });
 
@@ -171,7 +172,7 @@ const press_releases = defineCollection({
 	loader: glob({ base: './src/content/press_releases', pattern: '**/*.{md,mdx}' }),
 	schema: z.object({
 		title: z.string(),
-		date: z.string().optional(),
+		date: z.coerce.string().optional(),
 		file_url: z.string(),
 		order: z.number().optional().default(99),
 		active: z.boolean().optional().default(true),
@@ -230,12 +231,17 @@ function flattenUstawieniaCmsInput(raw: unknown): unknown {
 	if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return raw;
 	const o = { ...(raw as Record<string, unknown>) };
 	const fromSections: Record<string, unknown> = {};
-	// Netlify CMS writes grouped "sekcja_*" objects. Frontend reads flat keys.
-	// We flatten grouped payload into legacy-compatible flat settings shape.
 	for (const sk of USTAWIENIA_SECTION_KEYS) {
 		const nest = o[sk];
 		if (nest && typeof nest === 'object' && !Array.isArray(nest)) {
-			Object.assign(fromSections, nest as Record<string, unknown>);
+			// Recursively flatten sub-objects (e.g. sekcja_linki_stopki inside sekcja_kontakt)
+			for (const [subKey, subVal] of Object.entries(nest as Record<string, unknown>)) {
+				if (subVal && typeof subVal === 'object' && !Array.isArray(subVal) && !(subVal instanceof Date)) {
+					Object.assign(fromSections, subVal as Record<string, unknown>);
+				} else {
+					fromSections[subKey] = subVal;
+				}
+			}
 			delete o[sk];
 		}
 	}
@@ -263,8 +269,8 @@ function flattenUstawieniaCmsInput(raw: unknown): unknown {
 const ustawienia = defineCollection({
 	loader: glob({ base: './src/content', pattern: 'ustawienia.{yml,yaml}' }),
 	schema: z.preprocess(flattenUstawieniaCmsInput, z.object({
-		event_date: z.string(),
-		event_date_end: z.string(),
+		event_date: z.coerce.string(),
+		event_date_end: z.coerce.string(),
 		event_time_start: z.string().regex(/^\d{2}:\d{2}$/).optional().default('09:00'),
 		event_time_end: z.string().regex(/^\d{2}:\d{2}$/).optional().default('18:00'),
 		event_city: z.string(),
@@ -398,7 +404,7 @@ const ustawienia = defineCollection({
 		og_site_name: z.string().optional().default('CERBERUS K9'),
 		og_locale: z.string().optional().default('pl_PL'),
 		event_timezone: z.string().optional().default('Europe/Warsaw'),
-		gallery_unlock_date: z.string().optional().default('2026-06-14'),
+		gallery_unlock_date: z.coerce.string().optional().default('2026-06-14'),
 		sponsor_offer_pdf: z.string().optional().default(''),
 		sponsor_contact_email: z.string().optional().default('sebastian@pactak9.org'),
 		gallery_video_1_title: z.string().optional().default(''),
@@ -429,9 +435,20 @@ const ustawienia = defineCollection({
 	})),
 });
 
+function flattenRegistrationInfoCmsInput(raw: unknown): unknown {
+	if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return raw;
+	const o = { ...(raw as Record<string, unknown>) };
+	const nested = o['sekcja_3_kroki_rejestracji'];
+	if (nested && typeof nested === 'object' && !Array.isArray(nested)) {
+		Object.assign(o, nested as Record<string, unknown>);
+		delete o['sekcja_3_kroki_rejestracji'];
+	}
+	return o;
+}
+
 const registration_info = defineCollection({
 	loader: glob({ base: './src/content', pattern: 'registration_info.{yml,yaml}' }),
-	schema: z.object({
+	schema: z.preprocess(flattenRegistrationInfoCmsInput, z.object({
 		reg_date_display: z.string(),
 		reg_prep_day: z.string().optional().default(''),
 		reg_venues: z.string(),
@@ -444,12 +461,23 @@ const registration_info = defineCollection({
 		reg_step_1_pl: z.string().optional().default(''),
 		reg_step_2_pl: z.string().optional().default(''),
 		reg_step_3_pl: z.string().optional().default(''),
-	}),
+	})),
 });
+
+function flattenKontaktCmsInput(raw: unknown): unknown {
+	if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return raw;
+	const o = { ...(raw as Record<string, unknown>) };
+	const nested = o['sekcja_formularz'];
+	if (nested && typeof nested === 'object' && !Array.isArray(nested)) {
+		Object.assign(o, nested as Record<string, unknown>);
+		delete o['sekcja_formularz'];
+	}
+	return o;
+}
 
 const kontakt_content = defineCollection({
 	loader: glob({ base: './src/content', pattern: 'kontakt_content.{yml,yaml}' }),
-	schema: z.object({
+	schema: z.preprocess(flattenKontaktCmsInput, z.object({
 		contact_address: z.string(),
 		contact_email: z.string(),
 		contact_phone: z.string(),
@@ -476,7 +504,7 @@ const kontakt_content = defineCollection({
 		form_subject_options_pl: z.string().optional().default('Rejestracja,Sponsorowanie,Patronat medialny,Instruktorzy,Prasa i media,Inne'),
 		section_media_title_pl: z.string().optional().default('BEZPOŚREDNI KONTAKT'),
 		section_partnership_title_pl: z.string().optional().default('Zostań partnerem'),
-	}),
+	})),
 });
 
 const faq = defineCollection({
@@ -558,7 +586,7 @@ const galeria = defineCollection({
 	loader: glob({ base: './src/content/galeria', pattern: '**/*.{md,mdx}' }),
 	schema: z.object({
 		title: z.string().optional().default(''),
-		date: z.string().optional(),
+		date: z.coerce.string().optional(),
 		category: galleryCategorySchema,
 		location: z.string().optional().default(''),
 		edition: z.string().default('2026'),
@@ -586,7 +614,7 @@ const galleryEditions = defineCollection({
 		value: z.string(),
 		label_pl: z.string(),
 		label_en: z.string().optional(),
-		date_start: z.string().optional(),
+		date_start: z.coerce.string().optional(),
 		order: z.number().optional().default(10),
 		active: z.boolean().optional().default(true),
 	}),
@@ -642,7 +670,7 @@ const certyfikaty = defineCollection({
 		participant_name: z.string(),
 		module: z.string(),
 		event_edition: z.string().default('2026'),
-		issue_date: z.string(),
+		issue_date: z.coerce.string(),
 		instructor_name: z.string().optional(),
 		active: z.boolean().optional().default(true),
 	}),
@@ -655,8 +683,8 @@ const szkolenia = defineCollection({
 		category: z.string(),
 		description: z.string().optional(),
 		instructor: z.string().optional(),
-		date_start: z.string().optional(),
-		date_end: z.string().optional(),
+		date_start: z.coerce.string().optional(),
+		date_end: z.coerce.string().optional(),
 		location: z.string().optional(),
 		price: z.number().optional(),
 		places_total: z.number().optional(),
@@ -732,7 +760,7 @@ const partnerOffers = defineCollection({
 		offer_description: z.string(),
 		discount_code: z.string().optional(),
 		offer_url: z.string().optional(),
-		valid_until: z.string().optional(),
+		valid_until: z.coerce.string().optional(),
 		category: z.string().optional(),
 		order: z.number().optional().default(99),
 		active: z.boolean().optional().default(true),
@@ -861,9 +889,20 @@ const fundacjaGoalsList = z.preprocess((val) => {
 	return val.map((item) => (typeof item === 'string' ? { goal: item } : item));
 }, z.array(fundacjaGoalRow));
 
+function flattenFundacjaCmsInput(raw: unknown): unknown {
+	if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return raw;
+	const o = { ...(raw as Record<string, unknown>) };
+	const nested = o['sekcja_o_wydarzeniu'];
+	if (nested && typeof nested === 'object' && !Array.isArray(nested)) {
+		Object.assign(o, nested as Record<string, unknown>);
+		delete o['sekcja_o_wydarzeniu'];
+	}
+	return o;
+}
+
 const fundacja_content = defineCollection({
 	loader: glob({ base: './src/content/fundacja_content', pattern: '*.{yml,yaml}' }),
-	schema: z.object({
+	schema: z.preprocess(flattenFundacjaCmsInput, z.object({
 		mission_pl: z.string(),
 		mission_en: z.string().optional(),
 		vision_pl: z.string(),
@@ -871,7 +910,7 @@ const fundacja_content = defineCollection({
 		goals_pl: fundacjaGoalsList,
 		goals_en: fundacjaGoalsList.optional(),
 		registration_court: z.string(),
-		registration_date: z.string(),
+		registration_date: z.coerce.string(),
 		legal_status_pl: z.string(),
 		about_body_p1_pl: z.string().optional(),
 		about_body_p2_pl: z.string().optional(),
@@ -883,7 +922,7 @@ const fundacja_content = defineCollection({
 		about_stat_3_label_pl: z.string().optional(),
 		about_stat_4_value: z.string().optional(),
 		about_stat_4_label_pl: z.string().optional(),
-	}),
+	})),
 });
 
 const instructor_filters = defineCollection({
