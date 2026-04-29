@@ -31,9 +31,9 @@ const description = 'Skontaktuj się z Fundacją PACTA K9 i zespołem CERBERUS K
 <BaseLayout lang={lang} title={title} description={description} localizedPath="kontakt" ogType="website">
 	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
 	<PageHero
-		category="KONTAKT"
-		title="SKONTAKTUJ SIĘ"
-		subtitle="FUNDACJA PACTA K9 · CERBERUS K9 2026"
+		category={s?.pagehero_contact_category_pl || 'KONTAKT'}
+		title={s?.pagehero_contact_title_pl || 'SKONTAKTUJ SIĘ'}
+		subtitle={s?.pagehero_contact_subtitle_pl || 'FUNDACJA PACTA K9 · CERBERUS K9 2026'}
 		heroImage={s?.hero_background_image}
 		heroOpacity={s?.hero_background_opacity}
 	/>

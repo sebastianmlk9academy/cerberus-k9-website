@@ -70,9 +70,9 @@ const description =
 	>
 		<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
 		<PageHero
-			category="DLA DZIENNIKARZY"
-			title="MEDIA"
-			subtitle="PRESS KIT · INFORMACJE PRASOWE · RELACJE 2025"
+			category={s?.pagehero_media_category_pl || 'DLA DZIENNIKARZY'}
+			title={s?.pagehero_media_title_pl || 'MEDIA'}
+			subtitle={s?.pagehero_media_subtitle_pl || 'PRESS KIT · INFORMACJE PRASOWE · RELACJE 2025'}
 			heroImage={s?.hero_background_image}
 			heroOpacity={s?.hero_background_opacity}
 		/>
