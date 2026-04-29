@@ -7,6 +7,7 @@ import MediaPage from '../../components/MediaPage';
 import { Footer } from '../../components/Footer';
 import { footerCopyByLang } from '../../i18n/footer';
 import { loadCmsNavLinks } from '../../lib/loadCmsNavLinks';
+import { extractThumbnail } from '../../lib/extractThumbnail';
 
 export const prerender = true;
 
@@ -28,6 +29,7 @@ const mediaArchive = archiveEntries
 		href: e.data.link ?? '#',
 		badge: e.data.badge ?? 'VIDEO',
 		outletLogo: e.data.outlet_logo ?? null,
+		thumbnail: extractThumbnail(e.data.link ?? '', e.data.thumbnail ?? null),
 	}));
 
 const pressReleases = archiveEntries
