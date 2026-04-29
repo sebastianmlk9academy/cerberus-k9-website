@@ -1,0 +1,9 @@
+key: pierwsza pomoc
+label_pl: PIERWSZA POMOC
+filter_field: specializations
+filter_match: includes
+filter_value: pierwsza pomoc
+filter_values:
+  - WETERYNARZ
+order: 10
+active: true
