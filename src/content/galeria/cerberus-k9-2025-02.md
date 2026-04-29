@@ -8,5 +8,5 @@ photo: "/images/page_hero_graph.webp"
 alt: "Szkolenia K9 na CERBERUS K9 2025"
 tags:
   - "2025"
-  - "K9"
+  - "k9"
 ---

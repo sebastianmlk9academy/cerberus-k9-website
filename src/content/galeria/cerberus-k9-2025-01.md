@@ -8,5 +8,5 @@ photo: "/images/page_hero_graph.webp"
 alt: "Ceremonia otwarcia CERBERUS K9 2025"
 tags:
   - "2025"
-  - "Ceremonia"
+  - "ceremonia"
 ---
