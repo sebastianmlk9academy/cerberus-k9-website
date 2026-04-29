@@ -148,6 +148,126 @@ collections:
                 widget: "text"
                 hint: "Pole rezerwowe (obecnie nieużywane w UI). Możesz zostawić puste."
                 required: false
+              - name: "pagehero_media_category_pl"
+                label: "📰 PageHero (Media) — kategoria PL"
+                widget: "string"
+                required: false
+                hint: "Nagłówek górny na /pl/media."
+              - name: "pagehero_media_title_pl"
+                label: "📰 PageHero (Media) — tytuł PL"
+                widget: "string"
+                required: false
+                hint: "Główny tytuł na /pl/media."
+              - name: "pagehero_media_subtitle_pl"
+                label: "📰 PageHero (Media) — podtytuł PL"
+                widget: "string"
+                required: false
+                hint: "Podtytuł na /pl/media."
+              - name: "pagehero_gallery_category_pl"
+                label: "🖼️ PageHero (Galeria) — kategoria PL"
+                widget: "string"
+                required: false
+                hint: "Nagłówek górny na /pl/galeria."
+              - name: "pagehero_gallery_title_pl"
+                label: "🖼️ PageHero (Galeria) — tytuł PL"
+                widget: "string"
+                required: false
+                hint: "Główny tytuł na /pl/galeria."
+              - name: "pagehero_gallery_subtitle_pl"
+                label: "🖼️ PageHero (Galeria) — podtytuł PL"
+                widget: "string"
+                required: false
+                hint: "Podtytuł na /pl/galeria."
+              - name: "pagehero_instructors_category_pl"
+                label: "🎓 PageHero (Instruktorzy) — kategoria PL"
+                widget: "string"
+                required: false
+                hint: "Nagłówek górny na /pl/instruktorzy."
+              - name: "pagehero_instructors_title_pl"
+                label: "🎓 PageHero (Instruktorzy) — tytuł PL"
+                widget: "string"
+                required: false
+                hint: "Główny tytuł na /pl/instruktorzy."
+              - name: "pagehero_instructors_subtitle_pl"
+                label: "🎓 PageHero (Instruktorzy) — podtytuł PL"
+                widget: "string"
+                required: false
+                hint: "Podtytuł na /pl/instruktorzy."
+              - name: "pagehero_partners_category_pl"
+                label: "🤝 PageHero (Partnerzy) — kategoria PL"
+                widget: "string"
+                required: false
+                hint: "Nagłówek górny na /pl/partnerzy."
+              - name: "pagehero_partners_title_pl"
+                label: "🤝 PageHero (Partnerzy) — tytuł PL"
+                widget: "string"
+                required: false
+                hint: "Główny tytuł na /pl/partnerzy."
+              - name: "pagehero_partners_subtitle_pl"
+                label: "🤝 PageHero (Partnerzy) — podtytuł PL"
+                widget: "string"
+                required: false
+                hint: "Podtytuł na /pl/partnerzy."
+              - name: "pagehero_contact_category_pl"
+                label: "📞 PageHero (Kontakt) — kategoria PL"
+                widget: "string"
+                required: false
+                hint: "Nagłówek górny na /pl/kontakt."
+              - name: "pagehero_contact_title_pl"
+                label: "📞 PageHero (Kontakt) — tytuł PL"
+                widget: "string"
+                required: false
+                hint: "Główny tytuł na /pl/kontakt."
+              - name: "pagehero_contact_subtitle_pl"
+                label: "📞 PageHero (Kontakt) — podtytuł PL"
+                widget: "string"
+                required: false
+                hint: "Podtytuł na /pl/kontakt."
+              - name: "pagehero_registration_category_pl"
+                label: "📝 PageHero (Rejestracja) — kategoria PL"
+                widget: "string"
+                required: false
+                hint: "Nagłówek górny na /pl/rejestracja."
+              - name: "pagehero_registration_title_pl"
+                label: "📝 PageHero (Rejestracja) — tytuł PL"
+                widget: "string"
+                required: false
+                hint: "Główny tytuł na /pl/rejestracja."
+              - name: "pagehero_registration_subtitle_pl"
+                label: "📝 PageHero (Rejestracja) — podtytuł PL"
+                widget: "string"
+                required: false
+                hint: "Podtytuł na /pl/rejestracja."
+              - name: "pagehero_news_category_pl"
+                label: "🗞️ PageHero (Aktualności) — kategoria PL"
+                widget: "string"
+                required: false
+                hint: "Nagłówek górny na /pl/aktualnosci."
+              - name: "pagehero_news_title_pl"
+                label: "🗞️ PageHero (Aktualności) — tytuł PL"
+                widget: "string"
+                required: false
+                hint: "Główny tytuł na /pl/aktualnosci."
+              - name: "pagehero_news_subtitle_pl"
+                label: "🗞️ PageHero (Aktualności) — podtytuł PL"
+                widget: "string"
+                required: false
+                hint: "Podtytuł na /pl/aktualnosci."
+              - name: "pagehero_foundation_category_pl"
+                label: "🏛️ PageHero (Fundacja) — kategoria PL"
+                widget: "string"
+                required: false
+                hint: "Nagłówek górny na /pl/fundacja."
+              - name: "pagehero_foundation_title_pl"
+                label: "🏛️ PageHero (Fundacja) — tytuł PL"
+                widget: "string"
+                required: false
+                hint: "Główny tytuł na /pl/fundacja."
+              - name: "pagehero_foundation_subtitle_pl"
+                label: "🏛️ PageHero (Fundacja) — podtytuł PL"
+                widget: "string"
+                required: false
+                hint: "Podtytuł na /pl/fundacja."
               - name: "hero_background_image"
                 label: "🖼️ Tło sekcji Hero"
                 widget: "image"

@@ -32,9 +32,9 @@ const description =
 <BaseLayout lang={lang} title={title} description={description} localizedPath="rejestracja" ogType="website">
 	<NavBar lang={lang} client:load logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
 	<PageHero
-		category="DOŁĄCZ DO NAS"
-		title="REJESTRACJA"
-		subtitle="WSTĘP BEZPŁATNY · WYMAGANA REJESTRACJA · 13–14 CZERWCA 2026"
+		category={s?.pagehero_registration_category_pl || 'DOŁĄCZ DO NAS'}
+		title={s?.pagehero_registration_title_pl || 'REJESTRACJA'}
+		subtitle={s?.pagehero_registration_subtitle_pl || 'WSTĘP BEZPŁATNY · WYMAGANA REJESTRACJA · 13–14 CZERWCA 2026'}
 		heroImage={s?.hero_background_image}
 		heroOpacity={s?.hero_background_opacity}
 	/>

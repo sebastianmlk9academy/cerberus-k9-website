@@ -32,9 +32,9 @@ const articles = aktualnosciToListingArticles(entries, lang);
 >
 	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
 	<PageHero
-		category="CERBERUS K9"
-		title="AKTUALNOŚCI"
-		subtitle="WIADOMOŚCI, KOMUNIKATY I RELACJE Z PRZYGOTOWAŃ DO WYDARZENIA"
+		category={s?.pagehero_news_category_pl || 'CERBERUS K9'}
+		title={s?.pagehero_news_title_pl || 'AKTUALNOŚCI'}
+		subtitle={s?.pagehero_news_subtitle_pl || 'WIADOMOŚCI, KOMUNIKATY I RELACJE Z PRZYGOTOWAŃ DO WYDARZENIA'}
 		heroImage={s?.hero_background_image}
 		heroOpacity={s?.hero_background_opacity}
 	/>

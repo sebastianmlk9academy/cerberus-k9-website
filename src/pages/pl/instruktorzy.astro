@@ -64,9 +64,9 @@ const countriesCount = new Set(visibleInstructors.map((instructor) => instructor
 >
 	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
 	<PageHero
-		category="NASI"
-		title="INSTRUKTORZY"
-		subtitle="WETERANI JWK · ODDZIAŁU SPECJALNEGO ŻANDARMERII WOJSKOWEJ · POLICJANCI · JSPEC · EKSPERCI NATO"
+		category={s?.pagehero_instructors_category_pl || 'NASI'}
+		title={s?.pagehero_instructors_title_pl || 'INSTRUKTORZY'}
+		subtitle={s?.pagehero_instructors_subtitle_pl || 'WETERANI JWK · ODDZIAŁU SPECJALNEGO ŻANDARMERII WOJSKOWEJ · POLICJANCI · JSPEC · EKSPERCI NATO'}
 		heroImage={s?.hero_background_image}
 		heroOpacity={s?.hero_background_opacity}
 	/>

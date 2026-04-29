@@ -76,9 +76,9 @@ const members = teamMembers
 >
 	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
 	<PageHero
-		category="O NAS"
-		title="FUNDACJA PACTA K9"
-		subtitle="KRS: 0001219121 · TOPOLA MAŁA · WIELKOPOLSKA"
+		category={s?.pagehero_foundation_category_pl || 'O NAS'}
+		title={s?.pagehero_foundation_title_pl || 'FUNDACJA PACTA K9'}
+		subtitle={s?.pagehero_foundation_subtitle_pl || 'KRS: 0001219121 · TOPOLA MAŁA · WIELKOPOLSKA'}
 		heroImage={s?.hero_background_image}
 		heroOpacity={s?.hero_background_opacity}
 	/>
