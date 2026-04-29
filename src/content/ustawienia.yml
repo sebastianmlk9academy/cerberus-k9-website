@@ -209,7 +209,7 @@ social_facebook: https://www.facebook.com/cerberusk9
 sekcja_hero:
   hero_year: "2026"
   hero_video_url: ""
-  hero_meta_locations: ""
+  hero_meta_locations: "6"
   hero_tagline: MIĘDZYNARODOWA PLATFORMA OBRONY · EDYCJA 2026
   registration_active: true
   hero_subline_pl: WSTĘP BEZPŁATNY · REJESTRACJA WYMAGANA
@@ -218,12 +218,36 @@ sekcja_hero:
   hero_close_label_pl: ZAMKNIJ
   hero_title: CERBERUS
   hero_video_href: https://www.youtube.com/watch?v=kUhqmGhrbas
-  hero_meta_delegations: ""
+  hero_meta_delegations: "15+"
   hero_cta_program_href: /pl/o-wydarzeniu#agenda
   hero_subtitle: K9
-  hero_meta_entry: ""
+  hero_meta_entry: BEZPŁATNY
   hero_cta_registration_href: https://cerberusk9.org/pl/rejestracja/
   hero_background_opacity: 0.4
+  pagehero_media_category_pl: DLA DZIENNIKARZY
+  pagehero_media_title_pl: MEDIA
+  pagehero_media_subtitle_pl: PRESS KIT · INFORMACJE PRASOWE · RELACJE 2025
+  pagehero_gallery_category_pl: ARCHIWUM FOTOGRAFICZNE
+  pagehero_gallery_title_pl: GALERIA
+  pagehero_gallery_subtitle_pl: EDYCJA 2025 · TRÓJMIASTO · 300+ ZDJĘĆ
+  pagehero_instructors_category_pl: NASI
+  pagehero_instructors_title_pl: INSTRUKTORZY
+  pagehero_instructors_subtitle_pl: WETERANI JWK · ODDZIAŁU SPECJALNEGO ŻANDARMERII WOJSKOWEJ · POLICJANCI · JSPEC · EKSPERCI NATO
+  pagehero_partners_category_pl: WSPÓŁPRACA
+  pagehero_partners_title_pl: PARTNERZY
+  pagehero_partners_subtitle_pl: STRATEGICZNI · SPONSORZY · PATRONI MEDIALNI
+  pagehero_contact_category_pl: KONTAKT
+  pagehero_contact_title_pl: SKONTAKTUJ SIĘ
+  pagehero_contact_subtitle_pl: FUNDACJA PACTA K9 · CERBERUS K9 2026
+  pagehero_registration_category_pl: DOŁĄCZ DO NAS
+  pagehero_registration_title_pl: REJESTRACJA
+  pagehero_registration_subtitle_pl: WSTĘP BEZPŁATNY · WYMAGANA REJESTRACJA · 13–14 CZERWCA 2026
+  pagehero_news_category_pl: CERBERUS K9
+  pagehero_news_title_pl: AKTUALNOŚCI
+  pagehero_news_subtitle_pl: WIADOMOŚCI, KOMUNIKATY I RELACJE Z PRZYGOTOWAŃ DO WYDARZENIA
+  pagehero_foundation_category_pl: O NAS
+  pagehero_foundation_title_pl: FUNDACJA PACTA K9
+  pagehero_foundation_subtitle_pl: KRS: 0001219121 · TOPOLA MAŁA · WIELKOPOLSKA
 footer_email: sebastian@pactak9.org
 favicon_svg: /favicon.svg
 media_label_full_materials_pl: KOMPLET MATERIAŁÓW
