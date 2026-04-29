@@ -1019,7 +1019,7 @@ export function GalleryGrid({
         </p>
         <a
           href={`/${lang}/rejestracja`}
-          className="flex items-center justify-center cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-6 sm:py-3.5 text-decoration-none"
+          className="flex items-center justify-center cursor-pointer transition-colors w-full sm:w-auto text-[11px] sm:text-[12px] px-5 py-3 sm:px-6 sm:py-3.5 text-decoration-none"
           style={{
             backgroundColor: "transparent",
             color: "#C4922A",
@@ -1086,7 +1086,7 @@ export function GalleryGrid({
 
       <a
         href="#"
-        className="load-more-btn flex items-center justify-center cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-6 sm:py-3.5"
+        className="load-more-btn flex items-center justify-center cursor-pointer transition-colors w-full sm:w-auto text-[11px] sm:text-[12px] px-5 py-3 sm:px-6 sm:py-3.5"
         style={partnerButtonStyle}
         onMouseEnter={handlePartnerButtonMouseEnter}
         onMouseLeave={handlePartnerButtonMouseLeave}
@@ -1144,7 +1144,7 @@ export function GalleryGrid({
                   </div>
                 </div>
                 <div
-                  className="video-badge absolute bottom-2 left-2 transition-colors duration-200 bg-[#C42B2B] group-hover:bg-[#8B1A1A] text-white text-[8px] font-bold px-1.5 py-0.5"
+                  className="video-badge absolute bottom-2 left-2 transition-colors duration-200 bg-[#C42B2B] group-hover:bg-[#8B1A1A] text-white text-[10px] font-bold px-1.5 py-0.5"
                   style={{ fontFamily: "'Rajdhani', Trebuchet MS, sans-serif" }}
                 >
                   {video.badge}
@@ -1426,7 +1426,7 @@ export function GalleryGrid({
           padding: 3px 8px;
           border-radius: 0;
           font-family: 'Rajdhani', Trebuchet MS, sans-serif;
-          font-size: 10px;
+          font-size: 11px;
           font-weight: 700;
           letter-spacing: 0.2px;
           text-transform: uppercase;
@@ -1472,7 +1472,7 @@ export function GalleryGrid({
           position: absolute;
           bottom: 8px;
           right: 8px;
-          font-size: 7px;
+          font-size: 9px;
           padding: 2px 4px;
           border-radius: 999px;
           background: rgba(15, 23, 32, 0.8);
@@ -1561,7 +1561,7 @@ export function GalleryGrid({
         .video-title {
           display: block;
           margin-top: 8px;
-          font-size: 11px;
+          font-size: 12px;
           color: #E4DDD0;
           font-family: 'Rajdhani', Trebuchet MS, sans-serif;
         }
@@ -1618,7 +1618,7 @@ export function GalleryGrid({
           letter-spacing: 0.5px;
         }
         .press-date {
-          font-size: 11px;
+          font-size: 12px;
           color: #9ca9b4;
         }
         .press-title {
@@ -1628,7 +1628,7 @@ export function GalleryGrid({
         }
         .press-description {
           margin: 0;
-          font-size: 11px;
+          font-size: 12px;
           color: #b8c0c8;
           line-height: 1.4;
         }

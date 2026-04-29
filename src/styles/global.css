@@ -9,6 +9,13 @@
 	--font-libre: 'Libre Baskerville', Georgia, serif;
 	--font-libre-baskerville: 'Libre Baskerville', Georgia, serif;
 
+	/* Safe foundation typography tokens (UX/readability baseline). */
+	--text-2xs: 0.625rem; /* 10px */
+	--text-xs: 0.6875rem; /* 11px */
+	--text-sm: 0.75rem; /* 12px */
+	--text-md: 0.875rem; /* 14px */
+	--text-body: 1rem; /* 16px */
+
 	--accent: #2337ff;
 	--accent-dark: #000d8a;
 	--black: 15, 18, 25;

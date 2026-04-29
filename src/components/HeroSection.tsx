@@ -176,7 +176,7 @@ export function HeroSection(props: HeroSectionProps) {
           style={{ backgroundColor: "#C42B2B" }}
         />
         <span
-          className="text-[7px] sm:text-[8px] md:text-[9px]"
+          className="text-[10px] sm:text-[11px] md:text-[12px]"
           style={{
             fontFamily: "var(--font-rajdhani), sans-serif",
             letterSpacing: "3px",
@@ -218,7 +218,7 @@ export function HeroSection(props: HeroSectionProps) {
 
       {/* Section 3: Sub-headline */}
       <p
-        className="relative z-10 mt-3 sm:mt-4 mb-5 sm:mb-7 text-[9px] sm:text-[10px] md:text-[11px]"
+        className="relative z-10 mt-3 sm:mt-4 mb-5 sm:mb-7 text-[11px] sm:text-[12px] md:text-[12px]"
         style={{
           fontFamily: "var(--font-rajdhani), sans-serif",
           letterSpacing: "3px",
@@ -276,7 +276,7 @@ export function HeroSection(props: HeroSectionProps) {
         {registrationActive !== false && (
           <a
             href={ctaRegistrationHref || `/${lang}/rejestracja`}
-            className="inline-block text-center cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-8 sm:py-3.5 no-underline"
+            className="inline-block text-center cursor-pointer transition-colors w-full sm:w-auto text-[11px] sm:text-[12px] px-5 py-3 sm:px-8 sm:py-3.5 no-underline"
             style={{
               backgroundColor: "#C42B2B",
               color: "white",
@@ -294,7 +294,7 @@ export function HeroSection(props: HeroSectionProps) {
         )}
         <a
           href={ctaProgramHref || `/${lang}/o-wydarzeniu#agenda`}
-          className="inline-block text-center cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-6 sm:py-3.5 no-underline"
+          className="inline-block text-center cursor-pointer transition-colors w-full sm:w-auto text-[11px] sm:text-[12px] px-5 py-3 sm:px-6 sm:py-3.5 no-underline"
           style={{
             backgroundColor: "transparent",
             color: "#C4922A",
@@ -318,7 +318,7 @@ export function HeroSection(props: HeroSectionProps) {
         <button
           type="button"
           onClick={() => setVideoOpen(true)}
-          className="inline-block text-center cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-5 sm:py-3.5 no-underline"
+          className="inline-block text-center cursor-pointer transition-colors w-full sm:w-auto text-[11px] sm:text-[12px] px-5 py-3 sm:px-5 sm:py-3.5 no-underline"
           style={{
             backgroundColor: "transparent",
             color: "#7A8A96",
@@ -450,7 +450,7 @@ function CountdownBlock({ value, label }: { value: string; label: string }) {
         </div>
       </div>
       <div
-        className="mt-1.5 sm:mt-2 text-[8px] sm:text-[9px] md:text-[10px]"
+        className="mt-1.5 sm:mt-2 text-[10px] sm:text-[10px] md:text-[11px]"
         style={{
           fontFamily: "var(--font-rajdhani), sans-serif",
           letterSpacing: "2px",
@@ -488,7 +488,7 @@ function MetaInfoItem({ label, value }: { label: string; value: string }) {
       }}
     >
       <div
-        className="text-[7px] sm:text-[8px] mb-0.5"
+        className="text-[10px] sm:text-[10px] mb-0.5"
         style={{
           fontFamily: "var(--font-rajdhani), sans-serif",
           letterSpacing: "3px",

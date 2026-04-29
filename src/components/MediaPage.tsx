@@ -430,12 +430,12 @@ export default function MediaPage({
           text-align: center;
           line-height: 1.35;
           max-width: 100%;
-          font-size: 10px;
+          font-size: 11px;
           padding: 12px 18px;
         }
         @media (min-width: 640px) {
           .media-page-cta-btn {
-            font-size: 11px;
+            font-size: 12px;
             padding: 14px 22px;
           }
         }
@@ -725,7 +725,7 @@ export default function MediaPage({
                   background: 'rgba(196, 43, 43, 0.15)',
                   color: '#E4A0A0',
                   border: '1px solid rgba(196, 43, 43, 0.45)',
-                  fontSize: '10px',
+                  fontSize: '11px',
                   fontWeight: 700,
                   letterSpacing: '2px',
                   padding: '4px 10px',

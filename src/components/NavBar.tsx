@@ -142,7 +142,7 @@ export function NavBar({
             <span
               style={{
                 fontFamily: "'Rajdhani', sans-serif",
-                fontSize: 'clamp(6px, 0.75vw, 8px)',
+                fontSize: 'clamp(8px, 0.9vw, 10px)',
                 letterSpacing: '1.8px',
                 fontWeight: 700,
                 color: '#4A5A6A',
@@ -169,7 +169,7 @@ export function NavBar({
                 className="transition-colors duration-150 whitespace-nowrap"
                 style={{
                   fontFamily: "'Rajdhani', sans-serif",
-                  fontSize: '10px',
+                  fontSize: '12px',
                   letterSpacing: '2px',
                   fontWeight: 700,
                   color: isActive ? '#C4922A' : '#FFFFFF',
@@ -206,7 +206,7 @@ export function NavBar({
               aria-label={`Current language: ${currentLang.name}. Click to change.`}
               style={{
                 fontFamily: "'Rajdhani', sans-serif",
-                fontSize: '10px',
+                fontSize: '12px',
                 letterSpacing: '2px',
                 fontWeight: 700,
                 color: langDropdownOpen ? '#C4922A' : '#FFFFFF',
@@ -267,7 +267,7 @@ export function NavBar({
                         className="w-full flex items-center gap-2 px-4 py-2 transition-colors duration-150"
                         style={{
                           fontFamily: "'Rajdhani', sans-serif",
-                          fontSize: '10px',
+                          fontSize: '12px',
                           letterSpacing: '2px',
                           fontWeight: 700,
                           color: isCurrentLang ? '#C4922A' : '#7A8A96',
@@ -321,7 +321,7 @@ export function NavBar({
                 backgroundColor: '#C42B2B',
                 color: 'white',
                 fontFamily: "'Rajdhani', sans-serif",
-                fontSize: 'clamp(8px, 2vw, 10px)',
+                fontSize: 'clamp(11px, 1.1vw, 12px)',
                 letterSpacing: 'clamp(1px, 0.5vw, 2px)',
                 fontWeight: 700,
                 padding: '8px 14px',
@@ -395,7 +395,7 @@ export function NavBar({
                   borderBottomColor: '#253344',
                   borderLeft: isActive ? '3px solid #C4922A' : '3px solid transparent',
                   fontFamily: "'Rajdhani', sans-serif",
-                  fontSize: '11px',
+                  fontSize: '12px',
                   letterSpacing: '3px',
                   fontWeight: 700,
                   color: isActive ? '#C4922A' : '#FFFFFF',

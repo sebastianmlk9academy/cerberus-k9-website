@@ -98,7 +98,7 @@ function MediaPatronCard({ partner }: { partner: Partner }) {
       {/* Name */}
       <span className={`
         font-rajdhani font-bold
-        text-[10px]
+        text-[11px] sm:text-[12px]
         mt-2
         tracking-[2px] sm:tracking-[3px]
         text-center
@@ -153,7 +153,7 @@ function PartnerCard({ partner }: { partner: Partner }) {
           </div>
         ) : (
           <div style={{position:'absolute', inset:0, display:'flex', alignItems:'center', justifyContent:'center'}}>
-            <span className="text-[#4A5A6A] text-[10px] font-bold tracking-[1px] sm:tracking-[2px] text-center leading-tight">
+            <span className="text-[#4A5A6A] text-[11px] sm:text-[12px] font-bold tracking-[1px] sm:tracking-[2px] text-center leading-tight">
               {partner.name}
             </span>
           </div>
@@ -163,7 +163,7 @@ function PartnerCard({ partner }: { partner: Partner }) {
       {/* Name */}
       <span className={`
         font-rajdhani font-bold
-        text-[10px]
+        text-[11px] sm:text-[12px]
         mt-2
         tracking-[1px] sm:tracking-[2px]
         text-center
@@ -184,7 +184,7 @@ function SectionHeader({ children, accent = false }: { children: React.ReactNode
       <div className={`h-px flex-1 bg-[length:50%_100%] bg-no-repeat bg-right ${accent ? 'bg-gradient-to-r from-transparent via-[#C4922A]/40 to-transparent' : 'bg-gradient-to-r from-transparent via-[#3A4A5A]/40 to-transparent'}`} />
       <h3 className={`
         font-rajdhani font-bold
-        text-[10px] sm:text-xs md:text-sm
+        text-[11px] sm:text-[12px] md:text-[13px]
         tracking-[3px] sm:tracking-[4px] md:tracking-[5px]
         ${accent ? 'text-[#C4922A]' : 'text-[#4A5A6A]'}
       `}>
@@ -282,7 +282,7 @@ export function PartnersStrip({ copy, partners: partnersProp, partnerCtaHref }: 
           <div className="mt-8 sm:mt-10 md:mt-12 flex justify-center">
             <a
               href={ctaHref}
-              className="flex items-center justify-center cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-6 sm:py-3.5"
+              className="flex items-center justify-center cursor-pointer transition-colors w-full sm:w-auto text-[11px] sm:text-[12px] px-5 py-3 sm:px-6 sm:py-3.5"
               style={{
                 backgroundColor: "transparent",
                 color: "#C4922A",
