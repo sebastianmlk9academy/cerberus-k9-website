@@ -1,4 +1,6 @@
 import { FileText, Mail, Phone, ExternalLink } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import type { MouseEvent as ReactMouseEvent } from 'react';
 import { ui } from '../i18n/ui';
 import type { Lang } from '../i18n/utils';
 
@@ -246,6 +248,45 @@ export default function MediaPage({
     /30\.05\.2026/g,
     deadlineDate,
   );
+  const [modalVideo, setModalVideo] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setModalVideo(null);
+      }
+    };
+
+    if (modalVideo) {
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = '';
+    };
+  }, [modalVideo]);
+
+  const handleBackdropClick = (e: ReactMouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      setModalVideo(null);
+    }
+  };
+
+  const toVideoEmbedUrl = (url: string): string | null => {
+    if (!url || url === '#') return null;
+    const ytMatch = url.match(
+      /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([a-zA-Z0-9_-]{11})/,
+    );
+    if (ytMatch) return `https://www.youtube.com/embed/${ytMatch[1]}`;
+
+    const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
+    if (vimeoMatch) return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
+
+    return null;
+  };
+
   return (
     <div
       style={{
@@ -639,6 +680,7 @@ export default function MediaPage({
       >
         {safeArchive.map((item) => {
           const isExternal = item.href.startsWith('http');
+          const videoEmbedUrl = toVideoEmbedUrl(item.href);
           return (
             <div
               key={`${item.outlet}-${item.badge ?? item.type ?? 'media'}-${item.href}`}
@@ -703,28 +745,78 @@ export default function MediaPage({
                   {mediaLabels.linkSoon}
                 </span>
               ) : (
-                <a
-                  href={item.href}
-                  {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : { download: true })}
-                  className="media-page-cta-btn media-page-archive-cta"
-                >
-                  {isExternal ? (
-                    <>
-                      {mediaLabels.open}
-                      <ExternalLink size={14} aria-hidden />
-                    </>
-                  ) : (
-                    <>
-                      {mediaLabels.downloadPdf}
-                      <FileText size={14} aria-hidden />
-                    </>
-                  )}
-                </a>
+                videoEmbedUrl ? (
+                  <button
+                    type="button"
+                    onClick={() => setModalVideo(videoEmbedUrl)}
+                    className="media-page-cta-btn media-page-archive-cta"
+                    style={{ background: 'transparent' }}
+                  >
+                    {mediaLabels.open}
+                    <ExternalLink size={14} aria-hidden />
+                  </button>
+                ) : (
+                  <a
+                    href={item.href}
+                    {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : { download: true })}
+                    className="media-page-cta-btn media-page-archive-cta"
+                  >
+                    {isExternal ? (
+                      <>
+                        {mediaLabels.open}
+                        <ExternalLink size={14} aria-hidden />
+                      </>
+                    ) : (
+                      <>
+                        {mediaLabels.downloadPdf}
+                        <FileText size={14} aria-hidden />
+                      </>
+                    )}
+                  </a>
+                )
               )}
             </div>
           );
         })}
       </div>
+      {modalVideo && (
+        <div
+          className="fixed inset-0 flex items-center justify-center"
+          style={{
+            backgroundColor: 'rgba(15, 23, 32, 0.92)',
+            backdropFilter: 'blur(8px)',
+            zIndex: 50,
+          }}
+          onClick={handleBackdropClick}
+        >
+          <div className="relative w-[90%]" style={{ maxWidth: '860px' }}>
+            <button
+              onClick={() => setModalVideo(null)}
+              className="absolute -top-10 right-0 cursor-pointer"
+              style={{
+                fontFamily: "'Rajdhani', Trebuchet MS, sans-serif",
+                fontSize: '20px',
+                color: '#E4DDD0',
+                background: 'transparent',
+                border: 'none',
+                padding: '8px',
+              }}
+            >
+              ✕
+            </button>
+            <div className="aspect-video w-full">
+              <iframe
+                src={`${modalVideo}?autoplay=1`}
+                title="Video Player"
+                className="w-full h-full"
+                style={{ border: 'none' }}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
