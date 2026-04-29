@@ -222,7 +222,7 @@ sekcja_hero:
   hero_cta_program_href: /pl/o-wydarzeniu#agenda
   hero_subtitle: K9
   hero_meta_entry: ""
-  hero_cta_registration_href: ""
+  hero_cta_registration_href: https://cerberusk9.org/pl/rejestracja/
   hero_background_opacity: 0.4
 footer_email: sebastian@pactak9.org
 favicon_svg: /favicon.svg
@@ -279,7 +279,7 @@ sekcja_rejestracja:
   registration_venues: 3MK Arena, Szkoła Mundurowa, Stadion Miejski
   registration_deadline_text: ""
   registration_prep_day: "Dzień przygotowawczy: 12 czerwca"
-  pretix_url: https://pretix.eu/MLK9-LLK9/CERBERUS/
+  pretix_url: https://cerberusk9.org/pl/rejestracja/
   registration_city: Ostrów Wielkopolski
   partner_cta_href: mailto:sebastian@pactak9.org
   registration_contact_email: sebastian@pactak9.org
