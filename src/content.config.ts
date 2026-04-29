@@ -21,6 +21,32 @@ function dateToString(val: unknown): unknown {
 	return val;
 }
 
+const ENUM_MODULE_CATEGORIES = [
+	'K9-Gryzanie',
+	'K9-Detekcja',
+	'K9-SAR',
+	'TCCC',
+	'Drony',
+	'HARDEST HIT',
+	'Konferencja',
+	'BREAK',
+	'CEREMONIA',
+	'Inne',
+] as const;
+
+const ENUM_FAQ_CATEGORIES = [
+	'Rejestracja',
+	'Program',
+	'Logistyka',
+	'K9',
+	'TCCC',
+	'Drony',
+	'HARDEST HIT',
+	'Inne',
+] as const;
+
+const ENUM_PARTNER_TYPES = ['strategic', 'partner', 'technical', 'media', 'honorary', 'sponsor'] as const;
+
 const i18n_strings = defineCollection({
 	loader: glob({ base: './src/content/i18n', pattern: '*.json' }),
 	schema: z.object({
@@ -105,10 +131,21 @@ const instruktorzy = defineCollection({
 	}),
 });
 
-const partnerTypeSchema = z.preprocess(
-	(val) => (val === 'Patron-Medialny' ? 'Patron Medialny' : val),
-	z.enum(['Patron Medialny', 'Strategiczny', 'Sponsor', 'Technologiczny']).optional().default('Strategiczny'),
-);
+const PARTNER_TYPE_PL_TO_EN: Record<string, (typeof ENUM_PARTNER_TYPES)[number]> = {
+	Strategiczny: 'strategic',
+	Partner: 'partner',
+	Technologiczny: 'technical',
+	'Patron Medialny': 'media',
+	'Patron-Medialny': 'media',
+	Honorowy: 'honorary',
+	Sponsor: 'sponsor',
+};
+
+const partnerTypeSchema = z.preprocess((value) => {
+	if (typeof value !== 'string') return value;
+	const normalized = value.trim();
+	return PARTNER_TYPE_PL_TO_EN[normalized] ?? normalized;
+}, z.enum(ENUM_PARTNER_TYPES).optional().default('strategic'));
 
 const partnerzy = defineCollection({
 	loader: glob({ base: './src/content/partnerzy', pattern: '**/*.{md,mdx}' }),
@@ -309,6 +346,12 @@ const ustawienia = defineCollection({
 		hero_background_image: z.string().optional(),
 		hero_background_opacity: z.coerce.number().optional().default(0.4),
 		plausible_domain: z.string(),
+		notification_bar_text_pl: z.string().optional(),
+		notification_bar_text_en: z.string().optional(),
+		notification_bar_severity: z.enum(['urgent', 'info', 'success']).optional().default('info'),
+		mobile_sticky_cta_active: z.boolean().optional().default(false),
+		ga4_id: z.string().optional(),
+		microsoft_clarity_id: z.string().optional(),
 		registration_active: z.boolean().default(true),
 		hero_cta_registration_href: z.string().optional(),
 		hero_cta_program_href: z.string().optional(),
@@ -362,6 +405,7 @@ const ustawienia = defineCollection({
 		footer_link_foundation: z.string().optional().default('fundacja'),
 		footer_link_partners: z.string().optional().default('partnerzy'),
 		footer_link_contact: z.string().optional().default('kontakt'),
+		footer_instagram_url: z.string().optional(),
 		krs_number: z.string().optional().default('0001219121'),
 		nip_number: z.string().optional().default('6222869581'),
 		regon_number: z.string().optional().default('543799847'),
@@ -385,6 +429,8 @@ const ustawienia = defineCollection({
 		contact_phone_mariusz: z.string().optional(),
 		contact_president_email: z.string().optional(),
 		contact_address_street: z.string().optional(),
+		contact_address_country_pl: z.string().optional(),
+		contact_address_country_en: z.string().optional(),
 		contact_address_city: z.string().optional(),
 		contact_address_zip: z.string().optional(),
 		contact_map_embed_url: z.string().optional(),
@@ -400,6 +446,7 @@ const ustawienia = defineCollection({
 			.optional()
 			.default('I consent to processing of personal data in accordance with GDPR.'),
 		agenda_page_url: z.string().optional().default('https://cerberusk9.org/pl/o-wydarzeniu'),
+		nav_registration_active: z.boolean().optional(),
 		site_url: z.string().optional().default('https://cerberusk9.org'),
 		pwa_name: z.string().optional().default('CERBERUS K9'),
 		pwa_short_name: z.string().optional().default('CERBERUS K9'),
@@ -475,7 +522,7 @@ const ustawienia = defineCollection({
 		current_competitor: z.string().optional(),
 		grants_approved: z.number().optional(),
 		volunteers_count: z.number().optional(),
-	})),
+	}).strict()),
 });
 
 function flattenRegistrationInfoCmsInput(raw: unknown): unknown {
@@ -557,6 +604,7 @@ const faq = defineCollection({
 		answer_pl: z.string(),
 		question_en: z.string().optional(),
 		answer_en: z.string().optional(),
+		category: z.enum(ENUM_FAQ_CATEGORIES).optional().default('Inne'),
 		order: z.number().optional().default(99),
 		active: z.boolean().optional().default(true),
 	}),
