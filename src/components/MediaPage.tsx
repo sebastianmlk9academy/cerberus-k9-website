@@ -750,6 +750,14 @@ export default function MediaPage({
                     onClick={() => setModalVideo(videoEmbedUrl)}
                     className="media-page-cta-btn media-page-archive-cta"
                     style={{ background: 'transparent' }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#C4922A';
+                      e.currentTarget.style.color = '#1E2B38';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.color = '#C4922A';
+                    }}
                   >
                     {mediaLabels.open}
                     <ExternalLink size={14} aria-hidden />
@@ -759,6 +767,14 @@ export default function MediaPage({
                     href={item.href}
                     {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : { download: true })}
                     className="media-page-cta-btn media-page-archive-cta"
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#C4922A';
+                      e.currentTarget.style.color = '#1E2B38';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.color = '#C4922A';
+                    }}
                   >
                     {isExternal ? (
                       <>
