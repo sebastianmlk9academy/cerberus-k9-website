@@ -13,7 +13,7 @@ sekcja_kontakt:
     media_label_press_info_pl: INFORMACJE PRASOWE
     media_label_media_archive_pl: ARCHIWUM MEDIALNE
     media_label_archive_description_pl: Wybrane relacje prasowe i materiały z ubiegłorocznej edycji.
-  contact_phone_mariusz: ""
+  contact_phone_mariusz: +48 788 929 200
   media_contact_email: sebastian@pactak9.org
   press_pdf_special_ops: /downloads/special-ops-cerberus-k9-2025.pdf
   venue_address: 3MK Arena, ul. Andrzeja Kowalczyka 1, Ostrów Wielkopolski
@@ -101,7 +101,7 @@ sekcja_wydarzenie:
   event_date_end: 2026-06-14
   event_city: Ostrów Wielkopolski
   event_venue: 3MK Arena
-  event_time_start: 00:00
+  event_time_start: 09:00
   event_time_end: 17:00
   event_timezone: Europe/Warsaw
 media_label_press_info_pl: INFORMACJE PRASOWE
