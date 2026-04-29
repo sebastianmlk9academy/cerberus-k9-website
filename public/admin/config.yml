@@ -4,7 +4,6 @@ backend:
   branch: "master"
   base_url: "https://cerberus-oauth-proxy.vercel.app"
   auth_endpoint: "/auth"
-local_backend: true
 publish_mode: "editorial_workflow"
 media_folder: "public/uploads"
 public_folder: "/uploads"

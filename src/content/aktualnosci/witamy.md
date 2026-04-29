@@ -8,8 +8,7 @@ image_alt: "US Police K9 SWAT na CERBERUS K9 2026"
 tags:
   - K9
   - USA
-  - SWAT
-  - "2026"
+  - policja
 ---
 
 Fundacja PACTA K9 z dumą ogłasza potwierdzony udział delegacji US Police K9 SWAT na CERBERUS K9 2026.

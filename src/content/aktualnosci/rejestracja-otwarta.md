@@ -5,10 +5,7 @@ category: "Rejestracja"
 lead: "Rejestracja na CERBERUS K9 2026 jest już dostępna. Liczba miejsc ograniczona. Wejście bezpłatne dla wszystkich uczestników."
 image: "/images/news-registration.webp"
 image_alt: "Rejestracja CERBERUS K9 2026"
-tags:
-  - Rejestracja
-  - "2026"
-  - Bezpłatny
+tags: []
 ---
 
 Rejestracja na CERBERUS K9 2026 jest już otwarta.

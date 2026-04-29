@@ -5,9 +5,7 @@ category: Aktualności
 lead: 'Od teraz oficjalne komunikaty, zapowiedzi i relacje z wydarzenia publikujemy w tym miejscu — zapisz stronę w ulubionych.'
 image: /images/page_hero_graph.webp
 image_alt: 'Grafika strony CERBERUS K9'
-tags:
-  - CERBERUS K9
-  - aktualności
+tags: []
 ---
 
 ## Co znajdziesz tutaj
