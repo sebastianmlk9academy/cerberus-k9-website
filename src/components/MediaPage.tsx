@@ -237,6 +237,8 @@ export default function MediaPage({
   const specialHref = pressPdfSpecialOps || "/downloads/special-ops-cerberus-k9-2025.pdf";
   const contactName = mediaContactName || mediaLabels.vicePresident;
   const contactPhone = mediaContactPhone || "+48 695 637 907";
+  const contactTelDigits = contactPhone.replace(/[^\d+]/g, '');
+  const contactTelHref = contactTelDigits.length > 0 ? `tel:${contactTelDigits}` : undefined;
   const contactEmail = mediaContactEmail || "sebastian@pactak9.org";
   const sectionTag = (ui[lang] ?? ui.pl).nav_media;
   const deadlineDate = (accreditationDeadline ?? '').trim() || '30.05.2026';
@@ -462,29 +464,49 @@ export default function MediaPage({
             href={`mailto:${contactEmail}`}
             className="media-page-contact-email"
             style={{
-              display: 'inline-flex',
+              display: 'flex',
               alignItems: 'center',
               gap: '8px',
               fontSize: '14px',
               marginBottom: '10px',
+              width: '100%',
             }}
           >
             <Mail size={16} aria-hidden />
             {contactEmail}
           </a>
-          <p
-            className="media-page-contact-phone"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              margin: '10px 0 16px 0',
-              fontSize: '14px',
-            }}
-          >
-            <Phone size={16} aria-hidden />
-            {contactPhone}
-          </p>
+          {contactTelHref ? (
+            <a
+              href={contactTelHref}
+              className="media-page-contact-phone"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                margin: '0 0 16px 0',
+                fontSize: '14px',
+                width: '100%',
+              }}
+            >
+              <Phone size={16} aria-hidden />
+              {contactPhone}
+            </a>
+          ) : (
+            <p
+              className="media-page-contact-phone"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                margin: '0 0 16px 0',
+                fontSize: '14px',
+                width: '100%',
+              }}
+            >
+              <Phone size={16} aria-hidden />
+              {contactPhone}
+            </p>
+          )}
           <p style={{ margin: 0, fontSize: '13px', color: '#7A8A9A', letterSpacing: '0.5px' }}>
             {mediaLabels.responseTime}
           </p>
@@ -581,7 +603,7 @@ export default function MediaPage({
                 fontSize: '12px',
                 fontWeight: 700,
                 letterSpacing: '2px',
-                color: '#C42B2B',
+                color: '#C4922A',
                 textDecoration: 'none',
                 textTransform: 'uppercase',
               }}
