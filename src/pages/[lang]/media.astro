@@ -82,12 +82,12 @@ const navMedia = (ui[lang] ?? ui['pl']).nav_media;
 			heroImage={s?.hero_background_image}
 			heroOpacity={s?.hero_background_opacity}
 		/>
+		<!-- Canonical media-contact source: kontakt_content. Global settings stay as legacy fallback. -->
 		<MediaPage
 			client:load
 			lang={lang}
 			mediaArchive={mediaArchive}
 			pressReleases={cmsPressReleases.length > 0 ? cmsPressReleases : pressReleases}
-			/* Canonical media-contact source: kontakt_content. Global settings stay as legacy fallback. */
 			accreditationDeadline={kc?.accreditation_deadline ?? s?.accreditation_deadline}
 			pressKitItems={[
 				{

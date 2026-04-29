@@ -168,18 +168,17 @@ const regH = regHero[lang] ?? regHero.pl;
 				</p>
 			</section>
 		) : (
+			<!-- Legacy: sidebar fields below are emergency fallback. Canonical: registration_info collection. -->
 			<RegistrationSection
 				client:load
 				lang={lang}
 				pretixUrl={s?.pretix_url}
-				/* Legacy sidebar fields kept only as emergency fallback compatibility layer. */
 				dateValue={s?.registration_date_display}
 				prepDay={s?.registration_prep_day}
 				venues={s?.registration_venues}
 				city={s?.registration_city}
 				contactEmail={s?.registration_contact_email}
 				contactPhone={s?.registration_contact_phone}
-				/* Canonical registration source: registration_info collection. */
 				regDateDisplay={
 					regInfo?.reg_date_display ?? s?.registration_date_display ?? '13–14 czerwca 2026'
 				}

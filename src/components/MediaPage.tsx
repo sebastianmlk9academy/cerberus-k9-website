@@ -400,8 +400,21 @@ export default function MediaPage({
           background-color: #c4922a;
           color: #1e2b38;
         }
-        .media-archive-link:hover {
-          color: #E0AA44 !important;
+        .media-page-contact-email,
+        .media-page-contact-phone {
+          color: #B8AFA0;
+          text-decoration: none;
+          transition: color 0.2s ease;
+        }
+        .media-page-contact-email:hover,
+        .media-page-contact-phone:hover {
+          color: #C4922A;
+        }
+        .media-page-cta-btn.media-page-archive-cta {
+          margin-top: 16px;
+          align-self: flex-start;
+          gap: 6px;
+          zoom: 0.8 !important;
         }
       `}</style>
 
@@ -447,12 +460,11 @@ export default function MediaPage({
           </p>
           <a
             href={`mailto:${contactEmail}`}
+            className="media-page-contact-email"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
-              color: '#C4922A',
-              textDecoration: 'none',
               fontSize: '14px',
               marginBottom: '10px',
             }}
@@ -461,13 +473,13 @@ export default function MediaPage({
             {contactEmail}
           </a>
           <p
+            className="media-page-contact-phone"
             style={{
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
               margin: '10px 0 16px 0',
               fontSize: '14px',
-              color: '#B8AFA0',
             }}
           >
             <Phone size={16} aria-hidden />
@@ -500,12 +512,11 @@ export default function MediaPage({
           </p>
           <a
             href={`mailto:${contactEmail}`}
+            className="media-page-contact-email"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
-              color: '#C4922A',
-              textDecoration: 'none',
               fontSize: '14px',
               marginBottom: '12px',
             }}
@@ -606,19 +617,6 @@ export default function MediaPage({
       >
         {safeArchive.map((item) => {
           const isExternal = item.href.startsWith('http');
-          const linkStyle = {
-            marginTop: '16px',
-            display: 'inline-flex' as const,
-            alignItems: 'center' as const,
-            gap: '6px',
-            fontSize: '12px',
-            fontWeight: 700,
-            letterSpacing: '1.5px',
-            color: '#C4922A',
-            textDecoration: 'none' as const,
-            textTransform: 'uppercase' as const,
-            cursor: 'pointer' as const,
-          };
           return (
             <div
               key={`${item.outlet}-${item.badge ?? item.type ?? 'media'}-${item.href}`}
@@ -667,8 +665,16 @@ export default function MediaPage({
               {item.isPlaceholder ? (
                 <span
                   style={{
-                    ...linkStyle,
+                    marginTop: '16px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    letterSpacing: '1.5px',
                     color: '#5A6A7A',
+                    textDecoration: 'none',
+                    textTransform: 'uppercase',
                     cursor: 'default',
                   }}
                 >
@@ -678,8 +684,7 @@ export default function MediaPage({
                 <a
                   href={item.href}
                   {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : { download: true })}
-                  style={linkStyle}
-                  className="media-archive-link"
+                  className="media-page-cta-btn media-page-archive-cta"
                 >
                   {isExternal ? (
                     <>
