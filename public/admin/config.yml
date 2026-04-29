@@ -3610,6 +3610,8 @@ collections:
             value: "HARDEST_HIT"
           - label: "SZKOLENIA K9"
             value: "SZKOLENIA_K9"
+          - label: "PIERWSZA POMOC"
+            value: "PIERWSZA_POMOC"
           - label: "CEREMONIA"
             value: "CEREMONIA"
           - label: "KONFERENCJA"

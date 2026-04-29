@@ -9,6 +9,7 @@ import { extractThumbnail } from "../lib/extractThumbnail";
 type GalleryCategory =
   | "HARDEST_HIT"
   | "SZKOLENIA_K9"
+  | "PIERWSZA_POMOC"
   | "TCCC"
   | "KONFERENCJA"
   | "DRONY"
@@ -94,6 +95,7 @@ type GalleryLabels = {
 const categoryBadgeClass: Record<GalleryCategory, string> = {
   HARDEST_HIT: "badge-hardest-hit",
   SZKOLENIA_K9: "badge-szkolenia-k9",
+  PIERWSZA_POMOC: "badge-pierwsza-pomoc",
   TCCC: "badge-tccc",
   KONFERENCJA: "badge-konferencja",
   DRONY: "badge-drony",
@@ -105,6 +107,7 @@ const categoryBadgeClass: Record<GalleryCategory, string> = {
 const CATEGORY_VALUES: GalleryCategory[] = [
   "HARDEST_HIT",
   "SZKOLENIA_K9",
+  "PIERWSZA_POMOC",
   "TCCC",
   "KONFERENCJA",
   "DRONY",
@@ -117,6 +120,7 @@ const CATEGORY_VALUES: GalleryCategory[] = [
 const galleryCategoryDisplayText: Record<GalleryCategory, string> = {
   HARDEST_HIT: "HARDEST HIT",
   SZKOLENIA_K9: "SZKOLENIA K9",
+  PIERWSZA_POMOC: "PIERWSZA POMOC",
   TCCC: "TCCC",
   KONFERENCJA: "KONFERENCJA",
   DRONY: "DRONY",
@@ -128,6 +132,7 @@ const galleryCategoryDisplayText: Record<GalleryCategory, string> = {
 const MAIN_FILTER_CATEGORY_LABEL: Record<string, string> = {
   HARDEST_HIT: "HARDEST HIT",
   SZKOLENIA_K9: "SZKOLENIA K9",
+  PIERWSZA_POMOC: "PIERWSZA POMOC",
   TCCC: "TCCC",
   KONFERENCJA: "KONFERENCJA",
   DRONY: "DRONY",
@@ -191,6 +196,7 @@ const MAIN_FILTER_IDS_FALLBACK = [
   "all",
   "HARDEST_HIT",
   "SZKOLENIA_K9",
+  "PIERWSZA_POMOC",
   "TCCC",
   "KONFERENCJA",
   "DRONY",
@@ -1436,6 +1442,10 @@ export function GalleryGrid({
         }
         .badge-tccc {
           background: #8b2020;
+          color: #0c1018;
+        }
+        .badge-pierwsza-pomoc {
+          background: #5f4b8b;
           color: #0c1018;
         }
         .badge-konferencja {

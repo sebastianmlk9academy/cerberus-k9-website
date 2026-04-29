@@ -580,6 +580,7 @@ const team = defineCollection({
 const galleryCategoryValues = [
 	'HARDEST_HIT',
 	'SZKOLENIA_K9',
+	'PIERWSZA_POMOC',
 	'TCCC',
 	'KONFERENCJA',
 	'DRONY',
@@ -601,6 +602,7 @@ function preprocessGalleryCategory(val: unknown): GalleryCategoryValue | undefin
 	const legacy: Record<string, GalleryCategoryValue> = {
 		'HARDEST HIT': 'HARDEST_HIT',
 		'SZKOLENIA K9': 'SZKOLENIA_K9',
+		'PIERWSZA POMOC': 'PIERWSZA_POMOC',
 		'OGÓLNE': 'OGOLNE',
 	};
 	return legacy[raw];
