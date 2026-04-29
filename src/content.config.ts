@@ -46,6 +46,25 @@ const ENUM_FAQ_CATEGORIES = [
 ] as const;
 
 const ENUM_PARTNER_TYPES = ['strategic', 'partner', 'technical', 'media', 'honorary', 'sponsor'] as const;
+const COUNTRY_CODE = z.string().length(2).regex(/^[A-Z]{2}$/);
+const ENUM_AUDIENCE_TYPES = [
+	'sluzby', 'cywil-z-psem', 'cywil-bez-psa',
+	'delegacja', 'media', 'sponsor', 'wszyscy',
+] as const;
+
+const ENUM_PARTNER_TIERS = ['strategic', 'partner', 'technical', 'media', 'honorary'] as const;
+
+const ENUM_LANG_CODES = [
+	'pl', 'en', 'de', 'fr', 'hr', 'cs', 'lt', 'lv', 'sk', 'sl', 'hu', 'no', 'sv', 'nl', 'es', 'pt', 'ro', 'it', 'ko',
+] as const;
+
+const ENUM_LIVE_SEVERITY = ['info', 'success', 'warning', 'danger'] as const;
+const ENUM_LIVE_SOURCE = ['jury', 'operations', 'kameralna', 'press'] as const;
+const ENUM_LICENSE = ['free', 'attribution', 'press_only'] as const;
+const ENUM_SPONSOR_MATERIAL_CATEGORY = ['brief', 'deck', 'onepager', 'logo_pack', 'case_study'] as const;
+const ENUM_SPONSOR_TARGET = ['prospect', 'confirmed', 'partner'] as const;
+const ENUM_EDITION = ['2025', '2026'] as const;
+const ENUM_MEDIA_ARCHIVE_TYPE = ['print', 'tv', 'radio', 'online', 'podcast'] as const;
 
 const i18n_strings = defineCollection({
 	loader: glob({ base: './src/content/i18n', pattern: '*.json' }),
@@ -739,21 +758,26 @@ const galleryTags = defineCollection({
 });
 
 const ambasadorzy = defineCollection({
-	loader: glob({ pattern: '**/*.yml', base: './src/content/ambasadorzy' }),
-	schema: z.object({
-		name: z.string(),
-		country: z.string(),
-		countryCode: z.string(),
-		role: z.string().optional(),
-		unit: z.string().optional(),
-		photo: z.string().optional(),
-		bio: z.string().optional(),
-		linkedinUrl: z.string().optional(),
-		instagram_url: z.string().optional(),
-		order: z.number().optional().default(99),
-		active: z.boolean().optional().default(true),
-		needs_review: z.boolean().optional().default(false),
-	}),
+  loader: glob({ pattern: '**/*.yml', base: './src/content/ambasadorzy' }),
+  schema: z.object({
+    name: z.string(),
+    role_pl: z.string(),
+    role_en: z.string(),
+    country: z.string(),
+    country_code: COUNTRY_CODE,
+    photo: z.string(),
+    bio_short_pl: z.string(),
+    bio_short_en: z.string(),
+    bio_full_pl: z.string().optional(),
+    bio_full_en: z.string().optional(),
+    order: z.number().int().nonnegative().default(99),
+    tags: z.array(z.string()).default([]),
+    isVisible: z.boolean().optional().default(true),
+    social_facebook: z.string().optional(),
+    social_linkedin: z.string().optional(),
+    social_instagram: z.string().optional(),
+    linkedin_url: z.string().optional(),
+  }).strict(),
 });
 
 const certyfikaty = defineCollection({
@@ -761,58 +785,72 @@ const certyfikaty = defineCollection({
 	schema: z.object({
 		certificate_id: z.string(),
 		participant_name: z.string(),
-		module: z.string(),
-		event_edition: z.string().default('2026'),
-		issue_date: z.preprocess(dateToString, z.string()),
+		participant_email: z.string(),
+		module: z.enum(ENUM_MODULE_CATEGORIES),
+		issue_date: z.coerce.date(),
+		valid_until: z.coerce.date().optional(),
 		instructor_name: z.string().optional(),
-		active: z.boolean().optional().default(true),
-	}),
+		qr_data: z.string(),
+		signature_url: z.string().optional(),
+	}).strict(),
 });
 
 const szkolenia = defineCollection({
-	loader: glob({ pattern: '**/*.{md,yml}', base: './src/content/szkolenia' }),
-	schema: z.object({
-		title: z.string(),
-		category: z.string(),
-		description: z.string().optional(),
-		instructor: z.string().optional(),
-		date_start: z.preprocess(dateToString, z.string()).optional(),
-		date_end: z.preprocess(dateToString, z.string()).optional(),
-		location: z.string().optional(),
-		price: z.number().optional(),
-		places_total: z.number().optional(),
-		registration_url: z.string().optional(),
-		image: z.string().optional(),
-		featured: z.boolean().optional().default(false),
-		order: z.number().optional().default(99),
-		active: z.boolean().optional().default(true),
-	}),
+  loader: glob({ pattern: '**/*.{md,yml}', base: './src/content/szkolenia' }),
+  schema: z.object({
+    title_pl: z.string(),
+    title_en: z.string(),
+    category: z.enum(ENUM_MODULE_CATEGORIES),
+    description_pl: z.string(),
+    description_en: z.string(),
+    duration_hours: z.number().nonnegative(),
+    max_participants: z.number().int().nonnegative(),
+    target_audience: z.enum(ENUM_AUDIENCE_TYPES),
+    instructor_id: z.string().optional(),
+    schedule: z.array(z.object({
+      day: z.coerce.date(),
+      time_start: z.string(),
+      time_end: z.string(),
+    }).strict()).default([]),
+    price_pln: z.number().nonnegative().optional(),
+    photo: z.string(),
+    order: z.number().int().nonnegative().default(99),
+    isVisible: z.boolean().default(true),
+  }).strict(),
 });
 
 const liveUpdates = defineCollection({
 	loader: glob({ pattern: '**/*.yml', base: './src/content/live_updates' }),
 	schema: z.object({
-		timestamp: z.string(),
-		message: z.string(),
-		type: z.enum(['info', 'warning', 'result', 'urgent']).default('info'),
-		active: z.boolean().optional().default(true),
-	}),
+		timestamp: z.coerce.date(),
+		severity: z.enum(ENUM_LIVE_SEVERITY),
+		title_pl: z.string(),
+		title_en: z.string(),
+		message_pl: z.string(),
+		message_en: z.string(),
+		source: z.enum(ENUM_LIVE_SOURCE),
+		photo: z.string().optional(),
+		isPinned: z.boolean().default(false),
+		isPublic: z.boolean().default(true),
+	}).strict(),
 });
 
 const hardestHitResults = defineCollection({
 	loader: glob({ pattern: '**/*.yml', base: './src/content/hardest_hit_results' }),
 	schema: z.object({
+		edition: z.enum(ENUM_EDITION),
 		competitor_name: z.string(),
 		country: z.string(),
-		countryCode: z.string(),
-		category: z.string(),
-		score: z.string(),
-		rank: z.number(),
-		round: z.enum(['elimination', 'semifinal', 'final']).default('final'),
-		edition: z.string().default('2026'),
-		active: z.boolean().optional().default(true),
-		needs_review: z.boolean().optional().default(false),
-	}),
+		country_code: COUNTRY_CODE,
+		category: z.enum(ENUM_MODULE_CATEGORIES),
+		score: z.number(),
+		time_seconds: z.number().nonnegative().optional(),
+		rank: z.number().int().nonnegative(),
+		dog_name: z.string().optional(),
+		dog_breed: z.string().optional(),
+		photo: z.string().optional(),
+		video_url: z.string().optional(),
+	}).strict(),
 });
 
 const sponsorMaterials = defineCollection({
@@ -820,44 +858,47 @@ const sponsorMaterials = defineCollection({
 	schema: z.object({
 		title: z.string(),
 		file: z.string(),
+		category: z.enum(ENUM_SPONSOR_MATERIAL_CATEGORY),
 		description: z.string().optional(),
-		edition: z.string().optional(),
-		language: z.enum(['pl', 'en', 'de']).default('pl'),
-		order: z.number().optional().default(10),
-		active: z.boolean().optional().default(true),
-	}),
+		target_audience: z.enum(ENUM_SPONSOR_TARGET),
+		file_size_mb: z.number().nonnegative(),
+		language: z.enum(['pl', 'en', 'both']),
+	}).strict(),
 });
 
 const pressPhotos = defineCollection({
 	loader: glob({ pattern: '**/*.yml', base: './src/content/press_photos' }),
 	schema: z.object({
-		title: z.string(),
-		description: z.string().optional(),
-		preview_image: z.string().optional(),
+		title_pl: z.string(),
+		title_en: z.string(),
+		photo: z.string(),
+		photo_high_res: z.string().optional(),
+		caption_pl: z.string().optional(),
+		caption_en: z.string().optional(),
+		photographer: z.string().optional(),
+		license: z.enum(ENUM_LICENSE),
 		download_url: z.string(),
-		photo_count: z.number().optional(),
-		file_size: z.string().optional(),
-		author: z.string().optional(),
-		license: z.string().optional(),
-		edition: z.string().optional(),
-		order: z.number().optional().default(10),
-		active: z.boolean().optional().default(true),
-	}),
+		file_size_mb: z.number().nonnegative().optional(),
+		dimensions: z.string().optional(),
+	}).strict(),
 });
 
 const partnerOffers = defineCollection({
 	loader: glob({ pattern: '**/*.yml', base: './src/content/partner_offers' }),
 	schema: z.object({
 		partner_name: z.string(),
-		offer_title: z.string(),
-		offer_description: z.string(),
+		partner_id: z.string(),
+		offer_title_pl: z.string(),
+		offer_title_en: z.string(),
+		offer_description_pl: z.string(),
+		offer_description_en: z.string(),
+		discount_value: z.string().optional(),
 		discount_code: z.string().optional(),
-		offer_url: z.string().optional(),
-		valid_until: z.preprocess(dateToString, z.string()).optional(),
-		category: z.string().optional(),
-		order: z.number().optional().default(99),
-		active: z.boolean().optional().default(true),
-	}),
+		valid_from: z.coerce.date(),
+		valid_until: z.coerce.date(),
+		target_audience: z.enum(ENUM_AUDIENCE_TYPES),
+		claim_link: z.string().optional(),
+	}).strict(),
 });
 
 const homepage_cards = defineCollection({

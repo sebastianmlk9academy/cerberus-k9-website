@@ -1,0 +1,10 @@
+# SEED — do wymiany przez zespó³ przed publikacj¹
+timestamp: "2026-06-13T09:00:00"
+severity: "info"
+title_pl: "Start eliminacji HARDEST HIT"
+title_en: "HARDEST HIT eliminations begin"
+message_pl: "Eliminacje HARDEST HIT oficjalnie rozpoczête. Arena HARDEST HIT — Hala G³ówna 3MK."
+message_en: "HARDEST HIT eliminations officially underway. HARDEST HIT Arena — 3MK Main Hall."
+source: "jury"
+isPinned: false
+isPublic: true

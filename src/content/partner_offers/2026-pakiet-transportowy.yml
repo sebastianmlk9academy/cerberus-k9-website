@@ -1,0 +1,10 @@
+# SEED — do wymiany przez zespó³ przed publikacj¹
+partner_name: "_PLACEHOLDER_PARTNER_TRANSPORT"
+partner_id: "_placeholder-partner-transport"
+offer_title_pl: "Transport grupowy z Poznania"
+offer_title_en: "Group transport from Poznañ"
+offer_description_pl: "Zorganizowany transport dla grup 5+ osób z Poznania G³ównego do 3MK Arena. Rezerwacja minimum 7 dni przed eventem."
+offer_description_en: "Organised transport for groups of 5+ from Poznañ Main Station to 3MK Arena. Book at least 7 days before the event."
+valid_from: "2026-05-01"
+valid_until: "2026-06-12"
+target_audience: "wszyscy"

@@ -1,0 +1,10 @@
+# SEED — do wymiany przez zespó³ przed publikacj¹
+timestamp: "2026-06-13T11:30:00"
+severity: "warning"
+title_pl: "Zmiana warunków — modu³ zewnêtrzny"
+title_en: "Conditions update — outdoor module"
+message_pl: "Trening K9-SAR na Stadionie Miejskim przeniesiony do hali zapasowej z powodu opadów. Nowa lokalizacja: Strefa B."
+message_en: "K9-SAR training at City Stadium moved to backup hall due to precipitation. New location: Zone B."
+source: "operations"
+isPinned: true
+isPublic: true

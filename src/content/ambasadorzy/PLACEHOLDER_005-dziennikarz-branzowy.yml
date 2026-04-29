@@ -1,0 +1,13 @@
+# SEED — do wymiany przez zespó³ przed publikacj¹
+name: "Tomasz R."
+country: "Wielka Brytania"
+country_code: "GB"
+role_pl: "Dziennikarz bran¿owy ds. bezpieczeñstwa"
+role_en: "Security industry journalist"
+bio_short_pl: "Relacjonuje szkolenia i wydarzenia s³u¿b mundurowych, ze szczególnym naciskiem na pracê przewodników K9. Wspiera promocjê dobrych praktyk operacyjnych."
+bio_short_en: "Covers training and events for uniformed services, with a focus on K9 handler operations. Supports promotion of operational best practices."
+photo: "/uploads/ambasadorzy/PLACEHOLDER.jpg"
+order: 50
+isVisible: true
+tags:
+  - "media"

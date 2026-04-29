@@ -1,0 +1,15 @@
+# SEED — do wymiany przez zespó³ przed publikacj¹
+title_pl: "Kurs TCCC Podstawowy"
+title_en: "Basic TCCC Course"
+category: "TCCC"
+description_pl: "Dwudniowe szkolenie z podstaw Tactical Combat Casualty Care dla s³u¿b. Uczestnicy æwicz¹ procedury MARCH, tamowanie krwotoków oraz ewakuacjê poszkodowanego w warunkach presji czasu."
+description_en: "Two-day Tactical Combat Casualty Care fundamentals course for uniformed services. Participants practice MARCH protocol, hemorrhage control, and casualty evacuation under time pressure."
+duration_hours: 16
+max_participants: 12
+target_audience: "sluzby"
+instructor_id: "tccc-instruktor"
+schedule: []
+price_pln: 890
+photo: "/uploads/szkolenia/PLACEHOLDER.jpg"
+order: 10
+isVisible: true

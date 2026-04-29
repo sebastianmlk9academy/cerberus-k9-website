@@ -1,0 +1,15 @@
+# SEED — do wymiany przez zespó³ przed publikacj¹
+title_pl: "Kurs TCCC Zaawansowany"
+title_en: "Advanced TCCC Course"
+category: "TCCC"
+description_pl: "Trzydniowy kurs rozwijaj¹cy umiejêtnoœci ratownictwa taktycznego na poziomie zaawansowanym. Program obejmuje scenariusze wielourazowe, pracê zespo³ow¹ i podejmowanie decyzji medycznych w dynamicznym œrodowisku."
+description_en: "Three-day advanced tactical medicine course developing high-level TCCC skills. The program includes multi-trauma scenarios, team workflows, and medical decision-making in dynamic environments."
+duration_hours: 24
+max_participants: 8
+target_audience: "sluzby"
+instructor_id: "mariusz-lis"
+schedule: []
+price_pln: 1490
+photo: "/uploads/szkolenia/PLACEHOLDER.jpg"
+order: 20
+isVisible: true

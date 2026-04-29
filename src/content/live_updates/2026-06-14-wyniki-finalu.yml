@@ -1,0 +1,10 @@
+# SEED — do wymiany przez zespó³ przed publikacj¹
+timestamp: "2026-06-14T17:00:00"
+severity: "success"
+title_pl: "Wyniki fina³u HARDEST HIT 2026"
+title_en: "HARDEST HIT 2026 Final Results"
+message_pl: "Fina³ HARDEST HIT zakoñczony. Wyniki oficjalne dostêpne w zak³adce Wyniki. Gratulacje dla wszystkich finalistów."
+message_en: "HARDEST HIT final concluded. Official results available in the Results tab. Congratulations to all finalists."
+source: "jury"
+isPinned: true
+isPublic: true

@@ -65,7 +65,6 @@ contact_venue_address: 3MK Arena, ul. Andrzeja Kowalczyka 1, 63-400 Ostrów Wiel
 statute_pdf: /downloads/statut-fundacji-pacta-k9.pdf
 gallery_video_2_badge: TVP — PANORAMA
 media_contact_name: Sebastian Bożek — Wiceprezes
-notification_bar_active: false
 hero_video_url: ""
 cookie_consent_active: false
 gallery_video_3_badge: TVN — FAKTY
@@ -137,7 +136,6 @@ sekcja_statystyki:
   volunteers_count: 0
 live_mode_active: false
 contact_address_country_pl: Polska
-notification_bar_url: ""
 nav_registration_active: true
 pwa_name: CERBERUS K9
 footer_address: ul. Odolanowska 17, 63-400 Topola Mała
@@ -327,3 +325,11 @@ sekcja_seo:
   og_site_name: CERBERUS K9
   og_image_alt: CERBERUS K9 2026 — Międzynarodowa Platforma Obrony
 hero_background_opacity: 0.4
+notification_bar_active: false
+notification_bar_text_pl: ""
+notification_bar_text_en: ""
+notification_bar_severity: "info"
+notification_bar_url: ""
+mobile_sticky_cta_active: false
+ga4_id: ""
+microsoft_clarity_id: ""

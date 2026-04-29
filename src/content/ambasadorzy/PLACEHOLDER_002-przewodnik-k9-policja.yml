@@ -1,0 +1,14 @@
+# SEED — do wymiany przez zespó³ przed publikacj¹
+name: "Anna W."
+country: "Czechy"
+country_code: "CZ"
+role_pl: "Przewodnik psa s³u¿bowego policji"
+role_en: "Police K9 handler"
+bio_short_pl: "Od lat prowadzi psa patrolowo-detekcyjnego w s³u¿bie miejskiej. W CERBERUS K9 promuje wspó³pracê miêdzynarodow¹ przewodników K9."
+bio_short_en: "Experienced patrol and detection dog handler in city police service. At CERBERUS K9, she promotes international cooperation among K9 handlers."
+photo: "/uploads/ambasadorzy/PLACEHOLDER.jpg"
+order: 20
+isVisible: true
+tags:
+  - "policja"
+  - "K9"

@@ -1,0 +1,14 @@
+# SEED — do wymiany przez zespó³ przed publikacj¹
+name: "Marek K."
+country: "Polska"
+country_code: "PL"
+role_pl: "By³y dowódca jednostki specjalnej"
+role_en: "Former special forces unit commander"
+bio_short_pl: "Weteran dzia³añ specjalnych i doradca ds. bezpieczeñstwa. Wspiera rozwój standardów pracy zespo³ów K9 w œrodowisku taktycznym."
+bio_short_en: "Special operations veteran and security advisor. Supports development of K9 operational standards in tactical environments."
+photo: "/uploads/ambasadorzy/PLACEHOLDER.jpg"
+order: 10
+isVisible: true
+tags:
+  - "wojsko"
+  - "weteran"

@@ -1,0 +1,11 @@
+# SEED — do wymiany przez zespó³ przed publikacj¹
+partner_name: "_PLACEHOLDER_PARTNER_TECHNICAL"
+partner_id: "_placeholder-partner-technical"
+offer_title_pl: "Pakiet sprzêtowy dla uczestników"
+offer_title_en: "Equipment package for participants"
+offer_description_pl: "15% zni¿ki na wybrane akcesoria K9 dla uczestników CERBERUS K9 2026. Oferta wa¿na do 31 sierpnia 2026."
+offer_description_en: "15% discount on selected K9 accessories for CERBERUS K9 2026 participants. Valid until 31 August 2026."
+discount_code: "CERBERUS2026"
+valid_from: "2026-06-01"
+valid_until: "2026-08-31"
+target_audience: "wszyscy"

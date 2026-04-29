@@ -11,3 +11,12 @@ reg_limit_text: "Liczba miejsc ograniczona — decyduje kolejność zgłoszeń."
 reg_step_1_pl: "Wybierz bilet i kliknij „Zarejestruj” / „Dalej”."
 reg_step_2_pl: "Finalizacja otworzy się w nowym oknie Pretix — zezwól na wyskakujące okna."
 reg_step_3_pl: "Jeśli przyciski nie reagują, użyj linku „Otwórz pełny formularz” pod widgetem."
+pretix_url: "https://pretix.eu/MLK9-LLK9/CERBERUS/"
+pretix_widget_id: "_PLACEHOLDER_WIDGET_ID"
+registration_open: false
+registration_open_date: "2026-04-15"
+registration_close_date: "2026-06-10"
+max_participants_total: 250
+ticket_types_count: 6
+info_pl: "Rejestracja na CERBERUS K9 2026 jest bezp�atna. Wybierz �cie�k� specjalizacji i wype�nij formularz rejestracyjny."
+info_en: "Registration for CERBERUS K9 2026 is free of charge. Select your specialisation path and complete the registration form."

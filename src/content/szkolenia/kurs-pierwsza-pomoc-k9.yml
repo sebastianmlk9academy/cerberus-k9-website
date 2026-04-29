@@ -1,0 +1,15 @@
+# SEED — do wymiany przez zespó³ przed publikacj¹
+title_pl: "Kurs Pierwsza Pomoc K9"
+title_en: "K9 First Aid Course"
+category: "TCCC"
+description_pl: "Jednodniowe szkolenie z pierwszej pomocy przedweterynaryjnej dla psów pracuj¹cych i sportowych. Uczestnicy poznaj¹ ocenê stanu psa, zabezpieczenie urazów oraz bezpieczny transport do punktu pomocy."
+description_en: "One-day pre-veterinary first aid training for working and sport dogs. Participants learn canine assessment, trauma stabilization, and safe transport to veterinary support."
+duration_hours: 8
+max_participants: 16
+target_audience: "wszyscy"
+instructor_id: "tccc-instruktor"
+schedule: []
+price_pln: 490
+photo: "/uploads/szkolenia/PLACEHOLDER.jpg"
+order: 30
+isVisible: true

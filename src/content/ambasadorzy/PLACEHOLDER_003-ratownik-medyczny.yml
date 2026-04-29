@@ -1,0 +1,14 @@
+# SEED — do wymiany przez zespó³ przed publikacj¹
+name: "_PLACEHOLDER_NAME_03"
+country: "Niemcy"
+country_code: "DE"
+role_pl: "Ratownik medyczny i instruktor TCCC"
+role_en: "Paramedic and TCCC instructor"
+bio_short_pl: "Prowadzi szkolenia z medycyny taktycznej dla s³u¿b i zespo³ów K9. Specjalizuje siê w procedurach ewakuacji i opiece przedszpitalnej."
+bio_short_en: "Delivers tactical medicine training for services and K9 teams. Specializes in evacuation procedures and pre-hospital care."
+photo: "/uploads/ambasadorzy/PLACEHOLDER.jpg"
+order: 30
+isVisible: true
+tags:
+  - "TCCC"
+  - "ratownictwo"

@@ -1,0 +1,10 @@
+# SEED — do wymiany przez zespó³ przed publikacj¹
+partner_name: "_PLACEHOLDER_PARTNER_HOSPITALITY"
+partner_id: "_placeholder-partner-hospitality"
+offer_title_pl: "Preferencyjne ceny noclegów"
+offer_title_en: "Preferential accommodation rates"
+offer_description_pl: "Specjalne ceny dla uczestników w hotelach partnerskich w Ostrowie Wielkopolskim. Rezerwacja przez dedykowany link."
+offer_description_en: "Special rates for participants at partner hotels in Ostrów Wielkopolski. Book via dedicated link."
+valid_from: "2026-05-01"
+valid_until: "2026-06-15"
+target_audience: "wszyscy"

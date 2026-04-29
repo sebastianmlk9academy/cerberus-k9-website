@@ -1,0 +1,14 @@
+# SEED — do wymiany przez zespó³ przed publikacj¹
+name: "_PLACEHOLDER_NAME_04"
+country: "Stany Zjednoczone"
+country_code: "US"
+role_pl: "Instruktor miêdzynarodowy K9"
+role_en: "International K9 instructor"
+bio_short_pl: "Wspiera szkolenia zespo³ów zadaniowych K9 w standardzie interoperacyjnoœci NATO. £¹czy doœwiadczenie operacyjne z praktyk¹ instruktorsk¹."
+bio_short_en: "Supports K9 task-force training aligned with NATO interoperability standards. Combines operational background with instructor field practice."
+photo: "/uploads/ambasadorzy/PLACEHOLDER.jpg"
+order: 40
+isVisible: true
+tags:
+  - "NATO"
+  - "US"
