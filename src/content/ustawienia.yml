@@ -101,8 +101,8 @@ sekcja_wydarzenie:
   event_date_end: 2026-06-14
   event_city: Ostrów Wielkopolski
   event_venue: 3MK Arena
-  event_time_start: 09:00
-  event_time_end: 18:00
+  event_time_start: 00:00
+  event_time_end: 17:00
   event_timezone: Europe/Warsaw
 media_label_press_info_pl: INFORMACJE PRASOWE
 footer_domains: cerberusk9.org | pactak9.org
