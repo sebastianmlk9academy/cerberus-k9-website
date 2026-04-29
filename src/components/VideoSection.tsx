@@ -220,7 +220,7 @@ export function VideoSection({
               </div>
               {/* Overlay Badge */}
               <div
-                className="absolute bottom-3 left-3 bg-[rgba(15,23,32,0.9)] text-[#C4922A] group-hover:bg-[rgba(196,146,42,0.9)] group-hover:text-[#0F1720] text-[8px] tracking-[2px] font-bold px-2.5 py-1"
+                className="absolute bottom-3 left-3 bg-[rgba(15,23,32,0.9)] text-[#C4922A] group-hover:bg-[rgba(196,146,42,0.9)] group-hover:text-[#0F1720] text-[10px] tracking-[2px] font-bold px-2.5 py-1"
                 style={{
                   fontFamily: "'Rajdhani', Trebuchet MS, sans-serif",
                   transition: "background 0.2s ease, color 0.2s ease",
@@ -231,7 +231,7 @@ export function VideoSection({
             </div>
           </button>
           <p
-            className="mt-2 text-[11px] text-[#E4DDD0]"
+            className="mt-2 text-[12px] text-[#E4DDD0]"
             style={{ fontFamily: "'Rajdhani', Trebuchet MS, sans-serif" }}
           >
             {(mainVideoTitle ?? "").trim() || copy.mainVideoTitle}
@@ -281,7 +281,7 @@ export function VideoSection({
                   </div>
                   {/* Badge */}
                   <div
-                    className="absolute bottom-2 left-2 transition-colors duration-200 bg-[#C42B2B] group-hover:bg-[#8B1A1A] text-white text-[8px] font-bold px-1.5 py-0.5"
+                    className="absolute bottom-2 left-2 transition-colors duration-200 bg-[#C42B2B] group-hover:bg-[#8B1A1A] text-white text-[10px] font-bold px-1.5 py-0.5"
                     style={{ fontFamily: "'Rajdhani', Trebuchet MS, sans-serif" }}
                   >
                     {video.badge}
@@ -289,7 +289,7 @@ export function VideoSection({
                 </div>
                 {/* Title */}
                 <p
-                  className="mt-2 text-[11px] text-[#E4DDD0]"
+                  className="mt-2 text-[12px] text-[#E4DDD0]"
                   style={{ fontFamily: "'Rajdhani', Trebuchet MS, sans-serif" }}
                 >
                   {video.id === "ceska-tv"
@@ -336,7 +336,7 @@ export function VideoSection({
                 </div>
                 {/* Badge */}
                 <div
-                  className="absolute bottom-2 left-2 transition-colors duration-200 bg-[#C42B2B] group-hover:bg-[#8B1A1A] text-white text-[8px] font-bold px-1.5 py-0.5"
+                  className="absolute bottom-2 left-2 transition-colors duration-200 bg-[#C42B2B] group-hover:bg-[#8B1A1A] text-white text-[10px] font-bold px-1.5 py-0.5"
                   style={{ fontFamily: "'Rajdhani', Trebuchet MS, sans-serif" }}
                 >
                   {video.badge}
@@ -347,7 +347,7 @@ export function VideoSection({
                 className="mt-2"
                 style={{
                   fontFamily: "'Rajdhani', Trebuchet MS, sans-serif",
-                  fontSize: "11px",
+                  fontSize: "12px",
                   color: "#E4DDD0",
                 }}
               >

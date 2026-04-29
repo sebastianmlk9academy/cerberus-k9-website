@@ -14,7 +14,7 @@ function CTAButton({ children, href }: ButtonProps) {
   return (
     <a
       href={href}
-      className="cursor-pointer transition-colors w-full sm:w-auto text-[10px] sm:text-[11px] px-5 py-3 sm:px-6 sm:py-3.5"
+      className="cursor-pointer transition-colors w-full sm:w-auto text-[11px] sm:text-[12px] px-5 py-3 sm:px-6 sm:py-3.5"
       style={{
         display: "inline-block",
         backgroundColor: "transparent",
@@ -100,7 +100,7 @@ function NewsCardComponent({
             style={{
               backgroundColor: "rgba(196, 43, 43, 0.85)",
               color: "white",
-              fontSize: "8px",
+              fontSize: "10px",
               letterSpacing: "2px",
               padding: "4px 8px",
               fontWeight: 700,
@@ -130,7 +130,7 @@ function NewsCardComponent({
           <span
             className="block font-[family-name:var(--font-rajdhani)] uppercase"
             style={{
-              fontSize: "8px",
+              fontSize: "10px",
               letterSpacing: "3px",
               color: "#C4922A",
               fontWeight: 700,
@@ -176,7 +176,7 @@ function NewsCardComponent({
           <span
             className="font-[family-name:var(--font-rajdhani)] uppercase inline-block transition-opacity hover:opacity-80"
             style={{
-              fontSize: "9px",
+              fontSize: "11px",
               letterSpacing: "2px",
               color: "#C4922A",
               marginTop: "12px",
