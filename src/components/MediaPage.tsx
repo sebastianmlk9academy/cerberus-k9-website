@@ -457,7 +457,6 @@ export default function MediaPage({
           margin-top: 16px;
           align-self: flex-start;
           gap: 6px;
-          zoom: 0.8 !important;
         }
       `}</style>
 
