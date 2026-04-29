@@ -2,6 +2,25 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
+/**
+ * Konwertuje wartość daty na string YYYY-MM-DD.
+ * YAML parsuje gołe daty (2026-06-13) jako obiekty Date.
+ * Decap CMS z format: "YYYY-MM-DD" też może zwrócić Date.
+ * Zwykły string przechodzi bez zmian.
+ */
+function dateToString(val: unknown): unknown {
+	if (val instanceof Date) {
+		const y = val.getUTCFullYear();
+		const m = String(val.getUTCMonth() + 1).padStart(2, '0');
+		const d = String(val.getUTCDate()).padStart(2, '0');
+		return `${y}-${m}-${d}`;
+	}
+	if (typeof val === 'number') {
+		return String(val);
+	}
+	return val;
+}
+
 const i18n_strings = defineCollection({
 	loader: glob({ base: './src/content/i18n', pattern: '*.json' }),
 	schema: z.object({
@@ -172,7 +191,7 @@ const press_releases = defineCollection({
 	loader: glob({ base: './src/content/press_releases', pattern: '**/*.{md,mdx}' }),
 	schema: z.object({
 		title: z.string(),
-		date: z.coerce.string().optional(),
+		date: z.preprocess(dateToString, z.string()).optional(),
 		file_url: z.string(),
 		order: z.number().optional().default(99),
 		active: z.boolean().optional().default(true),
@@ -269,8 +288,8 @@ function flattenUstawieniaCmsInput(raw: unknown): unknown {
 const ustawienia = defineCollection({
 	loader: glob({ base: './src/content', pattern: 'ustawienia.{yml,yaml}' }),
 	schema: z.preprocess(flattenUstawieniaCmsInput, z.object({
-		event_date: z.coerce.string(),
-		event_date_end: z.coerce.string(),
+		event_date: z.preprocess(dateToString, z.string()),
+		event_date_end: z.preprocess(dateToString, z.string()),
 		event_time_start: z.string().regex(/^\d{2}:\d{2}$/).optional().default('09:00'),
 		event_time_end: z.string().regex(/^\d{2}:\d{2}$/).optional().default('18:00'),
 		event_city: z.string(),
@@ -404,7 +423,7 @@ const ustawienia = defineCollection({
 		og_site_name: z.string().optional().default('CERBERUS K9'),
 		og_locale: z.string().optional().default('pl_PL'),
 		event_timezone: z.string().optional().default('Europe/Warsaw'),
-		gallery_unlock_date: z.coerce.string().optional().default('2026-06-14'),
+		gallery_unlock_date: z.preprocess(dateToString, z.string()).optional().default('2026-06-14'),
 		sponsor_offer_pdf: z.string().optional().default(''),
 		sponsor_contact_email: z.string().optional().default('sebastian@pactak9.org'),
 		gallery_video_1_title: z.string().optional().default(''),
@@ -586,7 +605,7 @@ const galeria = defineCollection({
 	loader: glob({ base: './src/content/galeria', pattern: '**/*.{md,mdx}' }),
 	schema: z.object({
 		title: z.string().optional().default(''),
-		date: z.coerce.string().optional(),
+		date: z.preprocess(dateToString, z.string()).optional(),
 		category: galleryCategorySchema,
 		location: z.string().optional().default(''),
 		edition: z.string().default('2026'),
@@ -614,7 +633,7 @@ const galleryEditions = defineCollection({
 		value: z.string(),
 		label_pl: z.string(),
 		label_en: z.string().optional(),
-		date_start: z.coerce.string().optional(),
+		date_start: z.preprocess(dateToString, z.string()).optional(),
 		order: z.number().optional().default(10),
 		active: z.boolean().optional().default(true),
 	}),
@@ -670,7 +689,7 @@ const certyfikaty = defineCollection({
 		participant_name: z.string(),
 		module: z.string(),
 		event_edition: z.string().default('2026'),
-		issue_date: z.coerce.string(),
+		issue_date: z.preprocess(dateToString, z.string()),
 		instructor_name: z.string().optional(),
 		active: z.boolean().optional().default(true),
 	}),
@@ -683,8 +702,8 @@ const szkolenia = defineCollection({
 		category: z.string(),
 		description: z.string().optional(),
 		instructor: z.string().optional(),
-		date_start: z.coerce.string().optional(),
-		date_end: z.coerce.string().optional(),
+		date_start: z.preprocess(dateToString, z.string()).optional(),
+		date_end: z.preprocess(dateToString, z.string()).optional(),
 		location: z.string().optional(),
 		price: z.number().optional(),
 		places_total: z.number().optional(),
@@ -760,7 +779,7 @@ const partnerOffers = defineCollection({
 		offer_description: z.string(),
 		discount_code: z.string().optional(),
 		offer_url: z.string().optional(),
-		valid_until: z.coerce.string().optional(),
+		valid_until: z.preprocess(dateToString, z.string()).optional(),
 		category: z.string().optional(),
 		order: z.number().optional().default(99),
 		active: z.boolean().optional().default(true),
@@ -910,7 +929,7 @@ const fundacja_content = defineCollection({
 		goals_pl: fundacjaGoalsList,
 		goals_en: fundacjaGoalsList.optional(),
 		registration_court: z.string(),
-		registration_date: z.coerce.string(),
+		registration_date: z.preprocess(dateToString, z.string()),
 		legal_status_pl: z.string(),
 		about_body_p1_pl: z.string().optional(),
 		about_body_p2_pl: z.string().optional(),
