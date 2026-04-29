@@ -1,4 +1,79 @@
 {
-  "metaTitle": "CERBERUS K9 | Internationaal militair K9-evenement door PACTA K9 Foundation",
-  "metaDescription": "CERBERUS K9 is een internationaal militair werkende-honden evenement in Polen, georganiseerd door de PACTA K9 Foundation. Programma, instructeurs, partners en nieuws."
+  "metaTitle": "[TRANSLATE_PL: CERBERUS K9 | Międzynarodowe wydarzenie K9 Fundacji PACTA K9]",
+  "metaDescription": "[TRANSLATE_PL: CERBERUS K9 to międzynarodowe wydarzenie wojskowe K9 organizowane przez Fundację PACTA K9 w Polsce.]",
+  "nav": {
+    "event": "[TRANSLATE_PL: O WYDARZENIU]",
+    "instructors": "[TRANSLATE_PL: INSTRUKTORZY]",
+    "partners": "[TRANSLATE_PL: PARTNERZY]",
+    "media": "[TRANSLATE_PL: MEDIA]",
+    "foundation": "[TRANSLATE_PL: FUNDACJA]",
+    "gallery": "[TRANSLATE_PL: GALERIA]",
+    "contact": "[TRANSLATE_PL: KONTAKT]",
+    "news": "[TRANSLATE_PL: AKTUALNOŚCI]",
+    "register": "[TRANSLATE_PL: REJESTRACJA]"
+  },
+  "hero": {
+    "tag": "[TRANSLATE_PL: MIĘDZYNARODOWA PLATFORMA OBRONY]",
+    "free": "[TRANSLATE_PL: WSTĘP BEZPŁATNY]",
+    "edition": "[TRANSLATE_PL: EDYCJA 2026]"
+  },
+  "countdown": {
+    "days": "[TRANSLATE_PL: DNI]",
+    "hours": "[TRANSLATE_PL: GODZIN]",
+    "minutes": "[TRANSLATE_PL: MINUT]",
+    "seconds": "[TRANSLATE_PL: SEKUND]"
+  },
+  "footer": {
+    "rights": "[TRANSLATE_PL: Wszelkie prawa zastrzeżone]",
+    "event_col": "CERBERUS K9",
+    "foundation_col": "[TRANSLATE_PL: FUNDACJA PACTA K9]",
+    "legal_col": "[TRANSLATE_PL: DANE REJESTROWE]",
+    "col_event": "[TRANSLATE_PL: WYDARZENIE]",
+    "col_org": "[TRANSLATE_PL: ORGANIZACJA]",
+    "col_media": "[TRANSLATE_PL: MEDIA I PARTNERZY]",
+    "col_contact": "[TRANSLATE_PL: KONTAKT]",
+    "date_location": "13–14 CZERWCA 2026 · OSTRÓW WIELKOPOLSKI",
+    "copyright": "CERBERUS K9 © 2026. [TRANSLATE_PL: Wszelkie prawa zastrzeżone.]"
+  },
+  "buttons": {
+    "register": "[TRANSLATE_PL: ZAREJESTRUJ SIĘ TERAZ]",
+    "program": "[TRANSLATE_PL: POBIERZ PROGRAM]",
+    "video": "[TRANSLATE_PL: OBEJRZYJ RELACJĘ 2025]",
+    "all_news": "[TRANSLATE_PL: WSZYSTKIE AKTUALNOŚCI]",
+    "become_partner": "[TRANSLATE_PL: ZOSTAŃ PARTNEREM]",
+    "read_more": "[TRANSLATE_PL: CZYTAJ WIĘCEJ →]",
+    "load_more": "[TRANSLATE_PL: ZAŁADUJ WIĘCEJ ARTYKUŁÓW]"
+  },
+  "labels": {
+    "free_admission": "[TRANSLATE_PL: BEZPŁATNY]",
+    "confirmed": "[TRANSLATE_PL: POTWIERDZONE]",
+    "expand_bio": "[TRANSLATE_PL: ROZWIŃ BIO]",
+    "collapse_bio": "[TRANSLATE_PL: ZWIŃ BIO]",
+    "back_to_news": "[TRANSLATE_PL: ← POWRÓT DO AKTUALNOŚCI]",
+    "share": "[TRANSLATE_PL: UDOSTĘPNIJ:]",
+    "module": "MODUŁ:",
+    "schedule": "[TRANSLATE_PL: HARMONOGRAM:]",
+    "instructor_label": "[TRANSLATE_PL: PROWADZĄCY:]"
+  },
+  "latest_news": {
+    "section_tag": "[TRANSLATE_PL: AKTUALNOŚCI]",
+    "section_title": "[TRANSLATE_PL: NAJNOWSZE INFORMACJE]",
+    "read_more": "[TRANSLATE_PL: CZYTAJ WIĘCEJ]",
+    "all_news": "[TRANSLATE_PL: WSZYSTKIE AKTUALNOŚCI]"
+  },
+  "partners_strip": {
+    "section_tag": "[TRANSLATE_PL: PATRONATY I PARTNERSTWA]",
+    "patronage": "[TRANSLATE_PL: PATRONATY]",
+    "media_patronage": "[TRANSLATE_PL: PATRONAT MEDIALNY]",
+    "partners": "[TRANSLATE_PL: PARTNERZY]",
+    "become_partner": "[TRANSLATE_PL: ZOSTAŃ PARTNEREM]"
+  },
+  "about_event_page": {
+    "category": "[TRANSLATE_PL: INFORMACJE]",
+    "hero_title": "[TRANSLATE_PL: O WYDARZENIU]",
+    "hero_subtitle": "CERBERUS K9 2026 · 13–14 CZERWCA · OSTRÓW WIELKOPOLSKI",
+    "section_title": "[TRANSLATE_PL: CZYM JEST CERBERUS K9?]",
+    "body_p1": "[TRANSLATE_PL: CERBERUS K9 to największa w Polsce...]",
+    "body_p2": "[TRANSLATE_PL: W 2025 roku zebraliśmy ponad 150 uczestników...]"
+  }
 }

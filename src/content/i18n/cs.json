@@ -1,4 +1,79 @@
 {
-  "metaTitle": "CERBERUS K9 | Mezinárodní vojenská akce K9 Nadace PACTA K9",
-  "metaDescription": "CERBERUS K9 je mezinárodní vojenská akce služebních psů pořádaná nadací PACTA K9 v Polsku. Program, instruktoři, partneři a novinky."
+  "metaTitle": "CERBERUS K9 | Mezinárodní událost K9 nadace PACTA K9",
+  "metaDescription": "CERBERUS K9 je mezinárodní vojenská událost K9 pořádaná nadací PACTA K9 v Polsku.",
+  "nav": {
+    "event": "O UDÁLOSTI",
+    "instructors": "INSTRUKTOŘI",
+    "partners": "PARTNEŘI",
+    "media": "MÉDIA",
+    "foundation": "NADACE",
+    "gallery": "GALERIE",
+    "contact": "KONTAKT",
+    "news": "AKTUALITY",
+    "register": "REGISTRACE"
+  },
+  "hero": {
+    "tag": "MEZINÁRODNÍ OBRANNÁ PLATFORMA",
+    "free": "VSTUP ZDARMA",
+    "edition": "ROČNÍK 2026"
+  },
+  "countdown": {
+    "days": "DNÍ",
+    "hours": "HODIN",
+    "minutes": "MINUT",
+    "seconds": "SEKUND"
+  },
+  "footer": {
+    "rights": "Všechna práva vyhrazena",
+    "event_col": "CERBERUS K9",
+    "foundation_col": "NADACE PACTA K9",
+    "legal_col": "PRÁVNÍ INFORMACE",
+    "col_event": "UDÁLOST",
+    "col_org": "ORGANIZACE",
+    "col_media": "MÉDIA A PARTNEŘI",
+    "col_contact": "KONTAKT",
+    "date_location": "13.–14. ČERVNA 2026 · OSTRÓW WIELKOPOLSKI",
+    "copyright": "CERBERUS K9 © 2026. Všechna práva vyhrazena."
+  },
+  "buttons": {
+    "register": "ZAREGISTROVAT SE",
+    "program": "STÁHNOUT PROGRAM",
+    "video": "ZHLÉDNOUT RELACI 2025",
+    "all_news": "VŠECHNY AKTUALITY",
+    "become_partner": "STAŇTE SE PARTNEREM",
+    "read_more": "ČÍST VÍCE →",
+    "load_more": "NAČÍST DALŠÍ ČLÁNKY"
+  },
+  "labels": {
+    "free_admission": "BEZPLATNÝ",
+    "confirmed": "POTVRZENO",
+    "expand_bio": "ROZBALIT BIO",
+    "collapse_bio": "SBALIT BIO",
+    "back_to_news": "← ZPĚT NA AKTUALITY",
+    "share": "SDÍLET:",
+    "module": "MODUL:",
+    "schedule": "HARMONOGRAM:",
+    "instructor_label": "LEKTOR:"
+  },
+  "latest_news": {
+    "section_tag": "AKTUALITY",
+    "section_title": "NEJNOVĚJŠÍ INFORMACE",
+    "read_more": "ČÍST VÍCE",
+    "all_news": "VŠECHNY AKTUALITY"
+  },
+  "partners_strip": {
+    "section_tag": "ZÁŠTITY A PARTNERSTVÍ",
+    "patronage": "ZÁŠTITY",
+    "media_patronage": "MEDIÁLNÍ ZÁŠTITA",
+    "partners": "PARTNEŘI",
+    "become_partner": "STAŇTE SE PARTNEREM"
+  },
+  "about_event_page": {
+    "category": "INFORMACE",
+    "hero_title": "O UDÁLOSTI",
+    "hero_subtitle": "CERBERUS K9 2026 · 13.–14. ČERVNA · OSTRÓW WIELKOPOLSKI",
+    "section_title": "CO JE CERBERUS K9?",
+    "body_p1": "CERBERUS K9 je největší bezplatná platforma výměny znalostí v oblasti kynologie, veřejné bezpečnosti a obrany v Polsku a jedna z největších v regionu NATO.",
+    "body_p2": "V roce 2025 jsme shromáždili přes 150 účastníků ze 7 zemí. V roce 2026 potvrzena účast US Police K9 SWAT, portugalského námořnictva a 15+ delegací NATO."
+  }
 }

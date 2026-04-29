@@ -31,5 +31,49 @@
     "module": "MODULE:",
     "schedule": "SCHEDULE:",
     "instructor_label": "INSTRUCTOR:"
+  },
+  "hero": {
+    "tag": "INTERNATIONAL DEFENCE PLATFORM",
+    "free": "FREE ADMISSION",
+    "edition": "2026 EDITION"
+  },
+  "countdown": {
+    "days": "DAYS",
+    "hours": "HOURS",
+    "minutes": "MINUTES",
+    "seconds": "SECONDS"
+  },
+  "footer": {
+    "rights": "All rights reserved",
+    "event_col": "CERBERUS K9",
+    "foundation_col": "PACTA K9 FOUNDATION",
+    "legal_col": "LEGAL INFORMATION",
+    "col_event": "EVENT",
+    "col_org": "ORGANISATION",
+    "col_media": "MEDIA & PARTNERS",
+    "col_contact": "CONTACT",
+    "date_location": "13–14 JUNE 2026 · OSTRÓW WIELKOPOLSKI",
+    "copyright": "CERBERUS K9 © 2026. All rights reserved."
+  },
+  "latest_news": {
+    "section_tag": "NEWS",
+    "section_title": "LATEST UPDATES",
+    "read_more": "READ MORE",
+    "all_news": "ALL NEWS"
+  },
+  "partners_strip": {
+    "section_tag": "PATRONAGES & PARTNERSHIPS",
+    "patronage": "PATRONAGES",
+    "media_patronage": "MEDIA PATRONAGE",
+    "partners": "PARTNERS",
+    "become_partner": "BECOME A PARTNER"
+  },
+  "about_event_page": {
+    "category": "INFORMATION",
+    "hero_title": "ABOUT THE EVENT",
+    "hero_subtitle": "CERBERUS K9 2026 · 13–14 JUNE · OSTRÓW WIELKOPOLSKI",
+    "section_title": "WHAT IS CERBERUS K9?",
+    "body_p1": "CERBERUS K9 is Poland's largest and one of the region's biggest free knowledge-exchange platforms for canine operations, public security and defence. The event brings together professional uniformed services and civilians, world-class instructors and Polish specialists, theory and intensive practice.",
+    "body_p2": "In 2025 we gathered over 150 participants from 7 countries — police, military, fire services, pro-defence organisations and civilian dog handlers. In 2026 we step up to the European level: confirmed attendance of US Police K9 SWAT, Portuguese Navy and 15+ NATO delegations."
   }
 }

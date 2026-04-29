@@ -31,5 +31,49 @@
     "module": "MODUL:",
     "schedule": "ZEITPLAN:",
     "instructor_label": "REFERENT:"
+  },
+  "hero": {
+    "tag": "INTERNATIONALE VERTEIDIGUNGSPLATTFORM",
+    "free": "FREIER EINTRITT",
+    "edition": "AUSGABE 2026"
+  },
+  "countdown": {
+    "days": "TAGE",
+    "hours": "STUNDEN",
+    "minutes": "MINUTEN",
+    "seconds": "SEKUNDEN"
+  },
+  "footer": {
+    "rights": "Alle Rechte vorbehalten",
+    "event_col": "CERBERUS K9",
+    "foundation_col": "PACTA K9 STIFTUNG",
+    "legal_col": "RECHTLICHE INFORMATIONEN",
+    "col_event": "VERANSTALTUNG",
+    "col_org": "ORGANISATION",
+    "col_media": "MEDIEN & PARTNER",
+    "col_contact": "KONTAKT",
+    "date_location": "13.–14. JUNI 2026 · OSTRÓW WIELKOPOLSKI",
+    "copyright": "CERBERUS K9 © 2026. Alle Rechte vorbehalten."
+  },
+  "latest_news": {
+    "section_tag": "NEUIGKEITEN",
+    "section_title": "AKTUELLE INFORMATIONEN",
+    "read_more": "MEHR LESEN",
+    "all_news": "ALLE NEUIGKEITEN"
+  },
+  "partners_strip": {
+    "section_tag": "SCHIRMHERRSCHAFTEN & PARTNERSCHAFTEN",
+    "patronage": "SCHIRMHERRSCHAFTEN",
+    "media_patronage": "MEDIENSCHIRMHERRSCHAFT",
+    "partners": "PARTNER",
+    "become_partner": "PARTNER WERDEN"
+  },
+  "about_event_page": {
+    "category": "INFORMATIONEN",
+    "hero_title": "ÜBER DIE VERANSTALTUNG",
+    "hero_subtitle": "CERBERUS K9 2026 · 13.–14. JUNI · OSTRÓW WIELKOPOLSKI",
+    "section_title": "WAS IST CERBERUS K9?",
+    "body_p1": "CERBERUS K9 ist Polens größte und eine der größten kostenlosen Wissensaustauschplattformen der NATO-Region für Kynologie, öffentliche Sicherheit und Verteidigung.",
+    "body_p2": "2025 versammelten wir über 150 Teilnehmer aus 7 Ländern. 2026 bestätigt: US Police K9 SWAT, portugiesische Marine und 15+ NATO-Delegationen."
   }
 }
