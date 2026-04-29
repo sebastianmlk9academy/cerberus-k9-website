@@ -14,14 +14,14 @@ import { locationsSectionByLang } from '../../i18n/locationsSection';
 import { programEntriesToAgendaItems } from '../../lib/programAgenda';
 import type { AgendaCategory } from '../../lib/agendaCategories';
 import { locationEntriesToItems } from '../../lib/eventLocations';
-import { loadCmsNavLinks } from '../../lib/loadCmsNavLinks';
+import { getSortedNavLinks } from '../../lib/getSortedNavLinks';
 
 export const prerender = true;
 
 const lang = 'pl';
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
-const cmsNavLinks = await loadCmsNavLinks();
+const navLinks = await getSortedNavLinks(lang);
 const agendaUiEntry = await getEntry('agenda_ui', 'labels');
 const agendaUi = agendaUiEntry?.data;
 const fundacjaContent = await getEntry('fundacja_content', 'content');
@@ -165,7 +165,7 @@ const eventSchema = {
 	<script defer data-domain={plausibleDomain} src="https://plausible.io/js/plausible.js"></script>
 	<script type="application/ld+json" set:html={JSON.stringify(eventSchema)} />
 
-	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
+	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} links={navLinks} activeHref={Astro.url.pathname} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
 	<PageHero
 		category={copy.category}
 		title={copy.heroTitle}

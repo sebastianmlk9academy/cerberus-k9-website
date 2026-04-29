@@ -24,13 +24,14 @@ import { latestNewsByLang } from '../../i18n/latestNews';
 import { partnersStripByLang } from '../../i18n/partnersStrip';
 import { ui } from '../../i18n/ui';
 import { aktualnosciToListingArticles } from '../../lib/aktualnosci';
-import { loadCmsNavLinks } from '../../lib/loadCmsNavLinks';
+import { getSortedNavLinks } from '../../lib/getSortedNavLinks';
 
 export const prerender = true;
 
+const lang = 'pl';
+
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
-const cmsNavLinks = await loadCmsNavLinks();
 
 const allArticles = await getCollection('aktualnosci');
 const latestForListing = aktualnosciToListingArticles(allArticles, 'pl').slice(0, 3).map((a) => ({
@@ -45,7 +46,7 @@ const latestForListing = aktualnosciToListingArticles(allArticles, 'pl').slice(0
 const plausibleDomain = s?.plausible_domain ?? 'cerberusk9.org';
 const twitterHandle = s?.twitter_handle ?? '@cerberusk9';
 
-const lang = 'pl';
+const navLinks = await getSortedNavLinks(lang);
 const seo = homeSeoByLang[lang] ?? homeSeoByLang['pl'];
 const safeUi = ui[lang] ?? ui.pl;
 const seoTitle = safeUi.meta_title_home ?? seo.title;
@@ -126,7 +127,7 @@ const eventJsonLd = {
 	<script defer data-domain={plausibleDomain} src="https://plausible.io/js/plausible.js"></script>
 	<script type="application/ld+json" set:html={JSON.stringify(eventJsonLd)} />
 
-	<NavBar lang={lang} client:load navLinks={cmsNavLinks} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
+	<NavBar lang={lang} client:load links={navLinks} activeHref={Astro.url.pathname} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
 	<HeroSection
 		lang={lang}
 		copy={homeHeroCopyByLang[lang] ?? homeHeroCopyByLang['pl']}

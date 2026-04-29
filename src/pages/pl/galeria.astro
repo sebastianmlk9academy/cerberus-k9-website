@@ -5,15 +5,15 @@ import { NavBar } from '../../components/NavBar';
 import { PageHero } from '../../components/PageHero';
 import { GalleryGrid } from '../../components/GalleryGrid';
 import { Footer } from '../../components/Footer';
-import { loadCmsNavLinks } from '../../lib/loadCmsNavLinks';
+import { getSortedNavLinks } from '../../lib/getSortedNavLinks';
 
 export const prerender = true;
 
+const lang = 'pl';
+
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
-const cmsNavLinks = await loadCmsNavLinks();
-
-const lang = 'pl';
+const navLinks = await getSortedNavLinks(lang);
 const title = 'Galeria — CERBERUS K9 2025 | Zdjęcia i Wideo z Ćwiczeń K9';
 const description =
 	'Galeria zdjęć i wideo z CERBERUS K9 2025 — Terminal LPG, Stena Line, Muzeum Gryf. 300+ profesjonalnych fotografii.';
@@ -179,7 +179,7 @@ const ogImage = bestGalleryPhoto?.photo ?? '/images/page_hero_graph.webp';
 	</Fragment>
 
 	<div style="background: linear-gradient(to bottom, #161F28, #1A2530, #161F28); min-height: 100vh;">
-		<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
+		<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} links={navLinks} activeHref={Astro.url.pathname} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
 		<PageHero
 			category={s?.pagehero_gallery_category_pl || 'ARCHIWUM FOTOGRAFICZNE'}
 			title={s?.pagehero_gallery_title_pl || 'GALERIA'}

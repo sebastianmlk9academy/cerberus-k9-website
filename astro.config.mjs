@@ -1,5 +1,6 @@
 // @ts-check
 
+import { fileURLToPath } from 'node:url';
 import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
@@ -9,6 +10,13 @@ import { locales } from './locales.mjs';
 
 // https://astro.build/config
 export default defineConfig({
+	vite: {
+		resolve: {
+			alias: {
+				'@': fileURLToPath(new URL('./src', import.meta.url)),
+			},
+		},
+	},
 	output: 'static',
 	site: 'https://cerberusk9.org',
 	redirects: {

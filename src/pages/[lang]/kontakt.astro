@@ -1,6 +1,6 @@
 ---
 import { getEntry } from 'astro:content';
-import { loadCmsNavLinks } from '../../lib/loadCmsNavLinks';
+import { getSortedNavLinks } from '../../lib/getSortedNavLinks';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { locales } from '../../../locales.mjs';
 import { footerCopyByLang } from '../../i18n/footer';
@@ -17,7 +17,6 @@ const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
 const kontaktContent = await getEntry('kontakt_content', 'kontakt_content');
 const kc = kontaktContent?.data;
-const cmsNavLinks = await loadCmsNavLinks();
 
 /** Polish URL is canonical; /pl/kontakt is defined in `src/pages/pl/kontakt.astro`. */
 export function getStaticPaths() {
@@ -26,6 +25,7 @@ export function getStaticPaths() {
 
 const { lang: paramLang } = Astro.params;
 const lang: Lang = isLang(paramLang ?? '') ? (paramLang as Lang) : 'en';
+const navLinks = await getSortedNavLinks(lang);
 const title = lang === 'pl' ? 'Kontakt — CERBERUS K9' : 'Contact — CERBERUS K9';
 const description =
 	lang === 'pl'
@@ -69,7 +69,7 @@ const contactAddressLine =
 	ogType="website"
 	canonicalHref={canonicalHref}
 >
-	<NavBar lang={lang} client:load logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
+	<NavBar lang={lang} client:load logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} links={navLinks} activeHref={Astro.url.pathname} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
 	<PageHero
 		category={ctHero.title}
 		title={ctHero.title}

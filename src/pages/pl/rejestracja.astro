@@ -6,13 +6,15 @@ import { PageHero } from '../../components/PageHero';
 import RegistrationSection from '../../components/RegistrationSection.astro';
 import { Footer } from '../../components/Footer';
 import { footerCopyByLang } from '../../i18n/footer';
-import { loadCmsNavLinks } from '../../lib/loadCmsNavLinks';
+import { getSortedNavLinks } from '../../lib/getSortedNavLinks';
 
 export const prerender = true;
 
+const lang = 'pl';
+
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
-const cmsNavLinks = await loadCmsNavLinks();
+const navLinks = await getSortedNavLinks(lang);
 
 let regInfo = null;
 try {
@@ -21,8 +23,6 @@ try {
 } catch {
 	regInfo = null;
 }
-
-const lang = 'pl';
 const footerCopy = footerCopyByLang[lang] ?? footerCopyByLang['pl'];
 const title = 'Rejestracja — CERBERUS K9 2026 | Bezpłatna rejestracja online';
 const description =
@@ -30,7 +30,7 @@ const description =
 ---
 
 <BaseLayout lang={lang} title={title} description={description} localizedPath="rejestracja" ogType="website">
-	<NavBar lang={lang} client:load logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
+	<NavBar lang={lang} client:load logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} links={navLinks} activeHref={Astro.url.pathname} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
 	<PageHero
 		category={s?.pagehero_registration_category_pl || 'DOŁĄCZ DO NAS'}
 		title={s?.pagehero_registration_title_pl || 'REJESTRACJA'}

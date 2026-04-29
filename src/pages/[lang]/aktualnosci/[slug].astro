@@ -10,7 +10,7 @@ import { isLang } from '../../../i18n/utils';
 import type { Lang } from '../../../i18n/ui';
 import { newsSeoByLang } from '../../../i18n/newsSeo';
 import { categoryBadgeLabel, formatNewsDateLabel } from '../../../lib/aktualnosci';
-import { loadCmsNavLinks } from '../../../lib/loadCmsNavLinks';
+import { getSortedNavLinks } from '../../../lib/getSortedNavLinks';
 
 export const prerender = true;
 
@@ -33,7 +33,7 @@ const { post, lang: langProp } = Astro.props;
 const lang = langProp ?? langFromParams;
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
-const cmsNavLinks = await loadCmsNavLinks();
+const navLinks = await getSortedNavLinks(lang);
 const seoLang = newsSeoByLang[lang] ?? newsSeoByLang['pl'];
 const { Content } = await render(post);
 
@@ -92,7 +92,7 @@ const jsonLd = {
 	canonicalHref={canonicalUrl}
 >
 	<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
+	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} links={navLinks} activeHref={Astro.url.pathname} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
 	<ArticleLayout
 		lang={lang}
 		breadcrumb={[

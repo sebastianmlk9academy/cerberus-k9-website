@@ -1103,23 +1103,40 @@ const gallery_filters = defineCollection({
 	}),
 });
 
+const navLinkTargetSchema = z
+	.union([z.enum(['_self', '_blank']), z.boolean()])
+	.optional()
+	.transform((v): '_self' | '_blank' => {
+		if (v === true || v === '_blank') return '_blank';
+		return '_self';
+	});
+
+const navLinkItemSchema = z
+	.object({
+		key: z.string(),
+		label_pl: z.string(),
+		label_en: z.string(),
+		path: z.string().optional(),
+		href: z.string().optional(),
+		target: navLinkTargetSchema,
+		highlight: z.boolean().optional(),
+		icon: z.string().optional(),
+		flag: z.string().optional(),
+		label_de: z.string().optional(),
+		label_fr: z.string().optional(),
+		order: z.number(),
+		active: z.boolean().optional().default(true),
+	})
+	.refine((d) => {
+		const p = d.path?.trim();
+		const h = d.href?.trim();
+		return Boolean((p && p.length > 0) || (h && h.length > 0));
+	}, 'Each nav link needs a non-empty path or href');
+
 const nav_links = defineCollection({
 	loader: glob({ base: './src/content/nav_links', pattern: '*.{yml,yaml}' }),
 	schema: z.object({
-		links: z.array(
-			z.object({
-				key: z.string(),
-				label_pl: z.string(),
-				label_en: z.string(),
-				path: z.string(),
-				target: z.boolean().optional().default(false),
-				icon: z.string().optional(),
-				label_de: z.string().optional(),
-				label_fr: z.string().optional(),
-				order: z.number(),
-				active: z.boolean().optional().default(true),
-			}),
-		),
+		links: z.array(navLinkItemSchema),
 	}),
 });
 

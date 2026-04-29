@@ -27,7 +27,7 @@ import { PartnersStrip } from '../../components/PartnersStrip';
 import LatestNews from '../../components/LatestNews';
 import { Footer } from '../../components/Footer';
 import { aktualnosciToListingArticles } from '../../lib/aktualnosci';
-import { loadCmsNavLinks } from '../../lib/loadCmsNavLinks';
+import { getSortedNavLinks } from '../../lib/getSortedNavLinks';
 
 export const prerender = true;
 
@@ -39,7 +39,7 @@ const lang: Lang = isLang(param) ? param : 'en';
 
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
-const cmsNavLinks = await loadCmsNavLinks();
+const navLinks = await getSortedNavLinks(lang);
 
 const allArticles = await getCollection('aktualnosci');
 const latestForListing = aktualnosciToListingArticles(allArticles, lang).slice(0, 3).map((a) => ({
@@ -133,7 +133,7 @@ const eventJsonLd = {
 	<script defer data-domain={plausibleDomain} src="https://plausible.io/js/plausible.js"></script>
 	<script type="application/ld+json" set:html={JSON.stringify(eventJsonLd)} />
 
-	<NavBar lang={lang} client:load navLinks={cmsNavLinks} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
+	<NavBar lang={lang} client:load links={navLinks} activeHref={Astro.url.pathname} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
 	<HeroSection
 		lang={lang}
 		copy={homeHeroCopyByLang[lang] ?? homeHeroCopyByLang['pl']}

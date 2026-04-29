@@ -6,17 +6,17 @@ import { PageHero } from '../../components/PageHero';
 import PartnersPage, { type Partner, type PartnerTypeId } from '../../components/PartnersPage';
 import { Footer } from '../../components/Footer';
 import { footerCopyByLang } from '../../i18n/footer';
-import { loadCmsNavLinks } from '../../lib/loadCmsNavLinks';
+import { getSortedNavLinks } from '../../lib/getSortedNavLinks';
 
 export const prerender = true;
+
+const lang = 'pl';
 
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
 const kontaktContent = await getEntry('kontakt_content', 'kontakt_content');
 const kc = kontaktContent?.data;
-const cmsNavLinks = await loadCmsNavLinks();
-
-const lang = 'pl';
+const navLinks = await getSortedNavLinks(lang);
 const footerCopy = footerCopyByLang[lang] ?? footerCopyByLang['pl'];
 const title = 'Partnerzy CERBERUS K9 | Sponsorzy i Patronat Medialny';
 const description =
@@ -93,7 +93,7 @@ const partners: Partner[] = sorted.map((entry, i) => {
 	<div
 		style="background: linear-gradient(to bottom, #161F28, #1A2530, #161F28); min-height: 100vh;"
 	>
-	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
+	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} links={navLinks} activeHref={Astro.url.pathname} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
 	<PageHero
 		category={s?.pagehero_partners_category_pl || 'WSPÓŁPRACA'}
 		title={s?.pagehero_partners_title_pl || 'PARTNERZY'}

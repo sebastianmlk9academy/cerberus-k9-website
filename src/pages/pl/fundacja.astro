@@ -5,7 +5,7 @@
  * Primary event site can remain on cerberusk9.org; the foundation microsite uses this page.
  */
 import { getCollection, getEntry } from 'astro:content';
-import { loadCmsNavLinks } from '../../lib/loadCmsNavLinks';
+import { getSortedNavLinks } from '../../lib/getSortedNavLinks';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { NavBar } from '../../components/NavBar';
 import { PageHero } from '../../components/PageHero';
@@ -16,6 +16,8 @@ import { fundacjaPageByLang } from '../../i18n/plOnlyPagesCopy';
 
 export const prerender = true;
 
+const lang = 'pl';
+
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
 const statuteHref = s?.statute_pdf ?? '#';
@@ -23,9 +25,8 @@ const krsHref = s?.krs_url ?? '#';
 
 const fundacjaContent = await getEntry('fundacja_content', 'content');
 const fc = fundacjaContent?.data;
-const cmsNavLinks = await loadCmsNavLinks();
+const navLinks = await getSortedNavLinks(lang);
 
-const lang = 'pl';
 const fundacjaCopy = fundacjaPageByLang['pl'];
 const footerCopy = footerCopyByLang[lang] ?? footerCopyByLang['pl'];
 const title = fundacjaCopy.metaTitle;
@@ -74,7 +75,7 @@ const members = teamMembers
 	omitLocaleAlternates
 	ogType="website"
 >
-	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
+	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} links={navLinks} activeHref={Astro.url.pathname} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
 	<PageHero
 		category={s?.pagehero_foundation_category_pl || 'O NAS'}
 		title={s?.pagehero_foundation_title_pl || 'FUNDACJA PACTA K9'}

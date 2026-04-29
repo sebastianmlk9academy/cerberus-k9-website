@@ -8,15 +8,15 @@ import { Footer } from '../../../components/Footer';
 import { newsSeoByLang } from '../../../i18n/newsSeo';
 import { footerCopyByLang } from '../../../i18n/footer';
 import { aktualnosciToListingArticles } from '../../../lib/aktualnosci';
-import { loadCmsNavLinks } from '../../../lib/loadCmsNavLinks';
+import { getSortedNavLinks } from '../../../lib/getSortedNavLinks';
 
 export const prerender = true;
 
+const lang = 'pl';
+
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
-const cmsNavLinks = await loadCmsNavLinks();
-
-const lang = 'pl';
+const navLinks = await getSortedNavLinks(lang);
 const footerCopy = footerCopyByLang[lang] ?? footerCopyByLang['pl'];
 const seo = newsSeoByLang[lang] ?? newsSeoByLang['pl'];
 const entries = await getCollection('aktualnosci');
@@ -30,7 +30,7 @@ const articles = aktualnosciToListingArticles(entries, lang);
 	localizedPath="aktualnosci"
 	ogType="website"
 >
-	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} navLinks={cmsNavLinks} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
+	<NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} links={navLinks} activeHref={Astro.url.pathname} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
 	<PageHero
 		category={s?.pagehero_news_category_pl || 'CERBERUS K9'}
 		title={s?.pagehero_news_title_pl || 'AKTUALNOŚCI'}

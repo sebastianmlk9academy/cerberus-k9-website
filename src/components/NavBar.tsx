@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState, type MouseEvent } from 'react';
+import { useEffect, useMemo, useState, type CSSProperties, type MouseEvent } from 'react';
 import { ui } from '../i18n/ui';
-import type { CmsNavBarLink } from '../lib/loadCmsNavLinks';
+import type { NavLink } from '@/types/nav';
 
 const languages = [
   { code: 'pl', name: 'Polski', countryCode: 'pl' },
@@ -26,32 +26,179 @@ const languages = [
 
 type Language = (typeof languages)[number];
 
-type ResolvedNavLink = { label: string; href: string; target?: boolean };
+type ResolvedNavLink = NavLink & {
+  resolvedHref: string;
+  label: string;
+};
+
+const normPath = (p: string) => {
+  const t = p.trim();
+  if (!t || t === '/') return t || '/';
+  return t.endsWith('/') ? t.slice(0, -1) : t;
+};
 
 const getFlagUrl = (countryCode: string) =>
   `https://flagcdn.com/16x12/${countryCode}.png`;
 
-interface NavBarProps {
-  activeLink?: string;
-  lang?: string;
+type UiLang = keyof typeof ui;
+
+function registrationLabel(code: string): string {
+  const pack = (ui[code as UiLang] ?? ui.pl) as (typeof ui)['pl'];
+  return pack.nav_registration;
+}
+
+function LangDropdown({
+  currentLang,
+  open,
+  setOpen,
+  onSelectLang,
+}: {
+  currentLang: Language;
+  open: boolean;
+  setOpen: (next: boolean) => void;
+  onSelectLang: (next: Language) => void;
+}) {
+  return (
+    <div className="relative shrink-0">
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        className="flex items-center gap-1.5 px-[10px] py-[6px] transition-colors duration-150 xl:px-[14px] xl:py-2"
+        aria-label={`Current language: ${currentLang.name}. Click to change.`}
+        style={{
+          fontFamily: "'Rajdhani', sans-serif",
+          fontSize: 'clamp(10px, 1vw, 11px)',
+          letterSpacing: 'clamp(0.5px, 0.3vw, 1.5px)',
+          fontWeight: 700,
+          color: open ? '#C4922A' : '#FFFFFF',
+          boxShadow: open ? 'inset 0 -2px 0 #C4922A' : 'none',
+        }}
+        onMouseEnter={(e: MouseEvent<HTMLButtonElement>) => {
+          e.currentTarget.style.color = '#C4922A';
+        }}
+        onMouseLeave={(e: MouseEvent<HTMLButtonElement>) => {
+          if (!open) {
+            e.currentTarget.style.color = '#FFFFFF';
+          }
+        }}
+      >
+        <span className="flex items-center gap-1.5">
+          <img
+            src={getFlagUrl(currentLang.countryCode)}
+            alt={currentLang.name}
+            className="h-3 w-4 object-cover"
+          />
+          <span className="hidden sm:inline">{currentLang.name.toUpperCase()}</span>
+        </span>
+        <svg
+          className="h-3 w-3 shrink-0 transition-transform duration-150"
+          style={{
+            transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
+          }}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      {open && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} aria-hidden="true" />
+          <div
+            className="absolute right-0 top-full z-50 mt-3 max-h-[70vh] min-w-[160px] overflow-y-auto border py-2"
+            style={{
+              backgroundColor: '#0F1720',
+              borderColor: '#C4922A',
+              borderTop: '2px solid #C4922A',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+            }}
+          >
+            {languages.map((langOpt) => {
+              const isCurrentLang = langOpt.code === currentLang.code;
+              return (
+                <button
+                  type="button"
+                  key={langOpt.code}
+                  onClick={() => onSelectLang(langOpt)}
+                  className="flex w-full items-center gap-2 px-4 py-2 transition-colors duration-150"
+                  style={{
+                    fontFamily: "'Rajdhani', sans-serif",
+                    fontSize: '12px',
+                    letterSpacing: '2px',
+                    fontWeight: 700,
+                    color: isCurrentLang ? '#C4922A' : '#7A8A96',
+                    backgroundColor: isCurrentLang ? '#1A2530' : 'transparent',
+                    transition: 'background-color 0.15s, color 0.15s',
+                  }}
+                  onMouseEnter={(e: MouseEvent<HTMLButtonElement>) => {
+                    e.currentTarget.style.backgroundColor = '#1E2B38';
+                    e.currentTarget.style.color = '#C4922A';
+                  }}
+                  onMouseLeave={(e: MouseEvent<HTMLButtonElement>) => {
+                    const current = langOpt.code === currentLang.code;
+                    e.currentTarget.style.backgroundColor = current ? '#1A2530' : 'transparent';
+                    e.currentTarget.style.color = current ? '#C4922A' : '#7A8A96';
+                  }}
+                >
+                  {isCurrentLang && (
+                    <span
+                      style={{
+                        width: '4px',
+                        height: '4px',
+                        borderRadius: '50%',
+                        backgroundColor: '#C4922A',
+                        flexShrink: 0,
+                      }}
+                    />
+                  )}
+                  {!isCurrentLang && <span style={{ width: '4px', flexShrink: 0 }} aria-hidden />}
+                  <img
+                    src={getFlagUrl(langOpt.countryCode)}
+                    alt={langOpt.name}
+                    className="h-3 w-4 object-cover"
+                  />
+                  <span>{langOpt.name.toUpperCase()}</span>
+                </button>
+              );
+            })}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+export interface NavBarProps {
+  lang: 'pl' | 'en' | string;
+  links: NavLink[];
+  activeHref?: string;
   logoSrc?: string;
   logoAlt?: string;
   brandName?: string;
   brandTagline?: string;
-  /** When set (non-empty), replaces hardcoded nav links from `ui`. */
-  navLinks?: CmsNavBarLink[] | null;
   registrationActive?: boolean;
   registrationHref?: string;
 }
 
+const delegationBtnBase: CSSProperties = {
+  backgroundColor: '#003F87',
+  color: 'white',
+  fontFamily: "'Rajdhani', sans-serif",
+  fontSize: 'clamp(10px, 1vw, 11px)',
+  letterSpacing: 'clamp(0.5px, 0.3vw, 1.5px)',
+  fontWeight: 700,
+};
+
 export function NavBar({
-  activeLink,
   lang = 'pl',
+  links,
+  activeHref,
   logoSrc,
   logoAlt,
   brandName,
   brandTagline,
-  navLinks: navLinksFromCms,
   registrationActive = true,
   registrationHref,
 }: NavBarProps) {
@@ -73,38 +220,139 @@ export function NavBar({
     setCurrentPath(window.location.pathname);
   }, []);
 
-  const t = ui[currentLang.code as keyof typeof ui] ?? ui['pl'];
+  const resolved = useMemo((): ResolvedNavLink[] => {
+    return links.map((link) => {
+      const resolvedHref = link.path
+        ? `/${currentLang.code}/${link.path}`
+        : link.href;
+      const label = currentLang.code === 'pl' ? link.label_pl : link.label_en;
+      return { ...link, resolvedHref, label };
+    });
+  }, [links, currentLang.code]);
 
-  const navLinks = useMemo((): ResolvedNavLink[] => {
-    const tNav = ui[currentLang.code as keyof typeof ui] ?? ui['pl'];
-    const cms = navLinksFromCms?.filter((l) => l.path?.trim());
-    if (cms && cms.length > 0) {
-      return cms.map((link) => {
-        const cmsTarget = (link as CmsNavBarLink & { target?: boolean }).target;
-        return {
-          label: currentLang.code === 'pl' ? link.label_pl : link.label_en,
-          href: `/${currentLang.code}/${link.path}`,
-          target: cmsTarget,
-        };
-      });
+  const { regularLinks, highlightLinks } = useMemo(() => {
+    const regular = resolved.filter((l) => !l.highlight);
+    const hi = resolved.filter((l) => l.highlight);
+    return { regularLinks: regular, highlightLinks: hi };
+  }, [resolved]);
+
+  const isLinkActive = (href: string) => {
+    const h = normPath(href);
+    const probe = normPath(activeHref ?? currentPath);
+    return probe === h || probe === `${h}/`;
+  };
+
+  const renderDelegationsButton = (link: ResolvedNavLink) => {
+    const go = () => {
+      if (link.target === '_blank') {
+        window.open(link.resolvedHref, '_blank', 'noopener,noreferrer');
+      } else {
+        window.location.assign(link.resolvedHref);
+      }
+    };
+    const shortPl = 'DLA DEL';
+    const shortEn = 'FOR DEL';
+    const short = currentLang.code === 'pl' ? shortPl : shortEn;
+    return (
+      <button
+        key={`deleg-${link.resolvedHref}-${link.label_pl}`}
+        type="button"
+        onClick={go}
+        aria-label={link.label}
+        className="inline-flex shrink-0 items-center justify-center px-[10px] py-[6px] transition-colors duration-150 xl:px-[14px] xl:py-2"
+        style={delegationBtnBase}
+        onMouseEnter={(e: MouseEvent<HTMLButtonElement>) => {
+          e.currentTarget.style.backgroundColor = '#002A5C';
+        }}
+        onMouseLeave={(e: MouseEvent<HTMLButtonElement>) => {
+          e.currentTarget.style.backgroundColor = '#003F87';
+        }}
+      >
+        <span className="sm:hidden">{short}</span>
+        <span className="hidden sm:inline">{link.label}</span>
+      </button>
+    );
+  };
+
+  const renderLinkAnchor = (link: ResolvedNavLink, mobile: boolean) => {
+    const isActive = isLinkActive(link.resolvedHref);
+    const blank = link.target === '_blank';
+    const inactiveColor = '#FFFFFF';
+
+    const labelNode = (
+      <>
+        {link.icon ? <span className="mr-1">{link.icon}</span> : null}
+        {link.label}
+      </>
+    );
+
+    if (mobile) {
+      return (
+        <a
+          key={`m-${link.resolvedHref}-${link.label_pl}`}
+          href={link.resolvedHref}
+          target={blank ? '_blank' : undefined}
+          rel={blank ? 'noopener noreferrer' : undefined}
+          onClick={() => setMobileMenuOpen(false)}
+          className="flex h-12 items-center border-b"
+          style={{
+            paddingLeft: '13px',
+            borderBottomColor: '#253344',
+            borderLeft: isActive ? '3px solid #C4922A' : '3px solid transparent',
+            borderBottom: isActive ? '2px solid #C4922A' : undefined,
+            fontFamily: "'Rajdhani', sans-serif",
+            fontSize: 'clamp(11px, 1.1vw, 12px)',
+            letterSpacing: 'clamp(1px, 0.5vw, 2px)',
+            fontWeight: 700,
+            color: isActive ? '#C4922A' : inactiveColor,
+            transition: 'border-color 0.15s, color 0.15s',
+          }}
+        >
+          {labelNode}
+        </a>
+      );
     }
-    return [
-      { label: (tNav as { nav_event?: string }).nav_event ?? 'O WYDARZENIU', href: `/${currentLang.code}/o-wydarzeniu` },
-      { label: (tNav as { nav_instructors?: string }).nav_instructors ?? 'INSTRUKTORZY', href: `/${currentLang.code}/instruktorzy` },
-      { label: (tNav as { nav_partners?: string }).nav_partners ?? 'PARTNERZY', href: `/${currentLang.code}/partnerzy` },
-      { label: (tNav as { nav_media?: string }).nav_media ?? 'MEDIA', href: `/${currentLang.code}/media` },
-      { label: (tNav as { nav_foundation?: string }).nav_foundation ?? 'FUNDACJA', href: `/${currentLang.code}/fundacja` },
-      { label: (tNav as { nav_gallery?: string }).nav_gallery ?? 'GALERIA', href: `/${currentLang.code}/galeria` },
-      { label: (tNav as { nav_contact?: string }).nav_contact ?? 'KONTAKT', href: `/${currentLang.code}/kontakt` },
-    ];
-  }, [navLinksFromCms, currentLang.code]);
 
-  const selectLang = (lang: Language) => {
-    setCurrentLang(lang);
+    return (
+      <a
+        key={`d-${link.resolvedHref}-${link.label_pl}`}
+        href={link.resolvedHref}
+        target={blank ? '_blank' : undefined}
+        rel={blank ? 'noopener noreferrer' : undefined}
+        className="whitespace-nowrap transition-colors duration-150"
+        style={{
+          fontFamily: "'Rajdhani', sans-serif",
+          fontSize: 'clamp(11px, 1.1vw, 12px)',
+          letterSpacing: 'clamp(1px, 0.5vw, 2px)',
+          fontWeight: 700,
+          color: isActive ? '#C4922A' : inactiveColor,
+          borderBottom: isActive ? '2px solid #C4922A' : '2px solid transparent',
+          boxSizing: 'border-box',
+          paddingBottom: '2px',
+        }}
+        onMouseEnter={(e: MouseEvent<HTMLAnchorElement>) => {
+          if (!isActive) {
+            e.currentTarget.style.color = '#C4922A';
+          }
+        }}
+        onMouseLeave={(e: MouseEvent<HTMLAnchorElement>) => {
+          if (!isActive) {
+            e.currentTarget.style.color = inactiveColor;
+          }
+        }}
+      >
+        {labelNode}
+      </a>
+    );
+  };
+
+  const selectLang = (next: Language) => {
+    setCurrentLang(next);
     setLangDropdownOpen(false);
+    setMobileMenuOpen(false);
     const pathParts = window.location.pathname.split('/');
-    pathParts[1] = lang.code;
-    const newPath = pathParts.join('/') || '/' + lang.code;
+    pathParts[1] = next.code;
+    const newPath = pathParts.join('/') || '/' + next.code;
     window.location.href = newPath;
   };
 
@@ -116,16 +364,15 @@ export function NavBar({
         borderBottomColor: '#253344',
       }}
     >
-      <div
-        className="h-14 md:h-16 max-w-7xl mx-auto px-3 md:px-4 flex items-center justify-between"
-        style={{ display: 'flex', alignItems: 'center' }}
-      >
-        {/* LEFT SIDE — LOGO AREA */}
-        <a href={`/${currentLang.code}`} className="flex items-center gap-2 md:gap-3 shrink-0">
+      <div className="flex h-14 w-full flex-row items-center justify-between gap-1 px-3 sm:gap-2 sm:px-4 md:h-16 md:px-6">
+        <a
+          href={`/${currentLang.code}`}
+          className="flex min-w-0 shrink-0 items-center gap-1.5 sm:gap-2 md:gap-3"
+        >
           <img
             src={resolvedLogoSrc}
             alt={resolvedLogoAlt}
-            className="h-10 md:h-12 object-contain"
+            className="h-9 object-contain sm:h-10 md:h-12"
           />
           <div className="hidden sm:flex flex-col leading-none">
             <span
@@ -139,7 +386,8 @@ export function NavBar({
               {resolvedBrandName.replace('K9', '').trim()}{' '}
               <span style={{ color: '#C42B2B' }}>K9</span>
             </span>
-            <span
+            <p
+              className="m-0 hidden xl:block"
               style={{
                 fontFamily: "'Rajdhani', sans-serif",
                 fontSize: 'clamp(8px, 0.9vw, 10px)',
@@ -150,181 +398,38 @@ export function NavBar({
               }}
             >
               {resolvedBrandTagline}
-            </span>
+            </p>
           </div>
         </a>
 
-        {/* CENTER — NAVIGATION LINKS (desktop only) */}
-        <div className="hidden lg:flex items-center gap-4 xl:gap-6" style={{ alignItems: 'center', height: '100%' }}>
-          {navLinks.map((link) => {
-            const isActive = activeLink
-              ? activeLink === link.href
-              : currentPath === link.href || currentPath === `${link.href}/`;
-            return (
-              <a
-                key={link.href}
-                href={link.href}
-                target={link.target ? '_blank' : undefined}
-                rel={link.target ? 'noopener noreferrer' : undefined}
-                className="transition-colors duration-150 whitespace-nowrap"
-                style={{
-                  fontFamily: "'Rajdhani', sans-serif",
-                  fontSize: '12px',
-                  letterSpacing: '2px',
-                  fontWeight: 700,
-                  color: isActive ? '#C4922A' : '#FFFFFF',
-                  boxShadow: isActive ? 'inset 0 -2px 0 #C4922A' : 'none',
-                }}
-                onMouseEnter={(e: MouseEvent<HTMLAnchorElement>) => {
-                  if (!isActive) {
-                    e.currentTarget.style.color = '#C4922A';
-                  }
-                }}
-                onMouseLeave={(e: MouseEvent<HTMLAnchorElement>) => {
-                  if (!isActive) {
-                    e.currentTarget.style.color = '#FFFFFF';
-                  }
-                }}
-              >
-                {link.label}
-              </a>
-            );
-          })}
+        <div className="hidden min-w-0 flex-1 items-center justify-center gap-2 self-stretch xl:flex xl:gap-4">
+          {regularLinks.map((link) => renderLinkAnchor(link, false))}
         </div>
 
-        {/* RIGHT SIDE */}
-        <div
-          className="flex items-center gap-2 md:gap-4"
-          style={{ display: 'flex', alignItems: 'center' }}
-        >
-          {/* Language Switcher - Dropdown */}
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-              className="flex items-center gap-1.5 transition-colors duration-150"
-              aria-label={`Current language: ${currentLang.name}. Click to change.`}
-              style={{
-                fontFamily: "'Rajdhani', sans-serif",
-                fontSize: '12px',
-                letterSpacing: '2px',
-                fontWeight: 700,
-                color: langDropdownOpen ? '#C4922A' : '#FFFFFF',
-                boxShadow: langDropdownOpen ? 'inset 0 -2px 0 #C4922A' : 'none',
-              }}
-              onMouseEnter={(e: MouseEvent<HTMLButtonElement>) => {
-                e.currentTarget.style.color = '#C4922A';
-              }}
-              onMouseLeave={(e: MouseEvent<HTMLButtonElement>) => {
-                if (!langDropdownOpen) {
-                  e.currentTarget.style.color = '#FFFFFF';
-                }
-              }}
-            >
-              <img
-                src={getFlagUrl(currentLang.countryCode)}
-                alt={currentLang.name}
-                className="w-4 h-3 object-cover"
-              />
-              <span className="hidden sm:inline">{currentLang.name.toUpperCase()}</span>
-              <svg
-                className="w-3 h-3 transition-transform duration-150"
-                style={{
-                  transform: langDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                }}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
+        <div className="flex-1 xl:hidden" aria-hidden="true" />
 
-            {langDropdownOpen && (
-              <>
-                {/* Backdrop to close dropdown */}
-                <div
-                  className="fixed inset-0 z-40"
-                  onClick={() => setLangDropdownOpen(false)}
-                  aria-hidden="true"
-                />
-                <div
-                  className="absolute top-full right-0 mt-3 py-2 min-w-[160px] border z-50 max-h-[70vh] overflow-y-auto"
-                  style={{
-                    backgroundColor: '#0F1720',
-                    borderColor: '#C4922A',
-                    borderTop: '2px solid #C4922A',
-                    boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
-                  }}
-                >
-                  {languages.map((lang) => {
-                    const isCurrentLang = lang.code === currentLang.code;
-                    return (
-                      <button
-                        type="button"
-                        key={lang.code}
-                        onClick={() => selectLang(lang)}
-                        className="w-full flex items-center gap-2 px-4 py-2 transition-colors duration-150"
-                        style={{
-                          fontFamily: "'Rajdhani', sans-serif",
-                          fontSize: '12px',
-                          letterSpacing: '2px',
-                          fontWeight: 700,
-                          color: isCurrentLang ? '#C4922A' : '#7A8A96',
-                          backgroundColor: isCurrentLang ? '#1A2530' : 'transparent',
-                          transition: 'background-color 0.15s, color 0.15s',
-                        }}
-                        onMouseEnter={(e: MouseEvent<HTMLButtonElement>) => {
-                          e.currentTarget.style.backgroundColor = '#1E2B38';
-                          e.currentTarget.style.color = '#C4922A';
-                        }}
-                        onMouseLeave={(e: MouseEvent<HTMLButtonElement>) => {
-                          const current = lang.code === currentLang.code;
-                          e.currentTarget.style.backgroundColor = current ? '#1A2530' : 'transparent';
-                          e.currentTarget.style.color = current ? '#C4922A' : '#7A8A96';
-                        }}
-                      >
-                        {isCurrentLang && (
-                          <span
-                            style={{
-                              width: '4px',
-                              height: '4px',
-                              borderRadius: '50%',
-                              backgroundColor: '#C4922A',
-                              flexShrink: 0,
-                            }}
-                          />
-                        )}
-                        {!isCurrentLang && (
-                          <span style={{ width: '4px', flexShrink: 0 }} aria-hidden />
-                        )}
-                        <img
-                          src={getFlagUrl(lang.countryCode)}
-                          alt={lang.name}
-                          className="w-4 h-3 object-cover"
-                        />
-                        <span>{lang.name.toUpperCase()}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </>
-            )}
+        <div className="flex min-w-0 shrink-0 flex-row items-center justify-end gap-1 xl:gap-2">
+          <div className="flex min-w-0 items-center gap-1 xl:gap-2">
+            {highlightLinks.map((link) => renderDelegationsButton(link))}
+            <LangDropdown
+              currentLang={currentLang}
+              open={langDropdownOpen}
+              setOpen={setLangDropdownOpen}
+              onSelectLang={selectLang}
+            />
           </div>
 
-          {/* CTA Button - registration */}
           {registrationActive !== false && (
             <a
               href={registrationHref || `/${currentLang.code}/rejestracja`}
-              className="block transition-colors duration-150 shrink-0"
+              className="inline-flex shrink-0 items-center justify-center px-[10px] py-[6px] transition-colors duration-150 xl:px-[14px] xl:py-2"
               style={{
                 backgroundColor: '#C42B2B',
                 color: 'white',
                 fontFamily: "'Rajdhani', sans-serif",
-                fontSize: 'clamp(11px, 1.1vw, 12px)',
-                letterSpacing: 'clamp(1px, 0.5vw, 2px)',
+                fontSize: 'clamp(10px, 1vw, 11px)',
+                letterSpacing: 'clamp(0.5px, 0.3vw, 1.5px)',
                 fontWeight: 700,
-                padding: '8px 14px',
               }}
               onMouseEnter={(e: MouseEvent<HTMLAnchorElement>) => {
                 e.currentTarget.style.backgroundColor = '#A82424';
@@ -333,33 +438,35 @@ export function NavBar({
                 e.currentTarget.style.backgroundColor = '#C42B2B';
               }}
             >
-              {(t as any).nav_registration ?? 'REJESTRACJA'}
+              {registrationLabel(currentLang.code)}
             </a>
           )}
 
-          {/* Mobile Hamburger Menu */}
           <button
             type="button"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden flex flex-col justify-center items-center w-8 h-8 gap-1.5"
+            onClick={() => {
+              setLangDropdownOpen(false);
+              setMobileMenuOpen(!mobileMenuOpen);
+            }}
+            className="flex h-8 w-8 shrink-0 flex-col items-center justify-center gap-1.5 xl:hidden"
             aria-label="Toggle menu"
           >
             <span
-              className="block w-6 h-0.5 transition-transform duration-200"
+              className="block h-0.5 w-6 transition-transform duration-200"
               style={{
                 backgroundColor: '#C4922A',
                 transform: mobileMenuOpen ? 'rotate(45deg) translateY(6px)' : 'none',
               }}
             />
             <span
-              className="block w-6 h-0.5 transition-opacity duration-200"
+              className="block h-0.5 w-6 transition-opacity duration-200"
               style={{
                 backgroundColor: '#C4922A',
                 opacity: mobileMenuOpen ? 0 : 1,
               }}
             />
             <span
-              className="block w-6 h-0.5 transition-transform duration-200"
+              className="block h-0.5 w-6 transition-transform duration-200"
               style={{
                 backgroundColor: '#C4922A',
                 transform: mobileMenuOpen ? 'rotate(-45deg) translateY(-6px)' : 'none',
@@ -369,43 +476,15 @@ export function NavBar({
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div
-          className="lg:hidden w-full border-b"
+          className="w-full border-b xl:hidden"
           style={{
             backgroundColor: '#0F1720',
             borderBottomColor: '#253344',
           }}
         >
-          {navLinks.map((link) => {
-            const isActive = activeLink
-              ? activeLink === link.href
-              : currentPath === link.href || currentPath === `${link.href}/`;
-            return (
-              <a
-                key={link.href}
-                href={link.href}
-                target={link.target ? '_blank' : undefined}
-                rel={link.target ? 'noopener noreferrer' : undefined}
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center h-12 border-b"
-                style={{
-                  paddingLeft: '13px',
-                  borderBottomColor: '#253344',
-                  borderLeft: isActive ? '3px solid #C4922A' : '3px solid transparent',
-                  fontFamily: "'Rajdhani', sans-serif",
-                  fontSize: '12px',
-                  letterSpacing: '3px',
-                  fontWeight: 700,
-                  color: isActive ? '#C4922A' : '#FFFFFF',
-                  transition: 'border-color 0.15s, color 0.15s',
-                }}
-              >
-                {link.label}
-              </a>
-            );
-          })}
+          {regularLinks.map((link) => renderLinkAnchor(link, true))}
         </div>
       )}
     </nav>
