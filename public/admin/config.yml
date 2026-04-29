@@ -4,6 +4,7 @@ backend:
   branch: "master"
   base_url: "https://cerberus-oauth-proxy.vercel.app"
   auth_endpoint: "/auth"
+local_backend: true
 publish_mode: "editorial_workflow"
 media_folder: "public/uploads"
 public_folder: "/uploads"
@@ -2053,12 +2054,12 @@ collections:
       - { name: "title_pl", label: "Tytu? (PL)", widget: "string", hint: "Tytu? punktu programu po polsku." }
       - { name: "title_en", label: "Tytu? (EN)", widget: "string", required: false, hint: "Tytu? punktu programu po angielsku." }
       - { name: "day", label: "Dzie?", widget: "string", hint: "Dzie? programu, np. 2026-06-13." }
-      - { name: "time_start", label: "Godzina startu", widget: "string", pattern: ["^([01]\d|2[0-3]):[0-5]\d$", "Format HH:MM, np. 09:00"] }
-      - { name: "time_end", label: "Godzina ko?ca", widget: "string", pattern: ["^([01]\d|2[0-3]):[0-5]\d$", "Format HH:MM, np. 09:00"] }
+      - { name: "time_start", label: "Godzina startu", widget: "string", pattern: ["^([01]\\d|2[0-3]):[0-5]\\d$", "Format HH:MM, np. 09:00"] }
+      - { name: "time_end", label: "Godzina ko?ca", widget: "string", pattern: ["^([01]\\d|2[0-3]):[0-5]\\d$", "Format HH:MM, np. 09:00"] }
       - name: "category"
         label: "Kategoria"
         widget: "select"
-        options: ["K9-Gryzanie","K9-Detekcja","K9-SAR","TCCC","Drony","HARDEST HIT","Konferencja","BREAK","CEREMONIA","Inne"]
+        options: ["K9-Gryzienie","K9-Detekcja","K9-SAR","TCCC","Drony","HARDEST HIT","Konferencja","BREAK","CEREMONIA","Inne"]
       - name: "audience"
         label: "Dla kogo"
         widget: "list"
@@ -2678,7 +2679,7 @@ collections:
       - { name: "bio_full_en", label: "Pe?ne bio (EN)", widget: "markdown", required: false }
       - { name: "photo", label: "Zdj?cie", widget: "image", required: false, media_folder: "public/uploads/team/", public_folder: "/uploads/team/" }
       - { name: "unit", label: "Jednostka/Organizacja", widget: "string", required: false }
-      - { name: "email", label: "E-mail", widget: "string", required: false, pattern: ["^[^\s@]+@[^\s@]+\.[^\s@]+$", "Wpisz poprawny adres e-mail"] }
+      - { name: "email", label: "E-mail", widget: "string", required: false, pattern: ["^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$", "Wpisz poprawny adres e-mail"] }
       - { name: "linkedin", label: "LinkedIn (legacy)", widget: "string", required: false, pattern: ["^https?://.+$", "URL musi zaczyna? si? od https://"] }
       - { name: "social_facebook", label: "Facebook URL", widget: "string", required: false, pattern: ["^https?://.+$", "URL musi zaczyna? si? od https://"] }
       - { name: "social_linkedin", label: "LinkedIn URL", widget: "string", required: false, pattern: ["^https?://.+$", "URL musi zaczyna? si? od https://"] }
@@ -4533,11 +4534,11 @@ collections:
     fields:
       - { name: "certificate_id", label: "ID certyfikatu", widget: "string", hint: "Unikalny identyfikator, np. CK9-2026-001." }
       - { name: "participant_name", label: "Imi? i nazwisko uczestnika", widget: "string", hint: "Pe?ne imi? i nazwisko, np. Jan Kowalski." }
-      - { name: "participant_email", label: "E-mail uczestnika", widget: "string", pattern: ["^[^\s@]+@[^\s@]+\.[^\s@]+$", "Wpisz poprawny adres e-mail"], hint: "Adres e-mail uczestnika, np. jan.kowalski@example.com." }
+      - { name: "participant_email", label: "E-mail uczestnika", widget: "string", pattern: ["^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$", "Wpisz poprawny adres e-mail"], hint: "Adres e-mail uczestnika, np. jan.kowalski@example.com." }
       - name: "module"
         label: "Modu?"
         widget: "select"
-        options: ["K9-Gryzanie","K9-Detekcja","K9-SAR","TCCC","Drony","HARDEST HIT","Konferencja","BREAK","CEREMONIA","Inne"]
+        options: ["K9-Gryzienie","K9-Detekcja","K9-SAR","TCCC","Drony","HARDEST HIT","Konferencja","BREAK","CEREMONIA","Inne"]
         hint: "Wybierz modu? szkoleniowy."
       - { name: "issue_date", label: "Data wystawienia", widget: "datetime", format: "YYYY-MM-DD", dateFormat: true, timeFormat: false, hint: "Data wystawienia certyfikatu, np. 2026-06-14." }
       - { name: "valid_until", label: "Wa?ny do", widget: "datetime", required: false, format: "YYYY-MM-DD", dateFormat: true, timeFormat: false, hint: "Opcjonalna data wa?no?ci, np. 2027-06-14." }
@@ -4562,7 +4563,7 @@ collections:
       - name: "category"
         label: "Kategoria"
         widget: "select"
-        options: ["K9-Gryzanie","K9-Detekcja","K9-SAR","TCCC","Drony","HARDEST HIT","Konferencja","BREAK","CEREMONIA","Inne"]
+        options: ["K9-Gryzienie","K9-Detekcja","K9-SAR","TCCC","Drony","HARDEST HIT","Konferencja","BREAK","CEREMONIA","Inne"]
         hint: "Wybierz kategori? szkolenia."
       - { name: "description_pl", label: "Opis (PL)", widget: "text", hint: "Opis po polsku, 2-4 zdania." }
       - { name: "description_en", label: "Opis (EN)", widget: "text", hint: "Opis po angielsku, 2-4 zdania." }
@@ -4581,8 +4582,8 @@ collections:
         hint: "Dodaj pozycje harmonogramu szkolenia."
         fields:
           - { name: "day", label: "Dzie?", widget: "datetime", format: "YYYY-MM-DD", dateFormat: true, timeFormat: false, hint: "Data dnia szkolenia, np. 2026-07-10." }
-          - { name: "time_start", label: "Godzina startu", widget: "string", pattern: ["^([01]\d|2[0-3]):[0-5]\d$", "Format HH:MM, np. 09:00"] }
-          - { name: "time_end", label: "Godzina ko?ca", widget: "string", pattern: ["^([01]\d|2[0-3]):[0-5]\d$", "Format HH:MM, np. 09:00"] }
+          - { name: "time_start", label: "Godzina startu", widget: "string", pattern: ["^([01]\\d|2[0-3]):[0-5]\\d$", "Format HH:MM, np. 09:00"] }
+          - { name: "time_end", label: "Godzina ko?ca", widget: "string", pattern: ["^([01]\\d|2[0-3]):[0-5]\\d$", "Format HH:MM, np. 09:00"] }
       - { name: "image", label: "Grafika", widget: "image", required: false, media_folder: "public/uploads/szkolenia/", public_folder: "/uploads/szkolenia/", hint: "Miniatura szkolenia." }
       - { name: "order", label: "Kolejno??", widget: "number", required: false, default: 99, hint: "Mniejsza liczba = wy?ej." }
       - { name: "isVisible", label: "Widoczny", widget: "boolean", required: false, default: true, hint: "W??czone = szkolenie widoczne." }
@@ -4637,7 +4638,7 @@ collections:
       - name: "category"
         label: "Kategoria"
         widget: "select"
-        options: ["K9-Gryzanie","K9-Detekcja","K9-SAR","TCCC","Drony","HARDEST HIT","Konferencja","BREAK","CEREMONIA","Inne"]
+        options: ["K9-Gryzienie","K9-Detekcja","K9-SAR","TCCC","Drony","HARDEST HIT","Konferencja","BREAK","CEREMONIA","Inne"]
       - { name: "rank", label: "Miejsce", widget: "number", hint: "Pozycja zawodnika, np. 1." }
       - { name: "score", label: "Wynik", widget: "number", hint: "Wynik punktowy/liczbowy, np. 98.7." }
       - { name: "time_seconds", label: "Czas (sekundy)", widget: "number", required: false, hint: "Czas przejazdu/pr?by, np. 12.45." }

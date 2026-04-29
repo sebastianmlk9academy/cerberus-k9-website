@@ -1,0 +1,39 @@
+module_categories:
+  - K9-Gryzienie
+  - K9-Detekcja
+  - K9-SAR
+  - TCCC
+  - Drony
+  - HARDEST HIT
+  - Konferencja
+  - Inne
+
+partner_types:
+  - strategic
+  - partner
+  - technical
+  - media
+  - honorary
+  - sponsor
+
+update_severity:
+  - info
+  - success
+  - warning
+  - danger
+
+audience:
+  - sluzby
+  - cywil-z-psem
+  - cywil-bez-psa
+  - delegacja
+  - media
+  - sponsor
+  - wszyscy
+
+news_category:
+  - aktualnosc
+  - ogloszenie
+  - raport
+  - wywiad
+  - fotorelacja

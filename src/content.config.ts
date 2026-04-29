@@ -22,7 +22,7 @@ function dateToString(val: unknown): unknown {
 }
 
 const ENUM_MODULE_CATEGORIES = [
-	'K9-Gryzanie',
+	'K9-Gryzienie',
 	'K9-Detekcja',
 	'K9-SAR',
 	'TCCC',
