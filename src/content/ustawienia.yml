@@ -68,11 +68,11 @@ media_contact_name: Sebastian Bożek — Wiceprezes
 notification_bar_active: false
 hero_video_url: ""
 cookie_consent_active: false
-gallery_video_3_badge: ""
+gallery_video_3_badge: TVN — FAKTY
 media_label_contact_accreditation_pl: KONTAKT I AKREDYTACJA
 map_embed_url: https://www.openstreetmap.org/export/embed.html?bbox=17.7986%2C51.6409%2C17.8186%2C51.6609&layer=mapnik&marker=51.6509%2C17.8086
 dogs_count: 80+
-gallery_video_4_badge: ""
+gallery_video_4_badge: POLSKIE RADIO — REPORTAŻ
 contact_map_embed_url: https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2468.123!2d17.8086!3d51.6509!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sul.%20Andrzeja%20Kowalczyka%201%2C%2063-400%20Ostr%C3%B3w%20Wielkopolski!5e0!3m2!1spl!2spl!4v1234567890
 nav_logo: /images/cerberus-k9-logo.png
 sekcja_dane_rejestrowe:
@@ -171,12 +171,12 @@ sekcja_grafika:
   favicon_svg: /favicon.svg
   apple_touch_icon: /apple-touch-icon.png
 video_badge_1: POLSKA ZBROJNA · PATRON MEDIALNY
-gallery_video_3_url: ""
+gallery_video_3_url: https://www.youtube.com/embed/lf-Aek_TSzI
 agenda_page_url: https://cerberusk9.org/pl/o-wydarzeniu
 video_badge_2: TVP — PANORAMA
 og_image_height: "630"
 hero_close_label_pl: ZAMKNIJ
-gallery_video_4_url: ""
+gallery_video_4_url: https://www.youtube.com/embed/aNG1UVyOqNA
 nip_number: "6222869581"
 hero_title: CERBERUS
 event_date: 2026-06-13
@@ -247,7 +247,7 @@ sekcja_hero:
   pagehero_news_subtitle_pl: WIADOMOŚCI, KOMUNIKATY I RELACJE Z PRZYGOTOWAŃ DO WYDARZENIA
   pagehero_foundation_category_pl: O NAS
   pagehero_foundation_title_pl: FUNDACJA PACTA K9
-  pagehero_foundation_subtitle_pl: KRS: 0001219121 · TOPOLA MAŁA · WIELKOPOLSKA
+  pagehero_foundation_subtitle_pl: "KRS: 0001219121 · TOPOLA MAŁA · WIELKOPOLSKA"
 footer_email: sebastian@pactak9.org
 favicon_svg: /favicon.svg
 media_label_full_materials_pl: KOMPLET MATERIAŁÓW
@@ -258,9 +258,9 @@ contact_gdpr_text_en: I consent to processing of personal data in accordance wit
 media_label_media_archive_pl: ARCHIWUM MEDIALNE
 footer_link_registration: rejestracja
 hero_cta_program_href: /pl/o-wydarzeniu#agenda
-gallery_video_3_title: ""
+gallery_video_3_title: TVN — FAKTY
 og_image_width: "1200"
-gallery_video_4_title: ""
+gallery_video_4_title: POLSKIE RADIO — REPORTAŻ
 contact_address_country_en: Poland
 press_kit_zip: /press/cerberus-k9-press-kit-2026.zip
 gallery_unlock_date: 2026-06-14
