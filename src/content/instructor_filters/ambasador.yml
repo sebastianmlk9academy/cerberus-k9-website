@@ -1,0 +1,9 @@
+key: ambasador
+label_pl: AMBASADOR
+filter_field: specializations
+filter_match: includes
+filter_value: ambasador
+filter_values:
+  - AMBASADOR
+order: 7
+active: true
