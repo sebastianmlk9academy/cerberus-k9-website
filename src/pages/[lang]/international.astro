@@ -1,4 +1,5 @@
 ---
+import { redirect } from 'astro';
 import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { locales } from '../../../locales.mjs';
@@ -18,6 +19,9 @@ export function getStaticPaths() {
 
 const { lang: paramLang } = Astro.params;
 const lang: Lang = isLang(paramLang ?? '') ? (paramLang as Lang) : 'en';
+if (lang !== 'en') {
+  return Astro.redirect('/en/international', 301);
+}
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
 const navLinks = await getSortedNavLinks(lang);
