@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { Lang } from "../i18n/utils";
+import { isLang } from "../i18n/utils";
 import type { HomeHeroCopy } from "../i18n/homeHero";
 import { homeHeroCopyByLang } from "../i18n/homeHero";
 import { ui } from "../i18n/ui";
@@ -36,70 +37,70 @@ function calculateTimeLeft(
   };
 }
 
-interface HeroSectionProps {
-  lang: Lang;
-  copy: HomeHeroCopy;
+export interface HeroSectionProps {
+  lang?: string;
   eventDate?: string;
+  eventDateISO?: string;
+  location?: string;
+  tagline?: string;
+  subtitle?: string;
+  registrationUrl?: string;
+  registrationActive?: boolean;
+  showLiveCounter?: boolean;
+  pretixApiAvailable?: boolean;
   eventTimeStart?: string;
   eventTimezone?: string;
   heroImage?: string;
   heroOpacity?: number;
-  /** Górny tag (nad H1); fallback: i18n / copy. */
-  heroTagline?: string;
-  /** Podlinia pod nagłówkiem hero dla PL; fallback: i18n. */
-  heroSublinePl?: string;
-  /** Pierwsza linia H1; fallback: `heroTitle`. */
-  heroTitleLine1?: string;
-  /** Akcent w drugiej linii (np. K9); fallback: `heroSubtitle`. */
-  heroTitleLine2?: string;
   heroTitle?: string;
-  heroSubtitle?: string;
+  heroTitleLine2?: string;
   heroYear?: string;
+  heroSublinePl?: string;
   heroVideoHref?: string;
   heroVideoTitle?: string;
   heroCloseLabelPl?: string;
-  heroMetaLocations?: string;
   heroMetaDelegations?: string;
   heroMetaEntry?: string;
-  ctaRegistrationHref?: string;
   ctaProgramHref?: string;
-  registrationActive?: boolean;
 }
 
 export function HeroSection(props: HeroSectionProps) {
   const {
-    lang,
-    copy,
+    lang: langProp,
     eventDate,
+    eventDateISO,
+    location,
+    tagline,
+    subtitle,
+    registrationUrl,
+    registrationActive = true,
+    showLiveCounter = true,
+    pretixApiAvailable = false,
     eventTimeStart = "10:00",
     eventTimezone = "Europe/Warsaw",
     heroImage,
     heroOpacity,
-    heroTagline,
-    heroSublinePl,
-    heroTitleLine1,
-    heroTitleLine2,
     heroTitle,
-    heroSubtitle,
+    heroTitleLine2,
     heroYear,
+    heroSublinePl,
     heroVideoHref,
     heroVideoTitle,
     heroCloseLabelPl = "ZAMKNIJ",
-    heroMetaLocations,
     heroMetaDelegations,
     heroMetaEntry,
-    ctaRegistrationHref,
     ctaProgramHref,
-    registrationActive = true,
   } = props;
 
-  const safeCopy: HomeHeroCopy = copy ?? homeHeroCopyByLang.pl;
-  const metaRow1Value = heroMetaLocations?.trim() || safeCopy.metaRow1Value;
-  const metaRow2Value = heroMetaDelegations?.trim() || safeCopy.metaRow2Value;
+  const lang: Lang = langProp && isLang(langProp) ? langProp : "pl";
+  const safeCopy: HomeHeroCopy = homeHeroCopyByLang[lang] ?? homeHeroCopyByLang.pl;
+  const metaRow1Value = location?.trim() || safeCopy.metaRow1Value;
+  const metaRow2Value =
+    eventDate?.trim() || heroMetaDelegations?.trim() || safeCopy.metaRow2Value;
   const metaRow3Value = heroMetaEntry?.trim() || safeCopy.metaRow3Value;
   const timeStr = eventTimeStart ?? "10:00";
   const tzOffset = eventTimezone === "Europe/Warsaw" ? "+02:00" : "+00:00";
-  const eventDateIso = eventDate?.trim() || undefined;
+  const eventDateIso = eventDateISO?.trim() || undefined;
   const bgUrl = heroImage?.trim() || "/images/page_hero_graph.webp";
   const bgOpacity = heroOpacity ?? 0.4;
   const safeUi = ui[lang] ?? ui.pl;
@@ -113,6 +114,9 @@ export function HeroSection(props: HeroSectionProps) {
   });
   const [mounted, setMounted] = useState(false);
   const [videoOpen, setVideoOpen] = useState(false);
+  const [hoverRegister, setHoverRegister] = useState(false);
+  const [hoverProgram, setHoverProgram] = useState(false);
+  const [hoverVideo, setHoverVideo] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -139,14 +143,15 @@ export function HeroSection(props: HeroSectionProps) {
   }, [videoOpen]);
 
   const formatNumber = (num: number) => String(num).padStart(2, "0");
+  const resolvedYear =
+    heroYear?.trim() ||
+    (eventDateIso ? String(new Date(`${eventDateIso}T12:00:00Z`).getFullYear()) : "2026");
+  const registerHref = registrationUrl?.trim() || `/${lang}/rejestracja`;
+  const programHref = ctaProgramHref?.trim() || `/${lang}/o-wydarzeniu#agenda`;
+  const videoHref = heroVideoHref?.trim() || safeCopy.ctaVideoHref;
 
   return (
-    <section
-      className="relative w-full min-h-screen sm:min-h-[90vh] flex flex-col justify-center px-4 sm:px-[5%] py-[80px] overflow-hidden"
-      style={{
-        backgroundColor: "#1E2B38",
-      }}
-    >
+    <section className="relative w-full min-h-screen sm:min-h-[90vh] flex flex-col justify-center px-4 sm:px-[5%] py-[80px] overflow-hidden bg-navy">
       {/* Background Image */}
       <div
         className="absolute inset-0 z-0"
@@ -159,74 +164,55 @@ export function HeroSection(props: HeroSectionProps) {
         }}
       />
       {/* Dark overlay for text readability */}
-      <div
-        className="absolute inset-0 z-[1]"
-        style={{
-          background: `
-            linear-gradient(to right, rgba(30,43,56,0.95) 0%, rgba(30,43,56,0.7) 50%, rgba(30,43,56,0.4) 100%),
-            radial-gradient(circle at 85% 15%, rgba(196,146,42,0.1) 0%, transparent 60%),
-            radial-gradient(circle at 40% 85%, rgba(196,43,43,0.08) 0%, transparent 50%)
-          `,
-        }}
-      />
+      <div className="absolute inset-0 z-[1] pointer-events-none" aria-hidden>
+        <div className="absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/70 to-navy/40" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_85%_15%,theme(colors.gold)/10,transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_40%_85%,theme(colors.red)/8,transparent_50%)]" />
+      </div>
       {/* Section 1: Top Tagline */}
       <div className="relative z-10 flex items-center mb-3 sm:mb-4">
+        <span className="inline-block w-5 sm:w-7 h-px mr-2 sm:mr-2.5 bg-red" />
         <span
-          className="inline-block w-5 sm:w-7 h-px mr-2 sm:mr-2.5"
-          style={{ backgroundColor: "#C42B2B" }}
-        />
-        <span
-          className="text-[10px] sm:text-[11px] md:text-[12px]"
-          style={{
-            fontFamily: "var(--font-rajdhani), sans-serif",
-            letterSpacing: "3px",
-            fontWeight: 700,
-            color: "#C42B2B",
-          }}
+          className="text-[10px] sm:text-[11px] md:text-[12px] text-red font-bold tracking-[3px]"
+          style={{ fontFamily: "var(--font-rajdhani), sans-serif" }}
         >
-          {heroTagline ?? (ui[lang] as any)?.hero_tag ?? safeCopy.tagline}
+          {tagline ?? (ui[lang] as { hero_tag?: string }).hero_tag ?? safeCopy.tagline}
         </span>
       </div>
 
       {/* Section 2: Main Headline */}
       <div className="relative z-10 mb-0">
         <h1
-          className="text-[clamp(40px,12vw,96px)] sm:text-[clamp(56px,10vw,96px)]"
+          className="text-[clamp(40px,12vw,96px)] sm:text-[clamp(56px,10vw,96px)] text-bone m-0"
           style={{
             fontFamily: "var(--font-bebas-neue), sans-serif",
-            color: "#E4DDD0",
             lineHeight: 0.88,
             letterSpacing: "2px",
-            margin: 0,
           }}
         >
-          {heroTitleLine1 ?? heroTitle ?? "CERBERUS"}
+          {heroTitle?.trim() || "CERBERUS"}
         </h1>
         <h1
-          className="text-[clamp(40px,12vw,96px)] sm:text-[clamp(56px,10vw,96px)]"
+          className="text-[clamp(40px,12vw,96px)] sm:text-[clamp(56px,10vw,96px)] m-0"
           style={{
             fontFamily: "var(--font-bebas-neue), sans-serif",
             lineHeight: 0.88,
             letterSpacing: "2px",
-            margin: 0,
           }}
         >
-          <span style={{ color: "#C42B2B" }}>{heroTitleLine2 ?? heroSubtitle ?? "K9"}</span>
-          <span style={{ color: "#E4DDD0" }}> {heroYear ?? "2026"}</span>
+          <span className="text-red">{heroTitleLine2 ?? subtitle ?? "K9"}</span>
+          <span className="text-bone"> {resolvedYear}</span>
         </h1>
       </div>
 
       {/* Section 3: Sub-headline */}
       <p
-        className="relative z-10 mt-3 sm:mt-4 mb-5 sm:mb-7 text-[11px] sm:text-[12px] md:text-[12px]"
-        style={{
-          fontFamily: "var(--font-rajdhani), sans-serif",
-          letterSpacing: "3px",
-          fontWeight: 700,
-          color: "#7A8A96",
-        }}
+        className="relative z-10 mt-3 sm:mt-4 mb-5 sm:mb-7 text-[11px] sm:text-[12px] md:text-[12px] text-muted font-bold tracking-[3px]"
+        style={{ fontFamily: "var(--font-rajdhani), sans-serif" }}
       >
-        {heroSublinePl ?? (ui[lang] as any)?.hero_free ?? "WSTĘP BEZPŁATNY"}
+        {heroSublinePl ??
+          (ui[lang] as { hero_free?: string }).hero_free ??
+          "WSTĘP BEZPŁATNY"}
       </p>
 
       {/* Section 4: Countdown Timer */}
@@ -255,157 +241,93 @@ export function HeroSection(props: HeroSectionProps) {
         )}
       </div>
 
+      {showLiveCounter && pretixApiAvailable && (
+        <div
+          className="relative z-10 mb-6 sm:mb-8 min-h-[1px]"
+          data-slot="live-registration-counter"
+          aria-hidden
+        />
+      )}
+
       {/* Section 5: Meta Info Row */}
       <div className="relative z-10 flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-6 md:gap-8 mb-6 sm:mb-8">
-        <MetaInfoItem
-          label={safeCopy.metaRow1}
-          value={metaRow1Value}
-        />
-        <MetaInfoItem
-          label={safeCopy.metaRow2}
-          value={metaRow2Value}
-        />
-        <MetaInfoItem
-          label={safeCopy.metaRow3}
-          value={metaRow3Value}
-        />
+        <MetaInfoItem label={safeCopy.metaRow1} value={metaRow1Value} />
+        <MetaInfoItem label={safeCopy.metaRow2} value={metaRow2Value} />
+        <MetaInfoItem label={safeCopy.metaRow3} value={metaRow3Value} />
       </div>
 
       {/* Section 6: CTA Buttons Row */}
       <div className="relative z-10 flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-2 sm:gap-3">
         {registrationActive !== false && (
           <a
-            href={ctaRegistrationHref || `/${lang}/rejestracja`}
-            className="inline-block text-center cursor-pointer transition-colors w-full sm:w-auto text-[11px] sm:text-[12px] px-5 py-3 sm:px-8 sm:py-3.5 no-underline"
+            href={registerHref}
+            className="inline-block text-center cursor-pointer transition-colors duration-200 w-full sm:w-auto text-[11px] sm:text-[12px] px-5 py-3 sm:px-8 sm:py-3.5 no-underline font-bold tracking-[3px] rounded-none border-0"
             style={{
-              backgroundColor: "#C42B2B",
-              color: "white",
               fontFamily: "var(--font-rajdhani), sans-serif",
-              letterSpacing: "3px",
-              fontWeight: 700,
-              borderRadius: 0,
-              border: "none",
+              backgroundColor: hoverRegister ? "#9E1F1F" : "#C42B2B",
+              color: "white",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#9E1F1F")}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#C42B2B")}
+            onMouseEnter={() => setHoverRegister(true)}
+            onMouseLeave={() => setHoverRegister(false)}
           >
             {registerCtaLabel}
           </a>
         )}
         <a
-          href={ctaProgramHref || `/${lang}/o-wydarzeniu#agenda`}
-          className="inline-block text-center cursor-pointer transition-colors w-full sm:w-auto text-[11px] sm:text-[12px] px-5 py-3 sm:px-6 sm:py-3.5 no-underline"
+          href={programHref}
+          className="inline-block text-center cursor-pointer transition-colors duration-200 w-full sm:w-auto text-[11px] sm:text-[12px] px-5 py-3 sm:px-6 sm:py-3.5 no-underline font-bold tracking-[3px] rounded-none"
           style={{
-            backgroundColor: "transparent",
-            color: "#C4922A",
             fontFamily: "var(--font-rajdhani), sans-serif",
-            letterSpacing: "3px",
-            fontWeight: 700,
-            borderRadius: 0,
+            backgroundColor: hoverProgram ? "#C4922A" : "transparent",
+            color: hoverProgram ? "#1E2B38" : "#C4922A",
             border: "1px solid #C4922A",
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = "#C4922A";
-            e.currentTarget.style.color = "#1E2B38";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = "transparent";
-            e.currentTarget.style.color = "#C4922A";
-          }}
+          onMouseEnter={() => setHoverProgram(true)}
+          onMouseLeave={() => setHoverProgram(false)}
         >
           {safeCopy.ctaProgram}
         </a>
         <button
           type="button"
           onClick={() => setVideoOpen(true)}
-          className="inline-block text-center cursor-pointer transition-colors w-full sm:w-auto text-[11px] sm:text-[12px] px-5 py-3 sm:px-5 sm:py-3.5 no-underline"
+          className="inline-block text-center cursor-pointer transition-colors duration-200 w-full sm:w-auto text-[11px] sm:text-[12px] px-5 py-3 sm:px-8 sm:py-3.5 no-underline font-bold tracking-[3px] rounded-none border-0"
           style={{
-            backgroundColor: "transparent",
-            color: "#7A8A96",
             fontFamily: "var(--font-rajdhani), sans-serif",
-            letterSpacing: "3px",
-            fontWeight: 700,
-            borderRadius: 0,
-            border: "1px solid #253344",
+            backgroundColor: hoverVideo ? "#005B99" : "#253344",
+            color: hoverVideo ? "#B0BEC5" : "#FFFFFF",
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = "#253344";
-            e.currentTarget.style.color = "#E4DDD0";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = "transparent";
-            e.currentTarget.style.color = "#7A8A96";
-          }}
+          onMouseEnter={() => setHoverVideo(true)}
+          onMouseLeave={() => setHoverVideo(false)}
         >
           {safeCopy.ctaVideo}
         </button>
       </div>
       {videoOpen && (
         <>
-          {/* Backdrop — blurred dark overlay */}
           <div
             onClick={() => setVideoOpen(false)}
-            style={{
-              position: "fixed",
-              inset: 0,
-              zIndex: 1000,
-              backgroundColor: "rgba(10, 15, 20, 0.85)",
-              backdropFilter: "blur(8px)",
-              WebkitBackdropFilter: "blur(8px)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
+            className="fixed inset-0 z-[1000] flex items-center justify-center bg-navyDeep/85 backdrop-blur-md"
+            role="presentation"
           >
-            {/* Modal container — stop click propagation so clicking video doesn't close */}
             <div
               onClick={(e) => e.stopPropagation()}
-              style={{
-                position: "relative",
-                width: "90vw",
-                maxWidth: "960px",
-                aspectRatio: "16 / 9",
-                backgroundColor: "#0F1720",
-                border: "1px solid rgba(196,146,42,0.3)",
-                boxShadow: "0 24px 80px rgba(0,0,0,0.8)",
-              }}
+              className="relative w-[90vw] max-w-[960px] aspect-video bg-navyDeep border border-gold/30 shadow-[0_24px_80px_rgba(0,0,0,0.8)]"
             >
-              {/* Close button */}
               <button
+                type="button"
                 onClick={() => setVideoOpen(false)}
-                style={{
-                  position: "absolute",
-                  top: "-40px",
-                  right: "0",
-                  background: "transparent",
-                  border: "none",
-                  color: "#E4DDD0",
-                  fontFamily: "var(--font-rajdhani), sans-serif",
-                  fontSize: "12px",
-                  letterSpacing: "3px",
-                  fontWeight: 700,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
-                }}
+                className="absolute -top-10 right-0 bg-transparent border-0 text-bone cursor-pointer flex items-center gap-2 text-xs font-bold tracking-[3px]"
+                style={{ fontFamily: "var(--font-rajdhani), sans-serif" }}
               >
                 {heroCloseLabelPl ?? "ZAMKNIJ"} ✕
               </button>
 
-              {/* YouTube iframe */}
               <iframe
-                src={`${(heroVideoHref ?? safeCopy.ctaVideoHref).replace("watch?v=", "embed/").replace("youtu.be/", "www.youtube.com/embed/")}?autoplay=1&rel=0&modestbranding=1`}
+                src={`${videoHref.replace("watch?v=", "embed/").replace("youtu.be/", "www.youtube.com/embed/")}?autoplay=1&rel=0&modestbranding=1`}
                 title={heroVideoTitle ?? "CERBERUS K9 2026 — Relacja"}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  width: "100%",
-                  height: "100%",
-                  border: "none",
-                }}
+                className="absolute inset-0 w-full h-full border-0"
               />
             </div>
           </div>
@@ -419,44 +341,19 @@ function CountdownBlock({ value, label }: { value: string; label: string }) {
   return (
     <div className="flex flex-col items-center">
       <div
-        className="relative text-center px-3 py-2.5 sm:px-4 sm:py-3 md:px-5 md:py-4 min-w-[56px] sm:min-w-[70px] md:min-w-[80px]"
-        style={{
-          background: "linear-gradient(135deg, rgba(15,23,32,0.95) 0%, rgba(30,43,56,0.9) 100%)",
-          backdropFilter: "blur(10px)",
-          border: "1px solid rgba(196,146,42,0.3)",
-          borderRadius: "8px",
-          boxShadow: "0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05)",
-        }}
+        className="relative text-center px-3 py-2.5 sm:px-4 sm:py-3 md:px-5 md:py-4 min-w-[56px] sm:min-w-[70px] md:min-w-[80px] rounded-lg border border-gold/30 shadow-[0_4px_24px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-[10px] bg-gradient-to-br from-navyDeep/95 to-navy/90"
       >
-        {/* Top accent line */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] w-6 sm:w-8 bg-[linear-gradient(90deg,transparent,theme(colors.gold),transparent)]" />
         <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] w-6 sm:w-8"
-          style={{
-            background: "linear-gradient(90deg, transparent, #C4922A, transparent)",
-          }}
-        />
-        <div
-          className="text-[32px] sm:text-[40px] md:text-[48px]"
-          style={{
-            fontFamily: "var(--font-bebas-neue), sans-serif",
-            background: "linear-gradient(180deg, #D4A84A 0%, #C4922A 50%, #A67B1E 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            lineHeight: 1,
-            textShadow: "0 2px 20px rgba(196,146,42,0.3)",
-          }}
+          className="text-[32px] sm:text-[40px] md:text-[48px] leading-none"
+          style={{ fontFamily: "var(--font-bebas-neue), sans-serif", color: "#C4922A" }}
         >
           {value}
         </div>
       </div>
       <div
-        className="mt-1.5 sm:mt-2 text-[10px] sm:text-[10px] md:text-[11px]"
-        style={{
-          fontFamily: "var(--font-rajdhani), sans-serif",
-          letterSpacing: "2px",
-          color: "#7A8A96",
-          fontWeight: 700,
-        }}
+        className="mt-1.5 sm:mt-2 text-[10px] sm:text-[10px] md:text-[11px] font-bold tracking-[2px]"
+        style={{ fontFamily: "var(--font-rajdhani), sans-serif", color: "#7A8A96" }}
       >
         {label}
       </div>
@@ -467,12 +364,8 @@ function CountdownBlock({ value, label }: { value: string; label: string }) {
 function Separator() {
   return (
     <span
-      className="self-start mt-2.5 sm:mt-3 md:mt-4 text-[24px] sm:text-[28px] md:text-[32px]"
-      style={{
-        fontFamily: "var(--font-bebas-neue), sans-serif",
-        color: "#C4922A",
-        opacity: 0.5,
-      }}
+      className="self-start mt-2.5 sm:mt-3 md:mt-4 text-[24px] sm:text-[28px] md:text-[32px] text-gold/50"
+      style={{ fontFamily: "var(--font-bebas-neue), sans-serif" }}
     >
       :
     </span>
@@ -481,30 +374,16 @@ function Separator() {
 
 function MetaInfoItem({ label, value }: { label: string; value: string }) {
   return (
-    <div
-      className="pl-2.5 sm:pl-3 max-w-full sm:max-w-[280px] md:max-w-none"
-      style={{
-        borderLeft: "2px solid #C4922A",
-      }}
-    >
+    <div className="pl-2.5 sm:pl-3 max-w-full sm:max-w-[280px] md:max-w-none border-l-2 border-gold">
       <div
-        className="text-[10px] sm:text-[10px] mb-0.5"
-        style={{
-          fontFamily: "var(--font-rajdhani), sans-serif",
-          letterSpacing: "3px",
-          color: "#7A8A96",
-          fontWeight: 700,
-        }}
+        className="text-[10px] sm:text-[10px] mb-0.5 text-muted font-bold tracking-[3px]"
+        style={{ fontFamily: "var(--font-rajdhani), sans-serif" }}
       >
         {label}
       </div>
       <div
-        className="text-[11px] sm:text-[12px] md:text-[13px] leading-tight"
-        style={{
-          fontFamily: "var(--font-rajdhani), sans-serif",
-          color: "#E4DDD0",
-          fontWeight: 700,
-        }}
+        className="text-[11px] sm:text-[12px] md:text-[13px] leading-tight text-bone font-bold"
+        style={{ fontFamily: "var(--font-rajdhani), sans-serif" }}
       >
         {value}
       </div>
