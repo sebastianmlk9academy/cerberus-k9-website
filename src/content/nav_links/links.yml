@@ -41,3 +41,11 @@ links:
     path: kontakt
     order: 7
     active: true
+  - key: international
+    label_pl: DLA DELEGACJI
+    label_en: FOR DELEGATIONS
+    path: international
+    highlight: true
+    flag: ""
+    order: 85
+    active: true

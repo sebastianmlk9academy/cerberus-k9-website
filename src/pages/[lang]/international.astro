@@ -1,0 +1,131 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { locales } from '../../../locales.mjs';
+import { isLang } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+import { NavBar } from '../../components/NavBar';
+import InternationalPage from '../../components/InternationalPage';
+import { Footer } from '../../components/Footer';
+import { getSortedNavLinks } from '../../lib/getSortedNavLinks';
+import { footerCopyByLang } from '../../i18n/footer';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return locales.filter((l) => l !== 'en').map((lang) => ({ params: { lang } }));
+}
+
+const { lang: paramLang } = Astro.params;
+const lang: Lang = isLang(paramLang ?? '') ? (paramLang as Lang) : 'en';
+const settings = await getEntry('ustawienia', 'ustawienia');
+const s = settings?.data;
+const navLinks = await getSortedNavLinks(lang);
+
+const heroEntry = await getEntry('international_hero', 'hero');
+const protocolEntry = await getEntry('international_protocol', 'protocol');
+const contactEntry = await getEntry('international_contact', 'contact');
+const faqEntries = await getCollection('international_faq');
+const partners = await getCollection('partnerzy');
+
+const heroRaw = heroEntry?.data;
+const hero = heroRaw
+  ? {
+      ...heroRaw,
+      tag_en: heroRaw.tag_en || 'OFFICIAL DELEGATION ZONE',
+      title_en: heroRaw.title_en || 'FOR DELEGATIONS',
+      subtitle_en: heroRaw.subtitle_en || 'CERBERUS K9 2026 · 13–14 JUNE · OSTRÓW WIELKOPOLSKI, POLAND',
+      body_en:
+        heroRaw.body_en ||
+        'CERBERUS K9 welcomes official delegations from NATO member states, partner nations and allied organisations.',
+      cta_register_en: heroRaw.cta_register_en || 'REQUEST DELEGATION ACCREDITATION',
+      cta_program_en: heroRaw.cta_program_en || 'VIEW FULL PROGRAMME',
+    }
+  : null;
+
+const protocol = protocolEntry?.data.items ?? [];
+const contactRaw = contactEntry?.data;
+const contact = contactRaw
+  ? {
+      ...contactRaw,
+      title_en: contactRaw.title_en || 'Vice-President, PACTA K9 Foundation',
+      response_time_en: contactRaw.response_time_en || 'Response within 24 hours',
+    }
+  : null;
+
+const faq = faqEntries
+  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
+  .map((item) => ({
+    question: item.data.question_en || '',
+    answer: item.data.answer_en || '',
+  }));
+
+const confirmedCountries = partners
+  .filter((partner) => partner.data.type === 'strategic' || partner.data.type === 'honorary')
+  .map((partner) => partner.data.country_code)
+  .filter((code): code is string => Boolean(code));
+
+const registrationHref =
+  s?.registration_url?.trim() ||
+  s?.pretix_url?.trim() ||
+  s?.hero_cta_registration_href?.trim() ||
+  `/${lang}/rejestracja`;
+const programHref = `/${lang}/o-wydarzeniu#program`;
+---
+
+<BaseLayout
+  lang={lang}
+  title="For Delegations — CERBERUS K9 2026"
+  description={hero?.body_en ?? 'Official delegation zone for CERBERUS K9 2026.'}
+  localizedPath="international"
+  canonicalHref={`/${lang}/international`}
+  ogType="website"
+>
+  <NavBar lang={lang} client:load logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} links={navLinks} activeHref={Astro.url.pathname} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
+  {hero && contact ? (
+    <InternationalPage
+      client:load
+      hero={hero}
+      protocol={protocol}
+      faq={faq}
+      contact={contact}
+      lang={lang}
+      registrationHref={registrationHref}
+      programHref={programHref}
+      confirmedCountries={confirmedCountries}
+    />
+  ) : null}
+  <Footer
+    lang={lang}
+    copy={footerCopyByLang[lang] ?? footerCopyByLang['pl']}
+    logoSrc={s?.nav_logo}
+    logoAlt={s?.nav_logo_alt}
+    brandName={s?.brand_name}
+    brandTagline={s?.brand_tagline}
+    email={s?.footer_email ?? s?.registration_contact_email}
+    phone={s?.footer_phone ?? s?.contact_phone_sebastian}
+    socialFacebook={s?.social_facebook}
+    socialYoutube={s?.social_youtube}
+    socialInstagram={s?.social_instagram}
+    socialLinkedin={s?.social_linkedin}
+    socialTwitter={s?.social_twitter}
+    address={s?.footer_address}
+    foundationName={s?.footer_foundation_name}
+    domains={s?.footer_domains}
+    krsNumber={s?.krs_number}
+    nipNumber={s?.nip_number}
+    regonNumber={s?.regon_number}
+    footerLinks={{
+      about: s?.footer_link_about,
+      instructors: s?.footer_link_instructors,
+      registration: s?.footer_link_registration,
+      program: s?.footer_link_program,
+      gallery: s?.footer_link_gallery,
+      media: s?.footer_link_media,
+      news: s?.footer_link_news,
+      foundation: s?.footer_link_foundation,
+      partners: s?.footer_link_partners,
+      contact: s?.footer_link_contact,
+    }}
+  />
+</BaseLayout>

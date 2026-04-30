@@ -171,6 +171,8 @@ const partnerzy = defineCollection({
 	schema: z.object({
 		name: z.string().optional(),
 		type: partnerTypeSchema,
+		country: z.string().optional(),
+		country_code: COUNTRY_CODE.optional(),
 		logo: z.string().optional(),
 		website: z.string().optional(),
 		website_label: z.string().optional(),
@@ -643,6 +645,52 @@ const kontakt_content = defineCollection({
 		section_media_title_pl: z.string().optional().default('BEZPOŚREDNI KONTAKT'),
 		section_partnership_title_pl: z.string().optional().default('Zostań partnerem'),
 	})),
+});
+
+const international_hero = defineCollection({
+	loader: glob({ base: './src/content/international', pattern: 'hero.{yml,yaml}' }),
+	schema: z.object({
+		tag_en: z.string(),
+		tag_pl: z.string().optional(),
+		title_en: z.string(),
+		subtitle_en: z.string(),
+		body_en: z.string(),
+		cta_register_en: z.string(),
+		cta_program_en: z.string(),
+	}),
+});
+
+const international_protocol = defineCollection({
+	loader: glob({ base: './src/content/international', pattern: 'protocol.{yml,yaml}' }),
+	schema: z.object({
+		items: z.array(
+			z.object({
+				icon: z.string(),
+				title_en: z.string(),
+				body_en: z.string(),
+			}),
+		),
+	}),
+});
+
+const international_contact = defineCollection({
+	loader: glob({ base: './src/content/international', pattern: 'contact.{yml,yaml}' }),
+	schema: z.object({
+		name: z.string(),
+		title_en: z.string(),
+		email: z.string(),
+		phone: z.string(),
+		response_time_en: z.string(),
+	}),
+});
+
+const international_faq = defineCollection({
+	loader: glob({ base: './src/content/international_faq', pattern: '*.{yml,yaml}' }),
+	schema: z.object({
+		question_en: z.string(),
+		answer_en: z.string(),
+		order: z.number().int().optional().default(99),
+	}),
 });
 
 const faq = defineCollection({
@@ -1302,4 +1350,8 @@ export const collections = {
 	nav_links,
 	registration_info,
 	kontakt_content,
+	international_hero,
+	international_protocol,
+	international_contact,
+	international_faq,
 };
