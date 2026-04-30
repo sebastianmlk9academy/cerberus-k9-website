@@ -1,10 +1,10 @@
 year: 2025
 status: completed
-color_token: gold
+title_pl: CERBERUS K9 2025
+title_en: CERBERUS K9 2025
+subtitle_pl: Zakończona edycja
+subtitle_en: Completed edition
+color_token: red
 pulse: false
 order: 10
 isVisible: true
-title_pl: "CERBERUS K9 2025"
-title_en: "CERBERUS K9 2025"
-subtitle_pl: "Zakończona edycja"
-subtitle_en: "Completed edition"
