@@ -5,7 +5,6 @@ import { locales } from '../../i18n/utils';
 import { isLang } from '../../i18n/utils';
 import type { Lang } from '../../i18n/ui';
 import { homeSeoByLang } from '../../i18n/homeSeo';
-import { homeHeroCopyByLang } from '../../i18n/homeHero';
 import { footerCopyByLang } from '../../i18n/footer';
 import { homeStatsByLang } from '../../i18n/homeStats';
 import { statsEntriesToStatItems } from '../../lib/homepageStats';
@@ -38,7 +37,7 @@ const param = Astro.params.lang ?? '';
 const lang: Lang = isLang(param) ? param : 'en';
 
 const settings = await getEntry('ustawienia', 'ustawienia');
-const s = settings?.data;
+const s = settings?.data || {};
 const navLinks = await getSortedNavLinks(lang);
 
 const allArticles = await getCollection('aktualnosci');
@@ -135,32 +134,31 @@ const eventJsonLd = {
 
 	<NavBar lang={lang} client:load links={navLinks} activeHref={Astro.url.pathname} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
 	<HeroSection
-		lang={lang}
-		copy={homeHeroCopyByLang[lang] ?? homeHeroCopyByLang['pl']}
-		eventDate={s?.event_date}
-		heroImage={s?.hero_background_image}
-		heroOpacity={s?.hero_background_opacity}
-		eventTimeStart={s?.event_time_start ?? '10:00'}
-		eventTimezone={s?.event_timezone ?? 'Europe/Warsaw'}
-		heroTagline={s?.hero_tagline}
-		heroSublinePl={lang === 'pl' ? s?.hero_subline_pl : undefined}
-		heroTitleLine1={s?.hero_title_line1 ?? s?.hero_title}
-		heroTitleLine2={s?.hero_title_line2 ?? s?.hero_subtitle}
-		heroYear={s?.hero_year}
-		heroVideoHref={s?.hero_video_href ?? s?.main_video_youtube}
-		heroVideoTitle={s?.hero_video_title}
-		heroCloseLabelPl={s?.hero_close_label_pl}
-		heroMetaLocations={s?.hero_meta_locations}
-		heroMetaDelegations={s?.hero_meta_delegations}
-		heroMetaEntry={s?.hero_meta_entry}
-		ctaRegistrationHref={
-			s?.hero_cta_registration_href?.trim() ||
-				s?.pretix_url?.trim() ||
-				`/${lang}/rejestracja`
-		}
-		ctaProgramHref={s?.hero_cta_program_href?.trim() || `/${lang}/o-wydarzeniu#agenda`}
-		registrationActive={s?.registration_active ?? true}
 		client:load
+		lang={lang}
+		eventDate={s.event_date_display}
+		eventDateISO={s.event_date}
+		location={s.event_location ?? s.hero_meta_locations}
+		tagline={s.event_tagline ?? s.hero_tagline}
+		subtitle={s.hero_subtitle}
+		registrationUrl={s.registration_url?.trim() || s.pretix_url?.trim() || s.hero_cta_registration_href?.trim()}
+		registrationActive={s.registration_active ?? true}
+		showLiveCounter={s.show_live_counter !== false}
+		pretixApiAvailable={!!import.meta.env.PRETIX_API_TOKEN}
+		eventTimeStart={s.event_time_start ?? '10:00'}
+		eventTimezone={s.event_timezone ?? 'Europe/Warsaw'}
+		heroImage={s.hero_background_image}
+		heroOpacity={s.hero_background_opacity}
+		heroTitle={s.hero_title_line1 ?? s.hero_title}
+		heroTitleLine2={s.hero_title_line2}
+		heroYear={s.hero_year}
+		heroSublinePl={lang === 'pl' ? s.hero_subline_pl : undefined}
+		heroVideoHref={s.hero_video_href ?? s.main_video_youtube}
+		heroVideoTitle={s.hero_video_title}
+		heroCloseLabelPl={s.hero_close_label_pl}
+		heroMetaDelegations={s.hero_meta_delegations}
+		heroMetaEntry={s.hero_meta_entry}
+		ctaProgramHref={s.hero_cta_program_href?.trim() || `/${lang}/o-wydarzeniu#agenda`}
 	/>
 	<StatsBar lang={lang} stats={statsCopy} client:load />
 	<ProgramSection lang={lang} copy={programCopy} cards={programCards ?? undefined} client:load />

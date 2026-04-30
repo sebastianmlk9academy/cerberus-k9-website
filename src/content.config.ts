@@ -350,6 +350,15 @@ const ustawienia = defineCollection({
 		event_time_end: z.string().regex(/^\d{2}:\d{2}$/).optional().default('18:00'),
 		event_city: z.string(),
 		event_venue: z.string(),
+		/** Wyświetlana data hero (np. „13–14 CZERWCA 2026”); opcjonalnie — fallback z i18n. */
+		event_date_display: z.string().optional(),
+		/** Jedna linia lokalizacji hero (np. arena · miasto). */
+		event_location: z.string().optional(),
+		/** Alternatywa dla `hero_tagline` w hero strony głównej. */
+		event_tagline: z.string().optional(),
+		/** URL rejestracji; gdy pusty — `pretix_url` / `hero_cta_registration_href`. */
+		registration_url: z.string().optional(),
+		show_live_counter: z.boolean().optional().default(true),
 		participants_count: z.string(),
 		countries_count: z.string(),
 		dogs_count: z.string(),
