@@ -70,6 +70,7 @@ export default function InternationalPage({
   confirmedDelegations = [],
 }: InternationalPageProps) {
   const [showAllDelegations, setShowAllDelegations] = useState(false);
+  const [hoverProgram, setHoverProgram] = useState(false);
   const isPolish = lang === 'pl';
   const uniqueDelegations = confirmedDelegations.filter(
     (item, idx, arr) =>
@@ -103,7 +104,15 @@ export default function InternationalPage({
           </a>
           <a
             href={programHref}
-            className="inline-flex items-center justify-center rounded-none bg-gold px-6 py-3 text-xs font-bold tracking-[0.18em] text-navy transition-colors hover:bg-[#d6a944]"
+            className="inline-flex items-center justify-center rounded-none px-6 py-3 text-xs font-bold tracking-[0.18em] transition-colors"
+            style={{
+              fontFamily: 'var(--font-rajdhani), sans-serif',
+              backgroundColor: hoverProgram ? '#C4922A' : 'transparent',
+              color: hoverProgram ? '#1E2B38' : '#C4922A',
+              border: '1px solid #C4922A',
+            }}
+            onMouseEnter={() => setHoverProgram(true)}
+            onMouseLeave={() => setHoverProgram(false)}
           >
             {hero.cta_program_en}
           </a>
@@ -174,13 +183,30 @@ export default function InternationalPage({
           )}
         </div>
         {hasHiddenDelegations ? (
-          <div className="mt-4 text-center">
+          <div className="flex justify-center mt-6">
             <button
               type="button"
               onClick={() => setShowAllDelegations((prev) => !prev)}
-              className="font-rajdhani text-xs uppercase tracking-[2px] text-gold transition-colors hover:text-bone"
+              className="flex items-center justify-center cursor-pointer transition-colors text-[11px] sm:text-[12px] px-5 py-3 sm:px-6 sm:py-3.5"
+              style={{
+                backgroundColor: "transparent",
+                color: "#C4922A",
+                fontFamily: "var(--font-rajdhani), sans-serif",
+                letterSpacing: "3px",
+                fontWeight: 700,
+                borderRadius: 0,
+                border: "1px solid #C4922A",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = "#C4922A";
+                e.currentTarget.style.color = "#1E2B38";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "transparent";
+                e.currentTarget.style.color = "#C4922A";
+              }}
             >
-              {showAllDelegations ? 'Pokaż mniej' : 'Pokaż wszystkie'}
+              {showAllDelegations ? 'SHOW LESS' : 'SHOW MORE'}
             </button>
           </div>
         ) : null}
