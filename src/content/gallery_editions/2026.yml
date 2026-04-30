@@ -1,6 +1,6 @@
 value: "2026"
-label_pl: "Edycja 2026"
-label_en: "Edition 2026"
-date_start: "2026-06-13"
-order: 1
+label_pl: Edycja 2026
+label_en: Edition 2026
+date_start: 2026-06-13
+order: 2
 active: true
