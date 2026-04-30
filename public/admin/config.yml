@@ -2729,6 +2729,8 @@ collections:
     slug: "{{slug}}"
     identifier_field: "year"
     summary: "{{year}} — {{status}}"
+    extension: "yml"
+    format: "yaml"
     fields:
       - { name: "year", label: "Rok", widget: "number", hint: "Rok edycji, np. 2026." }
       - { name: "status", label: "Status", widget: "select", options: ["completed","current","planned","vision"], hint: "completed=zakończona, current=bieżąca, planned=zaplanowana, vision=wizja" }
@@ -3275,7 +3277,7 @@ collections:
     label_singular: "Edycja"
     folder: "src/content/gallery_editions"
     extension: "yml"
-    format: "yml"
+    format: "yaml"
     create: true
     delete: true
     slug: "{{value}}"
@@ -3325,7 +3327,7 @@ collections:
     label_singular: "Lokalizacja"
     folder: "src/content/gallery_locations"
     extension: "yml"
-    format: "yml"
+    format: "yaml"
     create: true
     delete: true
     slug: "{{value}}"
@@ -3376,7 +3378,7 @@ collections:
     label_singular: "Tag"
     folder: "src/content/gallery_tags"
     extension: "yml"
-    format: "yml"
+    format: "yaml"
     create: true
     delete: true
     slug: "{{key}}"
@@ -4522,6 +4524,8 @@ collections:
     preview_path: "/pl/ambasadorzy"
     media_folder: "public/uploads/ambasadorzy"
     public_folder: "/uploads/ambasadorzy"
+    extension: "yml"
+    format: "yaml"
     fields:
       - label: "👤 Imię i Nazwisko"
         name: "name"
@@ -4614,6 +4618,8 @@ collections:
     summary: "{{participant_name}} ? {{module}} ({{issue_date}})"
     media_folder: "public/uploads/certyfikaty/"
     public_folder: "/uploads/certyfikaty/"
+    extension: "yml"
+    format: "yaml"
     fields:
       - { name: "certificate_id", label: "ID certyfikatu", widget: "string", hint: "Unikalny identyfikator, np. CK9-2026-001." }
       - { name: "participant_name", label: "Imi? i nazwisko uczestnika", widget: "string", hint: "Pe?ne imi? i nazwisko, np. Jan Kowalski." }
@@ -4640,6 +4646,8 @@ collections:
     summary: "{{title_pl}} ? {{category}}"
     media_folder: "public/uploads/szkolenia/"
     public_folder: "/uploads/szkolenia/"
+    extension: "yml"
+    format: "yaml"
     fields:
       - { name: "title_pl", label: "Tytu? (PL)", widget: "string", hint: "Tytu? szkolenia po polsku, np. Szkolenie K9 Detekcja." }
       - { name: "title_en", label: "Tytu? (EN)", widget: "string", hint: "Tytu? szkolenia po angielsku, np. K9 Detection Training." }
@@ -4682,6 +4690,8 @@ collections:
     summary: "{{timestamp}} ? {{severity}}"
     media_folder: "public/uploads/live_updates/"
     public_folder: "/uploads/live_updates/"
+    extension: "yml"
+    format: "yaml"
     fields:
       - { name: "timestamp", label: "Data i czas", widget: "datetime", format: "YYYY-MM-DD", dateFormat: true, timeFormat: "HH:mm", hint: "Moment publikacji, np. 2026-06-13 14:35." }
       - { name: "title_pl", label: "Tytu? (PL)", widget: "string", hint: "Kr?tki tytu? po polsku, np. Start fina?u." }
@@ -4712,6 +4722,8 @@ collections:
     summary: "{{rank}}. {{competitor_name}} ? {{score}}"
     media_folder: "public/uploads/hardest_hit_results/"
     public_folder: "/uploads/hardest_hit_results/"
+    extension: "yml"
+    format: "yaml"
     fields:
       - { name: "competitor_name", label: "Zawodnik", widget: "string", hint: "Imi? i nazwisko zawodnika." }
       - { name: "dog_name", label: "Imi? psa", widget: "string", required: false, hint: "Imi? psa, np. Rex." }
@@ -4743,6 +4755,8 @@ collections:
     description: "Oferty sponsorskie PDF do pobrania przez potencjalnych partnerów."
     media_folder: "public/uploads/sponsor_materials"
     public_folder: "/uploads/sponsor_materials"
+    extension: "yml"
+    format: "yaml"
     fields:
       - label: "📝 Nazwa dokumentu"
         name: "title"
@@ -4797,6 +4811,8 @@ collections:
     summary: "{{title_pl}} ? {{license}}"
     media_folder: "public/uploads/press_photos/"
     public_folder: "/uploads/press_photos/"
+    extension: "yml"
+    format: "yaml"
     fields:
       - { name: "title_pl", label: "Tytu? (PL)", widget: "string", hint: "Tytu? pakietu po polsku." }
       - { name: "title_en", label: "Tytu? (EN)", widget: "string", hint: "Tytu? pakietu po angielsku." }
@@ -4824,6 +4840,8 @@ collections:
     identifier_field: "offer_title_pl"
     summary: "{{partner_name}} — {{offer_title_pl}}"
     description: "Zniżki i oferty od partnerów dla uczestników CERBERUS K9."
+    extension: "yml"
+    format: "yaml"
     fields:
       - name: "partner_name"
         label: "🤝 Partner"
