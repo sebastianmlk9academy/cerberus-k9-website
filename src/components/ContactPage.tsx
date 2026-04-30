@@ -27,6 +27,7 @@ interface ContactPageProps {
   contactFormRecipient?: string;
   /** Resolved GDPR checkbox label (e.g. from CMS per language). */
   gdprConsentText?: string;
+  gdprPolicyHref?: string;
   formLabels?: {
     name?: string;
     email?: string;
@@ -256,6 +257,7 @@ export function ContactPage({
   contactFormEndpoint,
   contactFormRecipient,
   gdprConsentText,
+  gdprPolicyHref,
   formLabels,
 }: ContactPageProps) {
   const resolvedMapUrl = mapEmbedUrl ?? DEFAULT_MAP_EMBED_URL;
@@ -274,6 +276,7 @@ export function ContactPage({
     (gdprConsentText ?? "").trim() ||
     c.privacyConsent ||
     "I have read the Privacy Policy and consent to personal data processing";
+  const resolvedGdprPolicyHref = (gdprPolicyHref ?? "/pl/polityka-prywatnosci").trim() || "/pl/polityka-prywatnosci";
   const resolvedSubjectOptions = (
     formLabels?.subjectOptions ??
     [
@@ -419,6 +422,11 @@ export function ContactPage({
           font: 500 13px/1.45 ${raj};
           color: ${textColor};
         }
+        .ck9-checkbox a {
+          color: #C4922A;
+          text-decoration: underline;
+          text-underline-offset: 2px;
+        }
         .ck9-contact-btn {
           width: 100%;
           border: 0;
@@ -554,7 +562,12 @@ export function ContactPage({
 
             <label className="ck9-checkbox" htmlFor="privacyConsent">
               <input id="privacyConsent" name="privacyConsent" type="checkbox" required />
-              <span>{resolvedGdprText}</span>
+              <span>
+                {resolvedGdprText}{" "}
+                <a href={resolvedGdprPolicyHref}>
+                  [Polityka prywatności]
+                </a>
+              </span>
             </label>
 
             <button className="ck9-contact-btn" type="submit" disabled={isSubmitting}>

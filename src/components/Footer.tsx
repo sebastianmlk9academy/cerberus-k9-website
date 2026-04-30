@@ -501,6 +501,20 @@ export function Footer({
             }}
           >
             {safeCopy.copyright}
+            <span className="text-muted text-[11px] tracking-[1px]"> {" · "} </span>
+            <a
+              href="/pl/polityka-prywatnosci"
+              className="text-muted hover:text-gold text-[11px] tracking-[1px] no-underline"
+            >
+              Polityka prywatności
+            </a>
+            <span className="text-muted text-[11px] tracking-[1px]"> {" | "} </span>
+            <a
+              href="/pl/regulamin"
+              className="text-muted hover:text-gold text-[11px] tracking-[1px] no-underline"
+            >
+              Regulamin
+            </a>
           </p>
           <div className="block w-full text-center md:w-auto">
             <p

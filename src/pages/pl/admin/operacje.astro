@@ -1,0 +1,64 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+export const prerender = true;
+
+const settings = await getEntry('ustawienia', 'ustawienia');
+const s = settings?.data;
+const liveUpdatesCount = (await getCollection('liveUpdates')).length;
+const hardestHitCount = (await getCollection('hardestHitResults')).length;
+const buildTime = import.meta.env.BUILD_TIME ?? new Date().toISOString();
+---
+
+<BaseLayout
+  lang="pl"
+  title="Operacje Eventowe | CERBERUS K9"
+  description="Wewnętrzny dashboard operacyjny na czas eventu."
+  canonicalHref="/pl/admin/operacje"
+  omitLocaleAlternates
+  robots="noindex, nofollow"
+>
+  <Fragment slot="head">
+    <meta name="robots" content="noindex, nofollow" />
+  </Fragment>
+
+  <main class="min-h-screen bg-navyDeep px-6 py-10 text-bone md:px-10">
+    <div class="mx-auto max-w-5xl space-y-8">
+      <header>
+        <p class="text-xs uppercase tracking-[3px] text-gold">CERBERUS K9</p>
+        <h1 class="mt-2 text-4xl font-normal tracking-[2px] text-bone">Dashboard Operacyjny</h1>
+        <p class="mt-2 text-sm text-muted">Panel do szybkiej kontroli publikacji i działań zespołu podczas eventu.</p>
+      </header>
+
+      <section class="border border-white/10 bg-navy/40 p-6">
+        <h2 class="mb-4 text-lg uppercase tracking-[3px] text-gold">Status systemu</h2>
+        <ul class="space-y-2 text-sm">
+          <li><strong>Build timestamp:</strong> {String(buildTime)}</li>
+          <li><strong>live_mode_active:</strong> {s?.live_mode_active ? 'TAK' : 'NIE'}</li>
+          <li><strong>notification_bar_active:</strong> {s?.notification_bar_active ? 'TAK' : 'NIE'}</li>
+          <li><strong>Liczba live_updates:</strong> {liveUpdatesCount}</li>
+          <li><strong>Liczba wyników HARDEST HIT:</strong> {hardestHitCount}</li>
+        </ul>
+      </section>
+
+      <section class="border border-white/10 bg-navy/40 p-6">
+        <h2 class="mb-4 text-lg uppercase tracking-[3px] text-gold">Szybkie linki operacyjne</h2>
+        <div class="flex flex-wrap gap-3 text-xs uppercase tracking-[2px]">
+          <a class="border border-gold/50 px-3 py-2 text-gold hover:border-gold hover:text-bone" href="/admin" target="_blank" rel="noopener noreferrer">/admin (Decap CMS)</a>
+          <a class="border border-gold/50 px-3 py-2 text-gold hover:border-gold hover:text-bone" href="/pl/live" target="_blank" rel="noopener noreferrer">/live podgląd</a>
+          <a class="border border-gold/50 px-3 py-2 text-gold hover:border-gold hover:text-bone" href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub Actions</a>
+        </div>
+      </section>
+
+      <section class="border border-white/10 bg-navy/40 p-6">
+        <h2 class="mb-4 text-lg uppercase tracking-[3px] text-gold">Instrukcja operacyjna</h2>
+        <ol class="list-decimal space-y-3 pl-5 text-sm leading-6 text-bone/90">
+          <li>Dodanie live update: przejdź do <code>/admin</code>, kolekcja <code>live_updates</code>, uzupełnij tytuł, treść i czas publikacji.</li>
+          <li>Dodanie wyniku HARDEST HIT: w <code>/admin</code> wybierz kolekcję <code>hardestHitResults</code>, ustaw rangę, zawodnika i wynik.</li>
+          <li>Zmiana <code>current_competitor</code>: edytuj wpis ustawień w CMS i opublikuj, a następnie odśwież <code>/pl/live</code>.</li>
+        </ol>
+      </section>
+    </div>
+  </main>
+</BaseLayout>

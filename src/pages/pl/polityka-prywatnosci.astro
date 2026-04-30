@@ -1,0 +1,34 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { NavBar } from '../../components/NavBar';
+import { Footer } from '../../components/Footer';
+import { footerCopyByLang } from '../../i18n/footer';
+import { getSortedNavLinks } from '../../lib/getSortedNavLinks';
+import PrivacyPolicyContent from '../../content/policies/privacy-policy.md';
+
+export const prerender = true;
+
+const lang = 'pl';
+const settings = await getEntry('ustawienia', 'ustawienia');
+const s = settings?.data;
+const navLinks = await getSortedNavLinks(lang);
+---
+
+<BaseLayout
+  lang={lang}
+  title="Polityka Prywatności | CERBERUS K9"
+  description="Polityka prywatności Fundacji PACTA K9 i wydarzenia CERBERUS K9."
+  canonicalHref="/pl/polityka-prywatnosci"
+  omitLocaleAlternates
+>
+  <NavBar client:load lang={lang} logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} links={navLinks} activeHref={Astro.url.pathname} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
+  <main class="bg-navyDeep px-6 py-[60px] text-bone">
+    <article class="mx-auto max-w-4xl leading-7">
+      <div class="[&_h1]:mb-6 [&_h1]:text-4xl [&_h1]:text-bone [&_h2]:mb-3 [&_h2]:mt-8 [&_h2]:text-2xl [&_h2]:text-gold [&_p]:mb-4 [&_li]:mb-2 [&_a]:text-gold">
+        <PrivacyPolicyContent />
+      </div>
+    </article>
+  </main>
+  <Footer lang={lang} copy={footerCopyByLang[lang] ?? footerCopyByLang['pl']} />
+</BaseLayout>
