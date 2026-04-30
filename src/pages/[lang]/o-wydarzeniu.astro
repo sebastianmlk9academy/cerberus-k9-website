@@ -11,6 +11,7 @@ import { PageHero } from '../../components/PageHero';
 import InteractiveAgenda from '../../components/InteractiveAgenda';
 import { LocationsSection } from '../../components/LocationsSection';
 import FAQAccordion from '../../components/FAQAccordion';
+import { ScheduleBuilder } from '../../components/ScheduleBuilder';
 import { Footer } from '../../components/Footer';
 import { footerCopyByLang } from '../../i18n/footer';
 import { locationsSectionByLang } from '../../i18n/locationsSection';
@@ -109,6 +110,35 @@ const agendaCategories: AgendaCategory[] = categoryEntries
 		show_calendar_button: c.data.show_calendar_button ?? true,
 		order: c.data.order ?? 99,
 	}));
+const colorByCategory = new Map(agendaCategories.map((c) => [c.key.trim().toUpperCase(), c.color]));
+function audienceCsv(audience: string | string[] | undefined): string {
+	if (audience == null) return 'wszyscy';
+	if (Array.isArray(audience)) return audience.join(',');
+	return audience;
+}
+const scheduleModules = programEntries
+	.filter((p) => p.data.isVisible !== false && p.data.active !== false && !p.data.is_break)
+	.sort((a, b) => {
+		const da = (a.data.day ?? '').localeCompare(b.data.day ?? '');
+		if (da !== 0) return da;
+		return (a.data.order ?? 99) - (b.data.order ?? 99);
+	})
+	.map((p) => {
+		const catKey = (p.data.category ?? '').trim().toUpperCase();
+		return {
+			id: p.id,
+			title: (lang === 'pl' ? p.data.title_pl : undefined) ?? p.data.title,
+			day: String(p.data.day),
+			timeStart: p.data.time_start,
+			timeEnd: p.data.time_end,
+			location: p.data.location ?? '',
+			category: p.data.category,
+			color: colorByCategory.get(catKey) ?? '#C42B2B',
+			icon: '🐕',
+			audience: audienceCsv(p.data.audience as string | string[] | undefined),
+			maxParticipants: p.data.maxParticipants,
+		};
+	});
 const { days: agendaDays, categoryMeta } = programEntriesToAgendaItems(
 	programEntries.filter((e) => e.data.active !== false),
 	lang,
@@ -224,6 +254,14 @@ const eventSchema = {
 			</div>
 		</div>
 	</section>
+
+	<ScheduleBuilder
+		client:visible
+		modules={scheduleModules}
+		lang={lang}
+		eventDateStart={startDate}
+		eventDateEnd={endDate}
+	/>
 
 	<div id="program">
 	<InteractiveAgenda

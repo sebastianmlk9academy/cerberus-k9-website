@@ -261,6 +261,8 @@ const program = defineCollection({
 		time_start: z.string().regex(/^\d{2}:\d{2}$/),
 		time_end: z.string().regex(/^\d{2}:\d{2}$/),
 		title: z.string(),
+		/** Opcjonalny tytuł PL (ScheduleBuilder / CMS); domyślnie `title`. */
+		title_pl: z.string().optional(),
 		location: z.string().optional().default(''),
 		locationMapUrl: z.string().optional().default(''),
 		category: z.string(),
@@ -270,6 +272,9 @@ const program = defineCollection({
 		order: z.number().optional().default(99),
 		active: z.boolean().optional().default(true),
 		needs_review: z.boolean().optional().default(false),
+		isVisible: z.boolean().optional().default(true),
+		audience: z.union([z.array(z.string()), z.string()]).optional(),
+		maxParticipants: z.number().optional(),
 	}),
 });
 

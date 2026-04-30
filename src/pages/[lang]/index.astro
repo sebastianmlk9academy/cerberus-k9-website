@@ -9,7 +9,8 @@ import { footerCopyByLang } from '../../i18n/footer';
 import { homeStatsByLang } from '../../i18n/homeStats';
 import { statsEntriesToStatItems } from '../../lib/homepageStats';
 import { programSectionByLang } from '../../i18n/programSection';
-import { cardEntriesToProgramCards } from '../../lib/homepageCards';
+import type { AgendaCategory } from '../../lib/agendaCategories';
+import { programEntriesToHomepageCards } from '../../lib/programToHomepageCards';
 import { partnerEntriesToStripItems } from '../../lib/partnersStrip';
 import { locationsSectionByLang } from '../../i18n/locationsSection';
 import { videoSectionByLang } from '../../i18n/videoSection';
@@ -52,8 +53,8 @@ const latestForListing = aktualnosciToListingArticles(allArticles, lang).slice(0
 	date: a.date,
 }));
 
-const plausibleDomain = s?.plausible_domain ?? 'cerberusk9.org';
-const twitterHandle = s?.twitter_handle ?? '@cerberusk9';
+const plausibleDomain = (s?.plausible_domain ?? '').trim();
+const twitterHandle = (s?.twitter_handle ?? '').trim() || undefined;
 const seo = homeSeoByLang[lang] ?? homeSeoByLang['pl'];
 const safeUi = ui[lang] ?? ui.pl;
 const seoTitle = safeUi.meta_title_home ?? seo.title;
@@ -77,12 +78,27 @@ const statsCopy =
 			}));
 
 const partnersData = await getCollection('partnerzy');
-const cardEntries = await getCollection('homepage_cards');
+const programEntries = await getCollection('program');
+const categoryEntries = await getCollection('agenda_categories');
+const agendaCategoriesForCards: AgendaCategory[] = categoryEntries
+	.filter((c) => c.data.active !== false)
+	.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
+	.map((c) => ({
+		key: c.data.key,
+		label_pl: c.data.label_pl,
+		label_en: c.data.label_en ?? c.data.label_pl,
+		color: c.data.color,
+		show_in_filter: c.data.show_in_filter ?? true,
+		show_calendar_button: c.data.show_calendar_button ?? true,
+		order: c.data.order ?? 99,
+	}));
+const programCards = programEntriesToHomepageCards(programEntries, lang, s?.event_date, {
+	limit: 6,
+	categories: agendaCategoriesForCards,
+});
 const stripPartners = partnerEntriesToStripItems(partnersData);
 const programCopy = programSectionByLang[lang] ?? programSectionByLang['pl'];
 const locationsCopy = locationsSectionByLang[lang] ?? locationsSectionByLang['pl'];
-const programCards =
-	cardEntries.length > 0 ? cardEntriesToProgramCards(cardEntries, lang) : null;
 const videoCopy = videoSectionByLang[lang] ?? videoSectionByLang['pl'];
 const newsCopy = latestNewsByLang[lang] ?? latestNewsByLang['pl'];
 
@@ -91,45 +107,51 @@ const timeline = (await getCollection('timeline'))
 	.sort((a, b) => a.data.order - b.data.order)
 	.map((t) => t.data);
 
-const testimonials = (await getCollection('testimonials').catch(() => []))
+const testimonials = (await getCollection('testimonials'))
 	.filter((t) => t.data.isVisible !== false)
 	.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
-	.slice(0, 3)
 	.map((t) => t.data);
 
+const rawParticipantsNum = Number.parseInt(String(s?.participants_count ?? '').replace(/\D/g, ''), 10);
+const heroParticipantsMax =
+	Number.isFinite(rawParticipantsNum) && rawParticipantsNum > 0 ? rawParticipantsNum : undefined;
+
 const eventImagePath = s?.og_image_default ?? '/og-cerberus-k9-2026.jpg';
+const siteOrigin = (s?.site_url && String(s.site_url).replace(/\/$/, '')) || new URL(Astro.site ?? Astro.url).origin;
 const eventJsonLd = {
 	'@context': 'https://schema.org',
 	'@type': 'Event',
-	name: `CERBERUS K9 ${new Date(s?.event_date ?? '2026-06-13').getFullYear()}`,
-	startDate: `${s?.event_date ?? '2026-06-13'}T${s?.event_time_start ?? '09:00'}:00`,
-	endDate: `${s?.event_date_end ?? '2026-06-14'}T${s?.event_time_end ?? '18:00'}:00`,
+	name: seoTitle,
+	...(s?.event_date && s?.event_time_start
+		? { startDate: `${s.event_date}T${s.event_time_start}:00` }
+		: {}),
+	...(s?.event_date_end && s?.event_time_end ? { endDate: `${s.event_date_end}T${s.event_time_end}:00` } : {}),
 	eventStatus: 'https://schema.org/EventScheduled',
 	eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
 	location: {
 		'@type': 'Place',
-		name: s?.event_venue ?? '3MK Arena',
+		name: s?.event_venue ?? '',
 		address: {
 			'@type': 'PostalAddress',
 			streetAddress: s?.venue_address ?? '',
-			addressLocality: s?.event_city ?? 'Ostrów Wielkopolski',
+			addressLocality: s?.event_city ?? '',
 			addressCountry: 'PL',
 		},
 	},
 	organizer: {
 		'@type': 'Organization',
-		name: s?.footer_foundation_name ?? 'Fundacja PACTA K9',
-		url: s?.site_url ?? 'https://cerberusk9.org',
+		name: s?.footer_foundation_name ?? '',
+		url: siteOrigin,
 	},
 	offers: {
 		'@type': 'Offer',
 		price: '0',
 		priceCurrency: 'PLN',
 		availability: 'https://schema.org/InStock',
-		url: s?.pretix_url ?? '',
+		url: (s?.pretix_url ?? s?.registration_url ?? '').trim(),
 	},
 	image: new URL(eventImagePath, Astro.site ?? Astro.url).href,
-	url: s?.site_url ?? 'https://cerberusk9.org',
+	url: siteOrigin,
 };
 ---
 
@@ -142,10 +164,10 @@ const eventJsonLd = {
 	ogType="website"
 	twitterHandle={twitterHandle}
 >
-	<script defer data-domain={plausibleDomain} src="https://plausible.io/js/plausible.js"></script>
+	{plausibleDomain ? <script defer data-domain={plausibleDomain} src="https://plausible.io/js/plausible.js" /> : null}
 	<script type="application/ld+json" set:html={JSON.stringify(eventJsonLd)} />
 
-	<NavBar lang={lang} client:load links={navLinks} activeHref={Astro.url.pathname} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
+	<NavBar lang={lang} client:visible links={navLinks} activeHref={Astro.url.pathname} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
 	<HeroSection
 		client:load
 		lang={lang}
@@ -157,9 +179,9 @@ const eventJsonLd = {
 		registrationUrl={s.registration_url?.trim() || s.pretix_url?.trim() || s.hero_cta_registration_href?.trim()}
 		registrationActive={s.registration_active ?? true}
 		showLiveCounter={s?.show_live_counter ?? false}
-		participantsMax={Math.max(1, parseInt(String(s?.participants_count ?? '250'), 10) || 250)}
-		eventTimeStart={s.event_time_start ?? '10:00'}
-		eventTimezone={s.event_timezone ?? 'Europe/Warsaw'}
+		participantsMax={heroParticipantsMax}
+		eventTimeStart={s?.event_time_start}
+		eventTimezone={s?.event_timezone}
 		heroImage={s.hero_background_image}
 		heroOpacity={s.hero_background_opacity}
 		heroTitle={s.hero_title_line1 ?? s.hero_title}
@@ -173,10 +195,10 @@ const eventJsonLd = {
 		heroMetaEntry={s.hero_meta_entry}
 		ctaProgramHref={s.hero_cta_program_href?.trim() || `/${lang}/o-wydarzeniu#agenda`}
 	/>
-	<StatsBar lang={lang} stats={statsCopy} client:load />
+	<StatsBar lang={lang} stats={statsCopy} client:visible />
 	<CerberusTimeline client:visible nodes={timeline} lang={lang} />
-	<ProgramSection lang={lang} copy={programCopy} cards={programCards ?? undefined} client:load />
-	<LocationsSection lang={lang} copy={locationsCopy} client:load />
+	<ProgramSection lang={lang} copy={programCopy} cards={programCards.length > 0 ? programCards : undefined} client:visible />
+	<LocationsSection lang={lang} copy={locationsCopy} client:visible />
 	<VideoSection
 		lang={lang}
 		copy={videoCopy}
@@ -189,16 +211,16 @@ const eventJsonLd = {
 		video3Badge={s?.video_badge_3}
 		video4Url={s?.video_url_4}
 		video4Badge={s?.video_badge_4}
-		client:load
+		client:visible
 	/>
 	<PartnersStrip
 		copy={partnersStripByLang[lang] ?? partnersStripByLang['pl']}
 		partners={stripPartners}
 		partnerCtaHref={s?.partner_cta_href}
-		client:load
+		client:visible
 	/>
 	<WallOfFame client:visible testimonials={testimonials} lang={lang} />
-	<LatestNews lang={lang} copy={newsCopy} articles={latestForListing} client:load />
+	<LatestNews lang={lang} copy={newsCopy} articles={latestForListing} client:visible />
 	<Footer
 		lang={lang}
 		copy={footerCopy}
