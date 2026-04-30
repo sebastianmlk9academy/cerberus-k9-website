@@ -1450,8 +1450,6 @@ collections:
     create: true
     delete: true
     slug: "{{slug}}"
-    extension: "md"
-    format: "frontmatter"
     fields:
       - name: "category"
         label: "🏷️ Kategoria karty"
@@ -1783,8 +1781,6 @@ collections:
     create: true
     delete: true
     slug: "{{slug}}"
-    extension: "md"
-    format: "frontmatter"
     fields:
       - name: "stat_key"
         label: "🔑 Klucz statystyki"
@@ -1932,8 +1928,6 @@ collections:
     slug: "{{slug}}"
     identifier_field: "name"
     summary: "{{name}} — {{address}} ({{order}})"
-    extension: "md"
-    format: "frontmatter"
     fields:
       - name: "name"
         label: "📍 Nazwa lokalizacji"
@@ -2930,8 +2924,6 @@ collections:
     slug: "{{slug}}"
     identifier_field: "name"
     summary: "{{name}} — {{type}} ({{order}})"
-    extension: "md"
-    format: "frontmatter"
     fields:
       - name: "name"
         label: "✒️ Nazwa partnera"
@@ -3016,8 +3008,6 @@ collections:
     slug: "{{slug}}"
     identifier_field: "outlet"
     summary: "{{outlet}} — {{badge}} ({{order}})"
-    extension: "md"
-    format: "frontmatter"
     fields:
       - name: "outlet"
         label: "📰 Outlet / redakcja"
@@ -3082,8 +3072,6 @@ collections:
     slug: "{{slug}}"
     identifier_field: "title"
     summary: "{{title}} ({{date}})"
-    extension: "md"
-    format: "frontmatter"
     fields:
       - name: "title"
         label: "📝 Tytuł wpisu prasowego"
@@ -3138,8 +3126,6 @@ collections:
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     identifier_field: "title"
     summary: "{{title}} — {{category}}"
-    extension: "md"
-    format: "frontmatter"
     fields:
       - name: "title"
         label: "📝 Tytuł artykułu"
@@ -3429,8 +3415,6 @@ collections:
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     identifier_field: "photo"
     summary: "{{title}} — {{edition}}/{{location}} ({{order}})"
-    extension: "md"
-    format: "frontmatter"
     fields:
       - name: "title"
         label: "📝 Tytuł zdjęcia"
@@ -4480,8 +4464,6 @@ collections:
     slug: "{{slug}}"
     identifier_field: "title"
     summary: "{{title}} — {{pubDate}}"
-    extension: "md"
-    format: "frontmatter"
     fields:
       - name: "title"
         label: "📝 Tytuł"
@@ -4923,4 +4905,137 @@ collections:
         widget: "boolean"
         default: true
         hint: "true = widoczna, false = ukryta po wygaśnięciu."
+
+  - name: "registration_paths"
+    label: "🧭 Rejestracja — Ścieżki"
+    folder: "src/content/registration_paths"
+    create: true
+    slug: "{{slug}}"
+    extension: "yml"
+    format: "yaml"
+    fields:
+      - { label: "Slug", name: "slug", widget: "string" }
+      - { label: "Tytuł PL", name: "title_pl", widget: "string" }
+      - { label: "Widoczny", name: "isVisible", widget: "boolean", default: true }
+
+  - name: "testimonials"
+    label: "💬 Testimonials"
+    folder: "src/content/testimonials"
+    create: true
+    slug: "{{slug}}"
+    extension: "yml"
+    format: "yaml"
+    fields:
+      - { label: "Cytat PL", name: "quote_pl", widget: "text" }
+      - { label: "Cytat EN", name: "quote_en", widget: "text" }
+      - { label: "Autor PL", name: "name_pl", widget: "string" }
+      - { label: "Widoczny", name: "isVisible", widget: "boolean", default: true }
+
+  - name: "galleryEditions"
+    label: "🖼️ Galeria — Edycje (Astro key)"
+    folder: "src/content/gallery_editions"
+    create: true
+    slug: "{{slug}}"
+    extension: "yml"
+    format: "yaml"
+    fields:
+      - { label: "Wartość", name: "value", widget: "string" }
+      - { label: "Etykieta PL", name: "label_pl", widget: "string" }
+      - { label: "Aktywna", name: "active", widget: "boolean", default: true }
+
+  - name: "galleryLocations"
+    label: "📍 Galeria — Lokalizacje (Astro key)"
+    folder: "src/content/gallery_locations"
+    create: true
+    slug: "{{slug}}"
+    extension: "yml"
+    format: "yaml"
+    fields:
+      - { label: "Wartość", name: "value", widget: "string" }
+      - { label: "Etykieta PL", name: "label_pl", widget: "string" }
+      - { label: "Aktywna", name: "active", widget: "boolean", default: true }
+
+  - name: "galleryTags"
+    label: "🏷️ Galeria — Tagi (Astro key)"
+    folder: "src/content/gallery_tags"
+    create: true
+    slug: "{{slug}}"
+    extension: "yml"
+    format: "yaml"
+    fields:
+      - { label: "Klucz", name: "key", widget: "string" }
+      - { label: "Etykieta PL", name: "label_pl", widget: "string" }
+      - { label: "Aktywny", name: "active", widget: "boolean", default: true }
+
+  - name: "liveUpdates"
+    label: "🔴 Live Updates (Astro key)"
+    folder: "src/content/live_updates"
+    create: true
+    slug: "{{slug}}"
+    extension: "yml"
+    format: "yaml"
+    fields:
+      - { label: "Tytuł PL", name: "title_pl", widget: "string" }
+      - { label: "Wiadomość PL", name: "message_pl", widget: "text" }
+      - { label: "Publiczne", name: "isPublic", widget: "boolean", default: true }
+
+  - name: "hardestHitResults"
+    label: "🥊 Hardest Hit — Wyniki (Astro key)"
+    folder: "src/content/hardest_hit_results"
+    create: true
+    slug: "{{slug}}"
+    extension: "yml"
+    format: "yaml"
+    fields:
+      - { label: "Edycja", name: "edition", widget: "string" }
+      - { label: "Zawodnik", name: "competitor_name", widget: "string" }
+      - { label: "Wynik", name: "score", widget: "number" }
+
+  - name: "sponsorMaterials"
+    label: "📦 Materiały sponsorskie (Astro key)"
+    folder: "src/content/sponsor_materials"
+    create: true
+    slug: "{{slug}}"
+    extension: "yml"
+    format: "yaml"
+    fields:
+      - { label: "Tytuł", name: "title", widget: "string" }
+      - { label: "Plik", name: "file", widget: "string" }
+      - { label: "Kategoria", name: "category", widget: "string" }
+
+  - name: "pressPhotos"
+    label: "📸 Press Photos (Astro key)"
+    folder: "src/content/press_photos"
+    create: true
+    slug: "{{slug}}"
+    extension: "yml"
+    format: "yaml"
+    fields:
+      - { label: "Tytuł PL", name: "title_pl", widget: "string" }
+      - { label: "Tytuł EN", name: "title_en", widget: "string" }
+      - { label: "Zdjęcie", name: "photo", widget: "string" }
+
+  - name: "partnerOffers"
+    label: "🎁 Oferty partnerów (Astro key)"
+    folder: "src/content/partner_offers"
+    create: true
+    slug: "{{slug}}"
+    extension: "yml"
+    format: "yaml"
+    fields:
+      - { label: "Partner", name: "partner_name", widget: "string" }
+      - { label: "Tytuł PL", name: "offer_title_pl", widget: "string" }
+      - { label: "Tytuł EN", name: "offer_title_en", widget: "string" }
+
+  - name: "international_faq"
+    label: "🌍 International FAQ"
+    folder: "src/content/international_faq"
+    create: true
+    slug: "{{slug}}"
+    extension: "yml"
+    format: "yaml"
+    fields:
+      - { label: "Pytanie EN", name: "question_en", widget: "string" }
+      - { label: "Odpowiedź EN", name: "answer_en", widget: "text" }
+      - { label: "Kolejność", name: "order", widget: "number", default: 99 }
 
