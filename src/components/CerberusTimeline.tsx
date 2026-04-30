@@ -44,6 +44,21 @@ export function CerberusTimeline({ nodes, lang }: Props) {
 				}
 			`}</style>
 			<div className="mx-auto max-w-6xl">
+				<div className="mb-8 text-center">
+					<div className="mb-4 flex items-center justify-center gap-4">
+						<div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
+						<span className="font-[family-name:var(--font-rajdhani)] text-[12px] font-medium tracking-[5px] text-[#C42B2B]">
+							{lang === 'pl' ? 'OŚ CZASU' : 'TIMELINE'}
+						</span>
+						<div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#C42B2B]/40 to-transparent" />
+					</div>
+					<h2
+						className="font-[family-name:var(--font-rajdhani)] uppercase text-2xl sm:text-3xl lg:text-[32px]"
+						style={{ fontWeight: 700, color: '#E4DDD0', letterSpacing: '2px' }}
+					>
+						{lang === 'pl' ? 'DOKĄD ZMIERZAMY' : 'WHERE WE ARE HEADING'}
+					</h2>
+				</div>
 				{/* Mobile: vertical */}
 				<div className="relative space-y-0 pl-8 md:hidden">
 					<div className="absolute left-[15px] top-2 bottom-2 w-px bg-border" aria-hidden />
