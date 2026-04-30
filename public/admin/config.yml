@@ -40,7 +40,7 @@ collections:
               - name: "event_date"
                 label: "📅 Data startu wydarzenia"
                 widget: "datetime"
-                hint: "Używana w odliczaniu na stronie głównej i w JSON-LD wydarzenia."
+                hint: "📍 Gdzie: cała strona → odliczanie, stopka, JSON-LD. ⚠️ Format: RRRR-MM-DD. ✏️ Przykład: 2026-06-13"
                 required: true
                 format: "YYYY-MM-DD"
                 date_format: "DD.MM.YYYY"
@@ -48,7 +48,7 @@ collections:
               - name: "event_date_end"
                 label: "📅 Data końca wydarzenia"
                 widget: "datetime"
-                hint: "Data zakończenia — JSON-LD i nagłówki agendy."
+                hint: "📍 Gdzie: cała strona → meta daty, stopka. ⚠️ Musi być późniejsza niż event_date. ✏️ Przykład: 2026-06-14"
                 required: true
                 format: "YYYY-MM-DD"
                 date_format: "DD.MM.YYYY"
@@ -56,12 +56,12 @@ collections:
               - name: "event_city"
                 label: "🏙️ Miasto wydarzenia"
                 widget: "string"
-                hint: "Miasto w schemacie wydarzenia i treściach kontaktowych."
+                hint: "📍 Gdzie: strona główna → Hero, stopka, SEO. ⚠️ Max 30 znaków. ✏️ Przykład: Ostrów Wielkopolski"
                 required: true
               - name: "event_venue"
                 label: "🏟️ Główna lokalizacja (nazwa)"
                 widget: "string"
-                hint: "Nazwa miejsca w JSON-LD i komunikatach."
+                hint: "📍 Gdzie: strona główna → Hero, /strefa-uczestnika. ⚠️ Max 30 znaków. ✏️ Przykład: 3MK Arena"
                 required: true
               - name: "event_time_start"
                 label: "⏰ Godzina startu (HH:MM)"
@@ -116,21 +116,19 @@ collections:
               - name: "hero_title"
                 label: "🦁 Pierwsza linia tytułu H1"
                 widget: "string"
-                hint: >
-                  📍 Gdzie: pierwsza linia dużego nagłówka hero na stronie głównej.
-                  ✏️ Np. CERBERUS — główna marka wydarzenia.
+                hint: "📍 Gdzie: strona główna → Hero, duży napis na górze. ⚠️ Max 10 znaków, WIELKIE LITERY. ✏️ Przykład: CERBERUS"
                 required: false
                 default: "CERBERUS"
               - name: "hero_subtitle"
                 label: "🎯 Akcent w tytule (np. K9)"
                 widget: "string"
-                hint: "Drugie słowo w drugiej linii H1."
+                hint: "📍 Gdzie: strona główna → Hero, czerwony napis obok tytułu. ⚠️ Max 5 znaków. ✏️ Przykład: K9"
                 required: false
                 default: "K9"
               - name: "hero_year"
                 label: "📆 Rok w nagłówku"
                 widget: "string"
-                hint: "Rok edycji przy drugiej linii H1."
+                hint: "📍 Gdzie: strona główna → Hero, rok przy tytule. ⚠️ 4 cyfry. ✏️ Przykład: 2026"
                 required: false
                 default: "2026"
               - name: "hero_meta_locations"
@@ -286,11 +284,14 @@ collections:
               - name: "registration_active"
                 label: "✅ Rejestracja w menu i hero"
                 widget: "boolean"
-                hint: >
-                  true = widoczny przycisk REJESTRACJA w pasku nawigacji oraz CTA rejestracji w sekcji hero na stronie głównej.
-                  false = przyciski ukryte; linki w treściach zostają w pliku — nie usuwają wpisów.
+                hint: "📍 Gdzie: strona główna → przycisk REJESTRACJA, NavBar. ⚠️ Wyłącz gdy rejestracja zamknięta — przycisk zniknie ze strony. ✏️ TAK = rejestracja otwarta, NIE = zamknięta"
                 required: true
                 default: true
+              - name: "mobile_sticky_cta_active"
+                label: "Mobilny sticky CTA aktywny"
+                widget: "boolean"
+                default: false
+                hint: "📍 Gdzie: telefony → czerwony przycisk przyklejony na dole ekranu. ⚠️ Włącz gdy rejestracja aktywna. Wyłącz gdy rejestracja zamknięta. ✏️ TAK = przycisk widoczny na telefonie"
               - name: "show_live_counter"
                 label: "Licznik rejestracji aktywny"
                 widget: "boolean"
@@ -347,25 +348,25 @@ collections:
               - name: "participants_count"
                 label: "👥 Uczestnicy (tekst statystyki)"
                 widget: "string"
-                hint: "Wartość w pasku statystyk gdy brak wpisów homepage_stats."
+                hint: "📍 Gdzie: strona główna → pasek statystyk. ⚠️ Użyj + na końcu dla przybliżeń. ✏️ Przykład: 250+"
                 required: true
                 default: "250+"
               - name: "countries_count"
                 label: "🌐 Kraje (tekst statystyki)"
                 widget: "string"
-                hint: "Wartość w pasku statystyk — fallback."
+                hint: "📍 Gdzie: strona główna → pasek statystyk. ⚠️ Użyj + na końcu. ✏️ Przykład: 15+"
                 required: true
                 default: "15+"
               - name: "dogs_count"
                 label: "🐕 Psy K9 (tekst)"
                 widget: "string"
-                hint: "Tekst liczby psów w statystykach."
+                hint: "📍 Gdzie: strona główna → pasek statystyk. ⚠️ Użyj + na końcu. ✏️ Przykład: 80+"
                 required: true
                 default: "80+"
               - name: "modules_count"
                 label: "📚 Moduły (tekst)"
                 widget: "string"
-                hint: "Tekst liczby modułów w statystykach."
+                hint: "📍 Gdzie: strona główna → pasek statystyk. ⚠️ Podaj dokładną liczbę. ✏️ Przykład: 8"
                 required: true
                 default: "8"
               - name: "participants_registered"
@@ -537,7 +538,7 @@ collections:
               - name: "pretix_url"
                 label: "🎟️ URL sklepu Pretix"
                 widget: "string"
-                hint: "Rejestracja — przyciski i embed na /rejestracja."
+                hint: "📍 Gdzie: wszystkie przyciski REJESTRACJA na całej stronie. ⚠️ Musi zaczynać się od https://. Wypełnia Sebastian po konfiguracji Pretix. ✏️ Przykład: https://pretix.eu/MLK9-LLK9/CERBERUS/"
                 required: true
                 pattern:
                   - "^https?://.+$"
@@ -628,24 +629,24 @@ collections:
               - name: "live_mode_active"
                 label: "🔴 Tryb LIVE"
                 widget: "boolean"
-                hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+                hint: "📍 Gdzie: strona /live → aktywacja trybu live. ⚠️ Włącz TYLKO 13-14 czerwca podczas eventu. Wyłącz po evencie! ✏️ TAK = strona /live aktywna"
                 required: false
                 default: false
               - name: "current_competitor"
                 label: "🏅 Aktualny uczestnik (LIVE)"
                 widget: "string"
-                hint: "Pole dla trybu LIVE; gdy LIVE nieużywany, zostaw puste."
+                hint: "📍 Gdzie: strona /live → napis AKTUALNIE NA TORZE. ⚠️ Aktualizuj na żywo podczas HARDEST HIT. Max 50 znaków. ✏️ Przykład: Jan Kowalski — Polska"
                 required: false
               - name: "notification_bar_active"
                 label: "Pasek powiadomień aktywny"
                 widget: "boolean"
-                hint: "Włącza pasek na górze strony. Tekst i ewentualny link ustaw poniżej."
+                hint: "📍 Gdzie: wszystkie strony → czerwony pasek na samej górze. ⚠️ Włącz tylko gdy masz ważny komunikat. Wyłącz po evencie. ✏️ TAK = pasek widoczny"
                 required: false
                 default: false
               - name: "notification_bar_severity"
                 label: "Typ paska"
                 widget: "select"
-                hint: "Kolor tła: pilny (czerwony), informacja (granat), sukces (zielony)."
+                hint: "📍 Gdzie: pasek komunikatu → kolor tła. ⚠️ urgent=czerwony (pilne), info=granatowy (informacja), success=zielony (dobra wiadomość). ✏️ Przykład: urgent"
                 required: false
                 default: "info"
                 options:
@@ -655,12 +656,12 @@ collections:
               - name: "notification_bar_text_pl"
                 label: "Tekst paska (PL)"
                 widget: "string"
-                hint: "Krótki, naglący, max 60 znaków. Dismiss w przeglądarce jest powiązany z tym tekstem (PL)."
+                hint: "📍 Gdzie: wszystkie strony → pasek komunikatu (PL). ⚠️ Max 80 znaków — dłuższy tekst się przytnie. Wymagane gdy pasek aktywny. ✏️ Przykład: Rejestracja zamknięta za 7 dni!"
                 required: false
               - name: "notification_bar_text_en"
                 label: "Tekst paska (EN)"
                 widget: "string"
-                hint: "Krótki, naglący, max 60 znaków. Wersja angielska na /en."
+                hint: "📍 Gdzie: wszystkie strony → pasek komunikatu (EN). ⚠️ Max 80 znaków. ✏️ Przykład: Registration closes in 7 days!"
                 required: false
               - name: "notification_bar_link_text_pl"
                 label: "Tekst linku (PL)"
@@ -697,7 +698,7 @@ collections:
               - name: "social_facebook"
                 label: "📘 Facebook URL"
                 widget: "string"
-                hint: "Ikona Facebook w stopce."
+                hint: "📍 Gdzie: stopka, NavBar → ikona Facebook. ⚠️ Pełny URL zaczynający się od https://. ✏️ Przykład: https://www.facebook.com/cerberusk9"
                 required: true
                 pattern:
                   - "^https?://.+$"
@@ -705,7 +706,7 @@ collections:
               - name: "social_youtube"
                 label: "📺 YouTube URL"
                 widget: "string"
-                hint: "Ikona YouTube w stopce."
+                hint: "📍 Gdzie: stopka → ikona YouTube. ⚠️ Pełny URL kanału. ✏️ Przykład: https://www.youtube.com/@cerberusk9"
                 required: true
                 pattern:
                   - "^https?://.+$"
@@ -713,7 +714,7 @@ collections:
               - name: "social_instagram"
                 label: "📸 Instagram URL"
                 widget: "string"
-                hint: "Opcjonalne. Jeśli nie używasz Instagrama, zostaw puste."
+                hint: "📍 Gdzie: stopka → ikona Instagram. ⚠️ Pełny URL profilu. ✏️ Przykład: https://www.instagram.com/pactak9"
                 required: false
                 pattern:
                   - "^https?://.+$"
@@ -752,12 +753,12 @@ collections:
                 pattern:
                   - "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
                   - "Wpisz poprawny adres e-mail"
-                hint: "Kontakt w stopce każdej podstrony."
+                hint: "📍 Gdzie: stopka → adres e-mail kontaktowy. ⚠️ Poprawny format email. ✏️ Przykład: kontakt@cerberusk9.org"
                 required: true
               - name: "footer_phone"
                 label: "📞 Telefon w stopce"
                 widget: "string"
-                hint: "Telefon w stopce i blokach kontaktowych."
+                hint: "📍 Gdzie: stopka → numer telefonu. ⚠️ Z numerem kierunkowym. ✏️ Przykład: +48 695 637 907"
                 required: true
               - name: "footer_address"
                 label: "🏠 Adres fundacji"
@@ -1182,12 +1183,12 @@ collections:
                 label: "📊 Google Analytics 4 — Measurement ID"
                 widget: "string"
                 required: false
-                hint: "Np. G-XXXXXXXXXX. Puste = brak skryptu GA4."
+                hint: "📍 Gdzie: Google Analytics → śledzenie. ⚠️ Format: G- i 10 znaków. Wypełnia Sebastian w R54. ✏️ Przykład: G-XXXXXXXXXX"
               - name: "plausible_domain"
                 label: "📊 Plausible — domena (data-domain)"
                 widget: "string"
                 required: false
-                hint: "Np. cerberusk9.org. Puste = brak skryptu Plausible."
+                hint: "📍 Gdzie: analityka → śledzenie odwiedzin (niewidoczne dla użytkowników). ⚠️ Tylko domena bez https://. Wypełnia Sebastian. ✏️ Przykład: cerberusk9.org"
               - name: "microsoft_clarity_id"
                 label: "🔍 Microsoft Clarity — Project ID"
                 widget: "string"
@@ -1301,7 +1302,7 @@ collections:
               - name: "hardest_hit_active"
                 label: "🎯 HARDEST HIT aktywny"
                 widget: "boolean"
-                hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+                hint: "📍 Gdzie: strona główna → sekcja HARDEST HIT. ⚠️ Wyłącz jeśli zawody nie odbędą się. ✏️ TAK = sekcja widoczna"
                 required: false
                 default: true
   - name: instructor_filters
@@ -2107,33 +2108,34 @@ collections:
     media_folder: "public/uploads/program/"
     public_folder: "/uploads/program/"
     fields:
-      - { name: "title_pl", label: "Tytu? (PL)", widget: "string", hint: "Tytu? punktu programu po polsku." }
+      - { name: "title_pl", label: "Tytu? (PL)", widget: "string", hint: "📍 Gdzie: /o-wydarzeniu → agenda, ScheduleBuilder. ⚠️ Max 60 znaków, konkretna nazwa modułu. ✏️ Przykład: K9 Gryzienie — Praca z Pozorantem USA" }
       - { name: "title_en", label: "Tytu? (EN)", widget: "string", required: false, hint: "Tytu? punktu programu po angielsku." }
-      - { name: "day", label: "Dzie?", widget: "string", hint: "Dzie? programu, np. 2026-06-13." }
-      - { name: "time_start", label: "Godzina startu", widget: "string", pattern: ["^([01]\\d|2[0-3]):[0-5]\\d$", "Format HH:MM, np. 09:00"] }
-      - { name: "time_end", label: "Godzina ko?ca", widget: "string", pattern: ["^([01]\\d|2[0-3]):[0-5]\\d$", "Format HH:MM, np. 09:00"] }
+      - { name: "day", label: "Dzie?", widget: "string", hint: "📍 Gdzie: /o-wydarzeniu → zakładka Dzień 1 lub Dzień 2. ⚠️ Format: RRRR-MM-DD. ✏️ Przykład: 2026-06-13 (Dzień 1) lub 2026-06-14 (Dzień 2)" }
+      - { name: "time_start", label: "Godzina startu", widget: "string", pattern: ["^([01]\\d|2[0-3]):[0-5]\\d$", "Format HH:MM, np. 09:00"], hint: "📍 Gdzie: /o-wydarzeniu → godzina startu na osi czasu. ⚠️ Format HH:MM — dokładnie 5 znaków z dwukropkiem. ✏️ Przykład: 09:00" }
+      - { name: "time_end", label: "Godzina ko?ca", widget: "string", pattern: ["^([01]\\d|2[0-3]):[0-5]\\d$", "Format HH:MM, np. 09:00"], hint: "📍 Gdzie: /o-wydarzeniu → godzina końca na osi czasu. ⚠️ Format HH:MM. Musi być późniejsza niż time_start. ✏️ Przykład: 12:30" }
       - name: "category"
         label: "Kategoria"
         widget: "select"
+        hint: "📍 Gdzie: /o-wydarzeniu → kolor kafelka w agendzie. ⚠️ Wybierz kategorię zgodną z typem modułu. Decyduje o kolorze na osi. ✏️ K9-Gryzienie=czerwony, TCCC=bordowy, BREAK=szary"
         options: ["K9-Gryzienie","K9-Detekcja","K9-SAR","TCCC","Drony","HARDEST HIT","Konferencja","BREAK","CEREMONIA","Inne"]
       - name: "audience"
         label: "Dla kogo"
         widget: "list"
         hint: "np. sluzby, cywil-z-psem"
       - { name: "description", label: "Opis", widget: "text", required: false }
-      - { name: "location", label: "Lokalizacja", widget: "string", required: false, default: "" }
+      - { name: "location", label: "Lokalizacja", widget: "string", required: false, default: "", hint: "📍 Gdzie: /o-wydarzeniu → miejsce pod nazwą modułu. ⚠️ Krótka nazwa strefy. Max 40 znaków. ✏️ Przykład: 3MK Arena — Hala A, Strefa K9, Plac zewnętrzny" }
       - { name: "locationMapUrl", label: "Link mapy", widget: "string", required: false, default: "", pattern: ["^https?://.+$", "URL musi zaczyna? si? od https://"] }
       - { name: "instructor_id", label: "ID instruktora (slug)", widget: "string", required: false }
       - { name: "instructor", label: "Prowadz?cy (tekst)", widget: "string", required: false, default: "" }
       - { name: "module", label: "Modu?", widget: "string", required: false }
       - { name: "schedule", label: "Harmonogram (opis)", widget: "string", required: false }
       - { name: "is_break", label: "Przerwa", widget: "boolean", required: false, default: false }
-      - { name: "maxParticipants", label: "Max uczestnik?w", widget: "number", required: false }
+      - { name: "maxParticipants", label: "Max uczestnik?w", widget: "number", required: false, hint: "📍 Gdzie: /o-wydarzeniu → limit przy module. ⚠️ Zostaw puste jeśli brak limitu. Liczba całkowita. ✏️ Przykład: 20" }
       - { name: "color", label: "Kolor (hex)", widget: "string", required: false, hint: "Np. #C4922A." }
       - { name: "icon", label: "Emoji/ikona", widget: "string", required: false, hint: "Np. ?? lub ??." }
       - { name: "order", label: "Kolejno??", widget: "number", required: false, default: 99 }
       - { name: "needs_review", label: "Do weryfikacji", widget: "boolean", required: false, default: false }
-      - { name: "isVisible", label: "Widoczny", widget: "boolean", required: false, default: true }
+      - { name: "isVisible", label: "Widoczny", widget: "boolean", required: false, default: true, hint: "📍 Gdzie: /o-wydarzeniu → widoczność w agendzie. ⚠️ NIE = moduł ukryty (np. wewnętrzny brief). TAK = widoczny dla uczestników. ✏️ Zostaw TAK dla wszystkich modułów publicznych" }
   - name: "agenda_categories"
     label: "📅 O Wydarzeniu — Kategorie Agendy"
     description: "Kolory i nazwy filtrów agendy (K9, TCCC, Drony itd.)."
@@ -2572,13 +2574,13 @@ collections:
     media_folder: "public/uploads/faq/"
     public_folder: "/uploads/faq/"
     fields:
-      - { name: "question_pl", label: "Pytanie (PL)", widget: "string" }
-      - { name: "answer_pl", label: "Odpowied? (PL)", widget: "text" }
+      - { name: "question_pl", label: "Pytanie (PL)", widget: "string", hint: "📍 Gdzie: /o-wydarzeniu → sekcja FAQ, pytanie. ⚠️ Max 100 znaków. Pisz tak jak zapytałby uczestnik. ✏️ Przykład: Czy udział w wydarzeniu jest bezpłatny?" }
+      - { name: "answer_pl", label: "Odpowied? (PL)", widget: "text", hint: "📍 Gdzie: /o-wydarzeniu → odpowiedź po rozwinięciu. ⚠️ Max 300 znaków. Konkretna, bez zbędnych słów. ✏️ Przykład: Tak, wstęp jest całkowicie bezpłatny. Wymagana jest wcześniejsza rejestracja przez formularz Pretix." }
       - { name: "question_en", label: "Pytanie (EN)", widget: "string", required: false }
       - { name: "answer_en", label: "Odpowied? (EN)", widget: "text", required: false }
       - { name: "lang", label: "J?zyk", widget: "select", options: ["pl","en"], default: "pl" }
-      - { name: "category", label: "Kategoria", widget: "select", required: false, default: "Inne", options: ["Rejestracja","Program","Logistyka","K9","TCCC","Drony","HARDEST HIT","Inne"] }
-      - { name: "order", label: "Kolejno??", widget: "number", required: false, default: 99 }
+      - { name: "category", label: "Kategoria", widget: "select", required: false, default: "Inne", options: ["Rejestracja","Program","Logistyka","K9","TCCC","Drony","HARDEST HIT","Inne"], hint: "📍 Gdzie: /o-wydarzeniu → grupowanie pytań. ⚠️ Wybierz kategorię tematyczną. ✏️ Rejestracja=pytania o zapisy, Logistyka=dojazd/nocleg, Program=harmonogram" }
+      - { name: "order", label: "Kolejno??", widget: "number", required: false, default: 99, hint: "📍 Gdzie: /o-wydarzeniu → kolejność pytań w FAQ. ⚠️ Mniejsza liczba = wyżej. Ważniejsze pytania daj niżej (1-10). ✏️ Przykład: 10, 20, 30" }
       - { name: "active", label: "Aktywne", widget: "boolean", required: false, default: true }
   - name: "instruktorzy"
     label: "Instruktorzy"
@@ -2593,19 +2595,19 @@ collections:
     media_folder: "public/uploads/instruktorzy/"
     public_folder: "/uploads/instruktorzy/"
     fields:
-      - { name: "name", label: "Imi? i nazwisko", widget: "string" }
-      - { name: "role_pl", label: "Rola/Funkcja (PL)", widget: "string", required: false }
-      - { name: "role_en", label: "Rola/Funkcja (EN)", widget: "string", required: false }
-      - { name: "country", label: "Kraj", widget: "string" }
-      - { name: "country_code", label: "Kod kraju", widget: "string", pattern: ["^[A-Z]{2}$", "Wpisz dok?adnie dwie wielkie litery"] }
-      - { name: "specializations", label: "Specjalizacje", widget: "list" }
+      - { name: "name", label: "Imi? i nazwisko", widget: "string", hint: "📍 Gdzie: /instruktorzy → karta instruktora, nagłówek profilu. ⚠️ Pełne imię i nazwisko lub pseudonim służbowy. Max 50 znaków. ✏️ Przykład: Mariusz Lis" }
+      - { name: "role_pl", label: "Rola/Funkcja (PL)", widget: "string", required: false, hint: "📍 Gdzie: /instruktorzy → szary tekst pod imieniem (PL). ⚠️ Max 60 znaków, krótko i konkretnie. ✏️ Przykład: Dyrektor Programowy · Prezes Fundacji PACTA K9" }
+      - { name: "role_en", label: "Rola/Funkcja (EN)", widget: "string", required: false, hint: "📍 Gdzie: /instruktorzy → szary tekst pod imieniem (EN). ⚠️ Max 60 znaków. ✏️ Przykład: Programme Director · President PACTA K9 Foundation" }
+      - { name: "country", label: "Kraj", widget: "string", hint: "📍 Gdzie: /instruktorzy → karta instruktora, flaga. ⚠️ Pełna nazwa kraju w języku polskim. ✏️ Przykład: Polska, Stany Zjednoczone, Portugalia" }
+      - { name: "country_code", label: "Kod kraju", widget: "string", pattern: ["^[A-Z]{2}$", "Wpisz dok?adnie dwie wielkie litery"], hint: "📍 Gdzie: /instruktorzy → flaga kraju przy imieniu. ⚠️ TYLKO 2 WIELKIE LITERY — kod ISO. PL=Polska, US=USA, PT=Portugalia, DE=Niemcy. ✏️ Przykład: PL" }
+      - { name: "specializations", label: "Specjalizacje", widget: "list", hint: "📍 Gdzie: /instruktorzy → kolorowe badge przy nazwisku. ⚠️ Używaj dokładnych nazw: K9-Gryzienie, K9-Detekcja, K9-SAR, TCCC, Drony. Dodaj kilka jeśli instruktor prowadzi wiele modułów. ✏️ Przykład: K9-Gryzienie, HARDEST HIT" }
       - { name: "instructor_type", label: "Typ instruktora", widget: "string", required: false }
       - { name: "languages", label: "J?zyki", widget: "list", required: false, hint: "Lista j?zyk?w, np. [PL, EN]." }
-      - { name: "bio_short_pl", label: "Kr?tkie bio (PL)", widget: "text" }
-      - { name: "bio_short_en", label: "Kr?tkie bio (EN)", widget: "text", required: false }
+      - { name: "bio_short_pl", label: "Kr?tkie bio (PL)", widget: "text", hint: "📍 Gdzie: /instruktorzy → szary tekst na karcie (widoczny bez rozwijania). ⚠️ Max 200 znaków — to najważniejszy tekst! Musi być konkretny. ✏️ Przykład: Operator JWK, twórca CERBERUS K9. 15 lat doświadczenia w K9 taktycznym." }
+      - { name: "bio_short_en", label: "Kr?tkie bio (EN)", widget: "text", required: false, hint: "📍 Gdzie: /instruktorzy → angielska wersja krótkiego bio. ⚠️ Max 200 znaków. Ważne dla zagranicznych delegacji. ✏️ Przykład: JWK operator, creator of CERBERUS K9. 15 years in tactical K9." }
       - { name: "bio_full_pl", label: "Pe?ne bio (PL)", widget: "markdown", required: false }
       - { name: "bio_full_en", label: "Pe?ne bio (EN)", widget: "markdown", required: false }
-      - { name: "photo", label: "Zdj?cie", widget: "image", media_folder: "public/uploads/instruktorzy/", public_folder: "/uploads/instruktorzy/" }
+      - { name: "photo", label: "Zdj?cie", widget: "image", media_folder: "public/uploads/instruktorzy/", public_folder: "/uploads/instruktorzy/", hint: "📍 Gdzie: /instruktorzy → zdjęcie profilowe na karcie. ⚠️ Kwadrat 400x400px, format WebP/JPG, max 200KB. Tło ciemne lub neutralne. Użyj squoosh.app. ✏️ Nazwa: mariusz-lis.webp" }
       - { name: "unit", label: "Jednostka/Organizacja", widget: "string", required: false }
       - { name: "module", label: "Modu?", widget: "string", required: false }
       - { name: "schedule", label: "Harmonogram", widget: "string", required: false }
@@ -2613,7 +2615,7 @@ collections:
       - { name: "social_facebook", label: "Facebook URL", widget: "string", required: false, pattern: ["^https?://.+$", "URL musi zaczyna? si? od https://"] }
       - { name: "social_linkedin", label: "LinkedIn URL (social)", widget: "string", required: false, pattern: ["^https?://.+$", "URL musi zaczyna? si? od https://"] }
       - { name: "social_instagram", label: "Instagram URL", widget: "string", required: false, pattern: ["^https?://.+$", "URL musi zaczyna? si? od https://"] }
-      - { name: "confirmed", label: "Status potwierdzenia", widget: "select", required: false, default: "confirmed", options: ["confirmed","pending","hidden"] }
+      - { name: "confirmed", label: "Status potwierdzenia", widget: "select", required: false, default: "confirmed", options: ["confirmed","pending","hidden"], hint: "📍 Gdzie: /instruktorzy → widoczność profilu. ⚠️ confirmed=widoczny publicznie, pending=pokazuje się jako TBC (do potwierdzenia), hidden=ukryty całkowicie. ✏️ Wybierz confirmed gdy instruktor potwierdził udział" }
       - { name: "order", label: "Kolejno??", widget: "number", required: false, default: 99 }
       - { name: "needs_review", label: "Do weryfikacji", widget: "boolean", required: false, default: false }
       - { name: "isVisible", label: "Widoczny", widget: "boolean", required: false, default: true }
@@ -2928,13 +2930,13 @@ collections:
       - name: "name"
         label: "✒️ Nazwa partnera"
         widget: "string"
-        hint: "Nagłówek karty i pasek partnerów."
+        hint: "📍 Gdzie: /partnerzy → nazwa na karcie, pasek logo. ⚠️ Oficjalna nazwa firmy/organizacji. Max 60 znaków. ✏️ Przykład: Tactical Equipment Polska Sp. z o.o."
         required: true
       - label: "🏷️ Typ partnera"
         name: "type"
         widget: "select"
         required: true
-        hint: "Typ decyduje o kolorze etykiety na karcie."
+        hint: "📍 Gdzie: /partnerzy → sekcja w której partner się pojawi. ⚠️ strategic=Partner Strategiczny (największe logo), partner=standardowy, technical=techniczny, media=Patron Medialny, honorary=honorowy, sponsor=sponsor. ✏️ Wybierz zgodnie z umową"
         options:
           - "Strategiczny"
           - "Sponsor"
@@ -2943,13 +2945,13 @@ collections:
       - name: "logo"
         label: "🖼️ Logo"
         widget: "image"
-        hint: "Zalecany format: WebP. Rozmiar: 300×120px. Logo partnera na karcie i w pasku partnerów."
+        hint: "📍 Gdzie: /partnerzy → logo na karcie i w pasku na stronie głównej. ⚠️ Format PNG z przezroczystym tłem lub WebP, rozmiar 400x200px, max 100KB. ✏️ Nazwa: nazwa-firmy-logo.png"
         required: false
         choose_url: true
       - name: "website"
         label: "🔗 Strona WWW"
         widget: "string"
-        hint: "Link do strony partnera."
+        hint: "📍 Gdzie: /partnerzy → klikalny link pod logo. ⚠️ Pełny URL z https://. ✏️ Przykład: https://www.tactical-equipment.pl"
         required: false
         pattern:
           - "^https?://.+$"
@@ -2975,13 +2977,13 @@ collections:
       - name: "show_in_strip"
         label: "📜 Pokaż w pasku na stronie głównej"
         widget: "boolean"
-        hint: "true = logo w scrollującym pasku partnerów na home."
+        hint: "📍 Gdzie: strona główna → rotator logo partnerów. ⚠️ TAK = logo obraca się na stronie głównej. NIE = partner tylko na /partnerzy. ✏️ Włącz dla partnerów strategicznych i sponsorów"
         required: false
         default: true
       - name: "strip_order"
         label: "🔢 Kolejność w pasku"
         widget: "number"
-        hint: "Kolejność w poziomym pasku na stronie głównej."
+        hint: "📍 Gdzie: strona główna → kolejność w rotatorze logo. ⚠️ Mniejsza liczba = pojawia się wcześniej w rotatorze. ✏️ Przykład: 1=pierwszy, 99=ostatni"
         required: false
         default: 99
       - name: "active"
@@ -3130,12 +3132,12 @@ collections:
       - name: "title"
         label: "📝 Tytuł artykułu"
         widget: "string"
-        hint: "Główny nagłówek artykułu i listy aktualności."
+        hint: "📍 Gdzie: /aktualnosci → karta artykułu, nagłówek wpisu, SEO. ⚠️ Max 80 znaków, konkretny i opisowy. ✏️ Przykład: Potwierdzono udział US Police K9 SWAT w CERBERUS K9 2026"
         required: true
       - name: "date"
         label: "📅 Data publikacji"
         widget: "datetime"
-        hint: "Data widoczna na karcie i w artykule."
+        hint: "📍 Gdzie: /aktualnosci → data pod tytułem. ⚠️ Format RRRR-MM-DD. Artykuł pojawia się od tej daty. ✏️ Przykład: 2026-05-15"
         required: true
         date_format: "YYYY-MM-DD"
         time_format: "HH:mm"
@@ -3143,7 +3145,7 @@ collections:
         name: "category"
         widget: "select"
         required: true
-        hint: "📍 Gdzie: etykieta kategorii na karcie i filtr na liście /aktualnosci."
+        hint: "📍 Gdzie: /aktualnosci → kolorowy badge przy artykule. ⚠️ Wybierz najbardziej pasującą kategorię. ✏️ Aktualności=ogólne, Instruktorzy=nowi instruktorzy, Partnerzy=nowi partnerzy"
         options:
           - { label: "📰 Aktualności", value: "Aktualności" }
           - { label: "🎖️ Instruktorzy", value: "Instruktorzy" }
@@ -3154,9 +3156,7 @@ collections:
       - name: "lead"
         label: "📄 Lead (max 500 znaków)"
         widget: "text"
-        hint: >
-          📍 Gdzie: wstęp na karcie listy /aktualnosci oraz w meta description wpisu.
-          ✏️ Zwięźle: kto, co, dlaczego — max 500 znaków.
+        hint: "📍 Gdzie: /aktualnosci → szary tekst pod tytułem na karcie. ⚠️ Max 200 znaków — to jedyny tekst widoczny bez klikania w artykuł. Musi zachęcać do czytania. ✏️ Przykład: Potwierdzono oficjalny udział delegacji US Police K9 SWAT. To pierwsza wizyta tej jednostki w Polsce."
         required: true
         pattern:
           - "^.{0,500}$"
@@ -3169,7 +3169,7 @@ collections:
       - name: "image"
         label: "📸 Zdjęcie wyróżniające"
         widget: "image"
-        hint: "Zalecany format: WebP. Rozmiar: 1200×675px. Obraz na karcie listy i nagłówku artykułu."
+        hint: "📍 Gdzie: /aktualnosci → zdjęcie na karcie i w nagłówku artykułu. ⚠️ Rozmiar: 1200x630px, format JPG/WebP, max 300KB. Użyj squoosh.app do kompresji. ✏️ Nazwa pliku: bez spacji, np. us-swat-cerberus-2026.jpg"
         required: false
         choose_url: true
       - name: "image_alt"
@@ -3207,9 +3207,7 @@ collections:
       - name: "draft"
         label: "📝 Szkic (niepublikowany)"
         widget: "boolean"
-        hint: >
-          true = wpis ukryty z publicznej listy /aktualnosci (tylko redakcja w CMS).
-          false = normalna publikacja zgodnie z datą i innymi polami.
+        hint: "📍 Gdzie: /aktualnosci → widoczność artykułu. ⚠️ TAK = artykuł roboczy, niewidoczny na stronie. NIE = opublikowany. ✏️ Zostaw TAK dopóki artykuł nie jest gotowy"
         required: false
         default: false
       - name: "featured"
