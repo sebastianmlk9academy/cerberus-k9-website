@@ -213,7 +213,7 @@ sekcja_hero:
   hero_meta_locations: "6"
   hero_tagline: MIĘDZYNARODOWA PLATFORMA OBRONY · EDYCJA 2026
   registration_active: true
-  show_live_counter: false
+  show_live_counter: true
   hero_subline_pl: WSTĘP BEZPŁATNY · REJESTRACJA WYMAGANA
   hero_background_image: /images/page_hero_graph.webp
   hero_video_title: CERBERUS K9 2026 — Relacja
