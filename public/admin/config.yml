@@ -2728,14 +2728,14 @@ collections:
     extension: "yml"
     format: "yaml"
     fields:
-      - { name: "year", label: "Rok", widget: "number", hint: "Rok edycji, np. 2026." }
-      - { name: "status", label: "Status", widget: "select", options: ["completed","current","planned","vision"], hint: "completed=zakończona, current=bieżąca, planned=zaplanowana, vision=wizja" }
-      - { name: "title_pl", label: "Tytuł (PL)", widget: "string" }
+      - { name: "year", label: "Rok", widget: "number", hint: "📍 Gdzie: strona główna → węzeł na osi czasu. ⚠️ Rok 4-cyfrowy. ✏️ Przykład: 2026" }
+      - { name: "status", label: "Status", widget: "select", options: ["completed","current","planned","vision"], hint: "📍 Gdzie: strona główna → styl węzła osi czasu. ⚠️ completed=zrealizowane, current=bieżąca (pulsuje), planned=planowane, vision=wizja. ✏️ Przykład: current" }
+      - { name: "title_pl", label: "Tytuł (PL)", widget: "string", hint: "📍 Gdzie: strona główna → nazwa edycji (PL). ⚠️ Max 30 znaków. ✏️ Przykład: CERBERUS K9 2026" }
       - { name: "title_en", label: "Tytuł (EN)", widget: "string", required: false }
-      - { name: "subtitle_pl", label: "Podtytuł (PL)", widget: "string", required: false }
+      - { name: "subtitle_pl", label: "Podtytuł (PL)", widget: "string", required: false, hint: "📍 Gdzie: strona główna → opis pod rokiem (PL). ⚠️ Max 60 znaków. ✏️ Przykład: 13–14 czerwca · Ostrów Wielkopolski · 250+ uczestników" }
       - { name: "subtitle_en", label: "Podtytuł (EN)", widget: "string", required: false }
-      - { name: "color_token", label: "Kolor węzła", widget: "select", options: ["gold","red","navyBorder"], hint: "gold=aktywny/zakończony, red=bieżący, navyBorder=przyszły" }
-      - { name: "pulse", label: "Animacja pulsowania", widget: "boolean", default: false, hint: "Włącz tylko dla bieżącej edycji (2026)" }
+      - { name: "color_token", label: "Kolor węzła", widget: "select", options: ["gold","red","navyBorder"], hint: "📍 Gdzie: strona główna → kolor węzła. ⚠️ gold=zrealizowane, red=bieżące, navyBorder=przyszłe. ✏️ Przykład: red dla 2026" }
+      - { name: "pulse", label: "Animacja pulsowania", widget: "boolean", default: false, hint: "📍 Gdzie: strona główna → animacja pulsowania węzła. ⚠️ Włącz TYLKO dla bieżącej edycji (2026). ✏️ TAK = pulsuje" }
       - { name: "order", label: "Kolejność", widget: "number", default: 99 }
       - { name: "isVisible", label: "Widoczny", widget: "boolean", default: true }
   - name: "team"
@@ -4511,27 +4511,28 @@ collections:
         name: "name"
         widget: "string"
         required: true
-        hint: "📍 Karta ambasadora na stronie /ambasadorzy."
+        hint: "📍 Gdzie: /ambasadorzy → karta ambasadora. ⚠️ Max 50 znaków. ✏️ Przykład: Jan Kowalski"
       - label: "🌍 Kraj"
         name: "country"
         widget: "string"
         required: true
-        hint: "✏️ Np. Portugalia, Czechy, USA"
+        hint: "📍 Gdzie: /ambasadorzy → karta, przy fladze. ⚠️ Pełna nazwa po polsku. ✏️ Przykład: Czechy"
       - name: "country_code"
         label: "🏳️ Kod kraju (2 wielkie litery)"
         widget: "string"
         required: true
         pattern: ["^[A-Z]{2}$", "Wpisz dokładnie dwie wielkie litery"]
-        hint: "📍 Flaga kraju. PL=Polska, US=USA, DE=Niemcy, PT=Portugalia"
+        hint: "📍 Gdzie: /ambasadorzy → flaga kraju. ⚠️ TYLKO 2 WIELKIE LITERY. PL=Polska, US=USA, DE=Niemcy. ✏️ Przykład: CZ"
       - label: "🎖️ Rola / Tytuł"
         name: "role_pl"
         widget: "string"
         required: false
-        hint: "Krótko po polsku, np. 'Były dowódca JW Komandosów'"
+        hint: "📍 Gdzie: /ambasadorzy → tekst pod imieniem (PL). ⚠️ Max 60 znaków. ✏️ Przykład: Były dowódca JW Komandosów"
       - label: "🎖️ Rola (EN)"
         name: "role_en"
         widget: "string"
         required: false
+        hint: "📍 Gdzie: /ambasadorzy → tekst pod imieniem (EN). ⚠️ Max 60 znaków. ✏️ Przykład: Former Special Forces Commander"
       - label: "🏛️ Jednostka / Organizacja"
         name: "unit"
         widget: "string"
@@ -4542,15 +4543,16 @@ collections:
         widget: "image"
         required: false
         choose_url: true
-        hint: "⚠️ Format: WebP, 400x400px (kwadrat), max 200KB."
+        hint: "📍 Gdzie: /ambasadorzy → zdjęcie profilowe. ⚠️ Kwadrat 400x400px, WebP/JPG, max 200KB. squoosh.app. ✏️ Przykład: jan-kowalski.webp"
       - label: "📝 Krótkie bio"
         name: "bio_short_pl"
         widget: "text"
         required: false
-        hint: "1-2 zdania, max 200 znaków"
+        hint: "📍 Gdzie: /ambasadorzy → tekst na karcie (PL). ⚠️ Max 200 znaków — jedyny tekst widoczny bez klikania. ✏️ Przykład: Weteran JWK, doradca bezpieczeństwa K9."
       - name: "bio_short_en"
         widget: "text"
         required: false
+        hint: "📍 Gdzie: /ambasadorzy → tekst na karcie (EN). ⚠️ Max 200 znaków. ✏️ Przykład: JWK veteran, K9 security advisor."
       - label: "💼 LinkedIn URL"
         name: "linkedin_url"
         widget: "string"
@@ -4565,12 +4567,12 @@ collections:
         name: "order"
         widget: "number"
         default: 99
-        hint: "Niższa liczba = wyżej. 1 = pierwszy."
+        hint: "📍 Gdzie: /ambasadorzy → kolejność na liście. ⚠️ Mniejsza liczba = wyżej. ✏️ Przykład: 10, 20, 30"
       - label: "👁️ Widoczny"
         name: "isVisible"
         widget: "boolean"
         default: true
-        hint: "true = widoczny, false = ukryty bez usuwania."
+        hint: "📍 Gdzie: /ambasadorzy → czy ambasador widoczny. ⚠️ NIE = ukryty bez usuwania. ✏️ TAK = widoczny"
       - label: "⏳ Wymaga akceptacji"
         name: "needs_review"
         widget: "boolean"
@@ -4601,19 +4603,19 @@ collections:
     extension: "yml"
     format: "yaml"
     fields:
-      - { name: "certificate_id", label: "ID certyfikatu", widget: "string", hint: "Unikalny identyfikator, np. CK9-2026-001." }
-      - { name: "participant_name", label: "Imi? i nazwisko uczestnika", widget: "string", hint: "Pe?ne imi? i nazwisko, np. Jan Kowalski." }
-      - { name: "participant_email", label: "E-mail uczestnika", widget: "string", pattern: ["^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$", "Wpisz poprawny adres e-mail"], hint: "Adres e-mail uczestnika, np. jan.kowalski@example.com." }
+      - { name: "certificate_id", label: "ID certyfikatu", widget: "string", hint: "📍 Gdzie: /certyfikat/[id] → unikalny identyfikator certyfikatu. ⚠️ Bez spacji, unikalne. ✏️ Przykład: CK9-2026-001" }
+      - { name: "participant_name", label: "Imi? i nazwisko uczestnika", widget: "string", hint: "📍 Gdzie: /certyfikat/[id] → imię na certyfikacie. ⚠️ Pełne imię i nazwisko. ✏️ Przykład: Jan Kowalski" }
+      - { name: "participant_email", label: "E-mail uczestnika", widget: "string", pattern: ["^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$", "Wpisz poprawny adres e-mail"], hint: "📍 Gdzie: wysyłka certyfikatu e-mailem. ⚠️ Poprawny format email. ✏️ Przykład: jan@example.com" }
       - name: "module"
         label: "Modu?"
         widget: "select"
         options: ["K9-Gryzienie","K9-Detekcja","K9-SAR","TCCC","Drony","HARDEST HIT","Konferencja","BREAK","CEREMONIA","Inne"]
-        hint: "Wybierz modu? szkoleniowy."
-      - { name: "issue_date", label: "Data wystawienia", widget: "datetime", format: "YYYY-MM-DD", dateFormat: true, timeFormat: false, hint: "Data wystawienia certyfikatu, np. 2026-06-14." }
+        hint: "📍 Gdzie: /certyfikat/[id] → moduł na certyfikacie. ⚠️ Wybierz z listy — musi być dokładna nazwa. ✏️ Przykład: K9-Gryzienie"
+      - { name: "issue_date", label: "Data wystawienia", widget: "datetime", format: "YYYY-MM-DD", dateFormat: true, timeFormat: false, hint: "📍 Gdzie: /certyfikat/[id] → data wystawienia. ⚠️ Format RRRR-MM-DD. ✏️ Przykład: 2026-06-14" }
       - { name: "valid_until", label: "Wa?ny do", widget: "datetime", required: false, format: "YYYY-MM-DD", dateFormat: true, timeFormat: false, hint: "Opcjonalna data wa?no?ci, np. 2027-06-14." }
       - { name: "instructor_name", label: "Instruktor", widget: "string", required: false, hint: "Osoba podpisuj?ca certyfikat, np. mjr Adam Nowak." }
       - { name: "signature_url", label: "URL podpisu", widget: "string", required: false, pattern: ["^https?://.+$", "URL musi zaczyna? si? od https://"], hint: "Link do grafiki podpisu, np. https://cdn.example.com/signature.png." }
-      - { name: "qr_data", label: "Dane QR", widget: "string", hint: "URL certyfikatu, np. /certyfikat/CK9-2026-001" }
+      - { name: "qr_data", label: "Dane QR", widget: "string", hint: "📍 Gdzie: /certyfikat/[id] → kod QR na certyfikacie. ⚠️ Pełny URL do certyfikatu. ✏️ Przykład: https://cerberusk9.org/certyfikat/CK9-2026-001" }
   - name: "szkolenia"
     label: "Szkolenia"
     label_singular: "Szkolenie"
@@ -4629,24 +4631,24 @@ collections:
     extension: "yml"
     format: "yaml"
     fields:
-      - { name: "title_pl", label: "Tytu? (PL)", widget: "string", hint: "Tytu? szkolenia po polsku, np. Szkolenie K9 Detekcja." }
-      - { name: "title_en", label: "Tytu? (EN)", widget: "string", hint: "Tytu? szkolenia po angielsku, np. K9 Detection Training." }
+      - { name: "title_pl", label: "Tytu? (PL)", widget: "string", hint: "📍 Gdzie: /szkolenia → tytuł karty szkolenia (PL). ⚠️ Max 60 znaków. ✏️ Przykład: Kurs TCCC Podstawowy" }
+      - { name: "title_en", label: "Tytu? (EN)", widget: "string", hint: "📍 Gdzie: /szkolenia → tytuł karty szkolenia (EN). ⚠️ Max 60 znaków. ✏️ Przykład: Basic TCCC Course" }
       - name: "category"
         label: "Kategoria"
         widget: "select"
         options: ["K9-Gryzienie","K9-Detekcja","K9-SAR","TCCC","Drony","HARDEST HIT","Konferencja","BREAK","CEREMONIA","Inne"]
-        hint: "Wybierz kategori? szkolenia."
-      - { name: "description_pl", label: "Opis (PL)", widget: "text", hint: "Opis po polsku, 2-4 zdania." }
-      - { name: "description_en", label: "Opis (EN)", widget: "text", hint: "Opis po angielsku, 2-4 zdania." }
+        hint: "📍 Gdzie: /szkolenia → badge kategorii. ⚠️ Wybierz z listy. ✏️ Przykład: TCCC"
+      - { name: "description_pl", label: "Opis (PL)", widget: "text", hint: "📍 Gdzie: /szkolenia → opis pod tytułem (PL). ⚠️ 2-4 zdania. ✏️ Przykład: Dwudniowe szkolenie z podstaw TCCC dla służb." }
+      - { name: "description_en", label: "Opis (EN)", widget: "text", hint: "📍 Gdzie: /szkolenia → opis pod tytułem (EN). ⚠️ 2-4 zdania. ✏️ Przykład: Two-day basic TCCC course for services." }
       - { name: "instructor_id", label: "ID instruktora", widget: "string", required: false, hint: "Slug z kolekcji instruktorzy." }
-      - { name: "price_pln", label: "Cena (PLN)", widget: "number", required: false, hint: "Cena brutto, np. 1499." }
-      - { name: "max_participants", label: "Max uczestnik?w", widget: "number", hint: "Limit uczestnik?w, np. 24." }
-      - { name: "duration_hours", label: "Czas trwania (godz.)", widget: "number", hint: "Liczba godzin, np. 8." }
+      - { name: "price_pln", label: "Cena (PLN)", widget: "number", required: false, hint: "📍 Gdzie: /szkolenia → cena na karcie. ⚠️ Liczba w PLN bez symbolu. Zostaw puste jeśli bezpłatne. ✏️ Przykład: 890" }
+      - { name: "max_participants", label: "Max uczestnik?w", widget: "number", hint: "📍 Gdzie: /szkolenia → limit uczestników. ⚠️ Liczba całkowita. ✏️ Przykład: 12" }
+      - { name: "duration_hours", label: "Czas trwania (godz.)", widget: "number", hint: "📍 Gdzie: /szkolenia → czas trwania. ⚠️ Liczba godzin całkowita. ✏️ Przykład: 16 (2 dni po 8h)" }
       - name: "target_audience"
         label: "Dla kogo"
         widget: "select"
         options: ["sluzby","cywil-z-psem","cywil-bez-psa","delegacja","media","sponsor","wszyscy"]
-        hint: "Wybierz grup? docelow?."
+        hint: "📍 Gdzie: /szkolenia → dla kogo badge. ⚠️ Wybierz z listy. ✏️ sluzby, cywil-z-psem, wszyscy"
       - name: "schedule"
         label: "Harmonogram"
         widget: "list"
@@ -4655,9 +4657,9 @@ collections:
           - { name: "day", label: "Dzie?", widget: "datetime", format: "YYYY-MM-DD", dateFormat: true, timeFormat: false, hint: "Data dnia szkolenia, np. 2026-07-10." }
           - { name: "time_start", label: "Godzina startu", widget: "string", pattern: ["^([01]\\d|2[0-3]):[0-5]\\d$", "Format HH:MM, np. 09:00"] }
           - { name: "time_end", label: "Godzina ko?ca", widget: "string", pattern: ["^([01]\\d|2[0-3]):[0-5]\\d$", "Format HH:MM, np. 09:00"] }
-      - { name: "image", label: "Grafika", widget: "image", required: false, media_folder: "public/uploads/szkolenia/", public_folder: "/uploads/szkolenia/", hint: "Miniatura szkolenia." }
+      - { name: "image", label: "Grafika", widget: "image", required: false, media_folder: "public/uploads/szkolenia/", public_folder: "/uploads/szkolenia/", hint: "📍 Gdzie: /szkolenia → zdjęcie karty szkolenia. ⚠️ 1200x630px, JPG/WebP, max 300KB. ✏️ Przykład: kurs-tccc-2026.jpg" }
       - { name: "order", label: "Kolejno??", widget: "number", required: false, default: 99, hint: "Mniejsza liczba = wy?ej." }
-      - { name: "isVisible", label: "Widoczny", widget: "boolean", required: false, default: true, hint: "W??czone = szkolenie widoczne." }
+      - { name: "isVisible", label: "Widoczny", widget: "boolean", required: false, default: true, hint: "📍 Gdzie: /szkolenia → widoczność szkolenia. ⚠️ NIE = ukryte. ✏️ TAK = widoczne na stronie" }
   - name: "live_updates"
     label: "Aktualizacje live"
     label_singular: "Aktualizacja live"
@@ -4673,23 +4675,23 @@ collections:
     extension: "yml"
     format: "yaml"
     fields:
-      - { name: "timestamp", label: "Data i czas", widget: "datetime", format: "YYYY-MM-DD", dateFormat: true, timeFormat: "HH:mm", hint: "Moment publikacji, np. 2026-06-13 14:35." }
-      - { name: "title_pl", label: "Tytu? (PL)", widget: "string", hint: "Kr?tki tytu? po polsku, np. Start fina?u." }
-      - { name: "title_en", label: "Tytu? (EN)", widget: "string", hint: "Kr?tki tytu? po angielsku, np. Final starts." }
-      - { name: "message_pl", label: "Tre?? (PL)", widget: "text", hint: "Tre?? komunikatu po polsku." }
-      - { name: "message_en", label: "Tre?? (EN)", widget: "text", hint: "Tre?? komunikatu po angielsku." }
+      - { name: "timestamp", label: "Data i czas", widget: "datetime", format: "YYYY-MM-DD", dateFormat: true, timeFormat: "HH:mm", hint: "📍 Gdzie: /live → czas komunikatu na feedzie. ⚠️ Data i godzina aktualizacji. ✏️ Przykład: 2026-06-13 14:35" }
+      - { name: "title_pl", label: "Tytu? (PL)", widget: "string", hint: "📍 Gdzie: /live → tytuł komunikatu (PL). ⚠️ Max 60 znaków, krótko i na temat. ✏️ Przykład: Start finału HARDEST HIT" }
+      - { name: "title_en", label: "Tytu? (EN)", widget: "string", hint: "📍 Gdzie: /live → tytuł komunikatu (EN). ⚠️ Max 60 znaków. ✏️ Przykład: HARDEST HIT Final begins" }
+      - { name: "message_pl", label: "Tre?? (PL)", widget: "text", hint: "📍 Gdzie: /live → treść komunikatu (PL). ⚠️ Max 200 znaków. ✏️ Przykład: Finał HARDEST HIT za 10 minut. Arena HARDEST HIT — Hala Główna." }
+      - { name: "message_en", label: "Tre?? (EN)", widget: "text", hint: "📍 Gdzie: /live → treść komunikatu (EN). ⚠️ Max 200 znaków. ✏️ Przykład: HARDEST HIT Final in 10 minutes. HARDEST HIT Arena — Main Hall." }
       - name: "severity"
         label: "Priorytet"
         widget: "select"
         options: ["info","success","warning","danger"]
-        hint: "Poziom wa?no?ci komunikatu."
+        hint: "📍 Gdzie: /live → kolor komunikatu. ⚠️ info=niebieski, success=zielony, warning=żółty, danger=czerwony. ✏️ Przykład: info"
       - name: "source"
         label: "?r?d?o"
         widget: "select"
         options: ["jury","operations","kameralna","press"]
-        hint: "Sk?d pochodzi komunikat."
-      - { name: "isPinned", label: "Przypi?ty", widget: "boolean", default: false, hint: "W??czone = komunikat przypi?ty na g?rze." }
-      - { name: "isPublic", label: "Publiczny", widget: "boolean", default: true, hint: "W??czone = widoczny publicznie." }
+        hint: "📍 Gdzie: /live → źródło komunikatu. ⚠️ jury=jury zawodów, operations=operacje, press=prasa. ✏️ Przykład: jury"
+      - { name: "isPinned", label: "Przypi?ty", widget: "boolean", default: false, hint: "📍 Gdzie: /live → komunikat zawsze na górze feedu. ⚠️ Używaj tylko dla najważniejszych. ✏️ TAK = przypięty na górze" }
+      - { name: "isPublic", label: "Publiczny", widget: "boolean", default: true, hint: "📍 Gdzie: /live → widoczność dla widzów. ⚠️ NIE = tylko wewnętrzne. ✏️ TAK = widoczny publicznie" }
   - name: "hardest_hit_results"
     label: "Wyniki Hardest Hit"
     label_singular: "Wynik Hardest Hit"
@@ -4705,23 +4707,25 @@ collections:
     extension: "yml"
     format: "yaml"
     fields:
-      - { name: "competitor_name", label: "Zawodnik", widget: "string", hint: "Imi? i nazwisko zawodnika." }
-      - { name: "dog_name", label: "Imi? psa", widget: "string", required: false, hint: "Imi? psa, np. Rex." }
-      - { name: "dog_breed", label: "Rasa psa", widget: "string", required: false, hint: "Rasa psa, np. Owczarek belgijski." }
-      - { name: "country", label: "Kraj", widget: "string", hint: "Pe?na nazwa kraju, np. Polska." }
-      - { name: "country_code", label: "Kod kraju", widget: "string", pattern: ["^[A-Z]{2}$", "Wpisz dok?adnie dwie wielkie litery"], hint: "Kod ISO2, np. PL, DE." }
+      - { name: "competitor_name", label: "Zawodnik", widget: "string", hint: "📍 Gdzie: /hardest-hit → tabela wyników, imię zawodnika. ⚠️ Imię i nazwisko lub pseudonim. ✏️ Przykład: Jan Kowalski" }
+      - { name: "dog_name", label: "Imi? psa", widget: "string", required: false, hint: "📍 Gdzie: /hardest-hit → imię psa w tabeli. ⚠️ Opcjonalne. ✏️ Przykład: Rex" }
+      - { name: "dog_breed", label: "Rasa psa", widget: "string", required: false, hint: "📍 Gdzie: /hardest-hit → rasa psa. ⚠️ Opcjonalne. ✏️ Przykład: Owczarek belgijski malinois" }
+      - { name: "country", label: "Kraj", widget: "string", hint: "📍 Gdzie: /hardest-hit → kraj zawodnika. ⚠️ Pełna nazwa po polsku. ✏️ Przykład: Polska" }
+      - { name: "country_code", label: "Kod kraju", widget: "string", pattern: ["^[A-Z]{2}$", "Wpisz dok?adnie dwie wielkie litery"], hint: "📍 Gdzie: /hardest-hit → flaga kraju. ⚠️ 2 WIELKIE LITERY. ✏️ Przykład: PL" }
       - name: "category"
         label: "Kategoria"
         widget: "select"
         options: ["K9-Gryzienie","K9-Detekcja","K9-SAR","TCCC","Drony","HARDEST HIT","Konferencja","BREAK","CEREMONIA","Inne"]
-      - { name: "rank", label: "Miejsce", widget: "number", hint: "Pozycja zawodnika, np. 1." }
-      - { name: "score", label: "Wynik", widget: "number", hint: "Wynik punktowy/liczbowy, np. 98.7." }
+        hint: "📍 Gdzie: /hardest-hit → kategoria zawodów. ⚠️ Wybierz z listy. ✏️ Przykład: K9-Gryzienie"
+      - { name: "rank", label: "Miejsce", widget: "number", hint: "📍 Gdzie: /hardest-hit → miejsce w klasyfikacji. ⚠️ Liczba całkowita. 1=pierwsze miejsce. ✏️ Przykład: 1" }
+      - { name: "score", label: "Wynik", widget: "number", hint: "📍 Gdzie: /hardest-hit → wynik punktowy. ⚠️ Liczba dziesiętna. ✏️ Przykład: 98.4" }
       - { name: "time_seconds", label: "Czas (sekundy)", widget: "number", required: false, hint: "Czas przejazdu/pr?by, np. 12.45." }
       - name: "edition"
         label: "Edycja"
         widget: "select"
         options: ["2025","2026"]
         default: "2026"
+        hint: "📍 Gdzie: /hardest-hit → rok zawodów. ⚠️ Wybierz rok edycji. ✏️ Przykład: 2026"
       - { name: "video_url", label: "URL wideo", widget: "string", required: false, pattern: ["^https?://.+$", "URL musi zaczyna? si? od https://"], hint: "Link do nagrania pr?by." }
   - name: "sponsor_materials"
     label: "📄 Materiały dla Sponsorów"
@@ -4742,12 +4746,12 @@ collections:
         name: "title"
         widget: "string"
         required: true
-        hint: "📍 Link na stronie /partnerzy."
+        hint: "📍 Gdzie: /sponsoring → nazwa dokumentu na liście. ⚠️ Max 60 znaków. ✏️ Przykład: Brief sponsorski CERBERUS K9 2026"
       - name: "file"
         label: "📎 Plik PDF"
         widget: "file"
         required: true
-        hint: "⚠️ Format: PDF, max 5MB. Nazwa bez spacji i polskich liter."
+        hint: "📍 Gdzie: /sponsoring → link do pobrania PDF. ⚠️ Format PDF, max 5MB. Nazwa bez spacji. ✏️ Przykład: brief-sponsorski-2026-pl.pdf"
       - label: "📋 Krótki opis"
         name: "description"
         widget: "string"
@@ -4757,6 +4761,7 @@ collections:
         label: "🌍 Język dokumentu"
         widget: "select"
         default: "pl"
+        hint: "📍 Gdzie: /sponsoring → język dokumentu (badge). ⚠️ pl, en lub both. ✏️ Przykład: both"
         options:
           - { label: "🇵🇱 Polski", value: "pl" }
           - { label: "🇬🇧 Angielski", value: "en" }
@@ -4765,14 +4770,17 @@ collections:
         label: "📂 Kategoria materiału"
         widget: "select"
         options: ["brief","deck","onepager","logo_pack","case_study"]
+        hint: "📍 Gdzie: /sponsoring → typ dokumentu (badge). ⚠️ brief=krótka oferta, deck=prezentacja, onepager=jedna strona. ✏️ Przykład: brief"
       - name: "target_audience"
         label: "Odbiorca"
         widget: "select"
         options: ["prospect","confirmed","partner"]
+        hint: "📍 Gdzie: /sponsoring → kto widzi dokument. ⚠️ prospect=potencjalny, confirmed=potwierdzony partner. ✏️ Przykład: prospect"
       - name: "file_size_mb"
         label: "Rozmiar pliku (MB)"
         widget: "number"
         required: false
+        hint: "📍 Gdzie: /sponsoring → rozmiar pliku przy linku. ⚠️ Liczba w MB. ✏️ Przykład: 2.1"
       - label: "🔢 Kolejność"
         name: "order"
         widget: "number"
@@ -4794,21 +4802,22 @@ collections:
     extension: "yml"
     format: "yaml"
     fields:
-      - { name: "title_pl", label: "Tytu? (PL)", widget: "string", hint: "Tytu? pakietu po polsku." }
-      - { name: "title_en", label: "Tytu? (EN)", widget: "string", hint: "Tytu? pakietu po angielsku." }
-      - { name: "photo", label: "Zdj?cie", widget: "image", media_folder: "public/uploads/press_photos/", public_folder: "/uploads/press_photos/", hint: "Plik podstawowy zdj?cia." }
+      - { name: "title_pl", label: "Tytu? (PL)", widget: "string", hint: "📍 Gdzie: /media → tytuł pakietu zdjęć (PL). ⚠️ Max 60 znaków. ✏️ Przykład: Ceremonia otwarcia CERBERUS K9 2025" }
+      - { name: "title_en", label: "Tytu? (EN)", widget: "string", hint: "📍 Gdzie: /media → tytuł pakietu (EN). ⚠️ Max 60 znaków. ✏️ Przykład: CERBERUS K9 2025 Opening Ceremony" }
+      - { name: "photo", label: "Zdj?cie", widget: "image", media_folder: "public/uploads/press_photos/", public_folder: "/uploads/press_photos/", hint: "📍 Gdzie: /media → miniatura pakietu. ⚠️ 800x600px, JPG/WebP, max 200KB. ✏️ Przykład: ceremonia-2025-preview.jpg" }
       - { name: "photo_high_res", label: "Zdj?cie high-res", widget: "image", required: false, media_folder: "public/uploads/press_photos/", public_folder: "/uploads/press_photos/", hint: "Wersja wysokiej rozdzielczo?ci." }
       - { name: "caption_pl", label: "Podpis (PL)", widget: "text", required: false, hint: "Opis zdj?cia po polsku." }
       - { name: "caption_en", label: "Podpis (EN)", widget: "text", required: false, hint: "Opis zdj?cia po angielsku." }
-      - { name: "photographer", label: "Fotograf", widget: "string", required: false, hint: "Autor zdj?cia, np. Jan Kowalski." }
+      - { name: "photographer", label: "Fotograf", widget: "string", required: false, hint: "📍 Gdzie: /media → autor zdjęć pod miniaturą. ⚠️ Opcjonalne. ✏️ Przykład: Jan Kowalski Photography" }
       - name: "license"
         label: "Licencja"
         widget: "select"
         options: ["free","attribution","press_only"]
         required: false
+        hint: "📍 Gdzie: /media → warunki użycia. ⚠️ free=wolna licencja, attribution=z podaniem źródła, press_only=tylko dla mediów. ✏️ Przykład: press_only"
       - { name: "file_size_mb", label: "Rozmiar pliku (MB)", widget: "number", required: false, hint: "Rozmiar, np. 12.4." }
       - { name: "dimensions", label: "Wymiary", widget: "string", required: false, hint: "np. 4000x2667 px" }
-      - { name: "download_url", label: "Link pobrania", widget: "string", pattern: ["^https?://.+$", "URL musi zaczyna? si? od https://"], hint: "Bezpo?redni link do pliku lub paczki." }
+      - { name: "download_url", label: "Link pobrania", widget: "string", pattern: ["^https?://.+$", "URL musi zaczyna? si? od https://"], hint: "📍 Gdzie: /media → przycisk POBIERZ. ⚠️ Pełny URL do ZIP z zdjęciami. ✏️ Przykład: https://cerberusk9.org/downloads/press/2026-opening.zip" }
       - { name: "order", label: "Kolejno??", widget: "number", required: false, default: 10 }
   - name: "partner_offers"
     label: "🎁 Oferty dla Uczestników"
@@ -4831,25 +4840,26 @@ collections:
         value_field: "name"
         display_fields: ["name", "type"]
         required: true
-        hint: "Wybierz z listy. Nowego dodaj w 'Partnerzy — Lista'."
+        hint: "📍 Gdzie: /strefa-uczestnika → nazwa partnera przy ofercie. ⚠️ Oficjalna nazwa firmy. ✏️ Przykład: Tactical Equipment Polska"
       - name: "partner_id"
         label: "ID partnera (slug)"
         widget: "string"
-        hint: "Slug z kolekcji partnerzy, np. astriva"
+        hint: "📍 Gdzie: powiązanie z kolekcją Partnerzy. ⚠️ Slug partnera (małe litery, myślniki). ✏️ Przykład: tactical-equipment"
       - label: "🎁 Tytuł oferty"
         name: "offer_title_pl"
         widget: "string"
         required: true
-        hint: "📍 Karta oferty. ✏️ 15% zniżki na sprzęt K9"
+        hint: "📍 Gdzie: /strefa-uczestnika → tytuł oferty (PL). ⚠️ Max 60 znaków, konkretny benefit. ✏️ Przykład: 15% zniżki na sprzęt K9"
       - label: "🎁 Tytuł oferty (EN)"
         name: "offer_title_en"
         widget: "string"
         required: false
+        hint: "📍 Gdzie: /strefa-uczestnika → tytuł oferty (EN). ⚠️ Max 60 znaków. ✏️ Przykład: 15% discount on K9 equipment"
       - label: "📋 Opis oferty"
         name: "offer_description_pl"
         widget: "text"
         required: true
-        hint: "Szczegóły — warunki, jak użyć kodu rabatowego."
+        hint: "📍 Gdzie: /strefa-uczestnika → opis warunków (PL). ⚠️ Max 200 znaków, jasne warunki. ✏️ Przykład: Rabat na wszystkie uprzęże i akcesoria K9 do 31.08.2026"
       - label: "📋 Opis oferty (EN)"
         name: "offer_description_en"
         widget: "text"
@@ -4858,22 +4868,24 @@ collections:
         name: "discount_code"
         widget: "string"
         required: false
-        hint: "✏️ Np. CERBERUS2026"
+        hint: "📍 Gdzie: /strefa-uczestnika → kod przy ofercie. ⚠️ Opcjonalne. Tylko duże litery i cyfry. ✏️ Przykład: CERBERUS2026"
       - label: "🔗 Link do oferty"
         name: "claim_link"
         widget: "string"
         required: false
-        hint: "Musi zaczynać się od https://"
+        hint: "📍 Gdzie: /strefa-uczestnika → przycisk SKORZYSTAJ. ⚠️ Pełny URL z https://. Opcjonalne. ✏️ Przykład: https://tactical-equipment.pl/cerberus"
       - name: "target_audience"
         label: "Dla kogo"
         widget: "select"
         options: ["sluzby","cywil-z-psem","cywil-bez-psa","delegacja","media","sponsor","wszyscy"]
+        hint: "📍 Gdzie: filtrowanie ofert dla grup. ⚠️ Wybierz grupę docelową oferty. ✏️ wszyscy, sluzby, delegacja"
       - name: "valid_from"
         label: "Ważna od"
         widget: "datetime"
         format: "YYYY-MM-DD"
         dateFormat: true
         timeFormat: false
+        hint: "📍 Gdzie: data od kiedy oferta aktywna. ⚠️ Format RRRR-MM-DD. ✏️ Przykład: 2026-06-01"
       - name: "valid_until"
         label: "📅 Ważna do"
         widget: "datetime"
@@ -4881,7 +4893,7 @@ collections:
         date_format: "DD.MM.YYYY"
         time_format: false
         required: true
-        hint: "Data końca oferty, np. 2026-12-31."
+        hint: "📍 Gdzie: /strefa-uczestnika → data ważności oferty. ⚠️ Format RRRR-MM-DD. ✏️ Przykład: 2026-08-31"
       - name: "category"
         label: "🏷️ Kategoria"
         widget: "select"
@@ -4920,31 +4932,31 @@ collections:
           hint: "Unikalny identyfikator, np. k9-gryzienie. Bez spacji i polskich liter." }
       - { name: "ticket_type", label: "Typ biletu Pretix", widget: "string",
           required: false, hint: "Wypełnij po konfiguracji Pretix (R36)." }
-      - { name: "tag_pl", label: "Tag PL (np. ŚCIEŻKA 1)", widget: "string" }
-      - { name: "tag_en", label: "Tag EN (np. PATH 1)", widget: "string" }
-      - { name: "title_pl", label: "Tytuł PL", widget: "string" }
-      - { name: "title_en", label: "Tytuł EN", widget: "string" }
+      - { name: "tag_pl", label: "Tag PL (np. ŚCIEŻKA 1)", widget: "string", hint: "📍 Gdzie: /rejestracja → mały tag nad tytułem ścieżki (PL). ⚠️ Max 20 znaków. ✏️ Przykład: ŚCIEŻKA 1" }
+      - { name: "tag_en", label: "Tag EN (np. PATH 1)", widget: "string", hint: "📍 Gdzie: /rejestracja → mały tag nad tytułem (EN). ⚠️ Max 20 znaków. ✏️ Przykład: PATH 1" }
+      - { name: "title_pl", label: "Tytuł PL", widget: "string", hint: "📍 Gdzie: /rejestracja → główny tytuł karty (PL). ⚠️ Max 30 znaków, WIELKIE LITERY. ✏️ Przykład: K9 GRYZIENIE" }
+      - { name: "title_en", label: "Tytuł EN", widget: "string", hint: "📍 Gdzie: /rejestracja → główny tytuł karty (EN). ⚠️ Max 30 znaków. ✏️ Przykład: K9 BITING" }
       - { name: "audience_pl", label: "Dla kogo (PL)", widget: "string",
-          hint: "Np. Służby + Cywile z psem" }
+          hint: "📍 Gdzie: /rejestracja → dla kogo pod tytułem (PL). ⚠️ Max 40 znaków. ✏️ Przykład: Służby + Cywile z psem" }
       - { name: "audience_en", label: "Dla kogo (EN)", widget: "string" }
       - { name: "color_token", label: "Kolor paska górnego", widget: "select",
           options: ["red","blue","green","purple","orange","gold"],
-          hint: "red=K9, blue=detekcja, green=SAR, purple=drony, orange=TCCC, gold=konferencja" }
+          hint: "📍 Gdzie: /rejestracja → kolor paska bocznego karty. ⚠️ Wybierz kolor pasujący do modułu. ✏️ red=K9, blue=detekcja, green=SAR" }
       - { name: "max_participants", label: "Limit miejsc", widget: "number",
-          required: false, hint: "Zostaw puste jeśli brak limitu." }
+          required: false, hint: "📍 Gdzie: /rejestracja → limit miejsc pod tytułem. ⚠️ Zostaw puste jeśli brak limitu. ✏️ Przykład: 20" }
       - name: "items_pl"
         label: "Punkty programu (PL)"
         widget: "list"
-        hint: "Każdy punkt to jedna linia. Dodaj, usuń lub edytuj dowolnie."
+        hint: "📍 Gdzie: /rejestracja → punkty programu na karcie (PL). ⚠️ Każdy punkt to jedna linia. Max 3-4 punkty. ✏️ Przykład: Praca z pozorantem USA"
         field: { name: "item", label: "Punkt", widget: "string" }
       - name: "items_en"
         label: "Punkty programu (EN)"
         widget: "list"
-        hint: "English version of each programme point."
+        hint: "📍 Gdzie: /rejestracja → punkty programu (EN). ⚠️ Każdy punkt = jedna linia. ✏️ Przykład: Work with US decoy"
         field: { name: "item", label: "Point", widget: "string" }
       - { name: "pretix_direct_url", label: "Link Pretix (URL bezpośredni)",
           widget: "string", required: false,
-          hint: "Zostaw puste — wypełnisz po R36 (konfiguracja Pretix)." }
+          hint: "📍 Gdzie: /rejestracja → przycisk REJESTRACJA na karcie. ⚠️ Zostaw PUSTE — wypełnisz po konfiguracji Pretix (R36). Musi zaczynać się od https://. ✏️ Przykład: https://pretix.eu/..." }
       - { name: "order", label: "Kolejność", widget: "number", default: 99 }
       - { name: "isVisible", label: "Widoczna", widget: "boolean", default: true }
 
@@ -4956,10 +4968,10 @@ collections:
     extension: "yml"
     format: "yaml"
     fields:
-      - { label: "Cytat PL", name: "quote_pl", widget: "text" }
-      - { label: "Cytat EN", name: "quote_en", widget: "text" }
-      - { label: "Autor PL", name: "name_pl", widget: "string" }
-      - { label: "Widoczny", name: "isVisible", widget: "boolean", default: true }
+      - { label: "Cytat PL", name: "quote_pl", widget: "text", hint: "📍 Gdzie: strona główna → sekcja Wall of Fame, cytat (PL). ⚠️ Max 200 znaków, autentyczny cytat. ✏️ Przykład: Najlepsze wydarzenie K9 w jakim uczestniczyłem." }
+      - { label: "Cytat EN", name: "quote_en", widget: "text", hint: "📍 Gdzie: strona główna → Wall of Fame, cytat (EN). ⚠️ Max 200 znaków. ✏️ Przykład: Best K9 event I have ever attended." }
+      - { label: "Autor PL", name: "name_pl", widget: "string", hint: "📍 Gdzie: strona główna → podpis pod cytatem. ⚠️ Imię/pseudonim. Max 40 znaków. ✏️ Przykład: mjr rez. Tomasz K." }
+      - { label: "Widoczny", name: "isVisible", widget: "boolean", default: true, hint: "📍 Gdzie: strona główna → czy cytat widoczny. ⚠️ Max 3 widoczne naraz (pierwsze 3 z isVisible=TAK). ✏️ TAK = widoczny" }
 
   - name: "international_faq"
     label: "🌍 International FAQ"
@@ -4981,12 +4993,12 @@ collections:
     extension: "yml"
     format: "yaml"
     fields:
-      - { name: "country", label: "Kraj", widget: "string" }
-      - { name: "country_code", label: "Kod kraju", widget: "string", pattern: ["^[A-Z]{2}$", "Wpisz dokładnie dwie wielkie litery"] }
-      - { name: "unit", label: "Jednostka", widget: "string", required: false }
-      - { name: "specialization", label: "Specjalizacja K9", widget: "string", required: false, hint: "Np. K9 Detection, Tactical, SAR" }
-      - { name: "year_participating", label: "Rok uczestnictwa", widget: "number", default: 2026 }
-      - { name: "confirmed", label: "Potwierdzona", widget: "boolean", required: false, default: true }
+      - { name: "country", label: "Kraj", widget: "string", hint: "📍 Gdzie: /international → karta delegacji, nazwa kraju. ⚠️ Pełna nazwa po angielsku. ✏️ Przykład: United States" }
+      - { name: "country_code", label: "Kod kraju", widget: "string", pattern: ["^[A-Z]{2}$", "Wpisz dokładnie dwie wielkie litery"], hint: "📍 Gdzie: /international → flaga kraju na karcie. ⚠️ 2 WIELKIE LITERY. ✏️ Przykład: US" }
+      - { name: "unit", label: "Jednostka", widget: "string", required: false, hint: "📍 Gdzie: /international → nazwa jednostki na karcie. ⚠️ Oficjalna nazwa. Max 50 znaków. ✏️ Przykład: US Police K9 SWAT" }
+      - { name: "specialization", label: "Specjalizacja K9", widget: "string", required: false, hint: "📍 Gdzie: /international → specjalizacja pod jednostką. ⚠️ Max 40 znaków. ✏️ Przykład: K9 Bite Work & Tactical" }
+      - { name: "year_participating", label: "Rok uczestnictwa", widget: "number", default: 2026, hint: "📍 Gdzie: /international → rok uczestnictwa na karcie. ⚠️ 4 cyfry. ✏️ Przykład: 2026" }
+      - { name: "confirmed", label: "Potwierdzona", widget: "boolean", required: false, default: true, hint: "📍 Gdzie: /international → czy delegacja pojawia się na liście. ⚠️ TAK = widoczna w sekcji DELEGATIONS CONFIRMED. ✏️ TAK = potwierdzona" }
       - { name: "order", label: "Kolejność", widget: "number", required: false, default: 99 }
 
   - name: "international_hero"
