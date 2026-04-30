@@ -1,5 +1,5 @@
 video_url_4: https://www.youtube.com/embed/aNG1UVyOqNA
-social_instagram: ""
+social_instagram: "https://www.instagram.com/pactak9"
 og_locale: pl_PL
 contact_phone_mariusz: ""
 social_twitter: ""
@@ -85,7 +85,7 @@ hero_tagline: MIĘDZYNARODOWA PLATFORMA OBRONY · EDYCJA 2026
 registration_contact_phone: +48 695 637 907
 sekcja_live:
   live_mode_active: false
-  current_competitor: ""
+  current_competitor: "Oczekiwanie na update"
   notification_bar_active: false
   notification_bar_severity: info
   notification_bar_text_pl: ""
@@ -112,8 +112,8 @@ footer_domains: cerberusk9.org | pactak9.org
 sekcja_social:
   social_facebook: https://www.facebook.com/cerberusk9
   social_youtube: https://www.youtube.com/@cerberusk9
-  social_instagram: ""
-  social_linkedin: ""
+  social_instagram: "https://www.instagram.com/pactak9"
+  social_linkedin: "https://www.linkedin.com/company/pactak9"
   social_twitter: ""
   twitter_handle: "@cerberusk9"
 footer_link_about: o-wydarzeniu
@@ -142,7 +142,7 @@ contact_address_country_pl: Polska
 nav_registration_active: true
 pwa_name: CERBERUS K9
 footer_address: ul. Odolanowska 17, 63-400 Topola Mała
-social_linkedin: ""
+social_linkedin: "https://www.linkedin.com/company/pactak9"
 gallery_video_1_url: https://www.youtube.com/watch?v=kUhqmGhrbas
 registration_prep_day: "Dzień przygotowawczy: 12 czerwca"
 participants_count: 250+
@@ -314,7 +314,7 @@ sekcja_rejestracja:
   accreditation_deadline: 30.05.2026
 og_image_alt: CERBERUS K9 2026 — Międzynarodowa Platforma Obrony
 apple_touch_icon: /apple-touch-icon.png
-footer_instagram_url: ""
+footer_instagram_url: "https://www.instagram.com/pactak9"
 event_timezone: Europe/Warsaw
 video_url_3: https://www.youtube.com/embed/lf-Aek_TSzI
 footer_link_contact: kontakt
