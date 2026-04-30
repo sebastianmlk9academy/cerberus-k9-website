@@ -2719,6 +2719,27 @@ collections:
                   📍 Gdzie: trzeci wiersz listy 3 kroków na /rejestracja.
                   ⚠️ Ważne: max 220 znaków. To krok awaryjny dla użytkownika.
                   ✏️ Przykład: Jeśli przyciski nie reagują, użyj linku „Otwórz pełny formularz\" pod widgetem.
+  - name: "timeline"
+    label: "Oś czasu CERBERUS K9"
+    label_singular: "Węzeł osi czasu"
+    description: "Historia i plany edycji CERBERUS K9 — widoczna na stronie głównej."
+    folder: "src/content/timeline"
+    create: true
+    delete: false
+    slug: "{{slug}}"
+    identifier_field: "year"
+    summary: "{{year}} — {{status}}"
+    fields:
+      - { name: "year", label: "Rok", widget: "number", hint: "Rok edycji, np. 2026." }
+      - { name: "status", label: "Status", widget: "select", options: ["completed","current","planned","vision"], hint: "completed=zakończona, current=bieżąca, planned=zaplanowana, vision=wizja" }
+      - { name: "title_pl", label: "Tytuł (PL)", widget: "string" }
+      - { name: "title_en", label: "Tytuł (EN)", widget: "string", required: false }
+      - { name: "subtitle_pl", label: "Podtytuł (PL)", widget: "string", required: false }
+      - { name: "subtitle_en", label: "Podtytuł (EN)", widget: "string", required: false }
+      - { name: "color_token", label: "Kolor węzła", widget: "select", options: ["gold","red","navyBorder"], hint: "gold=aktywny/zakończony, red=bieżący, navyBorder=przyszły" }
+      - { name: "pulse", label: "Animacja pulsowania", widget: "boolean", default: false, hint: "Włącz tylko dla bieżącej edycji (2026)" }
+      - { name: "order", label: "Kolejność", widget: "number", default: 99 }
+      - { name: "isVisible", label: "Widoczny", widget: "boolean", default: true }
   - name: "team"
     label: "Zesp??"
     label_singular: "Cz?onek zespo?u"
