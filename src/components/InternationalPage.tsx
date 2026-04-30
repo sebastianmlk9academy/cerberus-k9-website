@@ -52,13 +52,6 @@ export interface InternationalPageProps {
   confirmedDelegations?: DelegationItem[];
 }
 
-const countryCodeToFlag = (code: string) =>
-  code
-    .toUpperCase()
-    .split('')
-    .map((c) => String.fromCodePoint(0x1f1e6 + c.charCodeAt(0) - 65))
-    .join('');
-
 export default function InternationalPage({
   hero,
   protocol,
@@ -72,7 +65,7 @@ export default function InternationalPage({
   const [showAllDelegations, setShowAllDelegations] = useState(false);
   const [hoverProgram, setHoverProgram] = useState(false);
   const isPolish = lang === 'pl';
-  const uniqueDelegations = confirmedDelegations.filter(
+  const uniqueDelegations = (confirmedDelegations ?? []).filter(
     (item, idx, arr) =>
       item.country_code?.length === 2 &&
       arr.findIndex((entry) => entry.country_code.toUpperCase() === item.country_code.toUpperCase()) === idx,
@@ -157,9 +150,14 @@ export default function InternationalPage({
                 className="border border-navyBorder bg-navyCard px-6 py-5 transition-colors duration-200 hover:border-gold"
               >
                 <div className="mb-2 flex items-center gap-3">
-                  <span aria-hidden className="text-3xl leading-none">
-                    {countryCodeToFlag(delegation.country_code)}
-                  </span>
+                  <img
+                    src={`https://flagcdn.com/w40/${delegation.country_code.toLowerCase()}.png`}
+                    srcSet={`https://flagcdn.com/w80/${delegation.country_code.toLowerCase()}.png 2x`}
+                    width="40"
+                    height="27"
+                    alt={delegation.country}
+                    style={{ objectFit: 'cover', borderRadius: 0 }}
+                  />
                   <p className="font-rajdhani text-[13px] uppercase tracking-[3px] text-bone">
                     {delegation.country}
                   </p>
