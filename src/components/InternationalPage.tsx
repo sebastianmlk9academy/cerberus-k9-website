@@ -2,6 +2,7 @@ import { PageHero } from './PageHero';
 import FAQAccordion from './FAQAccordion';
 import type { Lang } from '../i18n/utils';
 import { useState } from 'react';
+import { tokens } from '../styles/tokens';
 
 export interface InternationalHero {
   tag_en: string;
@@ -13,9 +14,10 @@ export interface InternationalHero {
 }
 
 export interface ProtocolItem {
-  icon: string;
   title_en: string;
+  title_pl?: string;
   body_en: string;
+  body_pl?: string;
 }
 
 export interface FAQItem {
@@ -68,6 +70,7 @@ export default function InternationalPage({
   confirmedDelegations = [],
 }: InternationalPageProps) {
   const [showAllDelegations, setShowAllDelegations] = useState(false);
+  const isPolish = lang === 'pl';
   const uniqueDelegations = confirmedDelegations.filter(
     (item, idx, arr) =>
       item.country_code?.length === 2 &&
@@ -116,11 +119,18 @@ export default function InternationalPage({
             <article
               key={`${item.title_en}-${idx}`}
               className="border border-border p-6"
-              style={{ backgroundColor: '#1E2B38', borderTop: '2px solid #C4922A' }}
+              style={{
+                backgroundColor: '#1E2B38',
+                borderTop: '2px solid #C4922A',
+                borderLeft: `3px solid ${tokens.brand.gold}`,
+              }}
             >
-              <div className="mb-3 text-[32px] leading-none">{item.icon}</div>
-              <h3 className="mb-2 text-lg font-bold text-bone">{item.title_en}</h3>
-              <p className="text-sm leading-relaxed text-muted">{item.body_en}</p>
+              <h3 className="mb-2 text-lg font-bold text-bone">
+                {isPolish && item.title_pl ? item.title_pl : item.title_en}
+              </h3>
+              <p className="text-sm leading-relaxed text-muted">
+                {isPolish && item.body_pl ? item.body_pl : item.body_en}
+              </p>
             </article>
           ))}
         </div>

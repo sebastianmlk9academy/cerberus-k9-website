@@ -4976,6 +4976,26 @@ collections:
           - { name: "cta_register_en", label: "CTA rejestracja EN", widget: "string" }
           - { name: "cta_program_en", label: "CTA program EN", widget: "string" }
 
+  - name: "international_protocol"
+    label: "International — Protokół Delegacji"
+    description: "6 kafelków w sekcji DELEGATION PROTOCOL na stronie /international."
+    files:
+      - name: "protocol"
+        label: "Kafelki protokołu"
+        file: "src/content/international/protocol.yml"
+        extension: "yml"
+        format: "yaml"
+        fields:
+          - name: "items"
+            label: "Kafelki"
+            widget: "list"
+            label_singular: "Kafelek"
+            fields:
+              - { name: "title_en", label: "Tytuł (EN)", widget: "string", hint: "Np. Official Accreditation" }
+              - { name: "title_pl", label: "Tytuł (PL)", widget: "string", required: false, hint: "Opcjonalne tłumaczenie" }
+              - { name: "body_en", label: "Opis (EN)", widget: "text", hint: "1-2 zdania po angielsku" }
+              - { name: "body_pl", label: "Opis (PL)", widget: "text", required: false, hint: "Opcjonalne tłumaczenie" }
+
   - name: "international_contact"
     label: "International — Kontakt"
     files:

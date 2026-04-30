@@ -665,9 +665,10 @@ const international_protocol = defineCollection({
 	schema: z.object({
 		items: z.array(
 			z.object({
-				icon: z.string(),
 				title_en: z.string(),
+				title_pl: z.string().optional(),
 				body_en: z.string(),
+				body_pl: z.string().optional(),
 			}),
 		),
 	}),
