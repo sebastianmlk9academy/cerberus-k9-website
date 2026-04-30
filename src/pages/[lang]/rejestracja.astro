@@ -155,65 +155,67 @@ const regH = regHero[lang] ?? regHero.pl;
 	robots="noindex, follow"
 >
 	<NavBar lang={lang} client:load logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} links={navLinks} activeHref={Astro.url.pathname} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
-	<PageHero
-		category={regH.category}
-		title={regH.title}
-		subtitle={regH.subtitle}
-		heroImage={s?.hero_background_image}
-		heroOpacity={s?.hero_background_opacity}
-	/>
-	<RegistrationPaths
-		client:load
-		paths={paths}
-		lang={lang}
-		fallbackUrl={s?.registration_url ?? s?.pretix_url}
-	/>
-	{
-		!s?.registration_active ? (
-			<section style="background:#161F28; padding:80px 5%; text-align:center;">
-				<p
-					style="font-family:Rajdhani,sans-serif; font-size:11px; letter-spacing:3px; color:#C4922A; font-weight:700;"
-				>
-					{lang === 'pl'
-						? 'REJESTRACJA NIEDOSTĘPNA — SPRAWDŹ PONOWNIE PÓŹNIEJ'
-						: 'REGISTRATION UNAVAILABLE — CHECK BACK LATER'}
-				</p>
-			</section>
-		) : (
-			<!-- Legacy: sidebar fields below are emergency fallback. Canonical: registration_info collection. -->
-			<RegistrationSection
-				lang={lang}
-				pretixUrl={s?.pretix_url}
-				dateValue={s?.registration_date_display}
-				prepDay={s?.registration_prep_day}
-				venues={s?.registration_venues}
-				city={s?.registration_city}
-				contactEmail={s?.registration_contact_email}
-				contactPhone={s?.registration_contact_phone}
-				regDateDisplay={
-					regInfo?.reg_date_display ?? s?.registration_date_display ?? '13–14 czerwca 2026'
-				}
-				regPrepDay={regInfo?.reg_prep_day ?? s?.registration_prep_day}
-				regVenues={regInfo?.reg_venues ?? s?.registration_venues}
-				regCity={regInfo?.reg_city ?? s?.registration_city ?? 'Ostrów Wielkopolski'}
-				regContactEmail={
-					regInfo?.reg_contact_email ?? s?.registration_contact_email ?? s?.footer_email ?? 'sebastian@pactak9.org'
-				}
-				regContactPhone={regInfo?.reg_contact_phone ?? s?.registration_contact_phone ?? s?.footer_phone}
-				regEntryText={regInfo?.reg_entry_text}
-				regDeadlineText={regInfo?.reg_deadline_text ?? s?.registration_deadline_text}
-				regLimitText={regInfo?.reg_limit_text}
-				regStep1Pl={lang === 'pl' ? regInfo?.reg_step_1_pl : undefined}
-				regStep2Pl={lang === 'pl' ? regInfo?.reg_step_2_pl : undefined}
-				regStep3Pl={lang === 'pl' ? regInfo?.reg_step_3_pl : undefined}
-				presidentEmail={
-					s?.contact_president_email?.trim() ||
-						s?.president_email?.trim() ||
-						'mariusz@pactak9.org'
-				}
-			/>
-		)
-	}
+	<div style="background: linear-gradient(to bottom, #161F28, #1A2530, #161F28);">
+		<PageHero
+			category={regH.category}
+			title={regH.title}
+			subtitle={regH.subtitle}
+			heroImage={s?.hero_background_image}
+			heroOpacity={s?.hero_background_opacity}
+		/>
+		<RegistrationPaths
+			client:load
+			paths={paths}
+			lang={lang}
+			fallbackUrl={s?.registration_url ?? s?.pretix_url}
+		/>
+		{
+			!s?.registration_active ? (
+				<section style="background:#161F28; padding:80px 5%; text-align:center;">
+					<p
+						style="font-family:Rajdhani,sans-serif; font-size:11px; letter-spacing:3px; color:#C4922A; font-weight:700;"
+					>
+						{lang === 'pl'
+							? 'REJESTRACJA NIEDOSTĘPNA — SPRAWDŹ PONOWNIE PÓŹNIEJ'
+							: 'REGISTRATION UNAVAILABLE — CHECK BACK LATER'}
+					</p>
+				</section>
+			) : (
+				<!-- Legacy: sidebar fields below are emergency fallback. Canonical: registration_info collection. -->
+				<RegistrationSection
+					lang={lang}
+					pretixUrl={s?.pretix_url}
+					dateValue={s?.registration_date_display}
+					prepDay={s?.registration_prep_day}
+					venues={s?.registration_venues}
+					city={s?.registration_city}
+					contactEmail={s?.registration_contact_email}
+					contactPhone={s?.registration_contact_phone}
+					regDateDisplay={
+						regInfo?.reg_date_display ?? s?.registration_date_display ?? '13–14 czerwca 2026'
+					}
+					regPrepDay={regInfo?.reg_prep_day ?? s?.registration_prep_day}
+					regVenues={regInfo?.reg_venues ?? s?.registration_venues}
+					regCity={regInfo?.reg_city ?? s?.registration_city ?? 'Ostrów Wielkopolski'}
+					regContactEmail={
+						regInfo?.reg_contact_email ?? s?.registration_contact_email ?? s?.footer_email ?? 'sebastian@pactak9.org'
+					}
+					regContactPhone={regInfo?.reg_contact_phone ?? s?.registration_contact_phone ?? s?.footer_phone}
+					regEntryText={regInfo?.reg_entry_text}
+					regDeadlineText={regInfo?.reg_deadline_text ?? s?.registration_deadline_text}
+					regLimitText={regInfo?.reg_limit_text}
+					regStep1Pl={lang === 'pl' ? regInfo?.reg_step_1_pl : undefined}
+					regStep2Pl={lang === 'pl' ? regInfo?.reg_step_2_pl : undefined}
+					regStep3Pl={lang === 'pl' ? regInfo?.reg_step_3_pl : undefined}
+					presidentEmail={
+						s?.contact_president_email?.trim() ||
+							s?.president_email?.trim() ||
+							'mariusz@pactak9.org'
+					}
+				/>
+			)
+		}
+	</div>
 	<Footer
 		lang={lang}
 		copy={footerCopyByLang[lang] ?? footerCopyByLang['pl']}

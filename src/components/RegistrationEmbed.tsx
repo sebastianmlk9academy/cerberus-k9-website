@@ -415,9 +415,9 @@ const regCopy: Record<
 };
 
 const partnerCtaBase = {
-  backgroundColor: "#C42B2B",
-  color: "#FFFFFF",
-  border: "none",
+  backgroundColor: "transparent",
+  color: "#C4922A",
+  border: "1px solid #C4922A",
   borderRadius: 0,
   fontFamily: "'Rajdhani', sans-serif",
   fontSize: "11px",
@@ -429,11 +429,13 @@ const partnerCtaBase = {
 } as const;
 
 function setPartnerCtaHover(e: MouseEvent<HTMLAnchorElement>) {
-  e.currentTarget.style.backgroundColor = "#A82424";
+  e.currentTarget.style.backgroundColor = "#C4922A";
+  e.currentTarget.style.color = "#1E2B38";
 }
 
 function setPartnerCtaLeave(e: MouseEvent<HTMLAnchorElement>) {
-  e.currentTarget.style.backgroundColor = "#C42B2B";
+  e.currentTarget.style.backgroundColor = "transparent";
+  e.currentTarget.style.color = "#C4922A";
 }
 
 /** Left column: heading + registration steps (Pretix widget is rendered between this and RegistrationTip via Astro). */
