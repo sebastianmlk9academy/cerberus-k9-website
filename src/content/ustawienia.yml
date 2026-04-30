@@ -87,7 +87,11 @@ sekcja_live:
   live_mode_active: false
   current_competitor: ""
   notification_bar_active: false
-  notification_bar_text: ""
+  notification_bar_severity: info
+  notification_bar_text_pl: ""
+  notification_bar_text_en: ""
+  notification_bar_link_text_pl: ""
+  notification_bar_link_text_en: ""
   notification_bar_url: ""
   gallery_unlock_date: 2026-06-14
 event_venue: 3MK Arena
@@ -118,7 +122,6 @@ hero_subline_pl: WSTĘP BEZPŁATNY · REJESTRACJA WYMAGANA
 footer_link_partners: partnerzy
 contact_address_street: ul. Odolanowska 17
 default_news_image: /images/cerberus-k9-logo.png
-notification_bar_text: ""
 contact_gdpr_text_pl: Wyrażam zgodę na przetwarzanie danych osobowych zgodnie z RODO.
 main_video_title: CERBERUS K9 2025 — Główna relacja
 event_time_end: 18:00
@@ -328,7 +331,9 @@ hero_background_opacity: 0.4
 notification_bar_active: false
 notification_bar_text_pl: ""
 notification_bar_text_en: ""
-notification_bar_severity: "info"
+notification_bar_severity: info
+notification_bar_link_text_pl: ""
+notification_bar_link_text_en: ""
 notification_bar_url: ""
 mobile_sticky_cta_active: false
 ga4_id: ""

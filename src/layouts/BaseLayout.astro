@@ -2,7 +2,7 @@
 import { getEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import CookieConsent from '../components/CookieConsent.astro';
-import AnnouncementBar from '../components/AnnouncementBar.astro';
+import NotificationBar from '@/components/NotificationBar';
 import type { ImageMetadata } from 'astro';
 import FallbackImage from '../assets/blog-placeholder-1.jpg';
 import { getAbsoluteLocaleUrlList } from 'astro:i18n';
@@ -112,11 +112,19 @@ const canonicalAlternateHref = (
 		}
 	</head>
 	<body class="min-h-screen bg-navyDeep font-sans text-bone antialiased">
-		<AnnouncementBar
+		<NotificationBar
 			client:load
-			active={s?.notification_bar_active ?? false}
-			text={s?.notification_bar_text}
-			url={s?.notification_bar_url}
+			isActive={s?.notification_bar_active ?? false}
+			messagePl={s?.notification_bar_text_pl ?? s?.notification_bar_text ?? ''}
+			messageEn={s?.notification_bar_text_en ?? ''}
+			lang={lang}
+			linkText={
+				lang === 'en'
+					? (s?.notification_bar_link_text_en ?? undefined)
+					: (s?.notification_bar_link_text_pl ?? undefined)
+			}
+			linkHref={s?.notification_bar_url ?? undefined}
+			severity={s?.notification_bar_severity ?? 'info'}
 		/>
 		<slot name="header" />
 		<slot />

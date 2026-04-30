@@ -631,20 +631,45 @@ collections:
                 hint: "Pole dla trybu LIVE; gdy LIVE nieużywany, zostaw puste."
                 required: false
               - name: "notification_bar_active"
-                label: "📣 Pasek powiadomień"
+                label: "Pasek powiadomień aktywny"
                 widget: "boolean"
-                hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+                hint: "Włącza pasek na górze strony. Tekst i ewentualny link ustaw poniżej."
                 required: false
                 default: false
-              - name: "notification_bar_text"
-                label: "📣 Tekst paska"
+              - name: "notification_bar_severity"
+                label: "Typ paska"
+                widget: "select"
+                hint: "Kolor tła: pilny (czerwony), informacja (granat), sukces (zielony)."
+                required: false
+                default: "info"
+                options:
+                  - { label: "Pilny (czerwony)", value: "urgent" }
+                  - { label: "Informacja (granat)", value: "info" }
+                  - { label: "Sukces (zielony)", value: "success" }
+              - name: "notification_bar_text_pl"
+                label: "Tekst paska (PL)"
                 widget: "string"
-                hint: "Opcjonalne. Wypełnij tylko gdy `notification_bar_active = true`."
+                hint: "Krótki, naglący, max 60 znaków. Dismiss w przeglądarce jest powiązany z tym tekstem (PL)."
+                required: false
+              - name: "notification_bar_text_en"
+                label: "Tekst paska (EN)"
+                widget: "string"
+                hint: "Krótki, naglący, max 60 znaków. Wersja angielska na /en."
+                required: false
+              - name: "notification_bar_link_text_pl"
+                label: "Tekst linku (PL)"
+                widget: "string"
+                hint: "Opcjonalnie. Gdy pusty — domyślnie „Zarejestruj się →” (tylko jeśli podano URL)."
+                required: false
+              - name: "notification_bar_link_text_en"
+                label: "Tekst linku (EN)"
+                widget: "string"
+                hint: "Opcjonalnie. Gdy pusty — domyślnie „Register →” (tylko jeśli podano URL)."
                 required: false
               - name: "notification_bar_url"
-                label: "📣 Link paska"
+                label: "URL linku w pasku"
                 widget: "string"
-                hint: "Opcjonalne. Wypełnij tylko gdy pasek powiadomień jest aktywny."
+                hint: "Pełny adres https. Opcjonalny — bez URL pasek pokaże sam tekst."
                 required: false
                 pattern:
                   - "^https?://.+$"

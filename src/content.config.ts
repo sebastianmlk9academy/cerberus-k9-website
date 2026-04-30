@@ -338,6 +338,13 @@ function flattenUstawieniaCmsInput(raw: unknown): unknown {
 			merged[k] = k === 'modules_count' ? String(n) : `${n}+`;
 		}
 	}
+	const plEmpty =
+		typeof merged.notification_bar_text_pl !== 'string' || String(merged.notification_bar_text_pl).trim() === '';
+	const legacyText =
+		typeof merged.notification_bar_text === 'string' ? String(merged.notification_bar_text).trim() : '';
+	if (plEmpty && legacyText !== '') {
+		merged.notification_bar_text_pl = merged.notification_bar_text;
+	}
 	return merged;
 }
 
@@ -374,9 +381,16 @@ const ustawienia = defineCollection({
 		hero_background_image: z.string().optional(),
 		hero_background_opacity: z.coerce.number().optional().default(0.4),
 		plausible_domain: z.string(),
+		notification_bar_active: z.boolean().default(false),
+		notification_bar_severity: z.enum(['urgent', 'info', 'success']).default('info'),
 		notification_bar_text_pl: z.string().optional(),
 		notification_bar_text_en: z.string().optional(),
-		notification_bar_severity: z.enum(['urgent', 'info', 'success']).optional().default('info'),
+		notification_bar_link_text_pl: z.string().optional(),
+		notification_bar_link_text_en: z.string().optional(),
+		notification_bar_url: z.preprocess(
+			(v) => (v === '' || v == null ? undefined : v),
+			z.string().url().optional(),
+		),
 		mobile_sticky_cta_active: z.boolean().optional().default(false),
 		ga4_id: z.string().optional(),
 		microsoft_clarity_id: z.string().optional(),
@@ -384,9 +398,7 @@ const ustawienia = defineCollection({
 		hero_cta_registration_href: z.string().optional(),
 		hero_cta_program_href: z.string().optional(),
 		hardest_hit_active: z.boolean().default(true),
-		notification_bar_active: z.boolean().default(false),
 		notification_bar_text: z.string().optional(),
-		notification_bar_url: z.string().optional(),
 		live_mode_active: z.boolean().default(false),
 		footer_email: z.string(),
 		footer_phone: z.string(),
