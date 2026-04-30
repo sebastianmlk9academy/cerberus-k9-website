@@ -1,0 +1,75 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { NavBar } from '../../components/NavBar';
+import HardestHitPage from '../../components/HardestHitPage';
+import { Footer } from '../../components/Footer';
+import { getSortedNavLinks } from '../../lib/getSortedNavLinks';
+import { footerCopyByLang } from '../../i18n/footer';
+
+export const prerender = true;
+
+const lang = 'pl';
+const settings = await getEntry('ustawienia', 'ustawienia');
+const s = settings?.data;
+const navLinks = await getSortedNavLinks(lang);
+const registrationHref =
+  s?.registration_url?.trim() || s?.pretix_url?.trim() || `/${lang}/rejestracja`;
+
+const resultsRaw = await getCollection('hardestHitResults');
+const results = resultsRaw
+  .filter((entry) => entry.data.edition === '2025')
+  .sort((a, b) => a.data.rank - b.data.rank)
+  .map((entry) => ({
+    rank: entry.data.rank,
+    competitor_name: entry.data.competitor_name,
+    country: entry.data.country,
+    country_code: entry.data.country_code,
+    dog_name: entry.data.dog_name,
+    score: entry.data.score,
+  }));
+---
+
+<BaseLayout
+  lang={lang}
+  title="Hardest Hit — CERBERUS K9 2026"
+  description="Hardest Hit: zawody K9, leaderboard 2025 i zgłoszenia na 2026."
+  localizedPath="hardest-hit"
+  ogType="website"
+>
+  <NavBar lang={lang} client:load logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} links={navLinks} activeHref={Astro.url.pathname} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
+  <HardestHitPage client:load lang={lang} results={results} registrationHref={registrationHref} />
+  <Footer
+    lang={lang}
+    copy={footerCopyByLang[lang] ?? footerCopyByLang['pl']}
+    logoSrc={s?.nav_logo}
+    logoAlt={s?.nav_logo_alt}
+    brandName={s?.brand_name}
+    brandTagline={s?.brand_tagline}
+    email={s?.footer_email ?? s?.registration_contact_email}
+    phone={s?.footer_phone ?? s?.contact_phone_sebastian}
+    socialFacebook={s?.social_facebook}
+    socialYoutube={s?.social_youtube}
+    socialInstagram={s?.social_instagram}
+    socialLinkedin={s?.social_linkedin}
+    socialTwitter={s?.social_twitter}
+    address={s?.footer_address}
+    foundationName={s?.footer_foundation_name}
+    domains={s?.footer_domains}
+    krsNumber={s?.krs_number}
+    nipNumber={s?.nip_number}
+    regonNumber={s?.regon_number}
+    footerLinks={{
+      about: s?.footer_link_about,
+      instructors: s?.footer_link_instructors,
+      registration: s?.footer_link_registration,
+      program: s?.footer_link_program,
+      gallery: s?.footer_link_gallery,
+      media: s?.footer_link_media,
+      news: s?.footer_link_news,
+      foundation: s?.footer_link_foundation,
+      partners: s?.footer_link_partners,
+      contact: s?.footer_link_contact,
+    }}
+  />
+</BaseLayout>
