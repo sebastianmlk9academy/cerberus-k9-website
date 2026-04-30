@@ -1,0 +1,70 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { locales } from '../../../../locales.mjs';
+import { isLang } from '../../../i18n/utils';
+import type { Lang } from '../../../i18n/ui';
+import { NavBar } from '../../../components/NavBar';
+import CertificatePage from '../../../components/CertificatePage';
+import { Footer } from '../../../components/Footer';
+import { getSortedNavLinks } from '../../../lib/getSortedNavLinks';
+import { footerCopyByLang } from '../../../i18n/footer';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const certs = await getCollection('certyfikaty');
+  const langs = locales.filter((l) => l !== 'pl');
+  return certs.flatMap((c) =>
+    langs.map((lang) => ({
+      params: { lang, id: c.data.certificate_id },
+      props: { cert: c.data, lang },
+    })),
+  );
+}
+
+const { lang: paramLang } = Astro.params;
+const { cert } = Astro.props;
+const lang: Lang = isLang(paramLang ?? '') ? (paramLang as Lang) : 'en';
+const settings = await getEntry('ustawienia', 'ustawienia');
+const s = settings?.data;
+const navLinks = await getSortedNavLinks(lang);
+---
+
+<BaseLayout
+  lang={lang}
+  title={cert ? `Certificate ${cert.certificate_id} — CERBERUS K9` : 'Certificate — CERBERUS K9'}
+  description="CERBERUS K9 participation certificate."
+  localizedPath={cert ? `certyfikat/${cert.certificate_id}` : 'certyfikat'}
+  ogType="website"
+>
+  <NavBar lang={lang} client:load logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} links={navLinks} activeHref={Astro.url.pathname} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
+  <CertificatePage client:load cert={cert} />
+  <Footer
+    lang={lang}
+    copy={footerCopyByLang[lang] ?? footerCopyByLang['pl']}
+    logoSrc={s?.nav_logo}
+    logoAlt={s?.nav_logo_alt}
+    brandName={s?.brand_name}
+    brandTagline={s?.brand_tagline}
+    email={s?.footer_email ?? s?.registration_contact_email}
+    phone={s?.footer_phone ?? s?.contact_phone_sebastian}
+    socialFacebook={s?.social_facebook}
+    socialYoutube={s?.social_youtube}
+    socialInstagram={s?.social_instagram}
+    socialLinkedin={s?.social_linkedin}
+    socialTwitter={s?.social_twitter}
+    footerLinks={{
+      about: s?.footer_link_about,
+      instructors: s?.footer_link_instructors,
+      registration: s?.footer_link_registration,
+      program: s?.footer_link_program,
+      gallery: s?.footer_link_gallery,
+      media: s?.footer_link_media,
+      news: s?.footer_link_news,
+      foundation: s?.footer_link_foundation,
+      partners: s?.footer_link_partners,
+      contact: s?.footer_link_contact,
+    }}
+  />
+</BaseLayout>
