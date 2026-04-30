@@ -6,7 +6,6 @@ title_pl: "K9 SAR"
 title_en: "K9 SAR"
 audience_pl: "Służby + Cywile z psem"
 audience_en: "Services + Civilians with dog"
-icon: "🎯"
 color_token: "green"
 max_participants: 20
 items_pl: ["Poszukiwania", "Scenariusze SAR", "Certyfikat K9"]

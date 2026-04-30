@@ -6,7 +6,6 @@ title_pl: "TCCC"
 title_en: "TCCC"
 audience_pl: "Personel medyczny i taktyczny"
 audience_en: "Medical and tactical personnel"
-icon: "⛑️"
 color_token: "orange"
 max_participants: null
 items_pl: ["Taktyczna opieka medyczna", "Symulacje", "Certyfikacja"]

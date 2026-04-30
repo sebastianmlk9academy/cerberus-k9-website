@@ -6,7 +6,6 @@ title_pl: "KONFERENCJA"
 title_en: "CONFERENCE"
 audience_pl: "Delegacje, media, partnerzy"
 audience_en: "Delegations, media, partners"
-icon: "🎤"
 color_token: "gold"
 max_participants: null
 items_pl: ["Prelekcje NATO", "Networking", "Panel dyskusyjny"]

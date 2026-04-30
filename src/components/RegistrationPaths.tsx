@@ -9,7 +9,6 @@ export type RegistrationPathData = {
 	title_en: string;
 	audience_pl: string;
 	audience_en: string;
-	icon: string;
 	color_token: 'red' | 'blue' | 'green' | 'purple' | 'orange' | 'gold';
 	max_participants?: number | null;
 	items_pl: string[];
@@ -56,20 +55,15 @@ export function RegistrationPaths({ paths, lang, fallbackUrl }: Props) {
 						return (
 							<article
 								key={p.slug}
-								className="relative bg-navyDeep p-6"
-								style={{ borderTop: `3px solid ${borderColor}` }}
+								className="relative border-t border-border bg-navyDeep p-6"
+								style={{ borderLeft: `3px solid ${borderColor}` }}
 							>
 								<p className="font-rajdhani text-[10px] font-bold uppercase tracking-[0.2em] text-gold/90">
 									{tag}
 								</p>
-								<div className="mt-2 flex items-start gap-3">
-									<span className="text-2xl leading-none" aria-hidden>
-										{p.icon}
-									</span>
-									<div className="min-w-0 flex-1">
-										<h3 className="font-bebas text-2xl tracking-wide text-bone md:text-[1.65rem]">{title}</h3>
-										<p className="mt-1 font-rajdhani text-xs text-muted">{audience}</p>
-									</div>
+								<div className="mt-2">
+									<h3 className="font-bebas text-2xl tracking-wide text-bone md:text-[1.65rem]">{title}</h3>
+									<p className="mt-1 font-rajdhani text-xs text-muted">{audience}</p>
 								</div>
 								{max != null && (
 									<p className="mt-3 font-rajdhani text-[11px] uppercase tracking-wider text-muted">
@@ -90,13 +84,32 @@ export function RegistrationPaths({ paths, lang, fallbackUrl }: Props) {
 									<a
 										href={href}
 										{...(hasDirect ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-										className="inline-flex items-center justify-center border border-gold bg-gold/10 px-5 py-2.5 font-rajdhani text-xs font-semibold uppercase tracking-wider text-gold transition hover:bg-gold/20"
+										className="inline-flex w-full items-center justify-center px-5 py-3 font-rajdhani text-[11px] font-bold uppercase tracking-[3px] transition-colors duration-200"
+										style={{
+											backgroundColor: '#C42B2B',
+											color: '#FFFFFF',
+											borderRadius: 0,
+											border: 'none',
+										}}
+										onMouseEnter={(e) => {
+											e.currentTarget.style.backgroundColor = '#A82424';
+										}}
+										onMouseLeave={(e) => {
+											e.currentTarget.style.backgroundColor = '#C42B2B';
+										}}
 									>
-										{isPl ? 'Rejestracja' : 'Register'}
+										{isPl ? 'REJESTRACJA' : 'REGISTER'}
 									</a>
 									{!hasDirect && (
-										<span className="rounded border border-border px-2 py-1 font-rajdhani text-[10px] font-semibold uppercase tracking-wider text-muted">
-											{isPl ? 'Wkrótce' : 'Coming soon'}
+										<span
+											className="inline-flex items-center justify-center px-4 py-3 font-rajdhani text-[10px] font-bold uppercase tracking-[2px]"
+											style={{
+												border: '1px solid #253344',
+												color: '#7A8A96',
+												borderRadius: 0,
+											}}
+										>
+											{isPl ? 'WKRÓTCE' : 'COMING SOON'}
 										</span>
 									)}
 								</div>

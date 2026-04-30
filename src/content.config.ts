@@ -1243,7 +1243,6 @@ const registration_paths = defineCollection({
 			title_en: z.string(),
 			audience_pl: z.string(),
 			audience_en: z.string(),
-			icon: z.string(),
 			color_token: z.enum(['red', 'blue', 'green', 'purple', 'orange', 'gold']),
 			max_participants: z.number().int().nullable().optional(),
 			items_pl: z.array(z.string()),

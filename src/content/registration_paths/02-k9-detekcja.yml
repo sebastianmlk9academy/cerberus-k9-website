@@ -6,7 +6,6 @@ title_pl: "K9 DETEKCJA"
 title_en: "K9 DETECTION"
 audience_pl: "Służby + Cywile z psem"
 audience_en: "Services + Civilians with dog"
-icon: "🔍"
 color_token: "blue"
 max_participants: 15
 items_pl: ["Linie zapachowe", "Pokazy detekcji", "Certyfikat K9"]

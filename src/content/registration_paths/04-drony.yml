@@ -6,7 +6,6 @@ title_pl: "DRONY"
 title_en: "DRONES"
 audience_pl: "Służby i specjaliści"
 audience_en: "Services and specialists"
-icon: "🛸"
 color_token: "purple"
 max_participants: 30
 items_pl: ["Taktyka BVLOS", "Integracja z K9", "Warsztaty"]

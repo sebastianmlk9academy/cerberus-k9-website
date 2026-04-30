@@ -4907,16 +4907,48 @@ collections:
         hint: "true = widoczna, false = ukryta po wygaśnięciu."
 
   - name: "registration_paths"
-    label: "🧭 Rejestracja — Ścieżki"
+    label: "Ścieżki rejestracji"
+    label_singular: "Ścieżka rejestracji"
+    description: "Karty ścieżek rejestracji na stronie /rejestracja."
     folder: "src/content/registration_paths"
     create: true
+    delete: true
     slug: "{{slug}}"
     extension: "yml"
     format: "yaml"
+    summary: "{{title_pl}} ({{tag_pl}})"
     fields:
-      - { label: "Slug", name: "slug", widget: "string" }
-      - { label: "Tytuł PL", name: "title_pl", widget: "string" }
-      - { label: "Widoczny", name: "isVisible", widget: "boolean", default: true }
+      - { name: "slug", label: "Slug", widget: "string",
+          hint: "Unikalny identyfikator, np. k9-gryzienie. Bez spacji i polskich liter." }
+      - { name: "ticket_type", label: "Typ biletu Pretix", widget: "string",
+          required: false, hint: "Wypełnij po konfiguracji Pretix (R36)." }
+      - { name: "tag_pl", label: "Tag PL (np. ŚCIEŻKA 1)", widget: "string" }
+      - { name: "tag_en", label: "Tag EN (np. PATH 1)", widget: "string" }
+      - { name: "title_pl", label: "Tytuł PL", widget: "string" }
+      - { name: "title_en", label: "Tytuł EN", widget: "string" }
+      - { name: "audience_pl", label: "Dla kogo (PL)", widget: "string",
+          hint: "Np. Służby + Cywile z psem" }
+      - { name: "audience_en", label: "Dla kogo (EN)", widget: "string" }
+      - { name: "color_token", label: "Kolor paska górnego", widget: "select",
+          options: ["red","blue","green","purple","orange","gold"],
+          hint: "red=K9, blue=detekcja, green=SAR, purple=drony, orange=TCCC, gold=konferencja" }
+      - { name: "max_participants", label: "Limit miejsc", widget: "number",
+          required: false, hint: "Zostaw puste jeśli brak limitu." }
+      - name: "items_pl"
+        label: "Punkty programu (PL)"
+        widget: "list"
+        hint: "Każdy punkt to jedna linia. Dodaj, usuń lub edytuj dowolnie."
+        field: { name: "item", label: "Punkt", widget: "string" }
+      - name: "items_en"
+        label: "Punkty programu (EN)"
+        widget: "list"
+        hint: "English version of each programme point."
+        field: { name: "item", label: "Point", widget: "string" }
+      - { name: "pretix_direct_url", label: "Link Pretix (URL bezpośredni)",
+          widget: "string", required: false,
+          hint: "Zostaw puste — wypełnisz po R36 (konfiguracja Pretix)." }
+      - { name: "order", label: "Kolejność", widget: "number", default: 99 }
+      - { name: "isVisible", label: "Widoczna", widget: "boolean", default: true }
 
   - name: "testimonials"
     label: "💬 Testimonials"
