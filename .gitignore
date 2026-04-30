@@ -25,3 +25,5 @@ pnpm-debug.log*
 
 .vercel
 .env*.local
+
+public/data/registration-count.json

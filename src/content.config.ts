@@ -366,7 +366,7 @@ const ustawienia = defineCollection({
 		event_tagline: z.string().optional(),
 		/** URL rejestracji; gdy pusty — `pretix_url` / `hero_cta_registration_href`. */
 		registration_url: z.string().optional(),
-		show_live_counter: z.boolean().optional().default(true),
+		show_live_counter: z.boolean().default(false),
 		participants_count: z.string(),
 		countries_count: z.string(),
 		dogs_count: z.string(),

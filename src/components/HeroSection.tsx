@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import LiveRegistrationCounter from "./LiveRegistrationCounter";
 import type { Lang } from "../i18n/utils";
 import { isLang } from "../i18n/utils";
 import type { HomeHeroCopy } from "../i18n/homeHero";
@@ -47,7 +48,8 @@ export interface HeroSectionProps {
   registrationUrl?: string;
   registrationActive?: boolean;
   showLiveCounter?: boolean;
-  pretixApiAvailable?: boolean;
+  /** Maks. miejsc na liczniku rejestracji (np. z CMS `participants_count`). */
+  participantsMax?: number;
   eventTimeStart?: string;
   eventTimezone?: string;
   heroImage?: string;
@@ -74,8 +76,8 @@ export function HeroSection(props: HeroSectionProps) {
     subtitle,
     registrationUrl,
     registrationActive = true,
-    showLiveCounter = true,
-    pretixApiAvailable = false,
+    showLiveCounter = false,
+    participantsMax,
     eventTimeStart = "10:00",
     eventTimezone = "Europe/Warsaw",
     heroImage,
@@ -241,11 +243,10 @@ export function HeroSection(props: HeroSectionProps) {
         )}
       </div>
 
-      {showLiveCounter && pretixApiAvailable && (
-        <div
-          className="relative z-10 mb-6 sm:mb-8 min-h-[1px]"
-          data-slot="live-registration-counter"
-          aria-hidden
+      {showLiveCounter && (
+        <LiveRegistrationCounter
+          maxCount={participantsMax ?? 250}
+          lang={lang}
         />
       )}
 

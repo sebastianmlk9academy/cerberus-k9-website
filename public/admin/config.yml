@@ -291,6 +291,12 @@ collections:
                   false = przyciski ukryte; linki w treściach zostają w pliku — nie usuwają wpisów.
                 required: true
                 default: true
+              - name: "show_live_counter"
+                label: "Licznik rejestracji aktywny"
+                widget: "boolean"
+                default: false
+                required: false
+                hint: "Włączone = licznik widoczny w HeroSection i odpytuje /data/registration-count.json"
               - name: "hero_cta_registration_href"
                 label: "🔗 CTA hero — rejestracja"
                 widget: "string"

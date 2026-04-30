@@ -137,8 +137,8 @@ const eventJsonLd = {
 		subtitle={s.hero_subtitle}
 		registrationUrl={s.registration_url?.trim() || s.pretix_url?.trim() || s.hero_cta_registration_href?.trim()}
 		registrationActive={s.registration_active ?? true}
-		showLiveCounter={s.show_live_counter !== false}
-		pretixApiAvailable={!!import.meta.env.PRETIX_API_TOKEN}
+		showLiveCounter={s?.show_live_counter ?? false}
+		participantsMax={Math.max(1, parseInt(String(s?.participants_count ?? '250'), 10) || 250)}
 		eventTimeStart={s.event_time_start ?? '10:00'}
 		eventTimezone={s.event_timezone ?? 'Europe/Warsaw'}
 		heroImage={s.hero_background_image}

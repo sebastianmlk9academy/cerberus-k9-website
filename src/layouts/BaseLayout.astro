@@ -4,6 +4,7 @@ import BaseHead from '../components/BaseHead.astro';
 import CookieConsent, { ConsentProvider } from '@/components/CookieConsent';
 import Trackers from '@/components/Trackers';
 import NotificationBar from '@/components/NotificationBar';
+import MobileStickyCTA from '@/components/MobileStickyCTA';
 import type { ImageMetadata } from 'astro';
 import FallbackImage from '../assets/blog-placeholder-1.jpg';
 import { getAbsoluteLocaleUrlList } from 'astro:i18n';
@@ -138,6 +139,13 @@ const canonicalAlternateHref = (
 			plausibleDomain={s?.plausible_domain}
 			microsoftClarityId={s?.microsoft_clarity_id}
 			facebookPixelId={s?.facebook_pixel_id}
+		/>
+		<MobileStickyCTA
+			client:load
+			isActive={s?.mobile_sticky_cta_active ?? false}
+			href={s?.registration_url ?? s?.pretix_url ?? s?.hero_cta_registration_href ?? '#'}
+			lang={lang}
+			hideOnPaths={['/rejestracja', '/registration']}
 		/>
 	</body>
 </html>

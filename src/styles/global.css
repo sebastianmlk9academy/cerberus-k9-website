@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@media (max-width: 767px) {
+	body {
+		padding-bottom: 56px;
+	}
+}
+
 :root {
 	--font-bebas-neue: 'Bebas Neue', Impact, sans-serif;
 	--font-bebas: 'Bebas Neue', Impact, sans-serif;
