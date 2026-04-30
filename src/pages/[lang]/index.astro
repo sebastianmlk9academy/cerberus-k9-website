@@ -24,6 +24,8 @@ import { LocationsSection } from '../../components/LocationsSection';
 import { VideoSection } from '../../components/VideoSection';
 import { PartnersStrip } from '../../components/PartnersStrip';
 import LatestNews from '../../components/LatestNews';
+import { WallOfFame } from '../../components/WallOfFame';
+import { CerberusTimeline } from '../../components/CerberusTimeline';
 import { Footer } from '../../components/Footer';
 import { aktualnosciToListingArticles } from '../../lib/aktualnosci';
 import { getSortedNavLinks } from '../../lib/getSortedNavLinks';
@@ -83,6 +85,17 @@ const programCards =
 	cardEntries.length > 0 ? cardEntriesToProgramCards(cardEntries, lang) : null;
 const videoCopy = videoSectionByLang[lang] ?? videoSectionByLang['pl'];
 const newsCopy = latestNewsByLang[lang] ?? latestNewsByLang['pl'];
+
+const timeline = (await getCollection('timeline'))
+	.filter((t) => t.data.isVisible !== false)
+	.sort((a, b) => a.data.order - b.data.order)
+	.map((t) => t.data);
+
+const testimonials = (await getCollection('testimonials').catch(() => []))
+	.filter((t) => t.data.isVisible !== false)
+	.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
+	.slice(0, 3)
+	.map((t) => t.data);
 
 const eventImagePath = s?.og_image_default ?? '/og-cerberus-k9-2026.jpg';
 const eventJsonLd = {
@@ -161,6 +174,7 @@ const eventJsonLd = {
 		ctaProgramHref={s.hero_cta_program_href?.trim() || `/${lang}/o-wydarzeniu#agenda`}
 	/>
 	<StatsBar lang={lang} stats={statsCopy} client:load />
+	<CerberusTimeline client:visible nodes={timeline} lang={lang} />
 	<ProgramSection lang={lang} copy={programCopy} cards={programCards ?? undefined} client:load />
 	<LocationsSection lang={lang} copy={locationsCopy} client:load />
 	<VideoSection
@@ -183,6 +197,7 @@ const eventJsonLd = {
 		partnerCtaHref={s?.partner_cta_href}
 		client:load
 	/>
+	<WallOfFame client:visible testimonials={testimonials} lang={lang} />
 	<LatestNews lang={lang} copy={newsCopy} articles={latestForListing} client:load />
 	<Footer
 		lang={lang}

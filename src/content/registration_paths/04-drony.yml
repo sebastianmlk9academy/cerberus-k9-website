@@ -1,0 +1,16 @@
+slug: "drony"
+ticket_type: "drony"
+tag_pl: "MODUŁ"
+tag_en: "MODULE"
+title_pl: "DRONY"
+title_en: "DRONES"
+audience_pl: "Służby i specjaliści"
+audience_en: "Services and specialists"
+icon: "🛸"
+color_token: "purple"
+max_participants: 30
+items_pl: ["Taktyka BVLOS", "Integracja z K9", "Warsztaty"]
+items_en: ["BVLOS tactics", "K9 integration", "Workshops"]
+pretix_direct_url: ""
+order: 13
+isVisible: true

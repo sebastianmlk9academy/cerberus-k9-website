@@ -12,6 +12,7 @@ export default {
 			},
 			colors: {
 				navy: tokens.brand.navyCard,
+				navyDarkest: tokens.brand.navyDarkest,
 				navyDeep: tokens.brand.navyDarkest,
 				navyMid: tokens.brand.navyMid,
 				navyDark: tokens.brand.navyDark,

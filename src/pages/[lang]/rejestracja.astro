@@ -1,5 +1,5 @@
 ---
-import { getEntry } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { locales } from '../../../locales.mjs';
 import { footerCopyByLang } from '../../i18n/footer';
@@ -10,11 +10,17 @@ import { PageHero } from '../../components/PageHero';
 import RegistrationSection from '../../components/RegistrationSection.astro';
 import { Footer } from '../../components/Footer';
 import { getSortedNavLinks } from '../../lib/getSortedNavLinks';
+import { RegistrationPaths } from '../../components/RegistrationPaths';
 
 export const prerender = true;
 
 const settings = await getEntry('ustawienia', 'ustawienia');
 const s = settings?.data;
+
+const paths = (await getCollection('registration_paths'))
+	.filter((p) => p.data.isVisible)
+	.sort((a, b) => a.data.order - b.data.order)
+	.map((p) => p.data);
 
 let regInfo = null;
 try {
@@ -156,6 +162,12 @@ const regH = regHero[lang] ?? regHero.pl;
 		heroImage={s?.hero_background_image}
 		heroOpacity={s?.hero_background_opacity}
 	/>
+	<RegistrationPaths
+		client:load
+		paths={paths}
+		lang={lang}
+		fallbackUrl={s?.registration_url ?? s?.pretix_url}
+	/>
 	{
 		!s?.registration_active ? (
 			<section style="background:#161F28; padding:80px 5%; text-align:center;">
@@ -170,7 +182,6 @@ const regH = regHero[lang] ?? regHero.pl;
 		) : (
 			<!-- Legacy: sidebar fields below are emergency fallback. Canonical: registration_info collection. -->
 			<RegistrationSection
-				client:load
 				lang={lang}
 				pretixUrl={s?.pretix_url}
 				dateValue={s?.registration_date_display}

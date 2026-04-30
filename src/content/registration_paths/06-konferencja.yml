@@ -1,0 +1,16 @@
+slug: "konferencja"
+ticket_type: "konferencja"
+tag_pl: "WSZYSCY"
+tag_en: "ALL"
+title_pl: "KONFERENCJA"
+title_en: "CONFERENCE"
+audience_pl: "Delegacje, media, partnerzy"
+audience_en: "Delegations, media, partners"
+icon: "🎤"
+color_token: "gold"
+max_participants: null
+items_pl: ["Prelekcje NATO", "Networking", "Panel dyskusyjny"]
+items_en: ["NATO lectures", "Networking", "Panel discussion"]
+pretix_direct_url: ""
+order: 15
+isVisible: true

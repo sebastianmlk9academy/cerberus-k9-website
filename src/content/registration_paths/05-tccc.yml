@@ -1,0 +1,16 @@
+slug: "tccc"
+ticket_type: "tccc"
+tag_pl: "MODUŁ"
+tag_en: "MODULE"
+title_pl: "TCCC"
+title_en: "TCCC"
+audience_pl: "Personel medyczny i taktyczny"
+audience_en: "Medical and tactical personnel"
+icon: "⛑️"
+color_token: "orange"
+max_participants: null
+items_pl: ["Taktyczna opieka medyczna", "Symulacje", "Certyfikacja"]
+items_en: ["Tactical combat care", "Simulations", "Certification"]
+pretix_direct_url: ""
+order: 14
+isVisible: true

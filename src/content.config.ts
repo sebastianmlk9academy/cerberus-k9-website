@@ -1164,6 +1164,64 @@ const nav_links = defineCollection({
 	}),
 });
 
+const registration_paths = defineCollection({
+	loader: glob({ base: './src/content/registration_paths', pattern: '**/*.yml' }),
+	schema: z
+		.object({
+			slug: z.string(),
+			ticket_type: z.string(),
+			tag_pl: z.string(),
+			tag_en: z.string(),
+			title_pl: z.string(),
+			title_en: z.string(),
+			audience_pl: z.string(),
+			audience_en: z.string(),
+			icon: z.string(),
+			color_token: z.enum(['red', 'blue', 'green', 'purple', 'orange', 'gold']),
+			max_participants: z.number().int().nullable().optional(),
+			items_pl: z.array(z.string()),
+			items_en: z.array(z.string()),
+			pretix_direct_url: z.string().optional(),
+			order: z.number().int().default(99),
+			isVisible: z.boolean().default(true),
+		})
+		.strict(),
+});
+
+const timeline = defineCollection({
+	loader: glob({ base: './src/content/timeline', pattern: '**/*.yml' }),
+	schema: z
+		.object({
+			year: z.number().int(),
+			status: z.enum(['completed', 'current', 'planned', 'vision']),
+			color_token: z.enum(['gold', 'red', 'navyBorder', 'blue', 'green', 'purple', 'orange']),
+			pulse: z.boolean().default(false),
+			order: z.number().int().default(99),
+			isVisible: z.boolean().default(true),
+			title_pl: z.string(),
+			title_en: z.string(),
+			subtitle_pl: z.string().optional(),
+			subtitle_en: z.string().optional(),
+		})
+		.strict(),
+});
+
+const testimonials = defineCollection({
+	loader: glob({ base: './src/content/testimonials', pattern: '**/*.yml' }),
+	schema: z
+		.object({
+			quote_pl: z.string(),
+			quote_en: z.string(),
+			name_pl: z.string(),
+			name_en: z.string().optional(),
+			initials: z.string().optional(),
+			photo: z.string().optional(),
+			order: z.number().int().optional().default(99),
+			isVisible: z.boolean().optional().default(true),
+		})
+		.strict(),
+});
+
 const locations = defineCollection({
 	loader: glob({ base: './src/content/locations', pattern: '**/*.{md,mdx}' }),
 	schema: z.object({
@@ -1204,6 +1262,9 @@ export const collections = {
 	i18n_strings,
 	instructor_filters,
 	partner_sections,
+	registration_paths,
+	timeline,
+	testimonials,
 	gallery_filters,
 	galleryEditions,
 	galleryLocations,

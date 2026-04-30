@@ -1,0 +1,16 @@
+slug: "k9-detekcja"
+ticket_type: "k9-detekcja"
+tag_pl: "ŚCIEŻKA 2"
+tag_en: "PATH 2"
+title_pl: "K9 DETEKCJA"
+title_en: "K9 DETECTION"
+audience_pl: "Służby + Cywile z psem"
+audience_en: "Services + Civilians with dog"
+icon: "🔍"
+color_token: "blue"
+max_participants: 15
+items_pl: ["Linie zapachowe", "Pokazy detekcji", "Certyfikat K9"]
+items_en: ["Scent lines", "Detection demos", "K9 Certificate"]
+pretix_direct_url: ""
+order: 11
+isVisible: true
