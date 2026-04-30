@@ -26,7 +26,10 @@ const heroEntry = await getEntry('international_hero', 'hero');
 const protocolEntry = await getEntry('international_protocol', 'protocol');
 const contactEntry = await getEntry('international_contact', 'contact');
 const faqEntries = await getCollection('international_faq');
-const partners = await getCollection('partnerzy');
+const delegations = (await getCollection('delegations'))
+  .filter((d) => d.data.confirmed)
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((d) => d.data);
 
 const heroRaw = heroEntry?.data;
 const hero = heroRaw
@@ -60,11 +63,6 @@ const faq = faqEntries
     answer: item.data.answer_en || '',
   }));
 
-const confirmedCountries = partners
-  .filter((partner) => partner.data.type === 'strategic' || partner.data.type === 'honorary')
-  .map((partner) => partner.data.country_code)
-  .filter((code): code is string => Boolean(code));
-
 const registrationHref =
   s?.registration_url?.trim() ||
   s?.pretix_url?.trim() ||
@@ -92,7 +90,7 @@ const programHref = `/${lang}/o-wydarzeniu#program`;
       lang={lang}
       registrationHref={registrationHref}
       programHref={programHref}
-      confirmedCountries={confirmedCountries}
+      confirmedDelegations={delegations}
     />
   ) : null}
   <Footer

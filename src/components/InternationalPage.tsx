@@ -1,6 +1,7 @@
 import { PageHero } from './PageHero';
 import FAQAccordion from './FAQAccordion';
 import type { Lang } from '../i18n/utils';
+import { useState } from 'react';
 
 export interface InternationalHero {
   tag_en: string;
@@ -30,6 +31,14 @@ export interface ContactData {
   response_time_en: string;
 }
 
+export interface DelegationItem {
+  country: string;
+  country_code: string;
+  unit?: string;
+  specialization?: string;
+  year_participating?: number;
+}
+
 export interface InternationalPageProps {
   hero: InternationalHero;
   protocol: ProtocolItem[];
@@ -38,38 +47,15 @@ export interface InternationalPageProps {
   lang: Lang;
   registrationHref: string;
   programHref: string;
-  confirmedCountries?: string[];
+  confirmedDelegations?: DelegationItem[];
 }
 
-function isoToFlag(code: string): string {
-  return code
-    .trim()
+const countryCodeToFlag = (code: string) =>
+  code
     .toUpperCase()
-    .replace(/./g, (char) => String.fromCodePoint(127397 + char.charCodeAt(0)));
-}
-
-const countryNameByCode: Record<string, string> = {
-  PL: 'Poland',
-  EN: 'United Kingdom',
-  GB: 'United Kingdom',
-  US: 'United States',
-  DE: 'Germany',
-  FR: 'France',
-  PT: 'Portugal',
-  CZ: 'Czech Republic',
-  SK: 'Slovakia',
-  LT: 'Lithuania',
-  LV: 'Latvia',
-  IT: 'Italy',
-  ES: 'Spain',
-  RO: 'Romania',
-  HU: 'Hungary',
-  NO: 'Norway',
-  SE: 'Sweden',
-  NL: 'Netherlands',
-  HR: 'Croatia',
-  SI: 'Slovenia',
-};
+    .split('')
+    .map((c) => String.fromCodePoint(0x1f1e6 + c.charCodeAt(0) - 65))
+    .join('');
 
 export default function InternationalPage({
   hero,
@@ -79,17 +65,16 @@ export default function InternationalPage({
   lang,
   registrationHref,
   programHref,
-  confirmedCountries = [],
+  confirmedDelegations = [],
 }: InternationalPageProps) {
-  const countryPills = confirmedCountries
-    .map((code) => code.trim().toUpperCase())
-    .filter((code, idx, arr) => code.length === 2 && arr.indexOf(code) === idx)
-    .sort((a, b) => a.localeCompare(b))
-    .map((code) => ({
-      code,
-      flag: isoToFlag(code),
-      label: countryNameByCode[code] ?? code,
-    }));
+  const [showAllDelegations, setShowAllDelegations] = useState(false);
+  const uniqueDelegations = confirmedDelegations.filter(
+    (item, idx, arr) =>
+      item.country_code?.length === 2 &&
+      arr.findIndex((entry) => entry.country_code.toUpperCase() === item.country_code.toUpperCase()) === idx,
+  );
+  const visibleDelegations = showAllDelegations ? uniqueDelegations : uniqueDelegations.slice(0, 4);
+  const hasHiddenDelegations = uniqueDelegations.length > 4;
 
   return (
     <div
@@ -145,21 +130,50 @@ export default function InternationalPage({
         <h2 className="mb-4 text-center text-2xl font-bold uppercase tracking-[0.18em] text-bone">
           DELEGATIONS CONFIRMED
         </h2>
-        <div className="flex flex-wrap justify-center gap-3">
-          {countryPills.length > 0 ? (
-            countryPills.map((country) => (
-              <div
-                key={country.code}
-                className="inline-flex items-center gap-2 border border-border bg-navy px-3 py-2 text-sm text-bone"
+        <div className="grid grid-cols-1 gap-[2px] lg:grid-cols-2">
+          {visibleDelegations.length > 0 ? (
+            visibleDelegations.map((delegation) => (
+              <article
+                key={`${delegation.country_code}-${delegation.country}`}
+                className="border border-navyBorder bg-navyCard px-6 py-5 transition-colors duration-200 hover:border-gold"
               >
-                <span aria-hidden>{country.flag}</span>
-                <span>{country.label}</span>
-              </div>
+                <div className="mb-2 flex items-center gap-3">
+                  <span aria-hidden className="text-3xl leading-none">
+                    {countryCodeToFlag(delegation.country_code)}
+                  </span>
+                  <p className="font-rajdhani text-[13px] uppercase tracking-[3px] text-bone">
+                    {delegation.country}
+                  </p>
+                </div>
+                {delegation.unit ? (
+                  <p className="font-rajdhani text-[14px] font-bold text-bone">{delegation.unit}</p>
+                ) : null}
+                <hr className="my-[10px] border-navyBorder" />
+                {delegation.specialization ? (
+                  <p className="font-rajdhani text-[11px] uppercase tracking-[2px] text-muted">
+                    {delegation.specialization}
+                  </p>
+                ) : null}
+                <p className="mt-1 font-rajdhani text-[11px] tracking-[1px] text-gold">
+                  CERBERUS K9 {delegation.year_participating ?? 2026}
+                </p>
+              </article>
             ))
           ) : (
             <p className="text-sm text-muted">Confirmed delegation list will be updated shortly.</p>
           )}
         </div>
+        {hasHiddenDelegations ? (
+          <div className="mt-4 text-center">
+            <button
+              type="button"
+              onClick={() => setShowAllDelegations((prev) => !prev)}
+              className="font-rajdhani text-xs uppercase tracking-[2px] text-gold transition-colors hover:text-bone"
+            >
+              {showAllDelegations ? 'Pokaż mniej' : 'Pokaż wszystkie'}
+            </button>
+          </div>
+        ) : null}
       </section>
 
       <FAQAccordion lang={lang} faqItems={faq} />

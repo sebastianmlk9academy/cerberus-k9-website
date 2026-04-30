@@ -693,6 +693,19 @@ const international_faq = defineCollection({
 	}),
 });
 
+const delegations = defineCollection({
+	loader: glob({ base: './src/content/delegations', pattern: '*.{yml,yaml}' }),
+	schema: z.object({
+		country: z.string(),
+		country_code: z.string().length(2),
+		unit: z.string().optional(),
+		specialization: z.string().optional(),
+		year_participating: z.number().int().optional(),
+		confirmed: z.boolean().default(true),
+		order: z.number().int().default(99),
+	}).strict(),
+});
+
 const faq = defineCollection({
 	loader: glob({ base: './src/content/faq', pattern: '**/*.{md,mdx}' }),
 	schema: z.object({
@@ -1354,4 +1367,5 @@ export const collections = {
 	international_protocol,
 	international_contact,
 	international_faq,
+	delegations,
 };

@@ -250,9 +250,6 @@ export function NavBar({
         window.location.assign(link.resolvedHref);
       }
     };
-    const shortPl = 'DLA DEL';
-    const shortEn = 'FOR DEL';
-    const short = currentLang.code === 'pl' ? shortPl : shortEn;
     return (
       <button
         key={`deleg-${link.resolvedHref}-${link.label_pl}`}
@@ -268,8 +265,7 @@ export function NavBar({
           e.currentTarget.style.backgroundColor = '#003F87';
         }}
       >
-        <span className="sm:hidden">{short}</span>
-        <span className="hidden sm:inline">{link.label}</span>
+        <span>{link.label}</span>
       </button>
     );
   };

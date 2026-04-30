@@ -42,8 +42,8 @@ links:
     order: 7
     active: true
   - key: international
-    label_pl: DLA DELEGACJI
-    label_en: FOR DELEGATIONS
+    label_pl: DELEGACJE
+    label_en: DELEGATION
     path: international
     highlight: true
     flag: ""

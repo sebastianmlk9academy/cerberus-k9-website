@@ -4943,6 +4943,22 @@ collections:
       - { label: "Odpowiedź EN", name: "answer_en", widget: "text" }
       - { label: "Kolejność", name: "order", widget: "number", default: 99 }
 
+  - name: "delegations"
+    label: "🌍 Delegacje"
+    folder: "src/content/delegations"
+    create: true
+    slug: "{{slug}}"
+    extension: "yml"
+    format: "yaml"
+    fields:
+      - { name: "country", label: "Kraj", widget: "string" }
+      - { name: "country_code", label: "Kod kraju", widget: "string", pattern: ["^[A-Z]{2}$", "Wpisz dokładnie dwie wielkie litery"] }
+      - { name: "unit", label: "Jednostka", widget: "string", required: false }
+      - { name: "specialization", label: "Specjalizacja K9", widget: "string", required: false, hint: "Np. K9 Detection, Tactical, SAR" }
+      - { name: "year_participating", label: "Rok uczestnictwa", widget: "number", default: 2026 }
+      - { name: "confirmed", label: "Potwierdzona", widget: "boolean", required: false, default: true }
+      - { name: "order", label: "Kolejność", widget: "number", required: false, default: 99 }
+
   - name: "international_hero"
     label: "International — Hero"
     files:
