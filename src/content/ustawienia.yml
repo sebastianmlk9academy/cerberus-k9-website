@@ -320,7 +320,6 @@ footer_link_contact: kontakt
 sekcja_seo:
   og_locale: pl_PL
   cookie_consent_active: false
-  plausible_domain: cerberusk9.org
   og_image_height: "630"
   og_image_default: /og-cerberus-k9-2026.jpg
   site_url: https://cerberusk9.org
@@ -336,5 +335,10 @@ notification_bar_link_text_pl: ""
 notification_bar_link_text_en: ""
 notification_bar_url: ""
 mobile_sticky_cta_active: false
-ga4_id: ""
-microsoft_clarity_id: ""
+
+sekcja_analityka_trackery:
+  ga4_id: ""
+  plausible_domain: cerberusk9.org
+  microsoft_clarity_id: ""
+  facebook_pixel_id: ""
+  consent_version: 1

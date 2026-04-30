@@ -1137,11 +1137,6 @@ collections:
                 hint: "Pole og:site_name."
                 required: false
                 default: "CERBERUS K9"
-              - name: "plausible_domain"
-                label: "📊 Domena Plausible"
-                widget: "string"
-                hint: "Śledzenie ruchu — atrybut data-domain skryptu."
-                required: true
               - name: "og_image_width"
                 label: "📐 OG — szerokość (px)"
                 widget: "string"
@@ -1171,6 +1166,43 @@ collections:
                 hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
                 required: false
                 default: false
+
+          - name: "sekcja_analityka_trackery"
+            label: "📈 Analityka i trackery"
+            widget: "object"
+            collapsed: true
+            fields:
+              - name: "ga4_id"
+                label: "📊 Google Analytics 4 — Measurement ID"
+                widget: "string"
+                required: false
+                hint: "Np. G-XXXXXXXXXX. Puste = brak skryptu GA4."
+              - name: "plausible_domain"
+                label: "📊 Plausible — domena (data-domain)"
+                widget: "string"
+                required: false
+                hint: "Np. cerberusk9.org. Puste = brak skryptu Plausible."
+              - name: "microsoft_clarity_id"
+                label: "🔍 Microsoft Clarity — Project ID"
+                widget: "string"
+                required: false
+                hint: "Identyfikator projektu Clarity. Puste = brak skryptu."
+              - name: "facebook_pixel_id"
+                label: "📣 Meta (Facebook) Pixel — ID"
+                widget: "string"
+                required: false
+                hint: "Identyfikator piksela Meta. Puste = brak skryptu."
+              - name: "consent_version"
+                label: "🔢 Wersja zgody (consent)"
+                widget: "number"
+                value_type: "int"
+                required: false
+                default: 1
+                min: 1
+                hint: >
+                  Te ID wstawisz po wykonaniu R54 (Microsoft Clarity) i R55 (Plausible).
+                  Trackery NIE załadują się jeśli pola są puste lub user nie wyraził consent.
+                  Gdy zmienisz politykę cookies — podbij tę liczbę (np. 2), aby wymusić ponowny wybór u wszystkich odwiedzających.
 
           - name: "sekcja_grafika"
             label: "🖼️ Logo, ikony, PWA, marka, galeria"

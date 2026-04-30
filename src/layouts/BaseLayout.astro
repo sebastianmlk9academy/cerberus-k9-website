@@ -1,7 +1,8 @@
 ---
 import { getEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
-import CookieConsent from '../components/CookieConsent.astro';
+import CookieConsent, { ConsentProvider } from '@/components/CookieConsent';
+import Trackers from '@/components/Trackers';
 import NotificationBar from '@/components/NotificationBar';
 import type { ImageMetadata } from 'astro';
 import FallbackImage from '../assets/blog-placeholder-1.jpg';
@@ -112,6 +113,7 @@ const canonicalAlternateHref = (
 		}
 	</head>
 	<body class="min-h-screen bg-navyDeep font-sans text-bone antialiased">
+		<ConsentProvider client:load policyVersion={s?.consent_version ?? 1} />
 		<NotificationBar
 			client:load
 			isActive={s?.notification_bar_active ?? false}
@@ -129,6 +131,13 @@ const canonicalAlternateHref = (
 		<slot name="header" />
 		<slot />
 		<slot name="footer" />
-		<CookieConsent client:load lang={lang} active={s?.cookie_consent_active ?? false} />
+		<CookieConsent client:idle lang={lang} active={s?.cookie_consent_active ?? false} />
+		<Trackers
+			client:idle
+			ga4Id={s?.ga4_id}
+			plausibleDomain={s?.plausible_domain}
+			microsoftClarityId={s?.microsoft_clarity_id}
+			facebookPixelId={s?.facebook_pixel_id}
+		/>
 	</body>
 </html>

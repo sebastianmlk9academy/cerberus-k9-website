@@ -299,6 +299,7 @@ const USTAWIENIA_SECTION_KEYS = [
 	'sekcja_kontakt',
 	'sekcja_dane_rejestrowe',
 	'sekcja_seo',
+	'sekcja_analityka_trackery',
 	'sekcja_grafika',
 ] as const;
 
@@ -380,7 +381,7 @@ const ustawienia = defineCollection({
 		hero_close_label_pl: z.string().optional().default('ZAMKNIJ'),
 		hero_background_image: z.string().optional(),
 		hero_background_opacity: z.coerce.number().optional().default(0.4),
-		plausible_domain: z.string(),
+		plausible_domain: z.string().optional(),
 		notification_bar_active: z.boolean().default(false),
 		notification_bar_severity: z.enum(['urgent', 'info', 'success']).default('info'),
 		notification_bar_text_pl: z.string().optional(),
@@ -393,7 +394,9 @@ const ustawienia = defineCollection({
 		),
 		mobile_sticky_cta_active: z.boolean().optional().default(false),
 		ga4_id: z.string().optional(),
+		facebook_pixel_id: z.string().optional(),
 		microsoft_clarity_id: z.string().optional(),
+		consent_version: z.number().int().min(1).optional().default(1),
 		registration_active: z.boolean().default(true),
 		hero_cta_registration_href: z.string().optional(),
 		hero_cta_program_href: z.string().optional(),
