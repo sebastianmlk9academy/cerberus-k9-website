@@ -4931,102 +4931,6 @@ collections:
       - { label: "Autor PL", name: "name_pl", widget: "string" }
       - { label: "Widoczny", name: "isVisible", widget: "boolean", default: true }
 
-  - name: "galleryEditions"
-    label: "🖼️ Galeria — Edycje (Astro key)"
-    folder: "src/content/gallery_editions"
-    create: true
-    slug: "{{slug}}"
-    extension: "yml"
-    format: "yaml"
-    fields:
-      - { label: "Wartość", name: "value", widget: "string" }
-      - { label: "Etykieta PL", name: "label_pl", widget: "string" }
-      - { label: "Aktywna", name: "active", widget: "boolean", default: true }
-
-  - name: "galleryLocations"
-    label: "📍 Galeria — Lokalizacje (Astro key)"
-    folder: "src/content/gallery_locations"
-    create: true
-    slug: "{{slug}}"
-    extension: "yml"
-    format: "yaml"
-    fields:
-      - { label: "Wartość", name: "value", widget: "string" }
-      - { label: "Etykieta PL", name: "label_pl", widget: "string" }
-      - { label: "Aktywna", name: "active", widget: "boolean", default: true }
-
-  - name: "galleryTags"
-    label: "🏷️ Galeria — Tagi (Astro key)"
-    folder: "src/content/gallery_tags"
-    create: true
-    slug: "{{slug}}"
-    extension: "yml"
-    format: "yaml"
-    fields:
-      - { label: "Klucz", name: "key", widget: "string" }
-      - { label: "Etykieta PL", name: "label_pl", widget: "string" }
-      - { label: "Aktywny", name: "active", widget: "boolean", default: true }
-
-  - name: "liveUpdates"
-    label: "🔴 Live Updates (Astro key)"
-    folder: "src/content/live_updates"
-    create: true
-    slug: "{{slug}}"
-    extension: "yml"
-    format: "yaml"
-    fields:
-      - { label: "Tytuł PL", name: "title_pl", widget: "string" }
-      - { label: "Wiadomość PL", name: "message_pl", widget: "text" }
-      - { label: "Publiczne", name: "isPublic", widget: "boolean", default: true }
-
-  - name: "hardestHitResults"
-    label: "🥊 Hardest Hit — Wyniki (Astro key)"
-    folder: "src/content/hardest_hit_results"
-    create: true
-    slug: "{{slug}}"
-    extension: "yml"
-    format: "yaml"
-    fields:
-      - { label: "Edycja", name: "edition", widget: "string" }
-      - { label: "Zawodnik", name: "competitor_name", widget: "string" }
-      - { label: "Wynik", name: "score", widget: "number" }
-
-  - name: "sponsorMaterials"
-    label: "📦 Materiały sponsorskie (Astro key)"
-    folder: "src/content/sponsor_materials"
-    create: true
-    slug: "{{slug}}"
-    extension: "yml"
-    format: "yaml"
-    fields:
-      - { label: "Tytuł", name: "title", widget: "string" }
-      - { label: "Plik", name: "file", widget: "string" }
-      - { label: "Kategoria", name: "category", widget: "string" }
-
-  - name: "pressPhotos"
-    label: "📸 Press Photos (Astro key)"
-    folder: "src/content/press_photos"
-    create: true
-    slug: "{{slug}}"
-    extension: "yml"
-    format: "yaml"
-    fields:
-      - { label: "Tytuł PL", name: "title_pl", widget: "string" }
-      - { label: "Tytuł EN", name: "title_en", widget: "string" }
-      - { label: "Zdjęcie", name: "photo", widget: "string" }
-
-  - name: "partnerOffers"
-    label: "🎁 Oferty partnerów (Astro key)"
-    folder: "src/content/partner_offers"
-    create: true
-    slug: "{{slug}}"
-    extension: "yml"
-    format: "yaml"
-    fields:
-      - { label: "Partner", name: "partner_name", widget: "string" }
-      - { label: "Tytuł PL", name: "offer_title_pl", widget: "string" }
-      - { label: "Tytuł EN", name: "offer_title_en", widget: "string" }
-
   - name: "international_faq"
     label: "🌍 International FAQ"
     folder: "src/content/international_faq"
@@ -5038,4 +4942,46 @@ collections:
       - { label: "Pytanie EN", name: "question_en", widget: "string" }
       - { label: "Odpowiedź EN", name: "answer_en", widget: "text" }
       - { label: "Kolejność", name: "order", widget: "number", default: 99 }
+
+  - name: "international_hero"
+    label: "International — Hero"
+    files:
+      - name: "hero"
+        label: "Hero sekcja"
+        file: "src/content/international/hero.yml"
+        extension: "yml"
+        format: "yaml"
+        fields:
+          - { name: "tag_en", label: "Tag EN", widget: "string" }
+          - { name: "tag_pl", label: "Tag PL", widget: "string" }
+          - { name: "title_en", label: "Tytuł EN", widget: "string" }
+          - { name: "subtitle_en", label: "Podtytuł EN", widget: "string" }
+          - { name: "body_en", label: "Treść EN", widget: "text" }
+          - { name: "cta_register_en", label: "CTA rejestracja EN", widget: "string" }
+          - { name: "cta_program_en", label: "CTA program EN", widget: "string" }
+
+  - name: "international_contact"
+    label: "International — Kontakt"
+    files:
+      - name: "contact"
+        label: "Dane kontaktowe"
+        file: "src/content/international/contact.yml"
+        extension: "yml"
+        format: "yaml"
+        fields:
+          - { name: "name", label: "Imię i nazwisko", widget: "string" }
+          - { name: "title_en", label: "Tytuł EN", widget: "string" }
+          - { name: "email", label: "E-mail", widget: "string" }
+          - { name: "phone", label: "Telefon", widget: "string" }
+          - { name: "response_time_en", label: "Czas odpowiedzi EN", widget: "string" }
+
+  - name: "policies"
+    label: "Polityki i regulaminy"
+    label_singular: "Dokument"
+    folder: "src/content/policies"
+    create: false
+    delete: false
+    slug: "{{slug}}"
+    fields:
+      - { name: "body", label: "Treść", widget: "markdown" }
 
