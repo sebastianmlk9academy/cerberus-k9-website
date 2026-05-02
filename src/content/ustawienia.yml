@@ -234,14 +234,14 @@ sekcja_hero:
   pagehero_contact_category_pl: KONTAKT
   hero_meta_locations: "6"
   hero_tagline: MIĘDZYNARODOWA PLATFORMA OBRONY · EDYCJA 2026
-  show_live_counter: true
+  show_live_counter: false
   registration_active: true
   hero_subline_pl: WSTĘP BEZPŁATNY · REJESTRACJA WYMAGANA
   pagehero_media_category_pl: DLA DZIENNIKARZY
   pagehero_news_subtitle_pl: WIADOMOŚCI, KOMUNIKATY I RELACJE Z PRZYGOTOWAŃ DO WYDARZENIA
   pagehero_registration_category_pl: DOŁĄCZ DO NAS
   pagehero_foundation_subtitle_pl: "KRS: 0001219121 · TOPOLA MAŁA · WIELKOPOLSKA"
-  mobile_sticky_cta_active: true
+  mobile_sticky_cta_active: false
   pagehero_contact_subtitle_pl: FUNDACJA PACTA K9 · CERBERUS K9 2026
   hero_background_image: /images/page_hero_graph.webp
   hero_video_title: CERBERUS K9 2026 — Relacja
