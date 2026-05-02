@@ -1,5 +1,5 @@
 video_url_4: https://www.youtube.com/embed/aNG1UVyOqNA
-social_instagram: "https://www.instagram.com/pactak9"
+social_instagram: https://www.instagram.com/pactak9
 og_locale: pl_PL
 contact_phone_mariusz: ""
 social_twitter: ""
@@ -65,6 +65,7 @@ contact_venue_address: 3MK Arena, ul. Andrzeja Kowalczyka 1, 63-400 Ostrów Wiel
 statute_pdf: /downloads/statut-fundacji-pacta-k9.pdf
 gallery_video_2_badge: TVP — PANORAMA
 media_contact_name: Sebastian Bożek — Wiceprezes
+notification_bar_active: false
 hero_video_url: ""
 cookie_consent_active: false
 gallery_video_3_badge: TVN — FAKTY
@@ -81,19 +82,20 @@ sekcja_dane_rejestrowe:
   statute_pdf: /downloads/statut-fundacji-pacta-k9.pdf
   krs_url: https://rejestr.io/krs/0001219121
 pwa_theme_color: "#0F1720"
+notification_bar_link_text_pl: ""
 hero_tagline: MIĘDZYNARODOWA PLATFORMA OBRONY · EDYCJA 2026
 registration_contact_phone: +48 695 637 907
 sekcja_live:
-  live_mode_active: false
-  current_competitor: "Oczekiwanie na update"
   notification_bar_active: false
-  notification_bar_severity: info
-  notification_bar_text_pl: ""
-  notification_bar_text_en: ""
   notification_bar_link_text_pl: ""
-  notification_bar_link_text_en: ""
+  notification_bar_text_pl: ""
+  live_mode_active: false
   notification_bar_url: ""
+  current_competitor: Oczekiwanie na update
+  notification_bar_link_text_en: ""
+  notification_bar_text_en: ""
   gallery_unlock_date: 2026-06-14
+  notification_bar_severity: info
 event_venue: 3MK Arena
 sponsor_offer_pdf: ""
 footer_phone: 695 637 907
@@ -112,8 +114,8 @@ footer_domains: cerberusk9.org | pactak9.org
 sekcja_social:
   social_facebook: https://www.facebook.com/cerberusk9
   social_youtube: https://www.youtube.com/@cerberusk9
-  social_instagram: "https://www.instagram.com/pactak9"
-  social_linkedin: "https://www.linkedin.com/company/pactak9"
+  social_instagram: https://www.instagram.com/pactak9
+  social_linkedin: https://www.linkedin.com/company/pactak9
   social_twitter: ""
   twitter_handle: "@cerberusk9"
 footer_link_about: o-wydarzeniu
@@ -125,6 +127,8 @@ default_news_image: /images/cerberus-k9-logo.png
 contact_gdpr_text_pl: Wyrażam zgodę na przetwarzanie danych osobowych zgodnie z RODO.
 main_video_title: CERBERUS K9 2025 — Główna relacja
 event_time_end: 18:00
+notification_bar_text_pl: ""
+mobile_sticky_cta_active: false
 plausible_domain: cerberusk9.org
 hero_background_image: /images/page_hero_graph.webp
 hero_video_title: CERBERUS K9 2026 — Relacja
@@ -139,10 +143,11 @@ sekcja_statystyki:
   volunteers_count: 0
 live_mode_active: false
 contact_address_country_pl: Polska
+notification_bar_url: ""
 nav_registration_active: true
 pwa_name: CERBERUS K9
 footer_address: ul. Odolanowska 17, 63-400 Topola Mała
-social_linkedin: "https://www.linkedin.com/company/pactak9"
+social_linkedin: https://www.linkedin.com/company/pactak9
 gallery_video_1_url: https://www.youtube.com/watch?v=kUhqmGhrbas
 registration_prep_day: "Dzień przygotowawczy: 12 czerwca"
 participants_count: 250+
@@ -173,6 +178,12 @@ sekcja_grafika:
   apple_touch_icon: /apple-touch-icon.png
 video_badge_1: POLSKA ZBROJNA · PATRON MEDIALNY
 gallery_video_3_url: https://www.youtube.com/embed/lf-Aek_TSzI
+sekcja_analityka_trackery:
+  ga4_id: ""
+  plausible_domain: cerberusk9.org
+  microsoft_clarity_id: ""
+  facebook_pixel_id: ""
+  consent_version: 1
 agenda_page_url: https://cerberusk9.org/pl/o-wydarzeniu
 video_badge_2: TVP — PANORAMA
 og_image_height: "630"
@@ -197,6 +208,7 @@ event_time_start: 09:00
 regon_number: "543799847"
 og_image_default: /og-cerberus-k9-2026.jpg
 brand_tagline: INTERNATIONAL DEFENSE PLATFORM
+notification_bar_link_text_en: ""
 hardest_hit_active: true
 site_url: https://cerberusk9.org
 registration_contact_email: sebastian@pactak9.org
@@ -208,48 +220,50 @@ pwa_background_color: "#0F1720"
 sponsor_contact_email: sebastian@pactak9.org
 social_facebook: https://www.facebook.com/cerberusk9
 sekcja_hero:
+  pagehero_gallery_subtitle_pl: EDYCJA 2025 · TRÓJMIASTO · 300+ ZDJĘĆ
+  pagehero_partners_title_pl: PARTNERZY
   hero_year: "2026"
+  pagehero_instructors_title_pl: INSTRUKTORZY
+  pagehero_instructors_subtitle_pl: WETERANI JWK · ODDZIAŁU SPECJALNEGO
+    ŻANDARMERII WOJSKOWEJ · POLICJANCI · JSPEC · EKSPERCI NATO
+  pagehero_partners_subtitle_pl: STRATEGICZNI · SPONSORZY · PATRONI MEDIALNI
   hero_video_url: ""
+  pagehero_gallery_title_pl: GALERIA
+  pagehero_foundation_category_pl: O NAS
+  pagehero_news_category_pl: CERBERUS K9
+  pagehero_contact_category_pl: KONTAKT
   hero_meta_locations: "6"
   hero_tagline: MIĘDZYNARODOWA PLATFORMA OBRONY · EDYCJA 2026
+  show_live_counter: true
   registration_active: true
-  show_live_counter: false
   hero_subline_pl: WSTĘP BEZPŁATNY · REJESTRACJA WYMAGANA
+  pagehero_media_category_pl: DLA DZIENNIKARZY
+  pagehero_news_subtitle_pl: WIADOMOŚCI, KOMUNIKATY I RELACJE Z PRZYGOTOWAŃ DO WYDARZENIA
+  pagehero_registration_category_pl: DOŁĄCZ DO NAS
+  pagehero_foundation_subtitle_pl: "KRS: 0001219121 · TOPOLA MAŁA · WIELKOPOLSKA"
+  mobile_sticky_cta_active: true
+  pagehero_contact_subtitle_pl: FUNDACJA PACTA K9 · CERBERUS K9 2026
   hero_background_image: /images/page_hero_graph.webp
   hero_video_title: CERBERUS K9 2026 — Relacja
+  pagehero_media_subtitle_pl: PRESS KIT · INFORMACJE PRASOWE · RELACJE 2025
   hero_close_label_pl: ZAMKNIJ
+  pagehero_registration_title_pl: REJESTRACJA
+  pagehero_registration_subtitle_pl: WSTĘP BEZPŁATNY · WYMAGANA REJESTRACJA · 13–14 CZERWCA 2026
   hero_title: CERBERUS
   hero_video_href: https://www.youtube.com/watch?v=kUhqmGhrbas
-  hero_meta_delegations: "15+"
+  pagehero_media_title_pl: MEDIA
+  hero_meta_delegations: 15+
+  pagehero_contact_title_pl: SKONTAKTUJ SIĘ
+  pagehero_foundation_title_pl: FUNDACJA PACTA K9
+  pagehero_news_title_pl: AKTUALNOŚCI
+  pagehero_gallery_category_pl: ARCHIWUM FOTOGRAFICZNE
   hero_cta_program_href: /pl/o-wydarzeniu#agenda
   hero_subtitle: K9
   hero_meta_entry: BEZPŁATNY
   hero_cta_registration_href: https://cerberusk9.org/pl/rejestracja/
-  hero_background_opacity: 0.4
-  pagehero_media_category_pl: DLA DZIENNIKARZY
-  pagehero_media_title_pl: MEDIA
-  pagehero_media_subtitle_pl: PRESS KIT · INFORMACJE PRASOWE · RELACJE 2025
-  pagehero_gallery_category_pl: ARCHIWUM FOTOGRAFICZNE
-  pagehero_gallery_title_pl: GALERIA
-  pagehero_gallery_subtitle_pl: EDYCJA 2025 · TRÓJMIASTO · 300+ ZDJĘĆ
   pagehero_instructors_category_pl: NASI
-  pagehero_instructors_title_pl: INSTRUKTORZY
-  pagehero_instructors_subtitle_pl: WETERANI JWK · ODDZIAŁU SPECJALNEGO ŻANDARMERII WOJSKOWEJ · POLICJANCI · JSPEC · EKSPERCI NATO
+  hero_background_opacity: 0.4
   pagehero_partners_category_pl: WSPÓŁPRACA
-  pagehero_partners_title_pl: PARTNERZY
-  pagehero_partners_subtitle_pl: STRATEGICZNI · SPONSORZY · PATRONI MEDIALNI
-  pagehero_contact_category_pl: KONTAKT
-  pagehero_contact_title_pl: SKONTAKTUJ SIĘ
-  pagehero_contact_subtitle_pl: FUNDACJA PACTA K9 · CERBERUS K9 2026
-  pagehero_registration_category_pl: DOŁĄCZ DO NAS
-  pagehero_registration_title_pl: REJESTRACJA
-  pagehero_registration_subtitle_pl: WSTĘP BEZPŁATNY · WYMAGANA REJESTRACJA · 13–14 CZERWCA 2026
-  pagehero_news_category_pl: CERBERUS K9
-  pagehero_news_title_pl: AKTUALNOŚCI
-  pagehero_news_subtitle_pl: WIADOMOŚCI, KOMUNIKATY I RELACJE Z PRZYGOTOWAŃ DO WYDARZENIA
-  pagehero_foundation_category_pl: O NAS
-  pagehero_foundation_title_pl: FUNDACJA PACTA K9
-  pagehero_foundation_subtitle_pl: "KRS: 0001219121 · TOPOLA MAŁA · WIELKOPOLSKA"
 footer_email: sebastian@pactak9.org
 favicon_svg: /favicon.svg
 media_label_full_materials_pl: KOMPLET MATERIAŁÓW
@@ -262,6 +276,7 @@ footer_link_registration: rejestracja
 hero_cta_program_href: /pl/o-wydarzeniu#agenda
 gallery_video_3_title: TVN — FAKTY
 og_image_width: "1200"
+notification_bar_text_en: ""
 gallery_video_4_title: POLSKIE RADIO — REPORTAŻ
 contact_address_country_en: Poland
 press_kit_zip: /press/cerberus-k9-press-kit-2026.zip
@@ -270,6 +285,7 @@ krs_url: https://rejestr.io/krs/0001219121
 og_site_name: CERBERUS K9
 krs_number: "0001219121"
 president_email: mariusz@pactak9.org
+notification_bar_severity: info
 partner_cta_href_full: /pl/partnerzy
 contact_form_recipient: sebastian@pactak9.org
 hero_subtitle: K9
@@ -314,7 +330,7 @@ sekcja_rejestracja:
   accreditation_deadline: 30.05.2026
 og_image_alt: CERBERUS K9 2026 — Międzynarodowa Platforma Obrony
 apple_touch_icon: /apple-touch-icon.png
-footer_instagram_url: "https://www.instagram.com/pactak9"
+footer_instagram_url: https://www.instagram.com/pactak9
 event_timezone: Europe/Warsaw
 video_url_3: https://www.youtube.com/embed/lf-Aek_TSzI
 footer_link_contact: kontakt
@@ -328,18 +344,3 @@ sekcja_seo:
   og_site_name: CERBERUS K9
   og_image_alt: CERBERUS K9 2026 — Międzynarodowa Platforma Obrony
 hero_background_opacity: 0.4
-notification_bar_active: false
-notification_bar_text_pl: ""
-notification_bar_text_en: ""
-notification_bar_severity: info
-notification_bar_link_text_pl: ""
-notification_bar_link_text_en: ""
-notification_bar_url: ""
-mobile_sticky_cta_active: false
-
-sekcja_analityka_trackery:
-  ga4_id: ""
-  plausible_domain: cerberusk9.org
-  microsoft_clarity_id: ""
-  facebook_pixel_id: ""
-  consent_version: 1
