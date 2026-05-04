@@ -2652,7 +2652,25 @@ collections:
       - { name: "role_en", label: "Rola/Funkcja (EN)", widget: "string", required: false, hint: "📍 Gdzie: /instruktorzy → szary tekst pod imieniem (EN). ⚠️ Max 60 znaków. ✏️ Przykład: Programme Director · President PACTA K9 Foundation" }
       - { name: "country", label: "Kraj", widget: "string", hint: "📍 Gdzie: /instruktorzy → karta instruktora, flaga. ⚠️ Pełna nazwa kraju w języku polskim. ✏️ Przykład: Polska, Stany Zjednoczone, Portugalia" }
       - { name: "country_code", label: "Kod kraju", widget: "string", pattern: ["^[A-Z]{2}$", "Wpisz dok?adnie dwie wielkie litery"], hint: "📍 Gdzie: /instruktorzy → flaga kraju przy imieniu. ⚠️ TYLKO 2 WIELKIE LITERY — kod ISO. PL=Polska, US=USA, PT=Portugalia, DE=Niemcy. ✏️ Przykład: PL" }
-      - { name: "specializations", label: "Specjalizacje", widget: "list", hint: "📍 Gdzie: /instruktorzy → kolorowe badge przy nazwisku. ⚠️ Używaj dokładnych nazw: K9-Gryzienie, K9-Detekcja, K9-SAR, TCCC, Drony. Dodaj kilka jeśli instruktor prowadzi wiele modułów. ✏️ Przykład: K9-Gryzienie, HARDEST HIT" }
+      - name: "specializations"
+        label: "Specjalizacje"
+        widget: "select"
+        multiple: true
+        required: false
+        options:
+          - { label: "K9 — Gryzienie", value: "K9-Gryzienie" }
+          - { label: "K9 — Detekcja", value: "K9-Detekcja" }
+          - { label: "K9 — SAR", value: "K9-SAR" }
+          - { label: "TCCC", value: "TCCC" }
+          - { label: "TCCC-K9", value: "TCCC-K9" }
+          - { label: "Drony", value: "Drony" }
+          - { label: "HARDEST HIT", value: "HARDEST HIT" }
+          - { label: "Konferencja", value: "Konferencja" }
+          - { label: "Pozorant", value: "Pozorant" }
+          - { label: "Behawiorysta", value: "Behawiorysta" }
+          - { label: "Weterynarz", value: "Weterynarz" }
+          - { label: "Instruktor", value: "Instruktor" }
+        hint: "📍 Gdzie: /instruktorzy → kolorowe badge. ⚠️ Wybierz z listy — wartości MUSZĄ pasować do filtrów. ✏️ Wybierz wszystkie specjalizacje instruktora"
       - { name: "instructor_type", label: "Typ instruktora", widget: "string", required: false }
       - { name: "languages", label: "J?zyki", widget: "list", required: false, hint: "Lista j?zyk?w, np. [PL, EN]." }
       - { name: "bio_short_pl", label: "Kr?tkie bio (PL)", widget: "text", hint: "📍 Gdzie: /instruktorzy → szary tekst na karcie (widoczny bez rozwijania). ⚠️ Max 200 znaków — to najważniejszy tekst! Musi być konkretny. ✏️ Przykład: Operator JWK, twórca CERBERUS K9. 15 lat doświadczenia w K9 taktycznym." }
