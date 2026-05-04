@@ -1,11 +1,12 @@
 ---
 name: Robert 'LOPEZ' Kopyto
-role_pl: ""
+role_pl: FUNKCJA TESTOWA
 role_en: ""
 country: POLSKA
 country_code: PL
 specializations:
   - K9 OBRONA
+instructor_type: test typ instruktora content config
 languages:
   - PL
   - EN
