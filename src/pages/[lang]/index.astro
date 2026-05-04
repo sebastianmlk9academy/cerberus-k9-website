@@ -110,7 +110,11 @@ const timeline = (await getCollection('timeline'))
 const testimonials = (await getCollection('testimonials'))
 	.filter((t) => t.data.isVisible !== false)
 	.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
-	.map((t) => t.data);
+	.map((t) => ({
+		...t.data,
+		name_pl: t.data.author_name ?? t.data.name_pl ?? '',
+		name_en: t.data.author_name ?? t.data.name_en ?? '',
+	}));
 
 const rawParticipantsNum = Number.parseInt(String(s?.participants_count ?? '').replace(/\D/g, ''), 10);
 const heroParticipantsMax =

@@ -1495,6 +1495,8 @@ const testimonials = defineCollection({
 			quote_en: z.string(),
 			name_pl: z.string(),
 			name_en: z.string().optional(),
+			author_name: z.string().optional(),
+			author_role_en: z.string().optional(),
 			initials: z.string().optional(),
 			photo: z.string().optional(),
 			order: z.number().int().optional().default(99),

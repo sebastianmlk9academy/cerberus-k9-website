@@ -9,20 +9,6 @@ media_folder: "public/uploads"
 public_folder: "/uploads"
 locale: "pl"
 collections:
-  - name: _start
-    label: "👋 Zacznij tutaj — Instrukcja"
-    description: "Przeczytaj zanim cokolwiek zmienisz. Instrukcja obsługi CMS."
-    files:
-      - name: instrukcja
-        label: "📖 Instrukcja obsługi CMS"
-        file: src/content/_instrukcja.md
-        fields:
-          - name: body
-            label: "📝 Treść instrukcji"
-            widget: markdown
-            hint: >
-              📍 Gdzie: treść widoczna tylko w panelu CMS (plik _instrukcja) — przewodnik dla redaktorów.
-              ✏️ Edytuj markdown, aby opisać workflow publikacji i zasady treści.
   - name: "ustawienia_globalne"
     label: "⚙️ Ustawienia Globalne"
     description: "Główne ustawienia całej strony — data wydarzenia, liczby, linki, social media."
@@ -3002,6 +2988,13 @@ collections:
         widget: "string"
         hint: "📍 Gdzie: /partnerzy → nazwa na karcie, pasek logo. ⚠️ Oficjalna nazwa firmy/organizacji. Max 60 znaków. ✏️ Przykład: Tactical Equipment Polska Sp. z o.o."
         required: true
+      - { name: "country", label: "Kraj partnera", widget: "string",
+          required: false,
+          hint: "📍 Gdzie: przyszłe filtry geograficzne. ⚠️ Pełna nazwa. ✏️ Przykład: Polska" }
+      - { name: "country_code", label: "Kod kraju", widget: "string",
+          required: false,
+          pattern: ["^[A-Z]{2}$", "Dwie wielkie litery"],
+          hint: "📍 Gdzie: przyszłe filtry geograficzne. ⚠️ 2 WIELKIE LITERY. ✏️ Przykład: PL" }
       - label: "🏷️ Typ partnera"
         name: "type"
         widget: "select"
@@ -4559,6 +4552,9 @@ collections:
         hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
         required: false
         default: false
+      - { name: "heroImage", label: "Zdjęcie główne", widget: "image",
+          required: false,
+          hint: "📍 Gdzie: /blog → zdjęcie nagłówkowe wpisu. ⚠️ 1200x630px, JPG/WebP, max 300KB. ✏️ Przykład: wpis-o-cerberus-2026.jpg" }
 
   # ─── AMBASADORZY ──────────────────────────────────────
   - name: "ambasadorzy"
@@ -5041,6 +5037,12 @@ collections:
       - { label: "Cytat PL", name: "quote_pl", widget: "text", hint: "📍 Gdzie: strona główna → sekcja Wall of Fame, cytat (PL). ⚠️ Max 200 znaków, autentyczny cytat. ✏️ Przykład: Najlepsze wydarzenie K9 w jakim uczestniczyłem." }
       - { label: "Cytat EN", name: "quote_en", widget: "text", hint: "📍 Gdzie: strona główna → Wall of Fame, cytat (EN). ⚠️ Max 200 znaków. ✏️ Przykład: Best K9 event I have ever attended." }
       - { label: "Autor PL", name: "name_pl", widget: "string", hint: "📍 Gdzie: strona główna → podpis pod cytatem. ⚠️ Imię/pseudonim. Max 40 znaków. ✏️ Przykład: mjr rez. Tomasz K." }
+      - { name: "author_role_en", label: "Rola (EN)", widget: "string",
+          required: false,
+          hint: "📍 Gdzie: strona główna → Wall of Fame, rola pod imieniem (EN). ✏️ Przykład: Former K9 Unit Commander" }
+      - { name: "initials", label: "Inicjały (gdy brak zdjęcia)", widget: "string",
+          required: false,
+          hint: "📍 Gdzie: strona główna → Wall of Fame, kółko z inicjałami. ⚠️ 2 litery. ✏️ Przykład: TK" }
       - { label: "Widoczny", name: "isVisible", widget: "boolean", default: true, hint: "📍 Gdzie: strona główna → czy cytat widoczny. ⚠️ Max 3 widoczne naraz (pierwsze 3 z isVisible=TAK). ✏️ TAK = widoczny" }
 
   - name: "international_faq"
@@ -5122,14 +5124,3 @@ collections:
           - { name: "email", label: "E-mail", widget: "string" }
           - { name: "phone", label: "Telefon", widget: "string" }
           - { name: "response_time_en", label: "Czas odpowiedzi EN", widget: "string" }
-
-  - name: "policies"
-    label: "Polityki i regulaminy"
-    label_singular: "Dokument"
-    folder: "src/content/policies"
-    create: false
-    delete: false
-    slug: "{{slug}}"
-    fields:
-      - { name: "body", label: "Treść", widget: "markdown" }
-
