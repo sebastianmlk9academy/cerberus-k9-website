@@ -1,6 +1,6 @@
 ---
 name: Robert 'LOPEZ' Kopyto
-role_pl: Lider Grupy
+role_pl: ""
 role_en: Team Leader
 country: POLSKA
 country_code: PL
