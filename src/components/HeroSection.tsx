@@ -98,7 +98,7 @@ export function HeroSection(props: HeroSectionProps) {
   const safeCopy: HomeHeroCopy = homeHeroCopyByLang[lang] ?? homeHeroCopyByLang.pl;
   const metaRow1Value = location?.trim() || safeCopy.metaRow1Value;
   const metaRow2Value =
-    eventDate?.trim() || heroMetaDelegations?.trim() || safeCopy.metaRow2Value;
+    heroMetaDelegations?.trim() || eventDate?.trim() || safeCopy.metaRow2Value;
   const metaRow3Value = heroMetaEntry?.trim() || safeCopy.metaRow3Value;
   const timeStr = eventTimeStart ?? "10:00";
   const tzOffset = eventTimezone === "Europe/Warsaw" ? "+02:00" : "+00:00";

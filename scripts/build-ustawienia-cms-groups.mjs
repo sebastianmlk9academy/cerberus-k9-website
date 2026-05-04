@@ -50,6 +50,8 @@ const groups = [
 			'hero_title',
 			'hero_subtitle',
 			'hero_year',
+			'event_location',
+			'event_date_display',
 			'hero_meta_locations',
 			'hero_meta_delegations',
 			'hero_meta_entry',
