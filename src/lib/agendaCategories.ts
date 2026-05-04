@@ -4,6 +4,8 @@ export const MODULE_CATEGORY_KEYS = [
 	'K9-Detekcja',
 	'K9-SAR',
 	'TCCC',
+	'TCCC-K9',
+	'PIERWSZA POMOC',
 	'Drony',
 	'HARDEST HIT',
 	'Konferencja',
@@ -33,6 +35,8 @@ export const CATEGORY_META: Record<ModuleCategoryKey, { color: string; label: st
 	'K9-Detekcja': { color: '#C4922A', label: 'K9 — DETEKCJA' },
 	'K9-SAR': { color: '#C4922A', label: 'K9 — SAR' },
 	TCCC: { color: '#8B2020', label: 'TCCC / MEDYCYNA' },
+	'TCCC-K9': { color: '#C42B2B', label: 'TCCC-K9' },
+	'PIERWSZA POMOC': { color: '#C42B2B', label: 'PIERWSZA POMOC' },
 	Drony: { color: '#2A5A8A', label: 'DRONY' },
 	'HARDEST HIT': { color: '#8B4513', label: 'HARDEST HIT' },
 	Konferencja: { color: '#2A6A3A', label: 'KONFERENCJA' },
@@ -53,6 +57,10 @@ const LEGACY_CATEGORY_MAP: Record<string, ModuleCategoryKey> = {
 	BREAK: 'BREAK',
 	PRZERWA: 'BREAK',
 	TCCC: 'TCCC',
+	'TCCC-K9': 'TCCC-K9',
+	PIERWSZAPOMOC: 'PIERWSZA POMOC',
+	'PIERWSZA POMOC': 'PIERWSZA POMOC',
+	FIRSTAID: 'PIERWSZA POMOC',
 };
 
 function isModuleCategoryKey(s: string): s is ModuleCategoryKey {

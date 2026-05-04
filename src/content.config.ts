@@ -60,6 +60,7 @@ const ENUM_MODULE_CATEGORIES = [
 	'K9-SAR',
 	'TCCC',
 	'TCCC-K9',
+	'PIERWSZA POMOC',
 	'Drony',
 	'HARDEST HIT',
 	'Konferencja',

@@ -37,6 +37,7 @@ const AGENDA_CATEGORY_KEY_OPTIONS = [
   { label: 'K9 — SAR', value: 'K9-SAR' },
   { label: 'TCCC', value: 'TCCC' },
   { label: 'TCCC-K9', value: 'TCCC-K9' },
+  { label: 'Pierwsza pomoc', value: 'PIERWSZA POMOC' },
   { label: 'Drony', value: 'Drony' },
   { label: 'HARDEST HIT', value: 'HARDEST HIT' },
   { label: 'Konferencja', value: 'Konferencja' },
