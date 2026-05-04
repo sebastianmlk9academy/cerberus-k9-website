@@ -1,5 +1,10 @@
-import { useState, type CSSProperties } from 'react';
+import { useState, type MouseEvent } from 'react';
 import { ChevronDown } from 'lucide-react';
+import {
+  InstructorFacebook,
+  InstructorInstagram,
+  InstructorLinkedin,
+} from './instructorBrandLucideIcons';
 import { tokens } from '../styles/tokens';
 
 const TAG_STYLES: Record<string, { bg: string; border: string; color: string }> = {
@@ -327,57 +332,69 @@ export default function InstructorCard({
   const [expanded, setExpanded] = useState(false);
   const fallbackPhoto = placeholderPhoto ?? '/images/instruktorzy/test_instruktor_photo.webp';
   const photoSrc = photo || fallbackPhoto;
-  const socialLinkStyle: CSSProperties = {
-    fontFamily: 'Rajdhani, sans-serif',
-    fontSize: '9px',
-    letterSpacing: '2px',
-    marginTop: '4px',
-    display: 'block',
-  };
   const cardCopy: Record<string, {
     expand: string; collapse: string;
-    module: string; schedule: string; linkedin: string; facebook: string; instagram: string;
+    module: string; schedule: string;
   }> = {
     pl: { expand: 'ROZWIŃ BIO', collapse: 'ZWIŃ BIO',
-      module: 'MODUŁ:', schedule: 'HARMONOGRAM:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
+      module: 'MODUŁ:', schedule: 'HARMONOGRAM:', },
     en: { expand: 'EXPAND BIO', collapse: 'COLLAPSE BIO',
-      module: 'MODULE:', schedule: 'SCHEDULE:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
+      module: 'MODULE:', schedule: 'SCHEDULE:', },
     de: { expand: 'BIO ERWEITERN', collapse: 'BIO SCHLIESSEN',
-      module: 'MODUL:', schedule: 'ZEITPLAN:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
+      module: 'MODUL:', schedule: 'ZEITPLAN:', },
     fr: { expand: 'DÉVELOPPER LA BIO', collapse: 'RÉDUIRE LA BIO',
-      module: 'MODULE :', schedule: 'PROGRAMME :', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
+      module: 'MODULE :', schedule: 'PROGRAMME :', },
     cs: { expand: 'ROZBALIT BIO', collapse: 'SBALIT BIO',
-      module: 'MODUL:', schedule: 'ROZVRH:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
+      module: 'MODUL:', schedule: 'ROZVRH:', },
     sk: { expand: 'ROZBALIŤ BIO', collapse: 'ZBALIŤ BIO',
-      module: 'MODUL:', schedule: 'ROZVRH:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
+      module: 'MODUL:', schedule: 'ROZVRH:', },
     hu: { expand: 'BIO MEGJELENÍTÉSE', collapse: 'BIO ELREJTÉSE',
-      module: 'MODUL:', schedule: 'MENETREND:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
+      module: 'MODUL:', schedule: 'MENETREND:', },
     hr: { expand: 'PROŠIRI BIO', collapse: 'SAŽMI BIO',
-      module: 'MODUL:', schedule: 'RASPORED:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
+      module: 'MODUL:', schedule: 'RASPORED:', },
     sl: { expand: 'RAZŠIRI BIO', collapse: 'STRNI BIO',
-      module: 'MODUL:', schedule: 'URNIK:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
+      module: 'MODUL:', schedule: 'URNIK:', },
     lt: { expand: 'IŠSKLEISTI BIO', collapse: 'SUTRAUKTI BIO',
-      module: 'MODULIS:', schedule: 'TVARKARAŠTIS:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
+      module: 'MODULIS:', schedule: 'TVARKARAŠTIS:', },
     lv: { expand: 'IZVĒRST BIO', collapse: 'SAKĻAUT BIO',
-      module: 'MODULIS:', schedule: 'GRAFIKS:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
+      module: 'MODULIS:', schedule: 'GRAFIKS:', },
     no: { expand: 'VIS BIO', collapse: 'SKJUL BIO',
-      module: 'MODUL:', schedule: 'TIDSPLAN:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
+      module: 'MODUL:', schedule: 'TIDSPLAN:', },
     sv: { expand: 'VISA BIO', collapse: 'DÖLJ BIO',
-      module: 'MODUL:', schedule: 'SCHEMA:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
+      module: 'MODUL:', schedule: 'SCHEMA:', },
     nl: { expand: 'BIO UITKLAPPEN', collapse: 'BIO INKLAPPEN',
-      module: 'MODULE:', schedule: 'SCHEMA:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
+      module: 'MODULE:', schedule: 'SCHEMA:', },
     es: { expand: 'AMPLIAR BIO', collapse: 'CONTRAER BIO',
-      module: 'MÓDULO:', schedule: 'HORARIO:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
+      module: 'MÓDULO:', schedule: 'HORARIO:', },
     pt: { expand: 'EXPANDIR BIO', collapse: 'RECOLHER BIO',
-      module: 'MÓDULO:', schedule: 'HORÁRIO:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
+      module: 'MÓDULO:', schedule: 'HORÁRIO:', },
     ro: { expand: 'EXTINDE BIO', collapse: 'RESTRÂNGE BIO',
-      module: 'MODUL:', schedule: 'PROGRAM:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
+      module: 'MODUL:', schedule: 'PROGRAM:', },
     it: { expand: 'ESPANDI BIO', collapse: 'COMPRIMI BIO',
-      module: 'MODULO:', schedule: 'ORARIO:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
+      module: 'MODULO:', schedule: 'ORARIO:', },
     ko: { expand: '바이오 펼치기', collapse: '바이오 접기',
-      module: '모듈:', schedule: '일정:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
+      module: '모듈:', schedule: '일정:', },
   };
   const t = cardCopy[lang ?? 'pl'] ?? cardCopy['en'];
+  const instructorSocialAnchorStyle = {
+    width: '32px',
+    height: '32px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: '#FFFFFF',
+    textDecoration: 'none',
+    transition: 'color 0.2s ease, transform 0.2s ease',
+    opacity: 0.7,
+  } as const;
+  const instructorSocialHoverHandlers = {
+    onMouseEnter: (e: MouseEvent<HTMLAnchorElement>) => {
+      e.currentTarget.style.color = '#C4922A';
+    },
+    onMouseLeave: (e: MouseEvent<HTMLAnchorElement>) => {
+      e.currentTarget.style.color = '#FFFFFF';
+    },
+  };
   const codeNorm = countryCode.trim();
   const resolvedCountry =
     codeNorm
@@ -633,35 +650,48 @@ export default function InstructorCard({
                   {t.schedule} {schedule}
                 </p>
               )}
-              {linkedinUrl && (
-                <a
-                  href={linkedinUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ ...socialLinkStyle, color: '#3A7ACA' }}
-                >
-                  {t.linkedin}
-                </a>
-              )}
-              {socialFacebook && (
-                <a
-                  href={socialFacebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ ...socialLinkStyle, color: '#6B8FD6' }}
-                >
-                  {t.facebook}
-                </a>
-              )}
-              {socialInstagram && (
-                <a
-                  href={socialInstagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ ...socialLinkStyle, color: '#C4922A' }}
-                >
-                  {t.instagram}
-                </a>
+              {(linkedinUrl || socialFacebook || socialInstagram) && (
+                <div className="flex gap-3" style={{ marginTop: '4px' }}>
+                  {linkedinUrl && (
+                    <a
+                      href={linkedinUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="LinkedIn"
+                      className="social-icon hover:!text-[#C4922A] hover:scale-[1.2]"
+                      style={instructorSocialAnchorStyle}
+                      {...instructorSocialHoverHandlers}
+                    >
+                      <InstructorLinkedin size={16} aria-hidden />
+                    </a>
+                  )}
+                  {socialFacebook && (
+                    <a
+                      href={socialFacebook}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Facebook"
+                      className="social-icon hover:!text-[#C4922A] hover:scale-[1.2]"
+                      style={instructorSocialAnchorStyle}
+                      {...instructorSocialHoverHandlers}
+                    >
+                      <InstructorFacebook size={16} aria-hidden />
+                    </a>
+                  )}
+                  {socialInstagram && (
+                    <a
+                      href={socialInstagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Instagram"
+                      className="social-icon hover:!text-[#C4922A] hover:scale-[1.2]"
+                      style={instructorSocialAnchorStyle}
+                      {...instructorSocialHoverHandlers}
+                    >
+                      <InstructorInstagram size={16} aria-hidden />
+                    </a>
+                  )}
+                </div>
               )}
             </div>
           )}
