@@ -91,20 +91,33 @@ collections:
             hint: "Rok edycji przy drugiej linii H1."
             required: false
             default: "2026"
+          - name: "event_location"
+            label: "📍 Lokalizacja — zapas pod „LOKALIZACJE”"
+            widget: "string"
+            hint: "Opcjonalny tekst pierwszej kolumny meta hero (podpis LOKALIZACJE). Używany tylko gdy pole „Meta hero —
+              lokalizacje” jest puste."
+            required: false
+          - name: "event_date_display"
+            label: "📅 Data — zapas pod „DELEGACJE”"
+            widget: "string"
+            hint: "Opcjonalny tekst środkowej kolumny meta hero (podpis DELEGACJE), np. 13–14 CZERWCA 2026. Używany tylko gdy pole
+              „Meta hero — delegacje” jest puste."
+            required: false
           - name: "hero_meta_locations"
             label: "📍 Meta hero — lokalizacje"
             widget: "text"
-            hint: "Rezerwa pod spięcie trzech meta-bloków hero z CMS."
+            hint: "Treść pierwszej kolumny meta hero (podpis LOKALIZACJE na stronie głównej): lista miejsc, liczba itp. Ma
+              pierwszeństwo przed „Lokalizacja — zapas”."
             required: false
           - name: "hero_meta_delegations"
             label: "🤝 Meta hero — delegacje"
             widget: "text"
-            hint: "Rezerwa pod treść meta wiersza o delegacjach."
+            hint: "Treść środkowej kolumny meta hero (podpis DELEGACJE), np. 15+. Ma pierwszeństwo przed „Data — zapas”."
             required: false
           - name: "hero_meta_entry"
             label: "🎫 Meta hero — wejście"
             widget: "text"
-            hint: "Rezerwa pod treść meta wiersza o wejściu/wstępie."
+            hint: "Treść trzeciej kolumny meta hero (podpis WSTĘP), np. BEZPŁATNY lub tekst o rejestracji."
             required: false
           - name: "participants_count"
             label: "👥 Uczestnicy (tekst statystyki)"
