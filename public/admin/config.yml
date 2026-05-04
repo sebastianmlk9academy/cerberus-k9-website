@@ -1574,6 +1574,8 @@ collections:
             value: "TCCC"
           - label: "TCCC-K9"
             value: "TCCC-K9"
+          - label: "Pierwsza pomoc"
+            value: "PIERWSZA POMOC"
           - label: "Drony"
             value: "Drony"
           - label: "HARDEST HIT"
