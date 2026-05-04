@@ -24,10 +24,10 @@ bio_full_pl: Człowiek, który całe życie poświęcił służbie w wojskach
   unikalnych umiejętnościach – od tropienia, przez wykrywanie zagrożeń, aż po
   działania ofensywne.
 photo: /uploads/instruktorzy/1000082949.webp
-unit: JWK - emerytowany operator, przewodnik psa bojowego
+unit: JWK - emerytowany operator · przewodnik psa bojowego
 module: K9 OBRONA
+confirmed: confirmed
 order: 2
 isVisible: true
 showOnHomepage: true
-confirmed: confirmed
 ---
