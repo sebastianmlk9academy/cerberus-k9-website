@@ -448,8 +448,7 @@ export default function InstructorCard({
               fontSize: '12px',
               letterSpacing: '2px',
               fontFamily: 'var(--font-rajdhani)',
-              margin: '0 0 8px 0',
-              lineHeight: 1.35,
+              margin: 0,
             }}
           >
             {role.trim()}
