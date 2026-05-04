@@ -2592,8 +2592,9 @@ collections:
     slug: "{{slug}}"
     identifier_field: "name"
     summary: "{{name}} ? {{country}} ({{confirmed}})"
-    media_folder: "public/uploads/instruktorzy/"
-    public_folder: "/uploads/instruktorzy/"
+    # Względem folder: src/content/instruktorzy — inaczej pliki lądują w src/ i NIE są serwowane jako /uploads/…
+    media_folder: "../../../public/uploads/instruktorzy"
+    public_folder: "/uploads/instruktorzy"
     fields:
       - { name: "name", label: "Imi? i nazwisko", widget: "string", hint: "📍 Gdzie: /instruktorzy → karta instruktora, nagłówek profilu. ⚠️ Pełne imię i nazwisko lub pseudonim służbowy. Max 50 znaków. ✏️ Przykład: Mariusz Lis" }
       - { name: "role_pl", label: "Rola/Funkcja (PL)", widget: "string", required: false, hint: "📍 Gdzie: /instruktorzy → szary tekst pod imieniem (PL). ⚠️ Max 60 znaków, krótko i konkretnie. ✏️ Przykład: Dyrektor Programowy · Prezes Fundacji PACTA K9" }
@@ -2607,7 +2608,7 @@ collections:
       - { name: "bio_short_en", label: "Kr?tkie bio (EN)", widget: "text", required: false, hint: "📍 Gdzie: /instruktorzy → angielska wersja krótkiego bio. ⚠️ Max 200 znaków. Ważne dla zagranicznych delegacji. ✏️ Przykład: JWK operator, creator of CERBERUS K9. 15 years in tactical K9." }
       - { name: "bio_full_pl", label: "Pe?ne bio (PL)", widget: "markdown", required: false }
       - { name: "bio_full_en", label: "Pe?ne bio (EN)", widget: "markdown", required: false }
-      - { name: "photo", label: "Zdj?cie", widget: "image", media_folder: "public/uploads/instruktorzy/", public_folder: "/uploads/instruktorzy/", hint: "📍 Gdzie: /instruktorzy → zdjęcie profilowe na karcie. ⚠️ Kwadrat 400x400px, format WebP/JPG, max 200KB. Tło ciemne lub neutralne. Użyj squoosh.app. ✏️ Nazwa: mariusz-lis.webp" }
+      - { name: "photo", label: "Zdj?cie", widget: "image", media_folder: "../../../public/uploads/instruktorzy", public_folder: "/uploads/instruktorzy", hint: "📍 Gdzie: /instruktorzy → zdjęcie profilowe na karcie. ⚠️ Kwadrat 400x400px, format WebP/JPG, max 200KB. Tło ciemne lub neutralne. Użyj squoosh.app. ✏️ Nazwa: mariusz-lis.webp" }
       - { name: "unit", label: "Jednostka/Organizacja", widget: "string", required: false }
       - { name: "module", label: "Modu?", widget: "string", required: false }
       - { name: "schedule", label: "Harmonogram", widget: "string", required: false }
