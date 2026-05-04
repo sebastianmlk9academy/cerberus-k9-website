@@ -7,6 +7,6 @@ filter_field: specializations
 filter_match: includes
 filter_value: tccc-k9
 filter_values:
-  - TCCC-K9
+  - v: TCCC-K9
 order: 11
 active: true
