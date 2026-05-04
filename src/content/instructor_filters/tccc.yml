@@ -4,5 +4,7 @@ label_en: TCCC
 filter_field: specializations
 filter_match: includes
 filter_value: tccc
+filter_values:
+  - TCCC
 order: 2
 active: true
