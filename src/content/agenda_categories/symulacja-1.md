@@ -1,7 +1,7 @@
 ---
 key: SYMULACJA
 label_pl: SYMULACJA
-color: "#C4922A"
+color: "#aea870"
 show_in_filter: true
 show_calendar_button: true
 order: 99
