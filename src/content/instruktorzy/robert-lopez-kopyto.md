@@ -13,7 +13,7 @@ bio_short_pl: Krótkie Bio
 bio_short_en: ""
 bio_full_pl: Długie BIO
 photo: /uploads/instruktorzy/mmexport1685011401842.jpg
-unit: JWK
+unit: JWK - emerytowany operator · przewodnik psa bojowego
 module: K9 OBRONA
 confirmed: confirmed
 order: 99
