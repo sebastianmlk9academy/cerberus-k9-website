@@ -30,6 +30,21 @@ function countFields(x) {
 const boolHint =
   'true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany.';
 
+/** Must stay aligned with ENUM_MODULE_CATEGORIES in src/content.config.ts */
+const AGENDA_CATEGORY_KEY_OPTIONS = [
+  { label: 'K9 — Gryzienie', value: 'K9-Gryzienie' },
+  { label: 'K9 — Detekcja', value: 'K9-Detekcja' },
+  { label: 'K9 — SAR', value: 'K9-SAR' },
+  { label: 'TCCC', value: 'TCCC' },
+  { label: 'TCCC-K9', value: 'TCCC-K9' },
+  { label: 'Drony', value: 'Drony' },
+  { label: 'HARDEST HIT', value: 'HARDEST HIT' },
+  { label: 'Konferencja', value: 'Konferencja' },
+  { label: 'Przerwa (BREAK)', value: 'BREAK' },
+  { label: 'Ceremonia', value: 'CEREMONIA' },
+  { label: 'Inne', value: 'Inne' },
+];
+
 const imgHint = (w, h, where) =>
   `Zalecany format: WebP. Rozmiar: ${w}×${h}px. ${where}`;
 
@@ -596,11 +611,19 @@ const collections = [
     create: true,
     delete: true,
     slug: '{{slug}}',
+    identifier_field: 'key',
+    summary: '{{label_pl}} — {{key}} ({{order}})',
     fields: [
-      f('key', '🔑 Klucz kategorii', 'string', 'Unikalny klucz — powiązany z polem category w programie.', {
+      {
+        name: 'key',
+        label: '🔑 Klucz kategorii',
+        widget: 'select',
         required: true,
-        pattern: ['^[A-Z0-9_]+$', 'Wielkie litery, cyfry i podkreślniki'],
-      }),
+        options: AGENDA_CATEGORY_KEY_OPTIONS,
+        hint: H(
+          "📍 Gdzie: /o-wydarzeniu → filtr agendy. ⚠️ MUSI pasować dokładnie do pola 'category' w kolekcji Program. Wybierz z listy — nie wpisuj ręcznie. ✏️ Przykład: TCCC",
+        ),
+      },
       f('label_pl', '🇵🇱 Etykieta PL', 'string', 'Nazwa filtra agendy po polsku.', { required: true }),
       f('label_en', '🇬🇧 Etykieta EN', 'string', 'Nazwa filtra po angielsku.', { required: false }),
       f('color', '🎨 Kolor (hex)', 'color', 'Kolor paska kategorii na osi czasu.', { required: true, default: '#C4922A' }),
