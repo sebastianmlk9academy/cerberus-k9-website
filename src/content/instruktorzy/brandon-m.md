@@ -28,7 +28,7 @@ photo: /uploads/instruktorzy/1000082949.webp
 unit: JWK - emerytowany operator, przewodnik psa bojowego
 module: ""
 order: 2
-isVisible: false
+isVisible: true
 showOnHomepage: true
 bioShort: Aktywny pozorant K9 dla departamentów policji USA, SWAT i Straży
   Granicznej. Specjalista środowisk taktycznych.
