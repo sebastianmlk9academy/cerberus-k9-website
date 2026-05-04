@@ -667,7 +667,7 @@ const collections = [
     media_folder: '../../../public/uploads/instruktorzy',
     public_folder: '/uploads/instruktorzy',
     create: true,
-    delete: false,
+    delete: true,
     slug: '{{slug}}',
     identifier_field: 'name',
     summary: '{{name}} — {{country}} ({{confirmed}})',
