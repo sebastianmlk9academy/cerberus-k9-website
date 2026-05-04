@@ -957,6 +957,8 @@ export default function InteractiveAgenda({
       ? { ...f, label: f.label || effectiveLabels.all }
       : { ...f, label: f.label || ACTIVE_CATEGORY_META[f.key]?.label || f.key },
   );
+  const agendaFilterRowFirst = translatedFilters.slice(0, 5);
+  const agendaFilterRowSecond = translatedFilters.slice(5);
   const [activeDayId, setActiveDayId] = useState<string>(DAYS_TO_USE[0]?.id ?? "day1");
   const [filter, setFilter] = useState<string>("ALL");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
@@ -990,6 +992,30 @@ export default function InteractiveAgenda({
 
   const toggle = (id: string) =>
     setExpanded((s) => ({ ...s, [id]: !s[id] }));
+
+  const renderAgendaFilterButton = (f: (typeof translatedFilters)[number]) => {
+    const isActive = filter === f.key;
+    return (
+      <button
+        key={f.key}
+        onClick={() => setFilter(f.key)}
+        style={{
+          ...partnerButtonStyle,
+          backgroundColor: isActive ? "#C4922A" : "transparent",
+          color: isActive ? "#1E2B38" : "#C4922A",
+          padding: "8px 14px",
+          fontSize: 11,
+        }}
+        onMouseEnter={handlePartnerButtonMouseEnter}
+        onMouseLeave={(e) => {
+          if (isActive) return;
+          handlePartnerButtonMouseLeave(e);
+        }}
+      >
+        {f.label}
+      </button>
+    );
+  };
 
   return (
     <div
@@ -1067,36 +1093,35 @@ export default function InteractiveAgenda({
         <div
           style={{
             display: "flex",
-            flexWrap: "wrap",
+            flexDirection: "column",
+            alignItems: "center",
             gap: 8,
             padding: "20px 0",
             marginTop: 16,
-            justifyContent: "center",
           }}
         >
-          {translatedFilters.map((f) => {
-            const isActive = filter === f.key;
-            return (
-              <button
-                key={f.key}
-                onClick={() => setFilter(f.key)}
-                style={{
-                  ...partnerButtonStyle,
-                  backgroundColor: isActive ? "#C4922A" : "transparent",
-                  color: isActive ? "#1E2B38" : "#C4922A",
-                  padding: "8px 14px",
-                  fontSize: 11,
-                }}
-                onMouseEnter={handlePartnerButtonMouseEnter}
-                onMouseLeave={(e) => {
-                  if (isActive) return;
-                  handlePartnerButtonMouseLeave(e);
-                }}
-              >
-                {f.label}
-              </button>
-            );
-          })}
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 8,
+              justifyContent: "center",
+            }}
+          >
+            {agendaFilterRowFirst.map(renderAgendaFilterButton)}
+          </div>
+          {agendaFilterRowSecond.length > 0 && (
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 8,
+                justifyContent: "center",
+              }}
+            >
+              {agendaFilterRowSecond.map(renderAgendaFilterButton)}
+            </div>
+          )}
         </div>
 
         {/* Timeline */}
