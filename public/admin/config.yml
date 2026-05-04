@@ -1458,7 +1458,7 @@ collections:
     create: true
     delete: true
     slug: "{{day}}-{{slug}}"
-    identifier_field: title_pl
+    identifier_field: "title_pl"
     summary: "{{day}} · {{time_start}}–{{time_end}} · {{title_pl}}"
     preview_path: "pl/o-wydarzeniu"
     extension: "md"
@@ -1547,8 +1547,10 @@ collections:
         required: false
         default: true
   - name: "agenda_categories"
-    label: "📅 O Wydarzeniu — Kategorie Agendy"
-    description: "Kolory i nazwy filtrów agendy (K9, TCCC, Drony itd.)."
+    label: "🔘 Filtry interaktywnej agendy (kategorie)"
+    label_singular: "Filtr / kategoria agendy"
+    description: "Przyciski filtrów nad osią czasu na /o-wydarzeniu (#agenda). Każdy wpis = jedna kategoria (K9, TCCC…).
+      Klucz musi zgadzać się z polem „Klucz kategorii” w Programie."
     folder: "src/content/agenda_categories"
     create: true
     delete: true
@@ -1626,14 +1628,134 @@ collections:
         required: false
         default: true
   - name: "agenda_ui"
-    label: "📅 O Wydarzeniu — Napisy Agendy"
-    description: "Przyciski i etykiety interfejsu agendy w wielu językach."
+    label: "📅 O Wydarzeniu — Napisy agendy (UI)"
+    description: "Teksty interfejsu interaktywnej agendy: przycisk „wszystkie”, kalendarz, nawigacja, komunikat „brak
+      wydarzeń” po filtrze itd. Nie zastępuje listy filtrów — tę edytujesz w „Filtry interaktywnej agendy”."
     files:
       - label: "📄 Etykiety interfejsu agendy"
         name: "labels"
         file: "src/content/agenda_ui/labels.yml"
         format: "yaml"
         fields:
+          - label: "🔘 Filtr „wszystkie kategorie”"
+            name: "filter_all"
+            widget: "object"
+            hint: "Pierwszy przycisk nad osią agendy (pokazuje cały program)."
+            fields:
+              - name: "pl"
+                label: "🇵🇱 Filtr „wszystkie kategorie” (pl)"
+                widget: "string"
+                hint: "Pierwszy przycisk nad osią agendy (pokazuje cały program). — wariant PL."
+                required: true
+                default: "WSZYSTKO"
+              - name: "en"
+                label: "🇬🇧 Filtr „wszystkie kategorie” (en)"
+                widget: "string"
+                hint: "Pierwszy przycisk nad osią agendy (pokazuje cały program). — wariant EN."
+                required: false
+                default: "ALL"
+              - name: "de"
+                label: "🇩🇪 Filtr „wszystkie kategorie” (de)"
+                widget: "string"
+                hint: "Pierwszy przycisk nad osią agendy (pokazuje cały program). — wariant DE."
+                required: false
+                default: "ALLE"
+              - name: "fr"
+                label: "🇫🇷 Filtr „wszystkie kategorie” (fr)"
+                widget: "string"
+                hint: "Pierwszy przycisk nad osią agendy (pokazuje cały program). — wariant FR."
+                required: false
+                default: "TOUT"
+              - name: "cs"
+                label: "🇨🇿 Filtr „wszystkie kategorie” (cs)"
+                widget: "string"
+                hint: "Pierwszy przycisk nad osią agendy (pokazuje cały program). — wariant CS."
+                required: false
+                default: "VŠE"
+              - name: "sk"
+                label: "🇸🇰 Filtr „wszystkie kategorie” (sk)"
+                widget: "string"
+                hint: "Pierwszy przycisk nad osią agendy (pokazuje cały program). — wariant SK."
+                required: false
+                default: "VŠETKO"
+              - name: "hu"
+                label: "🇭🇺 Filtr „wszystkie kategorie” (hu)"
+                widget: "string"
+                hint: "Pierwszy przycisk nad osią agendy (pokazuje cały program). — wariant HU."
+                required: false
+                default: "ÖSSZES"
+              - name: "hr"
+                label: "🇭🇷 Filtr „wszystkie kategorie” (hr)"
+                widget: "string"
+                hint: "Pierwszy przycisk nad osią agendy (pokazuje cały program). — wariant HR."
+                required: false
+                default: "SVE"
+              - name: "sl"
+                label: "🇸🇮 Filtr „wszystkie kategorie” (sl)"
+                widget: "string"
+                hint: "Pierwszy przycisk nad osią agendy (pokazuje cały program). — wariant SL."
+                required: false
+                default: "VSE"
+              - name: "lt"
+                label: "🇱🇹 Filtr „wszystkie kategorie” (lt)"
+                widget: "string"
+                hint: "Pierwszy przycisk nad osią agendy (pokazuje cały program). — wariant LT."
+                required: false
+                default: "VISKAS"
+              - name: "lv"
+                label: "🇱🇻 Filtr „wszystkie kategorie” (lv)"
+                widget: "string"
+                hint: "Pierwszy przycisk nad osią agendy (pokazuje cały program). — wariant LV."
+                required: false
+                default: "VISS"
+              - name: "no"
+                label: "🇳🇴 Filtr „wszystkie kategorie” (no)"
+                widget: "string"
+                hint: "Pierwszy przycisk nad osią agendy (pokazuje cały program). — wariant NO."
+                required: false
+                default: "ALLE"
+              - name: "sv"
+                label: "🇸🇪 Filtr „wszystkie kategorie” (sv)"
+                widget: "string"
+                hint: "Pierwszy przycisk nad osią agendy (pokazuje cały program). — wariant SV."
+                required: false
+                default: "ALLT"
+              - name: "nl"
+                label: "🇳🇱 Filtr „wszystkie kategorie” (nl)"
+                widget: "string"
+                hint: "Pierwszy przycisk nad osią agendy (pokazuje cały program). — wariant NL."
+                required: false
+                default: "ALLES"
+              - name: "es"
+                label: "🇪🇸 Filtr „wszystkie kategorie” (es)"
+                widget: "string"
+                hint: "Pierwszy przycisk nad osią agendy (pokazuje cały program). — wariant ES."
+                required: false
+                default: "TODO"
+              - name: "pt"
+                label: "🇵🇹 Filtr „wszystkie kategorie” (pt)"
+                widget: "string"
+                hint: "Pierwszy przycisk nad osią agendy (pokazuje cały program). — wariant PT."
+                required: false
+                default: "TUDO"
+              - name: "ro"
+                label: "🇷🇴 Filtr „wszystkie kategorie” (ro)"
+                widget: "string"
+                hint: "Pierwszy przycisk nad osią agendy (pokazuje cały program). — wariant RO."
+                required: false
+                default: "TOT"
+              - name: "it"
+                label: "🇮🇹 Filtr „wszystkie kategorie” (it)"
+                widget: "string"
+                hint: "Pierwszy przycisk nad osią agendy (pokazuje cały program). — wariant IT."
+                required: false
+                default: "TUTTO"
+              - name: "ko"
+                label: "🇰🇷 Filtr „wszystkie kategorie” (ko)"
+                widget: "string"
+                hint: "Pierwszy przycisk nad osią agendy (pokazuje cały program). — wariant KO."
+                required: false
+                default: "전체"
           - label: "📅 Dodaj do kalendarza"
             name: "add_to_calendar"
             widget: "object"
