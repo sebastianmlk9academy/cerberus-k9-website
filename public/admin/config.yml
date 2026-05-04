@@ -1603,8 +1603,8 @@ collections:
             value: "BREAK"
           - label: "Ceremonia"
             value: "CEREMONIA"
-          - label: "Inne"
-            value: "Inne"
+          - label: "SYMULACJA"
+            value: "SYMULACJA"
         hint: "📍 Gdzie: /o-wydarzeniu → filtr agendy. ⚠️ MUSI pasować dokładnie do pola 'category' w kolekcji Program. Wybierz
           z listy — nie wpisuj ręcznie. ✏️ Przykład: TCCC"
       - name: "label_pl"
