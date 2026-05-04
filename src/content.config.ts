@@ -361,6 +361,14 @@ const partnerTypeSchema = z.preprocess((value) => {
 	return PARTNER_TYPE_PL_TO_EN[normalized] ?? normalized;
 }, z.enum(ENUM_PARTNER_TYPES).optional().default('strategic'));
 
+/** CMS często zapisuje ścieżkę względną bez ukośnika — na stronach jak /pl/partnerzy trafia wtedy pod zły URL. */
+function normalizePartnerLogoHref(raw: string): string {
+	const t = raw.trim();
+	if (!t || /^https?:\/\//i.test(t) || t.startsWith('//')) return t;
+	const rel = t.replace(/^\/+/, '');
+	return `/${rel}`;
+}
+
 /** Decap `widget: image` może zapisać string lub obiekt `{ path, publicURL }`. */
 function mapPartnerzyFromCms(raw: unknown): unknown {
 	if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return raw;
@@ -376,11 +384,11 @@ function mapPartnerzyFromCms(raw: unknown): unknown {
 			(typeof lo.public_url === 'string' && lo.public_url) ||
 			('');
 		const t = String(path).trim();
-		if (t) o.logo = t;
+		if (t) o.logo = normalizePartnerLogoHref(t);
 		else delete o.logo;
 	} else if (typeof v === 'string') {
 		const t = v.trim();
-		if (t) o.logo = t;
+		if (t) o.logo = normalizePartnerLogoHref(t);
 		else delete o.logo;
 	} else {
 		delete o.logo;
