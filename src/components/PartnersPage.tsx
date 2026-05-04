@@ -326,6 +326,7 @@ const partnerLabelsMap: Partial<Record<Lang, PartnerLabels>> = {
 };
 
 function PartnerCard({ partner, labels }: { partner: Partner; labels: PartnerLabels }) {
+  const [logoFailed, setLogoFailed] = useState(false);
   const badge = typeBadge[partner.type];
   return (
     <div
@@ -359,7 +360,7 @@ function PartnerCard({ partner, labels }: { partner: Partner; labels: PartnerLab
           position: 'relative',
         }}
       >
-        {partner.logo ? (
+        {partner.logo && !logoFailed ? (
           <img
             src={partner.logo}
             alt={partner.name}
@@ -376,6 +377,9 @@ function PartnerCard({ partner, labels }: { partner: Partner; labels: PartnerLab
               objectPosition: 'center center',
               display: 'block',
             }}
+            loading="lazy"
+            decoding="async"
+            onError={() => setLogoFailed(true)}
           />
         ) : (
           <span

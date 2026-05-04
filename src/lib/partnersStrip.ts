@@ -20,7 +20,7 @@ export function partnerEntriesToStripItems(
     })
     .map(e => ({
       name: e.data.name?.trim() || e.id.replace(/-/g, ' ') || 'Partner',
-      logo: e.data.logo ?? null,
+      logo: e.data.logo?.trim() || null,
       website: e.data.website ?? null,
       type: e.data.type ?? null,
     }))

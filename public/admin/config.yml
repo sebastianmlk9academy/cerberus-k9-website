@@ -3028,11 +3028,11 @@ collections:
           - "Patron Medialny"
           - "Technologiczny"
       - name: "logo"
-        label: "🖼️ Logo"
+        label: "Logo partnera"
         widget: "image"
-        hint: "📍 Gdzie: /partnerzy → logo na karcie i w pasku na stronie głównej. ⚠️ Format PNG z przezroczystym tłem lub WebP, rozmiar 400x200px, max 100KB. ✏️ Nazwa: nazwa-firmy-logo.png"
         required: false
         choose_url: true
+        hint: "📍 Gdzie: /partnerzy → logo na karcie i w rotatorze. ⚠️ PNG z przezroczystym tłem, 400x200px, max 100KB. ✏️ Nazwa: nazwa-firmy-logo.png"
       - name: "website"
         label: "🔗 Strona WWW"
         widget: "string"

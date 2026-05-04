@@ -355,9 +355,38 @@ const partnerTypeSchema = z.preprocess((value) => {
 	return PARTNER_TYPE_PL_TO_EN[normalized] ?? normalized;
 }, z.enum(ENUM_PARTNER_TYPES).optional().default('strategic'));
 
+/** Decap `widget: image` może zapisać string lub obiekt `{ path, publicURL }`. */
+function mapPartnerzyFromCms(raw: unknown): unknown {
+	if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return raw;
+	const o = { ...(raw as Record<string, unknown>) };
+	const v = o.logo;
+	if (v == null || v === '') {
+		delete o.logo;
+	} else if (typeof v === 'object' && !Array.isArray(v)) {
+		const lo = v as Record<string, unknown>;
+		const path =
+			(typeof lo.path === 'string' && lo.path) ||
+			(typeof lo.publicURL === 'string' && lo.publicURL) ||
+			(typeof lo.public_url === 'string' && lo.public_url) ||
+			('');
+		const t = String(path).trim();
+		if (t) o.logo = t;
+		else delete o.logo;
+	} else if (typeof v === 'string') {
+		const t = v.trim();
+		if (t) o.logo = t;
+		else delete o.logo;
+	} else {
+		delete o.logo;
+	}
+	return o;
+}
+
 const partnerzy = defineCollection({
 	loader: glob({ base: './src/content/partnerzy', pattern: '**/*.{md,mdx}' }),
-	schema: z.object({
+	schema: z.preprocess(
+		mapPartnerzyFromCms,
+		z.object({
 		name: z.string().optional(),
 		type: partnerTypeSchema,
 		country: z.string().optional(),
@@ -372,6 +401,7 @@ const partnerzy = defineCollection({
 		active: z.boolean().optional().default(true),
 		needs_review: z.boolean().optional().default(false),
 	}),
+	),
 });
 
 const blog = defineCollection({
