@@ -20,7 +20,7 @@ bio_full_pl: Człowiek, który całe życie poświęcił służbie w wojskach
   działania ofensywne.
 photo: /uploads/instruktorzy/1000082949.webp
 unit: JWK - emerytowany operator, przewodnik psa bojowego
-isVisible: true
+isVisible: false
 showOnHomepage: true
 module: ""
 order: 2
