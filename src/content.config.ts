@@ -521,6 +521,9 @@ const press_releases = defineCollection({
 function mapProgramLegacyVisibility(raw: unknown): unknown {
 	if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return raw;
 	const o = { ...(raw as Record<string, unknown>) };
+	if (o.day instanceof Date) {
+		o.day = dateToString(o.day);
+	}
 	if (o.isVisible === undefined && o.active !== undefined) {
 		o.isVisible = o.active;
 	}
