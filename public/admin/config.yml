@@ -1923,7 +1923,7 @@ collections:
       - name: "accent"
         label: "🎨 Akcent kolorystyczny"
         widget: "select"
-        hint: "Kolor liczby w pasku statystyk."
+        hint: "📍 Gdzie: strona główna → pasek statystyk, kolor liczby. ✏️ gold=złoty, red=czerwony"
         required: false
         default: "gold"
         options:
@@ -2062,14 +2062,14 @@ collections:
         hint: "Opis miejsca w danym języku — sekcja lokalizacji."
         required: false
       - name: "modules_pl"
-        label: "📚 Moduły (PL)"
-        widget: "string"
-        hint: "Krótka lista modułów przy lokalizacji (PL)."
+        label: "Moduły (PL)"
+        widget: "text"
+        hint: "📍 Gdzie: /o-wydarzeniu → opis modułów w lokalizacji (PL). ✏️ Przykład: K9-Gryzienie, TCCC, HARDEST HIT"
         required: false
       - name: "modules_en"
-        label: "📚 Moduły (EN)"
-        widget: "string"
-        hint: "Krótka lista modułów (EN)."
+        label: "Moduły (EN)"
+        widget: "text"
+        hint: "📍 Gdzie: /o-wydarzeniu → opis modułów w lokalizacji (EN). ✏️ Przykład: K9 Biting, TCCC, HARDEST HIT"
         required: false
       - name: "modules_de"
         label: "📚 Moduły (DE)"
@@ -2580,7 +2580,7 @@ collections:
           - name: "ics_organizer_name"
             label: "📇 ICS — nazwa organizatora"
             widget: "string"
-            hint: "Nazwa organizatora w pliku kalendarza."
+            hint: "📍 Gdzie: eksport .ICS → nazwa organizatora w kalendarzu. ✏️ Przykład: CERBERUS K9 / Fundacja PACTA K9"
             required: false
             default: "Fundacja PACTA K9"
           - name: "ics_organizer_email"
@@ -2589,7 +2589,7 @@ collections:
             pattern:
               - "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
               - "Wpisz poprawny adres e-mail"
-            hint: "E-mail organizatora w ICS."
+            hint: "📍 Gdzie: eksport .ICS → email organizatora. ✏️ Przykład: kontakt@cerberusk9.org"
             required: false
             default: "sebastian@pactak9.org"
           - name: "ics_prodid"
@@ -3072,43 +3072,56 @@ collections:
     delete: true
     slug: "{{slug}}"
     identifier_field: "outlet"
-    summary: "{{outlet}} — {{badge}} ({{order}})"
+    summary: "{{outlet}} — {{title}} ({{order}})"
     fields:
-      - name: "outlet"
-        label: "📰 Outlet / redakcja"
-        widget: "string"
-        hint: "Nazwa medium wyświetlana na kafelku archiwum."
-        required: true
-      - name: "description"
-        label: "📄 Opis"
-        widget: "text"
-        hint: "Krótki opis relacji pod tytułem."
+      - { name: "outlet", label: "Nazwa medium", widget: "string",
+          required: true,
+          hint: "📍 Gdzie: /media → nazwa gazety/portalu/TV. ✏️ Przykład: Polska Zbrojna" }
+      - { name: "title", label: "Tytuł artykułu/materiału", widget: "string",
+          required: false,
+          hint: "📍 Gdzie: /media → tytuł materiału. ✏️ Przykład: CERBERUS K9 — nowe standardy szkolenia psów służbowych" }
+      - name: "type"
+        label: "Typ mediów"
+        widget: "select"
         required: false
-      - name: "date"
-        label: "📅 Data (tekst)"
-        widget: "string"
-        hint: "Np. 2025-06 — metadane kafelka."
+        hint: "📍 Gdzie: /media → badge przy materiale. ✏️ Przykład: online"
+        options:
+          - { label: "Artykuł online", value: "online" }
+          - { label: "Artykuł prasowy", value: "print" }
+          - { label: "Telewizja", value: "tv" }
+          - { label: "Radio", value: "radio" }
+          - { label: "Podcast", value: "podcast" }
+      - name: "publish_date"
+        label: "Data publikacji"
+        widget: "datetime"
         required: false
-      - name: "link"
-        label: "🔗 Link do materiału"
+        format: "YYYY-MM-DD"
+        date_format: "DD.MM.YYYY"
+        time_format: false
+        hint: "📍 Gdzie: /media → data przy materiale. ⚠️ Format RRRR-MM-DD. ✏️ Przykład: 2025-06-15"
+      - name: "url"
+        label: "Link do materiału"
         widget: "string"
-        hint: "URL artykułu lub nagrania."
         required: false
         pattern:
           - "^https?://.+$"
-          - "Wklej pełny adres URL z https://"
-      - label: "🏷️ Rodzaj materiału"
-        name: "badge"
+          - "Musi zaczynać się od https://"
+        hint: "📍 Gdzie: /media → klikalny link. ⚠️ Musi zaczynać się od https://. ✏️ Przykład: https://polskazbrojna.pl/artykul/cerberus"
+      - name: "file"
+        label: "Plik PDF (skan)"
+        widget: "file"
+        required: false
+        hint: "📍 Gdzie: /media → pobieranie skanu artykułu. ⚠️ Max 5MB. ✏️ Dla artykułów bez linku online"
+      - name: "language"
+        label: "Język materiału"
         widget: "select"
-        required: true
-        default: "VIDEO"
-        hint: "Ikona typu materiału na kafelku archiwum."
+        default: "pl"
+        required: false
+        hint: "📍 Gdzie: /media → filtrowanie po języku. ✏️ Przykład: pl"
         options:
-          - "VIDEO"
-          - "ARTYKUŁ"
-          - "AUDIO"
-          - "PODCAST"
-          - "REPORTAŻ"
+          - { label: "Polski", value: "pl" }
+          - { label: "Angielski", value: "en" }
+          - { label: "Inny", value: "other" }
       - name: "outlet_logo"
         label: "🖼️ Logo outletu"
         widget: "image"
@@ -3116,17 +3129,30 @@ collections:
         required: false
         choose_url: true
       - name: "order"
-        label: "🔢 Kolejność wyświetlania"
+        label: "Kolejność"
         widget: "number"
-        hint: "Kolejność wpisów w archiwum."
         required: false
         default: 99
+        hint: "📍 Gdzie: /media → kolejność na liście. ⚠️ Mniejsza liczba = wyżej. ✏️ Przykład: 10"
       - name: "active"
-        label: "👁️ Widoczny na stronie"
+        label: "Widoczny"
         widget: "boolean"
-        hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
-        required: false
         default: true
+        hint: "📍 Gdzie: /media → czy materiał widoczny. ✏️ TAK = widoczny"
+      - { name: "date", label: "Data (legacy — użyj publish_date)", widget: "string",
+          required: false,
+          hint: "⚠️ LEGACY — nie używaj dla nowych wpisów. Użyj pola Data publikacji powyżej." }
+      - { name: "link", label: "Link (legacy — użyj url)", widget: "string",
+          required: false,
+          hint: "⚠️ LEGACY — nie używaj dla nowych wpisów. Użyj pola Link do materiału powyżej." }
+      - { name: "badge", label: "Badge (legacy — użyj type)", widget: "string",
+          required: false,
+          hint: "⚠️ LEGACY — nie używaj dla nowych wpisów. Użyj pola Typ mediów powyżej." }
+      - name: "description"
+        label: "📄 Opis (legacy / dodatkowy)"
+        widget: "text"
+        hint: "Opcjonalny opis pod tytułem — możesz użyć zamiast lub obok pola Tytuł."
+        required: false
   - name: "press_releases"
     label: "📰 Media — Informacje Prasowe"
     description: "Pliki do pobrania w sekcji „Informacje prasowe” na /media."
@@ -3173,7 +3199,7 @@ collections:
         widget: "number"
         required: false
         default: 99
-        hint: "Mniejsza liczba = wyżej na liście."
+        hint: "📍 Gdzie: /media → kolejność informacji prasowych. ⚠️ Mniejsza liczba = wyżej. ✏️ Przykład: 10"
       - name: "active"
         label: "👁️ Widoczny na stronie"
         widget: "boolean"
@@ -3564,30 +3590,23 @@ collections:
           value_field: "key"
           display_fields: ["label_pl"]
       - name: "media_type"
-        label: "🎬 Typ zawartości"
+        label: "Typ mediów"
         widget: "select"
         default: "photo"
-        required: true
-        hint: >
-          📸 photo = zdjęcie z wydarzenia
-          🎬 video = film YouTube/Vimeo
-          📰 press = relacja medialna (artykuł, TV, radio)
-          ⚠️ Wypełnij tylko pola odpowiednie dla wybranego typu!
+        required: false
+        hint: "📍 Gdzie: /galeria → typ elementu. photo=zdjęcie, video=wideo, press=artykuł prasowy. ✏️ Przykład: photo"
         options:
           - { label: "📸 Zdjęcie", value: "photo" }
           - { label: "🎬 Film wideo", value: "video" }
           - { label: "📰 Relacja medialna", value: "press" }
       - name: "video_url"
-        label: "▶️ URL wideo [TYLKO dla: Film wideo]"
+        label: "URL wideo (YouTube/Vimeo)"
         widget: "string"
         pattern:
           - "^https?://.+$"
           - "URL musi zaczyna? si? od https://"
         required: false
-        hint: >
-          ✏️ https://www.youtube.com/watch?v=XXXXX
-          lub https://youtu.be/XXXXX
-          ⚠️ Wypełnij TYLKO jeśli wybrałeś typ 'Film wideo'!
+        hint: "📍 Gdzie: /galeria → link do wideo. ⚠️ Tylko gdy media_type=video. ✏️ Przykład: https://youtube.com/watch?v=..."
       - name: "video_platform"
         label: "📺 Platforma [TYLKO dla: Film wideo]"
         widget: "select"

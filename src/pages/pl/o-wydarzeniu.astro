@@ -102,7 +102,7 @@ const agendaCategories: AgendaCategory[] = categoryEntries
 		order: c.data.order ?? 99,
 	}));
 const { days: agendaDays, categoryMeta } = programEntriesToAgendaItems(
-	programEntries.filter((e) => e.data.active !== false),
+	programEntries.filter((e) => e.data.active !== false && e.data.isVisible !== false),
 	lang,
 	agendaCategories,
 );

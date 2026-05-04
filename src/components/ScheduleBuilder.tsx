@@ -5,7 +5,9 @@ import { useMemo, useState } from "react"
 
 export interface ModuleItem {
 	id: string
-	title: string
+	/** Preferowane pole CMS (`title_pl`); fallback `title` (legacy). */
+	title_pl?: string
+	title?: string
 	day: string
 	timeStart: string
 	timeEnd: string
@@ -29,6 +31,10 @@ function audienceTokens(audience: string): string[] {
 		.split(",")
 		.map((s) => s.trim().toLowerCase())
 		.filter(Boolean)
+}
+
+function moduleDisplayTitle(m: ModuleItem): string {
+	return (m.title_pl ?? m.title ?? "").trim()
 }
 
 function matchesAudience(m: ModuleItem, selectedType: string | null): boolean {
@@ -87,7 +93,7 @@ function generateICS(modules: ModuleItem[], eventName: string, lang: string): st
 		lines.push(`DTSTAMP:${icsDateTime(m.day, m.timeStart)}`)
 		lines.push(`DTSTART:${icsDateTime(m.day, m.timeStart)}`)
 		lines.push(`DTEND:${icsDateTime(m.day, m.timeEnd)}`)
-		lines.push(`SUMMARY:${icsEscape(m.title)}`)
+		lines.push(`SUMMARY:${icsEscape(moduleDisplayTitle(m))}`)
 		lines.push(`LOCATION:${icsEscape(m.location || "")}`)
 		lines.push(
 			`DESCRIPTION:${icsEscape(`${m.category}${m.maxParticipants != null ? ` · max ${m.maxParticipants}` : ""}`)}`,
@@ -253,7 +259,7 @@ export function ScheduleBuilder({
 											className="mt-1 h-4 w-4 accent-red"
 										/>
 										<label htmlFor={m.id} className="cursor-pointer font-[family-name:var(--font-rajdhani)] text-sm text-bone">
-											<span className="font-bold text-gold">{m.category}</span> · {m.title}
+											<span className="font-bold text-gold">{m.category}</span> · {moduleDisplayTitle(m)}
 											<span className="block text-xs text-muted">
 												{m.day} {m.timeStart}–{m.timeEnd}
 												{m.location ? ` · ${m.location}` : ""}
@@ -299,7 +305,7 @@ export function ScheduleBuilder({
 															<span className="text-gold">
 																{m.timeStart}–{m.timeEnd}
 															</span>{" "}
-															{m.title}
+															{moduleDisplayTitle(m)}
 														</li>
 													)
 												})}

@@ -409,21 +409,58 @@ const aktualnosci = defineCollection({
 	}),
 });
 
+/** Nowe pola CMS (`url`, `type`, `publish_date`, `title`) → kanoniczne pola archiwum. */
+function mapMediaArchiveCmsKeys(raw: unknown): unknown {
+	if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return raw;
+	const o = { ...(raw as Record<string, unknown>) };
+	const str = (v: unknown) => (typeof v === 'string' ? v.trim() : '');
+	if (!str(o.link) && str(o.url)) o.link = str(o.url);
+	if (!str(o.link) && str(o.file)) {
+		const f = str(o.file);
+		o.link = /^https?:\/\//i.test(f) ? f : `/${f.replace(/^\/+/, '')}`;
+	}
+	if (!str(o.date) && o.publish_date != null && o.publish_date !== '') {
+		o.date = String(dateToString(o.publish_date));
+	}
+	const tv = str(o.type).toLowerCase();
+	if (tv) {
+		const typeToBadge: Record<string, string> = {
+			online: 'ARTYKUŁ',
+			print: 'ARTYKUŁ',
+			tv: 'VIDEO',
+			radio: 'AUDIO',
+			podcast: 'PODCAST',
+		};
+		if (typeToBadge[tv]) o.badge = typeToBadge[tv];
+	}
+	if (!str(o.description) && str(o.title)) o.description = str(o.title);
+	return o;
+}
+
 const media_archive = defineCollection({
 	loader: glob({ base: './src/content/media_archive', pattern: '**/*.{md,mdx}' }),
-	schema: z.object({
-		outlet: z.string(),
-		description: z.string().optional(),
-		date: z.string().optional(),
-		link: z.string().optional(),
-		badge: z
-			.enum(['VIDEO', 'ARTYKUŁ', 'AUDIO', 'PODCAST', 'REPORTAŻ'])
-			.optional()
-			.default('VIDEO'),
-		outlet_logo: z.string().optional(),
-		order: z.number().optional().default(99),
-		active: z.boolean().optional().default(true),
-	}),
+	schema: z.preprocess(
+		mapMediaArchiveCmsKeys,
+		z.object({
+			outlet: z.string(),
+			title: z.string().optional(),
+			description: z.string().optional(),
+			date: z.string().optional(),
+			link: z.string().optional(),
+			badge: z
+				.enum(['VIDEO', 'ARTYKUŁ', 'AUDIO', 'PODCAST', 'REPORTAŻ'])
+				.optional()
+				.default('VIDEO'),
+			outlet_logo: z.string().optional(),
+			order: z.number().optional().default(99),
+			active: z.boolean().optional().default(true),
+			type: z.string().optional(),
+			publish_date: z.preprocess(dateToString, z.string().optional()),
+			url: z.string().optional(),
+			file: z.string().optional(),
+			language: z.string().optional(),
+		}),
+	),
 });
 
 const press_releases = defineCollection({

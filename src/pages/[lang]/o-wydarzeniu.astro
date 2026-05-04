@@ -127,7 +127,11 @@ const scheduleModules = programEntries
 		const catKey = (p.data.category ?? '').trim().toUpperCase();
 		return {
 			id: p.id,
-			title: (lang === 'pl' ? p.data.title_pl : undefined) ?? p.data.title,
+			title_pl: p.data.title_pl,
+			title:
+				(lang === 'pl'
+					? (p.data.title_pl ?? p.data.title)
+					: (p.data.title_en ?? p.data.title_pl ?? p.data.title)) ?? '',
 			day: String(p.data.day),
 			timeStart: p.data.time_start,
 			timeEnd: p.data.time_end,
@@ -140,7 +144,7 @@ const scheduleModules = programEntries
 		};
 	});
 const { days: agendaDays, categoryMeta } = programEntriesToAgendaItems(
-	programEntries.filter((e) => e.data.active !== false),
+	programEntries.filter((e) => e.data.active !== false && e.data.isVisible !== false),
 	lang,
 	agendaCategories,
 );
