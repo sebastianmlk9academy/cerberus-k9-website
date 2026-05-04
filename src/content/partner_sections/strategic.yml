@@ -2,5 +2,5 @@ key: strategic
 label_pl: STRATEGICZNY
 cms_type_value: Strategiczny
 show_if_empty: false
-order: 1
+order: 3
 active: true
