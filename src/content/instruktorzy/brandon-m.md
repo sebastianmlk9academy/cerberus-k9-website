@@ -5,7 +5,7 @@ bio_short_en: Człowiek, który całe życie poświęcił służbie w wojskach
 countryCode: US
 name: Paweł 'DOMEL' Domański
 role_pl: Lider Grupy
-role_en: Lider Grupy
+role_en: Team Leader
 country: "POLSKA "
 country_code: PL
 specializations:
