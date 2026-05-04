@@ -129,6 +129,8 @@ main_video_title: CERBERUS K9 2025 — Główna relacja
 event_time_end: 18:00
 notification_bar_text_pl: ""
 mobile_sticky_cta_active: false
+mobile_cta_label_pl: "ZAREJESTRUJ SIĘ"
+mobile_cta_label_en: "REGISTER NOW"
 plausible_domain: cerberusk9.org
 hero_background_image: /images/page_hero_graph.webp
 hero_video_title: CERBERUS K9 2026 — Relacja
@@ -242,6 +244,8 @@ sekcja_hero:
   pagehero_registration_category_pl: DOŁĄCZ DO NAS
   pagehero_foundation_subtitle_pl: "KRS: 0001219121 · TOPOLA MAŁA · WIELKOPOLSKA"
   mobile_sticky_cta_active: false
+  mobile_cta_label_pl: "ZAREJESTRUJ SIĘ"
+  mobile_cta_label_en: "REGISTER NOW"
   pagehero_contact_subtitle_pl: FUNDACJA PACTA K9 · CERBERUS K9 2026
   hero_background_image: /images/page_hero_graph.webp
   hero_video_title: CERBERUS K9 2026 — Relacja

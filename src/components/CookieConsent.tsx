@@ -38,7 +38,7 @@ const COPIES: Record<string, Copy> = {
 		desc: 'We use cookies and similar technologies. You can accept all, only necessary cookies, or customise your choice.',
 		acceptAll: 'Accept all',
 		necessaryOnly: 'Necessary only',
-		customize: 'Customise',
+		customize: 'Customize',
 		modalTitle: 'Privacy preferences',
 		analytics: 'Analytics (e.g. Plausible, Google Analytics)',
 		marketing: 'Marketing (e.g. Meta Pixel)',

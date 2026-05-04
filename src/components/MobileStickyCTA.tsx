@@ -14,8 +14,8 @@ export interface MobileStickyCTAProps {
 export default function MobileStickyCTA({
 	isActive = false,
 	href,
-	labelPl = "⬡ ZAREJESTRUJ SIĘ — WSTĘP BEZPŁATNY",
-	labelEn = "REGISTER — FREE ENTRY",
+	labelPl = "ZAREJESTRUJ SIĘ",
+	labelEn = "REGISTER NOW",
 	lang,
 	hideOnPaths = ["/rejestracja", "/registration"],
 }: MobileStickyCTAProps) {

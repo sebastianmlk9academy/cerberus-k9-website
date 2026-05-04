@@ -81,6 +81,7 @@ const programHref = `/${lang}/o-wydarzeniu#program`;
   description={hero?.body_en ?? 'Official delegation zone for CERBERUS K9 2026.'}
   localizedPath="international"
   canonicalHref={`/${lang}/international`}
+  internationalHreflangOnly
   ogType="website"
 >
   <NavBar lang={lang} client:load logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} links={navLinks} activeHref={Astro.url.pathname} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />

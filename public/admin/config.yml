@@ -278,6 +278,8 @@ collections:
                 widget: "boolean"
                 default: false
                 hint: "📍 Gdzie: telefony → czerwony przycisk przyklejony na dole ekranu. ⚠️ Włącz gdy rejestracja aktywna. Wyłącz gdy rejestracja zamknięta. ✏️ TAK = przycisk widoczny na telefonie"
+              - { name: "mobile_cta_label_pl", label: "Tekst przycisku mobile (PL)", widget: "string", required: false, hint: "📍 Gdzie: telefony → przyklejony przycisk na dole. ⚠️ Max 20 znaków. ✏️ Przykład: ZAREJESTRUJ SIĘ" }
+              - { name: "mobile_cta_label_en", label: "Tekst przycisku mobile (EN)", widget: "string", required: false, hint: "📍 Gdzie: telefony → sticky button (EN). ⚠️ Max 20 chars. ✏️ Przykład: REGISTER NOW" }
               - name: "show_live_counter"
                 label: "Licznik rejestracji aktywny"
                 widget: "boolean"

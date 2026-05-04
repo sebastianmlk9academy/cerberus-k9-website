@@ -445,7 +445,16 @@ export function NavBar({
               setMobileMenuOpen(!mobileMenuOpen);
             }}
             className="flex h-8 w-8 shrink-0 flex-col items-center justify-center gap-1.5 xl:hidden"
-            aria-label="Toggle menu"
+            aria-expanded={mobileMenuOpen}
+            aria-label={
+              mobileMenuOpen
+                ? lang === 'pl'
+                  ? 'Zamknij menu'
+                  : 'Close menu'
+                : lang === 'pl'
+                  ? 'Otwórz menu'
+                  : 'Open menu'
+            }
           >
             <span
               className="block h-0.5 w-6 transition-transform duration-200"

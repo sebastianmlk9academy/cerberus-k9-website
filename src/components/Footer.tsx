@@ -177,6 +177,8 @@ export function Footer({
     { label: safeCopy.linkGallery, href: linkWithLang(footerLinks?.gallery ?? "galeria") },
     { label: safeCopy.linkMedia, href: linkWithLang(footerLinks?.media ?? "media") },
     { label: safeCopy.linkNews, href: linkWithLang(footerLinks?.news ?? "aktualnosci") },
+    { label: safeLang === "pl" ? "Szkolenia" : "Training", href: linkWithLang("szkolenia") },
+    { label: safeLang === "pl" ? "Strefa uczestnika" : "Participant Zone", href: linkWithLang("strefa-uczestnika") },
   ]
 
   const orgLinks = [
@@ -302,7 +304,7 @@ export function Footer({
           <nav className="flex flex-col items-center gap-2 md:items-start">
             {eventLinks.map((link) => (
               <a
-                key={link.label}
+                key={link.href}
                 href={link.href}
                 className="footer-link"
                 style={{

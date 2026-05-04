@@ -26,6 +26,8 @@ interface LivePageProps {
     current_competitor?: string;
   };
   lang: string;
+  /** When false, show pre-event message and countdown instead of the live dashboard. */
+  liveActive?: boolean;
 }
 
 const severityClass: Record<string, string> = {
@@ -35,7 +37,7 @@ const severityClass: Record<string, string> = {
   info: 'bg-navyDeep text-bone',
 };
 
-export default function LivePage({ updates, results, settings, lang }: LivePageProps) {
+export default function LivePage({ updates, results, settings, lang, liveActive = true }: LivePageProps) {
   const [now, setNow] = useState<Date>(new Date());
 
   useEffect(() => {
@@ -45,6 +47,50 @@ export default function LivePage({ updates, results, settings, lang }: LivePageP
     }, 60000);
     return () => clearInterval(interval);
   }, []);
+
+  if (!liveActive) {
+    const eventDate = new Date('2026-06-13T09:00:00+02:00');
+    const daysLeft = Math.max(0, Math.ceil((eventDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
+    const msg =
+      lang === 'pl'
+        ? 'Live aktywne podczas eventu 13–14 czerwca 2026'
+        : 'Live feed will be active during the event on 13–14 June 2026.';
+    const daysLabel = lang === 'pl' ? 'DNI DO STARTU' : 'DAYS TO GO';
+    return (
+      <div className="bg-navy">
+        <div className="border-b border-border bg-navyDeep px-5 py-12 text-center md:px-8">
+          <p className="mb-2 text-xs font-bold uppercase tracking-[0.35em] text-gold">LIVE</p>
+          <h1 className="font-bebas text-4xl uppercase tracking-wide text-bone md:text-5xl">
+            {lang === 'pl' ? 'RELACJA LIVE' : 'LIVE FEED'}
+          </h1>
+          <p className="mt-2 text-sm uppercase tracking-[0.2em] text-muted">CERBERUS K9 2026</p>
+        </div>
+        <section className="mx-auto max-w-4xl px-5 pb-16 pt-8 text-center md:px-8">
+          <p className="text-lg text-bone">{msg}</p>
+          <div style={{ textAlign: 'center', marginTop: '32px' }}>
+            <p
+              style={{
+                color: '#C4922A',
+                fontFamily: 'Bebas Neue, sans-serif',
+                fontSize: '80px',
+                lineHeight: 1,
+              }}>
+              {daysLeft}
+            </p>
+            <p
+              style={{
+                color: '#7A8A96',
+                fontFamily: 'Rajdhani, sans-serif',
+                fontSize: '11px',
+                letterSpacing: '4px',
+              }}>
+              {daysLabel}
+            </p>
+          </div>
+        </section>
+      </div>
+    );
+  }
 
   const day = useMemo(() => {
     const eventStart = settings?.event_date ? new Date(settings.event_date) : null;

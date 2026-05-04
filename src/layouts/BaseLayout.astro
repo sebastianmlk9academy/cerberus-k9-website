@@ -24,6 +24,8 @@ interface Props {
 	robots?: string;
 	/** When true, emit only pl + x-default alternates (use with canonicalHref for PL-only routes). */
 	omitLocaleAlternates?: boolean;
+	/** When true, emit only en + x-default (both point to English international URL). */
+	internationalHreflangOnly?: boolean;
 	twitterHandle?: string;
 	twitterCard?: string;
 }
@@ -40,6 +42,7 @@ const {
 	canonicalHref,
 	robots,
 	omitLocaleAlternates = false,
+	internationalHreflangOnly = false,
 	twitterHandle: twitterHandleProp,
 	twitterCard,
 } = Astro.props;
@@ -57,6 +60,8 @@ const canonicalAlternateHref = (
 		? new URL(canonicalHref, Astro.site)
 		: new URL(Astro.url.pathname, Astro.site)
 ).href;
+
+const internationalHref = new URL('/en/international', Astro.site).href;
 ---
 
 <!doctype html>
@@ -98,7 +103,12 @@ const canonicalAlternateHref = (
 			href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Libre+Baskerville:wght@400;700&family=Rajdhani:wght@400;500;600;700&display=swap"
 		/>
 		{
-			omitLocaleAlternates ? (
+			internationalHreflangOnly ? (
+				<>
+					<link rel="alternate" hreflang="en" href={internationalHref} />
+					<link rel="alternate" hreflang="x-default" href={internationalHref} />
+				</>
+			) : omitLocaleAlternates ? (
 				<>
 					<link rel="alternate" hreflang="pl" href={canonicalAlternateHref} />
 					<link rel="alternate" hreflang="x-default" href={canonicalAlternateHref} />
@@ -114,6 +124,13 @@ const canonicalAlternateHref = (
 		}
 	</head>
 	<body class="min-h-screen bg-navyDeep font-sans text-bone antialiased">
+		<a
+			href="#main-content"
+			style="position: absolute; top: -40px; left: 0; background: #C4922A; color: #0F1720; padding: 8px 16px; font-family: Rajdhani, sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 2px; text-decoration: none; z-index: 9999; transition: top 0.2s;"
+			onfocus="this.style.top='0'"
+			onblur="this.style.top='-40px'">
+			PRZEJDŹ DO TREŚCI
+		</a>
 		<ConsentProvider client:load policyVersion={s?.consent_version ?? 1} />
 		<NotificationBar
 			client:load
@@ -130,7 +147,9 @@ const canonicalAlternateHref = (
 			severity={s?.notification_bar_severity ?? 'info'}
 		/>
 		<slot name="header" />
-		<slot />
+		<div id="main-content">
+			<slot />
+		</div>
 		<slot name="footer" />
 		<CookieConsent client:idle lang={lang} active={s?.cookie_consent_active ?? false} />
 		<Trackers
@@ -145,6 +164,8 @@ const canonicalAlternateHref = (
 			isActive={s?.mobile_sticky_cta_active ?? false}
 			href={s?.registration_url ?? s?.pretix_url ?? s?.hero_cta_registration_href ?? '#'}
 			lang={lang}
+			labelPl={s?.mobile_cta_label_pl ?? 'ZAREJESTRUJ SIĘ'}
+			labelEn={s?.mobile_cta_label_en ?? 'REGISTER NOW'}
 			hideOnPaths={['/rejestracja', '/registration']}
 		/>
 	</body>

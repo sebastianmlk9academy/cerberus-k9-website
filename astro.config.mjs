@@ -26,7 +26,16 @@ export default defineConfig({
 	integrations: [
 		mdx(),
 		sitemap({
-			filter: (page) => !page.includes('/blog/') && !page.includes('/about'),
+			filter: (page) => {
+				if (page.includes('/blog/') || page.includes('/about')) return false;
+				const excluded = [
+					'/pl/admin/operacje',
+					'/en/admin/operacje',
+					'/pl/live',
+					'/en/live',
+				];
+				return !excluded.some((ex) => page.includes(ex));
+			},
 		}),
 		react(),
 		tailwind(),

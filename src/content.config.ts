@@ -644,6 +644,8 @@ const ustawienia = defineCollection({
 			z.string().url().optional(),
 		),
 		mobile_sticky_cta_active: z.boolean().optional().default(false),
+		mobile_cta_label_pl: z.string().optional(),
+		mobile_cta_label_en: z.string().optional(),
 		ga4_id: z.string().optional(),
 		facebook_pixel_id: z.string().optional(),
 		microsoft_clarity_id: z.string().optional(),

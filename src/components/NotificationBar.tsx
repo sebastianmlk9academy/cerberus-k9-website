@@ -116,7 +116,7 @@ export default function NotificationBar({
 				type="button"
 				onClick={handleDismiss}
 				className="absolute right-4 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded text-white hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-				aria-label={lang === 'en' ? 'Dismiss notice' : 'Zamknij pasek'}
+				aria-label={lang === 'en' ? 'Dismiss notice' : 'Zamknij komunikat'}
 			>
 				<span className="text-lg leading-none" aria-hidden>
 					×

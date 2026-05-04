@@ -5,7 +5,6 @@ import { locales } from '../../../locales.mjs';
 import { isLang } from '../../i18n/utils';
 import type { Lang } from '../../i18n/ui';
 import { NavBar } from '../../components/NavBar';
-import { PageHero } from '../../components/PageHero';
 import LivePage from '../../components/LivePage';
 import { Footer } from '../../components/Footer';
 import { getSortedNavLinks } from '../../lib/getSortedNavLinks';
@@ -42,16 +41,7 @@ const results = (await getCollection('hardestHitResults'))
 
 <BaseLayout lang={lang} title="Live — CERBERUS K9 2026" description="CERBERUS K9 live updates feed." localizedPath="live" ogType="website">
   <NavBar lang={lang} client:load logoSrc={s?.nav_logo} logoAlt={s?.nav_logo_alt} brandName={s?.brand_name} brandTagline={s?.brand_tagline} links={navLinks} activeHref={Astro.url.pathname} registrationActive={s?.registration_active ?? true} registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined} />
-  {s?.live_mode_active ? (
-    <LivePage client:load updates={updates} results={results} settings={s} lang={lang} />
-  ) : (
-    <div class="bg-navy">
-      <PageHero category="LIVE" title="LIVE FEED" subtitle="CERBERUS K9 2026" />
-      <section class="mx-auto max-w-4xl px-5 pb-16 pt-8 text-center md:px-8">
-        <p class="text-lg text-bone">Live aktywne podczas eventu 13–14 czerwca 2026</p>
-      </section>
-    </div>
-  )}
+  <LivePage client:load liveActive={!!s?.live_mode_active} updates={updates} results={results} settings={s} lang={lang} />
   <Footer
     lang={lang}
     copy={footerCopyByLang[lang] ?? footerCopyByLang['pl']}
