@@ -1343,25 +1343,43 @@ collections:
           - { label: "Równa się (equals)", value: equals }
           - { label: "Jeden z (any_of)", value: any_of }
           - { label: "Wszyscy (none)", value: none }
-      - name: filter_value
-        label: "Wartość filtra (jedna)"
-        widget: relation
-        collection: instruktorzy
-        search_fields: ["specializations"]
-        value_field: specializations
-        display_fields: ["name", "specializations"]
+      - name: "filter_value"
+        label: "Wartość filtra (jedna specjalizacja)"
+        widget: "select"
         required: false
-        hint: "📍 Wybierz wartość z listy instruktorów. Pole aktualizuje się automatycznie gdy dodasz nowego instruktora. ✏️ Przykład: K9-Gryzienie"
-      - name: filter_values
-        label: "Wartości filtra (lista — any_of)"
-        widget: relation
-        collection: instruktorzy
-        search_fields: ["specializations", "name"]
-        value_field: specializations
-        display_fields: ["name", "specializations"]
+        options:
+          - { label: "K9 — Gryzienie", value: "K9-Gryzienie" }
+          - { label: "K9 — Detekcja", value: "K9-Detekcja" }
+          - { label: "K9 — SAR", value: "K9-SAR" }
+          - { label: "TCCC", value: "TCCC" }
+          - { label: "TCCC-K9", value: "TCCC-K9" }
+          - { label: "Drony", value: "Drony" }
+          - { label: "HARDEST HIT", value: "HARDEST HIT" }
+          - { label: "Konferencja", value: "Konferencja" }
+          - { label: "Pozorant", value: "Pozorant" }
+          - { label: "Behawiorysta", value: "Behawiorysta" }
+          - { label: "Weterynarz", value: "Weterynarz" }
+          - { label: "Instruktor", value: "Instruktor" }
+        hint: "📍 Gdzie: /instruktorzy → filtr po specjalizacji. ⚠️ Wybierz wartość z listy. Musi pasować dokładnie do wartości w polu Specjalizacje instruktora. ✏️ Przykład: TCCC"
+      - name: "filter_values"
+        label: "Wartości filtra (wiele specjalizacji)"
+        widget: "select"
+        required: false
         multiple: true
-        required: false
-        hint: "📍 Wiele wpisów instruktorów — specjalizacje są scalane do listy any_of. Aktualizuje się z kolekcji instruktorzy."
+        options:
+          - { label: "K9 — Gryzienie", value: "K9-Gryzienie" }
+          - { label: "K9 — Detekcja", value: "K9-Detekcja" }
+          - { label: "K9 — SAR", value: "K9-SAR" }
+          - { label: "TCCC", value: "TCCC" }
+          - { label: "TCCC-K9", value: "TCCC-K9" }
+          - { label: "Drony", value: "Drony" }
+          - { label: "HARDEST HIT", value: "HARDEST HIT" }
+          - { label: "Konferencja", value: "Konferencja" }
+          - { label: "Pozorant", value: "Pozorant" }
+          - { label: "Behawiorysta", value: "Behawiorysta" }
+          - { label: "Weterynarz", value: "Weterynarz" }
+          - { label: "Instruktor", value: "Instruktor" }
+        hint: "📍 Użyj gdy filtr ma obejmować KILKA specjalizacji naraz (any_of). ✏️ Przykład: K9-Gryzienie + HARDEST HIT"
       - name: order
         label: "🔢 Kolejność"
         widget: number
