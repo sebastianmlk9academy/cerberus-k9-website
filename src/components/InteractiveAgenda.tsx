@@ -1,7 +1,7 @@
 import { Calendar, MapPin } from "lucide-react";
 import { useMemo, useState } from "react";
 import type { Lang } from "../i18n/utils";
-import { CATEGORY_META, normalizeCategory, type AgendaCategory, type Category } from "../lib/agendaCategories";
+import { CATEGORY_META, normalizeCategory, type AgendaCategory } from "../lib/agendaCategories";
 
 interface AgendaItem {
   id: string;
@@ -31,12 +31,12 @@ const FALLBACK_AGENDA_ITEMS: DaySchedule[] = [
     items: [
       { id: "fallback-d1-1", start: "08:00", end: "08:30", title: "Ceremonia otwarcia", location: "Arena Główna", locationMapUrl: "https://maps.app.goo.gl/CWqX9Ahtre9hxoCi9", category: "CEREMONIA", description: "Powitanie uczestników, krótka prezentacja." },
       { id: "fallback-d1-2", start: "08:30", end: "09:00", title: "Przerwa kawowa", location: "3MK Arena", locationMapUrl: "https://maps.app.goo.gl/CWqX9Ahtre9hxoCi9", category: "BREAK", description: "Networking i rejestracja uczestników." },
-      { id: "fallback-d1-3", start: "09:00", end: "10:30", title: "Taktyczne gryzienie K9 — moduł podstawowy", location: "3MK Arena", locationMapUrl: "https://maps.app.goo.gl/CWqX9Ahtre9hxoCi9", category: "K9", description: "Demonstracje i warsztaty z zakresu pracy operacyjnej psów." },
+      { id: "fallback-d1-3", start: "09:00", end: "10:30", title: "Taktyczne gryzienie K9 — moduł podstawowy", location: "3MK Arena", locationMapUrl: "https://maps.app.goo.gl/CWqX9Ahtre9hxoCi9", category: "K9-Gryzienie", description: "Demonstracje i warsztaty z zakresu pracy operacyjnej psów." },
       { id: "fallback-d1-4", start: "10:45", end: "12:15", title: "TCCC dla operatorów", location: "Szkoła Mundurowa", locationMapUrl: "https://maps.app.goo.gl/R85x82c3oZypsCCg8", category: "TCCC", description: "Medycyna pola walki i procedury ratunkowe." },
       { id: "fallback-d1-5", start: "12:15", end: "13:15", title: "Lunch", location: "—", locationMapUrl: "https://maps.app.goo.gl/CWqX9Ahtre9hxoCi9", category: "BREAK", description: "" },
-      { id: "fallback-d1-6", start: "13:15", end: "15:00", title: "Detekcja ładunków wybuchowych", location: "Stadion Miejski", locationMapUrl: "https://maps.app.goo.gl/WgcxvdizJJre44iX7", category: "K9", description: "Scenariusze wyszukiwania i oznaczania zagrożeń." },
-      { id: "fallback-d1-7", start: "15:15", end: "16:45", title: "Drony rozpoznawcze — wprowadzenie", location: "Stadion Miejski", locationMapUrl: "https://maps.app.goo.gl/WgcxvdizJJre44iX7", category: "DRONY", description: "Taktyka UAV i bezpieczeństwo operacji." },
-      { id: "fallback-d1-8", start: "17:00", end: "18:30", title: "Konferencja bezpieczeństwa — sesja I", location: "3MK Arena", locationMapUrl: "https://maps.app.goo.gl/CWqX9Ahtre9hxoCi9", category: "KONFERENCJA", description: "Panel ekspertów: interoperacyjność i gotowość." },
+      { id: "fallback-d1-6", start: "13:15", end: "15:00", title: "Detekcja ładunków wybuchowych", location: "Stadion Miejski", locationMapUrl: "https://maps.app.goo.gl/WgcxvdizJJre44iX7", category: "K9-Gryzienie", description: "Scenariusze wyszukiwania i oznaczania zagrożeń." },
+      { id: "fallback-d1-7", start: "15:15", end: "16:45", title: "Drony rozpoznawcze — wprowadzenie", location: "Stadion Miejski", locationMapUrl: "https://maps.app.goo.gl/WgcxvdizJJre44iX7", category: "Drony", description: "Taktyka UAV i bezpieczeństwo operacji." },
+      { id: "fallback-d1-8", start: "17:00", end: "18:30", title: "Konferencja bezpieczeństwa — sesja I", location: "3MK Arena", locationMapUrl: "https://maps.app.goo.gl/CWqX9Ahtre9hxoCi9", category: "Konferencja", description: "Panel ekspertów: interoperacyjność i gotowość." },
       { id: "fallback-d1-9", start: "18:45", end: "19:00", title: "Zamknięcie dnia", location: "3MK Arena", locationMapUrl: "https://maps.app.goo.gl/CWqX9Ahtre9hxoCi9", category: "CEREMONIA", description: "Podsumowanie i komunikaty organizacyjne." },
     ],
   },
@@ -46,10 +46,10 @@ const FALLBACK_AGENDA_ITEMS: DaySchedule[] = [
     date: "2026-06-14",
     items: [
       { id: "fallback-d2-1", start: "08:30", end: "09:00", title: "Rejestracja drugiego dnia", location: "3MK Arena", locationMapUrl: "https://maps.app.goo.gl/CWqX9Ahtre9hxoCi9", category: "CEREMONIA", description: "Wejście i odprawa." },
-      { id: "fallback-d2-2", start: "09:00", end: "11:00", title: "Moduł zaawansowany K9", location: "3MK Arena", locationMapUrl: "https://maps.app.goo.gl/CWqX9Ahtre9hxoCi9", category: "K9", description: "Zaawansowane scenariusze operacyjne." },
+      { id: "fallback-d2-2", start: "09:00", end: "11:00", title: "Moduł zaawansowany K9", location: "3MK Arena", locationMapUrl: "https://maps.app.goo.gl/CWqX9Ahtre9hxoCi9", category: "K9-Gryzienie", description: "Zaawansowane scenariusze operacyjne." },
       { id: "fallback-d2-3", start: "11:15", end: "12:45", title: "Medycyna pola walki TCCC", location: "Szkoła Mundurowa", locationMapUrl: "https://maps.app.goo.gl/R85x82c3oZypsCCg8", category: "TCCC", description: "Procedury dla zespołów taktycznych." },
-      { id: "fallback-d2-4", start: "13:00", end: "14:30", title: "Swarm i taktyka UAV", location: "Stadion Miejski", locationMapUrl: "https://maps.app.goo.gl/WgcxvdizJJre44iX7", category: "DRONY", description: "Koordynacja grup dronów w terenie." },
-      { id: "fallback-d2-5", start: "14:45", end: "16:15", title: "Konferencja bezpieczeństwa — sesja II", location: "3MK Arena", locationMapUrl: "https://maps.app.goo.gl/CWqX9Ahtre9hxoCi9", category: "KONFERENCJA", description: "Trendy zagrożeń i odporność kryzysowa." },
+      { id: "fallback-d2-4", start: "13:00", end: "14:30", title: "Swarm i taktyka UAV", location: "Stadion Miejski", locationMapUrl: "https://maps.app.goo.gl/WgcxvdizJJre44iX7", category: "Drony", description: "Koordynacja grup dronów w terenie." },
+      { id: "fallback-d2-5", start: "14:45", end: "16:15", title: "Konferencja bezpieczeństwa — sesja II", location: "3MK Arena", locationMapUrl: "https://maps.app.goo.gl/CWqX9Ahtre9hxoCi9", category: "Konferencja", description: "Trendy zagrożeń i odporność kryzysowa." },
       { id: "fallback-d2-6", start: "16:30", end: "17:00", title: "Ceremonia zamknięcia", location: "Arena Główna", locationMapUrl: "https://maps.app.goo.gl/CWqX9Ahtre9hxoCi9", category: "CEREMONIA", description: "Podziękowania i oficjalne zakończenie wydarzenia." },
     ],
   },
@@ -57,10 +57,10 @@ const FALLBACK_AGENDA_ITEMS: DaySchedule[] = [
 
 const FILTERS: { key: "ALL" | string; label: string }[] = [
   { key: "ALL", label: "ALL" },
-  { key: "K9", label: "K9" },
+  { key: "K9-Gryzienie", label: "K9" },
   { key: "TCCC", label: "TCCC" },
-  { key: "DRONY", label: "DRONY" },
-  { key: "KONFERENCJA", label: "KONFERENCJA" },
+  { key: "Drony", label: "DRONY" },
+  { key: "Konferencja", label: "KONFERENCJA" },
   { key: "CEREMONIA", label: "CEREMONIA" },
 ];
 
@@ -820,19 +820,25 @@ function categoryLabel(
 ) {
   if (categoryMeta[category]?.label) return categoryMeta[category].label;
   const normalizedCategory = normalizeCategory(category);
+  if (categoryMeta[normalizedCategory]?.label) return categoryMeta[normalizedCategory].label;
+  const staticLabel = CATEGORY_META[normalizedCategory]?.label;
+  if (staticLabel) return staticLabel;
+  if (normalizedCategory.startsWith("K9")) return labels.categories.k9;
   switch (normalizedCategory) {
-    case "K9":
-      return labels.categories.k9;
     case "TCCC":
       return labels.categories.tccc;
-    case "DRONY":
+    case "Drony":
       return labels.categories.drones;
-    case "KONFERENCJA":
+    case "Konferencja":
       return labels.categories.conference;
     case "CEREMONIA":
       return labels.categories.ceremony;
     case "BREAK":
       return labels.categories.break;
+    case "HARDEST HIT":
+      return "HARDEST HIT";
+    default:
+      return category;
   }
 }
 
@@ -943,7 +949,7 @@ export default function InteractiveAgenda({
   const translatedFilters = ACTIVE_FILTERS.map((f) =>
     f.key === "ALL"
       ? { ...f, label: f.label || effectiveLabels.all }
-      : { ...f, label: f.label || ACTIVE_CATEGORY_META[f.key as Category]?.label || f.key },
+      : { ...f, label: f.label || ACTIVE_CATEGORY_META[f.key]?.label || f.key },
   );
   const [activeDayId, setActiveDayId] = useState<string>(DAYS_TO_USE[0]?.id ?? "day1");
   const [filter, setFilter] = useState<string>("ALL");
@@ -1118,7 +1124,7 @@ export default function InteractiveAgenda({
           {visibleItems.map((item) => {
             const normalizedCategory = normalizeCategory(item.category);
             const meta =
-              ACTIVE_CATEGORY_META[item.category as Category] ??
+              ACTIVE_CATEGORY_META[item.category] ??
               ACTIVE_CATEGORY_META[normalizedCategory] ??
               CATEGORY_META[normalizedCategory];
             const catData = categories?.find((c) => c.key === item.category);

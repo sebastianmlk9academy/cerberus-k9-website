@@ -1,5 +1,5 @@
 ﻿---
-key: "DRONY"
+key: "Drony"
 label_pl: "DRONY"
 label_en: "DRONES"
 color: "#2A5A8A"

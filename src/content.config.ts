@@ -448,7 +448,7 @@ const program = defineCollection({
 		title: z.string().optional(),
 		location: z.string().optional().default(''),
 		locationMapUrl: z.string().optional().default(''),
-		category: z.string(),
+		category: z.enum(ENUM_MODULE_CATEGORIES),
 		description: z.string().optional().default(''),
 		instructor: z.string().optional().default(''),
 		instructor_id: z.string().optional(),
@@ -469,7 +469,7 @@ const program = defineCollection({
 const agenda_categories = defineCollection({
 	loader: glob({ base: './src/content/agenda_categories', pattern: '**/*.{md,mdx}' }),
 	schema: z.object({
-		key: z.string(),
+		key: z.enum(ENUM_MODULE_CATEGORIES),
 		label_pl: z.string(),
 		label_en: z.string().optional(),
 		color: z.string().default('#C4922A'),

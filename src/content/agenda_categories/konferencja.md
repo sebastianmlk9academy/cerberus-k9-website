@@ -1,5 +1,5 @@
 ﻿---
-key: "KONFERENCJA"
+key: "Konferencja"
 label_pl: "KONFERENCJA"
 label_en: "CONFERENCE"
 color: "#2A6A3A"

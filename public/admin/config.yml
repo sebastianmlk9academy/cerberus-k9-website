@@ -2136,10 +2136,13 @@ collections:
       - { name: "time_start", label: "Godzina startu", widget: "string", pattern: ["^([01]\\d|2[0-3]):[0-5]\\d$", "Format HH:MM, np. 09:00"], hint: "📍 Gdzie: /o-wydarzeniu → godzina startu na osi czasu. ⚠️ Format HH:MM — dokładnie 5 znaków z dwukropkiem. ✏️ Przykład: 09:00" }
       - { name: "time_end", label: "Godzina ko?ca", widget: "string", pattern: ["^([01]\\d|2[0-3]):[0-5]\\d$", "Format HH:MM, np. 09:00"], hint: "📍 Gdzie: /o-wydarzeniu → godzina końca na osi czasu. ⚠️ Format HH:MM. Musi być późniejsza niż time_start. ✏️ Przykład: 12:30" }
       - name: "category"
-        label: "Kategoria"
-        widget: "select"
-        hint: "📍 Gdzie: /o-wydarzeniu → kolor kafelka w agendzie. ⚠️ Wybierz kategorię zgodną z typem modułu. Decyduje o kolorze na osi. ✏️ K9-Gryzienie=czerwony, TCCC=bordowy, BREAK=szary"
-        options: ["K9-Gryzienie","K9-Detekcja","K9-SAR","TCCC","Drony","HARDEST HIT","Konferencja","BREAK","CEREMONIA","Inne"]
+        label: "Kategoria modułu"
+        widget: "relation"
+        collection: "agenda_categories"
+        search_fields: ["label_pl", "key"]
+        value_field: "key"
+        display_fields: ["label_pl", "key"]
+        hint: "📍 Gdzie: /o-wydarzeniu → kolor kafelka i filtr agendy. ⚠️ Wybierz z listy — automatycznie pobiera kategorie z kolekcji 'Kategorie Agendy'. Gdy dodasz nową kategorię tam, pojawi się tu automatycznie. ✏️ Przykład: TCCC"
       - name: "audience"
         label: "Dla kogo"
         widget: "list"
@@ -2169,33 +2172,41 @@ collections:
     summary: "{{label_pl}} — {{key}} ({{order}})"
     fields:
       - name: "key"
-        label: "🔑 Klucz kategorii"
-        widget: "string"
-        hint: "Unikalny klucz — powiązany z polem category w programie."
+        label: "Klucz kategorii"
+        widget: "select"
         required: true
-        pattern:
-          - "^[A-Z0-9_]+$"
-          - "Wielkie litery, cyfry i podkreślniki"
+        options:
+          - { label: "K9 — Gryzienie", value: "K9-Gryzienie" }
+          - { label: "K9 — Detekcja", value: "K9-Detekcja" }
+          - { label: "K9 — SAR", value: "K9-SAR" }
+          - { label: "TCCC", value: "TCCC" }
+          - { label: "Drony", value: "Drony" }
+          - { label: "HARDEST HIT", value: "HARDEST HIT" }
+          - { label: "Konferencja", value: "Konferencja" }
+          - { label: "Przerwa (BREAK)", value: "BREAK" }
+          - { label: "Ceremonia", value: "CEREMONIA" }
+          - { label: "Inne", value: "Inne" }
+        hint: "📍 Gdzie: /o-wydarzeniu → filtr agendy. ⚠️ MUSI pasować dokładnie do pola 'category' w kolekcji Program. Wybierz z listy — nie wpisuj ręcznie. ✏️ Przykład: TCCC"
       - name: "label_pl"
         label: "🇵🇱 Etykieta PL"
         widget: "string"
-        hint: "Nazwa filtra agendy po polsku."
+        hint: "📍 Gdzie: /o-wydarzeniu → tekst na przycisku filtra (PL). ⚠️ Max 20 znaków. ✏️ Przykład: K9 GRYZIENIE"
         required: true
       - name: "label_en"
         label: "🇬🇧 Etykieta EN"
         widget: "string"
-        hint: "Nazwa filtra po angielsku."
+        hint: "📍 Gdzie: /o-wydarzeniu → tekst na przycisku filtra (EN). ⚠️ Max 20 znaków. ✏️ Przykład: K9 BITING"
         required: false
       - name: "color"
         label: "🎨 Kolor (hex)"
         widget: "color"
-        hint: "Kolor paska kategorii na osi czasu."
+        hint: "📍 Gdzie: /o-wydarzeniu → kolor paska przy module na osi czasu. ⚠️ Format #RRGGBB. ✏️ Przykład: #C42B2B dla czerwonego"
         required: true
         default: "#C4922A"
       - name: "show_in_filter"
         label: "🔘 Pokaż w filtrach"
         widget: "boolean"
-        hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+        hint: "📍 Gdzie: /o-wydarzeniu → czy przycisk filtra widoczny. ⚠️ Wyłącz dla BREAK i CEREMONIA — nie powinny być filtrami. ✏️ TAK = przycisk widoczny"
         required: false
         default: true
       - name: "show_calendar_button"
@@ -2207,7 +2218,7 @@ collections:
       - name: "order"
         label: "🔢 Kolejność wyświetlania"
         widget: "number"
-        hint: "Kolejność przycisków filtrów."
+        hint: "📍 Gdzie: /o-wydarzeniu → kolejność przycisków filtrów. ⚠️ Mniejsza liczba = wcześniej. ✏️ Przykład: 1=pierwszy, 10=ostatni"
         required: false
         default: 99
       - name: "active"

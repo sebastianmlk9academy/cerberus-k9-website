@@ -11,7 +11,13 @@ export function programEntriesToHomepageCards(
 ): ProgramCard[] {
 	const { limit = 6, categories } = opts;
 	const colorByKey = new Map(
-		(categories ?? []).map((c) => [c.key.trim().toUpperCase(), c.color]),
+		(categories ?? []).flatMap((c) => {
+			const k = c.key.trim();
+			return [
+				[k.toUpperCase(), c.color],
+				[k, c.color],
+			] as [string, string][];
+		}),
 	);
 	const sortedDays = Array.from(new Set(entries.map((e) => e.data.day).filter(Boolean))).sort();
 	const dayRank = (day: string) => {
@@ -31,8 +37,9 @@ export function programEntriesToHomepageCards(
 		})
 		.slice(0, limit)
 		.map((e) => {
-			const rawCat = (e.data.category ?? '').trim().toUpperCase();
-			const color = colorByKey.get(rawCat) ?? '#C4922A';
+			const raw = (e.data.category ?? '').trim();
+			const color =
+				colorByKey.get(raw) ?? colorByKey.get(raw.toUpperCase()) ?? '#C4922A';
 			const dn = dayRank(e.data.day);
 			const badge =
 				lang === 'pl'

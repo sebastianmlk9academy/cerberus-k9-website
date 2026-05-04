@@ -67,9 +67,11 @@ export function programEntriesToAgendaItems(
 
 	for (const entry of sorted) {
 		const day = entry.data.day;
-		const rawCategory = (entry.data.category ?? 'K9').trim().toUpperCase();
-		const effectiveCategory = entry.data.is_break ? 'BREAK' : rawCategory;
-		const categoryFromCms = categories?.find((c) => c.key === effectiveCategory)?.key;
+		const rawTrim = (entry.data.category ?? 'K9-Gryzienie').trim();
+		const effectiveCategory = entry.data.is_break ? 'BREAK' : rawTrim;
+		const categoryFromCms = categories?.find(
+			(c) => c.key === effectiveCategory || c.key.toLowerCase() === effectiveCategory.toLowerCase(),
+		)?.key;
 		const item: AgendaItem = {
 			id: entry.id,
 			start: normalizeTime(entry.data.time_start, '09:00'),
