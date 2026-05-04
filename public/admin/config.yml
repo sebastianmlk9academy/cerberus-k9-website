@@ -1398,14 +1398,14 @@ collections:
         widget: select
         required: true
         options:
-          - { label: "Wszyscy partnerzy", value: all }
-          - { label: "Partner Strategiczny", value: strategic }
-          - { label: "Partner", value: partner }
-          - { label: "Partner Techniczny", value: technical }
-          - { label: "Patron Medialny", value: media }
-          - { label: "Patron Honorowy", value: honorary }
-          - { label: "Sponsor", value: sponsor }
-        hint: "📍 Gdzie: /partnerzy → zakładka filtra. ⚠️ MUSI pasować do pola 'type' u partnerów. Np. 'media' pokaże tylko partnerów z type=media. ✏️ Przykład: strategic"
+          - { label: "Wszyscy partnerzy", value: "all" }
+          - { label: "Partner Strategiczny", value: "strategic" }
+          - { label: "Partner", value: "partner" }
+          - { label: "Partner Techniczny", value: "technical" }
+          - { label: "Patron Medialny", value: "media" }
+          - { label: "Patron Honorowy", value: "honorary" }
+          - { label: "Sponsor", value: "sponsor" }
+        hint: "📍 MUSI pasować do pola 'type' u partnerów. ✏️ Przykład: strategic"
       - { name: label_pl, label: "🇵🇱 Etykieta PL", widget: string, required: true }
       - { name: label_en, label: "🇬🇧 Etykieta EN", widget: string, required: false }
       - { name: label_de, label: "🇩🇪 Etykieta DE", widget: string, required: false }
@@ -2143,7 +2143,7 @@ collections:
         collection: "agenda_categories"
         search_fields: ["label_pl", "key"]
         value_field: "key"
-        display_fields: ["label_pl", "key"]
+        display_fields: ["label_pl"]
         hint: "📍 Gdzie: /o-wydarzeniu → kolor kafelka i filtr agendy. ⚠️ Wybierz z listy — automatycznie pobiera kategorie z kolekcji 'Kategorie Agendy'. Gdy dodasz nową kategorię tam, pojawi się tu automatycznie. ✏️ Przykład: TCCC"
       - name: "audience"
         label: "Dla kogo"
