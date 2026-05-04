@@ -97,10 +97,7 @@ export function LocationsSection({ lang, copy, locations }: LocationsSectionProp
       status: safeCopy.statusConfirmed,
       image: undefined,
     }));
-  const gridColsClass =
-    resolvedLocations.length >= 5
-      ? "grid grid-cols-5 gap-[1px]"
-      : "grid grid-cols-2 lg:grid-cols-4 gap-[1px]";
+  const fallbackGridClass = "grid grid-cols-2 lg:grid-cols-4 gap-[1px]";
   const useSingleRowFive = resolvedLocations.length >= 5;
   return (
     <section
@@ -164,7 +161,7 @@ export function LocationsSection({ lang, copy, locations }: LocationsSectionProp
           </div>
         ) : (
           <div
-            className={gridColsClass}
+            className={fallbackGridClass}
             style={{ backgroundColor: "#253344" }}
           >
             {resolvedLocations.map((loc, i) => (
