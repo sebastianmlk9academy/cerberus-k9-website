@@ -220,17 +220,24 @@ function mapInstruktorCmsKeys(raw: unknown): unknown {
 		else if (en) o.role = en;
 	}
 
-	if (!str(o.bioShort)) {
-		const pl = str(o.bio_short_pl);
-		const en = str(o.bio_short_en);
-		o.bioShort = pl || en || '';
+	const asText = (v: unknown) => (typeof v === 'string' ? v : v == null ? '' : String(v));
+	const cmsShort =
+		str(o.bio_short_pl) || str(o.bio_short_en) || str(o.bio_short);
+	const plFull = asText(o.bio_full_pl);
+	const enFull = asText(o.bio_full_en);
+	let cmsFull = '';
+	if (plFull.trim() && enFull.trim()) {
+		cmsFull = `${plFull}\n\n---\n\n${enFull}`;
+	} else if (plFull.trim() || enFull.trim()) {
+		cmsFull = plFull || enFull;
+	} else {
+		const rawLong = asText(o.bio_long) || asText(o.bioLong);
+		cmsFull = rawLong.trim() ? rawLong : '';
 	}
-	if (!str(o.bioFull)) {
-		const pl = typeof o.bio_full_pl === 'string' ? o.bio_full_pl : '';
-		const en = typeof o.bio_full_en === 'string' ? o.bio_full_en : '';
-		if (pl.trim() && en.trim()) o.bioFull = `${pl}\n\n---\n\n${en}`;
-		else o.bioFull = pl || en || '';
-	}
+
+	/** Pola PL/EN z CMS mają pierwszeństwo, gdy są wypełnione — inaczej stary `bioShort`/`bioFull` zasłania treść z Decap. */
+	o.bioShort = cmsShort || str(o.bioShort) || '';
+	o.bioFull = (cmsFull.trim() ? cmsFull : asText(o.bioFull)) || '';
 
 	if (!str(o.type) && str(o.instructor_type)) {
 		o.type = str(o.instructor_type);
