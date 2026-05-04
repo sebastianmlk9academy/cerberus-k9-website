@@ -27,7 +27,7 @@ try {
 		.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
 		.map((i) => ({
 			name: i.data.name,
-			role: i.data.role ?? i.data.role_pl ?? '',
+			role: i.data.role_pl?.trim() ? i.data.role_pl.trim() : i.data.role ?? '',
 			country: i.data.country ?? '',
 			countryCode:
 				i.data.countryCode ?? (i.data as { country_code?: string }).country_code ?? '',

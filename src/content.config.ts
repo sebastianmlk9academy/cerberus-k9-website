@@ -247,12 +247,16 @@ function mapInstruktorCmsKeys(raw: unknown): unknown {
 	if (fromSnake) o.countryCode = fromSnake.toUpperCase();
 	else if (fromCamel) o.countryCode = fromCamel.toUpperCase();
 
-	const existingRole = str(o.role);
-	if (!existingRole) {
-		const pl = str(o.role_pl);
-		const en = str(o.role_en);
-		if (pl) o.role = pl;
-		else if (en) o.role = en;
+	/** `role_pl` / `role_en` z CMS mają pierwszeństwo nad legacy `role` w frontmatterze (stare merge'e zostawiały oba). */
+	const pl = str(o.role_pl);
+	const en = str(o.role_en);
+	const legacyRole = str(o.role);
+	if (pl) {
+		o.role = pl;
+	} else if (legacyRole) {
+		o.role = legacyRole;
+	} else if (en) {
+		o.role = en;
 	}
 
 	const asText = (v: unknown) => (typeof v === 'string' ? v : v == null ? '' : String(v));
@@ -313,6 +317,7 @@ const instruktorzy = defineCollection({
 			name: z.string(),
 			role: z.string().optional(),
 			role_pl: z.string().optional(),
+			role_en: z.string().optional().default(''),
 			country: z.string(),
 			countryCode: z.string().length(2),
 			specializations: z.preprocess(normalizeInstructorSpecializations, z.array(z.string())),
