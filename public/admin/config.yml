@@ -1921,16 +1921,14 @@ collections:
             hint: "Etykieta statystyki w języku KO."
             required: false
       - name: "accent"
-        label: "🎨 Akcent kolorystyczny"
+        label: "Kolor liczby"
         widget: "select"
-        hint: "📍 Gdzie: strona główna → pasek statystyk, kolor liczby. ✏️ gold=złoty, red=czerwony"
         required: false
         default: "gold"
         options:
-          - label: "Złoty"
-            value: "gold"
-          - label: "Czerwony"
-            value: "red"
+          - { label: "Złoty", value: "gold" }
+          - { label: "Czerwony", value: "red" }
+        hint: "📍 Gdzie: strona główna → pasek statystyk, kolor liczby. ✏️ gold=złoty, red=czerwony"
       - name: "order"
         label: "🔢 Kolejność wyświetlania"
         widget: "number"
@@ -2061,16 +2059,12 @@ collections:
         widget: "text"
         hint: "Opis miejsca w danym języku — sekcja lokalizacji."
         required: false
-      - name: "modules_pl"
-        label: "Moduły (PL)"
-        widget: "text"
-        hint: "📍 Gdzie: /o-wydarzeniu → opis modułów w lokalizacji (PL). ✏️ Przykład: K9-Gryzienie, TCCC, HARDEST HIT"
-        required: false
-      - name: "modules_en"
-        label: "Moduły (EN)"
-        widget: "text"
-        hint: "📍 Gdzie: /o-wydarzeniu → opis modułów w lokalizacji (EN). ✏️ Przykład: K9 Biting, TCCC, HARDEST HIT"
-        required: false
+      - { name: "modules_pl", label: "Moduły w lokalizacji (PL)", widget: "text",
+          required: false,
+          hint: "📍 Gdzie: /o-wydarzeniu → lista modułów w tej lokalizacji (PL). ✏️ Przykład: K9-Gryzienie, TCCC, HARDEST HIT" }
+      - { name: "modules_en", label: "Moduły w lokalizacji (EN)", widget: "text",
+          required: false,
+          hint: "📍 Gdzie: /o-wydarzeniu → lista modułów (EN). ✏️ Przykład: K9 Biting, TCCC, HARDEST HIT" }
       - name: "modules_de"
         label: "📚 Moduły (DE)"
         widget: "string"
@@ -2580,7 +2574,7 @@ collections:
           - name: "ics_organizer_name"
             label: "📇 ICS — nazwa organizatora"
             widget: "string"
-            hint: "📍 Gdzie: eksport .ICS → nazwa organizatora w kalendarzu. ✏️ Przykład: CERBERUS K9 / Fundacja PACTA K9"
+            hint: "📍 Gdzie: eksport .ICS z agendy → nazwa organizatora w kalendarzu. ✏️ Przykład: CERBERUS K9 / Fundacja PACTA K9"
             required: false
             default: "Fundacja PACTA K9"
           - name: "ics_organizer_email"
@@ -2615,7 +2609,15 @@ collections:
       - { name: "answer_pl", label: "Odpowied? (PL)", widget: "text", hint: "📍 Gdzie: /o-wydarzeniu → odpowiedź po rozwinięciu. ⚠️ Max 300 znaków. Konkretna, bez zbędnych słów. ✏️ Przykład: Tak, wstęp jest całkowicie bezpłatny. Wymagana jest wcześniejsza rejestracja przez formularz Pretix." }
       - { name: "question_en", label: "Pytanie (EN)", widget: "string", required: false }
       - { name: "answer_en", label: "Odpowied? (EN)", widget: "text", required: false }
-      - { name: "lang", label: "J?zyk", widget: "select", options: ["pl","en"], default: "pl" }
+      - name: "lang"
+        label: "Język pytania"
+        widget: "select"
+        required: false
+        default: "pl"
+        options:
+          - { label: "Polski", value: "pl" }
+          - { label: "Angielski", value: "en" }
+        hint: "📍 Gdzie: /o-wydarzeniu → dla jakiego języka pokazywać pytanie. ✏️ pl = tylko po polsku, en = tylko po angielsku"
       - { name: "category", label: "Kategoria", widget: "select", required: false, default: "Inne", options: ["Rejestracja","Program","Logistyka","K9","TCCC","Drony","HARDEST HIT","Inne"], hint: "📍 Gdzie: /o-wydarzeniu → grupowanie pytań. ⚠️ Wybierz kategorię tematyczną. ✏️ Rejestracja=pytania o zapisy, Logistyka=dojazd/nocleg, Program=harmonogram" }
       - { name: "order", label: "Kolejno??", widget: "number", required: false, default: 99, hint: "📍 Gdzie: /o-wydarzeniu → kolejność pytań w FAQ. ⚠️ Mniejsza liczba = wyżej. Ważniejsze pytania daj niżej (1-10). ✏️ Przykład: 10, 20, 30" }
       - { name: "active", label: "Aktywne", widget: "boolean", required: false, default: true }
@@ -2790,7 +2792,18 @@ collections:
       - { name: "title_en", label: "Tytuł (EN)", widget: "string", required: false }
       - { name: "subtitle_pl", label: "Podtytuł (PL)", widget: "string", required: false, hint: "📍 Gdzie: strona główna → opis pod rokiem (PL). ⚠️ Max 60 znaków. ✏️ Przykład: 13–14 czerwca · Ostrów Wielkopolski · 250+ uczestników" }
       - { name: "subtitle_en", label: "Podtytuł (EN)", widget: "string", required: false }
-      - { name: "color_token", label: "Kolor węzła", widget: "select", options: ["gold","red","navyBorder"], hint: "📍 Gdzie: strona główna → kolor węzła. ⚠️ gold=zrealizowane, red=bieżące, navyBorder=przyszłe. ✏️ Przykład: red dla 2026" }
+      - name: "color_token"
+        label: "Kolor węzła"
+        widget: "select"
+        hint: "📍 Gdzie: strona główna → kolor węzła. ✏️ gold=zrealizowane, red=bieżące, navyBorder=przyszłe."
+        options:
+          - { label: "Złoty (zrealizowane)", value: "gold" }
+          - { label: "Czerwony (bieżące)", value: "red" }
+          - { label: "Granatowy (przyszłe)", value: "navyBorder" }
+          - { label: "Niebieski", value: "blue" }
+          - { label: "Zielony", value: "green" }
+          - { label: "Fioletowy", value: "purple" }
+          - { label: "Pomarańczowy", value: "orange" }
       - { name: "pulse", label: "Animacja pulsowania", widget: "boolean", default: false, hint: "📍 Gdzie: strona główna → animacja pulsowania węzła. ⚠️ Włącz TYLKO dla bieżącej edycji (2026). ✏️ TAK = pulsuje" }
       - { name: "order", label: "Kolejność", widget: "number", default: 99 }
       - { name: "isVisible", label: "Widoczny", widget: "boolean", default: true }
@@ -2812,15 +2825,25 @@ collections:
       - { name: "role_en", label: "Rola (EN)", widget: "string", required: false }
       - { name: "bio_short_pl", label: "Kr?tkie bio (PL)", widget: "text" }
       - { name: "bio_short_en", label: "Kr?tkie bio (EN)", widget: "text", required: false }
-      - { name: "bio_full_pl", label: "Pe?ne bio (PL)", widget: "markdown", required: false }
-      - { name: "bio_full_en", label: "Pe?ne bio (EN)", widget: "markdown", required: false }
       - { name: "photo", label: "Zdj?cie", widget: "image", required: false, media_folder: "public/uploads/team/", public_folder: "/uploads/team/" }
       - { name: "unit", label: "Jednostka/Organizacja", widget: "string", required: false }
       - { name: "email", label: "E-mail", widget: "string", required: false, pattern: ["^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$", "Wpisz poprawny adres e-mail"] }
       - { name: "linkedin", label: "LinkedIn (legacy)", widget: "string", required: false, pattern: ["^https?://.+$", "URL musi zaczyna? si? od https://"] }
-      - { name: "social_facebook", label: "Facebook URL", widget: "string", required: false, pattern: ["^https?://.+$", "URL musi zaczyna? si? od https://"] }
-      - { name: "social_linkedin", label: "LinkedIn URL", widget: "string", required: false, pattern: ["^https?://.+$", "URL musi zaczyna? si? od https://"] }
-      - { name: "social_instagram", label: "Instagram URL", widget: "string", required: false, pattern: ["^https?://.+$", "URL musi zaczyna? si? od https://"] }
+      - { name: "bio_full_pl", label: "Pełne bio (PL)", widget: "markdown",
+          required: false,
+          hint: "📍 Gdzie: /fundacja → rozwinięte bio (PL). ⚠️ Opcjonalne. ✏️ Przykład: Wieloletni operator JWK..." }
+      - { name: "bio_full_en", label: "Pełne bio (EN)", widget: "markdown",
+          required: false,
+          hint: "📍 Gdzie: /fundacja → rozwinięte bio (EN). ✏️ Przykład: Long-time JWK operator..." }
+      - { name: "social_facebook", label: "Facebook URL", widget: "string",
+          required: false,
+          hint: "📍 Gdzie: /fundacja → ikona Facebook. ⚠️ Pełny URL https://. ✏️ Przykład: https://facebook.com/mariusz.lis" }
+      - { name: "social_linkedin", label: "LinkedIn URL", widget: "string",
+          required: false,
+          hint: "📍 Gdzie: /fundacja → ikona LinkedIn. ✏️ Przykład: https://linkedin.com/in/mariusz-lis" }
+      - { name: "social_instagram", label: "Instagram URL", widget: "string",
+          required: false,
+          hint: "📍 Gdzie: /fundacja → ikona Instagram. ✏️ Przykład: https://instagram.com/mariuszlis" }
       - { name: "order", label: "Kolejno??", widget: "number", required: false, default: 99 }
       - { name: "isVisible", label: "Widoczny", widget: "boolean", required: false, default: true }
   - name: "fundacja_content"
@@ -3074,84 +3097,56 @@ collections:
     summary: "{{outlet}} — {{title}} ({{order}})"
     fields:
       - { name: "outlet", label: "Nazwa medium", widget: "string",
-          required: true,
           hint: "📍 Gdzie: /media → nazwa gazety/portalu/TV. ✏️ Przykład: Polska Zbrojna" }
-      - { name: "title", label: "Tytuł artykułu/materiału", widget: "string",
+      - { name: "title", label: "Tytuł materiału", widget: "string",
           required: false,
-          hint: "📍 Gdzie: /media → tytuł materiału. ✏️ Przykład: CERBERUS K9 — nowe standardy szkolenia psów służbowych" }
+          hint: "📍 Gdzie: /media → tytuł artykułu. ✏️ Przykład: CERBERUS K9 — nowe standardy K9" }
       - name: "type"
         label: "Typ mediów"
         widget: "select"
-        required: false
-        hint: "📍 Gdzie: /media → badge przy materiale. ✏️ Przykład: online"
         options:
           - { label: "Artykuł online", value: "online" }
           - { label: "Artykuł prasowy", value: "print" }
           - { label: "Telewizja", value: "tv" }
           - { label: "Radio", value: "radio" }
           - { label: "Podcast", value: "podcast" }
+        hint: "📍 Gdzie: /media → badge przy materiale. ✏️ Przykład: online"
       - name: "publish_date"
         label: "Data publikacji"
         widget: "datetime"
-        required: false
         format: "YYYY-MM-DD"
-        date_format: "DD.MM.YYYY"
+        date_format: true
         time_format: false
         hint: "📍 Gdzie: /media → data przy materiale. ⚠️ Format RRRR-MM-DD. ✏️ Przykład: 2025-06-15"
-      - name: "url"
-        label: "Link do materiału"
-        widget: "string"
-        required: false
-        pattern:
-          - "^https?://.+$"
-          - "Musi zaczynać się od https://"
-        hint: "📍 Gdzie: /media → klikalny link. ⚠️ Musi zaczynać się od https://. ✏️ Przykład: https://polskazbrojna.pl/artykul/cerberus"
-      - name: "file"
-        label: "Plik PDF (skan)"
-        widget: "file"
-        required: false
-        hint: "📍 Gdzie: /media → pobieranie skanu artykułu. ⚠️ Max 5MB. ✏️ Dla artykułów bez linku online"
+      - { name: "url", label: "Link do materiału", widget: "string",
+          required: false,
+          hint: "📍 Gdzie: /media → klikalny link. ⚠️ Musi zaczynać się od https://. ✏️ Przykład: https://polskazbrojna.pl/artykul/cerberus" }
+      - { name: "file", label: "Plik PDF (skan)", widget: "file",
+          required: false,
+          hint: "📍 Gdzie: /media → pobieranie skanu. ⚠️ Max 5MB. ✏️ Dla artykułów bez linku online" }
       - name: "language"
         label: "Język materiału"
         widget: "select"
         default: "pl"
-        required: false
-        hint: "📍 Gdzie: /media → filtrowanie po języku. ✏️ Przykład: pl"
         options:
           - { label: "Polski", value: "pl" }
           - { label: "Angielski", value: "en" }
           - { label: "Inny", value: "other" }
-      - name: "outlet_logo"
-        label: "🖼️ Logo outletu"
-        widget: "image"
-        hint: "Zalecany format: WebP. Rozmiar: 200×80px. Opcjonalne logo redakcji przy kafelku."
-        required: false
-        choose_url: true
-      - name: "order"
-        label: "Kolejność"
-        widget: "number"
-        required: false
-        default: 99
-        hint: "📍 Gdzie: /media → kolejność na liście. ⚠️ Mniejsza liczba = wyżej. ✏️ Przykład: 10"
-      - name: "active"
-        label: "Widoczny"
-        widget: "boolean"
-        default: true
-        hint: "📍 Gdzie: /media → czy materiał widoczny. ✏️ TAK = widoczny"
-      - { name: "date", label: "Data (legacy — użyj publish_date)", widget: "string",
+        hint: "📍 Gdzie: /media → filtrowanie po języku. ✏️ Przykład: pl"
+      - { name: "order", label: "Kolejność", widget: "number",
+          required: false, default: 99,
+          hint: "📍 Gdzie: /media → kolejność na liście. ✏️ Przykład: 10" }
+      - { name: "active", label: "Widoczny", widget: "boolean", default: true,
+          hint: "📍 Gdzie: /media → widoczność. ✏️ TAK = widoczny" }
+      - { name: "date", label: "⚠️ LEGACY — użyj Data publikacji", widget: "string",
           required: false,
-          hint: "⚠️ LEGACY — nie używaj dla nowych wpisów. Użyj pola Data publikacji powyżej." }
-      - { name: "link", label: "Link (legacy — użyj url)", widget: "string",
+          hint: "⚠️ LEGACY — nie używaj dla nowych wpisów. Użyj pola Data publikacji." }
+      - { name: "link", label: "⚠️ LEGACY — użyj Link do materiału", widget: "string",
           required: false,
-          hint: "⚠️ LEGACY — nie używaj dla nowych wpisów. Użyj pola Link do materiału powyżej." }
-      - { name: "badge", label: "Badge (legacy — użyj type)", widget: "string",
+          hint: "⚠️ LEGACY — nie używaj dla nowych wpisów. Użyj pola Link." }
+      - { name: "badge", label: "⚠️ LEGACY — użyj Typ mediów", widget: "string",
           required: false,
-          hint: "⚠️ LEGACY — nie używaj dla nowych wpisów. Użyj pola Typ mediów powyżej." }
-      - name: "description"
-        label: "📄 Opis (legacy / dodatkowy)"
-        widget: "text"
-        hint: "Opcjonalny opis pod tytułem — możesz użyć zamiast lub obok pola Tytuł."
-        required: false
+          hint: "⚠️ LEGACY — nie używaj dla nowych wpisów. Użyj pola Typ mediów." }
   - name: "press_releases"
     label: "📰 Media — Informacje Prasowe"
     description: "Pliki do pobrania w sekcji „Informacje prasowe” na /media."
@@ -3193,12 +3188,9 @@ collections:
           📍 Gdzie: przycisk pobrania po prawej stronie wpisu.
           ⚠️ Ważne: użyj bezpośredniego linku do pliku.
           ✏️ Przykład: https://example.com/komunikat-prasowy.pdf
-      - name: "order"
-        label: "🔢 Kolejność wyświetlania"
-        widget: "number"
-        required: false
-        default: 99
-        hint: "📍 Gdzie: /media → kolejność informacji prasowych. ⚠️ Mniejsza liczba = wyżej. ✏️ Przykład: 10"
+      - { name: "order", label: "Kolejność", widget: "number",
+          required: false, default: 99,
+          hint: "📍 Gdzie: /media → kolejność komunikatów prasowych. ⚠️ Mniejsza liczba = wyżej. ✏️ Przykład: 10" }
       - name: "active"
         label: "👁️ Widoczny na stronie"
         widget: "boolean"
@@ -3588,24 +3580,13 @@ collections:
           search_fields: ["label_pl", "key"]
           value_field: "key"
           display_fields: ["label_pl"]
-      - name: "media_type"
-        label: "Typ mediów"
-        widget: "select"
-        default: "photo"
-        required: false
-        hint: "📍 Gdzie: /galeria → typ elementu. photo=zdjęcie, video=wideo, press=artykuł prasowy. ✏️ Przykład: photo"
-        options:
-          - { label: "📸 Zdjęcie", value: "photo" }
-          - { label: "🎬 Film wideo", value: "video" }
-          - { label: "📰 Relacja medialna", value: "press" }
-      - name: "video_url"
-        label: "URL wideo (YouTube/Vimeo)"
-        widget: "string"
-        pattern:
-          - "^https?://.+$"
-          - "URL musi zaczyna? si? od https://"
-        required: false
-        hint: "📍 Gdzie: /galeria → link do wideo. ⚠️ Tylko gdy media_type=video. ✏️ Przykład: https://youtube.com/watch?v=..."
+      - { name: "media_type", label: "Typ mediów", widget: "select",
+          required: false, default: "photo",
+          options: ["photo", "video", "press"],
+          hint: "📍 Gdzie: /galeria → typ elementu. photo=zdjęcie, video=wideo, press=prasa. ✏️ Przykład: photo" }
+      - { name: "video_url", label: "URL wideo", widget: "string",
+          required: false,
+          hint: "📍 Gdzie: /galeria → link YouTube/Vimeo. ⚠️ Tylko gdy media_type=video. ✏️ Przykład: https://youtube.com/watch?v=..." }
       - name: "video_platform"
         label: "📺 Platforma [TYLKO dla: Film wideo]"
         widget: "select"
@@ -3622,11 +3603,9 @@ collections:
         hint: "Puste = miniatura z YouTube automatycznie. WebP 640x360px."
         media_folder: "public/uploads/galeria/video"
         public_folder: "/uploads/galeria/video"
-      - name: "press_outlet"
-        label: "📰 Nazwa medium [TYLKO dla: Relacja]"
-        widget: "string"
-        required: false
-        hint: "✏️ Np. TVP Poznań, Radio Merkury, Polska Zbrojna"
+      - { name: "press_outlet", label: "Nazwa medium (prasa)", widget: "string",
+          required: false,
+          hint: "📍 Gdzie: /galeria → nazwa gazety/portalu. ⚠️ Tylko gdy media_type=press. ✏️ Przykład: Polska Zbrojna" }
       - name: "press_outlet_logo"
         label: "🖼️ Logo medium"
         widget: "image"
@@ -3635,19 +3614,12 @@ collections:
         hint: "WebP 300x100px."
         media_folder: "public/uploads/media_logos"
         public_folder: "/uploads/media_logos"
-      - name: "press_url"
-        label: "🔗 Link do relacji [TYLKO dla: Relacja]"
-        widget: "string"
-        pattern:
-          - "^https?://.+$"
-          - "URL musi zaczyna? si? od https://"
-        required: false
-        hint: "Pełny URL. Musi zaczynać się od https://"
-      - name: "press_date"
-        label: "📅 Data relacji"
-        widget: "string"
-        required: false
-        hint: "✏️ Np. 2026-06-15"
+      - { name: "press_url", label: "Link do artykułu (prasa)", widget: "string",
+          required: false,
+          hint: "📍 Gdzie: /galeria → link do artykułu. ⚠️ Tylko gdy media_type=press. ✏️ Przykład: https://polskazbrojna.pl/..." }
+      - { name: "press_date", label: "Data publikacji (prasa)", widget: "string",
+          required: false,
+          hint: "📍 Gdzie: /galeria → data artykułu. ✏️ Przykład: 2025-06-15" }
       - name: "press_description"
         label: "📝 Opis relacji"
         widget: "text"
