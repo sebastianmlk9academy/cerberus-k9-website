@@ -125,29 +125,100 @@ function normalizeInstructorSpecializations(val: unknown): string[] {
 		.filter(Boolean);
 }
 
+/** CMS list widget writes YAML arrays; legacy content uses a single comma-separated string. */
+function normalizeInstructorLanguages(val: unknown): string | undefined {
+	if (val == null || val === '') return undefined;
+	if (typeof val === 'string') {
+		const t = val.trim();
+		return t || undefined;
+	}
+	if (Array.isArray(val)) {
+		const parts = val
+			.map((x) => {
+				if (typeof x === 'string') return x.trim();
+				if (x && typeof x === 'object') {
+					const o = x as Record<string, unknown>;
+					for (const k of ['lang', 'language', 'value', 'name', 'label', 'spec'] as const) {
+						const v = o[k];
+						if (typeof v === 'string' && v.trim()) return v.trim();
+					}
+					const first = Object.values(o).find((v) => typeof v === 'string' && String(v).trim());
+					return typeof first === 'string' ? first.trim() : '';
+				}
+				return '';
+			})
+			.filter(Boolean);
+		return parts.length ? parts.join(', ') : undefined;
+	}
+	if (val && typeof val === 'object') {
+		return normalizeInstructorLanguages(Object.values(val as Record<string, unknown>));
+	}
+	return undefined;
+}
+
+/** Netlify/Decap `public/admin/config.yml` uses snake_case; build uses camelCase. */
+function mapInstruktorCmsKeys(raw: unknown): unknown {
+	if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return raw;
+	const o = { ...(raw as Record<string, unknown>) };
+	if (o.countryCode == null && typeof o.country_code === 'string' && o.country_code.trim()) {
+		o.countryCode = o.country_code.trim().toUpperCase();
+	}
+	if (o.role == null) {
+		const pl = typeof o.role_pl === 'string' ? o.role_pl.trim() : '';
+		const en = typeof o.role_en === 'string' ? o.role_en.trim() : '';
+		if (pl) o.role = pl;
+		else if (en) o.role = en;
+	}
+	if (o.bioShort == null) {
+		const pl = typeof o.bio_short_pl === 'string' ? o.bio_short_pl.trim() : '';
+		const en = typeof o.bio_short_en === 'string' ? o.bio_short_en.trim() : '';
+		o.bioShort = pl || en || '';
+	}
+	if (o.bioFull == null) {
+		const pl = typeof o.bio_full_pl === 'string' ? o.bio_full_pl : '';
+		const en = typeof o.bio_full_en === 'string' ? o.bio_full_en : '';
+		if (pl && en) o.bioFull = `${pl}\n\n---\n\n${en}`;
+		else o.bioFull = pl || en || '';
+	}
+	if (o.type == null && typeof o.instructor_type === 'string' && o.instructor_type.trim()) {
+		o.type = o.instructor_type.trim();
+	}
+	if (o.linkedinUrl == null) {
+		if (typeof o.linkedin_url === 'string' && o.linkedin_url.trim()) o.linkedinUrl = o.linkedin_url.trim();
+		else if (typeof o.social_linkedin === 'string' && o.social_linkedin.trim()) {
+			o.linkedinUrl = o.social_linkedin.trim();
+		}
+	}
+	if (o.active == null && typeof o.isVisible === 'boolean') o.active = o.isVisible;
+	return o;
+}
+
 const instruktorzy = defineCollection({
 	loader: glob({ base: './src/content/instruktorzy', pattern: '**/*.{md,mdx,json,yml,yaml}' }),
-	schema: z.object({
-		name: z.string(),
-		role: z.string().optional(),
-		country: z.string(),
-		countryCode: z.string().length(2),
-		specializations: z.preprocess(normalizeInstructorSpecializations, z.array(z.string())),
-		unit: z.string().optional(),
-		module: z.string().optional(),
-		schedule: z.string().optional(),
-		languages: z.string().optional(),
-		type: z.string().optional(),
-		linkedinUrl: z.string().optional(),
-		showOnHomepage: z.boolean().optional(),
-		confirmed: z.enum(['confirmed', 'pending', 'hidden']).optional().default('confirmed'),
-		needs_review: z.boolean().optional().default(false),
-		bioShort: z.string(),
-		bioFull: z.string(),
-		photo: z.string(),
-		order: z.number().int(),
-		active: z.boolean().optional().default(true),
-	}),
+	schema: z.preprocess(
+		mapInstruktorCmsKeys,
+		z.object({
+			name: z.string(),
+			role: z.string().optional(),
+			country: z.string(),
+			countryCode: z.string().length(2),
+			specializations: z.preprocess(normalizeInstructorSpecializations, z.array(z.string())),
+			unit: z.string().optional(),
+			module: z.string().optional(),
+			schedule: z.string().optional(),
+			languages: z.preprocess(normalizeInstructorLanguages, z.string().optional()),
+			type: z.string().optional(),
+			linkedinUrl: z.string().optional(),
+			showOnHomepage: z.boolean().optional(),
+			confirmed: z.enum(['confirmed', 'pending', 'hidden']).optional().default('confirmed'),
+			needs_review: z.boolean().optional().default(false),
+			bioShort: z.string(),
+			bioFull: z.string(),
+			photo: z.string(),
+			order: z.number().int(),
+			active: z.boolean().optional().default(true),
+		}),
+	),
 });
 
 const PARTNER_TYPE_PL_TO_EN: Record<string, (typeof ENUM_PARTNER_TYPES)[number]> = {
