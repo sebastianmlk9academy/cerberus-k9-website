@@ -1,8 +1,13 @@
 key: k9
-label_pl: K9 OBRONA
-label_en: K9 DEFENSE
+label_pl: K9
+label_en: K9
 filter_field: specializations
-filter_match: includes
+filter_match: any_of
 filter_value: k9
+filter_values:
+  - k9
+  - k9 obrona
+  - k9 detekcja
+  - k9 SAR/tropienie
 order: 1
 active: true
