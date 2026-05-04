@@ -2192,6 +2192,93 @@ collections:
         hint: "Mapowane na active przy imporcie (Decap → Astro)."
         required: false
         default: true
+  - name: "instructor_filters"
+    label: "🎓 Instruktorzy — Filtry"
+    description: "Przyciski filtrów na /instruktorzy (specializations, typ, moduł, języki)."
+    folder: "src/content/instructor_filters"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    identifier_field: "key"
+    summary: "{{label_pl}} — {{key}}"
+    extension: "yml"
+    format: "yaml"
+    fields:
+      - name: "key"
+        label: "🔑 Klucz (slug pliku)"
+        widget: "string"
+        hint: "Unikalny identyfikator — np. k9, tccc, all."
+        required: true
+      - name: "label_pl"
+        label: "🇵🇱 Etykieta PL"
+        widget: "string"
+        hint: "Tekst na przycisku filtra."
+        required: true
+      - name: "label_en"
+        label: "🇬🇧 Etykieta EN"
+        widget: "string"
+        hint: "Opcja pod wielojęzyczność."
+        required: false
+      - name: "label_de"
+        label: "🇩🇪 Etykieta DE"
+        widget: "string"
+        hint: "Opcjonalnie."
+        required: false
+      - name: "label_fr"
+        label: "🇫🇷 Etykieta FR"
+        widget: "string"
+        hint: "Opcjonalnie."
+        required: false
+      - name: "filter_field"
+        label: "Pole filtrowania"
+        widget: "select"
+        required: true
+        default: "specializations"
+        hint: "Które pole profilu instruktora jest porównywane."
+        options:
+          - "specializations"
+          - "type"
+          - "module"
+          - "languages"
+          - "all"
+      - name: "filter_match"
+        label: "Tryb dopasowania"
+        widget: "select"
+        required: false
+        default: "includes"
+        hint: "includes = fragment tekstu; equals = dokładnie; any_of = lista; none = „wszyscy”."
+        options:
+          - "includes"
+          - "equals"
+          - "any_of"
+          - "none"
+      - name: "filter_value"
+        label: "Wartość (tekst)"
+        widget: "string"
+        hint: "Np. fragment tagu dla includes (np. k9, konfer)."
+        required: false
+      - name: "filter_values"
+        label: "Wartości (lista)"
+        widget: "list"
+        required: false
+        hint: "Dla any_of — wiele wartości; format zapisu mapuje się na tablicę stringów w Astro."
+        field:
+          name: "v"
+          label: "Wartość"
+          widget: "string"
+      - name: "order"
+        label: "🔢 Kolejność"
+        widget: "number"
+        hint: "Mniejsza liczba = wcześniej na pasku filtrów."
+        required: false
+        default: 10
+        value_type: "int"
+      - name: "active"
+        label: "👁️ Aktywny"
+        widget: "boolean"
+        hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+        required: false
+        default: true
   - name: "registration_info"
     label: "📋 Rejestracja — Informacje Boczne"
     description: "Sidebar obok formularza Pretix: termin, miejsce, deadline, kontakt."
@@ -2442,6 +2529,67 @@ collections:
         default: 99
       - name: "active"
         label: "👁️ Widoczny na stronie"
+        widget: "boolean"
+        hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+        required: false
+        default: true
+  - name: "partner_sections"
+    label: "🤝 Partnerzy — Zakładki / filtry"
+    description: "Etykiety zakładek na /partnerzy (powiązanie z polem „typ” partnera)."
+    folder: "src/content/partner_sections"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    identifier_field: "key"
+    summary: "{{label_pl}} — {{key}}"
+    extension: "yml"
+    format: "yaml"
+    fields:
+      - name: "key"
+        label: "🔑 Klucz"
+        widget: "string"
+        hint: "Np. strategic, sponsor, media."
+        required: true
+      - name: "label_pl"
+        label: "🇵🇱 Etykieta PL"
+        widget: "string"
+        hint: "Tekst zakładki."
+        required: true
+      - name: "label_en"
+        label: "🇬🇧 Etykieta EN"
+        widget: "string"
+        hint: "Opcjonalnie."
+        required: false
+      - name: "label_de"
+        label: "🇩🇪 Etykieta DE"
+        widget: "string"
+        hint: "Opcjonalnie."
+        required: false
+      - name: "label_fr"
+        label: "🇫🇷 Etykieta FR"
+        widget: "string"
+        hint: "Opcjonalnie."
+        required: false
+      - name: "cms_type_value"
+        label: "Wartość typu partnera"
+        widget: "string"
+        hint: "Musi odpowiadać polu „typ partnera” w kolekcji Partnerzy (np. Strategiczny)."
+        required: false
+      - name: "show_if_empty"
+        label: "Pokaż gdy brak wpisów"
+        widget: "boolean"
+        hint: "Wyświetl zakładkę nawet bez partnerów w tej grupie."
+        required: false
+        default: false
+      - name: "order"
+        label: "🔢 Kolejność"
+        widget: "number"
+        hint: "Kolejność zakładek."
+        required: false
+        default: 10
+        value_type: "int"
+      - name: "active"
+        label: "👁️ Aktywny"
         widget: "boolean"
         hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
         required: false
@@ -2721,6 +2869,61 @@ collections:
         max: 9999
       - name: "active"
         label: "👁️ Widoczny na stronie"
+        widget: "boolean"
+        hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+        required: false
+        default: true
+  - name: "gallery_filters"
+    label: "🖼️ Galeria — Filtry"
+    description: "Przyciski filtrów na /galeria (powiązanie z kategorią zdjęcia)."
+    folder: "src/content/gallery_filters"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    identifier_field: "key"
+    summary: "{{label_pl}} — {{key}}"
+    extension: "yml"
+    format: "yaml"
+    fields:
+      - name: "key"
+        label: "🔑 Klucz"
+        widget: "string"
+        hint: "Np. ALL, TCCC, hardest_hit."
+        required: true
+      - name: "label_pl"
+        label: "🇵🇱 Etykieta PL"
+        widget: "string"
+        hint: "Tekst na przycisku filtra."
+        required: true
+      - name: "label_en"
+        label: "🇬🇧 Etykieta EN"
+        widget: "string"
+        hint: "Opcjonalnie."
+        required: false
+      - name: "label_de"
+        label: "🇩🇪 Etykieta DE"
+        widget: "string"
+        hint: "Opcjonalnie."
+        required: false
+      - name: "label_fr"
+        label: "🇫🇷 Etykieta FR"
+        widget: "string"
+        hint: "Opcjonalnie."
+        required: false
+      - name: "category_value"
+        label: "Wartość kategorii zdjęcia"
+        widget: "string"
+        hint: "ALL lub wartość jak w polu „kategoria” przy zdjęciu (np. TCCC). Puste często = jak klucz."
+        required: false
+      - name: "order"
+        label: "🔢 Kolejność"
+        widget: "number"
+        hint: "Kolejność przycisków."
+        required: false
+        default: 10
+        value_type: "int"
+      - name: "active"
+        label: "👁️ Aktywny"
         widget: "boolean"
         hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
         required: false
