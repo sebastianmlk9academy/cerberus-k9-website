@@ -2,5 +2,5 @@ key: media
 label_pl: PATRON MEDIALNY
 cms_type_value: Patron Medialny
 show_if_empty: false
-order: 3
+order: 2
 active: true
