@@ -6,7 +6,7 @@ countryCode: US
 name: Paweł 'DOMEL' Domański
 role_pl: Lider Grupy
 role_en: Team Leader
-country: "POLSKA "
+country: POLSKA
 country_code: PL
 specializations:
   - Lider Grupy
