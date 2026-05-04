@@ -15,6 +15,7 @@ bio_full_pl: Długie BIO
 photo: /uploads/instruktorzy/mmexport1685011401842.jpg
 unit: JWK - emerytowany operator · przewodnik psa bojowego
 module: K9 OBRONA
+schedule: K9 Obrona - Dzień 1 10:00-18:00
 confirmed: confirmed
 order: 99
 needs_review: false
