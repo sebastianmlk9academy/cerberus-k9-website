@@ -331,6 +331,53 @@ function homepageStatsFields() {
   ];
 }
 
+function timelineFields() {
+  return [
+    f('year', '📆 Rok', 'number', 'Rok wyświetlany dużą cyfrą na osi (np. 2026).', {
+      required: true,
+      value_type: 'int',
+      min: 2000,
+      max: 2100,
+    }),
+    f('status', '📌 Status', 'select', 'Rodzaj kamienia milowego — „bieżące” pozwala na pulsującą kropkę.', {
+      required: true,
+      options: [
+        { label: 'Zakończone', value: 'completed' },
+        { label: 'Bieżące', value: 'current' },
+        { label: 'Planowane', value: 'planned' },
+        { label: 'Wizja', value: 'vision' },
+      ],
+    }),
+    f('title_pl', '🇵🇱 Tytuł', 'string', 'Nagłówek punktu (np. CERBERUS K9 2026).', { required: true }),
+    f('title_en', '🇬🇧 Title (EN)', 'string', 'Nagłówek po angielsku.', { required: true }),
+    f('subtitle_pl', '🇵🇱 Podtytuł / opis', 'string', 'Krótki tekst pod tytułem (PL).', { required: false }),
+    f('subtitle_en', '🇬🇧 Subtitle (EN)', 'string', 'Krótki tekst (EN).', { required: false }),
+    f('color_token', '🎨 Kolor kropki', 'select', 'Kolor znacznika na linii czasu.', {
+      required: true,
+      default: 'gold',
+      options: [
+        { label: 'Złoty', value: 'gold' },
+        { label: 'Czerwony', value: 'red' },
+        { label: 'Granat (obrys)', value: 'navyBorder' },
+        { label: 'Niebieski', value: 'blue' },
+        { label: 'Zielony', value: 'green' },
+        { label: 'Fiolet', value: 'purple' },
+        { label: 'Pomarańcz', value: 'orange' },
+      ],
+    }),
+    f('pulse', '✨ Animacja puls', 'boolean', 'Zwykle włączone tylko dla jednego punktu ze statusem „Bieżące”.', {
+      required: false,
+      default: false,
+    }),
+    f('order', '🔢 Kolejność na osi', 'number', 'Sortowanie punktów — rosnąco (np. 10 przed 11).', {
+      required: false,
+      default: 99,
+      value_type: 'int',
+    }),
+    f('isVisible', '👁️ Widoczny na stronie', 'boolean', boolHint, { required: false, default: true }),
+  ];
+}
+
 function locationsFields() {
   return [
     f('name', '📍 Nazwa lokalizacji', 'string', 'Nagłówek bloku lokalizacji na stronie głównej i /o-wydarzeniu.', { required: true }),
@@ -605,6 +652,22 @@ const collections = [
     extension: 'md',
     format: 'frontmatter',
     fields: homepageStatsFields(),
+  },
+  {
+    name: 'timeline',
+    label: '🏠 Strona Główna — Oś czasu („Dokąd zmierzamy”)',
+    label_singular: 'punkt osi czasu',
+    description:
+      'Sekcja „OŚ CZASU” / „DOKĄD ZMIERZAMY” na stronie głównej. Każdy plik YAML = jeden punkt (rok). Nazwa pliku (slug) np. 2026-current.',
+    folder: 'src/content/timeline',
+    create: true,
+    delete: true,
+    slug: '{{slug}}',
+    identifier_field: 'title_pl',
+    summary: '{{year}} · {{title_pl}} ({{status}})',
+    extension: 'yml',
+    format: 'yaml',
+    fields: timelineFields(),
   },
   {
     name: 'locations',
