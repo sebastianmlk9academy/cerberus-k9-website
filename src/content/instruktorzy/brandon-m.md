@@ -1,4 +1,7 @@
 ---
+bio_short_en: Człowiek, który całe życie poświęcił służbie w wojskach
+  specjalnych, oddając się ojczyźnie. Ostatnie lata pełnił rolę przewodnika psa
+  bojowego sił specjalnych.
 countryCode: US
 name: Paweł 'DOMEL' Domański
 role_pl: Lider Grupy
