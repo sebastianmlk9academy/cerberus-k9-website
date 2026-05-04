@@ -1,7 +1,7 @@
 ---
 name: Astriva
 type: Technologiczny
-logo: /images/partners/astriva.webp
+logo: /uploads/astriva-logo.webp
 website: https://astriva.pl
 website_label: astriva.pl
 description: Zaawansowana ochrona balistyczna i pancerze osobiste dla służb i
