@@ -7,6 +7,6 @@ description: Współdziałanie cywili i służb z wykorzystaniem psów, technolo
   dronowej do powstrzymania i przeciwdziałania zamachowi terrorystycznemu
 location: 3MK Arena
 category: SYMULACJA
-order: 9
+order: 10
 isVisible: true
 ---
