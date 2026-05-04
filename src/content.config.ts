@@ -1270,7 +1270,7 @@ const partnerOffers = defineCollection({
 const homepage_cards = defineCollection({
 	loader: glob({ base: './src/content/homepage_cards', pattern: '**/*.{md,mdx}' }),
 	schema: z.object({
-		category: z.enum(['K9', 'TCCC', 'DRONY', 'KONFERENCJA']),
+		category: z.enum(['K9 OBRONA', 'TCCC', 'DRONY', 'KONFERENCJA']),
 		icon: z.string().optional(),
 		color: z.string().optional(),
 		title_pl: z.string(),

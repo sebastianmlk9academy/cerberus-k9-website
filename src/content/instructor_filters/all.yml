@@ -1,5 +1,6 @@
 key: all
 label_pl: WSZYSCY
+label_en: ALL
 filter_field: all
 filter_match: none
 order: 0

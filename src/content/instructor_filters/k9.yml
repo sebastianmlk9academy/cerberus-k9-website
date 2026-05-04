@@ -1,5 +1,6 @@
 key: k9
-label_pl: K9
+label_pl: K9 OBRONA
+label_en: K9 DEFENSE
 filter_field: specializations
 filter_match: includes
 filter_value: k9

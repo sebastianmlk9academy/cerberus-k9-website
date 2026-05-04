@@ -1,5 +1,6 @@
 key: weterynarz
 label_pl: WETERYNARZ
+label_en: VETERINARIAN
 filter_field: specializations
 filter_match: includes
 filter_value: weterynarz

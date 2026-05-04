@@ -9,8 +9,8 @@ role_en: Team Leader
 country: Niemcy
 country_code: DE
 specializations:
-  - Lider Grupy
-  - K9 Gryzienie
+  - LIDER GRUPY
+  - K9 OBRONA
 languages:
   - PL
 bio_short_pl: Człowiek, który całe życie poświęcił służbie w wojskach
@@ -35,7 +35,7 @@ bioShort: Aktywny pozorant K9 dla departamentów policji USA, SWAT i Straży
 role: Pozorant Główny / Instruktor K9
 bioFull: Aktywny pozorant i instruktor K9 dla departamentów policji USA,
   jednostek SWAT i Straży Granicznej USA. Na CERBERUS K9 2026 prowadzi moduł
-  K9-Gryzienie i pełni rolę pozoranta podczas HARDEST HIT.
+  K9 OBRONA i pełni rolę pozoranta podczas HARDEST HIT.
 type: Pozorant
 confirmed: confirmed
 ---

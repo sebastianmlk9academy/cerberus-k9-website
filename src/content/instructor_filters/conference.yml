@@ -1,5 +1,6 @@
 key: conference
 label_pl: KONFERENCJA
+label_en: CONFERENCE
 filter_field: specializations
 filter_match: any_of
 filter_values:

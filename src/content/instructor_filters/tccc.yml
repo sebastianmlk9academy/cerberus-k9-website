@@ -1,5 +1,6 @@
 key: tccc
 label_pl: TCCC
+label_en: TCCC
 filter_field: specializations
 filter_match: includes
 filter_value: tccc

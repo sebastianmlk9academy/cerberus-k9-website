@@ -1,5 +1,6 @@
 key: decoy
 label_pl: POZORANT
+label_en: DECOY
 filter_field: specializations
 filter_match: any_of
 filter_values:

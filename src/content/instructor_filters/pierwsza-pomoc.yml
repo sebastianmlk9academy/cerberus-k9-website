@@ -1,5 +1,6 @@
 key: pierwsza pomoc
 label_pl: PIERWSZA POMOC
+label_en: FIRST AID
 filter_field: specializations
 filter_match: includes
 filter_value: pierwsza pomoc

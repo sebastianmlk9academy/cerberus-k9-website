@@ -1,5 +1,6 @@
 key: behawiorysta
 label_pl: BEHAWIORYSTA
+label_en: BEHAVIORIST
 filter_field: specializations
 filter_match: includes
 filter_value: behawiorysta

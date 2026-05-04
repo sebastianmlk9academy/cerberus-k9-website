@@ -1,5 +1,6 @@
 key: ambasador
 label_pl: AMBASADOR
+label_en: AMBASSADOR
 filter_field: specializations
 filter_match: includes
 filter_value: ambasador

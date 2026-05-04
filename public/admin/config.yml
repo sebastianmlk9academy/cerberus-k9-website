@@ -1336,18 +1336,19 @@ collections:
         widget: "select"
         required: false
         options:
-          - { label: "K9 — Gryzienie", value: "K9-Gryzienie" }
-          - { label: "K9 — Detekcja", value: "K9-Detekcja" }
-          - { label: "K9 — SAR", value: "K9-SAR" }
+          - { label: "K9 OBRONA", value: "K9 OBRONA" }
+          - { label: "K9 DETEKCJA", value: "K9 DETEKCJA" }
+          - { label: "K9 SAR/TROPIENIE", value: "K9 SAR/TROPIENIE" }
           - { label: "TCCC", value: "TCCC" }
           - { label: "TCCC-K9", value: "TCCC-K9" }
-          - { label: "Drony", value: "Drony" }
+          - { label: "DRONY", value: "DRONY" }
           - { label: "HARDEST HIT", value: "HARDEST HIT" }
-          - { label: "Konferencja", value: "Konferencja" }
-          - { label: "Pozorant", value: "Pozorant" }
-          - { label: "Behawiorysta", value: "Behawiorysta" }
-          - { label: "Weterynarz", value: "Weterynarz" }
-          - { label: "Instruktor", value: "Instruktor" }
+          - { label: "KONFERENCJA", value: "KONFERENCJA" }
+          - { label: "POZORANT", value: "POZORANT" }
+          - { label: "BEHAWIORYSTA", value: "BEHAWIORYSTA" }
+          - { label: "WETERYNARZ", value: "WETERYNARZ" }
+          - { label: "LIDER GRUPY", value: "LIDER GRUPY" }
+          - { label: "AMBASADOR", value: "AMBASADOR" }
         hint: "📍 Gdzie: /instruktorzy → filtr po specjalizacji. ⚠️ Wybierz wartość z listy. Musi pasować dokładnie do wartości w polu Specjalizacje instruktora. ✏️ Przykład: TCCC"
       - name: "filter_values"
         label: "Wartości filtra (wiele specjalizacji)"
@@ -1355,19 +1356,20 @@ collections:
         required: false
         multiple: true
         options:
-          - { label: "K9 — Gryzienie", value: "K9-Gryzienie" }
-          - { label: "K9 — Detekcja", value: "K9-Detekcja" }
-          - { label: "K9 — SAR", value: "K9-SAR" }
+          - { label: "K9 OBRONA", value: "K9 OBRONA" }
+          - { label: "K9 DETEKCJA", value: "K9 DETEKCJA" }
+          - { label: "K9 SAR/TROPIENIE", value: "K9 SAR/TROPIENIE" }
           - { label: "TCCC", value: "TCCC" }
           - { label: "TCCC-K9", value: "TCCC-K9" }
-          - { label: "Drony", value: "Drony" }
+          - { label: "DRONY", value: "DRONY" }
           - { label: "HARDEST HIT", value: "HARDEST HIT" }
-          - { label: "Konferencja", value: "Konferencja" }
-          - { label: "Pozorant", value: "Pozorant" }
-          - { label: "Behawiorysta", value: "Behawiorysta" }
-          - { label: "Weterynarz", value: "Weterynarz" }
-          - { label: "Instruktor", value: "Instruktor" }
-        hint: "📍 Użyj gdy filtr ma obejmować KILKA specjalizacji naraz (any_of). ✏️ Przykład: K9-Gryzienie + HARDEST HIT"
+          - { label: "KONFERENCJA", value: "KONFERENCJA" }
+          - { label: "POZORANT", value: "POZORANT" }
+          - { label: "BEHAWIORYSTA", value: "BEHAWIORYSTA" }
+          - { label: "WETERYNARZ", value: "WETERYNARZ" }
+          - { label: "LIDER GRUPY", value: "LIDER GRUPY" }
+          - { label: "AMBASADOR", value: "AMBASADOR" }
+        hint: "📍 Użyj gdy filtr ma obejmować KILKA specjalizacji naraz (any_of). ✏️ Przykład: K9 OBRONA + HARDEST HIT"
       - name: order
         label: "🔢 Kolejność"
         widget: number
@@ -1486,7 +1488,7 @@ collections:
         hint: "Filtr i kolor akcentu karty na stronie głównej."
         required: true
         options:
-          - "K9"
+          - "K9 OBRONA"
           - "TCCC"
           - "DRONY"
           - "KONFERENCJA"
@@ -2648,18 +2650,19 @@ collections:
         multiple: true
         required: false
         options:
-          - { label: "K9 — Gryzienie", value: "K9-Gryzienie" }
-          - { label: "K9 — Detekcja", value: "K9-Detekcja" }
-          - { label: "K9 — SAR", value: "K9-SAR" }
+          - { label: "K9 OBRONA", value: "K9 OBRONA" }
+          - { label: "K9 DETEKCJA", value: "K9 DETEKCJA" }
+          - { label: "K9 SAR/TROPIENIE", value: "K9 SAR/TROPIENIE" }
           - { label: "TCCC", value: "TCCC" }
           - { label: "TCCC-K9", value: "TCCC-K9" }
-          - { label: "Drony", value: "Drony" }
+          - { label: "DRONY", value: "DRONY" }
           - { label: "HARDEST HIT", value: "HARDEST HIT" }
-          - { label: "Konferencja", value: "Konferencja" }
-          - { label: "Pozorant", value: "Pozorant" }
-          - { label: "Behawiorysta", value: "Behawiorysta" }
-          - { label: "Weterynarz", value: "Weterynarz" }
-          - { label: "Instruktor", value: "Instruktor" }
+          - { label: "KONFERENCJA", value: "KONFERENCJA" }
+          - { label: "POZORANT", value: "POZORANT" }
+          - { label: "BEHAWIORYSTA", value: "BEHAWIORYSTA" }
+          - { label: "WETERYNARZ", value: "WETERYNARZ" }
+          - { label: "LIDER GRUPY", value: "LIDER GRUPY" }
+          - { label: "AMBASADOR", value: "AMBASADOR" }
         hint: "📍 Gdzie: /instruktorzy → kolorowe badge. ⚠️ Wybierz z listy — wartości MUSZĄ pasować do filtrów. ✏️ Wybierz wszystkie specjalizacje instruktora"
       - { name: "instructor_type", label: "Typ instruktora", widget: "string", required: false }
       - { name: "languages", label: "J?zyki", widget: "list", required: false, hint: "Lista j?zyk?w, np. [PL, EN]." }

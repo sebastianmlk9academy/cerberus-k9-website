@@ -3,7 +3,7 @@ name: "Delegacja Marinha Portuguesa"
 role: "Instruktor K9 Marynarki Wojennej"
 country: "Portugalia"
 countryCode: "PT"
-specializations: ["K9 Detekcja", "K9 Gryzienie"]
+specializations: ["K9 DETEKCJA", "K9 OBRONA"]
 unit: "Marinha Portuguesa — NATO K9"
 bioShort: "Oficjalna delegacja Marynarki Wojennej Portugalia. Specjaliści NATO K9 w operacjach morskich."
 bioFull: "Oficjalna delegacja Marynarki Wojennej Portugalia — NATO K9. Specjaliści w prowadzeniu psów K9 w operacjach morskich i patrolowaniu instalacji krytycznych NATO."

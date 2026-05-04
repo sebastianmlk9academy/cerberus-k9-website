@@ -162,9 +162,9 @@ export default function InstructorsGrid({
     ko: { all: '전체', decoy: '디코이', noResults: '강사 없음', loading: '로딩 중...' },
   }[lang] ?? { all: 'ALL', decoy: 'DECOY', noResults: 'NO INSTRUCTORS FOUND', loading: 'LOADING...' };
   const filterLabelsByLang: Record<string, Record<string, string>> = {
-    pl: { all: 'WSZYSCY', k9: 'K9', tccc: 'TCCC',
+    pl: { all: 'WSZYSCY', k9: 'K9 OBRONA', tccc: 'TCCC',
       drones: 'DRONY', conference: 'KONFERENCJA', decoy: 'POZORANT' },
-    en: { all: 'ALL', k9: 'K9', tccc: 'TCCC',
+    en: { all: 'ALL', k9: 'K9 DEFENSE', tccc: 'TCCC',
       drones: 'DRONES', conference: 'CONFERENCE', decoy: 'DECOY' },
     de: { all: 'ALLE', k9: 'K9', tccc: 'TCCC',
       drones: 'DROHNEN', conference: 'KONFERENZ', decoy: 'FIGURANT' },
