@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type CSSProperties } from 'react';
 import { ChevronDown } from 'lucide-react';
 
 const TAG_STYLES: Record<string, { bg: string; border: string; color: string }> = {
@@ -296,6 +296,8 @@ interface InstructorCardProps {
   module?: string;
   schedule?: string;
   linkedinUrl?: string;
+  socialFacebook?: string;
+  socialInstagram?: string;
   placeholderPhoto?: string;
   lang?: string;
 }
@@ -311,54 +313,63 @@ export default function InstructorCard({
   module,
   schedule,
   linkedinUrl,
+  socialFacebook,
+  socialInstagram,
   placeholderPhoto,
   lang,
 }: InstructorCardProps) {
   const [expanded, setExpanded] = useState(false);
   const fallbackPhoto = placeholderPhoto ?? '/images/instruktorzy/test_instruktor_photo.webp';
   const photoSrc = photo || fallbackPhoto;
+  const socialLinkStyle: CSSProperties = {
+    fontFamily: 'Rajdhani, sans-serif',
+    fontSize: '9px',
+    letterSpacing: '2px',
+    marginTop: '4px',
+    display: 'block',
+  };
   const cardCopy: Record<string, {
     expand: string; collapse: string;
-    module: string; schedule: string; linkedin: string;
+    module: string; schedule: string; linkedin: string; facebook: string; instagram: string;
   }> = {
     pl: { expand: 'ROZWIŃ BIO', collapse: 'ZWIŃ BIO',
-      module: 'MODUŁ:', schedule: 'HARMONOGRAM:', linkedin: 'LINKEDIN →' },
+      module: 'MODUŁ:', schedule: 'HARMONOGRAM:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
     en: { expand: 'EXPAND BIO', collapse: 'COLLAPSE BIO',
-      module: 'MODULE:', schedule: 'SCHEDULE:', linkedin: 'LINKEDIN →' },
+      module: 'MODULE:', schedule: 'SCHEDULE:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
     de: { expand: 'BIO ERWEITERN', collapse: 'BIO SCHLIESSEN',
-      module: 'MODUL:', schedule: 'ZEITPLAN:', linkedin: 'LINKEDIN →' },
+      module: 'MODUL:', schedule: 'ZEITPLAN:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
     fr: { expand: 'DÉVELOPPER LA BIO', collapse: 'RÉDUIRE LA BIO',
-      module: 'MODULE :', schedule: 'PROGRAMME :', linkedin: 'LINKEDIN →' },
+      module: 'MODULE :', schedule: 'PROGRAMME :', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
     cs: { expand: 'ROZBALIT BIO', collapse: 'SBALIT BIO',
-      module: 'MODUL:', schedule: 'ROZVRH:', linkedin: 'LINKEDIN →' },
+      module: 'MODUL:', schedule: 'ROZVRH:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
     sk: { expand: 'ROZBALIŤ BIO', collapse: 'ZBALIŤ BIO',
-      module: 'MODUL:', schedule: 'ROZVRH:', linkedin: 'LINKEDIN →' },
+      module: 'MODUL:', schedule: 'ROZVRH:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
     hu: { expand: 'BIO MEGJELENÍTÉSE', collapse: 'BIO ELREJTÉSE',
-      module: 'MODUL:', schedule: 'MENETREND:', linkedin: 'LINKEDIN →' },
+      module: 'MODUL:', schedule: 'MENETREND:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
     hr: { expand: 'PROŠIRI BIO', collapse: 'SAŽMI BIO',
-      module: 'MODUL:', schedule: 'RASPORED:', linkedin: 'LINKEDIN →' },
+      module: 'MODUL:', schedule: 'RASPORED:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
     sl: { expand: 'RAZŠIRI BIO', collapse: 'STRNI BIO',
-      module: 'MODUL:', schedule: 'URNIK:', linkedin: 'LINKEDIN →' },
+      module: 'MODUL:', schedule: 'URNIK:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
     lt: { expand: 'IŠSKLEISTI BIO', collapse: 'SUTRAUKTI BIO',
-      module: 'MODULIS:', schedule: 'TVARKARAŠTIS:', linkedin: 'LINKEDIN →' },
+      module: 'MODULIS:', schedule: 'TVARKARAŠTIS:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
     lv: { expand: 'IZVĒRST BIO', collapse: 'SAKĻAUT BIO',
-      module: 'MODULIS:', schedule: 'GRAFIKS:', linkedin: 'LINKEDIN →' },
+      module: 'MODULIS:', schedule: 'GRAFIKS:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
     no: { expand: 'VIS BIO', collapse: 'SKJUL BIO',
-      module: 'MODUL:', schedule: 'TIDSPLAN:', linkedin: 'LINKEDIN →' },
+      module: 'MODUL:', schedule: 'TIDSPLAN:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
     sv: { expand: 'VISA BIO', collapse: 'DÖLJ BIO',
-      module: 'MODUL:', schedule: 'SCHEMA:', linkedin: 'LINKEDIN →' },
+      module: 'MODUL:', schedule: 'SCHEMA:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
     nl: { expand: 'BIO UITKLAPPEN', collapse: 'BIO INKLAPPEN',
-      module: 'MODULE:', schedule: 'SCHEMA:', linkedin: 'LINKEDIN →' },
+      module: 'MODULE:', schedule: 'SCHEMA:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
     es: { expand: 'AMPLIAR BIO', collapse: 'CONTRAER BIO',
-      module: 'MÓDULO:', schedule: 'HORARIO:', linkedin: 'LINKEDIN →' },
+      module: 'MÓDULO:', schedule: 'HORARIO:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
     pt: { expand: 'EXPANDIR BIO', collapse: 'RECOLHER BIO',
-      module: 'MÓDULO:', schedule: 'HORÁRIO:', linkedin: 'LINKEDIN →' },
+      module: 'MÓDULO:', schedule: 'HORÁRIO:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
     ro: { expand: 'EXTINDE BIO', collapse: 'RESTRÂNGE BIO',
-      module: 'MODUL:', schedule: 'PROGRAM:', linkedin: 'LINKEDIN →' },
+      module: 'MODUL:', schedule: 'PROGRAM:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
     it: { expand: 'ESPANDI BIO', collapse: 'COMPRIMI BIO',
-      module: 'MODULO:', schedule: 'ORARIO:', linkedin: 'LINKEDIN →' },
+      module: 'MODULO:', schedule: 'ORARIO:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
     ko: { expand: '바이오 펼치기', collapse: '바이오 접기',
-      module: '모듈:', schedule: '일정:', linkedin: 'LINKEDIN →' },
+      module: '모듈:', schedule: '일정:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
   };
   const t = cardCopy[lang ?? 'pl'] ?? cardCopy['en'];
   const resolvedCountry =
@@ -587,16 +598,29 @@ export default function InstructorCard({
                   href={linkedinUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{
-                    fontFamily: 'Rajdhani, sans-serif',
-                    fontSize: '9px',
-                    letterSpacing: '2px',
-                    color: '#3A7ACA',
-                    marginTop: '4px',
-                    display: 'block',
-                  }}
+                  style={{ ...socialLinkStyle, color: '#3A7ACA' }}
                 >
                   {t.linkedin}
+                </a>
+              )}
+              {socialFacebook && (
+                <a
+                  href={socialFacebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ ...socialLinkStyle, color: '#6B8FD6' }}
+                >
+                  {t.facebook}
+                </a>
+              )}
+              {socialInstagram && (
+                <a
+                  href={socialInstagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ ...socialLinkStyle, color: '#C4922A' }}
+                >
+                  {t.instagram}
                 </a>
               )}
             </div>

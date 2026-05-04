@@ -16,6 +16,8 @@ interface Instructor {
   schedule?: string;
   languages?: string;
   linkedinUrl?: string;
+  socialFacebook?: string;
+  socialInstagram?: string;
   unit?: string;
 }
 
