@@ -47,7 +47,7 @@ export function programEntriesToHomepageCards(
 					: `DAY ${dn} · ${e.data.time_start}–${e.data.time_end}`;
 			return {
 				category: e.data.category,
-				title: e.data.title,
+				title: (e.data.title_pl ?? e.data.title ?? '').trim() || '—',
 				description: e.data.description?.trim() || '',
 				badge,
 				color,

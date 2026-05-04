@@ -906,19 +906,48 @@ const faq = defineCollection({
 	}),
 });
 
+/** Legacy frontmatter (`role`, `bio_short`) → pola zgodne z CMS Decap. */
+function mapTeamCmsKeys(raw: unknown): unknown {
+	if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return raw;
+	const o = { ...(raw as Record<string, unknown>) };
+	const str = (v: unknown) => (typeof v === 'string' ? v.trim() : '');
+	if (!str(o.role_pl)) o.role_pl = str(o.role);
+	if (!str(o.role) && str(o.role_pl)) o.role = str(o.role_pl);
+	if (!str(o.bio_short_pl)) o.bio_short_pl = str(o.bio_short);
+	if (!str(o.bio_short) && str(o.bio_short_pl)) o.bio_short = str(o.bio_short_pl);
+	if (o.active === undefined && o.isVisible !== undefined) {
+		const v = normalizeBoolish(o.isVisible);
+		if (typeof v === 'boolean') o.active = v;
+	}
+	return o;
+}
+
 const team = defineCollection({
 	loader: glob({ base: './src/content/team', pattern: '**/*.{md,mdx}' }),
-	schema: z.object({
-		name: z.string(),
-		role: z.string(),
-		photo: z.string().optional(),
-		unit: z.string().optional(),
-		bio_short: z.string(),
-		email: z.string().optional(),
-		linkedin: z.string().optional(),
-		active: z.boolean().optional().default(true),
-		order: z.number().optional().default(99),
-	}),
+	schema: z.preprocess(
+		mapTeamCmsKeys,
+		z.object({
+			name: z.string(),
+			role_pl: z.string(),
+			role_en: z.string().optional().default(''),
+			role: z.string().optional(),
+			bio_short_pl: z.string(),
+			bio_short_en: z.string().optional().default(''),
+			bio_short: z.string().optional(),
+			bio_full_pl: z.string().optional(),
+			bio_full_en: z.string().optional(),
+			photo: z.string().optional(),
+			unit: z.string().optional(),
+			email: z.string().optional(),
+			linkedin: z.string().optional(),
+			social_facebook: z.string().optional(),
+			social_linkedin: z.string().optional(),
+			social_instagram: z.string().optional(),
+			isVisible: z.boolean().optional().default(true),
+			active: z.boolean().optional().default(true),
+			order: z.number().optional().default(99),
+		}),
+	),
 });
 
 const galleryCategoryValues = [

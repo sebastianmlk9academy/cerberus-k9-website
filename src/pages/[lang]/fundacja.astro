@@ -57,10 +57,18 @@ const members = teamMembers
 	.sort((a,b) => (a.data.order ?? 99) - (b.data.order ?? 99))
 	.map((m) => ({
 		name: m.data.name,
-		role: m.data.role,
+		role:
+			lang === 'pl'
+				? (m.data.role_pl ?? m.data.role ?? '')
+				: (m.data.role_en?.trim() ? m.data.role_en : (m.data.role_pl ?? m.data.role ?? '')),
 		photo: m.data.photo ?? s?.instructor_placeholder_photo ?? '',
 		unit: m.data.unit ?? '',
-		bioShort: m.data.bio_short,
+		bioShort:
+			lang === 'pl'
+				? (m.data.bio_short_pl ?? m.data.bio_short ?? '')
+				: (m.data.bio_short_en?.trim()
+						? m.data.bio_short_en
+						: (m.data.bio_short_pl ?? m.data.bio_short ?? '')),
 		email: m.data.email ?? '',
 	}));
 ---

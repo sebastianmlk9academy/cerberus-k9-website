@@ -50,7 +50,9 @@ export function programEntriesToAgendaItems(
 	lang: string = 'pl',
 	categories?: AgendaCategory[],
 ): { days: DaySchedule[]; categoryMeta: Record<string, { color: string; label: string }> } {
-	const activeEntries = entries.filter((entry) => entry.data.active !== false);
+	const activeEntries = entries.filter(
+		(entry) => entry.data.active !== false && entry.data.isVisible !== false,
+	);
 	const sorted = [...activeEntries].sort((a, b) => {
 		const daySort = (a.data.day ?? '').localeCompare(b.data.day ?? '');
 		if (daySort !== 0) return daySort;
@@ -76,7 +78,7 @@ export function programEntriesToAgendaItems(
 			id: entry.id,
 			start: normalizeTime(entry.data.time_start, '09:00'),
 			end: normalizeTime(entry.data.time_end, '10:00'),
-			title: entry.data.title?.trim() || '—',
+			title: (entry.data.title_pl ?? entry.data.title)?.trim() || '—',
 			location: entry.data.location?.trim() || '—',
 			locationMapUrl: entry.data.locationMapUrl ?? '',
 			category: categoryFromCms ?? normalizeCategory(effectiveCategory),

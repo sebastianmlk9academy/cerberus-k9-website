@@ -29,7 +29,13 @@ const instrCopy = instructorsPageByLang[lang] ?? instructorsPageByLang['pl'];
 
 const instructors = (await getCollection('instruktorzy'))
 	.filter((e) => (e.data.confirmed ?? 'confirmed') !== 'hidden')
-	.map((entry) => ({ ...entry.data }))
+	.map((entry) => {
+		const d = entry.data;
+		return {
+			...d,
+			role: d.role ?? (d as { role_pl?: string }).role_pl ?? '',
+		};
+	})
 	.sort((a, b) => a.order - b.order);
 
 const rawIF = await getCollection('instructor_filters');

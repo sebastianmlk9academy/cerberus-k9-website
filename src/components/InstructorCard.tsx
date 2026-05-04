@@ -286,6 +286,7 @@ const countryNames: Record<string, Record<string, string>> = {
 
 interface InstructorCardProps {
   name: string;
+  role?: string;
   country: string;
   countryCode: string;
   specializations: string[];
@@ -304,6 +305,7 @@ interface InstructorCardProps {
 
 export default function InstructorCard({
   name,
+  role,
   country,
   countryCode,
   specializations,
@@ -437,6 +439,22 @@ export default function InstructorCard({
         >
           {name}
         </h3>
+
+        {role?.trim() ? (
+          <p
+            style={{
+              flexShrink: 0,
+              fontFamily: 'Rajdhani, sans-serif',
+              fontSize: '10px',
+              letterSpacing: '2px',
+              color: '#9AA5B0',
+              margin: '0 0 8px 0',
+              lineHeight: 1.35,
+            }}
+          >
+            {role.trim()}
+          </p>
+        ) : null}
 
         {/* Country name with flag */}
         <p

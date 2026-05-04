@@ -4,6 +4,7 @@ import type { Lang } from '../i18n/utils';
 
 interface Instructor {
   name: string;
+  role?: string;
   country: string;
   countryCode: string;
   specializations: string[];
