@@ -127,7 +127,7 @@ const scheduleModules = programEntries
 		const catKey = (p.data.category ?? '').trim().toUpperCase();
 		return {
 			id: p.id,
-			title_pl: p.data.title_pl,
+			title_pl: p.data.title_pl ?? p.data.title ?? '',
 			title:
 				(lang === 'pl'
 					? (p.data.title_pl ?? p.data.title)

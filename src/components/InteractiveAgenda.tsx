@@ -944,7 +944,10 @@ export default function InteractiveAgenda({
   const googleCalendarMenuLabel = uiLabels?.googleCalendar ?? "GOOGLE CALENDAR";
   const appleIcalMenuLabel = uiLabels?.appleIcal ?? "APPLE / ICAL";
   const DAYS_TO_USE = (items && items.length > 0) ? items : FALLBACK_AGENDA_ITEMS;
-  const ACTIVE_CATEGORY_META = categoryMeta ?? CATEGORY_META;
+  const ACTIVE_CATEGORY_META = (categoryMeta ?? CATEGORY_META) as Record<
+    string,
+    { color: string; label: string }
+  >;
   const ACTIVE_FILTERS = filters ?? FILTERS;
   const translatedFilters = ACTIVE_FILTERS.map((f) =>
     f.key === "ALL"

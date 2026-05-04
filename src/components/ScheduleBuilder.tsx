@@ -33,14 +33,14 @@ function audienceTokens(audience: string): string[] {
 		.filter(Boolean)
 }
 
-function moduleDisplayTitle(m: ModuleItem): string {
-	return (m.title_pl ?? m.title ?? "").trim()
+function moduleDisplayTitle(module: ModuleItem): string {
+	return (module.title_pl ?? module.title ?? "").trim()
 }
 
-function matchesAudience(m: ModuleItem, selectedType: string | null): boolean {
+function matchesAudience(module: ModuleItem, selectedType: string | null): boolean {
 	if (!selectedType) return false
 	const sel = selectedType.trim().toLowerCase()
-	const parts = audienceTokens(m.audience)
+	const parts = audienceTokens(module.audience)
 	return parts.some((p) => p === "wszyscy" || p === sel)
 }
 
@@ -87,16 +87,16 @@ function generateICS(modules: ModuleItem[], eventName: string, lang: string): st
 		"METHOD:PUBLISH",
 		`X-WR-CALNAME:${icsEscape(eventName)}`,
 	]
-	for (const m of modules) {
-		const uid = `${m.id}-${icsDateTime(m.day, m.timeStart)}@cerberusk9.org`
+	for (const module of modules) {
+		const uid = `${module.id}-${icsDateTime(module.day, module.timeStart)}@cerberusk9.org`
 		lines.push("BEGIN:VEVENT", `UID:${uid}`)
-		lines.push(`DTSTAMP:${icsDateTime(m.day, m.timeStart)}`)
-		lines.push(`DTSTART:${icsDateTime(m.day, m.timeStart)}`)
-		lines.push(`DTEND:${icsDateTime(m.day, m.timeEnd)}`)
-		lines.push(`SUMMARY:${icsEscape(moduleDisplayTitle(m))}`)
-		lines.push(`LOCATION:${icsEscape(m.location || "")}`)
+		lines.push(`DTSTAMP:${icsDateTime(module.day, module.timeStart)}`)
+		lines.push(`DTSTART:${icsDateTime(module.day, module.timeStart)}`)
+		lines.push(`DTEND:${icsDateTime(module.day, module.timeEnd)}`)
+		lines.push(`SUMMARY:${icsEscape(moduleDisplayTitle(module))}`)
+		lines.push(`LOCATION:${icsEscape(module.location || "")}`)
 		lines.push(
-			`DESCRIPTION:${icsEscape(`${m.category}${m.maxParticipants != null ? ` · max ${m.maxParticipants}` : ""}`)}`,
+			`DESCRIPTION:${icsEscape(`${module.category}${module.maxParticipants != null ? ` · max ${module.maxParticipants}` : ""}`)}`,
 		)
 		lines.push("END:VEVENT")
 	}
@@ -136,7 +136,7 @@ export function ScheduleBuilder({
 	const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set())
 
 	const sortedDayKeys = useMemo(() => {
-		const days = Array.from(new Set(modules.map((m) => m.day))).sort()
+		const days = Array.from(new Set(modules.map((module) => module.day))).sort()
 		if (days.length === 0 && eventDateStart) {
 			return [eventDateStart, eventDateEnd].filter(Boolean) as string[]
 		}
@@ -145,7 +145,7 @@ export function ScheduleBuilder({
 
 	const filteredModules = useMemo(() => {
 		if (!selectedType) return [] as ModuleItem[]
-		return modules.filter((m) => matchesAudience(m, selectedType))
+		return modules.filter((module) => matchesAudience(module, selectedType))
 	}, [modules, selectedType])
 
 	const toggleId = (id: string) => {
@@ -158,7 +158,7 @@ export function ScheduleBuilder({
 	}
 
 	const selectedModules = useMemo(
-		() => modules.filter((m) => selectedIds.has(m.id)),
+		() => modules.filter((module) => selectedIds.has(module.id)),
 		[modules, selectedIds],
 	)
 
@@ -244,26 +244,26 @@ export function ScheduleBuilder({
 						<p className="text-sm text-muted">{t.selectTypeFirst}</p>
 					) : (
 						<ul className="grid gap-2 sm:grid-cols-2">
-							{filteredModules.map((m) => {
-								const checked = selectedIds.has(m.id)
+							{filteredModules.map((module) => {
+								const checked = selectedIds.has(module.id)
 								return (
 									<li
-										key={m.id}
+										key={module.id}
 										className="flex items-start gap-3 rounded border border-navyBorder bg-navyDarkest/60 p-3"
 									>
 										<input
-											id={m.id}
+											id={module.id}
 											type="checkbox"
 											checked={checked}
-											onChange={() => toggleId(m.id)}
+											onChange={() => toggleId(module.id)}
 											className="mt-1 h-4 w-4 accent-red"
 										/>
-										<label htmlFor={m.id} className="cursor-pointer font-[family-name:var(--font-rajdhani)] text-sm text-bone">
-											<span className="font-bold text-gold">{m.category}</span> · {moduleDisplayTitle(m)}
+										<label htmlFor={module.id} className="cursor-pointer font-[family-name:var(--font-rajdhani)] text-sm text-bone">
+											<span className="font-bold text-gold">{module.category}</span> · {moduleDisplayTitle(module)}
 											<span className="block text-xs text-muted">
-												{m.day} {m.timeStart}–{m.timeEnd}
-												{m.location ? ` · ${m.location}` : ""}
-												{m.maxParticipants != null ? ` · ${t.maxParticipants} ${m.maxParticipants}` : ""}
+												{module.day} {module.timeStart}–{module.timeEnd}
+												{module.location ? ` · ${module.location}` : ""}
+												{module.maxParticipants != null ? ` · ${t.maxParticipants} ${module.maxParticipants}` : ""}
 											</span>
 										</label>
 									</li>
@@ -278,7 +278,7 @@ export function ScheduleBuilder({
 					<div className="grid gap-6 md:grid-cols-2">
 						{sortedDayKeys.slice(0, 2).map((day, dayIdx) => {
 							const label = t.dayLabel(dayIdx + 1)
-							const dayMods = selectedModules.filter((m) => m.day === day)
+							const dayMods = selectedModules.filter((module) => module.day === day)
 							return (
 								<div key={day} className="rounded border border-navyBorder bg-navyDarkest/40 p-4">
 									<h3 className="mb-3 border-b border-navyBorder pb-2 font-[family-name:var(--font-bebas-neue)] text-xl text-bone">
@@ -290,22 +290,22 @@ export function ScheduleBuilder({
 										<ul className="space-y-2">
 											{[...dayMods]
 												.sort((a, b) => a.timeStart.localeCompare(b.timeStart))
-												.map((m) => {
-													const hasConflict = conflictIds.has(m.id)
+												.map((module) => {
+													const hasConflict = conflictIds.has(module.id)
 													return (
 														<li
-															key={m.id}
+															key={module.id}
 															className={`rounded border border-l-4 px-3 py-2 font-[family-name:var(--font-rajdhani)] text-sm text-bone ${
 																hasConflict ? "border-red border-l-red bg-red/10" : "border-navyBorder"
 															}`}
 															style={
-																!hasConflict ? ({ borderLeftColor: m.color } satisfies CSSProperties) : undefined
+																!hasConflict ? ({ borderLeftColor: module.color } satisfies CSSProperties) : undefined
 															}
 														>
 															<span className="text-gold">
-																{m.timeStart}–{m.timeEnd}
+																{module.timeStart}–{module.timeEnd}
 															</span>{" "}
-															{moduleDisplayTitle(m)}
+															{moduleDisplayTitle(module)}
 														</li>
 													)
 												})}

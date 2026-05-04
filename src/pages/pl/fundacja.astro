@@ -60,9 +60,11 @@ const members = teamMembers
 	.map((m) => ({
 		name: m.data.name,
 		role: m.data.role_pl ?? m.data.role ?? '',
+		role_pl: m.data.role_pl,
 		photo: m.data.photo ?? s?.instructor_placeholder_photo ?? '',
 		unit: m.data.unit ?? '',
 		bioShort: m.data.bio_short_pl ?? m.data.bio_short ?? '',
+		bio_short_pl: m.data.bio_short_pl,
 		email: m.data.email ?? '',
 	}));
 ---

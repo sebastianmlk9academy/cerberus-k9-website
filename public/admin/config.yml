@@ -2988,13 +2988,6 @@ collections:
         widget: "string"
         hint: "📍 Gdzie: /partnerzy → nazwa na karcie, pasek logo. ⚠️ Oficjalna nazwa firmy/organizacji. Max 60 znaków. ✏️ Przykład: Tactical Equipment Polska Sp. z o.o."
         required: true
-      - { name: "country", label: "Kraj partnera", widget: "string",
-          required: false,
-          hint: "📍 Gdzie: przyszłe filtry geograficzne. ⚠️ Pełna nazwa. ✏️ Przykład: Polska" }
-      - { name: "country_code", label: "Kod kraju", widget: "string",
-          required: false,
-          pattern: ["^[A-Z]{2}$", "Dwie wielkie litery"],
-          hint: "📍 Gdzie: przyszłe filtry geograficzne. ⚠️ 2 WIELKIE LITERY. ✏️ Przykład: PL" }
       - label: "🏷️ Typ partnera"
         name: "type"
         widget: "select"
@@ -3055,6 +3048,12 @@ collections:
         hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
         required: false
         default: true
+      - { name: "country", label: "Kraj partnera", widget: "string",
+          required: false,
+          hint: "📍 Gdzie: przyszłe filtry geograficzne. ✏️ Przykład: Polska" }
+      - { name: "country_code", label: "Kod kraju", widget: "string",
+          required: false, pattern: ["^[A-Z]{2}$", "Dwie wielkie litery"],
+          hint: "📍 Gdzie: przyszłe filtry geograficzne. ⚠️ 2 WIELKIE LITERY. ✏️ Przykład: PL" }
       - name: "needs_review"
         label: "⏳ Wymaga akceptacji przed publikacją"
         widget: "boolean"

@@ -25,21 +25,21 @@ try {
 	visibleInstructors = all
 		.filter((e) => (e.data.confirmed ?? 'confirmed') !== 'hidden')
 		.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
-		.map(i => ({
+		.map((i) => ({
 			name: i.data.name,
 			role: i.data.role ?? (i.data as { role_pl?: string }).role_pl ?? '',
 			country: i.data.country,
-			countryCode: i.data.countryCode,
+			countryCode: i.data.countryCode ?? (i.data as { country_code?: string }).country_code ?? '',
 			specializations: i.data.specializations ?? [],
-			bioShort: i.data.bioShort ?? '',
-			bioFull: i.data.bioFull ?? '',
+			bioShort: i.data.bioShort ?? (i.data as { bio_short_pl?: string }).bio_short_pl ?? '',
+			bioFull: i.data.bioFull ?? (i.data as { bio_full_pl?: string }).bio_full_pl ?? '',
 			photo: i.data.photo ?? '',
 			order: i.data.order ?? 99,
-			type: i.data.type ?? 'Instruktor',
+			type: i.data.type ?? (i.data as { instructor_type?: string }).instructor_type ?? 'Instruktor',
 			module: i.data.module ?? '',
 			schedule: i.data.schedule ?? '',
 			languages: i.data.languages ?? 'Polski',
-			linkedinUrl: i.data.linkedinUrl ?? '',
+			linkedinUrl: i.data.linkedinUrl ?? (i.data as { linkedin_url?: string }).linkedin_url ?? '',
 			socialFacebook: i.data.socialFacebook ?? '',
 			socialInstagram: i.data.socialInstagram ?? '',
 			unit: i.data.unit ?? '',

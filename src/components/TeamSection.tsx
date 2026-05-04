@@ -1,9 +1,11 @@
 interface TeamMember {
     rank: string;
     role: string;
+    role_pl?: string;
     name: string;
     military: string;
     bio: string;
+    bio_short_pl?: string;
     initials: string;
     photo?: string;
   }
@@ -11,9 +13,11 @@ interface TeamMember {
 interface TeamMemberInput {
   name: string;
   role: string;
+  role_pl?: string;
   photo?: string;
   unit?: string;
   bioShort: string;
+  bio_short_pl?: string;
   email?: string;
 }
 
@@ -155,7 +159,7 @@ const teamCopy: Record<string, { sectionTag: string; role1: string; role2: strin
                 whiteSpace: "nowrap",
               }}
             >
-              {member.role}
+              {member.role_pl ?? member.role ?? ''}
             </div>
           </div>
           <div
@@ -203,7 +207,7 @@ const teamCopy: Record<string, { sectionTag: string; role1: string; role2: strin
               alignSelf: "start",
             }}
           >
-            {member.bio}
+            {member.bio_short_pl ?? member.bio ?? ''}
           </p>
         </div>
       </article>
@@ -215,10 +219,12 @@ const teamCopy: Record<string, { sectionTag: string; role1: string; role2: strin
     const members = membersProp && membersProp.length > 0
       ? membersProp.map((m, idx) => ({
           rank: String(idx + 1).padStart(2, "0"),
-          role: m.role,
+          role: m.role ?? '',
+          role_pl: m.role_pl,
           name: m.name,
           military: m.unit ?? "",
-          bio: m.bioShort,
+          bio: m.bioShort ?? '',
+          bio_short_pl: m.bio_short_pl,
           initials: m.name.split(" ").map((part) => part[0] ?? "").join("").slice(0, 2).toUpperCase(),
           photo: m.photo ?? "",
         }))
