@@ -97,6 +97,11 @@ export function LocationsSection({ lang, copy, locations }: LocationsSectionProp
       status: safeCopy.statusConfirmed,
       image: undefined,
     }));
+  const gridColsClass =
+    resolvedLocations.length >= 5
+      ? "grid grid-cols-5 gap-[1px]"
+      : "grid grid-cols-2 lg:grid-cols-4 gap-[1px]";
+  const useSingleRowFive = resolvedLocations.length >= 5;
   return (
     <section
       className="w-full"
@@ -139,22 +144,42 @@ export function LocationsSection({ lang, copy, locations }: LocationsSectionProp
         className="py-[10px]"
         style={{ backgroundColor: "#253344" }}
       >
-        <div
-          className="grid grid-cols-2 lg:grid-cols-4 gap-[1px]"
-          style={{ backgroundColor: "#253344" }}
-        >
-          {resolvedLocations.map((loc, i) => (
-            <LocationBlock
-              key={`${i + 1}-${loc.name}`}
-              number={String(i + 1).padStart(2, "0")}
-              name={loc.name}
-              description={loc.description}
-              detail={loc.detail}
-              status={loc.status}
-              image={loc.image}
-            />
-          ))}
-        </div>
+        {useSingleRowFive ? (
+          <div
+            className="flex w-full flex-nowrap gap-[1px]"
+            style={{ backgroundColor: "#253344" }}
+          >
+            {resolvedLocations.map((loc, i) => (
+              <div key={`${i + 1}-${loc.name}`} className="min-w-0 flex-1">
+                <LocationBlock
+                  number={String(i + 1).padStart(2, "0")}
+                  name={loc.name}
+                  description={loc.description}
+                  detail={loc.detail}
+                  status={loc.status}
+                  image={loc.image}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div
+            className={gridColsClass}
+            style={{ backgroundColor: "#253344" }}
+          >
+            {resolvedLocations.map((loc, i) => (
+              <LocationBlock
+                key={`${i + 1}-${loc.name}`}
+                number={String(i + 1).padStart(2, "0")}
+                name={loc.name}
+                description={loc.description}
+                detail={loc.detail}
+                status={loc.status}
+                image={loc.image}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )
