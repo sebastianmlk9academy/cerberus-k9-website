@@ -11,7 +11,7 @@ export const MODULE_CATEGORY_KEYS = [
 	'Konferencja',
 	'BREAK',
 	'CEREMONIA',
-	'Inne',
+	'SYMULACJA',
 ] as const;
 
 export type ModuleCategoryKey = (typeof MODULE_CATEGORY_KEYS)[number];
@@ -42,7 +42,7 @@ export const CATEGORY_META: Record<ModuleCategoryKey, { color: string; label: st
 	Konferencja: { color: '#2A6A3A', label: 'KONFERENCJA' },
 	BREAK: { color: '#3A4A5A', label: 'PRZERWA' },
 	CEREMONIA: { color: '#5A3A8A', label: 'CEREMONIA' },
-	Inne: { color: '#5A6A7A', label: 'INNE' },
+	SYMULACJA: { color: '#5A6A7A', label: 'SYMULACJA' },
 };
 
 const LEGACY_CATEGORY_MAP: Record<string, ModuleCategoryKey> = {
@@ -61,6 +61,7 @@ const LEGACY_CATEGORY_MAP: Record<string, ModuleCategoryKey> = {
 	PIERWSZAPOMOC: 'PIERWSZA POMOC',
 	'PIERWSZA POMOC': 'PIERWSZA POMOC',
 	FIRSTAID: 'PIERWSZA POMOC',
+	INNE: 'SYMULACJA',
 };
 
 function isModuleCategoryKey(s: string): s is ModuleCategoryKey {
@@ -75,7 +76,7 @@ export function normalizeCategory(raw: string): ModuleCategoryKey {
 	if (LEGACY_CATEGORY_MAP[upper]) return LEGACY_CATEGORY_MAP[upper];
 	const ci = MODULE_CATEGORY_KEYS.find((k) => k.toLowerCase() === t.toLowerCase());
 	if (ci) return ci;
-	return 'Inne';
+	return 'SYMULACJA';
 }
 
 export function buildCategoryMeta(

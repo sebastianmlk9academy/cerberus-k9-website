@@ -66,7 +66,7 @@ const ENUM_MODULE_CATEGORIES = [
 	'Konferencja',
 	'BREAK',
 	'CEREMONIA',
-	'Inne',
+	'SYMULACJA',
 ] as const;
 
 const ENUM_FAQ_CATEGORIES = [

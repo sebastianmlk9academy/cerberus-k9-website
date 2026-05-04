@@ -43,7 +43,7 @@ const AGENDA_CATEGORY_KEY_OPTIONS = [
   { label: 'Konferencja', value: 'Konferencja' },
   { label: 'Przerwa (BREAK)', value: 'BREAK' },
   { label: 'Ceremonia', value: 'CEREMONIA' },
-  { label: 'Inne', value: 'Inne' },
+  { label: 'SYMULACJA', value: 'SYMULACJA' },
 ];
 
 const imgHint = (w, h, where) =>
