@@ -1,5 +1,6 @@
 import { useState, type CSSProperties } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { tokens } from '../styles/tokens';
 
 const TAG_STYLES: Record<string, { bg: string; border: string; color: string }> = {
   'K9 Gryzienie': { bg: 'rgba(196,146,42,0.15)', border: 'rgba(196,146,42,0.4)', color: '#C4922A' },
@@ -443,11 +444,10 @@ export default function InstructorCard({
         {role?.trim() ? (
           <p
             style={{
-              flexShrink: 0,
-              fontFamily: 'Rajdhani, sans-serif',
-              fontSize: '10px',
+              color: tokens.text.muted,
+              fontSize: '12px',
               letterSpacing: '2px',
-              color: '#9AA5B0',
+              fontFamily: 'var(--font-rajdhani)',
               margin: '0 0 8px 0',
               lineHeight: 1.35,
             }}
