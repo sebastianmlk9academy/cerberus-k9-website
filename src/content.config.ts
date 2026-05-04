@@ -112,13 +112,22 @@ const i18n_strings = defineCollection({
 });
 
 function normalizeInstructorSpecializations(val: unknown): string[] {
+	if (typeof val === 'string') {
+		return val
+			.split(',')
+			.map((s) => s.trim())
+			.filter(Boolean);
+	}
 	if (!Array.isArray(val)) return [];
 	return val
 		.map((x) => {
-			if (typeof x === 'string') return x;
-			if (x && typeof x === 'object' && 'spec' in (x as Record<string, unknown>)) {
-				const s = (x as { spec?: unknown }).spec;
-				return typeof s === 'string' ? s : '';
+			if (typeof x === 'string') return x.trim();
+			if (x && typeof x === 'object') {
+				const o = x as Record<string, unknown>;
+				for (const k of ['spec', 'value', 'name', 'label', 'title'] as const) {
+					const v = o[k];
+					if (typeof v === 'string' && v.trim()) return v.trim();
+				}
 			}
 			return '';
 		})
@@ -156,40 +165,96 @@ function normalizeInstructorLanguages(val: unknown): string | undefined {
 	return undefined;
 }
 
+/** Ścieżka w `public/` musi zaczynać się od `/`, inaczej przeglądarka rozwiąże ją względem `/pl/instruktorzy/`. */
+function normalizeInstructorPhoto(val: unknown): string {
+	if (val == null || val === '') return '';
+	if (typeof val === 'string') {
+		const s = val.trim();
+		if (!s) return '';
+		if (/^https?:\/\//i.test(s) || s.startsWith('data:')) return s;
+		if (s.startsWith('/')) return s;
+		return `/${s.replace(/^\/+/, '')}`;
+	}
+	if (val && typeof val === 'object' && !Array.isArray(val)) {
+		const o = val as Record<string, unknown>;
+		for (const k of ['url', 'path', 'src'] as const) {
+			const inner = o[k];
+			if (typeof inner === 'string' && inner.trim()) return normalizeInstructorPhoto(inner);
+		}
+	}
+	return '';
+}
+
+/** YAML / CMS sometimes emits booleans as strings. */
+function normalizeBoolish(val: unknown): unknown {
+	if (val === undefined || val === null || val === '') return val;
+	if (typeof val === 'boolean') return val;
+	if (val === 'true' || val === '1' || val === 1) return true;
+	if (val === 'false' || val === '0' || val === 0) return false;
+	return val;
+}
+
+function normalizeInstructorOrder(val: unknown): number {
+	if (val === undefined || val === null || val === '') return 99;
+	const n = typeof val === 'number' ? val : Number(String(val).trim());
+	if (!Number.isFinite(n)) return 99;
+	return Math.trunc(n);
+}
+
 /** Netlify/Decap `public/admin/config.yml` uses snake_case; build uses camelCase. */
 function mapInstruktorCmsKeys(raw: unknown): unknown {
 	if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return raw;
 	const o = { ...(raw as Record<string, unknown>) };
-	if (o.countryCode == null && typeof o.country_code === 'string' && o.country_code.trim()) {
-		o.countryCode = o.country_code.trim().toUpperCase();
+	const str = (v: unknown) => (typeof v === 'string' ? v.trim() : '');
+
+	const existingCode = str(o.countryCode);
+	if (!existingCode && str(o.country_code)) {
+		o.countryCode = str(o.country_code).toUpperCase();
 	}
-	if (o.role == null) {
-		const pl = typeof o.role_pl === 'string' ? o.role_pl.trim() : '';
-		const en = typeof o.role_en === 'string' ? o.role_en.trim() : '';
+
+	const existingRole = str(o.role);
+	if (!existingRole) {
+		const pl = str(o.role_pl);
+		const en = str(o.role_en);
 		if (pl) o.role = pl;
 		else if (en) o.role = en;
 	}
-	if (o.bioShort == null) {
-		const pl = typeof o.bio_short_pl === 'string' ? o.bio_short_pl.trim() : '';
-		const en = typeof o.bio_short_en === 'string' ? o.bio_short_en.trim() : '';
+
+	if (!str(o.bioShort)) {
+		const pl = str(o.bio_short_pl);
+		const en = str(o.bio_short_en);
 		o.bioShort = pl || en || '';
 	}
-	if (o.bioFull == null) {
+	if (!str(o.bioFull)) {
 		const pl = typeof o.bio_full_pl === 'string' ? o.bio_full_pl : '';
 		const en = typeof o.bio_full_en === 'string' ? o.bio_full_en : '';
-		if (pl && en) o.bioFull = `${pl}\n\n---\n\n${en}`;
+		if (pl.trim() && en.trim()) o.bioFull = `${pl}\n\n---\n\n${en}`;
 		else o.bioFull = pl || en || '';
 	}
-	if (o.type == null && typeof o.instructor_type === 'string' && o.instructor_type.trim()) {
-		o.type = o.instructor_type.trim();
+
+	if (!str(o.type) && str(o.instructor_type)) {
+		o.type = str(o.instructor_type);
 	}
-	if (o.linkedinUrl == null) {
-		if (typeof o.linkedin_url === 'string' && o.linkedin_url.trim()) o.linkedinUrl = o.linkedin_url.trim();
-		else if (typeof o.social_linkedin === 'string' && o.social_linkedin.trim()) {
-			o.linkedinUrl = o.social_linkedin.trim();
-		}
+
+	if (!str(o.linkedinUrl)) {
+		const primary = str(o.linkedin_url);
+		const social = str(o.social_linkedin);
+		if (primary) o.linkedinUrl = primary;
+		else if (social) o.linkedinUrl = social;
 	}
-	if (o.active == null && typeof o.isVisible === 'boolean') o.active = o.isVisible;
+
+	if (str(o.social_facebook) && !str(o.socialFacebook)) {
+		o.socialFacebook = str(o.social_facebook);
+	}
+	if (str(o.social_instagram) && !str(o.socialInstagram)) {
+		o.socialInstagram = str(o.social_instagram);
+	}
+
+	if (o.active === undefined && o.isVisible !== undefined) {
+		const v = normalizeBoolish(o.isVisible);
+		if (v === true || v === false) o.active = v;
+		else if (typeof o.isVisible === 'boolean') o.active = o.isVisible;
+	}
 	return o;
 }
 
@@ -209,14 +274,18 @@ const instruktorzy = defineCollection({
 			languages: z.preprocess(normalizeInstructorLanguages, z.string().optional()),
 			type: z.string().optional(),
 			linkedinUrl: z.string().optional(),
-			showOnHomepage: z.boolean().optional(),
+			/** Z CMS (`social_facebook`); zachowane na przyszłe linki w karcie. */
+			socialFacebook: z.string().optional(),
+			/** Z CMS (`social_instagram`); zachowane na przyszłe linki w karcie. */
+			socialInstagram: z.string().optional(),
+			showOnHomepage: z.preprocess(normalizeBoolish, z.boolean().optional()),
 			confirmed: z.enum(['confirmed', 'pending', 'hidden']).optional().default('confirmed'),
-			needs_review: z.boolean().optional().default(false),
+			needs_review: z.preprocess(normalizeBoolish, z.boolean().optional().default(false)),
 			bioShort: z.string(),
 			bioFull: z.string(),
-			photo: z.string(),
-			order: z.number().int(),
-			active: z.boolean().optional().default(true),
+			photo: z.preprocess(normalizeInstructorPhoto, z.string()),
+			order: z.preprocess(normalizeInstructorOrder, z.number().int()),
+			active: z.preprocess(normalizeBoolish, z.boolean().optional().default(true)),
 		}),
 	),
 });

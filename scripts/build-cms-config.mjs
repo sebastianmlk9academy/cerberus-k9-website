@@ -639,6 +639,9 @@ const collections = [
     label: '🎖️ Instruktorzy — Profile',
     description: 'Karty instruktorów: zdjęcie, kraj, specjalizacje, bio. Dodaj wpis = nowa karta na /instruktorzy.',
     folder: 'src/content/instruktorzy',
+    // Decap: media_folder jest względem `folder` — bez ../ trafia do src/content/.../public/ (niewidoczne na stronie).
+    media_folder: '../../../public/uploads/instruktorzy',
+    public_folder: '/uploads/instruktorzy',
     create: true,
     slug: '{{slug}}',
     identifier_field: 'name',
@@ -689,7 +692,14 @@ const collections = [
         pattern: ['^.{1,200}$', 'Maksymalnie 200 znaków'],
       }),
       f('bioFull', '📖 Bio pełne', 'markdown', 'Pełna biografia po rozwinięciu karty.', { required: true }),
-      f('photo', '📸 Zdjęcie', 'image', imgHint(800, 800, 'Zdjęcie portretowe na karcie instruktora.'), { required: true, choose_url: true }),
+      {
+        ...f('photo', '📸 Zdjęcie', 'image', imgHint(800, 800, 'Zdjęcie portretowe na karcie instruktora.'), {
+          required: true,
+          choose_url: true,
+        }),
+        media_folder: '../../../public/uploads/instruktorzy',
+        public_folder: '/uploads/instruktorzy',
+      },
       f('order', '🔢 Kolejność wyświetlania', 'number', 'Niższa liczba = wyżej na stronie.', { required: true, default: 0, value_type: 'int', min: 0 }),
       f('active', '👁️ Widoczny na stronie', 'boolean', boolHint, { required: false, default: true }),
     ],
