@@ -10,17 +10,17 @@ export type LocationsSectionCopy = {
 	sectionTag: string;
 	sectionTitle: string;
 	statusConfirmed: string;
-	locations: [LocationItem, LocationItem, LocationItem, LocationItem];
+	locations: LocationItem[];
 };
 
-const plLocations: [LocationItem, LocationItem, LocationItem, LocationItem] = [
+const plLocations: LocationItem[] = [
 	{ name: '3MK ARENA', description: 'Główna arena zawodów K9 i pokazów dynamicznych dla służb oraz publiczności.', detail: 'ul. Traugutta, Gdańsk' },
 	{ name: 'SZKOŁA MUNDUROWA', description: 'Szkolenia taktyczne TCCC oraz moduły medycyny pola walki dla operatorów.', detail: 'Gdańsk' },
 	{ name: 'STADION MIEJSKI', description: 'Drony bojowe i demonstracje UAV z elementami rozpoznania i wsparcia.', detail: 'Gdańsk' },
 	{ name: 'STENA LINE TERMINAL', description: 'Ceremonia otwarcia i gala z udziałem delegacji międzynarodowych.', detail: 'Port Gdańsk' },
 ];
 
-const enLocations: [LocationItem, LocationItem, LocationItem, LocationItem] = [
+const enLocations: LocationItem[] = [
 	{ name: '3MK ARENA', description: 'Main K9 competition arena and dynamic demonstrations for services and the public.', detail: 'Traugutta Street, Gdańsk' },
 	{ name: 'UNIFORMED SERVICES SCHOOL', description: 'Tactical TCCC training and combat-medicine modules for operators.', detail: 'Gdańsk' },
 	{ name: 'CITY STADIUM', description: 'Combat drone and UAV demonstrations with reconnaissance support workflows.', detail: 'Gdańsk' },

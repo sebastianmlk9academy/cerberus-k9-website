@@ -574,7 +574,8 @@ const collections = [
   {
     name: 'locations',
     label: '🏠 Strona Główna — Lokalizacje',
-    description: 'Cztery bloki lokalizacji (3MK Arena, Szkoła Mundurowa, Stadion, Orlen).',
+    description:
+      'Kafelki sekcji „Lokalizacje” na stronie głównej i /o-wydarzeniu. Kolejność: pole order (niżej = wyżej). Dowolna liczba wpisów.',
     folder: 'src/content/locations',
     create: true,
     slug: '{{slug}}',

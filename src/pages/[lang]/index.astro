@@ -30,6 +30,7 @@ import { CerberusTimeline } from '../../components/CerberusTimeline';
 import { Footer } from '../../components/Footer';
 import { aktualnosciToListingArticles } from '../../lib/aktualnosci';
 import { getSortedNavLinks } from '../../lib/getSortedNavLinks';
+import { locationEntriesToItems } from '../../lib/eventLocations';
 
 export const prerender = true;
 
@@ -99,6 +100,9 @@ const programCards = programEntriesToHomepageCards(programEntries, lang, s?.even
 const stripPartners = partnerEntriesToStripItems(partnersData);
 const programCopy = programSectionByLang[lang] ?? programSectionByLang['pl'];
 const locationsCopy = locationsSectionByLang[lang] ?? locationsSectionByLang['pl'];
+const locationsData = await getCollection('locations');
+const locationItems =
+	locationsData.length > 0 ? locationEntriesToItems(locationsData, lang) : null;
 const videoCopy = videoSectionByLang[lang] ?? videoSectionByLang['pl'];
 const newsCopy = latestNewsByLang[lang] ?? latestNewsByLang['pl'];
 
@@ -202,7 +206,12 @@ const eventJsonLd = {
 	<StatsBar lang={lang} stats={statsCopy} client:visible />
 	<CerberusTimeline client:visible nodes={timeline} lang={lang} />
 	<ProgramSection lang={lang} copy={programCopy} cards={programCards.length > 0 ? programCards : undefined} client:visible />
-	<LocationsSection lang={lang} copy={locationsCopy} client:visible />
+	<LocationsSection
+		lang={lang}
+		copy={locationsCopy}
+		locations={locationItems ?? undefined}
+		client:visible
+	/>
 	<VideoSection
 		lang={lang}
 		copy={videoCopy}
