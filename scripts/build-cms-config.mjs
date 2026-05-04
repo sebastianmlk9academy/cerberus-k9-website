@@ -583,7 +583,7 @@ const collections = [
     name: 'homepage_cards',
     label: '🏠 Strona Główna — Karty Programu',
     description:
-      'Karty sekcji „Program” na stronie głównej — treść jak na witrynie (K9, TCCC, Drony, Konferencja). Lista CMS pokazuje tytuł PL.',
+      'Karty sekcji „Program” na stronie głównej. Przy co najmniej jednym aktywnym wpisie zastępują karty generowane z kolekcji program (agenda). Lista pokazuje tytuł PL.',
     folder: 'src/content/homepage_cards',
     create: true,
     delete: true,

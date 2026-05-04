@@ -18,6 +18,7 @@ import { homeStatsByLang } from '../../i18n/homeStats';
 import { statsEntriesToStatItems } from '../../lib/homepageStats';
 import { programSectionByLang } from '../../i18n/programSection';
 import type { AgendaCategory } from '../../lib/agendaCategories';
+import { cardEntriesToProgramCards } from '../../lib/homepageCards';
 import { programEntriesToHomepageCards } from '../../lib/programToHomepageCards';
 import { partnerEntriesToStripItems } from '../../lib/partnersStrip';
 import { locationsSectionByLang } from '../../i18n/locationsSection';
@@ -74,6 +75,7 @@ const statsCopy =
 
 const partnersData = await getCollection('partnerzy');
 const programEntries = await getCollection('program');
+const homepageCardEntries = await getCollection('homepage_cards');
 const categoryEntries = await getCollection('agenda_categories');
 const agendaCategoriesForCards: AgendaCategory[] = categoryEntries
 	.filter((c) => c.data.active !== false)
@@ -87,10 +89,12 @@ const agendaCategoriesForCards: AgendaCategory[] = categoryEntries
 		show_calendar_button: c.data.show_calendar_button ?? true,
 		order: c.data.order ?? 99,
 	}));
-const programCards = programEntriesToHomepageCards(programEntries, lang, s?.event_date, {
+const cmsProgramCards = cardEntriesToProgramCards(homepageCardEntries, lang);
+const agendaProgramCards = programEntriesToHomepageCards(programEntries, lang, s?.event_date, {
 	limit: 6,
 	categories: agendaCategoriesForCards,
 });
+const programCards = cmsProgramCards.length > 0 ? cmsProgramCards : agendaProgramCards;
 const stripPartners = partnerEntriesToStripItems(partnersData);
 const programCopy = programSectionByLang[lang] ?? programSectionByLang['pl'];
 const locationsCopy = locationsSectionByLang[lang] ?? locationsSectionByLang['pl'];
