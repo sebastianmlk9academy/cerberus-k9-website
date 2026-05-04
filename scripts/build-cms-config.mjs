@@ -615,6 +615,7 @@ const collections = [
           '3MK Arena',
           'Szkoła Mundurowa',
           'Stadion Miejski',
+          'OSiR Piaski-Szczygliczka',
           'Sala Konferencyjna',
           'Infrastruktura Orlen',
           '—',
