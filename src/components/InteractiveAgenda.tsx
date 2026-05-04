@@ -524,6 +524,8 @@ interface CalendarEvent {
 }
 
 export interface AgendaUILabels {
+  /** Etykieta pierwszego przycisku filtra („WSZYSTKO” / „ALL”). */
+  filterAll?: string;
   addToCalendar?: string;
   navigate?: string;
   noLocation?: string;
@@ -932,6 +934,7 @@ export default function InteractiveAgenda({
   ).replace(/:+\s*$/, "");
   const effectiveLabels: AgendaLabels = {
     ...agendaLabels,
+    all: uiLabels?.filterAll ?? agendaLabels.all,
     addToCalendar: uiLabels?.addToCalendar ?? agendaLabels.addToCalendar,
     noEvents: uiLabels?.noEvents ?? agendaLabels.noEvents,
     instructor: instructorPrefix,

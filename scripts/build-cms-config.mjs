@@ -360,6 +360,27 @@ function agendaUiLabelsFile() {
     file: 'src/content/agenda_ui/labels.yml',
     format: 'yaml',
     fields: [
+      mk('🔘 Filtr „wszystkie kategorie”', 'Pierwszy przycisk nad osią agendy (pokazuje cały program).', 'filter_all', {
+        pl: 'WSZYSTKO',
+        en: 'ALL',
+        de: 'ALLE',
+        fr: 'TOUT',
+        cs: 'VŠE',
+        sk: 'VŠETKO',
+        hu: 'ÖSSZES',
+        hr: 'SVE',
+        sl: 'VSE',
+        lt: 'VISKAS',
+        lv: 'VISS',
+        no: 'ALLE',
+        sv: 'ALLT',
+        nl: 'ALLES',
+        es: 'TODO',
+        pt: 'TUDO',
+        ro: 'TOT',
+        it: 'TUTTO',
+        ko: '전체',
+      }),
       mk('📅 Dodaj do kalendarza', 'Przyciski eksportu ICS na osi agendy.', 'add_to_calendar', {
         pl: 'DODAJ DO KALENDARZA',
         en: 'ADD TO CALENDAR',
@@ -608,8 +629,10 @@ const collections = [
   },
   {
     name: 'agenda_categories',
-    label: '📅 O Wydarzeniu — Kategorie Agendy',
-    description: 'Kolory i nazwy filtrów agendy (K9, TCCC, Drony itd.).',
+    label: '🔘 Filtry interaktywnej agendy (kategorie)',
+    label_singular: 'Filtr / kategoria agendy',
+    description:
+      'Przyciski filtrów nad osią czasu na /o-wydarzeniu (#agenda). Każdy wpis = jedna kategoria (K9, TCCC…). Klucz musi zgadzać się z polem „Klucz kategorii” w Programie.',
     folder: 'src/content/agenda_categories',
     create: true,
     delete: true,
@@ -638,8 +661,9 @@ const collections = [
   },
   {
     name: 'agenda_ui',
-    label: '📅 O Wydarzeniu — Napisy Agendy',
-    description: 'Przyciski i etykiety interfejsu agendy w wielu językach.',
+    label: '📅 O Wydarzeniu — Napisy agendy (UI)',
+    description:
+      'Teksty interfejsu interaktywnej agendy: przycisk „wszystkie”, kalendarz, nawigacja, komunikat „brak wydarzeń” po filtrze itd. Nie zastępuje listy filtrów — tę edytujesz w „Filtry interaktywnej agendy”.',
     files: [agendaUiLabelsFile()],
   },
   {

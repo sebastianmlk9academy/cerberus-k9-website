@@ -36,6 +36,9 @@ const agendaUi = agendaUiEntry?.data;
 const fundacjaContent = await getEntry('fundacja_content', 'content');
 const fc = fundacjaContent?.data;
 const agendaUILabels = {
+	filterAll:
+		(agendaUi?.filter_all as Record<string, string> | undefined)?.[lang]?.trim() ||
+		(lang === 'pl' ? 'WSZYSTKO' : 'ALL'),
 	addToCalendar: (agendaUi?.add_to_calendar as Record<string, string> | undefined)?.[lang] ?? 'DODAJ DO KALENDARZA',
 	navigate: (agendaUi?.navigate as Record<string, string> | undefined)?.[lang] ?? 'NAWIGUJ',
 	noLocation: (agendaUi?.no_location as Record<string, string> | undefined)?.[lang] ?? 'BRAK PODPIĘTEJ LOKALIZACJI',
@@ -149,7 +152,7 @@ const { days: agendaDays, categoryMeta } = programEntriesToAgendaItems(
 	agendaCategories,
 );
 const agendaFilters = [
-	{ key: 'ALL', label: lang === 'pl' ? 'WSZYSTKO' : 'ALL' },
+	{ key: 'ALL', label: agendaUILabels.filterAll },
 	...agendaCategories.filter((c) => c.show_in_filter).map((c) => ({
 		key: c.key,
 		label: lang === 'pl' ? c.label_pl : (c.label_en ?? c.label_pl),

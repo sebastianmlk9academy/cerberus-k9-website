@@ -1,3 +1,24 @@
+filter_all:
+  pl: WSZYSTKO
+  en: ALL
+  de: ALLE
+  fr: TOUT
+  cs: VŠE
+  sk: VŠETKO
+  hu: ÖSSZES
+  hr: SVE
+  sl: VSE
+  lt: VISKAS
+  lv: VISS
+  no: ALLE
+  sv: ALLT
+  nl: ALLES
+  es: TODO
+  pt: TUDO
+  ro: TOT
+  it: TUTTO
+  ko: 전체
+
 add_to_calendar:
   pl: DODAJ DO KALENDARZA
   en: ADD TO CALENDAR
