@@ -442,8 +442,7 @@ export default function InstructorCard({
         style={{
           padding: '20px',
           display: 'grid',
-          gridTemplateRows: 'auto auto auto auto auto',
-          gridAutoRows: 'auto',
+          gridTemplateRows: 'auto auto 80px auto auto',
           gap: '0px',
           alignItems: 'start',
         }}
