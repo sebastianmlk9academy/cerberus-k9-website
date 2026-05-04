@@ -5,6 +5,6 @@ filter_field: specializations
 filter_match: includes
 filter_value: pierwsza pomoc
 filter_values:
-  - WETERYNARZ
+  - pierwsza pomoc
 order: 10
 active: true
