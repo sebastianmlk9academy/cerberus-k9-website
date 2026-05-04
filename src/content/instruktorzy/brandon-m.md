@@ -6,8 +6,8 @@ countryCode: US
 name: Paweł 'DOMEL' Domański
 role_pl: Lider Grupy
 role_en: Team Leader
-country: POLSKA
-country_code: PL
+country: Niemcy
+country_code: DE
 specializations:
   - Lider Grupy
   - K9 Gryzienie
