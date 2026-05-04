@@ -1293,6 +1293,102 @@ collections:
         hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
         required: false
         default: true
+  - name: "timeline"
+    label: "🏠 Strona Główna — Oś czasu („Dokąd zmierzamy”)"
+    label_singular: "punkt osi czasu"
+    description: "Sekcja „OŚ CZASU” / „DOKĄD ZMIERZAMY” na stronie głównej. Każdy plik YAML = jeden punkt (rok). Nazwa pliku
+      (slug) np. 2026-current."
+    folder: "src/content/timeline"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    identifier_field: "title_pl"
+    summary: "{{year}} · {{title_pl}} ({{status}})"
+    extension: "yml"
+    format: "yaml"
+    fields:
+      - name: "year"
+        label: "📆 Rok"
+        widget: "number"
+        hint: "Rok wyświetlany dużą cyfrą na osi (np. 2026)."
+        required: true
+        value_type: "int"
+        min: 2000
+        max: 2100
+      - name: "status"
+        label: "📌 Status"
+        widget: "select"
+        hint: "Rodzaj kamienia milowego — „bieżące” pozwala na pulsującą kropkę."
+        required: true
+        options:
+          - label: "Zakończone"
+            value: "completed"
+          - label: "Bieżące"
+            value: "current"
+          - label: "Planowane"
+            value: "planned"
+          - label: "Wizja"
+            value: "vision"
+      - name: "title_pl"
+        label: "🇵🇱 Tytuł"
+        widget: "string"
+        hint: "Nagłówek punktu (np. CERBERUS K9 2026)."
+        required: true
+      - name: "title_en"
+        label: "🇬🇧 Title (EN)"
+        widget: "string"
+        hint: "Nagłówek po angielsku."
+        required: true
+      - name: "subtitle_pl"
+        label: "🇵🇱 Podtytuł / opis"
+        widget: "string"
+        hint: "Krótki tekst pod tytułem (PL)."
+        required: false
+      - name: "subtitle_en"
+        label: "🇬🇧 Subtitle (EN)"
+        widget: "string"
+        hint: "Krótki tekst (EN)."
+        required: false
+      - name: "color_token"
+        label: "🎨 Kolor kropki"
+        widget: "select"
+        hint: "Kolor znacznika na linii czasu."
+        required: true
+        default: "gold"
+        options:
+          - label: "Złoty"
+            value: "gold"
+          - label: "Czerwony"
+            value: "red"
+          - label: "Granat (obrys)"
+            value: "navyBorder"
+          - label: "Niebieski"
+            value: "blue"
+          - label: "Zielony"
+            value: "green"
+          - label: "Fiolet"
+            value: "purple"
+          - label: "Pomarańcz"
+            value: "orange"
+      - name: "pulse"
+        label: "✨ Animacja puls"
+        widget: "boolean"
+        hint: "Zwykle włączone tylko dla jednego punktu ze statusem „Bieżące”."
+        required: false
+        default: false
+      - name: "order"
+        label: "🔢 Kolejność na osi"
+        widget: "number"
+        hint: "Sortowanie punktów — rosnąco (np. 10 przed 11)."
+        required: false
+        default: 99
+        value_type: "int"
+      - name: "isVisible"
+        label: "👁️ Widoczny na stronie"
+        widget: "boolean"
+        hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+        required: false
+        default: true
   - name: "locations"
     label: "🏠 Strona Główna — Lokalizacje"
     description: "Kafelki sekcji „Lokalizacje” na stronie głównej i /o-wydarzeniu. Kolejność: pole order (niżej = wyżej).
