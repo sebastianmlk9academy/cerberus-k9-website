@@ -1,5 +1,5 @@
 ---
-day: 13-06-2026
+day: 2026-06-13
 time_start: 18:30
 time_end: 18:45
 title_pl: Symulacja zamachu terrorystycznego
