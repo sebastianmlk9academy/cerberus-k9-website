@@ -1389,6 +1389,129 @@ collections:
         hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
         required: false
         default: true
+  - name: "registration_paths"
+    label: "📝 Rejestracja — Ścieżki i moduły (karty)"
+    label_singular: "ścieżka lub moduł"
+    description: "Siatka kart na stronie /rejestracja (Ścieżka K9, Drony, TCCC, Konferencja itd.). Sortowanie wg pola order."
+    folder: "src/content/registration_paths"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    identifier_field: "slug"
+    summary: "{{tag_pl}} · {{title_pl}}"
+    extension: "yml"
+    format: "yaml"
+    fields:
+      - name: "slug"
+        label: "🔑 Slug (identyfikator)"
+        widget: "string"
+        hint: "Unikalny fragment nazwy pliku (np. k9-gryzienie). Musi być zgodny z konfiguracją biletu w Pretix, jeśli używasz
+          bezpośredniego linku."
+        required: true
+        pattern:
+          - "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          - "Małe litery, cyfry, myślniki"
+      - name: "ticket_type"
+        label: "🎟️ Typ biletu (Pretix)"
+        widget: "string"
+        hint: "Wewnętrzny identyfikator typu zapisu — jak w integracji Pretix."
+        required: true
+      - name: "tag_pl"
+        label: "🏷️ Etykieta PL (np. ŚCIEŻKA 1)"
+        widget: "string"
+        hint: "Krótka etykieta nad tytułem karty."
+        required: true
+      - name: "tag_en"
+        label: "🏷️ Label EN"
+        widget: "string"
+        hint: "Krótka etykieta po angielsku."
+        required: true
+      - name: "title_pl"
+        label: "📝 Tytuł PL"
+        widget: "string"
+        hint: "Główny tytuł karty."
+        required: true
+      - name: "title_en"
+        label: "📝 Title EN"
+        widget: "string"
+        hint: "Tytuł po angielsku."
+        required: true
+      - name: "audience_pl"
+        label: "👥 Grupa docelowa PL"
+        widget: "string"
+        hint: "Podtytuł pod tytułem."
+        required: true
+      - name: "audience_en"
+        label: "👥 Audience EN"
+        widget: "string"
+        hint: "Podtytuł EN."
+        required: true
+      - name: "color_token"
+        label: "🎨 Kolor paska"
+        widget: "select"
+        hint: "Kolor akcentu po lewej stronie karty."
+        required: true
+        default: "gold"
+        options:
+          - label: "Czerwony"
+            value: "red"
+          - label: "Niebieski"
+            value: "blue"
+          - label: "Zielony"
+            value: "green"
+          - label: "Fiolet"
+            value: "purple"
+          - label: "Pomarańcz"
+            value: "orange"
+          - label: "Złoty"
+            value: "gold"
+      - name: "max_participants"
+        label: "🔢 Limit miejsc"
+        widget: "number"
+        hint: "Opcjonalnie — wyświetlany limit; puste = brak limitu w UI."
+        required: false
+        value_type: "int"
+        min: 0
+        max: 10000
+      - name: "items_pl"
+        label: "🇵🇱 Lista punktów (bullet)"
+        widget: "list"
+        required: true
+        hint: "Bullet points na karcie (PL)."
+        field:
+          label: "Punkt"
+          name: "item"
+          widget: "string"
+      - name: "items_en"
+        label: "🇬🇧 Bullet list (EN)"
+        widget: "list"
+        required: true
+        hint: "Bullet points (EN)."
+        field:
+          label: "Line"
+          name: "item"
+          widget: "string"
+      - name: "pretix_direct_url"
+        label: "🔗 Bezpośredni URL Pretix"
+        widget: "string"
+        hint: "Opcjonalny link wyłącznie dla tej ścieżki; puste = przycisk używa ogólnego sklepu."
+        required: false
+        pattern:
+          - "(^$|^https?://.*)"
+          - "Wklej pełny adres URL z https://"
+      - name: "order"
+        label: "🔢 Kolejność kart"
+        widget: "number"
+        hint: "Rosnąco — mniejsza liczba wyżej / wcześniej."
+        required: false
+        default: 99
+        value_type: "int"
+      - name: "isVisible"
+        label: "👁️ Widoczna karta"
+        widget: "boolean"
+        hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
+        required: false
+        default: true
   - name: "locations"
     label: "🏠 Strona Główna — Lokalizacje"
     description: "Kafelki sekcji „Lokalizacje” na stronie głównej i /o-wydarzeniu. Kolejność: pole order (niżej = wyżej).
@@ -3331,6 +3454,206 @@ collections:
                 hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."
                 required: false
                 default: true
+  - name: "international"
+    label: "🌐 International — /en/international"
+    description: "Hero, karty protokołu i kontakt dla strefy delegacji (publiczny URL /en/international; przekierowanie z
+      /pl/international)."
+    files:
+      - name: "international_hero"
+        label: "🦁 International — Hero"
+        file: "src/content/international/hero.yml"
+        format: "yaml"
+        fields:
+          - name: "tag_en"
+            label: "🇬🇧 Tag nad tytułem (EN)"
+            widget: "string"
+            hint: "Krótka linia kategorii w PageHero."
+            required: true
+          - name: "tag_pl"
+            label: "🇵🇱 Tag (PL)"
+            widget: "string"
+            hint: "Opcja na przyszłość — w szablonie głównie EN; schema Astro już je obsługuje."
+            required: false
+          - name: "title_en"
+            label: "🇬🇧 Tytuł H1 (EN)"
+            widget: "string"
+            hint: "Główny nagłówek strony."
+            required: true
+          - name: "subtitle_en"
+            label: "🇬🇧 Podtytuł (EN)"
+            widget: "string"
+            hint: "Data i miejsce pod tytułem."
+            required: true
+          - name: "body_en"
+            label: "🇬🇧 Tekst wprowadzający (EN)"
+            widget: "text"
+            hint: "Akapit pod hero oraz domyślny opis w JSON-LD wydarzenia."
+            required: true
+          - name: "cta_register_en"
+            label: "🇬🇧 Przycisk — akredytacja / rejestracja"
+            widget: "string"
+            hint: "Tekst czerwonego przycisku (link z Ustawień Globalnych — Pretix / rejestracja)."
+            required: true
+          - name: "cta_program_en"
+            label: "🇬🇧 Przycisk — program"
+            widget: "string"
+            hint: "Tekst przycisku prowadzącego do programu."
+            required: true
+      - name: "international_protocol"
+        label: "📋 International — Protokół (karty)"
+        file: "src/content/international/protocol.yml"
+        format: "yaml"
+        fields:
+          - label: "📋 Karty sekcji DELEGATION PROTOCOL"
+            name: "items"
+            widget: "list"
+            required: true
+            hint: "Kolejność na stronie = kolejność elementów na liście."
+            fields:
+              - name: "title_en"
+                label: "🇬🇧 Tytuł karty (EN)"
+                widget: "string"
+                hint: "Nagłówek karty protokołu."
+                required: true
+              - name: "title_pl"
+                label: "🇵🇱 Tytuł karty (PL)"
+                widget: "string"
+                hint: "Wyświetlane gdy przeglądarka jest w języku polskim."
+                required: false
+              - name: "body_en"
+                label: "🇬🇧 Treść (EN)"
+                widget: "text"
+                hint: "Opis procedury / usługi."
+                required: true
+              - name: "body_pl"
+                label: "🇵🇱 Treść (PL)"
+                widget: "text"
+                hint: "Wersja polska opisu przy języku PL."
+                required: false
+      - name: "international_contact"
+        label: "✉️ International — Kontakt delegacji"
+        file: "src/content/international/contact.yml"
+        format: "yaml"
+        fields:
+          - name: "name"
+            label: "✒️ Imię i nazwisko"
+            widget: "string"
+            hint: "Osoba w bloku „Delegation contact”."
+            required: true
+          - name: "title_en"
+            label: "💼 Stanowisko (EN)"
+            widget: "string"
+            hint: "Krótka funkcja pod nazwiskiem."
+            required: true
+          - name: "email"
+            label: "✉️ E-mail"
+            widget: "string"
+            hint: "Adres mailto w bloku kontaktu."
+            required: true
+          - name: "phone"
+            label: "📞 Telefon"
+            widget: "string"
+            hint: "Numer z kodem kraju."
+            required: true
+          - name: "response_time_en"
+            label: "⏱️ Oczekiwanie na odpowiedź (EN)"
+            widget: "string"
+            hint: "Np. „Response within 24 hours”."
+            required: true
+  - name: "international_faq"
+    label: "🌐 International — FAQ"
+    description: "Lista pytań w akordeonie na końcu /en/international (pole question/answer są po angielsku)."
+    folder: "src/content/international_faq"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    identifier_field: "question_en"
+    summary: "{{order}} · {{question_en}}"
+    preview_path: "en/international"
+    extension: "yml"
+    format: "yaml"
+    fields:
+      - name: "question_en"
+        label: "❓ Pytanie (EN)"
+        widget: "string"
+        hint: "Nagłówek akordeonu FAQ."
+        required: true
+      - name: "answer_en"
+        label: "💬 Odpowiedź (EN)"
+        widget: "text"
+        hint: "Pełna odpowiedź pod nagłówkiem."
+        required: true
+      - name: "order"
+        label: "🔢 Kolejność"
+        widget: "number"
+        hint: "Sortowanie rosnąco — mniejsza liczba wyżej (np. 10 przed 99)."
+        required: false
+        default: 99
+        value_type: "int"
+        min: 0
+        max: 999
+  - name: "delegations"
+    label: "🌐 International — Potwierdzone delegacje"
+    description: "Karty w sekcji „DELEGATIONS CONFIRMED”. Na liście tylko wpisy z confirmed: true. Nazwa pliku = slug
+      (istniejące: np. pl.yml — małe litery)."
+    folder: "src/content/delegations"
+    create: true
+    delete: true
+    slug: "{{country_code}}"
+    identifier_field: "country_code"
+    summary: "{{country}} ({{country_code}})"
+    preview_path: "en/international"
+    extension: "yml"
+    format: "yaml"
+    fields:
+      - name: "country"
+        label: "🌍 Kraj"
+        widget: "string"
+        hint: "Pełna nazwa przy fladze."
+        required: true
+      - name: "country_code"
+        label: "🏁 Kod ISO (2 litery)"
+        widget: "string"
+        hint: "Dwuliterowy kod ISO (w treści PL, US itd.). Przy tworzeniu nowego pliku preferuj małą nazwę pliku zgodną z kodem
+          (np. de.yml)."
+        required: true
+        pattern:
+          - "^[A-Za-z]{2}$"
+          - "Dokładnie 2 litery alfabetu łacińskiego."
+      - name: "unit"
+        label: "🛡️ Jednostka / służba"
+        widget: "string"
+        hint: "Opcjonalna linia pod nazwą kraju."
+        required: false
+      - name: "specialization"
+        label: "🎯 Specjalizacja"
+        widget: "string"
+        hint: "Tekst pod separatorem."
+        required: false
+      - name: "year_participating"
+        label: "📆 Rok udziału"
+        widget: "number"
+        hint: "Rok w złotej linii (np. 2026)."
+        required: false
+        value_type: "int"
+        min: 2020
+        max: 2035
+        default: 2026
+      - name: "confirmed"
+        label: "✅ Potwierdzona (na stronie)"
+        widget: "boolean"
+        hint: "false = ukryta z listy na international."
+        required: false
+        default: true
+      - name: "order"
+        label: "🔢 Kolejność listy"
+        widget: "number"
+        hint: "Sortowanie rosnąco — pierwsze karty dostają najniższy numer."
+        required: false
+        default: 99
+        value_type: "int"
+        min: 0
+        max: 999
   - name: "i18n_strings"
     label: "🌐 Tłumaczenia Interfejsu"
     description: "Napisy przycisków i etykiet w wielu językach (pliki JSON)."
