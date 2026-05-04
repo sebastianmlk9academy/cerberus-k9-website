@@ -1,12 +1,14 @@
 ---
 countryCode: US
 name: Paweł 'DOMEL' Domański
+role_en: Lider Grupy
 country: "POLSKA "
 country_code: PL
 specializations:
   - Lider Grupy
   - K9 Gryzienie
-languages: []
+languages:
+  - PL
 bio_short_pl: Człowiek, który całe życie poświęcił służbie w wojskach
   specjalnych, oddając się ojczyźnie. Ostatnie lata pełnił rolę przewodnika psa
   bojowego sił specjalnych.
@@ -20,9 +22,10 @@ bio_full_pl: Człowiek, który całe życie poświęcił służbie w wojskach
   działania ofensywne.
 photo: /uploads/instruktorzy/1000082949.webp
 unit: JWK - emerytowany operator, przewodnik psa bojowego
-isVisible: false
+isVisible: true
 showOnHomepage: true
 module: ""
+confirmed: confirmed
 order: 2
 bioShort: Aktywny pozorant K9 dla departamentów policji USA, SWAT i Straży
   Granicznej. Specjalista środowisk taktycznych.
@@ -31,5 +34,4 @@ bioFull: Aktywny pozorant i instruktor K9 dla departamentów policji USA,
   jednostek SWAT i Straży Granicznej USA. Na CERBERUS K9 2026 prowadzi moduł
   K9-Gryzienie i pełni rolę pozoranta podczas HARDEST HIT.
 type: Pozorant
-confirmed: confirmed
 ---
