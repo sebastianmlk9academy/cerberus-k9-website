@@ -233,7 +233,7 @@ function homepageCardFields() {
   const fields = [
     f('category', '🏷️ Kategoria karty', 'select', 'Filtr i kolor akcentu karty na stronie głównej.', {
       required: true,
-      options: ['K9', 'TCCC', 'DRONY', 'KONFERENCJA'],
+      options: ['K9 OBRONA', 'TCCC', 'DRONY', 'KONFERENCJA'],
     }),
     f('icon', '✨ Ikona (Lucide)', 'string', 'Opcjonalna nazwa ikony lucide-react.', { required: false }),
     f('color', '🎨 Kolor akcentu', 'color', 'Kolor lewej krawędzi i nagłówków karty.', { required: false, default: '#C4922A' }),
@@ -550,11 +550,14 @@ const collections = [
   {
     name: 'homepage_cards',
     label: '🏠 Strona Główna — Karty Programu',
-    description: 'Trzy karty sekcji programu na stronie głównej (K9, TCCC, Drony).',
+    description:
+      'Karty sekcji „Program” na stronie głównej — treść jak na witrynie (K9, TCCC, Drony, Konferencja). Lista CMS pokazuje tytuł PL.',
     folder: 'src/content/homepage_cards',
     create: true,
     delete: true,
     slug: '{{slug}}',
+    identifier_field: 'title_pl',
+    summary: '{{title_pl}} · {{category}}',
     extension: 'md',
     format: 'frontmatter',
     fields: homepageCardFields(),
