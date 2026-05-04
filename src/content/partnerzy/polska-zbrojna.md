@@ -8,4 +8,5 @@ description: Miesięcznik Wojska Polskiego. Patron medialny CERBERUS K9 od edycj
 order: 1
 show_in_strip: true
 strip_order: 1
+active: true
 ---
