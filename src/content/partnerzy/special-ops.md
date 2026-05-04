@@ -9,4 +9,5 @@ description: Kwartalnik Defence24 o tematyce jednostek specjalnych. Patron
 order: 2
 show_in_strip: true
 strip_order: 2
+active: true
 ---
