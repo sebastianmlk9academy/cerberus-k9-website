@@ -1,6 +1,7 @@
 ---
 countryCode: US
 name: Paweł 'DOMEL' Domański
+role_pl: Lider Grupy
 role_en: Lider Grupy
 country: "POLSKA "
 country_code: PL
@@ -22,11 +23,10 @@ bio_full_pl: Człowiek, który całe życie poświęcił służbie w wojskach
   działania ofensywne.
 photo: /uploads/instruktorzy/1000082949.webp
 unit: JWK - emerytowany operator, przewodnik psa bojowego
+module: ""
+order: 2
 isVisible: true
 showOnHomepage: true
-module: ""
-confirmed: confirmed
-order: 2
 bioShort: Aktywny pozorant K9 dla departamentów policji USA, SWAT i Straży
   Granicznej. Specjalista środowisk taktycznych.
 role: Pozorant Główny / Instruktor K9
@@ -34,4 +34,5 @@ bioFull: Aktywny pozorant i instruktor K9 dla departamentów policji USA,
   jednostek SWAT i Straży Granicznej USA. Na CERBERUS K9 2026 prowadzi moduł
   K9-Gryzienie i pełni rolę pozoranta podczas HARDEST HIT.
 type: Pozorant
+confirmed: confirmed
 ---
