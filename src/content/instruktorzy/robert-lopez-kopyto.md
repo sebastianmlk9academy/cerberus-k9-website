@@ -1,7 +1,7 @@
 ---
 name: Robert 'LOPEZ' Kopyto
 role_pl: ""
-role_en: Team Leader
+role_en: ""
 country: POLSKA
 country_code: PL
 specializations:
