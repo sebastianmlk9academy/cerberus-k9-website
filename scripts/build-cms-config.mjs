@@ -378,6 +378,75 @@ function timelineFields() {
   ];
 }
 
+function registrationPathsFields() {
+  const colorOptions = [
+    { label: 'Czerwony', value: 'red' },
+    { label: 'Niebieski', value: 'blue' },
+    { label: 'Zielony', value: 'green' },
+    { label: 'Fiolet', value: 'purple' },
+    { label: 'Pomarańcz', value: 'orange' },
+    { label: 'Złoty', value: 'gold' },
+  ];
+  return [
+    f(
+      'slug',
+      '🔑 Slug (identyfikator)',
+      'string',
+      'Unikalny fragment nazwy pliku (np. k9-gryzienie). Musi być zgodny z konfiguracją biletu w Pretix, jeśli używasz bezpośredniego linku.',
+      { required: true, pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', 'Małe litery, cyfry, myślniki'] },
+    ),
+    f('ticket_type', '🎟️ Typ biletu (Pretix)', 'string', 'Wewnętrzny identyfikator typu zapisu — jak w integracji Pretix.', {
+      required: true,
+    }),
+    f('tag_pl', '🏷️ Etykieta PL (np. ŚCIEŻKA 1)', 'string', 'Krótka etykieta nad tytułem karty.', { required: true }),
+    f('tag_en', '🏷️ Label EN', 'string', 'Krótka etykieta po angielsku.', { required: true }),
+    f('title_pl', '📝 Tytuł PL', 'string', 'Główny tytuł karty.', { required: true }),
+    f('title_en', '📝 Title EN', 'string', 'Tytuł po angielsku.', { required: true }),
+    f('audience_pl', '👥 Grupa docelowa PL', 'string', 'Podtytuł pod tytułem.', { required: true }),
+    f('audience_en', '👥 Audience EN', 'string', 'Podtytuł EN.', { required: true }),
+    f('color_token', '🎨 Kolor paska', 'select', 'Kolor akcentu po lewej stronie karty.', {
+      required: true,
+      default: 'gold',
+      options: colorOptions,
+    }),
+    f('max_participants', '🔢 Limit miejsc', 'number', 'Opcjonalnie — wyświetlany limit; puste = brak limitu w UI.', {
+      required: false,
+      value_type: 'int',
+      min: 0,
+      max: 10000,
+    }),
+    {
+      name: 'items_pl',
+      label: '🇵🇱 Lista punktów (bullet)',
+      widget: 'list',
+      required: true,
+      hint: 'Bullet points na karcie (PL).',
+      field: { label: 'Punkt', name: 'item', widget: 'string' },
+    },
+    {
+      name: 'items_en',
+      label: '🇬🇧 Bullet list (EN)',
+      widget: 'list',
+      required: true,
+      hint: 'Bullet points (EN).',
+      field: { label: 'Line', name: 'item', widget: 'string' },
+    },
+    f(
+      'pretix_direct_url',
+      '🔗 Bezpośredni URL Pretix',
+      'string',
+      'Opcjonalny link wyłącznie dla tej ścieżki; puste = przycisk używa ogólnego sklepu.',
+      { required: false, pattern: ['(^$|^https?://.*)', urlHint] },
+    ),
+    f('order', '🔢 Kolejność kart', 'number', 'Rosnąco — mniejsza liczba wyżej / wcześniej.', {
+      required: false,
+      default: 99,
+      value_type: 'int',
+    }),
+    f('isVisible', '👁️ Widoczna karta', 'boolean', boolHint, { required: false, default: true }),
+  ];
+}
+
 function locationsFields() {
   return [
     f('name', '📍 Nazwa lokalizacji', 'string', 'Nagłówek bloku lokalizacji na stronie głównej i /o-wydarzeniu.', { required: true }),
@@ -668,6 +737,22 @@ const collections = [
     extension: 'yml',
     format: 'yaml',
     fields: timelineFields(),
+  },
+  {
+    name: 'registration_paths',
+    label: '📝 Rejestracja — Ścieżki i moduły (karty)',
+    label_singular: 'ścieżka lub moduł',
+    description:
+      'Siatka kart na stronie /rejestracja (Ścieżka K9, Drony, TCCC, Konferencja itd.). Sortowanie wg pola order.',
+    folder: 'src/content/registration_paths',
+    create: true,
+    delete: true,
+    slug: '{{slug}}',
+    identifier_field: 'slug',
+    summary: '{{tag_pl}} · {{title_pl}}',
+    extension: 'yml',
+    format: 'yaml',
+    fields: registrationPathsFields(),
   },
   {
     name: 'locations',

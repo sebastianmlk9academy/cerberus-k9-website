@@ -1548,27 +1548,59 @@ const nav_links = defineCollection({
 	}),
 });
 
+/** Decap list widgets often serialize as `{ item: string }[]`; YAML may use plain strings. */
+function normalizeRegistrationPathCmsInput(raw: unknown): unknown {
+	if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return raw;
+	const o = { ...(raw as Record<string, unknown>) };
+
+	const coerceBulletList = (key: 'items_pl' | 'items_en') => {
+		const v = o[key];
+		if (!Array.isArray(v)) return;
+		o[key] = v
+			.map((item) => {
+				if (typeof item === 'string') return item.trim();
+				if (item && typeof item === 'object' && item !== null && 'item' in item) {
+					const s = (item as { item?: unknown }).item;
+					return typeof s === 'string' ? s.trim() : '';
+				}
+				return '';
+			})
+			.filter((s) => s.length > 0);
+	};
+	coerceBulletList('items_pl');
+	coerceBulletList('items_en');
+
+	const mp = o.max_participants;
+	if (mp === '' || mp === undefined) delete o.max_participants;
+	else if (typeof mp === 'string' && /^\d+$/.test(mp)) o.max_participants = Number(mp);
+
+	return o;
+}
+
 const registration_paths = defineCollection({
 	loader: glob({ base: './src/content/registration_paths', pattern: '**/*.yml' }),
-	schema: z
-		.object({
-			slug: z.string(),
-			ticket_type: z.string(),
-			tag_pl: z.string(),
-			tag_en: z.string(),
-			title_pl: z.string(),
-			title_en: z.string(),
-			audience_pl: z.string(),
-			audience_en: z.string(),
-			color_token: z.enum(['red', 'blue', 'green', 'purple', 'orange', 'gold']),
-			max_participants: z.number().int().nullable().optional(),
-			items_pl: z.array(z.string()),
-			items_en: z.array(z.string()),
-			pretix_direct_url: z.string().optional(),
-			order: z.number().int().default(99),
-			isVisible: z.boolean().default(true),
-		})
-		.strict(),
+	schema: z.preprocess(
+		normalizeRegistrationPathCmsInput,
+		z
+			.object({
+				slug: z.string(),
+				ticket_type: z.string(),
+				tag_pl: z.string(),
+				tag_en: z.string(),
+				title_pl: z.string(),
+				title_en: z.string(),
+				audience_pl: z.string(),
+				audience_en: z.string(),
+				color_token: z.enum(['red', 'blue', 'green', 'purple', 'orange', 'gold']),
+				max_participants: z.number().int().nullable().optional(),
+				items_pl: z.array(z.string()),
+				items_en: z.array(z.string()),
+				pretix_direct_url: z.string().optional(),
+				order: z.number().int().default(99),
+				isVisible: z.boolean().default(true),
+			})
+			.strict(),
+	),
 });
 
 const timeline = defineCollection({
