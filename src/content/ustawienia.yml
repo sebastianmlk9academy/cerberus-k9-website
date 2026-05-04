@@ -240,7 +240,6 @@ sekcja_hero:
   pagehero_foundation_category_pl: O NAS
   pagehero_news_category_pl: CERBERUS K9
   pagehero_contact_category_pl: KONTAKT
-  hero_meta_locations: "6"
   hero_tagline: MIĘDZYNARODOWA PLATFORMA OBRONY · EDYCJA 2026
   show_live_counter: false
   registration_active: true
@@ -268,7 +267,6 @@ sekcja_hero:
   pagehero_gallery_category_pl: ARCHIWUM FOTOGRAFICZNE
   hero_cta_program_href: /pl/o-wydarzeniu#agenda
   hero_subtitle: K9
-  hero_meta_entry: BEZPŁATNY
   hero_cta_registration_href: https://cerberusk9.org/pl/rejestracja/
   pagehero_instructors_category_pl: NASI
   hero_background_opacity: 0.4

@@ -610,7 +610,7 @@ function flattenUstawieniaCmsInput(raw: unknown): unknown {
 			delete o[sk];
 		}
 	}
-	const merged = { ...o, ...fromSections } as Record<string, unknown>;
+	const merged = { ...fromSections, ...o } as Record<string, unknown>;
 	// Keep historical aliases used by older YAML snapshots/build scripts.
 	const aliases: [string, string][] = [
 		['video_2_url', 'video_url_2'],
