@@ -81,6 +81,7 @@ const statsCopy =
 
 const partnersData = await getCollection('partnerzy');
 const programEntries = await getCollection('program');
+const homepageCardEntries = await getCollection('homepage_cards');
 const categoryEntries = await getCollection('agenda_categories');
 const agendaCategoriesForCards: AgendaCategory[] = categoryEntries
 	.filter((c) => c.data.active !== false)
