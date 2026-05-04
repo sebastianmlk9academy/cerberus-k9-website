@@ -1,10 +1,30 @@
-video_url_4: https://www.youtube.com/embed/aNG1UVyOqNA
-social_instagram: https://www.instagram.com/pactak9
-og_locale: pl_PL
-contact_phone_mariusz: ""
-social_twitter: ""
+event_venue: 3MK Arena
+hero_tagline: MIĘDZYNARODOWA PLATFORMA OBRONY · EDYCJA 2026
 hero_year: "2026"
+hero_meta_locations: 3MK AREN · SZKOŁA MUNDUROWA · STADION MIEJSKI ·
+  INFRASTRUKTURA ORLEN · OSIR PIASKI-SZCZYGLICZKA
+countries_count: 10+
+dogs_count: 120+
+notification_bar_active: false
+social_instagram: https://www.instagram.com/pactak9
+video_url_4: https://www.youtube.com/embed/aNG1UVyOqNA
+mobile_cta_label_en: REGISTER NOW
+social_twitter: ""
+footer_phone: 695 637 907
+pwa_theme_color: "#0F1720"
+nav_logo: /images/cerberus-k9-logo.png
+brand_name: CERBERUS K9
+registration_contact_phone: +48 695 637 907
+statute_pdf: /downloads/statut-fundacji-pacta-k9.pdf
+instructor_placeholder_photo: ""
+press_pdf_special_ops: /downloads/special-ops-cerberus-k9-2025.pdf
+media_contact_name: Sebastian Bożek — Wiceprezes
 media_contact_email: sebastian@pactak9.org
+sponsor_offer_pdf: ""
+contact_map_embed_url: https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2468.123!2d17.8086!3d51.6509!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sul.%20Andrzeja%20Kowalczyka%201%2C%2063-400%20Ostr%C3%B3w%20Wielkopolski!5e0!3m2!1spl!2spl!4v1234567890
+map_embed_url: https://www.openstreetmap.org/export/embed.html?bbox=17.7986%2C51.6409%2C17.8186%2C51.6609&layer=mapnik&marker=51.6509%2C17.8086
+contact_phone_mariusz: +48 788 929 200
+og_locale: pl_PL
 media_label_archive_description_pl: Wybrane relacje prasowe i materiały z ubiegłorocznej edycji.
 sekcja_kontakt:
   sekcja_media_etykiety_pl:
@@ -53,38 +73,24 @@ sekcja_kontakt:
   contact_form_recipient: sebastian@pactak9.org
   press_pdf_polska_zbrojna: /downloads/polska-zbrojna-cerberus-k9-2025.pdf
   contact_president_email: mariusz@pactak9.org
-brand_name: CERBERUS K9
 footer_link_media: media
-press_pdf_special_ops: /downloads/special-ops-cerberus-k9-2025.pdf
 footer_link_program: o-wydarzeniu#program
-gallery_video_1_badge: POLSKA ZBROJNA · PATRON MEDIALNY
-instructor_placeholder_photo: /images/instruktorzy/test_instruktor_photo.webp
 venue_address: 3MK Arena, ul. Andrzeja Kowalczyka 1, Ostrów Wielkopolski
-countries_count: 15+
 contact_venue_address: 3MK Arena, ul. Andrzeja Kowalczyka 1, 63-400 Ostrów Wielkopolski
-statute_pdf: /downloads/statut-fundacji-pacta-k9.pdf
-gallery_video_2_badge: TVP — PANORAMA
-media_contact_name: Sebastian Bożek — Wiceprezes
-notification_bar_active: false
-hero_video_url: ""
 cookie_consent_active: false
+hero_video_url: ""
+gallery_video_1_badge: POLSKA ZBROJNA · PATRON MEDIALNY
+gallery_video_2_badge: TVP — PANORAMA
 gallery_video_3_badge: TVN — FAKTY
 media_label_contact_accreditation_pl: KONTAKT I AKREDYTACJA
-map_embed_url: https://www.openstreetmap.org/export/embed.html?bbox=17.7986%2C51.6409%2C17.8186%2C51.6609&layer=mapnik&marker=51.6509%2C17.8086
-dogs_count: 80+
 gallery_video_4_badge: POLSKIE RADIO — REPORTAŻ
-contact_map_embed_url: https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2468.123!2d17.8086!3d51.6509!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sul.%20Andrzeja%20Kowalczyka%201%2C%2063-400%20Ostr%C3%B3w%20Wielkopolski!5e0!3m2!1spl!2spl!4v1234567890
-nav_logo: /images/cerberus-k9-logo.png
 sekcja_dane_rejestrowe:
   krs_number: "0001219121"
   nip_number: "6222869581"
   regon_number: "543799847"
   statute_pdf: /downloads/statut-fundacji-pacta-k9.pdf
   krs_url: https://rejestr.io/krs/0001219121
-pwa_theme_color: "#0F1720"
 notification_bar_link_text_pl: ""
-hero_tagline: MIĘDZYNARODOWA PLATFORMA OBRONY · EDYCJA 2026
-registration_contact_phone: +48 695 637 907
 sekcja_live:
   notification_bar_active: false
   notification_bar_link_text_pl: ""
@@ -96,11 +102,9 @@ sekcja_live:
   notification_bar_text_en: ""
   gallery_unlock_date: 2026-06-14
   notification_bar_severity: info
-event_venue: 3MK Arena
-sponsor_offer_pdf: ""
-footer_phone: 695 637 907
+registration_venues: 3MK AREN · SZKOŁA MUNDUROWA · STADION MIEJSKI ·
+  INFRASTRUKTURA ORLEN · OSIR PIASKI-SZCZYGLICZKA
 favicon_ico: /favicon.ico
-registration_venues: 3MK Arena, Szkoła Mundurowa, Stadion Miejski
 sekcja_wydarzenie:
   event_date: 2026-06-13
   event_date_end: 2026-06-14
@@ -110,6 +114,7 @@ sekcja_wydarzenie:
   event_time_end: 17:00
   event_timezone: Europe/Warsaw
 media_label_press_info_pl: INFORMACJE PRASOWE
+pretix_url: https://pretix.eu/MLK9-LLK9/CERBERUS/
 footer_domains: cerberusk9.org | pactak9.org
 sekcja_social:
   social_facebook: https://www.facebook.com/cerberusk9
@@ -119,22 +124,33 @@ sekcja_social:
   social_twitter: ""
   twitter_handle: "@cerberusk9"
 footer_link_about: o-wydarzeniu
+event_time_end: 18:00
 registration_active: true
 hero_subline_pl: WSTĘP BEZPŁATNY · REJESTRACJA WYMAGANA
 footer_link_partners: partnerzy
-contact_address_street: ul. Odolanowska 17
-default_news_image: /images/cerberus-k9-logo.png
-contact_gdpr_text_pl: Wyrażam zgodę na przetwarzanie danych osobowych zgodnie z RODO.
-main_video_title: CERBERUS K9 2025 — Główna relacja
-event_time_end: 18:00
-notification_bar_text_pl: ""
-mobile_sticky_cta_active: false
-mobile_cta_label_pl: "ZAREJESTRUJ SIĘ"
-mobile_cta_label_en: "REGISTER NOW"
+event_date_end: 2026-06-14
+event_city: Ostrów Wielkopolski
+participants_count: 250+
+notification_bar_url: ""
+live_mode_active: false
+social_youtube: https://www.youtube.com/@cerberusk9
+social_linkedin: https://www.linkedin.com/company/pactak9
+footer_address: ul. Odolanowska 17, 63-400 Topola Mała
 plausible_domain: cerberusk9.org
+pwa_name: CERBERUS K9
+main_video_title: CERBERUS K9 2025 — Główna relacja
+nav_logo_alt: CERBERUS K9 Logo
 hero_background_image: /images/page_hero_graph.webp
 hero_video_title: CERBERUS K9 2026 — Relacja
-event_date_end: 2026-06-14
+registration_prep_day: "Dzień przygotowawczy: 12 czerwca"
+registration_city: Ostrów Wielkopolski
+partner_cta_href: mailto:sebastian@pactak9.org
+default_news_image: /images/cerberus-k9-logo.png
+contact_form_endpoint: ""
+contact_gdpr_text_pl: Wyrażam zgodę na przetwarzanie danych osobowych zgodnie z RODO.
+contact_address_street: ul. Odolanowska 17
+notification_bar_text_pl: ""
+mobile_sticky_cta_active: false
 sekcja_statystyki:
   participants_count: 250+
   countries_count: 10+
@@ -143,24 +159,10 @@ sekcja_statystyki:
   participants_registered: 0
   grants_approved: 0
   volunteers_count: 0
-live_mode_active: false
 contact_address_country_pl: Polska
-notification_bar_url: ""
 nav_registration_active: true
-pwa_name: CERBERUS K9
-footer_address: ul. Odolanowska 17, 63-400 Topola Mała
-social_linkedin: https://www.linkedin.com/company/pactak9
 gallery_video_1_url: https://www.youtube.com/watch?v=kUhqmGhrbas
-registration_prep_day: "Dzień przygotowawczy: 12 czerwca"
-participants_count: 250+
-pretix_url: https://pretix.eu/MLK9-LLK9/CERBERUS/
-event_city: Ostrów Wielkopolski
 footer_link_gallery: galeria
-social_youtube: https://www.youtube.com/@cerberusk9
-nav_logo_alt: CERBERUS K9 Logo
-contact_form_endpoint: ""
-registration_city: Ostrów Wielkopolski
-partner_cta_href: mailto:sebastian@pactak9.org
 gallery_video_2_url: https://youtu.be/Fo-j5vGI0m4
 sekcja_grafika:
   brand_name: CERBERUS K9
@@ -186,42 +188,46 @@ sekcja_analityka_trackery:
   microsoft_clarity_id: ""
   facebook_pixel_id: ""
   consent_version: 1
-agenda_page_url: https://cerberusk9.org/pl/o-wydarzeniu
-video_badge_2: TVP — PANORAMA
-og_image_height: "630"
-hero_close_label_pl: ZAMKNIJ
-gallery_video_4_url: https://www.youtube.com/embed/aNG1UVyOqNA
-nip_number: "6222869581"
-hero_title: CERBERUS
 event_date: 2026-06-13
-pwa_short_name: CERBERUS K9
-video_badge_3: TVN — FAKTY
-footer_foundation_name: Fundacja PACTA K9
-contact_phone_sebastian: +48 695 637 907
-twitter_handle: "@cerberusk9"
-hero_video_href: https://www.youtube.com/watch?v=kUhqmGhrbas
-footer_link_news: aktualnosci
-video_badge_4: POLSKIE RADIO — REPORTAŻ
-footer_link_foundation: fundacja
-media_contact_phone: +48 695 637 907
-contact_address_city: Ostrów Wielkopolski
-footer_link_instructors: instruktorzy
 event_time_start: 09:00
-regon_number: "543799847"
-og_image_default: /og-cerberus-k9-2026.jpg
-brand_tagline: INTERNATIONAL DEFENSE PLATFORM
-notification_bar_link_text_en: ""
-hardest_hit_active: true
-site_url: https://cerberusk9.org
-registration_contact_email: sebastian@pactak9.org
-modules_count: "8"
-pwa_description: Międzynarodowa Platforma Obrony K9
-contact_address_zip: 63-400
-registration_date_display: 13–14 czerwca 2026
-pwa_background_color: "#0F1720"
-sponsor_contact_email: sebastian@pactak9.org
+hero_title: CERBERUS
+hero_meta_delegations: 10+
+modules_count: "9"
 social_facebook: https://www.facebook.com/cerberusk9
+footer_email: sebastian@pactak9.org
+footer_foundation_name: Fundacja PACTA K9
+nip_number: "6222869581"
+regon_number: "543799847"
+site_url: https://cerberusk9.org
+og_image_default: /og-cerberus-k9-2026.jpg
+pwa_short_name: CERBERUS K9
+video_badge_2: TVP — PANORAMA
+video_badge_3: TVN — FAKTY
+video_badge_4: POLSKIE RADIO — REPORTAŻ
+brand_tagline: INTERNATIONAL DEFENSE PLATFORM
+hero_video_href: https://www.youtube.com/watch?v=kUhqmGhrbas
+hero_close_label_pl: ZAMKNIJ
+registration_date_display: 13–14 czerwca 2026
+registration_contact_email: sebastian@pactak9.org
+twitter_handle: "@cerberusk9"
+media_contact_phone: +48 695 637 907
+sponsor_contact_email: sebastian@pactak9.org
+contact_phone_sebastian: +48 695 637 907
+contact_address_city: Ostrów Wielkopolski
+contact_address_zip: 63-400
+agenda_page_url: https://cerberusk9.org/pl/o-wydarzeniu
+og_image_height: "630"
+gallery_video_4_url: https://www.youtube.com/embed/aNG1UVyOqNA
+mobile_cta_label_pl: ZAREJESTRUJ SIĘ
+footer_link_news: aktualnosci
+footer_link_foundation: fundacja
+footer_link_instructors: instruktorzy
+notification_bar_link_text_en: ""
+pwa_description: Międzynarodowa Platforma Obrony K9
+pwa_background_color: "#0F1720"
+hardest_hit_active: false
 sekcja_hero:
+  mobile_cta_label_en: REGISTER NOW
   pagehero_gallery_subtitle_pl: EDYCJA 2025 · TRÓJMIASTO · 300+ ZDJĘĆ
   pagehero_partners_title_pl: PARTNERZY
   hero_year: "2026"
@@ -244,13 +250,12 @@ sekcja_hero:
   pagehero_registration_category_pl: DOŁĄCZ DO NAS
   pagehero_foundation_subtitle_pl: "KRS: 0001219121 · TOPOLA MAŁA · WIELKOPOLSKA"
   mobile_sticky_cta_active: false
-  mobile_cta_label_pl: "ZAREJESTRUJ SIĘ"
-  mobile_cta_label_en: "REGISTER NOW"
   pagehero_contact_subtitle_pl: FUNDACJA PACTA K9 · CERBERUS K9 2026
   hero_background_image: /images/page_hero_graph.webp
   hero_video_title: CERBERUS K9 2026 — Relacja
   pagehero_media_subtitle_pl: PRESS KIT · INFORMACJE PRASOWE · RELACJE 2025
   hero_close_label_pl: ZAMKNIJ
+  mobile_cta_label_pl: ZAREJESTRUJ SIĘ
   pagehero_registration_title_pl: REJESTRACJA
   pagehero_registration_subtitle_pl: WSTĘP BEZPŁATNY · WYMAGANA REJESTRACJA · 13–14 CZERWCA 2026
   hero_title: CERBERUS
@@ -268,33 +273,40 @@ sekcja_hero:
   pagehero_instructors_category_pl: NASI
   hero_background_opacity: 0.4
   pagehero_partners_category_pl: WSPÓŁPRACA
-footer_email: sebastian@pactak9.org
 favicon_svg: /favicon.svg
 media_label_full_materials_pl: KOMPLET MATERIAŁÓW
-gallery_video_1_title: CERBERUS K9 2025 — Główna relacja
+event_timezone: Europe/Warsaw
+hero_subtitle: K9
+hero_meta_entry: WYMAGA REJESTRACJI · NIEBAWEM RUSZAJĄ ZAPISY
+krs_number: "0001219121"
+og_site_name: CERBERUS K9 International Defense Platform
 main_video_youtube: https://www.youtube.com/watch?v=kUhqmGhrbas
-gallery_video_2_title: TVP — Panorama
+video_url_2: https://youtu.be/Fo-j5vGI0m4
+video_url_3: https://www.youtube.com/embed/lf-Aek_TSzI
+hero_background_opacity: 0.4
+apple_touch_icon: /apple-touch-icon.png
+gallery_unlock_date: 2026-06-17
+hero_cta_registration_href: https://pretix.eu/MLK9-LLK9/CERBERUS/
+hero_cta_program_href: /pl/o-wydarzeniu#agenda
+krs_url: https://rejestr.io/krs/0001219121
+press_kit_zip: /press/cerberus-k9-press-kit-2026.zip
+press_pdf_polska_zbrojna: /downloads/polska-zbrojna-cerberus-k9-2025.pdf
+president_email: mariusz@pactak9.org
+accreditation_deadline: 30.05.2026
+contact_form_recipient: sebastian@pactak9.org
 contact_gdpr_text_en: I consent to processing of personal data in accordance with GDPR.
+og_image_width: "1200"
+og_image_alt: CERBERUS K9 2026 — Międzynarodowa Platforma Obrony
+partner_cta_href_full: /pl/partnerzy
+gallery_video_1_title: CERBERUS K9 2025 — Główna relacja
+gallery_video_2_title: TVP — Panorama
 media_label_media_archive_pl: ARCHIWUM MEDIALNE
 footer_link_registration: rejestracja
-hero_cta_program_href: /pl/o-wydarzeniu#agenda
 gallery_video_3_title: TVN — FAKTY
-og_image_width: "1200"
 notification_bar_text_en: ""
 gallery_video_4_title: POLSKIE RADIO — REPORTAŻ
 contact_address_country_en: Poland
-press_kit_zip: /press/cerberus-k9-press-kit-2026.zip
-gallery_unlock_date: 2026-06-14
-krs_url: https://rejestr.io/krs/0001219121
-og_site_name: CERBERUS K9
-krs_number: "0001219121"
-president_email: mariusz@pactak9.org
 notification_bar_severity: info
-partner_cta_href_full: /pl/partnerzy
-contact_form_recipient: sebastian@pactak9.org
-hero_subtitle: K9
-accreditation_deadline: 30.05.2026
-hero_cta_registration_href: https://pretix.eu/MLK9-LLK9/CERBERUS/
 sekcja_wideo:
   video_url_4: https://www.youtube.com/embed/aNG1UVyOqNA
   gallery_video_1_badge: POLSKA ZBROJNA · PATRON MEDIALNY
@@ -317,8 +329,6 @@ sekcja_wideo:
   gallery_video_4_title: POLSKIE RADIO — REPORTAŻ
   video_url_2: https://youtu.be/Fo-j5vGI0m4
   video_url_3: https://www.youtube.com/embed/lf-Aek_TSzI
-video_url_2: https://youtu.be/Fo-j5vGI0m4
-press_pdf_polska_zbrojna: /downloads/polska-zbrojna-cerberus-k9-2025.pdf
 contact_president_email: mariusz@pactak9.org
 sekcja_rejestracja:
   registration_contact_phone: +48 695 637 907
@@ -332,11 +342,7 @@ sekcja_rejestracja:
   registration_date_display: 13–14 czerwca 2026
   partner_cta_href_full: /pl/partnerzy
   accreditation_deadline: 30.05.2026
-og_image_alt: CERBERUS K9 2026 — Międzynarodowa Platforma Obrony
-apple_touch_icon: /apple-touch-icon.png
 footer_instagram_url: https://www.instagram.com/pactak9
-event_timezone: Europe/Warsaw
-video_url_3: https://www.youtube.com/embed/lf-Aek_TSzI
 footer_link_contact: kontakt
 sekcja_seo:
   og_locale: pl_PL
@@ -347,4 +353,3 @@ sekcja_seo:
   og_image_width: "1200"
   og_site_name: CERBERUS K9
   og_image_alt: CERBERUS K9 2026 — Międzynarodowa Platforma Obrony
-hero_background_opacity: 0.4
