@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo, type CSSProperties, type MouseEve
 import InstructorCard from './InstructorCard';
 import type { Lang } from '../i18n/utils';
 
-interface Instructor {
+export interface Instructor {
   name: string;
   role?: string;
   country: string;

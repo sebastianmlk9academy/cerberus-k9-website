@@ -5,7 +5,7 @@ import { instructorsSeoByLang } from '../../i18n/instructorsSeo';
 import { footerCopyByLang } from '../../i18n/footer';
 import { NavBar } from '../../components/NavBar';
 import { PageHero } from '../../components/PageHero';
-import InstructorsGrid from '../../components/InstructorsGrid';
+import InstructorsGrid, { type Instructor } from '../../components/InstructorsGrid';
 import { Footer } from '../../components/Footer';
 import { getSortedNavLinks } from '../../lib/getSortedNavLinks';
 
@@ -19,7 +19,7 @@ const navLinks = await getSortedNavLinks(lang);
 const footerCopy = footerCopyByLang[lang] ?? footerCopyByLang['pl'];
 const seo = instructorsSeoByLang[lang] ?? instructorsSeoByLang['pl'];
 
-let visibleInstructors = [];
+let visibleInstructors: Instructor[] = [];
 try {
 	const all = await getCollection('instruktorzy');
 	visibleInstructors = all
@@ -45,8 +45,8 @@ try {
 			socialInstagram: i.data.socialInstagram ?? '',
 			unit: i.data.unit ?? '',
 		}));
-} catch (e) {
-	console.warn('instruktorzy collection error:', e.message);
+} catch (e: unknown) {
+	console.warn('instruktorzy collection error:', e instanceof Error ? e.message : e);
 }
 
 const rawIF = await getCollection('instructor_filters');
