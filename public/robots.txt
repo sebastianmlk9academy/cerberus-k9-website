@@ -1,7 +1,10 @@
 User-agent: *
 Allow: /
+
 Disallow: /admin/
-Disallow: /blog/
-Disallow: /about
+Disallow: /pl/admin/
+Disallow: /en/admin/
+Disallow: /pl/live
+Disallow: /en/live
 
 Sitemap: https://cerberusk9.org/sitemap-index.xml

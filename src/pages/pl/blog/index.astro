@@ -1,0 +1,112 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { NavBar } from '../../../components/NavBar';
+import { Footer } from '../../../components/Footer';
+import { PageHero } from '../../../components/PageHero';
+import { footerCopyByLang } from '../../../i18n/footer';
+import { getSortedNavLinks } from '../../../lib/getSortedNavLinks';
+
+export const prerender = true;
+
+const lang = 'pl';
+const settings = await getEntry('ustawienia', 'ustawienia');
+const s = settings?.data;
+const navLinks = await getSortedNavLinks(lang);
+const footerCopy = footerCopyByLang[lang] ?? footerCopyByLang['pl'];
+
+const posts = (await getCollection('blog'))
+	.filter((p) => !p.data.draft)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const title = 'Blog — CERBERUS K9';
+const description = 'Artykuły i wpisy z bloga CERBERUS K9.';
+---
+
+<BaseLayout lang={lang} title={title} description={description} localizedPath="blog" ogType="website">
+	<NavBar
+		client:load
+		lang={lang}
+		logoSrc={s?.nav_logo}
+		logoAlt={s?.nav_logo_alt}
+		brandName={s?.brand_name}
+		brandTagline={s?.brand_tagline}
+		links={navLinks}
+		activeHref={Astro.url.pathname}
+		registrationActive={s?.registration_active ?? true}
+		registrationHref={(s?.pretix_url?.trim() || s?.hero_cta_registration_href?.trim()) || undefined}
+	/>
+	<PageHero
+		category="BLOG"
+		title="BLOG"
+		subtitle="CERBERUS K9 · ARTYKUŁY I WPISY"
+		heroImage={s?.hero_background_image}
+		heroOpacity={s?.hero_background_opacity}
+	/>
+	<section
+		style="background: linear-gradient(to bottom, #161F28, #1A2530, #161F28); padding: 60px 5%;"
+	>
+		<div style="max-width: 900px; margin: 0 auto;">
+			{
+				posts.length === 0 ? (
+					<p
+						style="color: #7A8A96; text-align: center; font-family: Rajdhani, sans-serif; letter-spacing: 3px;"
+					>
+						BRAK WPISÓW
+					</p>
+				) : (
+					posts.map((post) => (
+						<article style="border-bottom: 1px solid #253344; padding: 32px 0;">
+							<p style="color: #C4922A; font-family: Rajdhani, sans-serif; font-size: 11px; letter-spacing: 3px;">
+								{post.data.pubDate.toLocaleDateString('pl-PL')}
+							</p>
+							<h2
+								style="color: #E4DDD0; font-family: 'Bebas Neue', sans-serif; font-size: 28px; margin: 8px 0;"
+							>
+								<a href={`/pl/blog/${post.id}`} style="color: inherit; text-decoration: none;">
+									{post.data.title}
+								</a>
+							</h2>
+							<p style="color: #7A8A96; font-family: Rajdhani, sans-serif; font-size: 14px;">
+								{post.data.description}
+							</p>
+						</article>
+					))
+				)
+			}
+		</div>
+	</section>
+	<Footer
+		lang={lang}
+		copy={footerCopy}
+		logoSrc={s?.nav_logo}
+		logoAlt={s?.nav_logo_alt}
+		brandName={s?.brand_name}
+		brandTagline={s?.brand_tagline}
+		email={s?.footer_email ?? s?.registration_contact_email}
+		phone={s?.footer_phone ?? s?.contact_phone_sebastian}
+		socialFacebook={s?.social_facebook}
+		socialYoutube={s?.social_youtube}
+		socialInstagram={s?.social_instagram}
+		socialLinkedin={s?.social_linkedin}
+		socialTwitter={s?.social_twitter}
+		address={s?.footer_address}
+		foundationName={s?.footer_foundation_name}
+		domains={s?.footer_domains}
+		krsNumber={s?.krs_number}
+		nipNumber={s?.nip_number}
+		regonNumber={s?.regon_number}
+		footerLinks={{
+			about: s?.footer_link_about,
+			instructors: s?.footer_link_instructors,
+			registration: s?.footer_link_registration,
+			program: s?.footer_link_program,
+			gallery: s?.footer_link_gallery,
+			media: s?.footer_link_media,
+			news: s?.footer_link_news,
+			foundation: s?.footer_link_foundation,
+			partners: s?.footer_link_partners,
+			contact: s?.footer_link_contact,
+		}}
+	/>
+</BaseLayout>

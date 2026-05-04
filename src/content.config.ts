@@ -290,6 +290,11 @@ function mapInstruktorCmsKeys(raw: unknown): unknown {
 		o.socialInstagram = str(o.social_instagram);
 	}
 
+	if (typeof o.languages === 'string') {
+		const raw = o.languages as string;
+		o.languages = raw.split(/[,;]+/).map((s) => s.trim()).filter(Boolean);
+	}
+
 	if (o.active === undefined && o.isVisible !== undefined) {
 		const v = normalizeBoolish(o.isVisible);
 		if (v === true || v === false) o.active = v;
@@ -305,6 +310,7 @@ const instruktorzy = defineCollection({
 		z.object({
 			name: z.string(),
 			role: z.string().optional(),
+			role_pl: z.string().optional(),
 			country: z.string(),
 			countryCode: z.string().length(2),
 			specializations: z.preprocess(normalizeInstructorSpecializations, z.array(z.string())),
@@ -474,37 +480,49 @@ const press_releases = defineCollection({
 	}),
 });
 
+function mapProgramLegacyVisibility(raw: unknown): unknown {
+	if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return raw;
+	const o = { ...(raw as Record<string, unknown>) };
+	if (o.isVisible === undefined && o.active !== undefined) {
+		o.isVisible = o.active;
+	}
+	return o;
+}
+
 const program = defineCollection({
 	loader: glob({ base: './src/content/program', pattern: '**/*.{md,mdx}' }),
-	schema: z.object({
-		day: z.string(),
-		time_start: z.string().regex(/^\d{2}:\d{2}$/),
-		time_end: z.string().regex(/^\d{2}:\d{2}$/),
-		title_pl: z.string(),
-		title_en: z.string().optional().default(''),
-		title: z.string().optional(),
-		location: z.string().optional().default(''),
-		locationMapUrl: z.string().optional().default(''),
-		category: z.enum(ENUM_MODULE_CATEGORIES),
-		description: z.string().optional().default(''),
-		instructor: z.string().optional().default(''),
-		instructor_id: z.string().optional(),
-		is_break: z.boolean().optional().default(false),
-		order: z.number().optional().default(99),
-		isVisible: z.boolean().optional().default(true),
-		active: z.boolean().optional(),
-		needs_review: z.boolean().optional().default(false),
-		audience: z.union([z.array(z.string()), z.string()]).optional(),
-		maxParticipants: z.number().optional(),
-		color: z.string().optional(),
-		icon: z.string().optional(),
-		module: z.string().optional(),
-		schedule: z.string().optional(),
-	}),
+	schema: z.preprocess(
+		mapProgramLegacyVisibility,
+		z.object({
+			day: z.string(),
+			time_start: z.string().regex(/^\d{2}:\d{2}$/),
+			time_end: z.string().regex(/^\d{2}:\d{2}$/),
+			title_pl: z.string(),
+			title_en: z.string().optional().default(''),
+			title: z.string().optional(),
+			location: z.string().optional().default(''),
+			locationMapUrl: z.string().optional().default(''),
+			category: z.enum(ENUM_MODULE_CATEGORIES),
+			description: z.string().optional().default(''),
+			instructor: z.string().optional().default(''),
+			instructor_id: z.string().optional(),
+			is_break: z.boolean().optional().default(false),
+			order: z.number().optional().default(99),
+			isVisible: z.boolean().optional().default(true),
+			active: z.boolean().optional(),
+			needs_review: z.boolean().optional().default(false),
+			audience: z.union([z.array(z.string()), z.string()]).optional(),
+			maxParticipants: z.number().optional(),
+			color: z.string().optional(),
+			icon: z.string().optional(),
+			module: z.string().optional(),
+			schedule: z.string().optional(),
+		}),
+	),
 });
 
 const agenda_categories = defineCollection({
-	loader: glob({ base: './src/content/agenda_categories', pattern: '**/*.{md,mdx}' }),
+	loader: glob({ base: './src/content/agenda_categories', pattern: '**/*.{md,mdx,yml,yaml}' }),
 	schema: z.object({
 		key: z.enum(ENUM_MODULE_CATEGORIES),
 		label_pl: z.string(),
