@@ -1458,6 +1458,8 @@ collections:
     create: true
     delete: true
     slug: "{{day}}-{{slug}}"
+    identifier_field: title_pl
+    summary: "{{day}} · {{time_start}}–{{time_end}} · {{title_pl}}"
     preview_path: "pl/o-wydarzeniu"
     extension: "md"
     format: "frontmatter"
@@ -1483,11 +1485,16 @@ collections:
         pattern:
           - "^\\d{2}:\\d{2}$"
           - "Format HH:MM"
-      - name: "title"
-        label: "📝 Tytuł punktu"
+      - name: "title_pl"
+        label: "📝 Tytuł punktu (PL)"
         widget: "string"
-        hint: "Tytuł w agendzie i w eksporcie kalendarza."
+        hint: "Tytuł w agendzie PL i w eksporcie kalendarza."
         required: true
+      - name: "title_en"
+        label: "📝 Tytuł punktu (EN)"
+        widget: "string"
+        hint: "Tytuł przy języku angielskim na stronie."
+        required: false
       - name: "description"
         label: "📄 Opis (opcjonalnie)"
         widget: "text"
@@ -1533,7 +1540,7 @@ collections:
         required: false
         default: 99
         value_type: "int"
-      - name: "active"
+      - name: "isVisible"
         label: "👁️ Widoczny na stronie"
         widget: "boolean"
         hint: "true = widoczny dla odwiedzających, false = ukryty. Wpis zostaje zapisany."

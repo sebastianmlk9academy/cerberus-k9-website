@@ -568,6 +568,8 @@ const collections = [
     create: true,
     delete: true,
     slug: '{{day}}-{{slug}}',
+    identifier_field: 'title_pl',
+    summary: '{{day}} · {{time_start}}–{{time_end}} · {{title_pl}}',
     preview_path: 'pl/o-wydarzeniu',
     extension: 'md',
     format: 'frontmatter',
@@ -581,7 +583,8 @@ const collections = [
         required: true,
         pattern: ['^\\d{2}:\\d{2}$', 'Format HH:MM'],
       }),
-      f('title', '📝 Tytuł punktu', 'string', 'Tytuł w agendzie i w eksporcie kalendarza.', { required: true }),
+      f('title_pl', '📝 Tytuł punktu (PL)', 'string', 'Tytuł w agendzie PL i w eksporcie kalendarza.', { required: true }),
+      f('title_en', '📝 Tytuł punktu (EN)', 'string', 'Tytuł przy języku angielskim na stronie.', { required: false }),
       f('description', '📄 Opis (opcjonalnie)', 'text', 'Rozwinięcie punktu — tooltip lub szczegóły.', { required: false }),
       f('location', '📍 Lokalizacja', 'select', 'Miejsce wydarzenia — wyświetlane przy punkcie agendy.', {
         required: false,
@@ -600,7 +603,7 @@ const collections = [
       f('category', '🏷️ Klucz kategorii', 'string', 'Musi zgadzać się z kluczem w „Kategorie Agendy” (np. K9, TCCC).', { required: true, default: 'K9' }),
       f('instructor', '👤 Instruktor / prowadzący', 'string', 'Opcjonalne nazwisko przy punkcie programu.', { required: false }),
       f('order', '🔢 Kolejność wyświetlania', 'number', 'Niższa liczba = wyżej w obrębie dnia.', { required: false, default: 99, value_type: 'int' }),
-      f('active', '👁️ Widoczny na stronie', 'boolean', boolHint, { required: false, default: true }),
+      f('isVisible', '👁️ Widoczny na stronie', 'boolean', boolHint, { required: false, default: true }),
     ],
   },
   {
