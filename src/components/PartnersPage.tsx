@@ -2,7 +2,9 @@ import { useState, useMemo, type MouseEvent } from 'react';
 import { Mail, Download } from 'lucide-react';
 import type { Lang } from '../i18n/utils';
 
-export type PartnerTypeId = 'strategic' | 'sponsor' | 'media' | 'technology';
+/** Zgodne z `ENUM_PARTNER_TYPES` w `content.config.ts` (pole `type` partnera z CMS). */
+export const PARTNER_TYPE_IDS = ['strategic', 'partner', 'technical', 'media', 'honorary', 'sponsor'] as const;
+export type PartnerTypeId = (typeof PARTNER_TYPE_IDS)[number];
 export type PartnerType = PartnerTypeId;
 
 export interface Partner {
@@ -46,7 +48,7 @@ const defaultPartners: Partner[] = [
   {
     id: 4,
     name: 'Astriva',
-    type: 'technology',
+    type: 'technical',
     description: '',
     website: 'https://astriva.pl',
     websiteLabel: 'astriva.pl',
@@ -73,7 +75,7 @@ const defaultPartners: Partner[] = [
   {
     id: 7,
     name: 'Smart Target',
-    type: 'technology',
+    type: 'technical',
     description: '',
     website: 'https://smart-target.pl',
     websiteLabel: 'smart-target.pl',
@@ -144,14 +146,16 @@ const defaultPartners: Partner[] = [
   },
 ];
 
-type FilterTab = 'all' | 'strategic' | 'sponsor' | 'media' | 'technology';
+type FilterTab = 'all' | PartnerTypeId;
 
 const filterTabs: FilterTab[] = [
   'all',
   'strategic',
-  'sponsor',
+  'partner',
+  'technical',
   'media',
-  'technology',
+  'honorary',
+  'sponsor',
 ];
 
 function handlePartnersFilterMouseEnter(e: MouseEvent<HTMLButtonElement>) {
@@ -170,6 +174,11 @@ const typeBadge: Record<PartnerTypeId, { bg: string; text: string; border: strin
     text: '#C4922A',
     border: 'rgba(196,146,42,0.35)',
   },
+  partner: {
+    bg: 'rgba(120,130,150,0.12)',
+    text: '#9CA8BC',
+    border: 'rgba(120,130,150,0.35)',
+  },
   sponsor: {
     bg: 'rgba(180,30,30,0.12)',
     text: '#C0392B',
@@ -180,19 +189,26 @@ const typeBadge: Record<PartnerTypeId, { bg: string; text: string; border: strin
     text: '#20A096',
     border: 'rgba(32,160,150,0.35)',
   },
-  technology: {
+  technical: {
     bg: 'rgba(58,120,200,0.12)',
     text: '#4A90D9',
     border: 'rgba(58,120,200,0.35)',
+  },
+  honorary: {
+    bg: 'rgba(180,140,60,0.12)',
+    text: '#D4A84B',
+    border: 'rgba(180,140,60,0.35)',
   },
 };
 
 type PartnerLabels = {
   all: string;
   strategic: string;
+  partner: string;
+  technical: string;
   sponsor: string;
   media: string;
-  technology: string;
+  honorary: string;
   currentPartners: string;
   becomePartner: string;
   noPartners: string;
@@ -215,9 +231,11 @@ const partnerLabelsMap: Partial<Record<Lang, PartnerLabels>> = {
   pl: {
     all: 'WSZYSCY',
     strategic: 'STRATEGICZNY',
+    partner: 'PARTNER',
+    technical: 'TECHNOLOGICZNY',
     sponsor: 'SPONSOR',
     media: 'PATRON MEDIALNY',
-    technology: 'TECHNOLOGICZNY',
+    honorary: 'PATRON HONOROWY',
     currentPartners: 'AKTUALNI PARTNERZY',
     becomePartner: 'ZOSTAŃ PARTNEREM',
     noPartners: 'BRAK PARTNERÓW',
@@ -239,9 +257,11 @@ const partnerLabelsMap: Partial<Record<Lang, PartnerLabels>> = {
   en: {
     all: 'ALL',
     strategic: 'STRATEGIC',
+    partner: 'PARTNER',
+    technical: 'TECHNOLOGY',
     sponsor: 'SPONSOR',
     media: 'MEDIA PARTNER',
-    technology: 'TECHNOLOGY',
+    honorary: 'HONORARY PATRON',
     currentPartners: 'CURRENT PARTNERS',
     becomePartner: 'BECOME A PARTNER',
     noPartners: 'NO PARTNERS',
@@ -263,9 +283,11 @@ const partnerLabelsMap: Partial<Record<Lang, PartnerLabels>> = {
   de: {
     all: 'ALLE',
     strategic: 'STRATEGISCH',
+    partner: 'PARTNER',
+    technical: 'TECHNOLOGIE',
     sponsor: 'SPONSOR',
     media: 'MEDIENPARTNER',
-    technology: 'TECHNOLOGIE',
+    honorary: 'EHRENPATRON',
     currentPartners: 'AKTUELLE PARTNER',
     becomePartner: 'PARTNER WERDEN',
     noPartners: 'KEINE PARTNER',
@@ -511,7 +533,7 @@ type PartnersPageProps = {
   cmsSections?: CmsPartnerSectionRow[];
 };
 
-const FILTER_TAB_KEYS: FilterTab[] = ['all', 'strategic', 'sponsor', 'media', 'technology'];
+const PARTNER_TAB_KEYS = new Set<string>(['all', ...PARTNER_TYPE_IDS]);
 
 export default function PartnersPage({
   lang,
@@ -543,7 +565,7 @@ export default function PartnersPage({
       return filterTabs.map((tab) => ({ key: tab, label: labels[tab] }));
     }
     return sortedCmsSections
-      .filter((s) => FILTER_TAB_KEYS.includes(s.key as FilterTab))
+      .filter((s) => PARTNER_TAB_KEYS.has(s.key))
       .map((s) => ({
         key: s.key as FilterTab,
         label:

@@ -1323,45 +1323,45 @@ collections:
       - { name: label_de, label: "🇩🇪 Etykieta DE", widget: string, required: false }
       - { name: label_fr, label: "🇫🇷 Etykieta FR", widget: string, required: false }
       - name: filter_field
-        label: "🧩 Pole filtrowania"
+        label: "Pole do filtrowania"
         widget: select
         default: specializations
-        hint: >
-          📍 Gdzie: logika filtrów na stronie /instruktorzy — które pole frontmatteru jest porównywane.
-          ✏️ specializations = tagi, type = typ uczestnika, module = moduł, languages = języki, all = dowolne dopasowanie.
+        hint: "📍 Decyduje po jakim polu instruktora działa filtr. ⚠️ Wybierz specializations dla większości filtrów. ✏️ Przykład: specializations"
         options:
-          - { label: "🎯 Specjalizacje", value: specializations }
-          - { label: "👤 Typ uczestnika", value: type }
-          - { label: "📚 Moduł", value: module }
-          - { label: "🗣️ Języki", value: languages }
-          - { label: "🌐 Wszystkie pola (all)", value: all }
+          - { label: "Specjalizacje (specializations)", value: specializations }
+          - { label: "Typ instruktora (type)", value: type }
+          - { label: "Moduł (module)", value: module }
+          - { label: "Języki (languages)", value: languages }
+          - { label: "Wszyscy (all)", value: all }
       - name: filter_match
-        label: "⚖️ Sposób dopasowania"
+        label: "Sposób dopasowania"
         widget: select
         default: includes
-        hint: >
-          📍 Gdzie: sposób porównania wartości filtra z danymi instruktora na /instruktorzy.
-          ✏️ includes = zawiera, equals = równe, any_of = jedna z listy, none = wykluczenie.
+        hint: "📍 includes = specjalizacja zawiera szukaną wartość. ✏️ Przykład: includes"
         options:
-          - { label: "📎 Zawiera (includes)", value: includes }
-          - { label: "✅ Równe (equals)", value: equals }
-          - { label: "📋 Dowolna z listy (any_of)", value: any_of }
-          - { label: "🚫 Wyklucza (none)", value: none }
+          - { label: "Zawiera (includes)", value: includes }
+          - { label: "Równa się (equals)", value: equals }
+          - { label: "Jeden z (any_of)", value: any_of }
+          - { label: "Wszyscy (none)", value: none }
       - name: filter_value
-        label: "✏️ Wartość (pojedyncza)"
-        widget: string
+        label: "Wartość filtra (jedna)"
+        widget: relation
+        collection: instruktorzy
+        search_fields: ["specializations"]
+        value_field: specializations
+        display_fields: ["name", "specializations"]
         required: false
-        hint: "📍 Gdzie: pojedynczy tekst/kod porównywany przez filtr. ✏️ Np. klucz specjalizacji z CMS."
+        hint: "📍 Wybierz wartość z listy instruktorów. Pole aktualizuje się automatycznie gdy dodasz nowego instruktora. ✏️ Przykład: K9-Gryzienie"
       - name: filter_values
-        label: "📋 Wartości (lista)"
-        widget: list
+        label: "Wartości filtra (lista — any_of)"
+        widget: relation
+        collection: instruktorzy
+        search_fields: ["specializations", "name"]
+        value_field: specializations
+        display_fields: ["name", "specializations"]
+        multiple: true
         required: false
-        hint: "📍 Gdzie: wiele wartości dla trybu any_of/none na /instruktorzy."
-        field:
-          name: v
-          label: "✏️ Wartość listy"
-          widget: string
-          hint: "Pojedyncza wartość z listy filtra."
+        hint: "📍 Wiele wpisów instruktorów — specjalizacje są scalane do listy any_of. Aktualizuje się z kolekcji instruktorzy."
       - name: order
         label: "🔢 Kolejność"
         widget: number
@@ -1385,7 +1385,19 @@ collections:
     extension: yml
     format: yaml
     fields:
-      - { name: key, label: "🔑 Klucz", widget: string, required: true }
+      - name: key
+        label: "Klucz sekcji (musi pasować do typu partnera)"
+        widget: select
+        required: true
+        options:
+          - { label: "Wszyscy partnerzy", value: all }
+          - { label: "Partner Strategiczny", value: strategic }
+          - { label: "Partner", value: partner }
+          - { label: "Partner Techniczny", value: technical }
+          - { label: "Patron Medialny", value: media }
+          - { label: "Patron Honorowy", value: honorary }
+          - { label: "Sponsor", value: sponsor }
+        hint: "📍 Gdzie: /partnerzy → zakładka filtra. ⚠️ MUSI pasować do pola 'type' u partnerów. Np. 'media' pokaże tylko partnerów z type=media. ✏️ Przykład: strategic"
       - { name: label_pl, label: "🇵🇱 Etykieta PL", widget: string, required: true }
       - { name: label_en, label: "🇬🇧 Etykieta EN", widget: string, required: false }
       - { name: label_de, label: "🇩🇪 Etykieta DE", widget: string, required: false }
@@ -1427,10 +1439,20 @@ collections:
       - { name: label_en, label: "🇬🇧 Etykieta EN", widget: string, required: false }
       - { name: label_de, label: "🇩🇪 Etykieta DE", widget: string, required: false }
       - name: category_value
-        label: "🏷️ Wartość kategorii (klucz)"
-        widget: string
+        label: "Wartość kategorii galerii"
+        widget: select
         required: false
-        hint: "📍 Gdzie: powiązanie filtra z polem category zdjęć w galerii. ✏️ Np. SZKOLENIA_K9."
+        options:
+          - { label: "HARDEST HIT", value: HARDEST_HIT }
+          - { label: "Szkolenia K9", value: SZKOLENIA_K9 }
+          - { label: "Pierwsza Pomoc", value: PIERWSZA_POMOC }
+          - { label: "TCCC", value: TCCC }
+          - { label: "Konferencja", value: KONFERENCJA }
+          - { label: "Drony", value: DRONY }
+          - { label: "Ceremonia", value: CEREMONIA }
+          - { label: "SAR", value: SAR }
+          - { label: "Ogólne", value: OGOLNE }
+        hint: "📍 Gdzie: /galeria → przycisk filtra. ⚠️ Wartość MUSI pasować do kategorii zdjęcia w galerii. ✏️ Przykład: HARDEST_HIT"
       - name: order
         label: "🔢 Kolejność filtra"
         widget: number

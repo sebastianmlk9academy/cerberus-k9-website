@@ -21,6 +21,39 @@ function dateToString(val: unknown): unknown {
 	return val;
 }
 
+/** Relation Decap (value_field: specializations) może zapisać tablicę; dotychczas był string. */
+function normalizeInstructorFilterValue(val: unknown): string {
+	if (val == null) return '';
+	if (typeof val === 'string') return val.trim();
+	if (Array.isArray(val)) {
+		for (const item of val) {
+			if (typeof item === 'string' && item.trim()) return item.trim();
+		}
+		return '';
+	}
+	return '';
+}
+
+/** Lista stringów lub relation multiple (tablice specjalizacji) lub legacy { v: string }. */
+function normalizeInstructorFilterValues(val: unknown): string[] {
+	if (!Array.isArray(val)) return [];
+	const out: string[] = [];
+	for (const el of val) {
+		if (typeof el === 'string') {
+			const t = el.trim();
+			if (t) out.push(t);
+		} else if (Array.isArray(el)) {
+			for (const s of el) {
+				if (typeof s === 'string' && s.trim()) out.push(s.trim());
+			}
+		} else if (el && typeof el === 'object' && 'v' in el) {
+			const v = (el as { v?: unknown }).v;
+			if (typeof v === 'string' && v.trim()) out.push(v.trim());
+		}
+	}
+	return out;
+}
+
 const ENUM_MODULE_CATEGORIES = [
 	'K9-Gryzienie',
 	'K9-Detekcja',
@@ -304,6 +337,7 @@ const PARTNER_TYPE_PL_TO_EN: Record<string, (typeof ENUM_PARTNER_TYPES)[number]>
 	'Patron Medialny': 'media',
 	'Patron-Medialny': 'media',
 	Honorowy: 'honorary',
+	'Patron Honorowy': 'honorary',
 	Sponsor: 'sponsor',
 };
 
@@ -1312,8 +1346,8 @@ const instructor_filters = defineCollection({
 		label_fr: z.string().optional().default(''),
 		filter_field: z.enum(['specializations', 'type', 'module', 'languages', 'all']),
 		filter_match: z.enum(['includes', 'equals', 'any_of', 'none']).optional().default('includes'),
-		filter_value: z.string().optional().default(''),
-		filter_values: z.array(z.string()).optional().default([]),
+		filter_value: z.preprocess(normalizeInstructorFilterValue, z.string().optional().default('')),
+		filter_values: z.preprocess(normalizeInstructorFilterValues, z.array(z.string()).optional().default([])),
 		order: z.number().optional().default(10),
 		active: z.boolean().optional().default(true),
 	}),

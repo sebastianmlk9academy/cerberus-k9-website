@@ -35,20 +35,27 @@ function websiteLabel(url: string | undefined): string | null {
 	}
 }
 
-function cmsTypeToPartnerType(
-	t:
-		| 'Strategiczny'
-		| 'Sponsor'
-		| 'Patron-Medialny'
-		| 'Patron Medialny'
-		| 'Technologiczny'
-		| undefined,
-): PartnerTypeId {
-	if (t === 'Patron-Medialny' || t === 'Patron Medialny') return 'media';
-	if (t === 'Sponsor') return 'sponsor';
-	if (t === 'Technologiczny') return 'technology';
-	if (t === 'Strategiczny') return 'strategic';
-	return 'strategic';
+const CMS_PARTNER_TYPE_MAP: Record<string, PartnerTypeId> = {
+	Strategiczny: 'strategic',
+	Partner: 'partner',
+	Technologiczny: 'technical',
+	'Patron Medialny': 'media',
+	'Patron-Medialny': 'media',
+	Honorowy: 'honorary',
+	'Patron Honorowy': 'honorary',
+	Sponsor: 'sponsor',
+	strategic: 'strategic',
+	partner: 'partner',
+	technical: 'technical',
+	media: 'media',
+	honorary: 'honorary',
+	sponsor: 'sponsor',
+};
+
+function cmsTypeToPartnerType(t: string | undefined): PartnerTypeId {
+	if (!t || typeof t !== 'string') return 'strategic';
+	const k = t.trim();
+	return CMS_PARTNER_TYPE_MAP[k] ?? 'strategic';
 }
 
 function displayName(entry: (typeof sorted)[number]): string {
