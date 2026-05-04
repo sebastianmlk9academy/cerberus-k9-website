@@ -803,11 +803,14 @@ collections:
             required: false
   - name: "homepage_cards"
     label: "🏠 Strona Główna — Karty Programu"
-    description: "Trzy karty sekcji programu na stronie głównej (K9, TCCC, Drony)."
+    description: "Karty sekcji „Program” na stronie głównej — treść jak na witrynie (K9, TCCC, Drony, Konferencja). Lista
+      CMS pokazuje tytuł PL."
     folder: "src/content/homepage_cards"
     create: true
     delete: true
     slug: "{{slug}}"
+    identifier_field: "title_pl"
+    summary: "{{title_pl}} · {{category}}"
     extension: "md"
     format: "frontmatter"
     fields:
@@ -817,7 +820,7 @@ collections:
         hint: "Filtr i kolor akcentu karty na stronie głównej."
         required: true
         options:
-          - "K9"
+          - "K9 OBRONA"
           - "TCCC"
           - "DRONY"
           - "KONFERENCJA"
