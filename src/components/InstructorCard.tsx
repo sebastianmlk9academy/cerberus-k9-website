@@ -288,6 +288,8 @@ const countryNames: Record<string, Record<string, string>> = {
 interface InstructorCardProps {
   name: string;
   role?: string;
+  /** Jednostka / organizacja z CMS — linia pod rolą, nad krajem. */
+  unit?: string;
   country: string;
   countryCode: string;
   specializations: string[];
@@ -307,6 +309,7 @@ interface InstructorCardProps {
 export default function InstructorCard({
   name,
   role,
+  unit,
   country,
   countryCode,
   specializations,
@@ -453,6 +456,21 @@ export default function InstructorCard({
             }}
           >
             {role.trim()}
+          </p>
+        ) : null}
+
+        {unit?.trim() ? (
+          <p
+            style={{
+              color: '#6B7C88',
+              fontSize: '11px',
+              letterSpacing: '1px',
+              fontFamily: 'var(--font-rajdhani)',
+              lineHeight: 1.45,
+              margin: role?.trim() ? '6px 0 0 0' : '4px 0 0 0',
+            }}
+          >
+            {unit.trim()}
           </p>
         ) : null}
 

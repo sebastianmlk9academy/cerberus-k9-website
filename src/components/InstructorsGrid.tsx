@@ -398,7 +398,7 @@ export default function InstructorsGrid({
             {visibleCards.map((instructor, i) => (
               <InstructorCard
                 key={instructor.name + i}
-                {...instructor as any}
+                {...instructor}
                 placeholderPhoto={placeholderPhoto}
                 lang={lang}
               />
