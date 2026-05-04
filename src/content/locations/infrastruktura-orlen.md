@@ -1,28 +1,54 @@
 ---
-name: "INFRASTRUKTURA ORLEN"
-address: "Ostrów Wielkopolski"
-description_pl: "Infrastruktura przemysłowa Orlen udostępniona dla specjalistycznych ćwiczeń K9 w środowisku przemysłowym i szkolenia w warunkach zbliżonych do rzeczywistych."
-description_en: "Orlen industrial infrastructure made available for specialist K9 exercises in an industrial environment and training in near-real conditions."
-description_de: "Industrieinfrastruktur von Orlen für spezialisierte K9-Übungen in industrieller Umgebung und Training unter realitätsnahen Bedingungen."
-description_fr: "Infrastructure industrielle d'Orlen mise à disposition pour des exercices K9 spécialisés en environnement industriel et des formations en conditions proches du réel."
-description_cs: "Průmyslová infrastruktura Orlen pro specializovaná cvičení K9 v průmyslovém prostředí a výcvik v podmínkách blízkých realitě."
-description_sk: "Priemyselná infraštruktúra Orlen pre špecializované cvičenia K9 v priemyselnom prostredí a výcvik v podmienkach blízkych realite."
-description_hu: "Orlen ipari infrastruktúra ipari környezetben zajló speciális K9-gyakorlatokhoz és valósághű körülmények között végzett képzéshez."
-description_hr: "Industrijska infrastruktura Orlen dostupna za specijalizirane K9 vježbe u industrijskom okruženju i obuku u uvjetima bliskim stvarnosti."
-description_sl: "Industrijska infrastruktura Orlen za specializirane K9 vaje v industrijskem okolju in usposabljanje v pogojih blizu resničnih."
-description_es: "Infraestructura industrial de Orlen disponible para ejercicios K9 especializados en entorno industrial y entrenamiento en condiciones cercanas a la realidad."
-description_pt: "Infraestrutura industrial da Orlen disponível para exercícios K9 especializados em ambiente industrial e treino em condições próximas da realidade."
-description_it: "Infrastruttura industriale Orlen disponibile per esercitazioni K9 specializzate in ambiente industriale e addestramento in condizioni vicine alla realtà."
-description_nl: "Orlen industriële infrastructuur beschikbaar voor gespecialiseerde K9-oefeningen in een industriële omgeving en training in bijna-realistische omstandigheden."
-description_no: "Orlen industriinfrastruktur tilgjengelig for spesialiserte K9-øvelser i industrielt miljø og trening under nærvirkelige forhold."
-description_sv: "Orlen industriell infrastruktur tillgänglig för specialiserade K9-övningar i industriell miljö och träning under nästan verklighetsliknande förhållanden."
-description_lt: "Orlen pramoninė infrastruktūra, prieinama specializuotiems K9 pratyboms pramoniniame aplinkoje ir mokymams artimomis realioms sąlygomis."
-description_lv: "Orlen rūpnieciskā infrastruktūra pieejama specializētiem K9 vingrinājumiem rūpnieciskā vidē un apmācībām gandrīz reāliem apstākļiem."
-description_ro: "Infrastructura industrială Orlen pusă la dispoziție pentru exerciții K9 specializate în mediu industrial și antrenamente în condiții aproape reale."
-description_ko: "산업 환경에서의 전문 K9 훈련 및 실제에 가까운 조건의 훈련을 위해 제공된 Orlen 산업 인프라."
-modules_pl: "K9 specjalistyczny · Środowisko przemysłowe"
-modules_en: "Specialist K9 · Industrial environment"
-status: "W TRAKCIE ROZMÓW"
+name: INFRASTRUKTURA ORLEN
+address: Ostrów Wielkopolski
+description_pl: Infrastruktura przemysłowa Orlen udostępniona dla
+  specjalistycznych ćwiczeń K9 w środowisku przemysłowym i szkolenia w warunkach
+  zbliżonych do rzeczywistych.
+description_en: Orlen industrial infrastructure made available for specialist K9
+  exercises in an industrial environment and training in near-real conditions.
+description_de: Industrieinfrastruktur von Orlen für spezialisierte K9-Übungen
+  in industrieller Umgebung und Training unter realitätsnahen Bedingungen.
+description_fr: Infrastructure industrielle d'Orlen mise à disposition pour des
+  exercices K9 spécialisés en environnement industriel et des formations en
+  conditions proches du réel.
+description_hr: Industrijska infrastruktura Orlen dostupna za specijalizirane K9
+  vježbe u industrijskom okruženju i obuku u uvjetima bliskim stvarnosti.
+description_cs: Průmyslová infrastruktura Orlen pro specializovaná cvičení K9 v
+  průmyslovém prostředí a výcvik v podmínkách blízkých realitě.
+description_lt: Orlen pramoninė infrastruktūra, prieinama specializuotiems K9
+  pratyboms pramoniniame aplinkoje ir mokymams artimomis realioms sąlygomis.
+description_lv: Orlen rūpnieciskā infrastruktūra pieejama specializētiem K9
+  vingrinājumiem rūpnieciskā vidē un apmācībām gandrīz reāliem apstākļiem.
+description_sk: Priemyselná infraštruktúra Orlen pre špecializované cvičenia K9
+  v priemyselnom prostredí a výcvik v podmienkach blízkych realite.
+description_sl: Industrijska infrastruktura Orlen za specializirane K9 vaje v
+  industrijskem okolju in usposabljanje v pogojih blizu resničnih.
+description_hu: Orlen ipari infrastruktúra ipari környezetben zajló speciális
+  K9-gyakorlatokhoz és valósághű körülmények között végzett képzéshez.
+description_no: Orlen industriinfrastruktur tilgjengelig for spesialiserte
+  K9-øvelser i industrielt miljø og trening under nærvirkelige forhold.
+description_sv: Orlen industriell infrastruktur tillgänglig för specialiserade
+  K9-övningar i industriell miljö och träning under nästan verklighetsliknande
+  förhållanden.
+description_nl: Orlen industriële infrastructuur beschikbaar voor
+  gespecialiseerde K9-oefeningen in een industriële omgeving en training in
+  bijna-realistische omstandigheden.
+description_es: Infraestructura industrial de Orlen disponible para ejercicios
+  K9 especializados en entorno industrial y entrenamiento en condiciones
+  cercanas a la realidad.
+description_pt: Infraestrutura industrial da Orlen disponível para exercícios K9
+  especializados em ambiente industrial e treino em condições próximas da
+  realidade.
+description_ro: Infrastructura industrială Orlen pusă la dispoziție pentru
+  exerciții K9 specializate în mediu industrial și antrenamente în condiții
+  aproape reale.
+description_it: Infrastruttura industriale Orlen disponibile per esercitazioni
+  K9 specializzate in ambiente industriale e addestramento in condizioni vicine
+  alla realtà.
+description_ko: 산업 환경에서의 전문 K9 훈련 및 실제에 가까운 조건의 훈련을 위해 제공된 Orlen 산업 인프라.
+modules_pl: K9 specjalistyczny · Środowisko przemysłowe
+modules_en: Specialist K9 · Industrial environment
+status: POTWIERDZONE
 order: 4
 active: true
 ---
