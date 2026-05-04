@@ -375,10 +375,11 @@ export default function InstructorCard({
       module: '모듈:', schedule: '일정:', linkedin: 'LINKEDIN →', facebook: 'FACEBOOK →', instagram: 'INSTAGRAM →' },
   };
   const t = cardCopy[lang ?? 'pl'] ?? cardCopy['en'];
+  const codeNorm = countryCode.trim();
   const resolvedCountry =
-    countryCode
-      ? (countryNames[lang ?? 'pl']?.[countryCode.toUpperCase()]
-        ?? countryNames['en']?.[countryCode.toUpperCase()]
+    codeNorm
+      ? (countryNames[lang ?? 'pl']?.[codeNorm.toUpperCase()]
+        ?? countryNames['en']?.[codeNorm.toUpperCase()]
         ?? country)
       : country;
 
@@ -470,17 +471,21 @@ export default function InstructorCard({
             textTransform: 'uppercase',
           }}
         >
-          <img
-            src={'https://flagcdn.com/24x18/' + countryCode.toLowerCase() + '.png'}
-            srcSet={'https://flagcdn.com/48x36/' + countryCode.toLowerCase() + '.png 2x'}
-            width="24"
-            height="18"
-            alt={resolvedCountry}
-            onError={(e) => {
-              e.currentTarget.style.display = 'none';
-            }}
-            style={{ display: 'inline-block', verticalAlign: 'middle' }}
-          />
+          {codeNorm ? (
+            <img
+              src={`https://flagcdn.com/w40/${codeNorm.toLowerCase()}.png`}
+              srcSet={`https://flagcdn.com/w80/${codeNorm.toLowerCase()}.png 2x`}
+              width="32"
+              height="24"
+              alt=""
+              loading="lazy"
+              decoding="async"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+              }}
+              style={{ display: 'inline-block', verticalAlign: 'middle' }}
+            />
+          ) : null}
           {resolvedCountry}
         </p>
 

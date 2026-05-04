@@ -28,8 +28,9 @@ try {
 		.map((i) => ({
 			name: i.data.name,
 			role: i.data.role ?? i.data.role_pl ?? '',
-			country: i.data.country,
-			countryCode: i.data.countryCode ?? (i.data as { country_code?: string }).country_code ?? '',
+			country: i.data.country ?? '',
+			countryCode:
+				i.data.countryCode ?? (i.data as { country_code?: string }).country_code ?? '',
 			specializations: i.data.specializations ?? [],
 			bioShort: i.data.bioShort ?? (i.data as { bio_short_pl?: string }).bio_short_pl ?? '',
 			bioFull: i.data.bioFull ?? (i.data as { bio_full_pl?: string }).bio_full_pl ?? '',

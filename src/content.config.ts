@@ -240,10 +240,11 @@ function mapInstruktorCmsKeys(raw: unknown): unknown {
 	const o = { ...(raw as Record<string, unknown>) };
 	const str = (v: unknown) => (typeof v === 'string' ? v.trim() : '');
 
-	const existingCode = str(o.countryCode);
-	if (!existingCode && str(o.country_code)) {
-		o.countryCode = str(o.country_code).toUpperCase();
-	}
+	/** Decap CMS zapisuje `country_code`; starsze pliki mogą mieć tylko `countryCode`. Autorytatywne jest pole z CMS. */
+	const fromSnake = str(o.country_code);
+	const fromCamel = str(o.countryCode);
+	if (fromSnake) o.countryCode = fromSnake.toUpperCase();
+	else if (fromCamel) o.countryCode = fromCamel.toUpperCase();
 
 	const existingRole = str(o.role);
 	if (!existingRole) {
