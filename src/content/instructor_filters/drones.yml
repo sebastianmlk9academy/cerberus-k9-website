@@ -3,6 +3,7 @@ label_pl: DRONY
 label_en: DRONES
 filter_field: specializations
 filter_match: any_of
+filter_value: DRONY
 filter_values:
   - dron
   - drone
