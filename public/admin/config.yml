@@ -2182,6 +2182,7 @@ collections:
           - { label: "K9 — Detekcja", value: "K9-Detekcja" }
           - { label: "K9 — SAR", value: "K9-SAR" }
           - { label: "TCCC", value: "TCCC" }
+          - { label: "TCCC-K9", value: "TCCC-K9" }
           - { label: "Drony", value: "Drony" }
           - { label: "HARDEST HIT", value: "HARDEST HIT" }
           - { label: "Konferencja", value: "Konferencja" }
