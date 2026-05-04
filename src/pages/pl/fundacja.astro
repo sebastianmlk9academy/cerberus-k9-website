@@ -56,6 +56,7 @@ try {
 	console.warn('team collection:', e instanceof Error ? e.message : String(e));
 }
 const members = teamMembers
+	.filter((e) => e.data.active !== false && e.data.isVisible !== false)
 	.sort((a,b) => (a.data.order ?? 99) - (b.data.order ?? 99))
 	.map((m) => ({
 		name: m.data.name,

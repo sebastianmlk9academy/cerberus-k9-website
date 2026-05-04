@@ -24,12 +24,17 @@ jobs:
       - name: Build Astro site
         run: npm run build
 
+      # OVH mutualized hosting: prefer explicit FTP over TLS (port 21). Plain FTP often fails
+      # from cloud IPs or is disabled; SFTP (SSH port 22) needs a different action if FTPS fails.
       - name: Deploy to OVH via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          security: loose
+          timeout: 120000
           local-dir: ./dist/
           server-dir: /www/
           exclude: |

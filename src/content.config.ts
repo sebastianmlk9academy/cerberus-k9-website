@@ -486,6 +486,9 @@ function mapProgramLegacyVisibility(raw: unknown): unknown {
 	if (o.isVisible === undefined && o.active !== undefined) {
 		o.isVisible = o.active;
 	}
+	if (o.active === undefined && o.isVisible !== undefined) {
+		o.active = o.isVisible;
+	}
 	return o;
 }
 
@@ -522,7 +525,7 @@ const program = defineCollection({
 });
 
 const agenda_categories = defineCollection({
-	loader: glob({ base: './src/content/agenda_categories', pattern: '**/*.{md,mdx,yml,yaml}' }),
+	loader: glob({ base: './src/content/agenda_categories', pattern: '**/*.{md,mdx,yml}' }),
 	schema: z.object({
 		key: z.enum(ENUM_MODULE_CATEGORIES),
 		label_pl: z.string(),
