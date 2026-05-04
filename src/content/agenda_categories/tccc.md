@@ -1,10 +1,10 @@
-﻿---
-key: "TCCC"
-label_pl: "TCCC"
-label_en: "TCCC"
+---
+key: TCCC
+label_pl: TCCC
+label_en: TCCC
 color: "#8B2020"
 show_in_filter: true
 show_calendar_button: true
-order: 2
+order: 7
 active: true
 ---
