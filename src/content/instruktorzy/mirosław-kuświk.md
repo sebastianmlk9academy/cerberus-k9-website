@@ -3,7 +3,6 @@ name: MIROSŁAW KUŚWIK
 country: POLSKA
 country_code: PL
 specializations:
-  - K9
   - PRELEGENT
 bio_short_pl: Prof. Uniwersytetu Kaliskiego im. Prezydenta Stanisława
   Wojciechowskiego ukończył m.in. Akademię Obrony Narodowej/Akademii Sztuki
