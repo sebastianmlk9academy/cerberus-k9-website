@@ -8,9 +8,9 @@ specializations:
   - POZORANT
 bio_short_pl: Pozorant IGP FCI, uczestnik i organizator zawodów na najwyższym,
   międzynarodowym poziomie.
-bio_short_en: Jego ścieżka prowadziła przez ringi białoruskie i rosyjskie, gdzie
-  pracował zarówno jako pozorant, zawodnik, jak i organizator prestiżowych
-  wydarzeń.
+bio_short_en: " Jego ścieżka prowadziła przez ringi białoruskie i rosyjskie,
+  gdzie pracował zarówno jako pozorant, zawodnik, jak i organizator prestiżowych
+  wydarzeń."
 bio_full_pl: >-
   Pozorant IGP FCI, uczestnik i organizator zawodów na najwyższym,
   międzynarodowym poziomie.
