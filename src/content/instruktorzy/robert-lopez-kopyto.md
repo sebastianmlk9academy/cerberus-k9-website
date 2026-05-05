@@ -7,9 +7,11 @@ specializations:
   - K9 OBRONA
   - LIDER GRUPY
 bio_short_pl: Były operator Jednostki Wojskowej Komandosów.
-bio_short_en: ""
+bio_short_en: Założyciel ośrodka szkolenia psów SOF K9 LUBLINIEC.
 bio_full_pl: >-
-  Założyciel ośrodka szkolenia psów SOF K9 LUBLINIEC. 
+  Były operator Jednostki Wojskowej Komandosów. 
+
+
 
 
   Absolwent "NePoPo®️ New Silver School"  w Apeldoorn (Holandia) - prowadzący Michael i Bart Bellon.  
