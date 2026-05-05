@@ -2,6 +2,10 @@
 name: SZYMON JACKIEWICZ
 country: POLSKA
 country_code: PL
+specializations:
+  - K9
+  - K9 OBRONA
+  - INSTRUKTOR
 bio_short_pl: Emerytowany funkcjonariusz oddziału specjalnego Straży Granicznej.
   Operator, który brał udział w działaniach bojowych z użyciem psa.
 bio_full_pl: >-
