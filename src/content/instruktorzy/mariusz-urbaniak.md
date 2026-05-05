@@ -21,7 +21,7 @@ bio_full_pl: >-
 
 
   Swoje kompetencje rozwijał i przekazywał w najbardziej wymagających środowiskach – od Ameryki Południowej (Brazylia, Paragwaj, Meksyk), przez Europę, aż po Azję i Australię. Pracował z jednostkami wojskowymi, policyjnymi oraz strukturami odpowiedzialnymi za reagowanie kryzysowe.
-photo: /uploads/instruktorzy/9.3.webp
+photo: /uploads/instruktorzy/9.2.webp
 confirmed: confirmed
 order: 13
 needs_review: false
