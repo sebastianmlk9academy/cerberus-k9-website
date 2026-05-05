@@ -1,7 +1,7 @@
 ---
 name: MAREK ŠULAJ
-country: SŁOWACJA
-country_code: SK
+country: BIAŁORUŚ
+country_code: BY
 specializations:
   - K9
   - K9 OBRONA
