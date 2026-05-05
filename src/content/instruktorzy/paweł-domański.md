@@ -29,7 +29,7 @@ bio_full_pl: >-
   Dziś dzieli się tym, co sam sprawdził w realnych warunkach, dając psom i ich przewodnikom coś więcej niż tylko szkolenie – przekazuje sposób myślenia, w którym lojalność, skuteczność i bezwzględne posłuszeństwo tworzą fundament sukcesu. Ekspert K9, którego wiedza powstała na polu walki, a nie w książkach.
 photo: /uploads/instruktorzy/2.0.webp
 confirmed: confirmed
-order: 99
+order: 6
 needs_review: false
 isVisible: true
 ---
