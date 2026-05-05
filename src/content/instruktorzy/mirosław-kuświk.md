@@ -37,7 +37,7 @@ bio_full_pl: Prof. Uniwersytetu Kaliskiego im. Prezydenta Stanisława
   Bronisława Komorowskiego oraz Złotym Krzyżem Zasługi przez Prezydenta RP
   Andrzeja Dudę. Wielokrotnie odznaczany i wyróżniany przez krajowe i
   międzynarodowe służby mundurowe oraz instytucje cywilne.
-photo: /uploads/instruktorzy/18.3.webp
+photo: /uploads/instruktorzy/18.2.webp
 confirmed: confirmed
 order: 4
 needs_review: false
