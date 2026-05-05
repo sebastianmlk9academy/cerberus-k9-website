@@ -19,7 +19,7 @@ bio_full_pl: >-
   Od 2015 roku współpracuje z K-9 Training Center przy przygotowaniu psów służbowych dla policji w Seattle (USA) – co jednoznacznie potwierdza poziom jego umiejętności oraz zaufanie, jakim został obdarzony. 
 
 
-  Precyzja. Doświadczenie.Realistyczny trening
+  Precyzja. Doświadczenie. Realistyczny trening
 photo: /uploads/instruktorzy/11.1.webp
 confirmed: confirmed
 order: 15
